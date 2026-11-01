@@ -1,0 +1,17 @@
+# node_modules / 依赖
+node_modules/
+
+# 旧版本产物（本地留痕，不入库；入库只留最新 index_vX.Y.html 与 index.html）
+index_v1.1[5-8].html
+index_v1.20.html
+
+# 客户数据（含 PII，绝不入库）
+licenses_issued.csv
+
+# 个人文档 / 工作区内部文件
+女儿插班英文路线*.md
+overview.md
+.workbuddy/
+_g6_tmp.docx
+_gen_tmp.py
+debug*.js

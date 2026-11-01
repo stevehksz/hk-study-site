@@ -1,0 +1,2347 @@
+[
+ {
+  "id": "hk000",
+  "w": "hello",
+  "zh": "你好",
+  "theme": "禮貌與課堂用語",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk001",
+  "w": "hi",
+  "zh": "嗨",
+  "theme": "禮貌與課堂用語",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk002",
+  "w": "goodbye",
+  "zh": "再見",
+  "theme": "禮貌與課堂用語",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk003",
+  "w": "thank you",
+  "zh": "謝謝",
+  "theme": "禮貌與課堂用語",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk004",
+  "w": "please",
+  "zh": "請",
+  "theme": "禮貌與課堂用語",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk005",
+  "w": "sorry",
+  "zh": "對不起",
+  "theme": "禮貌與課堂用語",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk006",
+  "w": "yes",
+  "zh": "是",
+  "theme": "禮貌與課堂用語",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk007",
+  "w": "no",
+  "zh": "不",
+  "theme": "禮貌與課堂用語",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk008",
+  "w": "one",
+  "zh": "一",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk009",
+  "w": "two",
+  "zh": "二",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk010",
+  "w": "three",
+  "zh": "三",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk011",
+  "w": "four",
+  "zh": "四",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk012",
+  "w": "five",
+  "zh": "五",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk013",
+  "w": "six",
+  "zh": "六",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk014",
+  "w": "seven",
+  "zh": "七",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk015",
+  "w": "eight",
+  "zh": "八",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk016",
+  "w": "nine",
+  "zh": "九",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk017",
+  "w": "ten",
+  "zh": "十",
+  "theme": "數字與時間",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk018",
+  "w": "red",
+  "zh": "紅色",
+  "theme": "顏色與形狀",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk019",
+  "w": "blue",
+  "zh": "藍色",
+  "theme": "顏色與形狀",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk020",
+  "w": "yellow",
+  "zh": "黃色",
+  "theme": "顏色與形狀",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk021",
+  "w": "green",
+  "zh": "綠色",
+  "theme": "顏色與形狀",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk022",
+  "w": "black",
+  "zh": "黑色",
+  "theme": "顏色與形狀",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk023",
+  "w": "white",
+  "zh": "白色",
+  "theme": "顏色與形狀",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk024",
+  "w": "circle",
+  "zh": "圓形",
+  "theme": "顏色與形狀",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk025",
+  "w": "father",
+  "zh": "父親",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk026",
+  "w": "mother",
+  "zh": "母親",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk027",
+  "w": "brother",
+  "zh": "兄弟",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk028",
+  "w": "sister",
+  "zh": "姐妹",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk029",
+  "w": "grandfather",
+  "zh": "祖父",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk030",
+  "w": "grandmother",
+  "zh": "祖母",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk031",
+  "w": "family",
+  "zh": "家庭",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk032",
+  "w": "baby",
+  "zh": "嬰兒",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk033",
+  "w": "boy",
+  "zh": "男孩",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk034",
+  "w": "girl",
+  "zh": "女孩",
+  "theme": "家庭與人物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk035",
+  "w": "cat",
+  "zh": "貓",
+  "theme": "動物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk036",
+  "w": "dog",
+  "zh": "狗",
+  "theme": "動物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk037",
+  "w": "bird",
+  "zh": "鳥",
+  "theme": "動物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk038",
+  "w": "fish",
+  "zh": "魚",
+  "theme": "動物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk039",
+  "w": "rabbit",
+  "zh": "兔子",
+  "theme": "動物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk040",
+  "w": "duck",
+  "zh": "鴨子",
+  "theme": "動物",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk041",
+  "w": "head",
+  "zh": "頭",
+  "theme": "身體",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk042",
+  "w": "eye",
+  "zh": "眼睛",
+  "theme": "身體",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk043",
+  "w": "nose",
+  "zh": "鼻子",
+  "theme": "身體",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk044",
+  "w": "mouth",
+  "zh": "嘴巴",
+  "theme": "身體",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk045",
+  "w": "ear",
+  "zh": "耳朵",
+  "theme": "身體",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk046",
+  "w": "hand",
+  "zh": "手",
+  "theme": "身體",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk047",
+  "w": "foot",
+  "zh": "腳",
+  "theme": "身體",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk048",
+  "w": "apple",
+  "zh": "蘋果",
+  "theme": "食物與飲料",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk049",
+  "w": "banana",
+  "zh": "香蕉",
+  "theme": "食物與飲料",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk050",
+  "w": "egg",
+  "zh": "雞蛋",
+  "theme": "食物與飲料",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk051",
+  "w": "rice",
+  "zh": "米飯",
+  "theme": "食物與飲料",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk052",
+  "w": "water",
+  "zh": "水",
+  "theme": "食物與飲料",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk053",
+  "w": "milk",
+  "zh": "牛奶",
+  "theme": "食物與飲料",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk054",
+  "w": "bread",
+  "zh": "麵包",
+  "theme": "食物與飲料",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk055",
+  "w": "book",
+  "zh": "書",
+  "theme": "學校與用品",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk056",
+  "w": "pen",
+  "zh": "鋼筆",
+  "theme": "學校與用品",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk057",
+  "w": "pencil",
+  "zh": "鉛筆",
+  "theme": "學校與用品",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk058",
+  "w": "bag",
+  "zh": "書包",
+  "theme": "學校與用品",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk059",
+  "w": "ruler",
+  "zh": "尺子",
+  "theme": "學校與用品",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk060",
+  "w": "rubber",
+  "zh": "橡皮",
+  "theme": "學校與用品",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk061",
+  "w": "run",
+  "zh": "跑",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk062",
+  "w": "jump",
+  "zh": "跳",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk063",
+  "w": "eat",
+  "zh": "吃",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk064",
+  "w": "drink",
+  "zh": "喝",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk065",
+  "w": "play",
+  "zh": "玩",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk066",
+  "w": "look",
+  "zh": "看",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk067",
+  "w": "listen",
+  "zh": "聽",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk068",
+  "w": "read",
+  "zh": "讀",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk069",
+  "w": "write",
+  "zh": "寫",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk070",
+  "w": "sleep",
+  "zh": "睡覺",
+  "theme": "動作動詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk071",
+  "w": "big",
+  "zh": "大的",
+  "theme": "形容詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk072",
+  "w": "small",
+  "zh": "小的",
+  "theme": "形容詞",
+  "grade": "一年級"
+ },
+ {
+  "id": "hk073",
+  "w": "good",
+  "zh": "好",
+  "theme": "禮貌與課堂用語",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk074",
+  "w": "name",
+  "zh": "名字",
+  "theme": "禮貌與課堂用語",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk075",
+  "w": "eleven",
+  "zh": "十一",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk076",
+  "w": "twelve",
+  "zh": "十二",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk077",
+  "w": "thirteen",
+  "zh": "十三",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk078",
+  "w": "fourteen",
+  "zh": "十四",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk079",
+  "w": "fifteen",
+  "zh": "十五",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk080",
+  "w": "sixteen",
+  "zh": "十六",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk081",
+  "w": "seventeen",
+  "zh": "十七",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk082",
+  "w": "eighteen",
+  "zh": "十八",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk083",
+  "w": "nineteen",
+  "zh": "十九",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk084",
+  "w": "twenty",
+  "zh": "二十",
+  "theme": "數字與時間",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk085",
+  "w": "orange",
+  "zh": "橙色",
+  "theme": "顏色與形狀",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk086",
+  "w": "purple",
+  "zh": "紫色",
+  "theme": "顏色與形狀",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk087",
+  "w": "pink",
+  "zh": "粉色",
+  "theme": "顏色與形狀",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk088",
+  "w": "brown",
+  "zh": "棕色",
+  "theme": "顏色與形狀",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk089",
+  "w": "grey",
+  "zh": "灰色",
+  "theme": "顏色與形狀",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk090",
+  "w": "square",
+  "zh": "正方形",
+  "theme": "顏色與形狀",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk091",
+  "w": "triangle",
+  "zh": "三角形",
+  "theme": "顏色與形狀",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk092",
+  "w": "star",
+  "zh": "星星",
+  "theme": "顏色與形狀",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk093",
+  "w": "lion",
+  "zh": "獅子",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk094",
+  "w": "tiger",
+  "zh": "老虎",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk095",
+  "w": "elephant",
+  "zh": "大象",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk096",
+  "w": "monkey",
+  "zh": "猴子",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk097",
+  "w": "bear",
+  "zh": "熊",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk098",
+  "w": "panda",
+  "zh": "熊貓",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk099",
+  "w": "horse",
+  "zh": "馬",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk100",
+  "w": "cow",
+  "zh": "牛",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk101",
+  "w": "pig",
+  "zh": "豬",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk102",
+  "w": "sheep",
+  "zh": "綿羊",
+  "theme": "動物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk103",
+  "w": "teacher",
+  "zh": "老師",
+  "theme": "家庭與人物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk104",
+  "w": "student",
+  "zh": "學生",
+  "theme": "家庭與人物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk105",
+  "w": "doctor",
+  "zh": "醫生",
+  "theme": "家庭與人物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk106",
+  "w": "nurse",
+  "zh": "護士",
+  "theme": "家庭與人物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk107",
+  "w": "policeman",
+  "zh": "警察",
+  "theme": "家庭與人物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk108",
+  "w": "fireman",
+  "zh": "消防員",
+  "theme": "家庭與人物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk109",
+  "w": "shirt",
+  "zh": "襯衫",
+  "theme": "衣物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk110",
+  "w": "dress",
+  "zh": "連衣裙",
+  "theme": "衣物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk111",
+  "w": "trousers",
+  "zh": "褲子",
+  "theme": "衣物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk112",
+  "w": "shoe",
+  "zh": "鞋",
+  "theme": "衣物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk113",
+  "w": "hat",
+  "zh": "帽子",
+  "theme": "衣物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk114",
+  "w": "sock",
+  "zh": "襪子",
+  "theme": "衣物",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk115",
+  "w": "sunny",
+  "zh": "晴朗",
+  "theme": "天氣與季節",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk116",
+  "w": "rainy",
+  "zh": "下雨",
+  "theme": "天氣與季節",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk117",
+  "w": "cloudy",
+  "zh": "多雲",
+  "theme": "天氣與季節",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk118",
+  "w": "windy",
+  "zh": "有風",
+  "theme": "天氣與季節",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk119",
+  "w": "hot",
+  "zh": "熱",
+  "theme": "形容詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk120",
+  "w": "cold",
+  "zh": "冷",
+  "theme": "形容詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk121",
+  "w": "car",
+  "zh": "汽車",
+  "theme": "交通工具",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk122",
+  "w": "bus",
+  "zh": "公共汽車",
+  "theme": "交通工具",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk123",
+  "w": "train",
+  "zh": "火車",
+  "theme": "交通工具",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk124",
+  "w": "bike",
+  "zh": "自行車",
+  "theme": "交通工具",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk125",
+  "w": "boat",
+  "zh": "小船",
+  "theme": "交通工具",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk126",
+  "w": "plane",
+  "zh": "飛機",
+  "theme": "交通工具",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk127",
+  "w": "go",
+  "zh": "去",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk128",
+  "w": "come",
+  "zh": "來",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk129",
+  "w": "sit",
+  "zh": "坐",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk130",
+  "w": "stand",
+  "zh": "站",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk131",
+  "w": "open",
+  "zh": "打開",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk132",
+  "w": "close",
+  "zh": "關上",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk133",
+  "w": "draw",
+  "zh": "畫",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk134",
+  "w": "sing",
+  "zh": "唱歌",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk135",
+  "w": "dance",
+  "zh": "跳舞",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk136",
+  "w": "swim",
+  "zh": "游泳",
+  "theme": "動作動詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk137",
+  "w": "this",
+  "zh": "這",
+  "theme": "連詞與副詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk138",
+  "w": "that",
+  "zh": "那",
+  "theme": "連詞與副詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk139",
+  "w": "my",
+  "zh": "我的",
+  "theme": "連詞與副詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk140",
+  "w": "your",
+  "zh": "你的",
+  "theme": "連詞與副詞",
+  "grade": "二年級"
+ },
+ {
+  "id": "hk141",
+  "w": "thirty",
+  "zh": "三十",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk142",
+  "w": "forty",
+  "zh": "四十",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk143",
+  "w": "fifty",
+  "zh": "五十",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk144",
+  "w": "hundred",
+  "zh": "百",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk145",
+  "w": "first",
+  "zh": "第一",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk146",
+  "w": "second",
+  "zh": "第二",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk147",
+  "w": "third",
+  "zh": "第三",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk148",
+  "w": "Monday",
+  "zh": "星期一",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk149",
+  "w": "Tuesday",
+  "zh": "星期二",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk150",
+  "w": "Wednesday",
+  "zh": "星期三",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk151",
+  "w": "Thursday",
+  "zh": "星期四",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk152",
+  "w": "Friday",
+  "zh": "星期五",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk153",
+  "w": "Saturday",
+  "zh": "星期六",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk154",
+  "w": "Sunday",
+  "zh": "星期日",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk155",
+  "w": "morning",
+  "zh": "早上",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk156",
+  "w": "afternoon",
+  "zh": "下午",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk157",
+  "w": "evening",
+  "zh": "晚上",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk158",
+  "w": "night",
+  "zh": "夜晚",
+  "theme": "數字與時間",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk159",
+  "w": "spring",
+  "zh": "春天",
+  "theme": "天氣與季節",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk160",
+  "w": "summer",
+  "zh": "夏天",
+  "theme": "天氣與季節",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk161",
+  "w": "autumn",
+  "zh": "秋天",
+  "theme": "天氣與季節",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk162",
+  "w": "winter",
+  "zh": "冬天",
+  "theme": "天氣與季節",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk163",
+  "w": "season",
+  "zh": "季節",
+  "theme": "天氣與季節",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk164",
+  "w": "flower",
+  "zh": "花",
+  "theme": "自然",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk165",
+  "w": "tree",
+  "zh": "樹",
+  "theme": "自然",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk166",
+  "w": "grass",
+  "zh": "草",
+  "theme": "自然",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk167",
+  "w": "plant",
+  "zh": "植物",
+  "theme": "自然",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk168",
+  "w": "leaf",
+  "zh": "葉子",
+  "theme": "自然",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk169",
+  "w": "sun",
+  "zh": "太陽",
+  "theme": "自然",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk170",
+  "w": "moon",
+  "zh": "月亮",
+  "theme": "自然",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk171",
+  "w": "home",
+  "zh": "家",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk172",
+  "w": "house",
+  "zh": "房子",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk173",
+  "w": "room",
+  "zh": "房間",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk174",
+  "w": "kitchen",
+  "zh": "廚房",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk175",
+  "w": "bedroom",
+  "zh": "臥室",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk176",
+  "w": "school",
+  "zh": "學校",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk177",
+  "w": "classroom",
+  "zh": "教室",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk178",
+  "w": "park",
+  "zh": "公園",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk179",
+  "w": "shop",
+  "zh": "商店",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk180",
+  "w": "library",
+  "zh": "圖書館",
+  "theme": "家居與地點",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk181",
+  "w": "coat",
+  "zh": "外套",
+  "theme": "衣物",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk182",
+  "w": "skirt",
+  "zh": "短裙",
+  "theme": "衣物",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk183",
+  "w": "sweater",
+  "zh": "毛衣",
+  "theme": "衣物",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk184",
+  "w": "tall",
+  "zh": "高的",
+  "theme": "形容詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk185",
+  "w": "short",
+  "zh": "矮的",
+  "theme": "形容詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk186",
+  "w": "long",
+  "zh": "長的",
+  "theme": "形容詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk187",
+  "w": "new",
+  "zh": "新的",
+  "theme": "形容詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk188",
+  "w": "old",
+  "zh": "舊的",
+  "theme": "形容詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk189",
+  "w": "clean",
+  "zh": "乾淨",
+  "theme": "形容詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk190",
+  "w": "dirty",
+  "zh": "骯髒",
+  "theme": "形容詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk191",
+  "w": "can",
+  "zh": "能",
+  "theme": "連詞與副詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk192",
+  "w": "like",
+  "zh": "喜歡",
+  "theme": "連詞與副詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk193",
+  "w": "have",
+  "zh": "有",
+  "theme": "連詞與副詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk194",
+  "w": "want",
+  "zh": "想要",
+  "theme": "連詞與副詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk195",
+  "w": "see",
+  "zh": "看見",
+  "theme": "動作動詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk196",
+  "w": "help",
+  "zh": "幫助",
+  "theme": "動作動詞",
+  "grade": "三年級"
+ },
+ {
+  "id": "hk197",
+  "w": "computer",
+  "zh": "電腦",
+  "theme": "學科與科技",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk198",
+  "w": "television",
+  "zh": "電視",
+  "theme": "學科與科技",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk199",
+  "w": "radio",
+  "zh": "收音機",
+  "theme": "學科與科技",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk200",
+  "w": "river",
+  "zh": "河",
+  "theme": "自然",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk201",
+  "w": "mountain",
+  "zh": "山",
+  "theme": "自然",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk202",
+  "w": "sea",
+  "zh": "海",
+  "theme": "自然",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk203",
+  "w": "beach",
+  "zh": "海灘",
+  "theme": "自然",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk204",
+  "w": "island",
+  "zh": "島",
+  "theme": "自然",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk205",
+  "w": "cloud",
+  "zh": "雲",
+  "theme": "自然",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk206",
+  "w": "rain",
+  "zh": "雨",
+  "theme": "自然",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk207",
+  "w": "snow",
+  "zh": "雪",
+  "theme": "自然",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk208",
+  "w": "wind",
+  "zh": "風",
+  "theme": "自然",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk209",
+  "w": "farmer",
+  "zh": "農夫",
+  "theme": "家庭與人物",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk210",
+  "w": "driver",
+  "zh": "司機",
+  "theme": "家庭與人物",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk211",
+  "w": "cook",
+  "zh": "廚師",
+  "theme": "家庭與人物",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk212",
+  "w": "waiter",
+  "zh": "服務員",
+  "theme": "家庭與人物",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk213",
+  "w": "angry",
+  "zh": "生氣",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk214",
+  "w": "sad",
+  "zh": "悲傷",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk215",
+  "w": "tired",
+  "zh": "累",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk216",
+  "w": "hungry",
+  "zh": "餓",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk217",
+  "w": "thirsty",
+  "zh": "渴",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk218",
+  "w": "afraid",
+  "zh": "害怕",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk219",
+  "w": "excited",
+  "zh": "興奮",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk220",
+  "w": "difficult",
+  "zh": "困難",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk221",
+  "w": "easy",
+  "zh": "容易",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk222",
+  "w": "fast",
+  "zh": "快",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk223",
+  "w": "slow",
+  "zh": "慢",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk224",
+  "w": "early",
+  "zh": "早",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk225",
+  "w": "late",
+  "zh": "晚",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk226",
+  "w": "beautiful",
+  "zh": "美麗",
+  "theme": "形容詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk227",
+  "w": "always",
+  "zh": "總是",
+  "theme": "連詞與副詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk228",
+  "w": "often",
+  "zh": "經常",
+  "theme": "連詞與副詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk229",
+  "w": "sometimes",
+  "zh": "有時",
+  "theme": "連詞與副詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk230",
+  "w": "never",
+  "zh": "從不",
+  "theme": "連詞與副詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk231",
+  "w": "usually",
+  "zh": "通常",
+  "theme": "連詞與副詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk232",
+  "w": "yesterday",
+  "zh": "昨天",
+  "theme": "數字與時間",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk233",
+  "w": "today",
+  "zh": "今天",
+  "theme": "數字與時間",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk234",
+  "w": "tomorrow",
+  "zh": "明天",
+  "theme": "數字與時間",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk235",
+  "w": "week",
+  "zh": "星期",
+  "theme": "數字與時間",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk236",
+  "w": "month",
+  "zh": "月",
+  "theme": "數字與時間",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk237",
+  "w": "year",
+  "zh": "年",
+  "theme": "數字與時間",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk238",
+  "w": "money",
+  "zh": "錢",
+  "theme": "家居與地點",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk239",
+  "w": "coin",
+  "zh": "硬幣",
+  "theme": "家居與地點",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk240",
+  "w": "buy",
+  "zh": "買",
+  "theme": "動作動詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk241",
+  "w": "sell",
+  "zh": "賣",
+  "theme": "動作動詞",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk242",
+  "w": "question",
+  "zh": "問題",
+  "theme": "學校與用品",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk243",
+  "w": "answer",
+  "zh": "回答",
+  "theme": "學校與用品",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk244",
+  "w": "word",
+  "zh": "單詞",
+  "theme": "學校與用品",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk245",
+  "w": "sentence",
+  "zh": "句子",
+  "theme": "學校與用品",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk246",
+  "w": "story",
+  "zh": "故事",
+  "theme": "學校與用品",
+  "grade": "四年級"
+ },
+ {
+  "id": "hk247",
+  "w": "science",
+  "zh": "科學",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk248",
+  "w": "maths",
+  "zh": "數學",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk249",
+  "w": "music",
+  "zh": "音樂",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk250",
+  "w": "art",
+  "zh": "美術",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk251",
+  "w": "PE",
+  "zh": "體育",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk252",
+  "w": "history",
+  "zh": "歷史",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk253",
+  "w": "geography",
+  "zh": "地理",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk254",
+  "w": "Chinese",
+  "zh": "語文",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk255",
+  "w": "English",
+  "zh": "英語",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk256",
+  "w": "internet",
+  "zh": "互聯網",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk257",
+  "w": "email",
+  "zh": "電子郵件",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk258",
+  "w": "message",
+  "zh": "信息",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk259",
+  "w": "camera",
+  "zh": "相機",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk260",
+  "w": "robot",
+  "zh": "機器人",
+  "theme": "學科與科技",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk261",
+  "w": "environment",
+  "zh": "環境",
+  "theme": "自然",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk262",
+  "w": "pollution",
+  "zh": "污染",
+  "theme": "自然",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk263",
+  "w": "recycle",
+  "zh": "回收",
+  "theme": "自然",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk264",
+  "w": "protect",
+  "zh": "保護",
+  "theme": "動作動詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk265",
+  "w": "save",
+  "zh": "節省",
+  "theme": "動作動詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk266",
+  "w": "energy",
+  "zh": "能源",
+  "theme": "自然",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk267",
+  "w": "brave",
+  "zh": "勇敢",
+  "theme": "形容詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk268",
+  "w": "clever",
+  "zh": "聰明",
+  "theme": "形容詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk269",
+  "w": "lazy",
+  "zh": "懶惰",
+  "theme": "形容詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk270",
+  "w": "polite",
+  "zh": "禮貌",
+  "theme": "形容詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk271",
+  "w": "rude",
+  "zh": "粗魯",
+  "theme": "形容詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk272",
+  "w": "honest",
+  "zh": "誠實",
+  "theme": "形容詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk273",
+  "w": "friendly",
+  "zh": "友好",
+  "theme": "形容詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk274",
+  "w": "quiet",
+  "zh": "安靜",
+  "theme": "形容詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk275",
+  "w": "noisy",
+  "zh": "吵鬧",
+  "theme": "形容詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk276",
+  "w": "remember",
+  "zh": "記得",
+  "theme": "動作動詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk277",
+  "w": "forget",
+  "zh": "忘記",
+  "theme": "動作動詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk278",
+  "w": "understand",
+  "zh": "理解",
+  "theme": "動作動詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk279",
+  "w": "learn",
+  "zh": "學習",
+  "theme": "動作動詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk280",
+  "w": "teach",
+  "zh": "教",
+  "theme": "動作動詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk281",
+  "w": "practice",
+  "zh": "練習",
+  "theme": "動作動詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk282",
+  "w": "improve",
+  "zh": "進步",
+  "theme": "動作動詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk283",
+  "w": "because",
+  "zh": "因為",
+  "theme": "連詞與副詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk284",
+  "w": "but",
+  "zh": "但是",
+  "theme": "連詞與副詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk285",
+  "w": "if",
+  "zh": "如果",
+  "theme": "連詞與副詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk286",
+  "w": "when",
+  "zh": "當…時",
+  "theme": "連詞與副詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk287",
+  "w": "before",
+  "zh": "在…之前",
+  "theme": "連詞與副詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk288",
+  "w": "after",
+  "zh": "在…之後",
+  "theme": "連詞與副詞",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk289",
+  "w": "country",
+  "zh": "國家",
+  "theme": "家居與地點",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk290",
+  "w": "city",
+  "zh": "城市",
+  "theme": "家居與地點",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk291",
+  "w": "village",
+  "zh": "村莊",
+  "theme": "家居與地點",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk292",
+  "w": "world",
+  "zh": "世界",
+  "theme": "家居與地點",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk293",
+  "w": "map",
+  "zh": "地圖",
+  "theme": "家居與地點",
+  "grade": "五年級"
+ },
+ {
+  "id": "hk294",
+  "w": "celebrate",
+  "zh": "慶祝",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk295",
+  "w": "festival",
+  "zh": "節日",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk296",
+  "w": "tradition",
+  "zh": "傳統",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk297",
+  "w": "culture",
+  "zh": "文化",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk298",
+  "w": "custom",
+  "zh": "習俗",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk299",
+  "w": "mooncake",
+  "zh": "月餅",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk300",
+  "w": "lantern",
+  "zh": "燈籠",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk301",
+  "w": "dumpling",
+  "zh": "餃子",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk302",
+  "w": "reunion",
+  "zh": "團聚",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk303",
+  "w": "firework",
+  "zh": "煙花",
+  "theme": "節日與文化",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk304",
+  "w": "MTR",
+  "zh": "地鐵",
+  "theme": "交通工具",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk305",
+  "w": "minibus",
+  "zh": "小巴",
+  "theme": "交通工具",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk306",
+  "w": "tunnel",
+  "zh": "隧道",
+  "theme": "交通工具",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk307",
+  "w": "ferry",
+  "zh": "渡輪",
+  "theme": "交通工具",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk308",
+  "w": "tram",
+  "zh": "電車",
+  "theme": "交通工具",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk309",
+  "w": "opinion",
+  "zh": "意見",
+  "theme": "連詞與副詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk310",
+  "w": "agree",
+  "zh": "同意",
+  "theme": "動作動詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk311",
+  "w": "disagree",
+  "zh": "不同意",
+  "theme": "動作動詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk312",
+  "w": "discuss",
+  "zh": "討論",
+  "theme": "動作動詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk313",
+  "w": "suggest",
+  "zh": "建議",
+  "theme": "動作動詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk314",
+  "w": "decide",
+  "zh": "決定",
+  "theme": "動作動詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk315",
+  "w": "problem",
+  "zh": "問題",
+  "theme": "學校與用品",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk316",
+  "w": "solution",
+  "zh": "解決方法",
+  "theme": "學校與用品",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk317",
+  "w": "reason",
+  "zh": "原因",
+  "theme": "學校與用品",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk318",
+  "w": "result",
+  "zh": "結果",
+  "theme": "學校與用品",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk319",
+  "w": "future",
+  "zh": "未來",
+  "theme": "家居與地點",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk320",
+  "w": "dream",
+  "zh": "夢想",
+  "theme": "家居與地點",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk321",
+  "w": "goal",
+  "zh": "目標",
+  "theme": "家居與地點",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk322",
+  "w": "plan",
+  "zh": "計劃",
+  "theme": "家居與地點",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk323",
+  "w": "hope",
+  "zh": "希望",
+  "theme": "動作動詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk324",
+  "w": "success",
+  "zh": "成功",
+  "theme": "形容詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk325",
+  "w": "responsible",
+  "zh": "負責的",
+  "theme": "形容詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk326",
+  "w": "independent",
+  "zh": "獨立的",
+  "theme": "形容詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk327",
+  "w": "confident",
+  "zh": "自信",
+  "theme": "形容詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk328",
+  "w": "patient",
+  "zh": "耐心的",
+  "theme": "形容詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk329",
+  "w": "active",
+  "zh": "積極的",
+  "theme": "形容詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk330",
+  "w": "however",
+  "zh": "然而",
+  "theme": "連詞與副詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk331",
+  "w": "therefore",
+  "zh": "因此",
+  "theme": "連詞與副詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk332",
+  "w": "although",
+  "zh": "雖然",
+  "theme": "連詞與副詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk333",
+  "w": "unless",
+  "zh": "除非",
+  "theme": "連詞與副詞",
+  "grade": "六年級"
+ },
+ {
+  "id": "hk334",
+  "w": "whether",
+  "zh": "是否",
+  "theme": "連詞與副詞",
+  "grade": "六年級"
+ }
+]
