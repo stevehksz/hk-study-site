@@ -164,6 +164,7 @@ ok('ftList 有對照行(' + doc.querySelectorAll('#ftList .ftrow').length + ')',
 const ftSearch = doc.getElementById('ftSearch'); ftSearch.value = '国'; ftSearch.dispatchEvent(new window.Event('input'));
 const ftRows = doc.querySelectorAll('#ftList .ftrow');
 ok('搜「国」過濾出國→國(' + ftRows.length + ')', ftRows.length === 1 && ftRows[0].textContent.includes('國'));
+ftSearch.value = ''; ftSearch.dispatchEvent(new window.Event('input'));
 
 console.log('--- v1.23 全站免費：英文卷/數學卷直開 ---');
 doc.querySelector('nav button[data-tab="practice"]').click();
@@ -283,6 +284,28 @@ ok('數學卷題庫含 P1-P6 六級', /const MATH_QBANK = \{[\s\S]*P1:\[[\s\S]*P
 const _ms = doc.getElementById('mathSearch'); _ms.value=''; _ms.dispatchEvent(new window.Event('input'));
 doc.querySelector('#mathPracSub button[data-es="mterms"]').click();
 ok('切回中↔英術語表後 mathBody 仍有行', doc.querySelectorAll('#mathBody tr').length > 100);
+console.log('--- v1.25 繁體字庫分級 ---');
+const FTG = window.eval('FT_GRADES');
+ok('FT_GRADES 含 P1–P6 六級', ['P1','P2','P3','P4','P5','P6'].every(g=>Array.isArray(FTG[g])&&FTG[g].length>=40));
+ok('FT_MAP 總數 ≥ 240', window.eval('FT_MAP.length') >= 240);
+const ftDup = window.eval('JSON.stringify(FT_MAP.map(x=>x[0]).sort().some((v,i,a)=>i&&a[i-1]===v))');
+ok('FT_MAP 簡體無重複', ftDup === 'false');
+ok('多繁注記存在(里→裡)', JSON.stringify(FTG.P1).includes('裡/裏'));
+doc.querySelector('nav button[data-tab="guide"]').click();
+doc.querySelector('#guideSub button[data-sub="ft"]').click();
+ok('繁體對照 chips=7', doc.querySelectorAll('#ftChips .chip').length === 7);
+ok('全部模式列表 ≥ 240 行', doc.querySelectorAll('#ftList .ftrow').length >= 240);
+doc.querySelector('#ftChips .chip[data-fg="P6"]').click();
+const p6rows = doc.querySelectorAll('#ftList .ftrow').length;
+ok('P6 模式行數=P6級字數且 ≥40', p6rows >= 40 && p6rows === window.eval('FT_GRADES.P6.length'));
+ok('P6 模式顯示字數統計', doc.getElementById('ftCount').textContent.includes(String(window.eval('FT_GRADES.P6.length'))));
+doc.getElementById('ftSearch').value = '链';
+doc.getElementById('ftSearch').dispatchEvent(new window.Event('input'));
+ok('P6 內搜尋「链」只出 1 行', doc.querySelectorAll('#ftList .ftrow').length === 1);
+doc.getElementById('ftSearch').value = '';
+doc.getElementById('ftSearch').dispatchEvent(new window.Event('input'));
+doc.querySelector('#ftChips .chip[data-fg="all"]').click();
+ok('切回全部復原 ≥240 行', doc.querySelectorAll('#ftList .ftrow').length >= 240);
 
 console.log('--- v1.24 呈分試卷（練習→英文→呈分試卷） ---');
 doc.querySelector('nav button[data-tab="practice"]').click();
