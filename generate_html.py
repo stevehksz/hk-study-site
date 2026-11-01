@@ -5,7 +5,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
   練習＝中文(古詩詞) / 英文(港小生字＋詞表) / 數學(中↔英術語表·點擊打卡)
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
-v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
+v1.22：擇校分檔接入 schooland×教育局交叉勘誤——風采＝資助（EDB收費證明書免學費堂費$340，非直資）、官津英中僅6所（心誠直資英中、馬錦燦雙語部分英文、其餘中中）、茂峰＝元朗天水圍非北區、康樂/李興貴＝大埔接收北區跨境生；新增北區中學一覽20所（可篩選英中/官立/直資，含英文名/宗教/性別/地址）、升中攻略外鏈精選（EDB/中學概覽/schooland，正文版權屬原站）。verify2.js 加勘誤/篩選/外鏈斷言。v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
 v1.14：練習→英文新增第 5 入口「詞彙路線圖」(goalView)——①站內現有詞量統計(港小335＋B1 1465＝1800，诗词185首另計，標注入門奠基包非全量)；②一年級→中六累計詞量目標表(P1 500–800…P6 2500–3000…S6 6000–8000／衝L5 10000+，坊間基準＋來源＋EDB不公布官方詞單聲明)；③本家庭落點(2027/28 插班中一，P6→S1 銜接路線)；④背詞方法(語境閱讀／主動被動詞彙／間隔重複／聽讀／遊戲化打卡／詞根聯想，標來源性質)。enPracSub 增第5按鈕與顯隱；verify2.js 加 3 項斷言(goalView 按鈕/點擊顯示/含「1,800」與「中六」與「2,500–3,000」)。
 v1.13：英文卷打印升級「一次性打印一套卷子」——①空卷時按「打印一套卷子」自動先出一套再印，無須先按「出新卷」；②卷頭增「共 N 題／總分」；③勾「含答案版」時答案獨立成頁（題卷＋答案卷＝完整一套，答案卷 page-break-before 獨立分頁）；按鈕改名「🖨 打印一套卷子」。verify2.js 加 3 項斷言（空卷自動出卷／題卷含總分／含答案版答案卷獨立成頁）。
 v1.12：升中面試模塊重做——依 2026 香港升中面試公開資料大幅擴充（4 大面試形式＋10 大題型佔比表＋英文自我介紹黃金4步＋互動練習卡＋小組討論 DO/DON'T＋分類題庫＋P5→P6 時間線＋2026 名校題例＋弱項自評＋資料來源）；新增自我介紹填空練習與錄音自測按鈕；verify2.js 加 6 項斷言。
@@ -415,7 +415,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
 <body>
 <header>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.21</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.22</p>
 </header>
 <nav>
   <button data-tab="guide" class="on">速覽指南</button>
@@ -923,17 +923,17 @@ Thank you for your time.</div>
   <!-- 擇校分檔 -->
   <div class="wrap" id="schoolsView" style="display:none">
     <div class="gsec">
-      <h2>擇校分檔：北區 23 所中學（跨境插班視角）</h2>
+      <h2>擇校分檔：北區中學 20 所＋跨區接收校（跨境插班視角）</h2>
       <div class="gcard">
         <h3>北區跨境要點</h3>
         <p>北區（上水/粉嶺）是羅湖、福田（落馬洲支線）、文錦渡口岸入港第一站，東鐵線 1 站到上水、2 站到粉嶺，單程通關＋車程約 30–40 分鐘，跨境生比例全港最高。教育局有跨境學童派位安排，北區 <b>30 所學校</b>參與（2025 年度數據，中一跨境學額約 <b>171 個</b>，來源：教育局公開資料，坊間引用）。跨境校巴/保姆車體系成熟，校巴申請一般每年 5–6 月。</p>
       </div>
       <div class="gcard warn">
         <h3>本家庭叩門總邏輯（身份 2027.6 到手的家庭先看這個）</h3>
-        <p>孩子身份預計 <b>2027 年 6 月到手</b>，意味著：① 2027.1.4–1.18 自行分配窗口＝錯過（須遞交時已持身份）；② 5 月前所有主申請＝錯過；③ 唯一現實路徑＝兩條並行——<b>A. 2027.7.6 放榜後叩門</b>（黃金期 7.6–7.9，官津每班約 1 個留班位）＋ <b>B. 教育局途徑三</b>（新來港兒童資助中一，2027.5–8 月登記，分批 7.6/7 月底/8 月中出結果，兜底不會沒書讀）；④ 兩所直資（風采、心誠）同樣參加派位走 1 月窗口，不存在「身份到手即報第一批占位」紅利。</p>
+        <p>孩子身份預計 <b>2027 年 6 月到手</b>，意味著：① 2027.1.4–1.18 自行分配窗口＝錯過（須遞交時已持身份）；② 5 月前所有主申請＝錯過；③ 唯一現實路徑＝兩條並行——<b>A. 2027.7.6 放榜後叩門</b>（黃金期 7.6–7.9，官津每班約 1 個留班位）＋ <b>B. 教育局途徑三</b>（新來港兒童資助中一，2027.5–8 月登記，分批 7.6/7 月底/8 月中出結果，兜底不會沒書讀）；④ 直資僅心誠一所（風采經 2026-10-31 教育局收費證明書勘誤為資助、免學費僅堂費 $340/年，走官津派位窗口），不存在「身份到手即報第一批占位」紅利。</p>
       </div>
-      <div class="scroll-x">
-        <table class="mtable">
+        <div class="scroll-x">
+        <table class="mtable" id="tierTable">
           <thead><tr><th>梯隊</th><th>學校</th><th>類型</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>學費</th><th>申請路徑（本家庭）</th></tr></thead>
           <tbody>
             <tr><td class="tier1">衝刺</td><td>鄧顯紀念中學</td><td>資助</td><td>英中</td><td>1A</td><td>免（僅堂費/書雜費）</td><td>官津 7 月叩門</td></tr>
@@ -941,34 +941,81 @@ Thank you for your time.</div>
             <tr><td class="tier1">衝刺</td><td>田家炳中學</td><td>資助</td><td>英中</td><td>1B–1C</td><td>免</td><td>官津 7 月叩門</td></tr>
             <tr><td class="tier1">衝刺</td><td>聖公會陳融中學</td><td>資助</td><td>英中</td><td>1B–1C</td><td>免</td><td>官津 7 月叩門</td></tr>
             <tr><td class="tier1">衝刺</td><td>東華三院李嘉誠中學</td><td>資助</td><td>英中</td><td>1C</td><td>免</td><td>官津 7 月叩門＋8 月補錄</td></tr>
-            <tr><td class="tier1">衝刺</td><td>風采中學（教育評議會主辦）</td><td>直資</td><td>中英並重</td><td>1B</td><td>約 $1.5–2 萬/年（坊間，以官網為準）</td><td>直資 7 月年中插班/叩門</td></tr>
-            <tr><td class="tier1">衝刺</td><td>粉嶺官立中學</td><td>官立</td><td>英中</td><td>1C–2A</td><td>免</td><td>官津 7 月叩門</td></tr>
-            <tr><td class="tier2">穩妥</td><td>鳳溪第一中學</td><td>資助</td><td>英中為主</td><td>1C–2A</td><td>免</td><td>官津 7 月叩門</td></tr>
-            <tr><td class="tier2">穩妥</td><td>香海正覺蓮社佛教馬錦燦紀念英文中學</td><td>資助</td><td>英中</td><td>2A</td><td>免</td><td>官津 7 月叩門</td></tr>
-            <tr><td class="tier2">穩妥</td><td>宣道會陳朱素華紀念中學</td><td>資助</td><td>英中</td><td>2A–2B</td><td>免</td><td>官津 7 月叩門</td></tr>
-            <tr><td class="tier2">穩妥</td><td>粉嶺禮賢會中學</td><td>資助</td><td>英中</td><td>2A–2B</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier1">衝刺</td><td>風采中學（教育評議會主辦）</td><td>資助</td><td>英中</td><td>1B</td><td>免（僅堂費 $340/年，EDB 收費證明書）</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier1">衝刺</td><td>粉嶺官立中學</td><td>官立</td><td>中文</td><td>1C–2A</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier2">穩妥</td><td>鳳溪第一中學</td><td>資助</td><td>中文</td><td>1C–2A</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier2">穩妥</td><td>香海正覺蓮社佛教馬錦燦紀念英文中學</td><td>資助</td><td>雙語（部分英文）</td><td>2A</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier2">穩妥</td><td>宣道會陳朱素華紀念中學</td><td>資助</td><td>中文</td><td>2A–2B</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier2">穩妥</td><td>粉嶺禮賢會中學</td><td>資助</td><td>中文</td><td>2A–2B</td><td>免</td><td>官津 7 月叩門</td></tr>
             <tr><td class="tier2">穩妥</td><td>基督教香港信義會心誠中學</td><td>直資</td><td>英中</td><td>2</td><td>中一至中三 $7,100/年；中四至中六 $8,400/年（2025-26 官網）</td><td>直資 7 月年中插班/叩門</td></tr>
-            <tr><td class="tier2">穩妥</td><td>鳳溪廖萬石堂中學</td><td>資助</td><td>英中為主</td><td>2</td><td>免</td><td>官津 7 月叩門</td></tr>
-            <tr><td class="tier2">穩妥</td><td>保良局馬錦明中學</td><td>資助</td><td>英中</td><td>2</td><td>免</td><td>官津 7 月叩門</td></tr>
-            <tr><td class="tier2">穩妥</td><td>粉嶺救恩書院</td><td>資助</td><td>英中</td><td>2B–2C</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier2">穩妥</td><td>鳳溪廖萬石堂中學</td><td>資助</td><td>中文</td><td>2</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier2">穩妥</td><td>保良局馬錦明中學</td><td>資助</td><td>中文</td><td>2</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier2">穩妥</td><td>粉嶺救恩書院</td><td>資助</td><td>中文</td><td>2B–2C</td><td>免</td><td>官津 7 月叩門</td></tr>
             <tr><td class="tier2">穩妥</td><td>中華基督教會基新中學</td><td>資助</td><td>中文</td><td>2</td><td>免</td><td>官津 7 月叩門</td></tr>
             <tr><td class="tier2">穩妥</td><td>上水官立中學</td><td>官立</td><td>中文</td><td>2B–3</td><td>免</td><td>官津 7 月叩門</td></tr>
             <tr><td class="tier3">保底</td><td>明愛粉嶺陳震夏中學</td><td>資助</td><td>中文</td><td>3</td><td>免</td><td>官津 7 月叩門</td></tr>
             <tr><td class="tier3">保底</td><td>聖芳濟各書院</td><td>資助</td><td>中文</td><td>3</td><td>免</td><td>官津 7 月叩門</td></tr>
             <tr><td class="tier3">保底</td><td>新界喇沙中學</td><td>資助</td><td>中文</td><td>3</td><td>免</td><td>官津 7 月叩門</td></tr>
-            <tr><td class="tier3">保底</td><td>佛教茂峰法師紀念中學</td><td>資助</td><td>中文</td><td>3</td><td>免</td><td>官津 7 月叩門</td></tr>
-            <tr><td class="tier3">保底</td><td>神召會康樂中學</td><td>資助</td><td>中文</td><td>3</td><td>免</td><td>官津 7 月叩門</td></tr>
-            <tr><td class="tier3">保底</td><td>香港教師會李興貴中學</td><td>資助</td><td>中文</td><td>3</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier3">保底</td><td>佛教茂峰法師紀念中學 ⚠️（元朗天水圍，非北區）</td><td>資助</td><td>中文</td><td>3</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier3">保底</td><td>神召會康樂中學（大埔·接收北區跨境生）</td><td>資助</td><td>中文</td><td>3</td><td>免</td><td>官津 7 月叩門</td></tr>
+            <tr><td class="tier3">保底</td><td>香港教師會李興貴中學（大埔·接收北區跨境生）</td><td>資助</td><td>中文</td><td>3</td><td>免</td><td>官津 7 月叩門</td></tr>
           </tbody>
         </table>
       </div>
       <div class="gcard">
         <h3>叩門衝刺組合建議（按英文水平分）</h3>
-        <p><b>英文達標（PET 量級）</b>：衝刺 鄧顯/甲寅年/田家炳/陳融 ＋ 求穩 風采/心誠/粉嶺官立 ＋ 保底 基新/上水官立/粉嶺救恩。</p>
+        <p><b>英文達標（PET 量級）</b>：衝刺 鄧顯/甲寅年/田家炳/陳融 ＋ 求穩 風采/心誠 ＋ 保底 基新/上水官立/粉嶺救恩/粉嶺官立（粉嶺官立 2026-10-31 勘誤為中中，接受中文授課才納入）。</p>
         <p><b>英文偏弱</b>：衝刺 甲寅年/李嘉誠 ＋ 求穩 鳳溪一中/救恩/基新 ＋ 保底 基新/上水官立/李興貴（先中文過渡一年，再圖轉校）。</p>
         <p>無論哪組，<b>7.6 一早從衝刺檔開始衝</b>，保底檔留 7.8–7.9 兜底，並同步走 EDB 途徑三。</p>
       </div>
-      <div class="src">來源：北區 23 所中學清單（hk-placement 知識庫 v0.2，2026-10-27 核對）｜Band 組別＝坊間非官方參考（教育局不公布官方 Banding）｜學費/截止日以學校官網當年公告為準｜⚠️ 身份硬門檻：身份 2027.6 才到手者一律走放榜後叩門＋途徑三</div>
+      <div class="gcard warn">
+        <h3>⚠️ 交叉勘誤（2026-10-31 · schooland × 教育局 × 中學概覽）</h3>
+        <p>本次以 <a href="https://www.schooland.hk/ss/north" target="_blank" rel="noopener">schooland 北區中學頁</a>（2026-10-31 取樣）與教育局公開資料交叉核對，修正本表：① <b>風采中學＝資助</b>（EDB 收費證明書：學費免、堂費 $340/年），非直資；② 官津<b>英中僅 6 所</b>（教育局名單）：鄧顯/甲寅/田家炳/陳融/李嘉誠/風采；心誠為直資英中；馬錦燦屬雙語（部分科目英文，中學概覽），其餘均中中；③ 茂峰位於<b>元朗天水圍</b>（非北區，建議從策略中移除）、康樂/李興貴位於<b>大埔</b>（他區：北區，接收北區跨境生）。Band 各源不一，僅作非官方參考。</p>
+      </div>
+      <div class="gcard">
+        <h3>北區中學一覽（20 所 · 可篩選）</h3>
+        <div class="pg-chips" id="ssChips">
+          <span class="chip on" data-ss="all">全部 20</span>
+          <span class="chip" data-ss="en">英中 7</span>
+          <span class="chip" data-ss="gov">官立 2</span>
+          <span class="chip" data-ss="dss">直資 1</span>
+        </div>
+        <div class="scroll-x">
+        <table class="mtable" id="ssTable">
+          <thead><tr><th>學校</th><th>英文名稱</th><th>種類</th><th>宗教</th><th>性別</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>地址</th></tr></thead>
+          <tbody>
+            <tr data-ss="en" data-lan="en"><td>鄧顯紀念中學</td><td>HKTA Tang Hin Memorial Secondary School</td><td>資助</td><td>道教</td><td>男女</td><td>英中</td><td>1</td><td>上水彩園邨</td></tr>
+            <tr data-ss="en" data-lan="en"><td>東華三院甲寅年總理中學</td><td>TWGHs Kap Yan Directors' College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>上水彩園邨</td></tr>
+            <tr data-ss="en" data-lan="en"><td>風采中學（教育評議會主辦）</td><td>Elegantia College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>上水清城路8號</td></tr>
+            <tr data-ss="en" data-lan="en"><td>田家炳中學</td><td>Tin Ka Ping Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>粉嶺維翰路1號</td></tr>
+            <tr data-ss="en" data-lan="en"><td>聖公會陳融中學</td><td>SKH Chan Young Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>英中</td><td>1</td><td>上水智昌路6號</td></tr>
+            <tr data-ss="en" data-lan="en"><td>東華三院李嘉誠中學</td><td>TWGHs Li Ka Shing College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>粉嶺祥華邨</td></tr>
+            <tr data-ss="dss" data-lan="en"><td>基督教香港信義會心誠中學</td><td>Fanling Lutheran Secondary School</td><td>直資</td><td>基督教</td><td>男女</td><td>英中</td><td>2</td><td>粉嶺馬會道270號</td></tr>
+            <tr data-ss="aided"><td>香海正覺蓮社佛教馬錦燦紀念英文中學</td><td>HHCKLA Buddhist Ma Kam Chan Memorial English Secondary School</td><td>資助</td><td>佛教</td><td>男女</td><td>雙語（部分英文）</td><td>2</td><td>粉嶺聯和墟聯益街9號</td></tr>
+            <tr data-ss="aided"><td>宣道會陳朱素華紀念中學</td><td>Christian Alliance S W Chan Memorial College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺暉明路12號</td></tr>
+            <tr data-ss="aided"><td>粉嶺禮賢會中學</td><td>Fanling Rhenish Church Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺聯和墟聯益街1號</td></tr>
+            <tr data-ss="aided"><td>保良局馬錦明中學</td><td>PLK Ma Kam Ming College</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺華明路38號</td></tr>
+            <tr data-ss="aided"><td>鳳溪廖萬石堂中學</td><td>Fung Kai Liu Man Shek Tong Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>上水鳳南路6號</td></tr>
+            <tr data-ss="aided"><td>粉嶺救恩書院</td><td>Fanling Kau Yan College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺欣盛里3號</td></tr>
+            <tr data-ss="aided"><td>鳳溪第一中學</td><td>Fung Kai No.1 Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>上水馬會道17號</td></tr>
+            <tr data-ss="aided"><td>明愛粉嶺陳震夏中學</td><td>Caritas Fanling Chan Chun Ha Secondary School</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺新運路28號</td></tr>
+            <tr data-ss="aided"><td>新界喇沙中學</td><td>De La Salle Secondary School, N.T.</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>上水金錢村</td></tr>
+            <tr data-ss="aided"><td>聖芳濟各書院</td><td>St. Francis Of Assisi's College</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺欣盛里1號</td></tr>
+            <tr data-ss="aided"><td>中華基督教會基新中學</td><td>CCC Kei San Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺蝴蝶山路8號</td></tr>
+            <tr data-ss="gov"><td>粉嶺官立中學</td><td>Fanling Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺一鳴路27號</td></tr>
+            <tr data-ss="gov"><td>上水官立中學</td><td>Sheung Shui Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3</td><td>上水百和路21號</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="src">事實欄（種類/宗教/性別/語言/地址）：schooland.hk 北區頁 2026-10-31 核對＋教育局中學概覽；英中判定以教育局名單為準；Band＝坊間非官方估計。</p>
+      </div>
+      <div class="gcard">
+        <h3>升中攻略 · 外鏈精選（正文版權屬原站）</h3>
+        <p><b>官方</b>：<a href="https://www.edb.gov.hk/en/student-parents/sch-info/sch-search/schlist-by-district/school-list-n.html" target="_blank" rel="noopener">教育局·北區中學名單</a>｜<a href="https://applications.edb.gov.hk/schoolsearch/" target="_blank" rel="noopener">教育局·學校搜尋（含收費證明書）</a>｜<a href="https://www.chsc.hk/ssp2025/" target="_blank" rel="noopener">家委會·中學概覽</a></p>
+        <p><b>深讀（schooland）</b>：<a href="https://www.schooland.hk/post/sspa00" target="_blank" rel="noopener">中學學位分配辦法</a>｜<a href="https://www.schooland.hk/post/sspa01" target="_blank" rel="noopener">自行分配重點分析</a>｜<a href="https://www.schooland.hk/post/sspa02" target="_blank" rel="noopener">統一派位重點分析</a>｜<a href="https://www.schooland.hk/post/sspa03" target="_blank" rel="noopener">升中部署日誌</a>｜<a href="https://www.schooland.hk/post/ss-banding" target="_blank" rel="noopener">Banding 怎樣分</a>｜<a href="https://www.schooland.hk/ss/direct-subsidy" target="_blank" rel="noopener">直資中學學費比較</a>｜<a href="https://www.schooland.hk/ss/traditional-elite" target="_blank" rel="noopener">傳統名校名單</a>｜<a href="https://www.schooland.hk/ss/north" target="_blank" rel="noopener">北區中學頁</a></p>
+        <p class="src">攻略文章版權屬各原站，此處僅收錄外鏈供家長延伸閱讀。</p>
+      </div>
+      <div class="src">來源：北區 20 所中學（schooland.hk 2026-10-31 核對＋hk-placement 知識庫 v0.2）｜Band 組別＝坊間非官方參考（教育局不公布官方 Banding）｜學費/截止日以學校官網當年公告為準｜⚠️ 身份硬門檻：身份 2027.6 才到手者一律走放榜後叩門＋途徑三</div>
     </div>
   </div>
 
@@ -2229,6 +2276,13 @@ document.querySelectorAll('#mpgChips .chip').forEach(c=>c.onclick=()=>{
   document.querySelectorAll('#mpgChips .chip').forEach(x=>x.classList.toggle('on',x===c));
   genMathPaper();
 });
+document.querySelectorAll('#ssChips .chip').forEach(c=>c.onclick=()=>{
+  const k=c.dataset.ss;
+  document.querySelectorAll('#ssChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  document.querySelectorAll('#ssTable tbody tr').forEach(tr=>{
+    tr.style.display=(k==='all'||tr.dataset.lan===k||tr.dataset.ss===k)?'':'none';
+  });
+});
 function buildIntro(){
   var g=function(id){return (document.getElementById(id).value||'').trim();};
   var f=function(v){return v? v : '______';};
@@ -2456,7 +2510,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.21',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.22',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

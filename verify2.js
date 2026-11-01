@@ -347,10 +347,19 @@ ok('schoolsView 隱藏', doc.getElementById('schoolsView').style.display === 'no
 doc.querySelector('#planSub button[data-sub="schools"]').click();
 ok('schoolsView 顯示', doc.getElementById('schoolsView').style.display !== 'none');
 ok('timelineView 隱藏', doc.getElementById('timelineView').style.display === 'none');
-const schoolRows = doc.querySelectorAll('#schoolsView .scroll-x .mtable tbody tr');
+const schoolRows = doc.querySelectorAll('#tierTable tbody tr');
 ok('北區學校表 23 行', schoolRows.length === 23);
-const tiers = new Set([...doc.querySelectorAll('#schoolsView .scroll-x .mtable tbody tr td:first-child')].map(td=>td.textContent));
+const tiers = new Set([...doc.querySelectorAll('#tierTable tbody tr td:first-child')].map(td=>td.textContent));
 ok('梯隊含 衝刺/穩妥/保底', tiers.has('衝刺') && tiers.has('穩妥') && tiers.has('保底'));
+// v1.22 勘誤卡＋北區一覽＋外鏈精選
+ok('交叉勘誤卡存在', doc.getElementById('schoolsView').innerHTML.includes('交叉勘誤'));
+ok('北區一覽 20 行', doc.querySelectorAll('#ssTable tbody tr').length === 20);
+ok('英文名稱列存在', doc.querySelector('#ssTable tbody tr td:nth-child(2)').textContent.length > 3);
+ok('外鏈卡含 schooland+EDB', doc.querySelectorAll('#schoolsView a[href*="schooland"],#schoolsView a[href*="edb.gov.hk"]').length >= 5);
+doc.querySelector('#ssChips .chip[data-ss="en"]').click();
+ok('英中篩選後 7 行', [...doc.querySelectorAll('#ssTable tbody tr')].filter(tr=>tr.style.display!=='none').length === 7);
+doc.querySelector('#ssChips .chip[data-ss="all"]').click();
+ok('取消篩選復 20 行', [...doc.querySelectorAll('#ssTable tbody tr')].filter(tr=>tr.style.display!=='none').length === 20);
 // 切到材料/學習/身份
 doc.querySelector('#planSub button[data-sub="docs"]').click();
 ok('docsView 顯示', doc.getElementById('docsView').style.display !== 'none');
