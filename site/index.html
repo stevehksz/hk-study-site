@@ -398,11 +398,11 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
 <body>
 <header>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.25（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.26（全站免費）</p>
 </header>
 <nav>
-  <button data-tab="guide" class="on">速覽指南</button>
   <button data-tab="plan">升學規劃</button>
+  <button data-tab="guide" class="on">速覽指南</button>
   <button data-tab="practice">練習</button>
   <button data-tab="progress">學習進度</button>
   <button data-tab="fun">悠閒</button>
@@ -37587,7 +37587,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.25',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.26',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
