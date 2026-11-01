@@ -5,7 +5,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
   練習＝中文(古詩詞) / 英文(港小生字＋詞表) / 數學(中↔英術語表·點擊打卡)
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
-v1.23：全站免費——移除 v1.21 授權碼月付（英文卷／數學卷直接開放，無需激活；刪除鎖定面板、校驗 JS 與頁面注入密鑰；gen_license.py 保留在倉庫但不再被構建引用，後續如需收費可再啟）。免費為主的定位：題庫持續更新靠自願支持。verify2.js 改寫授權碼斷言為「免費直開」斷言（無鎖定面板／直出題卡）。v1.22：擇校分檔接入 schooland×教育局交叉勘誤——風采＝資助（EDB收費證明書免學費堂費$340，非直資）、官津英中僅6所（心誠直資英中、馬錦燦雙語部分英文、其餘中中）、茂峰＝元朗天水圍非北區、康樂/李興貴＝大埔接收北區跨境生；新增北區中學一覽20所（可篩選英中/官立/直資，含英文名/宗教/性別/地址）、升中攻略外鏈精選（EDB/中學概覽/schooland，正文版權屬原站）。verify2.js 加勘誤/篩選/外鏈斷言。v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
+v1.24：練習→英文新增「呈分試卷」（P5–P6·仿版式原創題）——版式仿坊間呈分試模擬卷：生詞表8詞＋Warm-up詞形填空(不計分)＋(A)明喻12%＋(B)習語12%＋(C)時態篇章20%＋(D)職業對話10%＋(E)情境造句12%＋(F)短語動詞10%＋(G)量詞連詞12%＋(H)閱讀理解12%＝100%；每級2套分段題庫隨機組卷（2⁸組合），交卷自動批改（填空歸一化比對、開放題按要點關鍵詞、MC自動判分），記錄本級最佳(localStorage hkk_exampaper_v0)，打印含答案版；題目全部原創仿編，非任何機構真卷。verify2.js 加呈分試卷斷言。v1.23：全站免費——移除 v1.21 授權碼月付（英文卷／數學卷直接開放，無需激活；刪除鎖定面板、校驗 JS 與頁面注入密鑰；gen_license.py 保留在倉庫但不再被構建引用，後續如需收費可再啟）。免費為主的定位：題庫持續更新靠自願支持。verify2.js 改寫授權碼斷言為「免費直開」斷言（無鎖定面板／直出題卡）。v1.22：擇校分檔接入 schooland×教育局交叉勘誤——風采＝資助（EDB收費證明書免學費堂費$340，非直資）、官津英中僅6所（心誠直資英中、馬錦燦雙語部分英文、其餘中中）、茂峰＝元朗天水圍非北區、康樂/李興貴＝大埔接收北區跨境生；新增北區中學一覽20所（可篩選英中/官立/直資，含英文名/宗教/性別/地址）、升中攻略外鏈精選（EDB/中學概覽/schooland，正文版權屬原站）。verify2.js 加勘誤/篩選/外鏈斷言。v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
 v1.14：練習→英文新增第 5 入口「詞彙路線圖」(goalView)——①站內現有詞量統計(港小335＋B1 1465＝1800，诗词185首另計，標注入門奠基包非全量)；②一年級→中六累計詞量目標表(P1 500–800…P6 2500–3000…S6 6000–8000／衝L5 10000+，坊間基準＋來源＋EDB不公布官方詞單聲明)；③本家庭落點(2027/28 插班中一，P6→S1 銜接路線)；④背詞方法(語境閱讀／主動被動詞彙／間隔重複／聽讀／遊戲化打卡／詞根聯想，標來源性質)。enPracSub 增第5按鈕與顯隱；verify2.js 加 3 項斷言(goalView 按鈕/點擊顯示/含「1,800」與「中六」與「2,500–3,000」)。
 v1.13：英文卷打印升級「一次性打印一套卷子」——①空卷時按「打印一套卷子」自動先出一套再印，無須先按「出新卷」；②卷頭增「共 N 題／總分」；③勾「含答案版」時答案獨立成頁（題卷＋答案卷＝完整一套，答案卷 page-break-before 獨立分頁）；按鈕改名「🖨 打印一套卷子」。verify2.js 加 3 項斷言（空卷自動出卷／題卷含總分／含答案版答案卷獨立成頁）。
 v1.12：升中面試模塊重做——依 2026 香港升中面試公開資料大幅擴充（4 大面試形式＋10 大題型佔比表＋英文自我介紹黃金4步＋互動練習卡＋小組討論 DO/DON'T＋分類題庫＋P5→P6 時間線＋2026 名校題例＋弱項自評＋資料來源）；新增自我介紹填空練習與錄音自測按鈕；verify2.js 加 6 項斷言。
@@ -315,7 +315,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   header::before,header::after{display:none!important}
   nav,.subnav{display:none!important}
   body.printing-paper nav,body.printing-paper .subnav,body.printing-paper header,body.printing-paper #guideView,body.printing-paper #practiceView,body.printing-paper #progressView,body.printing-paper #funView,body.printing-paper #mask,body.printing-paper footer,body.printing-paper .folk{display:none!important}
-  body.printing-paper #enPrintSheet,body.printing-paper #mathPrintSheet{display:block!important;position:static;width:100%}
+  body.printing-paper #enPrintSheet,body.printing-paper #mathPrintSheet,body.printing-paper #examPrintSheet{display:block!important;position:static;width:100%}
   @page{margin:14mm}
 }
 /* v1.10 背單詞激勵樣式 */
@@ -395,12 +395,41 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .en-print .qzh{font-size:12px;color:#555;margin:2px 0 6px}
   .hk-actions button{font-size:12px;line-height:1;padding:5px 11px;border:1px solid var(--accent,#4f46e5);background:#fff;color:var(--accent,#4f46e5);border-radius:14px;cursor:pointer;transition:.15s}
   .hk-actions button:hover{background:var(--accent,#4f46e5);color:#fff}
+/* ---- v1.24 呈分試卷 ---- */
+.ex-head{display:flex;justify-content:space-between;flex-wrap:wrap;border:2px solid #333;border-radius:6px;padding:8px 12px;margin:6px 0 12px;font-weight:bold}
+.ex-code{color:#1a3c8f}
+.ex-nd{font-weight:normal;font-size:13px}
+.ex-lead{margin:14px 0 6px;font-size:15px}
+.ex-vocab,.ex-bank{width:100%;border-collapse:collapse;margin:6px 0 12px}
+.ex-vocab td,.ex-bank td{border:1.5px solid #999;padding:6px 8px;font-size:13.5px;text-align:center}
+.ex-zh{color:#666;font-size:12px}
+.ex-sec{margin:18px 0;padding:12px 14px;border:1px solid #ddd;border-radius:10px;background:#fff}
+.ex-q{margin:0 0 10px;font-size:14.5px}
+.ex-it{margin:8px 0;line-height:2;font-size:14px}
+.ex-ol{margin:6px 0 4px 22px}
+.ex-ol li{margin:10px 0;line-height:2.1;font-size:14px}
+.ex-pass{line-height:2.3;font-size:14px;background:#fafafa;border:1px dashed #ccc;border-radius:8px;padding:12px 14px}
+.ex-inp{width:130px;border:none;border-bottom:1.5px solid #888;background:#f4f7ff;text-align:center;font-size:13.5px;padding:2px 4px;border-radius:4px 4px 0 0}
+.ex-inp.ex-ok{background:#e6f6e6;border-bottom-color:#2e8b2e;color:#1e6b1e}
+.ex-inp.ex-bad{background:#fdeaea;border-bottom-color:#c0392b;color:#c0392b}
+.ex-open{width:100%;border:1.5px solid #bbb;border-radius:8px;padding:6px 10px;font-size:13.5px;font-family:inherit}
+.ex-open.ex-ok{border-color:#2e8b2e;background:#e6f6e6}
+.ex-open.ex-bad{border-color:#c0392b;background:#fdeaea}
+.ex-mc{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin:4px 0 10px}
+.ex-opt{font-size:13.5px;line-height:1.7}
+.ex-warm{color:#b06a00;font-size:12px}
+.ex-result{border:2px solid #1a3c8f;border-radius:10px;padding:12px 16px;margin:14px 0;background:#f4f7ff;font-size:15px}
+.ex-wrongs{margin:8px 0 8px 20px;font-size:13.5px;line-height:1.9;color:#8a3a30}
+.ex-tip{font-size:12px;color:#888}
+.ex-anspage{margin-top:18px;border-top:2px dashed #999;padding-top:10px}
+.ex-ans{font-size:12.5px;line-height:1.9;margin:4px 0}
+.ex-lines{color:#bbb;letter-spacing:1px}
 </style>
 </head>
 <body>
 <header>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.23（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.24（全站免費）</p>
 </header>
 <nav>
   <button data-tab="guide" class="on">速覽指南</button>
@@ -533,6 +562,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
       <button data-es="iv">升中面試</button>
       <button data-es="paper">英文卷</button>
       <button data-es="goal">詞彙路線圖</button>
+      <button data-es="exam">呈分試卷</button>
     </div>
     <div id="hkView">
       <div class="tools">
@@ -813,6 +843,24 @@ Thank you for your time.</div>
           </div>
         </div>
       </details>
+    </div>
+    <div class="wrap gsec" id="examView" style="display:none">
+      <div class="gtitle">呈分試卷 · 英文呈分試模擬卷（P5–P6 · 仿版式原創題）</div>
+      <span class="folk">版式仿照坊間呈分試卷：生詞表＋詞形填空＋明喻(A)／習語(B)／時態篇章(C)／職業對話(D)／情境造句(E)／短語動詞(F)／量詞連詞(G)／閱讀理解(H)，共 100%。⚠️ 題目全部本地原創仿編，非任何補習社／學校／評估局真卷。</span>
+      <div class="pg-chips" id="examChips">
+        <span class="chip" data-pg="P5">P5</span>
+        <span class="chip on" data-pg="P6">P6</span>
+      </div>
+      <div class="enpaper-actions">
+        <button class="btn" id="examNewPaper" onclick="genExamPaper()">🎲 出新卷</button>
+        <button class="btn" id="examSubmit" onclick="gradeExamPaper()">✅ 交卷批改</button>
+        <button class="btn" id="examPrintBtn" onclick="printExamPaper()">🖨 打印一套卷子</button>
+        <label class="print-ans-toggle"><input type="checkbox" id="examPrintAns"> 含答案版</label>
+        <span class="enpaper-stat" id="examStat">本級最佳：—</span>
+      </div>
+      <div id="examPaperBox"></div>
+      <div id="examPaperResult"></div>
+      <div class="en-src-note"><b>說明：</b>題型版式取自家長提供的坊間呈分試模擬卷樣式（2026-10-31，僅取版式與分值結構，不取內容）；題目內容全部原創仿編。年級難度以 P5–P6 呈分試常見水平估算，以學校課本為準。</div>
     </div>
   </div>
   <!-- 數學 -->
@@ -1155,6 +1203,7 @@ Thank you for your time.</div>
 
 <div id="enPrintSheet" class="en-print"></div>
 <div id="mathPrintSheet" class="en-print"></div>
+<div id="examPrintSheet" class="en-print"></div>
 
 <footer>
 數據來源：chinese-poetry（詩文）· word-atlas B1 檔（詞表，CC BY 4.0 須署名 Word Atlas contributors 詞光）· 港小基礎詞（坊間整理，非 EDB 官方分級詞表，年級為估算）· 拼音 pypinyin · 粵拼 jyutping<br>
@@ -2137,6 +2186,373 @@ document.querySelectorAll('#planSub button').forEach(b=>b.onclick=()=>{
   ['timeline','schools','docs','study','policy'].forEach(s=>document.getElementById(s+'View').style.display = s===curPlan?'block':'none');
 });
 // 英文練習內部分類切換（港小生字 / 詞表）
+// ---- v1.24 呈分試卷（英文呈分試模擬卷 · P5–P6 · 仿編原創） ----
+// 版式仿照坊間呈分試卷：生詞表＋詞形填空＋明喻/習語/時態篇章/職業對話/情境造句/短語動詞/量詞連詞/閱讀理解，全卷 100%。
+// ⚠️ 題目全部本地原創仿編，非任何補習社／學校／評估局真卷。
+let curExamGrade='P6', curExamPaper=null;
+const EXAM_QBANK={
+P5:{
+ heads:[
+  {words:[{w:'celebrate (v.)',zh:'慶祝'},{w:'tradition (n.)',zh:'傳統'},{w:'lantern (n.)',zh:'燈籠'},{w:'reunion (n.)',zh:'團聚'},{w:'decorate (v.)',zh:'佈置／裝飾'},{w:'delicious (adj.)',zh:'美味的'},{w:'gather (v.)',zh:'聚集'},{w:'ancestor (n.)',zh:'祖先'}],
+   fills:[{s:'Chinese people {0} the Mid-Autumn Festival with mooncakes and lanterns.',a:['celebrate']},{s:'My grandparents {0} at our home for a big reunion dinner last night.',a:['gathered']},{s:'We {0} the Christmas tree with colourful balls and stars every year.',a:['decorate']},{s:'It is a {0} for children to receive red packets at Lunar New Year.',a:['tradition']},{s:'The mooncakes from that bakery are really {0} .',a:['delicious']}]},
+  {words:[{w:'exercise (v./n.)',zh:'運動'},{w:'healthy (adj.)',zh:'健康的'},{w:'junk food (n.)',zh:'垃圾食物'},{w:'energy (n.)',zh:'精力／能量'},{w:'habit (n.)',zh:'習慣'},{w:'rest (v.)',zh:'休息'},{w:'stretch (v.)',zh:'伸展'},{w:'balance (n.)',zh:'平衡'}],
+   fills:[{s:'Tom {0} for thirty minutes every morning before school.',a:['exercises']},{s:'Eating too much {0} like chips and sweets is bad for your body.',a:['junk food']},{s:'A good sleep helps our bodies {0} and grow.',a:['rest']},{s:'Remember to {0} your legs before you run.',a:['stretch']},{s:'A balanced diet gives us the {0} we need for the day.',a:['energy']}]}
+ ],
+ A:[
+  {bank1:['big','sweet','slow','cool','red','hungry'],bank2:['an elephant','honey','a snail','a cucumber','a tomato','a wolf'],items:[
+   {s:'The watermelon felt as {0} as {1} on a hot afternoon.',a:['cool','a cucumber']},
+   {s:'Grandpa walks as {0} as {1} in the park every morning.',a:['slow','a snail']},
+   {s:'Kitty was as {0} as {1} after the long hike up the hill.',a:['hungry','a wolf']},
+   {s:'Uncle Chan’s new car is as {0} as {1} .',a:['big','an elephant']},
+   {s:'Grandma’s homemade jam tastes as {0} as {1} .',a:['sweet','honey']},
+   {s:'Peter’s face turned as {0} as {1} after he ran so fast.',a:['red','a tomato']}]},
+  {bank1:['hard','busy','gentle','shiny','tall','fast'],bank2:['a rock','an ant','a lamb','a mirror','a giraffe','lightning'],items:[
+   {s:'The ice on the ground was as {0} as {1} yesterday morning.',a:['hard','a rock']},
+   {s:'May is as {0} as {1} during the exam week.',a:['busy','an ant']},
+   {s:'The new puppy is as {0} as {1} — it never bites anyone.',a:['gentle','a lamb']},
+   {s:'After polishing, the floor of the hall was as {0} as {1} .',a:['shiny','a mirror']},
+   {s:'The new player runs as {0} as {1} on the football field.',a:['fast','lightning']},
+   {s:'The tree in our school garden is as {0} as {1} .',a:['tall','a giraffe']}]}
+ ],
+ B:[
+  {bank:['rain cats and dogs','cry over spilt milk','in the same boat','busy as a bee','slept like a log','as easy as ABC'],items:[
+   {s:'It started to {0} just as we left for the picnic.',a:['rain cats and dogs']},
+   {s:'Do not {0} about the broken cup — it cannot be fixed anyway.',a:['cry over spilt milk']},
+   {s:'We are all {0} because none of us knows the answer.',a:['in the same boat']},
+   {s:'Mary was {0} all morning, cleaning every corner of the house.',a:['busy as a bee']},
+   {s:'After the tiring trip, Dad {0} for ten whole hours.',a:['slept like a log']},
+   {s:'Do not worry — the test is {0} if you have studied hard.',a:['as easy as ABC']}]},
+  {bank:['once in a blue moon','give someone a hand','feel blue','keep a secret','in a nutshell','make up one’s mind'],items:[
+   {s:'We only eat at that expensive restaurant {0} .',a:['once in a blue moon']},
+   {s:'Can you {0} with these heavy bags, please?',a:['give me a hand','give us a hand']},
+   {s:'Tim has felt {0} since his best friend moved away.',a:['blue']},
+   {s:'A true friend knows how to {0} .',a:['keep a secret']},
+   {s:'{0} , we won the game but lost the trophy.',a:['in a nutshell']},
+   {s:'Kitty could not {0} about which dress to wear.',a:['make up her mind']}]}
+ ],
+ C:[
+  {s:'Last Friday, our class (e.g.) went (go) on a picnic in Tai Po Waterfront Park. The weather (1) {0} (be) sunny and cool. When we (2) {1} (arrive), some classmates (3) {2} (fly) kites on the grass. Miss Chan (4) {3} (teach) us how to make kites last month, so we all (5) {4} (bring) our own kites. At noon, we (6) {5} (share) the sandwiches that Mum (7) {6} (make) the night before. Suddenly, a strong wind (8) {7} (blow) and one kite (9) {8} (land) in a tall tree! A kind uncle (10) {9} (help) us get it back.',
+   a:[['was'],['arrived'],['were flying'],['taught'],['brought'],['shared'],['made'],['blew'],['landed'],['helped']]},
+  {s:'My cat Mochi (e.g.) is (be) three years old. She (1) {0} (have) big green eyes and soft grey fur. Every evening, she (2) {1} (sit) by the window and (3) {2} (watch) the birds outside. Last month, she (4) {3} (catch) her first cockroach, and we (5) {4} (be) all very proud. Mochi (6) {5} (not like) loud noises, so she always (7) {6} (hide) under the sofa during Chinese New Year. Now she (8) {7} (sleep) on my lap while I (9) {8} (write) this passage. I hope she (10) {9} (live) with us for many more years.',
+   a:[['has'],['sits'],['watches'],['caught'],['were'],['does not like','don’t like','dont like'],['hides'],['is sleeping'],['am writing'],['will live']]}
+ ],
+ D:[
+  {bank:['teacher','nurse','police officer','farmer','singer'],lines:[
+   {who:'Polly',s:'I like helping sick people and taking their temperature. I want to be a (1) {0} .',a:['nurse']},
+   {who:'Kelly',s:'I enjoy singing and I practise every day after school. I want to be a (2) {0} .',a:['singer']},
+   {who:'Amy',s:'I want to keep our city safe and help people find their lost things. I want to be a (3) {0} .',a:['police officer']},
+   {who:'Samuel',s:'I love books and I want to help children learn in a classroom. I want to be a (4) {0} .',a:['teacher']},
+   {who:'Nathan',s:'I want to grow vegetables and take care of pigs and chickens in the countryside. I want to be a (5) {0} .',a:['farmer']}]},
+  {bank:['postman','baker','lifeguard','zookeeper','bus driver'],lines:[
+   {who:'Polly',s:'I can swim very well and I want to save people at the beach. I want to be a (1) {0} .',a:['lifeguard']},
+   {who:'Kelly',s:'I get up very early to deliver letters to every home. I want to be a (2) {0} .',a:['postman']},
+   {who:'Amy',s:'I love animals and I feed the lions and monkeys every day. I want to be a (3) {0} .',a:['zookeeper']},
+   {who:'Samuel',s:'I drive carefully and take people to different parts of the city. I want to be a (4) {0} .',a:['bus driver']},
+   {who:'Nathan',s:'I get up at four o’clock to make bread and cakes for the neighbourhood. I want to be a (5) {0} .',a:['baker']}]}
+ ],
+ E:[
+  {bank:['children make snowmen','we should take an umbrella','it is a good day for a picnic','the leaves fall from the trees'],items:[
+   {lead:'Since the sky is clear and sunny,',a:['it is a good day for a picnic']},
+   {lead:'Since autumn comes and the wind gets stronger,',a:['the leaves fall from the trees']},
+   {lead:'Since it is snowing heavily outside,',a:['children make snowmen']},
+   {lead:'Since dark clouds are gathering in the sky,',a:['we should take an umbrella']}]},
+  {bank:['people should stay indoors','plants may die','we must save electricity','the streets get busy'],items:[
+   {lead:'Since it is a public holiday today,',a:['the streets get busy']},
+   {lead:'Since global energy is becoming more and more precious,',a:['we must save electricity']},
+   {lead:'Since there has been no rain for weeks,',a:['plants may die']},
+   {lead:'Since the air pollution index is very high today,',a:['people should stay indoors']}]}
+ ],
+ F:[
+  {bank:['get up','wake up','put on','turn off','look at','take out'],s:'Every morning, Mum (e.g.) wakes me up at seven. I (1) {0} at once and (2) {1} my school uniform. After breakfast, I remember to (3) {2} the lights before leaving home. On the school bus, I like to (4) {3} the scenery outside the window. When it rains, I (5) {4} my umbrella before I get off.',a:[['get up'],['put on'],['turn off'],['look at'],['take out']]},
+  {bank:['sit down','write down','look for','pick up','give back','come back'],s:'Yesterday, Amy (e.g.) looked for books about dinosaurs in the school library. First she (1) {0} at a quiet table and (2) {1} the names of three books about space. Then she (3) {2} a big book about the solar system and started reading. Before leaving, she (4) {3} the storybook she borrowed last week and promised to (5) {4} next Saturday.',a:[['sat down'],['wrote down'],['picked up'],['gave back'],['come back']]}
+ ],
+ G:[
+  {bank:['very few','very little','enough','either…or','neither…nor'],lines:[
+   {who:'Mum',s:'Ruby, you can have (1) {0} fried noodles (2) {1} dumplings for dinner tonight.'},
+   {who:'Ruby',s:'But there is (3) {2} fried noodles (4) {3} dumplings left in the fridge, Mum.'},
+   {who:'Mum',s:'Hurry then! There are only (5) {4} eggs and (6) {5} rice, so I will make soup too.'}],
+   a:[['either'],['or'],['neither'],['nor'],['very few'],['very little']]},
+  {bank:['both…and','either…or','very few','very little','enough'],lines:[
+   {who:'Librarian',s:'You can borrow (1) {0} this storybook (2) {1} that comic, but not both.'},
+   {who:'Ben',s:'Great! Can I (3) {2} borrow books (3) {3} read magazines here?'},
+   {who:'Librarian',s:'Sure. But there are only (4) {4} seats left at noon, and there is (5) {5} space in the reading corner.'}],
+   a:[['either'],['or'],['both'],['and'],['very few'],['very little']]}
+ ],
+ H:[
+  {title:'Sea Turtles in Hong Kong',
+   s:'Every summer, a few sea turtles come to lay their eggs on the quiet beaches of Hong Kong. Green sea turtles can grow to more than one metre long and live for over sixty years. They swim thousands of kilometres across the ocean, but they always return to the beach where they were born to lay their eggs.<br>Sadly, sea turtles face many dangers. Plastic bags in the sea look like jellyfish, one of their favourite foods. If a turtle eats a plastic bag, it may die. Lights from beachside buildings also confuse baby turtles, which follow the light instead of crawling towards the sea.<br>In Hong Kong, it is illegal to disturb the beaches where sea turtles lay their eggs. Scientists hope that with everyone’s help, these gentle animals will keep visiting our shores.',
+   mc:[{q:'How far do sea turtles swim to lay their eggs?',opts:['A few metres','Thousands of kilometres','Sixty kilometres','More than one metre'],a:1},
+       {q:'Why are plastic bags dangerous to sea turtles?',opts:['They are too heavy to carry.','They stop turtles from swimming fast.','They look like jellyfish, one of their favourite foods.','They make the sea water dirty.'],a:2}],
+   open:[{q:'Where do sea turtles lay their eggs?',keys:['beach','born'],model:'They return to the beach where they were born to lay their eggs.'},
+         {q:'Why do lights confuse baby turtles?',keys:['follow','light'],model:'Because the baby turtles follow the light instead of crawling towards the sea.'}],
+   fill:{q:'In Hong Kong, it is illegal to {0} the beaches where sea turtles lay their eggs.',a:[['disturb']]}},
+  {title:'The Star Ferry',
+   s:'The Star Ferry is one of the oldest forms of public transport in Hong Kong. The famous green-and-white boats have carried passengers across Victoria Harbour for over a hundred years. A ride from Tsim Sha Tsui to Central takes only about ten minutes and costs just a few dollars.<br>Many people think the ferry is only for tourists, but thousands of commuters still use it every day. It is also a friendlier choice for the environment because ferries use less fuel per passenger than cars.<br>In a recent survey, visitors from around the world named the short ride one of the best cheap experiences in the world.',
+   mc:[{q:'How long does a ride from Tsim Sha Tsui to Central take?',opts:['About ten minutes','About a hundred years','A few dollars','One whole day'],a:0},
+       {q:'Why is the ferry a friendlier choice for the environment?',opts:['It is green and white.','It carries many tourists.','It costs only a few dollars.','It uses less fuel per passenger than cars.'],a:3}],
+   open:[{q:'Who still uses the ferry every day?',keys:['commuters'],model:'Thousands of commuters still use it every day.'},
+         {q:'Where do the boats run?',keys:['tsim sha tsui','central'],model:'They run between Tsim Sha Tsui and Central or Wan Chai.'}],
+   fill:{q:'A ferry ride across Victoria Harbour costs just a few {0} .',a:[['dollars']]}}
+ ]
+},
+P6:{
+ heads:[
+  {words:[{w:'extinct (adj.)',zh:'絕種的'},{w:'pollution (n.)',zh:'污染'},{w:'recycle (v.)',zh:'回收'},{w:'survive (v.)',zh:'生存'},{w:'habitat (n.)',zh:'棲息地'},{w:'release (v.)',zh:'排放／釋放'},{w:'wildlife (n.)',zh:'野生動物'},{w:'protect (v.)',zh:'保護'}],
+   fills:[{s:'We should {0} plastic bottles instead of throwing them away.',a:['recycle']},{s:'Many animals cannot {0} when their forests are cut down.',a:['survive']},{s:'Factories must not {0} dirty water into the sea.',a:['release']},{s:'The panda’s natural {0} is disappearing because of farming.',a:['habitat']},{s:'Air {0} in big cities makes many children ill.',a:['pollution']}]},
+  {words:[{w:'astronaut (n.)',zh:'太空人'},{w:'orbit (v.)',zh:'繞軌道運行'},{w:'launch (v.)',zh:'發射'},{w:'gravity (n.)',zh:'地心吸力'},{w:'explore (v.)',zh:'探索'},{w:'satellite (n.)',zh:'衛星'},{w:'float (v.)',zh:'漂浮'},{w:'universe (n.)',zh:'宇宙'}],
+   fills:[{s:'China {0} its newest space station module last year.',a:['launched']},{s:'The moon {0} around the Earth about once a month.',a:['orbits']},{s:'Without gravity, astronauts {0} inside the spacecraft.',a:['float']},{s:'Scientists use giant telescopes to {0} deep space.',a:['explore']},{s:'A weather {0} takes photos of clouds from space.',a:['satellite']}]}
+ ],
+ A:[
+  {bank1:['dry','brave','busy','free','smooth','bright'],bank2:['a desert','a lion','a bee','a bird','silk','the stars'],items:[
+   {s:'After the long dry summer, the cracked ground looked as {0} as {1} .',a:['dry','a desert']},
+   {s:'The knight drew his sword and faced the dragon, as {0} as {1} .',a:['brave','a lion']},
+   {s:'Mum cleaned the whole house and cooked dinner; she was as {0} as {1} .',a:['busy','a bee']},
+   {s:'With no homework for the whole weekend, Tom felt as {0} as {1} .',a:['free','a bird']},
+   {s:'The cat’s fur was as {0} as {1} after Grandpa brushed it.',a:['smooth','silk']},
+   {s:'On a clear night, the moon was as {0} as {1} .',a:['bright','the stars']}]},
+  {bank1:['cold','quiet','light','sharp','playful','white'],bank2:['ice','a library','a feather','a knife','a kitten','snow'],items:[
+   {s:'The water in the swimming pool felt as {0} as {1} in winter.',a:['cold','ice']},
+   {s:'Please be as {0} as {1} — everyone is reading.',a:['quiet','a library']},
+   {s:'Pick up the empty box; it is as {0} as {1} .',a:['light','a feather']},
+   {s:'Be careful — the kitchen scissors are as {0} as {1} .',a:['sharp','a knife']},
+   {s:'The new puppy was as {0} as {1} , chasing its tail all day long.',a:['playful','a kitten']},
+   {s:'The whole field was as {0} as {1} after the heavy snowfall.',a:['white','snow']}]}
+ ],
+ B:[
+  {bank:['a piece of cake','under the weather','break the ice','hit the books','on cloud nine','a cold fish'],items:[
+   {s:'The maths test was {0} for Kitty because she had practised every day.',a:['a piece of cake','piece of cake']},
+   {s:'Peter felt {0} , so he stayed at home from school with a fever.',a:['under the weather']},
+   {s:'To {0} at the new student’s welcome party, we played a name game first.',a:['break the ice']},
+   {s:'With the final exam tomorrow, John must {0} tonight.',a:['hit the books']},
+   {s:'After winning the inter-school championship, the whole team was {0} .',a:['on cloud nine']},
+   {s:'Ben rarely talks and never smiles at parties, so everyone calls him {0} .',a:['a cold fish','cold fish']}]},
+  {bank:['pull someone’s leg','in hot water','add fuel to the fire','the last straw','keep an eye on','make a mountain out of a molehill'],items:[
+   {s:'Do not be angry about the joke — Tom was only {0} .',a:['pulling your leg','pulling my leg']},
+   {s:'Sam was {0} after he broke his neighbour’s window with a football.',a:['in hot water']},
+   {s:'Arguing about whose fault it was only {0} .',a:['added fuel to the fire']},
+   {s:'Losing my homework on the bus was {0} — I had already been late that morning.',a:['the last straw']},
+   {s:'Please {0} my plants while I am away for the holiday.',a:['keep an eye on']},
+   {s:'It is only a small scratch — do not {0} !',a:['make a mountain out of a molehill']}]}
+ ],
+ C:[
+  {s:'Hannah Wong (e.g.) is (be) a promising swimmer at her school. She (1) {0} (take) up swimming when she was only six years old. Last year, she (2) {1} (break) two school records and (3) {2} (be) named Best Athlete of the year. Since then, she (4) {3} (train) at the municipal pool every morning before school. Her coach says she (5) {4} (swim) faster than anyone he has ever seen. Next month, Hannah (6) {5} (compete) in the All-Hong Kong Youth Games. “I (7) {6} (never feel) so excited,” she said yesterday. “Winning is important, but I (8) {7} (enjoy) every race.” Unfortunately, she (9) {8} (hurt) her shoulder last week, but the doctor says she (10) {9} (be) fine by the weekend.',
+   a:[['took'],['broke'],['was'],['has trained'],['swims'],['will compete'],['have never felt','’ve never felt','ve never felt'],['enjoy'],['hurt'],['will be']]},
+  {s:'Uncle Lam (e.g.) runs (run) a small bakery in Sham Shui Po. Every morning he (1) {0} (get) up at four o’clock to prepare the dough. His pineapple buns (2) {1} (be) so popular that they (3) {2} (sell) out before noon every day. Ten years ago, he (4) {3} (borrow) money from his family to open the shop. Business (5) {4} (be) terrible in the first year, and he nearly (6) {5} (give) up. “My neighbours (7) {6} (support) me since day one,” he told our reporter. “Sometimes they (8) {7} (queue) for thirty minutes just for a fresh bun!” Last month, Uncle Lam (9) {8} (open) a second branch in Kowloon City. He says he (10) {9} (teach) young bakers for free in the future.',
+   a:[['gets'],['are'],['sell'],['borrowed'],['was'],['gave'],['have supported'],['queue'],['opened'],['will teach']]}
+ ],
+ D:[
+  {bank:['chef','pilot','dentist','journalist','firefighter'],lines:[
+   {who:'Polly',s:'I love aeroplanes and I want to fly to cities all over the world. I want to be a (1) {0} .',a:['pilot']},
+   {who:'Kelly',s:'I am good at writing and I enjoy finding out the truth for other people. I want to be a (2) {0} .',a:['journalist']},
+   {who:'Amy',s:'Saving people from burning buildings looks dangerous but brave. I want to be a (3) {0} .',a:['firefighter']},
+   {who:'Samuel',s:'I spend every weekend trying new recipes for my family. I want to be a (4) {0} .',a:['chef']},
+   {who:'Nathan',s:'I do not like sweets, but I care a lot about healthy teeth. I want to be a (5) {0} .',a:['dentist']}]},
+  {bank:['vet','architect','engineer','dancer','tour guide'],lines:[
+   {who:'Polly',s:'I love animals and I want to take care of sick pets. I want to be a (1) {0} .',a:['vet']},
+   {who:'Kelly',s:'I enjoy drawing buildings and designing dream houses. I want to be an (2) {0} .',a:['architect']},
+   {who:'Amy',s:'I am interested in bridges and machines, and I am good at maths. I want to be an (3) {0} .',a:['engineer']},
+   {who:'Samuel',s:'I have danced ballet since I was four years old. I want to be a (4) {0} .',a:['dancer']},
+   {who:'Nathan',s:'I love history and I enjoy showing visitors around old temples. I want to be a (5) {0} .',a:['tour guide']}]}
+ ],
+ E:[
+  {bank:['many birds fly to warmer places','we should drink more water','the match will be cancelled','the roads are very slippery'],items:[
+   {lead:'Since the temperature drops quickly in autumn,',a:['many birds fly to warmer places']},
+   {lead:'Since it is very hot in summer,',a:['we should drink more water']},
+   {lead:'Since a black rainstorm warning is in force,',a:['the match will be cancelled']},
+   {lead:'Since ice covers the streets after the storm,',a:['the roads are very slippery']}]},
+  {bank:['people should stay indoors','crops cannot grow','the air is fresher','there may be bacteria'],items:[
+   {lead:'Since there is a serious drought in the fields,',a:['crops cannot grow']},
+   {lead:'Since the air pollution index is very high today,',a:['people should stay indoors']},
+   {lead:'Since tall trees give out oxygen in the park nearby,',a:['the air is fresher']},
+   {lead:'Since the water in the tank is dirty and full of germs,',a:['there may be bacteria']}]}
+ ],
+ F:[
+  {bank:['set off','get on','put up','come across','look after','put out','give up'],s:'Ken and his classmates went camping last Friday. They (e.g.) set off at nine in the morning and (1) {0} the minibus at Sai Kung. At the campsite, they (2) {1} the tents and cooked lunch together. While exploring, Ken (3) {2} a wounded bird, so the teacher told them to (4) {3} it carefully until a vet arrived. When a small fire started at the next site, the wardens quickly (5) {4} it with sand and water.',a:[['got on'],['put up'],['came across'],['look after'],['put out']]},
+  {bank:['put on','turn on','look for','run out of','pick up','take off'],s:'It was the night before the school concert. Amy laid out her costume on the bed, ready to (e.g.) put on in the morning. Suddenly the lights went out! She used her phone to (1) {0} the torch and (2) {1} her missing shoe under the bed. She began to (3) {2} time, so her brother helped her (4) {3} everything and pack the bag quickly. Only when she reached school in the rain did she (5) {4} her wet raincoat.',a:[['turn on'],['looked for','look for'],['run out of'],['pick up'],['take off']]}
+ ],
+ G:[
+  {bank:['very few','very little','enough','either…or','neither…nor'],lines:[
+   {who:'Mum',s:'Ruby, you can have (1) {0} fried noodles (2) {1} dumplings for dinner tonight.'},
+   {who:'Ruby',s:'But there is (3) {2} fried noodles (4) {3} dumplings left in the fridge, Mum.'},
+   {who:'Mum',s:'Hurry then! There are only (5) {4} eggs and (6) {5} rice, so I will make soup too.'}],
+   a:[['either'],['or'],['neither'],['nor'],['very few'],['very little']]},
+  {bank:['both…and','either…or','very few','very little','enough'],lines:[
+   {who:'Librarian',s:'You can borrow (1) {0} this storybook (2) {1} that comic, but not both.'},
+   {who:'Ben',s:'Great! Can I (3) {2} borrow books (4) {3} read magazines here?'},
+   {who:'Librarian',s:'Sure. But there are only (5) {4} seats left at noon, and there is (6) {5} space in the reading corner.'}],
+   a:[['either'],['or'],['both'],['and'],['very few'],['very little']]}
+ ],
+ H:[
+  {title:'Bees at Risk',
+   s:'Honeybees are small but very important insects. They carry pollen from flower to flower as they search for food. Without bees, many plants cannot produce fruit or seeds, so farmers would not be able to grow much of our food.<br>In recent years, beekeepers around the world have reported that large numbers of bees are disappearing. Scientists believe there are several reasons. Some pesticides used on farms are poisonous to bees. In addition, as cities grow bigger, the fields and wildflowers that bees need are disappearing.<br>You can help the bees in simple ways. Plant flowers on your balcony, put out a small dish of water with pebbles for tired bees to rest on, and never spray pesticides in your garden.',
+   mc:[{q:'Why are honeybees so important?',opts:['They make sweet honey for people.','They carry pollen so plants can produce fruit and seeds.','They eat harmful insects on farms.','They produce pesticides for farmers.'],a:1},
+       {q:'Which of the following is NOT a reason why bees are disappearing?',opts:['Poisonous pesticides on farms.','Cities are growing bigger.','There are fewer wildflowers.','Beekeepers are selling honey.'],a:3}],
+   open:[{q:'Why should we put out a small dish of water with pebbles?',keys:['tired bees','rest'],model:'So that tired bees can rest on the pebbles.'},
+         {q:'According to scientists, name TWO reasons why bees are disappearing.',keys:['pesticide','cities'],model:'Because some pesticides are poisonous to bees and cities are growing bigger.'}],
+   fill:{q:'Honeybees carry {0} from flower to flower as they search for food.',a:[['pollen']]}},
+  {title:'A Bridge Across the Sea',
+   s:'The Hong Kong-Zhuhai-Macao Bridge is the longest sea crossing in the world. It stretches for about 55 kilometres and connects the three cities across the Pearl River Delta. The bridge opened to traffic in October 2018 after nine years of construction.<br>Before the bridge was built, travellers had to take a long detour around the delta or cross by ferry. Now a journey between Hong Kong and Zhuhai takes only about 45 minutes by bus.<br>The bridge was designed to last for 120 years. Engineers had to consider strong typhoons and even the impact of ships, so the crossing includes special tunnels and artificial islands.',
+   mc:[{q:'How long is the Hong Kong-Zhuhai-Macao Bridge?',opts:['About 45 kilometres','About 55 kilometres','About 120 kilometres','About 9 kilometres'],a:1},
+       {q:'How long did the construction of the bridge take?',opts:['About 45 years','About 55 years','About 9 years','About 120 years'],a:2}],
+   open:[{q:'How did travellers cross the delta before the bridge was built?',keys:['detour','ferry'],model:'They had to take a long detour around the delta or cross by ferry.'},
+         {q:'Why did engineers include tunnels and artificial islands?',keys:['typhoon','ships'],model:'Because engineers had to consider strong typhoons and the impact of ships.'}],
+   fill:{q:'A journey between Hong Kong and Zhuhai now takes only about {0} minutes by bus.',a:[['45']]}
+  }
+ ]
+}};
+
+// ---- v1.24 呈分試卷引擎（渲染 / 批改 / 打印） ----
+function exPick(a){return a[Math.floor(Math.random()*a.length)];}
+function exInp(id){return '<input class="ex-inp" id="'+id+'" autocomplete="off" spellcheck="false">';}
+function exTxt(s,pre){return s.replace(/\{(\d+)\}/g,function(m,n){return exInp(pre+'_'+n);});}
+function exNorm(s){return (s||'').toLowerCase().replace(/[’']/g,'’').replace(/[，、。！？,.!?:;；()（）"'’]/g,'').replace(/\s+/g,' ').trim();}
+function exBankTable(rows){return '<table class="ex-bank">'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</table>';}
+function genExamPaper(){
+  const B=EXAM_QBANK[curExamGrade];
+  curExamPaper={head:exPick(B.heads),A:exPick(B.A),B:exPick(B.B),C:exPick(B.C),D:exPick(B.D),E:exPick(B.E),F:exPick(B.F),G:exPick(B.G),H:exPick(B.H)};
+  renderExamPaper(); showExamStat();
+}
+function exSecHtml(id,title,body){return '<div class="ex-sec" id="exSec'+id+'"><p class="ex-q"><b>'+title+'</b></p>'+body+'</div>';}
+function renderExamPaper(){
+  const p=curExamPaper;
+  let h='<div class="ex-head"><span class="ex-code">'+curExamGrade+' ENGLISH · 呈分試模擬卷</span><span class="ex-nd">NAME: ____________　DATE: ____________</span></div>';
+  h+='<p class="ex-lead"><b>LEARN and MASTER new words.</b></p><table class="ex-vocab">';
+  for(let r=0;r<2;r++){h+='<tr>';for(let c=0;c<4;c++){const w=p.head.words[r*4+c];h+='<td><b>'+w.w+'</b><br><span class="ex-zh">'+w.zh+'</span></td>';}h+='</tr>';}
+  h+='</table>';
+  h+='<div class="ex-sec" id="exSecWU"><p class="ex-q"><b>Fill in the blanks with the correct form of the words.</b> <span class="ex-warm">（Warm-up · 不計分）</span></p>';
+  p.head.fills.forEach((f,i)=>{h+='<p class="ex-it">('+(i+1)+') '+exTxt(f.s,'ex_wu_'+i)+'</p>';});
+  h+='</div>';
+  let ba=exBankTable([p.A.bank1,p.A.bank2])+'<ol class="ex-ol">';
+  p.A.items.forEach((it,i)=>{ba+='<li>'+exTxt(it.s,'ex_A_'+i)+'</li>';});ba+='</ol>';
+  h+=exSecHtml('A','(A) Fill in the blanks with the correct similes. (12%@2%)',ba);
+  let bb=exBankTable([p.B.bank])+'<ol class="ex-ol">';
+  p.B.items.forEach((it,i)=>{bb+='<li>'+exTxt(it.s,'ex_B_'+i)+'</li>';});bb+='</ol>';
+  h+=exSecHtml('B','(B) Fill in the blanks with the correct idioms. You may need to change the verb form. (12%@2%)',bb);
+  h+=exSecHtml('C','(C) Complete the passage with the correct form of the verbs in brackets. (20%@2%)','<p class="ex-pass">'+exTxt(p.C.s,'ex_C')+'</p>');
+  let bd=exBankTable([p.D.bank]);
+  p.D.lines.forEach((l,i)=>{bd+='<p class="ex-it"><b>'+l.who+'</b>：'+exTxt(l.s,'ex_D_'+i)+'</p>';});
+  h+=exSecHtml('D','(D) Finish the conversation with the correct names of the jobs. (10%@2%)',bd);
+  let be=exBankTable([p.E.bank]);
+  p.E.items.forEach((it,i)=>{be+='<p class="ex-it">'+it.lead+' '+exInp('ex_E_'+i)+' .</p>';});
+  h+=exSecHtml('E','(E) Finish the sentences with the correct expressions from the table. (12%@3%)',be);
+  h+=exSecHtml('F','(F) Complete the passage with the correct phrasal verbs. You may need to change the verb form. (10%@2%)',exBankTable([p.F.bank])+'<p class="ex-pass">'+exTxt(p.F.s,'ex_F')+'</p>');
+  let bg=exBankTable([p.G.bank]);let gi=0;
+  p.G.lines.forEach(l=>{bg+='<p class="ex-it"><b>'+l.who+'</b>：'+l.s.replace(/\{(\d+)\}/g,function(){return exInp('ex_G_'+(gi++));})+'</p>';});
+  h+=exSecHtml('G','(G) Complete the conversation with the words given. You may use each word ONCE. (12%@2%)',bg);
+  let bh='<div class="ex-pass"><b>'+p.H.title+'</b><br>'+p.H.s+'</div>';
+  p.H.mc.forEach((m,i)=>{bh+='<p class="ex-it">('+(i+1)+') '+m.q+'</p><div class="ex-mc">';
+    m.opts.forEach((o,j)=>{bh+='<label class="ex-opt"><input type="radio" name="ex_H_mc'+i+'" value="'+j+'"> '+o+'</label>';});
+    bh+='</div>';});
+  p.H.open.forEach((o,i)=>{bh+='<p class="ex-it">('+(i+3)+') '+o.q+'</p><textarea class="ex-open" id="ex_H_open'+i+'" rows="2"></textarea>';});
+  bh+='<p class="ex-it">(5) '+exTxt(p.H.fill.q,'ex_H_fill')+'</p>';
+  h+=exSecHtml('H','(H) Read the article and answer the questions. (12%：MC 3%×2，其餘 2%)',bh);
+  document.getElementById('examPaperBox').innerHTML=h;
+  document.getElementById('examPaperResult').innerHTML='';
+}
+function gradeExamPaper(){
+  if(!curExamPaper){genExamPaper();return;}
+  let got=0,total=0,wrongs=[];
+  function markFill(id,accs,w,label){
+    total+=w;
+    const el=document.getElementById(id);const v=el?el.value:'';
+    const okv=accs.some(a=>exNorm(v)===exNorm(a));
+    if(okv)got+=w;else wrongs.push({label:label,ans:accs[0]});
+    if(el){el.classList.add(okv?'ex-ok':'ex-bad');el.disabled=true;}
+  }
+  for(let i=0;i<5;i++){const el=document.getElementById('ex_wu_'+i+'_0');if(el)el.disabled=true;}
+  curExamPaper.A.items.forEach((it,i)=>{
+    total+=2;
+    const e0=document.getElementById('ex_A_'+i+'_0'),e1=document.getElementById('ex_A_'+i+'_1');
+    const okv=exNorm(e0?e0.value:'')===exNorm(it.a[0])&&exNorm(e1?e1.value:'')===exNorm(it.a[1]);
+    if(okv)got+=2;else wrongs.push({label:'A('+(i+1)+')',ans:it.a[0]+' / '+it.a[1]});
+    [e0,e1].forEach(function(el){if(el){el.disabled=true;el.classList.add(okv?'ex-ok':'ex-bad');}});
+  });
+  curExamPaper.B.items.forEach((it,i)=>{markFill('ex_B_'+i+'_0',it.a,2,'B('+(i+1)+')');});
+  curExamPaper.C.a.forEach((accs,i)=>{markFill('ex_C_'+i,accs,2,'C('+(i+1)+')');});
+  curExamPaper.D.lines.forEach((l,i)=>{markFill('ex_D_'+i+'_0',l.a,2,'D('+(i+1)+')');});
+  curExamPaper.E.items.forEach((it,i)=>{markFill('ex_E_'+i,Array.isArray(it.a)?it.a:[it.a],3,'E('+(i+1)+')');});
+  curExamPaper.F.a.forEach((accs,i)=>{markFill('ex_F_'+i,accs,2,'F('+(i+1)+')');});
+  curExamPaper.G.a.forEach((accs,i)=>{markFill('ex_G_'+i,accs,2,'G('+(i+1)+')');});
+  curExamPaper.H.mc.forEach((m,i)=>{
+    total+=3;
+    const sel=document.querySelector('input[name="ex_H_mc'+i+'"]:checked');
+    const okv=!!sel&&parseInt(sel.value,10)===m.a;
+    if(okv)got+=3;else wrongs.push({label:'H 選擇('+(i+1)+')',ans:m.opts[m.a]});
+  });
+  curExamPaper.H.open.forEach((o,i)=>{
+    total+=2;
+    const el=document.getElementById('ex_H_open'+i);const v=el?el.value.toLowerCase():'';
+    const okv=o.keys.every(k=>v.indexOf(k.toLowerCase())>-1);
+    if(okv)got+=2;else wrongs.push({label:'H 回答('+(i+3)+')',ans:o.model,model:true});
+    if(el){el.disabled=true;el.classList.add(okv?'ex-ok':'ex-bad');}
+  });
+  {const accs=curExamPaper.H.fill.a.flat();const el=document.getElementById('ex_H_fill_0');const v=el?el.value:'';
+   const okv=accs.some(a=>exNorm(v)===exNorm(a));
+   total+=2;if(okv)got+=2;else wrongs.push({label:'H (5)',ans:accs[0]});
+   if(el){el.disabled=true;el.classList.add(okv?'ex-ok':'ex-bad');}}
+  const key='hkk_exampaper_v0';let rec={};
+  try{rec=JSON.parse(localStorage.getItem(key)||'{}');}catch(e){}
+  if(!rec[curExamGrade]||got>rec[curExamGrade]){rec[curExamGrade]=got;localStorage.setItem(key,JSON.stringify(rec));}
+  let rh='<div class="ex-result"><b>SCORE: '+got+' / '+total+'</b>';
+  if(wrongs.length){rh+='<ol class="ex-wrongs">'+wrongs.map(w=>'<li>'+w.label+' → '+w.ans+'</li>').join('')+'</ol>';}
+  else rh+='<p>全對！繼續保持！</p>';
+  rh+='<p class="ex-tip">開放題按要點批改（意思對即可）；再練一套按「🎲 出新卷」。</p></div>';
+  document.getElementById('examPaperResult').innerHTML=rh;
+  showExamStat();
+}
+function showExamStat(){
+  let rec={};try{rec=JSON.parse(localStorage.getItem('hkk_exampaper_v0')||'{}');}catch(e){}
+  const b=rec[curExamGrade];
+  const el=document.getElementById('examStat');if(el)el.textContent='本級最佳：'+(b!=null?(b+' / 100'):'—');
+}
+function printExamPaper(){
+  if(!curExamPaper)genExamPaper();
+  const p=curExamPaper,ans=document.getElementById('examPrintAns').checked;
+  const blanks=function(s){return s.replace(/\{(\d+)\}/g,'__________');};
+  let h='<div class="ex-head"><span class="ex-code">'+curExamGrade+' ENGLISH · 呈分試模擬卷</span><span class="ex-nd">NAME: ____________　DATE: ____________</span></div>';
+  h+='<p class="ex-lead"><b>LEARN and MASTER new words.</b></p><table class="ex-vocab">';
+  for(let r=0;r<2;r++){h+='<tr>';for(let c=0;c<4;c++){const w=p.head.words[r*4+c];h+='<td><b>'+w.w+'</b><br><span class="ex-zh">'+w.zh+'</span></td>';}h+='</tr>';}
+  h+='</table>';
+  h+='<div class="ex-sec"><p class="ex-q"><b>Fill in the blanks with the correct form of the words.</b></p>';
+  p.head.fills.forEach((f,i)=>{h+='<p class="ex-it">('+(i+1)+') '+blanks(f.s)+'</p>';});h+='</div>';
+  h+='<div class="ex-sec"><p class="ex-q"><b>(A) Fill in the blanks with the correct similes. (12%@2%)</b></p>'+exBankTable([p.A.bank1,p.A.bank2])+'<ol class="ex-ol">';
+  p.A.items.forEach(it=>{h+='<li>'+blanks(it.s)+'</li>';});h+='</ol></div>';
+  h+='<div class="ex-sec"><p class="ex-q"><b>(B) Fill in the blanks with the correct idioms. You may need to change the verb form. (12%@2%)</b></p>'+exBankTable([p.B.bank])+'<ol class="ex-ol">';
+  p.B.items.forEach(it=>{h+='<li>'+blanks(it.s)+'</li>';});h+='</ol></div>';
+  h+='<div class="ex-sec"><p class="ex-q"><b>(C) Complete the passage with the correct form of the verbs in brackets. (20%@2%)</b></p><p class="ex-pass">'+blanks(p.C.s)+'</p></div>';
+  h+='<div class="ex-sec"><p class="ex-q"><b>(D) Finish the conversation with the correct names of the jobs. (10%@2%)</b></p>'+exBankTable([p.D.bank]);
+  p.D.lines.forEach(l=>{h+='<p class="ex-it"><b>'+l.who+'</b>：'+blanks(l.s)+'</p>';});h+='</div>';
+  h+='<div class="ex-sec"><p class="ex-q"><b>(E) Finish the sentences with the correct expressions from the table. (12%@3%)</b></p>'+exBankTable([p.E.bank]);
+  p.E.items.forEach(it=>{h+='<p class="ex-it">'+it.lead+' __________ .</p>';});h+='</div>';
+  h+='<div class="ex-sec"><p class="ex-q"><b>(F) Complete the passage with the correct phrasal verbs. You may need to change the verb form. (10%@2%)</b></p>'+exBankTable([p.F.bank])+'<p class="ex-pass">'+blanks(p.F.s)+'</p></div>';
+  h+='<div class="ex-sec"><p class="ex-q"><b>(G) Complete the conversation with the words given. You may use each word ONCE. (12%@2%)</b></p>'+exBankTable([p.G.bank]);
+  p.G.lines.forEach(l=>{h+='<p class="ex-it"><b>'+l.who+'</b>：'+blanks(l.s)+'</p>';});h+='</div>';
+  h+='<div class="ex-sec"><p class="ex-q"><b>(H) Read the article and answer the questions. (12%)</b></p><div class="ex-pass"><b>'+p.H.title+'</b><br>'+p.H.s+'</div>';
+  p.H.mc.forEach((m,i)=>{h+='<p class="ex-it">('+(i+1)+') '+m.q+'　'+m.opts.join('　')+'</p>';});
+  p.H.open.forEach((o,i)=>{h+='<p class="ex-it">('+(i+3)+') '+o.q+'</p><p class="ex-lines">________________________________________________________________</p>';});
+  h+='<p class="ex-it">(5) '+blanks(p.H.fill.q)+'</p></div>';
+  if(ans){
+    h+='<div class="ex-anspage"><p class="ex-lead"><b>答案版 Answers</b></p><p class="ex-ans"><b>Warm-up：</b>'+p.head.fills.map(f=>f.a[0]).join('；')+'</p>';
+    h+='<p class="ex-ans"><b>(A)：</b>'+p.A.items.map((it,i)=>'('+(i+1)+') '+it.a[0]+' / '+it.a[1]).join('；')+'</p>';
+    h+='<p class="ex-ans"><b>(B)：</b>'+p.B.items.map((it,i)=>'('+(i+1)+') '+it.a[0]).join('；')+'</p>';
+    h+='<p class="ex-ans"><b>(C)：</b>'+p.C.a.map((a,i)=>'('+(i+1)+') '+a[0]).join('；')+'</p>';
+    h+='<p class="ex-ans"><b>(D)：</b>'+p.D.lines.map((l,i)=>'('+(i+1)+') '+l.a[0]).join('；')+'</p>';
+    h+='<p class="ex-ans"><b>(E)：</b>'+p.E.items.map((it,i)=>'('+(i+1)+') '+it.a).join('；')+'</p>';
+    h+='<p class="ex-ans"><b>(F)：</b>'+p.F.a.map((a,i)=>'('+(i+1)+') '+a[0]).join('；')+'</p>';
+    h+='<p class="ex-ans"><b>(G)：</b>'+p.G.a.map((a,i)=>'('+(i+1)+') '+a[0]).join('；')+'</p>';
+    h+='<p class="ex-ans"><b>(H)：</b>(1) '+p.H.mc[0].opts[p.H.mc[0].a]+'；(2) '+p.H.mc[1].opts[p.H.mc[1].a]+'；(3) '+p.H.open[0].model+'；(4) '+p.H.open[1].model+'；(5) '+p.H.fill.a[0][0]+'</p></div>';
+  }
+  document.getElementById('examPrintSheet').innerHTML=h;
+  if(!window._examPrintBound){window._examPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
+  document.body.classList.add('printing-paper');
+  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+}
+document.querySelectorAll('#examChips .chip').forEach(c=>c.onclick=()=>{
+  curExamGrade=c.dataset.pg;
+  document.querySelectorAll('#examChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  genExamPaper();
+});
+
 document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
   document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
@@ -2145,7 +2561,8 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
   document.getElementById('ivView').style.display = es==='iv'?'block':'none';
   document.getElementById('paperView').style.display = es==='paper'?'block':'none';
   document.getElementById('goalView').style.display = es==='goal'?'block':'none';
-  if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper' && !curEnPaper.length) genEnPaper();
+  document.getElementById('examView').style.display = es==='exam'?'block':'none';
+  if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
 });
 document.querySelectorAll('#mathPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
@@ -2393,7 +2810,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.23',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.24',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

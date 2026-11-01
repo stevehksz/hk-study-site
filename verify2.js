@@ -284,6 +284,28 @@ const _ms = doc.getElementById('mathSearch'); _ms.value=''; _ms.dispatchEvent(ne
 doc.querySelector('#mathPracSub button[data-es="mterms"]').click();
 ok('切回中↔英術語表後 mathBody 仍有行', doc.querySelectorAll('#mathBody tr').length > 100);
 
+console.log('--- v1.24 呈分試卷（練習→英文→呈分試卷） ---');
+doc.querySelector('nav button[data-tab="practice"]').click();
+doc.querySelector('#practiceSub button[data-sub="en"]').click();
+doc.querySelector('#enPracSub button[data-es="exam"]').click();
+ok('examView 顯示', doc.getElementById('examView').style.display === 'block');
+ok('呈分試卷年級 chips=2', doc.querySelectorAll('#examChips .chip').length === 2);
+ok('P6 默認自動出卷含八大題', doc.querySelectorAll('#examPaperBox .ex-sec').length >= 8);
+ok('生詞表 8 詞(4×2)', doc.querySelectorAll('#examPaperBox .ex-vocab td').length === 8);
+ok('填空輸入 ≥ 50', doc.querySelectorAll('#examPaperBox .ex-inp').length >= 50);
+ok('H 部分 MC 2題(8個radio)', doc.querySelectorAll('#examPaperBox .ex-mc input[type=radio]').length === 8);
+ok('H 部分開放題 textarea 2', doc.querySelectorAll('#examPaperBox .ex-open').length === 2);
+doc.getElementById('examSubmit').click();
+ok('交卷顯示 SCORE', doc.getElementById('examPaperResult').textContent.includes('SCORE'));
+ok('呈分試卷本級最佳寫入 localStorage(P6)', JSON.parse(window.localStorage.getItem('hkk_exampaper_v0') || '{}')['P6'] !== undefined);
+doc.querySelector('#examChips .chip[data-pg="P5"]').click();
+ok('切 P5 重新出卷', doc.getElementById('examPaperBox').textContent.includes('P5'));
+doc.querySelector('#enPracSub button[data-es="paper"]').click();
+doc.querySelector('#enPracSub button[data-es="exam"]').click();
+ok('子標籤來回切換 examView 狀態正常', doc.getElementById('examView').style.display === 'block' && doc.getElementById('paperView').style.display === 'none');
+ok('呈分試卷打印容器存在', !!doc.getElementById('examPrintSheet'));
+ok('題庫常量 EXAM_QBANK 且含 P5/P6', /const EXAM_QBANK=\{[\s\S]*P5:\{[\s\S]*P6:\{/.test(html));
+
 console.log('--- 诗词默写填空 + 朗读（练习→中文） ---');
 doc.querySelector('nav button[data-tab="practice"]').click();
 doc.querySelector('#practiceSub button[data-sub="cn"]').click();
