@@ -398,7 +398,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
 <body>
 <header>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.27（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.28（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan">升學規劃</button>
@@ -834,6 +834,7 @@ Thank you for your time.</div>
         <button class="btn" id="examNewPaper" onclick="genExamPaper()">🎲 出新卷</button>
         <button class="btn" id="examAiBtn" onclick="exAiPaper()">🤖 AI 出新卷</button>
         <button class="btn" id="examSubmit" onclick="gradeExamPaper()">✅ 交卷批改</button>
+        <button class="btn" id="examTenBtn" onclick="genTenExamPapers()">📋 一次出 10 套</button>
         <button class="btn" id="examPrintBtn" onclick="printExamPaper()">🖨 打印一套卷子</button>
         <label class="print-ans-toggle"><input type="checkbox" id="examPrintAns"> 含答案版</label>
         <span class="enpaper-stat" id="examStat">本級最佳：—</span>
@@ -37420,11 +37421,9 @@ function showExamStat(){
   const b=rec[curExamGrade];
   const el=document.getElementById('examStat');if(el)el.textContent='本級最佳：'+(b!=null?(b+' / 100'):'—');
 }
-function printExamPaper(){
-  if(!curExamPaper)genExamPaper();
-  const p=curExamPaper,ans=document.getElementById('examPrintAns').checked;
+function examPrintHtml(p,ans,examNo){
   const blanks=function(s){return s.replace(/\{(\d+)\}/g,'__________');};
-  let h='<div class="ex-head"><span class="ex-code">'+curExamGrade+' ENGLISH · 呈分試模擬卷'+(p.src==='ai'?' · 🤖 AI 生成（請家長把關）':'')+'</span><span class="ex-nd">NAME: ____________　DATE: ____________</span></div>';
+  let h='<div class="ex-head"><span class="ex-code">'+curExamGrade+' ENGLISH · 呈分試模擬卷'+(examNo?(' · 第 '+examNo+' 套'):'')+(p.src==='ai'?' · 🤖 AI 生成（請家長把關）':'')+'</span><span class="ex-nd">NAME: ____________　DATE: ____________</span></div>';
   h+='<p class="ex-lead"><b>LEARN and MASTER new words.</b></p><table class="ex-vocab">';
   for(let r=0;r<2;r++){h+='<tr>';for(let c=0;c<4;c++){const w=p.head.words[r*4+c];h+='<td><b>'+w.w+'</b><br><span class="ex-zh">'+w.zh+'</span></td>';}h+='</tr>';}
   h+='</table>';
@@ -37465,6 +37464,41 @@ function printExamPaper(){
     h+='<p class="ex-ans"><b>(I)：</b>(1) '+p.I.mc[0].opts[p.I.mc[0].a]+'；(2) '+p.I.mc[1].opts[p.I.mc[1].a]+'；(3) '+p.I.mc[2].opts[p.I.mc[2].a]+'；(4) '+p.I.mc[3].opts[p.I.mc[3].a]+'；(5) '+p.I.open[0].model+'；(6) '+p.I.open[1].model+'</p>';
     h+='<p class="ex-ans"><b>(J)：</b>'+p.J.items.map((it,i)=>'('+(i+1)+') '+(Array.isArray(it.a)?it.a[0]:it.a)).join('；')+'</p></div>';
   }
+  return h;
+}
+function printExamPaper(){
+  if(!curExamPaper)genExamPaper();
+  const ans=document.getElementById('examPrintAns').checked;
+  document.getElementById('examPrintSheet').innerHTML=examPrintHtml(curExamPaper,ans);
+  if(!window._examPrintBound){window._examPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
+  document.body.classList.add('printing-paper');
+  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+}
+// ---- v1.28 一次出 10 套（去重組卷 + 目錄卡 + 整冊打印） ----
+function genTenExamPapers(){
+  const B=EXAM_QBANK[curExamGrade];
+  const seen={},list=[];
+  for(let tries=0;tries<200&&list.length<10;tries++){
+    const p={head:exPick(B.heads),A:exPick(B.A),B:exPick(B.B),C:exPick(B.C),D:exPick(B.D),E:exPick(B.E),F:exPick(B.F),G:exPick(B.G),H:exPick(B.H),I:exPick(B.I),J:exPick(B.J)};
+    const sig=JSON.stringify(p);
+    if(seen[sig])continue;
+    seen[sig]=1;list.push(p);
+  }
+  window._tenPapers=list;
+  let h='<div class="ex-sec" id="exTenBox"><p class="ex-q"><b>📋 已生成 '+list.length+' 套互不相同的'+curExamGrade+' 呈分試模擬卷</b>（當前屏幕上的作答卷不受影響）</p><table class="ex-bank"><tr><th>套號</th><th>閱讀理解 (H)</th><th>海報閱讀 (I)</th><th>時態篇章 (C) 開頭</th></tr>';
+  list.forEach((p,i)=>{
+    h+='<tr><td><b>第 '+(i+1)+' 套</b></td><td>'+p.H.title+'</td><td>'+p.I.title+'</td><td>'+p.C.s.slice(0,38)+'…</td></tr>';
+  });
+  h+='</table><p class="ex-it">勾選「含答案版」後按下方按鈕，10 套卷一次打印（每套獨立分頁，答案頁跟在各自卷後）。</p>';
+  h+='<p class="ex-it"><button class="btn" id="examTenPrintBtn" onclick="printTenExamPapers()">🖨 打印這 '+list.length+' 套卷子</button></p></div>';
+  document.getElementById('examPaperBox').insertAdjacentHTML('beforeend',h);
+}
+function printTenExamPapers(){
+  const list=window._tenPapers||[];
+  if(!list.length){ alert('請先按「📋 一次出 10 套」。'); return; }
+  const ans=document.getElementById('examPrintAns').checked;
+  let h='';
+  list.forEach((p,i)=>{ if(i)h+='<div style="page-break-before:always"></div>'; h+=examPrintHtml(p,ans,i+1); });
   document.getElementById('examPrintSheet').innerHTML=h;
   if(!window._examPrintBound){window._examPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
   document.body.classList.add('printing-paper');
@@ -37795,7 +37829,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.27',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.28',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

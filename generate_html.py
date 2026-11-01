@@ -6,7 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
-v1.27：呈分試卷按第二批樣張補內容＋AI 出新卷——①題型補齊：新增 (I) 海報閱讀（公告海報＋MC 4×1%＋開放回答 2%×2，P5 校遊/舊書義賣、P6 慈善遊園會/沙灘清潔，仿樣張 I 版式）與 (J) since/therefore 填空（10×1%，各級 2 套，仿樣張 M）；樣張 K 電影職業（scriptwriter/film director/costume designer/extra/stuntman/set designer）與 L 習語（black sheep/green light/see red/egg on face/once in a blue moon/a slip of the tongue）、J 明喻詞庫分別併入 (D)(B)(A) 題庫（各加第 3 套）。②分值重排仍滿 100：A12+B12+C10(10×1%)+D10+E12+F10+G6(6×1%)+H10(MC 2%×2)+I8+J10。③「🤖 AI 出新卷」：復用英文卷的 OpenAI 兼容設置(hkk_ai_cfg)，大模型按 10 段 schema 生成整卷，結構校驗（exValidate：段數/題數/J 答案僅 since|therefore）通過才替換當前卷，卷頭標「AI 生成（請家長把關）」，失敗提示回退本地「🎲 出新卷」。④打印含 I/J 段與答案頁，AI 卷打印同步標注；verify2.js 更新 radio/textarea/段數斷言＋P5/P6 閉環滿分(SCORE 100/100)斷言。v1.25：繁體字庫分級擴充——簡→繁對照改為 FT_GRADES 分 P1–P6（自編分級：按簡體常用度＋繁體書寫複雜度遞增，頁面標注非教育局官方分級），字庫由 146 對擴至約 250 對，一簡對多繁字加注記（里/發/歷/復/鬆/隻/幾/盡等）；繁體對照視圖加年級 chips（全部/P1–P6）＋字數統計，搜尋在選中年級內生效。同版修復：.gsec margin 覆蓋 .wrap 居中致寬屏內容貼左（margin 12px 0 → 12px auto）。v1.24：練習→英文新增「呈分試卷」（P5–P6·仿版式原創題）——版式仿坊間呈分試模擬卷：生詞表8詞＋Warm-up詞形填空(不計分)＋(A)明喻12%＋(B)習語12%＋(C)時態篇章20%＋(D)職業對話10%＋(E)情境造句12%＋(F)短語動詞10%＋(G)量詞連詞12%＋(H)閱讀理解12%＝100%；每級2套分段題庫隨機組卷（2⁸組合），交卷自動批改（填空歸一化比對、開放題按要點關鍵詞、MC自動判分），記錄本級最佳(localStorage hkk_exampaper_v0)，打印含答案版；題目全部原創仿編，非任何機構真卷。verify2.js 加呈分試卷斷言。v1.23：全站免費——移除 v1.21 授權碼月付（英文卷／數學卷直接開放，無需激活；刪除鎖定面板、校驗 JS 與頁面注入密鑰；gen_license.py 保留在倉庫但不再被構建引用，後續如需收費可再啟）。免費為主的定位：題庫持續更新靠自願支持。verify2.js 改寫授權碼斷言為「免費直開」斷言（無鎖定面板／直出題卡）。v1.22：擇校分檔接入 schooland×教育局交叉勘誤——風采＝資助（EDB收費證明書免學費堂費$340，非直資）、官津英中僅6所（心誠直資英中、馬錦燦雙語部分英文、其餘中中）、茂峰＝元朗天水圍非北區、康樂/李興貴＝大埔接收北區跨境生；新增北區中學一覽20所（可篩選英中/官立/直資，含英文名/宗教/性別/地址）、升中攻略外鏈精選（EDB/中學概覽/schooland，正文版權屬原站）。verify2.js 加勘誤/篩選/外鏈斷言。v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
+v1.28：呈分試卷「一次出 10 套」——「📋 一次出 10 套」按鈕一鍵隨機組卷 10 套並簽名去重（組合空間每級約 10,368 種，屏幕出目錄卡列出各套閱讀/海報篇章與時態開頭，不影響當前作答卷）；「🖨 打印這 10 套」把 10 套整冊打印（每套獨立分頁 page-break，卷頭標「第 N 套」，勾含答案版時答案頁跟在各自卷後）。打印函數重構：卷體構造抽出 examPrintHtml(p,ans,examNo) 供單套/十套共用。verify2.js 加 10 套生成與打印內容斷言。v1.27：呈分試卷按第二批樣張補內容＋AI 出新卷——①題型補齊：新增 (I) 海報閱讀（公告海報＋MC 4×1%＋開放回答 2%×2，P5 校遊/舊書義賣、P6 慈善遊園會/沙灘清潔，仿樣張 I 版式）與 (J) since/therefore 填空（10×1%，各級 2 套，仿樣張 M）；樣張 K 電影職業（scriptwriter/film director/costume designer/extra/stuntman/set designer）與 L 習語（black sheep/green light/see red/egg on face/once in a blue moon/a slip of the tongue）、J 明喻詞庫分別併入 (D)(B)(A) 題庫（各加第 3 套）。②分值重排仍滿 100：A12+B12+C10(10×1%)+D10+E12+F10+G6(6×1%)+H10(MC 2%×2)+I8+J10。③「🤖 AI 出新卷」：復用英文卷的 OpenAI 兼容設置(hkk_ai_cfg)，大模型按 10 段 schema 生成整卷，結構校驗（exValidate：段數/題數/J 答案僅 since|therefore）通過才替換當前卷，卷頭標「AI 生成（請家長把關）」，失敗提示回退本地「🎲 出新卷」。④打印含 I/J 段與答案頁，AI 卷打印同步標注；verify2.js 更新 radio/textarea/段數斷言＋P5/P6 閉環滿分(SCORE 100/100)斷言。v1.25：繁體字庫分級擴充——簡→繁對照改為 FT_GRADES 分 P1–P6（自編分級：按簡體常用度＋繁體書寫複雜度遞增，頁面標注非教育局官方分級），字庫由 146 對擴至約 250 對，一簡對多繁字加注記（里/發/歷/復/鬆/隻/幾/盡等）；繁體對照視圖加年級 chips（全部/P1–P6）＋字數統計，搜尋在選中年級內生效。同版修復：.gsec margin 覆蓋 .wrap 居中致寬屏內容貼左（margin 12px 0 → 12px auto）。v1.24：練習→英文新增「呈分試卷」（P5–P6·仿版式原創題）——版式仿坊間呈分試模擬卷：生詞表8詞＋Warm-up詞形填空(不計分)＋(A)明喻12%＋(B)習語12%＋(C)時態篇章20%＋(D)職業對話10%＋(E)情境造句12%＋(F)短語動詞10%＋(G)量詞連詞12%＋(H)閱讀理解12%＝100%；每級2套分段題庫隨機組卷（2⁸組合），交卷自動批改（填空歸一化比對、開放題按要點關鍵詞、MC自動判分），記錄本級最佳(localStorage hkk_exampaper_v0)，打印含答案版；題目全部原創仿編，非任何機構真卷。verify2.js 加呈分試卷斷言。v1.23：全站免費——移除 v1.21 授權碼月付（英文卷／數學卷直接開放，無需激活；刪除鎖定面板、校驗 JS 與頁面注入密鑰；gen_license.py 保留在倉庫但不再被構建引用，後續如需收費可再啟）。免費為主的定位：題庫持續更新靠自願支持。verify2.js 改寫授權碼斷言為「免費直開」斷言（無鎖定面板／直出題卡）。v1.22：擇校分檔接入 schooland×教育局交叉勘誤——風采＝資助（EDB收費證明書免學費堂費$340，非直資）、官津英中僅6所（心誠直資英中、馬錦燦雙語部分英文、其餘中中）、茂峰＝元朗天水圍非北區、康樂/李興貴＝大埔接收北區跨境生；新增北區中學一覽20所（可篩選英中/官立/直資，含英文名/宗教/性別/地址）、升中攻略外鏈精選（EDB/中學概覽/schooland，正文版權屬原站）。verify2.js 加勘誤/篩選/外鏈斷言。v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
 v1.14：練習→英文新增第 5 入口「詞彙路線圖」(goalView)——①站內現有詞量統計(港小335＋B1 1465＝1800，诗词185首另計，標注入門奠基包非全量)；②一年級→中六累計詞量目標表(P1 500–800…P6 2500–3000…S6 6000–8000／衝L5 10000+，坊間基準＋來源＋EDB不公布官方詞單聲明)；③本家庭落點(2027/28 插班中一，P6→S1 銜接路線)；④背詞方法(語境閱讀／主動被動詞彙／間隔重複／聽讀／遊戲化打卡／詞根聯想，標來源性質)。enPracSub 增第5按鈕與顯隱；verify2.js 加 3 項斷言(goalView 按鈕/點擊顯示/含「1,800」與「中六」與「2,500–3,000」)。
 v1.13：英文卷打印升級「一次性打印一套卷子」——①空卷時按「打印一套卷子」自動先出一套再印，無須先按「出新卷」；②卷頭增「共 N 題／總分」；③勾「含答案版」時答案獨立成頁（題卷＋答案卷＝完整一套，答案卷 page-break-before 獨立分頁）；按鈕改名「🖨 打印一套卷子」。verify2.js 加 3 項斷言（空卷自動出卷／題卷含總分／含答案版答案卷獨立成頁）。
 v1.12：升中面試模塊重做——依 2026 香港升中面試公開資料大幅擴充（4 大面試形式＋10 大題型佔比表＋英文自我介紹黃金4步＋互動練習卡＋小組討論 DO/DON'T＋分類題庫＋P5→P6 時間線＋2026 名校題例＋弱項自評＋資料來源）；新增自我介紹填空練習與錄音自測按鈕；verify2.js 加 6 項斷言。
@@ -430,7 +430,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
 <body>
 <header>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.27（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.28（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan">升學規劃</button>
@@ -866,6 +866,7 @@ Thank you for your time.</div>
         <button class="btn" id="examNewPaper" onclick="genExamPaper()">🎲 出新卷</button>
         <button class="btn" id="examAiBtn" onclick="exAiPaper()">🤖 AI 出新卷</button>
         <button class="btn" id="examSubmit" onclick="gradeExamPaper()">✅ 交卷批改</button>
+        <button class="btn" id="examTenBtn" onclick="genTenExamPapers()">📋 一次出 10 套</button>
         <button class="btn" id="examPrintBtn" onclick="printExamPaper()">🖨 打印一套卷子</button>
         <label class="print-ans-toggle"><input type="checkbox" id="examPrintAns"> 含答案版</label>
         <span class="enpaper-stat" id="examStat">本級最佳：—</span>
@@ -2656,11 +2657,9 @@ function showExamStat(){
   const b=rec[curExamGrade];
   const el=document.getElementById('examStat');if(el)el.textContent='本級最佳：'+(b!=null?(b+' / 100'):'—');
 }
-function printExamPaper(){
-  if(!curExamPaper)genExamPaper();
-  const p=curExamPaper,ans=document.getElementById('examPrintAns').checked;
+function examPrintHtml(p,ans,examNo){
   const blanks=function(s){return s.replace(/\{(\d+)\}/g,'__________');};
-  let h='<div class="ex-head"><span class="ex-code">'+curExamGrade+' ENGLISH · 呈分試模擬卷'+(p.src==='ai'?' · 🤖 AI 生成（請家長把關）':'')+'</span><span class="ex-nd">NAME: ____________　DATE: ____________</span></div>';
+  let h='<div class="ex-head"><span class="ex-code">'+curExamGrade+' ENGLISH · 呈分試模擬卷'+(examNo?(' · 第 '+examNo+' 套'):'')+(p.src==='ai'?' · 🤖 AI 生成（請家長把關）':'')+'</span><span class="ex-nd">NAME: ____________　DATE: ____________</span></div>';
   h+='<p class="ex-lead"><b>LEARN and MASTER new words.</b></p><table class="ex-vocab">';
   for(let r=0;r<2;r++){h+='<tr>';for(let c=0;c<4;c++){const w=p.head.words[r*4+c];h+='<td><b>'+w.w+'</b><br><span class="ex-zh">'+w.zh+'</span></td>';}h+='</tr>';}
   h+='</table>';
@@ -2701,6 +2700,41 @@ function printExamPaper(){
     h+='<p class="ex-ans"><b>(I)：</b>(1) '+p.I.mc[0].opts[p.I.mc[0].a]+'；(2) '+p.I.mc[1].opts[p.I.mc[1].a]+'；(3) '+p.I.mc[2].opts[p.I.mc[2].a]+'；(4) '+p.I.mc[3].opts[p.I.mc[3].a]+'；(5) '+p.I.open[0].model+'；(6) '+p.I.open[1].model+'</p>';
     h+='<p class="ex-ans"><b>(J)：</b>'+p.J.items.map((it,i)=>'('+(i+1)+') '+(Array.isArray(it.a)?it.a[0]:it.a)).join('；')+'</p></div>';
   }
+  return h;
+}
+function printExamPaper(){
+  if(!curExamPaper)genExamPaper();
+  const ans=document.getElementById('examPrintAns').checked;
+  document.getElementById('examPrintSheet').innerHTML=examPrintHtml(curExamPaper,ans);
+  if(!window._examPrintBound){window._examPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
+  document.body.classList.add('printing-paper');
+  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+}
+// ---- v1.28 一次出 10 套（去重組卷 + 目錄卡 + 整冊打印） ----
+function genTenExamPapers(){
+  const B=EXAM_QBANK[curExamGrade];
+  const seen={},list=[];
+  for(let tries=0;tries<200&&list.length<10;tries++){
+    const p={head:exPick(B.heads),A:exPick(B.A),B:exPick(B.B),C:exPick(B.C),D:exPick(B.D),E:exPick(B.E),F:exPick(B.F),G:exPick(B.G),H:exPick(B.H),I:exPick(B.I),J:exPick(B.J)};
+    const sig=JSON.stringify(p);
+    if(seen[sig])continue;
+    seen[sig]=1;list.push(p);
+  }
+  window._tenPapers=list;
+  let h='<div class="ex-sec" id="exTenBox"><p class="ex-q"><b>📋 已生成 '+list.length+' 套互不相同的'+curExamGrade+' 呈分試模擬卷</b>（當前屏幕上的作答卷不受影響）</p><table class="ex-bank"><tr><th>套號</th><th>閱讀理解 (H)</th><th>海報閱讀 (I)</th><th>時態篇章 (C) 開頭</th></tr>';
+  list.forEach((p,i)=>{
+    h+='<tr><td><b>第 '+(i+1)+' 套</b></td><td>'+p.H.title+'</td><td>'+p.I.title+'</td><td>'+p.C.s.slice(0,38)+'…</td></tr>';
+  });
+  h+='</table><p class="ex-it">勾選「含答案版」後按下方按鈕，10 套卷一次打印（每套獨立分頁，答案頁跟在各自卷後）。</p>';
+  h+='<p class="ex-it"><button class="btn" id="examTenPrintBtn" onclick="printTenExamPapers()">🖨 打印這 '+list.length+' 套卷子</button></p></div>';
+  document.getElementById('examPaperBox').insertAdjacentHTML('beforeend',h);
+}
+function printTenExamPapers(){
+  const list=window._tenPapers||[];
+  if(!list.length){ alert('請先按「📋 一次出 10 套」。'); return; }
+  const ans=document.getElementById('examPrintAns').checked;
+  let h='';
+  list.forEach((p,i)=>{ if(i)h+='<div style="page-break-before:always"></div>'; h+=examPrintHtml(p,ans,i+1); });
   document.getElementById('examPrintSheet').innerHTML=h;
   if(!window._examPrintBound){window._examPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
   document.body.classList.add('printing-paper');
@@ -3031,7 +3065,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.27',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.28',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

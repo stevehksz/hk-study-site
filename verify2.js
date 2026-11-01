@@ -355,6 +355,17 @@ doc.querySelector('#enPracSub button[data-es="paper"]').click();
 doc.querySelector('#enPracSub button[data-es="exam"]').click();
 ok('子標籤來回切換 examView 狀態正常', doc.getElementById('examView').style.display === 'block' && doc.getElementById('paperView').style.display === 'none');
 ok('呈分試卷打印容器存在', !!doc.getElementById('examPrintSheet'));
+ok('v1.28 一次出10套按鈕存在', !!doc.getElementById('examTenBtn'));
+doc.getElementById('examTenBtn').click();
+const tenRows=doc.querySelectorAll('#exTenBox .ex-bank tr').length-1;
+ok('v1.28 生成10套去重目錄卡', tenRows===10 && doc.getElementById('exTenBox').textContent.includes('互不相同'));
+const tenPapers=window.eval('window._tenPapers||[]');
+ok('v1.28 10套卷簽名互不相同', tenPapers.length===10 && new Set(tenPapers.map(p=>JSON.stringify(p))).size===10);
+doc.getElementById('examTenPrintBtn').click();
+const tenHtml=doc.getElementById('examPrintSheet').innerHTML;
+ok('v1.28 打印頁含10個套號卷頭', (tenHtml.match(/第 \d+ 套/g)||[]).length===10);
+ok('v1.28 每套獨立分頁(9個分頁符)', (tenHtml.match(/page-break-before/g)||[]).length>=9);
+doc.getElementById('examPrintSheet').innerHTML='';
 ok('題庫常量 EXAM_QBANK 且含 P5/P6', /const EXAM_QBANK=\{[\s\S]*P5:\{[\s\S]*P6:\{/.test(html));
 
 console.log('--- 诗词默写填空 + 朗读（练习→中文） ---');
