@@ -5,7 +5,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
   練習＝中文(古詩詞) / 英文(港小生字＋詞表) / 數學(中↔英術語表·點擊打卡)
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
-v1.22：擇校分檔接入 schooland×教育局交叉勘誤——風采＝資助（EDB收費證明書免學費堂費$340，非直資）、官津英中僅6所（心誠直資英中、馬錦燦雙語部分英文、其餘中中）、茂峰＝元朗天水圍非北區、康樂/李興貴＝大埔接收北區跨境生；新增北區中學一覽20所（可篩選英中/官立/直資，含英文名/宗教/性別/地址）、升中攻略外鏈精選（EDB/中學概覽/schooland，正文版權屬原站）。verify2.js 加勘誤/篩選/外鏈斷言。v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
+v1.23：全站免費——移除 v1.21 授權碼月付（英文卷／數學卷直接開放，無需激活；刪除鎖定面板、校驗 JS 與頁面注入密鑰；gen_license.py 保留在倉庫但不再被構建引用，後續如需收費可再啟）。免費為主的定位：題庫持續更新靠自願支持。verify2.js 改寫授權碼斷言為「免費直開」斷言（無鎖定面板／直出題卡）。v1.22：擇校分檔接入 schooland×教育局交叉勘誤——風采＝資助（EDB收費證明書免學費堂費$340，非直資）、官津英中僅6所（心誠直資英中、馬錦燦雙語部分英文、其餘中中）、茂峰＝元朗天水圍非北區、康樂/李興貴＝大埔接收北區跨境生；新增北區中學一覽20所（可篩選英中/官立/直資，含英文名/宗教/性別/地址）、升中攻略外鏈精選（EDB/中學概覽/schooland，正文版權屬原站）。verify2.js 加勘誤/篩選/外鏈斷言。v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
 v1.14：練習→英文新增第 5 入口「詞彙路線圖」(goalView)——①站內現有詞量統計(港小335＋B1 1465＝1800，诗词185首另計，標注入門奠基包非全量)；②一年級→中六累計詞量目標表(P1 500–800…P6 2500–3000…S6 6000–8000／衝L5 10000+，坊間基準＋來源＋EDB不公布官方詞單聲明)；③本家庭落點(2027/28 插班中一，P6→S1 銜接路線)；④背詞方法(語境閱讀／主動被動詞彙／間隔重複／聽讀／遊戲化打卡／詞根聯想，標來源性質)。enPracSub 增第5按鈕與顯隱；verify2.js 加 3 項斷言(goalView 按鈕/點擊顯示/含「1,800」與「中六」與「2,500–3,000」)。
 v1.13：英文卷打印升級「一次性打印一套卷子」——①空卷時按「打印一套卷子」自動先出一套再印，無須先按「出新卷」；②卷頭增「共 N 題／總分」；③勾「含答案版」時答案獨立成頁（題卷＋答案卷＝完整一套，答案卷 page-break-before 獨立分頁）；按鈕改名「🖨 打印一套卷子」。verify2.js 加 3 項斷言（空卷自動出卷／題卷含總分／含答案版答案卷獨立成頁）。
 v1.12：升中面試模塊重做——依 2026 香港升中面試公開資料大幅擴充（4 大面試形式＋10 大題型佔比表＋英文自我介紹黃金4步＋互動練習卡＋小組討論 DO/DON'T＋分類題庫＋P5→P6 時間線＋2026 名校題例＋弱項自評＋資料來源）；新增自我介紹填空練習與錄音自測按鈕；verify2.js 加 6 項斷言。
@@ -28,13 +28,6 @@ WS = os.path.dirname(os.path.abspath(__file__))
 DATA = open(os.path.join(WS, 'build_data.json'), encoding='utf-8').read()
 # 防止 </script> 注入破坏（极端安全）
 DATA = DATA.replace('</', '<\\/')
-# 授權碼密鑰（v1.21）：與 gen_license.py 共用；無文件則首次自動生成
-LIC_SECRET_PATH = os.path.join(WS, 'license_secret.txt')
-if not os.path.exists(LIC_SECRET_PATH):
-    import secrets as _secrets
-    open(LIC_SECRET_PATH, 'w').write(_secrets.token_hex(16))
-    print('已生成新的授權碼密鑰 license_secret.txt（舊激活碼將全部失效，請注意）')
-LIC_SECRET = open(LIC_SECRET_PATH).read().strip()
 
 TEMPLATE = r'''<!DOCTYPE html>
 <html lang="zh-Hant">
@@ -402,20 +395,12 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .en-print .qzh{font-size:12px;color:#555;margin:2px 0 6px}
   .hk-actions button{font-size:12px;line-height:1;padding:5px 11px;border:1px solid var(--accent,#4f46e5);background:#fff;color:var(--accent,#4f46e5);border-radius:14px;cursor:pointer;transition:.15s}
   .hk-actions button:hover{background:var(--accent,#4f46e5);color:#fff}
-/* ---- v1.21 授權碼鎖定面板 ---- */
-.lic-lock{display:none;padding:4px 2px}
-#paperView.locked>*:not(.lic-lock),#mathPaperView.locked>*:not(.lic-lock){display:none!important}
-#paperView.locked .lic-lock,#mathPaperView.locked .lic-lock{display:block}
-.lic-row{display:flex;gap:8px;margin:10px 0 6px;flex-wrap:wrap}
-.lic-input{flex:1;min-width:220px;padding:9px 12px;border:1.5px solid var(--acc,#4f46e5);border-radius:10px;font-size:14px}
-.lic-msg{color:#c0392b;font-size:13px;min-height:18px}
-.lic-tip{font-size:12px;color:var(--mut,#8a8aa0)}
 </style>
 </head>
 <body>
 <header>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.22</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.23（全站免費）</p>
 </header>
 <nav>
   <button data-tab="guide" class="on">速覽指南</button>
@@ -783,7 +768,6 @@ Thank you for your time.</div>
       </div>
     </div>
     <div class="wrap gsec" id="paperView" style="display:none">
-      <div class="lic-lock" id="licLockEn"></div>
       <div class="gtitle">英文卷 · 智能練習卷（本地隨機出題 · 分 P1–P6 · 可 AI 換題）</div>
       <span class="folk">基礎題庫為本地規則生成（非外部 AI）；可於下方「⚙ AI 設置」接入大模型現場換題（需自填接口與密鑰，僅存本瀏覽器）。題目為小學英文常見題型，年級歸屬為常見教學進度估算，以學校課本為準</span>
       <div class="pg-chips" id="pgChips">
@@ -802,7 +786,6 @@ Thank you for your time.</div>
         <button class="btn" id="enPrint" onclick="printEnPaper()">🖨 打印一套卷子</button>
         <label class="print-ans-toggle"><input type="checkbox" id="enPrintAns"> 含答案版</label>
         <span class="enpaper-stat" id="enStat">本級最佳：—</span>
-        <span class="enpaper-stat" id="licStatusEn"></span>
       </div>
       <div id="enPaperBox"></div>
       <div id="enPaperResult"></div>
@@ -857,7 +840,6 @@ Thank you for your time.</div>
       </table>
     </div>
     <div class="wrap gsec" id="mathPaperView" style="display:none">
-      <div class="lic-lock" id="licLockMath"></div>
       <div class="gtitle">數學卷 · 智能練習卷（雙語對照 · 分 P1–P6）</div>
       <span class="folk">基礎題庫為本地仿編原創題（非評估局／學校真卷）；題目採「英文題幹＋中文對照」，對應香港英中數學以英文出題的實況；年級難度為常見教學進度估算，以學校課本為準。</span>
       <div class="pg-chips" id="mpgChips">
@@ -874,7 +856,6 @@ Thank you for your time.</div>
         <button class="btn" id="mathPrintBtn" onclick="printMathPaper()">🖨 打印一套卷子</button>
         <label class="print-ans-toggle"><input type="checkbox" id="mathPrintAns"> 含答案版</label>
         <span class="enpaper-stat" id="mathStat">本級最佳：—</span>
-        <span class="enpaper-stat" id="licStatusMath"></span>
       </div>
       <div id="mathPaperBox"></div>
       <div id="mathPaperResult"></div>
@@ -1509,7 +1490,6 @@ const MATH_QBANK = {
 let curMathGrade='P1', curMathPaper=[], _mathPrintBound=false;
 function prepMcMath(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);const opts=sh.map(i=>q.opts[i]);const optszh=sh.map(i=>q.optszh[i]);return Object.assign({},q,{opts:opts,optszh:optszh,a:sh.indexOf(q.a)});}
 function genMathPaper(){
-  if(!licActive()){showLicLock('licLockMath','math');return;}
   const pool=(MATH_QBANK[curMathGrade]||[]);
   if(!pool.length){alert('該年級題庫暫空。');return;}
   const picked=shuffle(pool).slice(0,Math.min(8,pool.length));
@@ -1570,7 +1550,6 @@ function showMathStat(){
   document.getElementById('mathStat').textContent='本級最佳：'+(v!==undefined?v+'%':'—');
 }
 function printMathPaper(){
-  if(!licActive()){showLicLock('licLockMath','math');return;}
   if(!curMathPaper.length) genMathPaper();
   if(!curMathPaper.length){ alert('題庫暫時無法出卷。'); return; }
   const withAns=document.getElementById('mathPrintAns').checked;
@@ -1613,7 +1592,6 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function prepMc(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);const opts=sh.map(i=>q.opts[i]);return Object.assign({},q,{opts:opts,a:sh.indexOf(q.a)});}
 function prepRead(q){return Object.assign({},q,{qs:q.qs.map(prepMc)});}
 function genEnPaper(){
-  if(!licActive()){showLicLock('licLockEn','en');return;}
   let picked;
   if(curEnGrade==='ALL'){
     picked=[];
@@ -1716,7 +1694,6 @@ function renderEnGradeTopic(){
 
 let _enPrintBound=false;
 function printEnPaper(){
-  if(!licActive()){showLicLock('licLockEn','en');return;}
   // 一次性打印一套：若尚未出卷，先自動出一套再印，無須先按「出新卷」
   if(!curEnPaper.length){ genEnPaper(); }
   if(!curEnPaper.length){ alert('題庫暫時無法出卷，請稍後再試。'); return; }
@@ -2160,100 +2137,6 @@ document.querySelectorAll('#planSub button').forEach(b=>b.onclick=()=>{
   ['timeline','schools','docs','study','policy'].forEach(s=>document.getElementById(s+'View').style.display = s===curPlan?'block':'none');
 });
 // 英文練習內部分類切換（港小生字 / 詞表）
-// ---- 授權碼（v1.21）：英文卷／數學卷為付費模組，激活碼格式 HKSS-YYYYMMDD-XXXXXXXX ----
-// 防君子級校驗：碼 = HKSS-到期日-SHA256(密鑰|到期日)前8位；密鑰隨頁面分發，讀源碼者可自製碼，月付模式的真正護城河是持續更新
-const LIC_SECRET='__LIC_SECRET__';
-function sha256(ascii){
-  function rightRotate(v,a){return (v>>>a)|(v<<(32-a));}
-  var maxWord=Math.pow(2,32),result='',words=[],asciiBitLength=ascii.length*8,i,j;
-  var hash=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[],primeCounter=k.length,isComposite={};
-  for(var candidate=2;primeCounter<64;candidate++){
-    if(!isComposite[candidate]){
-      for(i=0;i<313;i+=candidate)isComposite[i]=candidate;
-      hash[primeCounter]=(Math.pow(candidate,.5)*maxWord)|0;
-      k[primeCounter++]=(Math.pow(candidate,1/3)*maxWord)|0;
-    }
-  }
-  ascii+='\x80';
-  while(ascii.length%64-56)ascii+='\x00';
-  for(i=0;i<ascii.length;i++){
-    j=ascii.charCodeAt(i);
-    if(j>>8)return;
-    words[i>>2]|=j<<((3-i)%4)*8;
-  }
-  words[words.length]=(asciiBitLength/maxWord)|0;
-  words[words.length]=asciiBitLength;
-  for(j=0;j<words.length;){
-    var w=words.slice(j,j+=16),oldHash=hash;
-    hash=hash.slice(0,8);
-    for(i=0;i<64;i++){
-      var w15=w[i-15],w2=w[i-2],a=hash[0],e=hash[4];
-      var temp1=hash[7]+(rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]
-        +(w[i]=(i<16)?w[i]:(w[i-16]+(rightRotate(w15,7)^rightRotate(w15,18)^(w15>>>3))+w[i-7]+(rightRotate(w2,17)^rightRotate(w2,19)^(w2>>>10)))|0);
-      var temp2=(rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
-      hash=[(temp1+temp2)|0].concat(hash);
-      hash[4]=(hash[4]+temp1)|0;
-    }
-    for(i=0;i<8;i++)hash[i]=(hash[i]+oldHash[i])|0;
-  }
-  for(i=0;i<8;i++)for(j=3;j+1;j--){var b=(hash[i]>>(j*8))&255;result+=((b<16)?0:'')+b.toString(16);}
-  return result;
-}
-function licMac(exp){return sha256(LIC_SECRET+'|'+exp).slice(0,8).toUpperCase();}
-function licToday(){const t=new Date();return ''+t.getFullYear()+String(t.getMonth()+1).padStart(2,'0')+String(t.getDate()).padStart(2,'0');}
-function licJudge(code){
-  const m=/^HKSS-(\d{8})-([0-9A-Fa-f]{8})$/.exec((code||'').trim());
-  if(!m)return 'invalid';
-  if(m[1]<licToday())return 'expired';
-  return licMac(m[1])===m[2].toUpperCase()?'ok':'invalid';
-}
-function licActive(){
-  return licJudge(localStorage.getItem('hkk_lic')||'')==='ok';
-}
-function licLockHtml(kind){
-  return '<div class="gtitle">🔒 付費內容 · 智能練習卷</div>'
-    +'<p>英文卷／數學卷為<strong>按月訂閱</strong>模組，輸入激活碼解鎖；其餘模組（術語表／港小生字／詞表／古詩詞／進度）免費開放。</p>'
-    +'<div class="lic-row"><input class="lic-input" placeholder="輸入激活碼，如 HKSS-20261231-1A2B3C4D"><button class="btn lic-btn" data-kind="'+kind+'">激活</button></div>'
-    +'<div class="lic-msg"></div>'
-    +'<p class="lic-tip">訂閱或獲取激活碼請聯絡葉工：hkeec2023@gmail.com（激活碼按月發放，到期後輸入新碼續期）</p>';
-}
-function showLicLock(id,kind){
-  const p=document.getElementById(id);if(!p)return;
-  p.innerHTML=licLockHtml(kind);
-  document.getElementById(kind==='en'?'paperView':'mathPaperView').classList.add('locked');
-}
-function hideLicLock(kind){
-  document.getElementById(kind==='en'?'paperView':'mathPaperView').classList.remove('locked');
-}
-function licTry(kind){
-  const panel=document.getElementById(kind==='en'?'licLockEn':'licLockMath');
-  const input=panel.querySelector('.lic-input'),msg=panel.querySelector('.lic-msg');
-  const code=(input.value||'').trim();
-  const judge=licJudge(code);
-  if(judge==='ok'){
-    localStorage.setItem('hkk_lic',code.toUpperCase());
-    hideLicLock(kind);updateLicStatus();
-    if(kind==='en'){if(!curEnPaper.length)genEnPaper();}else{if(!curMathPaper.length)genMathPaper();}
-  }else{
-    msg.textContent=judge==='expired'?'此激活碼已過期，請續購後輸入新碼。':'激活碼無效，請核對後重試（格式 HKSS-YYYYMMDD-XXXXXXXX）。';
-  }
-}
-function updateLicStatus(){
-  const m=/^HKSS-(\d{8})-/.exec((localStorage.getItem('hkk_lic')||'').trim());
-  const txt=(licActive()&&m)?('已激活至 '+m[1].slice(0,4)+'-'+m[1].slice(4,6)+'-'+m[1].slice(6,8)):'未激活';
-  ['licStatusEn','licStatusMath'].forEach(function(id){const el=document.getElementById(id);if(el)el.textContent=txt;});
-}
-updateLicStatus();
-// 事件委託：激活按鈕與輸入框回車（面板 HTML 動態生成，委託到 document 免重綁）
-document.addEventListener('click',function(e){
-  const b=e.target&&e.target.closest?e.target.closest('.lic-btn'):null;
-  if(b)licTry(b.dataset.kind);
-});
-document.addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&e.target&&e.target.classList&&e.target.classList.contains('lic-input')){
-    const btn=e.target.parentElement.querySelector('.lic-btn');if(btn)btn.click();
-  }
-});
 document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
   document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
@@ -2262,14 +2145,14 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
   document.getElementById('ivView').style.display = es==='iv'?'block':'none';
   document.getElementById('paperView').style.display = es==='paper'?'block':'none';
   document.getElementById('goalView').style.display = es==='goal'?'block':'none';
-  if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper'){ if(licActive()){ if(!curEnPaper.length) genEnPaper(); } else showLicLock('licLockEn','en'); }
+  if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper' && !curEnPaper.length) genEnPaper();
 });
 document.querySelectorAll('#mathPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
   document.querySelectorAll('#mathPracSub button').forEach(x=>x.classList.toggle('on',x===b));
   document.getElementById('mTermsView').style.display = es==='mterms'?'block':'none';
   document.getElementById('mathPaperView').style.display = es==='mpaper'?'block':'none';
-  if(es==='mpaper'){ if(licActive()){ if(!curMathPaper.length) genMathPaper(); } else showLicLock('licLockMath','math'); }
+  if(es==='mpaper' && !curMathPaper.length) genMathPaper();
 });
 document.querySelectorAll('#mpgChips .chip').forEach(c=>c.onclick=()=>{
   curMathGrade=c.dataset.pg;
@@ -2510,7 +2393,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.22',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.23',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -2563,7 +2446,7 @@ bumpStreak();renderMoti();renderBadges();
 </script>
 </body>
 </html>'''
-html = TEMPLATE.replace('__DATA__', DATA).replace('__LIC_SECRET__', LIC_SECRET)
+html = TEMPLATE.replace('__DATA__', DATA)
 # 版本號從副標題單一真相源提取（公開版 vX.Y），輸出帶版本號文件名
 _m = re.search(r'公開版\s+(v\d+\.\d+)', TEMPLATE)
 VER = _m.group(1) if _m else 'v1.15'

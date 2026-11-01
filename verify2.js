@@ -165,29 +165,13 @@ const ftSearch = doc.getElementById('ftSearch'); ftSearch.value = '国'; ftSearc
 const ftRows = doc.querySelectorAll('#ftList .ftrow');
 ok('搜「国」過濾出國→國(' + ftRows.length + ')', ftRows.length === 1 && ftRows[0].textContent.includes('國'));
 
-console.log('--- v1.21 授權碼鎖定（付費模組=英文卷/數學卷） ---');
-const crypto = require('crypto');
-const LIC_SECRET_TEST = fs.readFileSync('license_secret.txt','utf8').trim();
-function licMacTest(exp){ return crypto.createHash('sha256').update(LIC_SECRET_TEST+'|'+exp).digest('hex').slice(0,8).toUpperCase(); }
+console.log('--- v1.23 全站免費：英文卷/數學卷直開 ---');
 doc.querySelector('nav button[data-tab="practice"]').click();
 doc.querySelector('#practiceSub button[data-sub="en"]').click();
 doc.querySelector('#enPracSub button[data-es="paper"]').click();
-ok('未激活時 paperView 加鎖(locked)', doc.getElementById('paperView').classList.contains('locked'));
-ok('未激活時鎖定面板含激活碼輸入', doc.getElementById('licLockEn').innerHTML.includes('激活碼'));
-ok('未激活時不出題卡', doc.querySelectorAll('#enPaperBox .qcard').length === 0);
-const licInput = doc.querySelector('#licLockEn .lic-input');
-licInput.value = 'HKSS-20991231-DEADBEEF';
-doc.querySelector('#licLockEn .lic-btn').click();
-ok('無效激活碼被拒', doc.querySelector('#licLockEn .lic-msg').textContent.includes('無效'));
-licInput.value = 'HKSS-20200101-' + licMacTest('20200101');
-doc.querySelector('#licLockEn .lic-btn').click();
-ok('過期激活碼被拒', doc.querySelector('#licLockEn .lic-msg').textContent.includes('過期'));
-licInput.value = 'HKSS-20991231-' + licMacTest('20991231');
-doc.querySelector('#licLockEn .lic-btn').click();
-ok('有效激活碼解鎖(移除locked)', !doc.getElementById('paperView').classList.contains('locked'));
-ok('解鎖後自動出題卡', doc.querySelectorAll('#enPaperBox .qcard').length > 0);
-ok('localStorage 寫入 hkk_lic', (window.localStorage.getItem('hkk_lic')||'').startsWith('HKSS-20991231-'));
-ok('操作列顯示已激活至', doc.getElementById('licStatusEn').textContent.includes('已激活至'));
+ok('免費直開：英文卷自動出題卡', doc.querySelectorAll('#enPaperBox .qcard').length > 0);
+ok('無鎖定面板/狀態殘留', !doc.getElementById('licLockEn') && !doc.getElementById('licLockMath') && !doc.getElementById('licStatusEn') && !doc.getElementById('licStatusMath'));
+ok('無授權碼代碼殘留', !doc.documentElement.outerHTML.includes('licActive') && !doc.documentElement.outerHTML.includes('__LIC_SECRET__'));
 
 console.log('--- 练习→英文: 英文卷 ---');
 doc.querySelector('#practiceSub button[data-sub="en"]').click();

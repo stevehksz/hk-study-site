@@ -364,20 +364,12 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .en-print .qzh{font-size:12px;color:#555;margin:2px 0 6px}
   .hk-actions button{font-size:12px;line-height:1;padding:5px 11px;border:1px solid var(--accent,#4f46e5);background:#fff;color:var(--accent,#4f46e5);border-radius:14px;cursor:pointer;transition:.15s}
   .hk-actions button:hover{background:var(--accent,#4f46e5);color:#fff}
-/* ---- v1.21 授權碼鎖定面板 ---- */
-.lic-lock{display:none;padding:4px 2px}
-#paperView.locked>*:not(.lic-lock),#mathPaperView.locked>*:not(.lic-lock){display:none!important}
-#paperView.locked .lic-lock,#mathPaperView.locked .lic-lock{display:block}
-.lic-row{display:flex;gap:8px;margin:10px 0 6px;flex-wrap:wrap}
-.lic-input{flex:1;min-width:220px;padding:9px 12px;border:1.5px solid var(--acc,#4f46e5);border-radius:10px;font-size:14px}
-.lic-msg{color:#c0392b;font-size:13px;min-height:18px}
-.lic-tip{font-size:12px;color:var(--mut,#8a8aa0)}
 </style>
 </head>
 <body>
 <header>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.22</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.23（全站免費）</p>
 </header>
 <nav>
   <button data-tab="guide" class="on">速覽指南</button>
@@ -745,7 +737,6 @@ Thank you for your time.</div>
       </div>
     </div>
     <div class="wrap gsec" id="paperView" style="display:none">
-      <div class="lic-lock" id="licLockEn"></div>
       <div class="gtitle">英文卷 · 智能練習卷（本地隨機出題 · 分 P1–P6 · 可 AI 換題）</div>
       <span class="folk">基礎題庫為本地規則生成（非外部 AI）；可於下方「⚙ AI 設置」接入大模型現場換題（需自填接口與密鑰，僅存本瀏覽器）。題目為小學英文常見題型，年級歸屬為常見教學進度估算，以學校課本為準</span>
       <div class="pg-chips" id="pgChips">
@@ -764,7 +755,6 @@ Thank you for your time.</div>
         <button class="btn" id="enPrint" onclick="printEnPaper()">🖨 打印一套卷子</button>
         <label class="print-ans-toggle"><input type="checkbox" id="enPrintAns"> 含答案版</label>
         <span class="enpaper-stat" id="enStat">本級最佳：—</span>
-        <span class="enpaper-stat" id="licStatusEn"></span>
       </div>
       <div id="enPaperBox"></div>
       <div id="enPaperResult"></div>
@@ -819,7 +809,6 @@ Thank you for your time.</div>
       </table>
     </div>
     <div class="wrap gsec" id="mathPaperView" style="display:none">
-      <div class="lic-lock" id="licLockMath"></div>
       <div class="gtitle">數學卷 · 智能練習卷（雙語對照 · 分 P1–P6）</div>
       <span class="folk">基礎題庫為本地仿編原創題（非評估局／學校真卷）；題目採「英文題幹＋中文對照」，對應香港英中數學以英文出題的實況；年級難度為常見教學進度估算，以學校課本為準。</span>
       <div class="pg-chips" id="mpgChips">
@@ -836,7 +825,6 @@ Thank you for your time.</div>
         <button class="btn" id="mathPrintBtn" onclick="printMathPaper()">🖨 打印一套卷子</button>
         <label class="print-ans-toggle"><input type="checkbox" id="mathPrintAns"> 含答案版</label>
         <span class="enpaper-stat" id="mathStat">本級最佳：—</span>
-        <span class="enpaper-stat" id="licStatusMath"></span>
       </div>
       <div id="mathPaperBox"></div>
       <div id="mathPaperResult"></div>
@@ -36267,7 +36255,6 @@ const MATH_QBANK = {
 let curMathGrade='P1', curMathPaper=[], _mathPrintBound=false;
 function prepMcMath(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);const opts=sh.map(i=>q.opts[i]);const optszh=sh.map(i=>q.optszh[i]);return Object.assign({},q,{opts:opts,optszh:optszh,a:sh.indexOf(q.a)});}
 function genMathPaper(){
-  if(!licActive()){showLicLock('licLockMath','math');return;}
   const pool=(MATH_QBANK[curMathGrade]||[]);
   if(!pool.length){alert('該年級題庫暫空。');return;}
   const picked=shuffle(pool).slice(0,Math.min(8,pool.length));
@@ -36328,7 +36315,6 @@ function showMathStat(){
   document.getElementById('mathStat').textContent='本級最佳：'+(v!==undefined?v+'%':'—');
 }
 function printMathPaper(){
-  if(!licActive()){showLicLock('licLockMath','math');return;}
   if(!curMathPaper.length) genMathPaper();
   if(!curMathPaper.length){ alert('題庫暫時無法出卷。'); return; }
   const withAns=document.getElementById('mathPrintAns').checked;
@@ -36371,7 +36357,6 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function prepMc(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);const opts=sh.map(i=>q.opts[i]);return Object.assign({},q,{opts:opts,a:sh.indexOf(q.a)});}
 function prepRead(q){return Object.assign({},q,{qs:q.qs.map(prepMc)});}
 function genEnPaper(){
-  if(!licActive()){showLicLock('licLockEn','en');return;}
   let picked;
   if(curEnGrade==='ALL'){
     picked=[];
@@ -36474,7 +36459,6 @@ function renderEnGradeTopic(){
 
 let _enPrintBound=false;
 function printEnPaper(){
-  if(!licActive()){showLicLock('licLockEn','en');return;}
   // 一次性打印一套：若尚未出卷，先自動出一套再印，無須先按「出新卷」
   if(!curEnPaper.length){ genEnPaper(); }
   if(!curEnPaper.length){ alert('題庫暫時無法出卷，請稍後再試。'); return; }
@@ -36918,100 +36902,6 @@ document.querySelectorAll('#planSub button').forEach(b=>b.onclick=()=>{
   ['timeline','schools','docs','study','policy'].forEach(s=>document.getElementById(s+'View').style.display = s===curPlan?'block':'none');
 });
 // 英文練習內部分類切換（港小生字 / 詞表）
-// ---- 授權碼（v1.21）：英文卷／數學卷為付費模組，激活碼格式 HKSS-YYYYMMDD-XXXXXXXX ----
-// 防君子級校驗：碼 = HKSS-到期日-SHA256(密鑰|到期日)前8位；密鑰隨頁面分發，讀源碼者可自製碼，月付模式的真正護城河是持續更新
-const LIC_SECRET='5474bb9b90c6540d400ab54149be3645';
-function sha256(ascii){
-  function rightRotate(v,a){return (v>>>a)|(v<<(32-a));}
-  var maxWord=Math.pow(2,32),result='',words=[],asciiBitLength=ascii.length*8,i,j;
-  var hash=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[],primeCounter=k.length,isComposite={};
-  for(var candidate=2;primeCounter<64;candidate++){
-    if(!isComposite[candidate]){
-      for(i=0;i<313;i+=candidate)isComposite[i]=candidate;
-      hash[primeCounter]=(Math.pow(candidate,.5)*maxWord)|0;
-      k[primeCounter++]=(Math.pow(candidate,1/3)*maxWord)|0;
-    }
-  }
-  ascii+='\x80';
-  while(ascii.length%64-56)ascii+='\x00';
-  for(i=0;i<ascii.length;i++){
-    j=ascii.charCodeAt(i);
-    if(j>>8)return;
-    words[i>>2]|=j<<((3-i)%4)*8;
-  }
-  words[words.length]=(asciiBitLength/maxWord)|0;
-  words[words.length]=asciiBitLength;
-  for(j=0;j<words.length;){
-    var w=words.slice(j,j+=16),oldHash=hash;
-    hash=hash.slice(0,8);
-    for(i=0;i<64;i++){
-      var w15=w[i-15],w2=w[i-2],a=hash[0],e=hash[4];
-      var temp1=hash[7]+(rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]
-        +(w[i]=(i<16)?w[i]:(w[i-16]+(rightRotate(w15,7)^rightRotate(w15,18)^(w15>>>3))+w[i-7]+(rightRotate(w2,17)^rightRotate(w2,19)^(w2>>>10)))|0);
-      var temp2=(rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
-      hash=[(temp1+temp2)|0].concat(hash);
-      hash[4]=(hash[4]+temp1)|0;
-    }
-    for(i=0;i<8;i++)hash[i]=(hash[i]+oldHash[i])|0;
-  }
-  for(i=0;i<8;i++)for(j=3;j+1;j--){var b=(hash[i]>>(j*8))&255;result+=((b<16)?0:'')+b.toString(16);}
-  return result;
-}
-function licMac(exp){return sha256(LIC_SECRET+'|'+exp).slice(0,8).toUpperCase();}
-function licToday(){const t=new Date();return ''+t.getFullYear()+String(t.getMonth()+1).padStart(2,'0')+String(t.getDate()).padStart(2,'0');}
-function licJudge(code){
-  const m=/^HKSS-(\d{8})-([0-9A-Fa-f]{8})$/.exec((code||'').trim());
-  if(!m)return 'invalid';
-  if(m[1]<licToday())return 'expired';
-  return licMac(m[1])===m[2].toUpperCase()?'ok':'invalid';
-}
-function licActive(){
-  return licJudge(localStorage.getItem('hkk_lic')||'')==='ok';
-}
-function licLockHtml(kind){
-  return '<div class="gtitle">🔒 付費內容 · 智能練習卷</div>'
-    +'<p>英文卷／數學卷為<strong>按月訂閱</strong>模組，輸入激活碼解鎖；其餘模組（術語表／港小生字／詞表／古詩詞／進度）免費開放。</p>'
-    +'<div class="lic-row"><input class="lic-input" placeholder="輸入激活碼，如 HKSS-20261231-1A2B3C4D"><button class="btn lic-btn" data-kind="'+kind+'">激活</button></div>'
-    +'<div class="lic-msg"></div>'
-    +'<p class="lic-tip">訂閱或獲取激活碼請聯絡葉工：hkeec2023@gmail.com（激活碼按月發放，到期後輸入新碼續期）</p>';
-}
-function showLicLock(id,kind){
-  const p=document.getElementById(id);if(!p)return;
-  p.innerHTML=licLockHtml(kind);
-  document.getElementById(kind==='en'?'paperView':'mathPaperView').classList.add('locked');
-}
-function hideLicLock(kind){
-  document.getElementById(kind==='en'?'paperView':'mathPaperView').classList.remove('locked');
-}
-function licTry(kind){
-  const panel=document.getElementById(kind==='en'?'licLockEn':'licLockMath');
-  const input=panel.querySelector('.lic-input'),msg=panel.querySelector('.lic-msg');
-  const code=(input.value||'').trim();
-  const judge=licJudge(code);
-  if(judge==='ok'){
-    localStorage.setItem('hkk_lic',code.toUpperCase());
-    hideLicLock(kind);updateLicStatus();
-    if(kind==='en'){if(!curEnPaper.length)genEnPaper();}else{if(!curMathPaper.length)genMathPaper();}
-  }else{
-    msg.textContent=judge==='expired'?'此激活碼已過期，請續購後輸入新碼。':'激活碼無效，請核對後重試（格式 HKSS-YYYYMMDD-XXXXXXXX）。';
-  }
-}
-function updateLicStatus(){
-  const m=/^HKSS-(\d{8})-/.exec((localStorage.getItem('hkk_lic')||'').trim());
-  const txt=(licActive()&&m)?('已激活至 '+m[1].slice(0,4)+'-'+m[1].slice(4,6)+'-'+m[1].slice(6,8)):'未激活';
-  ['licStatusEn','licStatusMath'].forEach(function(id){const el=document.getElementById(id);if(el)el.textContent=txt;});
-}
-updateLicStatus();
-// 事件委託：激活按鈕與輸入框回車（面板 HTML 動態生成，委託到 document 免重綁）
-document.addEventListener('click',function(e){
-  const b=e.target&&e.target.closest?e.target.closest('.lic-btn'):null;
-  if(b)licTry(b.dataset.kind);
-});
-document.addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&e.target&&e.target.classList&&e.target.classList.contains('lic-input')){
-    const btn=e.target.parentElement.querySelector('.lic-btn');if(btn)btn.click();
-  }
-});
 document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
   document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
@@ -37020,14 +36910,14 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
   document.getElementById('ivView').style.display = es==='iv'?'block':'none';
   document.getElementById('paperView').style.display = es==='paper'?'block':'none';
   document.getElementById('goalView').style.display = es==='goal'?'block':'none';
-  if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper'){ if(licActive()){ if(!curEnPaper.length) genEnPaper(); } else showLicLock('licLockEn','en'); }
+  if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper' && !curEnPaper.length) genEnPaper();
 });
 document.querySelectorAll('#mathPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
   document.querySelectorAll('#mathPracSub button').forEach(x=>x.classList.toggle('on',x===b));
   document.getElementById('mTermsView').style.display = es==='mterms'?'block':'none';
   document.getElementById('mathPaperView').style.display = es==='mpaper'?'block':'none';
-  if(es==='mpaper'){ if(licActive()){ if(!curMathPaper.length) genMathPaper(); } else showLicLock('licLockMath','math'); }
+  if(es==='mpaper' && !curMathPaper.length) genMathPaper();
 });
 document.querySelectorAll('#mpgChips .chip').forEach(c=>c.onclick=()=>{
   curMathGrade=c.dataset.pg;
@@ -37268,7 +37158,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.22',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.23',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
