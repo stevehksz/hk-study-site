@@ -429,7 +429,7 @@ console.log('--- 升學規劃 tab + 5 子頁 ---');
 doc.querySelector('nav button[data-tab="plan"]').click();
 ok('planView 顯示', doc.getElementById('planView').style.display !== 'none');
 ok('guideView 隱藏', doc.getElementById('guideView').style.display === 'none');
-ok('planSub 5个(timeline/schools/docs/study/policy)', doc.querySelectorAll('#planSub button').length === 5);
+ok('planSub 6个(timeline/schools/docs/study/policy/faq)', doc.querySelectorAll('#planSub button').length === 6);
 ok('timelineView 顯示(默認)', doc.getElementById('timelineView').style.display !== 'none');
 ok('schoolsView 隱藏', doc.getElementById('schoolsView').style.display === 'none');
 // 切到擇校分檔
@@ -621,6 +621,21 @@ try{
   ok('v1.39 王肇枝電話 26561270', [...doc.querySelectorAll('#tpTable tbody tr')].some(r=>r.textContent.includes('王肇枝中學')&&r.querySelector('a[href="tel:26561270"]')));
   ok('v1.39 何郭佩珍中英並重', [...doc.querySelectorAll('#tpTable tbody tr')].some(r=>r.textContent.includes('何郭佩珍')&&r.textContent.includes('中英並重')));
 }catch(e){ ok('v1.39 择校电话测试执行', false); console.log('   err='+e.message); }
+
+// ============ v1.40 FAQ 子页 + 关于/CTA/免责卡 ============
+try{
+  ok('v1.40 faqView 存在且 10 張問答卡', doc.querySelectorAll('#faqView .gcard').length===10);
+  ok('v1.40 planSub 6 個子按鈕', doc.querySelectorAll('#planSub button').length===6);
+  ok('v1.40 faq 默認隱藏', doc.getElementById('faqView').style.display==='none');
+  doc.querySelector('#planSub button[data-sub="faq"]').click();
+  ok('v1.40 點 faq 後顯示', doc.getElementById('faqView').style.display==='block');
+  doc.querySelector('#planSub button[data-sub="timeline"]').click();
+  ok('v1.40 切回 timeline 後 faq 隱藏', doc.getElementById('faqView').style.display==='none' && doc.getElementById('timelineView').style.display==='block');
+  ok('v1.40 faq 含居港2年新政條目', doc.getElementById('faqView').textContent.includes('居港滿 2 年'));
+  const about=doc.getElementById('aboutView');
+  ok('v1.40 關於卡存在（CTA+免責）', !!about && about.textContent.includes('hkeec2023@gmail.com') && about.textContent.includes('史蒂夫HKSZ') && about.textContent.includes('免責聲明'));
+  ok('v1.40 關於卡緊鄰 footer 之前', doc.querySelector('footer').previousElementSibling===about);
+}catch(e){ ok('v1.40 优化测试执行', false); console.log('   err='+e.message); }
 
 // ============ v1.37 本地播放 ▶ ============
 try{
