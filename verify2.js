@@ -637,6 +637,16 @@ try{
   ok('v1.40 關於卡緊鄰 footer 之前', doc.querySelector('footer').previousElementSibling===about);
 }catch(e){ ok('v1.40 优化测试执行', false); console.log('   err='+e.message); }
 
+// ============ v1.41 北区表官網列 + Band 細分 ============
+try{
+  const ssRows=[...doc.querySelectorAll('#ssTable tbody tr')];
+  ok('v1.41 北區 20 行都有官網 .edu.hk 鏈接', ssRows.length===20 && ssRows.every(r=>{const a=r.querySelector('td:last-child a');return a&&/\.edu\.hk/.test(a.href);}));
+  ok('v1.41 鄧顯 Band 1A + tanghin.edu.hk', ssRows.some(r=>r.textContent.includes('鄧顯紀念中學')&&r.textContent.includes('1A')&&r.querySelector('a[href*="tanghin.edu.hk"]')));
+  ok('v1.41 上水官立 Band 3C + ssgss.edu.hk', ssRows.some(r=>r.textContent.includes('上水官立中學')&&r.textContent.includes('3C')&&r.querySelector('a[href*="ssgss.edu.hk"]')));
+  ok('v1.41 心誠 Band 2C + flss.edu.hk', ssRows.some(r=>r.textContent.includes('心誠中學')&&r.textContent.includes('2C')&&r.querySelector('a[href*="flss.edu.hk"]')));
+  ok('v1.41 表頭含官網欄', doc.querySelector('#ssTable thead').textContent.includes('官網'));
+}catch(e){ ok('v1.41 官網测试执行', false); console.log('   err='+e.message); }
+
 // ============ v1.37 本地播放 ▶ ============
 try{
   ok('v1.37 204 本書全帶視頻 fs', window.eval('ORT_BOOKS.filter(b=>b.fs&&b.fs.length).length')===204);

@@ -518,13 +518,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.40（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.41（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.40（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.41（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan">升學規劃</button>
@@ -1160,28 +1160,28 @@ Thank you for your time.</div>
         </div>
         <div class="scroll-x">
         <table class="mtable" id="ssTable">
-          <thead><tr><th>學校</th><th>英文名稱</th><th>種類</th><th>宗教</th><th>性別</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>地址</th><th>電話<br><span style="font-weight:400;color:#a33">核對 2026-11-02</span></th></tr></thead>
+          <thead><tr><th>學校</th><th>英文名稱</th><th>種類</th><th>宗教</th><th>性別</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>地址</th><th>電話<br><span style="font-weight:400;color:#a33">核對 2026-11-02</span></th><th>官網<br><span style="font-weight:400;color:#a33">核對 2026-11-02</span></th></tr></thead>
           <tbody>
-            <tr data-ss="en" data-lan="en"><td>鄧顯紀念中學</td><td>HKTA Tang Hin Memorial Secondary School</td><td>資助</td><td>道教</td><td>男女</td><td>英中</td><td>1</td><td>上水彩園邨</td><td><a href="tel:26726820">26726820</a></td></tr>
-            <tr data-ss="en" data-lan="en"><td>東華三院甲寅年總理中學</td><td>TWGHs Kap Yan Directors' College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>上水彩園邨</td><td><a href="tel:26727395">26727395</a></td></tr>
-            <tr data-ss="en" data-lan="en"><td>風采中學（教育評議會主辦）</td><td>Elegantia College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>上水清城路8號</td><td><a href="tel:24683680">24683680</a></td></tr>
-            <tr data-ss="en" data-lan="en"><td>田家炳中學</td><td>Tin Ka Ping Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>粉嶺維翰路1號</td><td><a href="tel:26731778">26731778</a></td></tr>
-            <tr data-ss="en" data-lan="en"><td>聖公會陳融中學</td><td>SKH Chan Young Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>英中</td><td>1</td><td>上水智昌路6號</td><td><a href="tel:26718989">26718989</a></td></tr>
-            <tr data-ss="en" data-lan="en"><td>東華三院李嘉誠中學</td><td>TWGHs Li Ka Shing College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>粉嶺祥華邨</td><td><a href="tel:26697455">26697455</a></td></tr>
-            <tr data-ss="dss" data-lan="en"><td>基督教香港信義會心誠中學</td><td>Fanling Lutheran Secondary School</td><td>直資</td><td>基督教</td><td>男女</td><td>英中</td><td>2</td><td>粉嶺馬會道270號</td><td><a href="tel:26700541">26700541</a></td></tr>
-            <tr data-ss="aided"><td>香海正覺蓮社佛教馬錦燦紀念英文中學</td><td>HHCKLA Buddhist Ma Kam Chan Memorial English Secondary School</td><td>資助</td><td>佛教</td><td>男女</td><td>雙語（部分英文）</td><td>2</td><td>粉嶺聯和墟聯益街9號</td><td><a href="tel:26699208">26699208</a></td></tr>
-            <tr data-ss="aided"><td>宣道會陳朱素華紀念中學</td><td>Christian Alliance S W Chan Memorial College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺暉明路12號</td><td><a href="tel:26709229">26709229</a></td></tr>
-            <tr data-ss="aided"><td>粉嶺禮賢會中學</td><td>Fanling Rhenish Church Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺聯和墟聯益街1號</td><td><a href="tel:29473698">29473698</a></td></tr>
-            <tr data-ss="aided"><td>保良局馬錦明中學</td><td>PLK Ma Kam Ming College</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺華明路38號</td><td><a href="tel:26794545">26794545</a></td></tr>
-            <tr data-ss="aided"><td>鳳溪廖萬石堂中學</td><td>Fung Kai Liu Man Shek Tong Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>上水鳳南路6號</td><td><a href="tel:26736106">26736106</a></td></tr>
-            <tr data-ss="aided"><td>粉嶺救恩書院</td><td>Fanling Kau Yan College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺欣盛里3號</td><td><a href="tel:26608405">26608405</a></td></tr>
-            <tr data-ss="aided"><td>鳳溪第一中學</td><td>Fung Kai No.1 Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>上水馬會道17號</td><td><a href="tel:26700366">26700366</a></td></tr>
-            <tr data-ss="aided"><td>明愛粉嶺陳震夏中學</td><td>Caritas Fanling Chan Chun Ha Secondary School</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺新運路28號</td><td><a href="tel:26699966">26699966</a></td></tr>
-            <tr data-ss="aided"><td>新界喇沙中學</td><td>De La Salle Secondary School, N.T.</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>上水金錢村</td><td><a href="tel:26700443">26700443</a></td></tr>
-            <tr data-ss="aided"><td>聖芳濟各書院</td><td>St. Francis Of Assisi's College</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺欣盛里1號</td><td><a href="tel:26779702">26779702</a></td></tr>
-            <tr data-ss="aided"><td>中華基督教會基新中學</td><td>CCC Kei San Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺蝴蝶山路8號</td><td><a href="tel:26693906">26693906</a></td></tr>
-            <tr data-ss="gov"><td>粉嶺官立中學</td><td>Fanling Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺一鳴路27號</td><td><a href="tel:26776778">26776778</a></td></tr>
-            <tr data-ss="gov"><td>上水官立中學</td><td>Sheung Shui Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3</td><td>上水百和路21號</td><td><a href="tel:26680628">26680628</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>鄧顯紀念中學</td><td>HKTA Tang Hin Memorial Secondary School</td><td>資助</td><td>道教</td><td>男女</td><td>英中</td><td>1A</td><td>上水彩園邨</td><td><a href="tel:26726820">26726820</a></td><td><a href="https://www.tanghin.edu.hk" target="_blank" rel="noopener" title="學校官網">www.tanghin.edu.hk</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>東華三院甲寅年總理中學</td><td>TWGHs Kap Yan Directors' College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1B</td><td>上水彩園邨</td><td><a href="tel:26727395">26727395</a></td><td><a href="http://www.twghkyds.edu.hk" target="_blank" rel="noopener" title="學校官網">www.twghkyds.edu.hk</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>風采中學（教育評議會主辦）</td><td>Elegantia College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1B</td><td>上水清城路8號</td><td><a href="tel:24683680">24683680</a></td><td><a href="http://www.elegantia.edu.hk" target="_blank" rel="noopener" title="學校官網">www.elegantia.edu.hk</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>田家炳中學</td><td>Tin Ka Ping Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1B</td><td>粉嶺維翰路1號</td><td><a href="tel:26731778">26731778</a></td><td><a href="http://web.tkpss.edu.hk" target="_blank" rel="noopener" title="學校官網">web.tkpss.edu.hk</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>聖公會陳融中學</td><td>SKH Chan Young Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>英中</td><td>1C–1B</td><td>上水智昌路6號</td><td><a href="tel:26718989">26718989</a></td><td><a href="https://www.skhcyss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.skhcyss.edu.hk</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>東華三院李嘉誠中學</td><td>TWGHs Li Ka Shing College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1B</td><td>粉嶺祥華邨</td><td><a href="tel:26697455">26697455</a></td><td><a href="https://www.twghlkss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.twghlkss.edu.hk</a></td></tr>
+            <tr data-ss="dss" data-lan="en"><td>基督教香港信義會心誠中學</td><td>Fanling Lutheran Secondary School</td><td>直資</td><td>基督教</td><td>男女</td><td>英中</td><td>2C</td><td>粉嶺馬會道270號</td><td><a href="tel:26700541">26700541</a></td><td><a href="https://www.flss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.flss.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>香海正覺蓮社佛教馬錦燦紀念英文中學</td><td>HHCKLA Buddhist Ma Kam Chan Memorial English Secondary School</td><td>資助</td><td>佛教</td><td>男女</td><td>雙語（部分英文）</td><td>2C</td><td>粉嶺聯和墟聯益街9號</td><td><a href="tel:26699208">26699208</a></td><td><a href="https://www.bmkc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.bmkc.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>宣道會陳朱素華紀念中學</td><td>Christian Alliance S W Chan Memorial College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2C–2B</td><td>粉嶺暉明路12號</td><td><a href="tel:26709229">26709229</a></td><td><a href="https://www.caswcmc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.caswcmc.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>粉嶺禮賢會中學</td><td>Fanling Rhenish Church Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2C–2B</td><td>粉嶺聯和墟聯益街1號</td><td><a href="tel:29473698">29473698</a></td><td><a href="https://www.frcss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.frcss.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>保良局馬錦明中學</td><td>PLK Ma Kam Ming College</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2B–2A</td><td>粉嶺華明路38號</td><td><a href="tel:26794545">26794545</a></td><td><a href="http://www.plkmkmc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.plkmkmc.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>鳳溪廖萬石堂中學</td><td>Fung Kai Liu Man Shek Tong Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2C–2B</td><td>上水鳳南路6號</td><td><a href="tel:26736106">26736106</a></td><td><a href="http://www.fklmstss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.fklmstss.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>粉嶺救恩書院</td><td>Fanling Kau Yan College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2C–2B</td><td>粉嶺欣盛里3號</td><td><a href="tel:26608405">26608405</a></td><td><a href="https://www.fkyc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.fkyc.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>鳳溪第一中學</td><td>Fung Kai No.1 Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>上水馬會道17號</td><td><a href="tel:26700366">26700366</a></td><td><a href="https://www.fk1ss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.fk1ss.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>明愛粉嶺陳震夏中學</td><td>Caritas Fanling Chan Chun Ha Secondary School</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3A</td><td>粉嶺新運路28號</td><td><a href="tel:26699966">26699966</a></td><td><a href="https://www.cfs.edu.hk" target="_blank" rel="noopener" title="學校官網">www.cfs.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>新界喇沙中學</td><td>De La Salle Secondary School, N.T.</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3B</td><td>上水金錢村</td><td><a href="tel:26700443">26700443</a></td><td><a href="http://www.delasalle.edu.hk" target="_blank" rel="noopener" title="學校官網">www.delasalle.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>聖芳濟各書院</td><td>St. Francis Of Assisi's College</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3A–2C</td><td>粉嶺欣盛里1號</td><td><a href="tel:26779702">26779702</a></td><td><a href="https://www.sfac.edu.hk" target="_blank" rel="noopener" title="學校官網">www.sfac.edu.hk</a></td></tr>
+            <tr data-ss="aided"><td>中華基督教會基新中學</td><td>CCC Kei San Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>3A</td><td>粉嶺蝴蝶山路8號</td><td><a href="tel:26693906">26693906</a></td><td><a href="http://www.ks.edu.hk" target="_blank" rel="noopener" title="學校官網">www.ks.edu.hk</a></td></tr>
+            <tr data-ss="gov"><td>粉嶺官立中學</td><td>Fanling Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺一鳴路27號</td><td><a href="tel:26776778">26776778</a></td><td><a href="http://www.fgss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.fgss.edu.hk</a></td></tr>
+            <tr data-ss="gov"><td>上水官立中學</td><td>Sheung Shui Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3C</td><td>上水百和路21號</td><td><a href="tel:26680628">26680628</a></td><td><a href="https://www.ssgss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.ssgss.edu.hk</a></td></tr>
           </tbody>
         </table>
         </div>
@@ -3522,7 +3522,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.40',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.41',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
