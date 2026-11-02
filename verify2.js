@@ -691,6 +691,10 @@ try{
   ok('v1.35 LWTE 冊 chip 過濾（僅 5B）', [...doc.querySelectorAll('#lwteList .ort-lv-h')].every(h=>h.textContent.includes('5B')));
 }catch(e){ ok('v1.35 朗文詞庫測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.43 51la 访问统计 ============
+ok('v1.43 51la SDK 脚本存在(https)', !!doc.querySelector('script#LA_COLLECT[src^="https://sdk.51.la/"]'));
+ok('v1.43 51la LA.init id/ck 注入', /LA\.init\(\{id:"3RhjH055gOjxA8UA",ck:"3RhjH055gOjxA8UA"\}\)/.test(html));
+
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
 })();
