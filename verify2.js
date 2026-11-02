@@ -3,7 +3,9 @@ const fs = require('fs');
 const { JSDOM } = require('jsdom');
 
 const html = fs.readFileSync('index.html', 'utf-8');
-const dom = new JSDOM(html, { runScripts: 'dangerously', pretendToBeVisual: true, url: 'https://localhost/' });
+const dom = new JSDOM(html, { runScripts: 'dangerously', pretendToBeVisual: true, url: 'https://localhost/',
+  beforeParse(window){ Object.defineProperty(window,'crypto',{value:require('crypto').webcrypto,configurable:true}); } // v1.33 賬號系統 Web Crypto 注入（脚本執行前）
+});
 const { window } = dom;
 const doc = window.document;
 
@@ -155,6 +157,10 @@ doc.getElementById('hkCollapseAll').click();
 ok('收起全部後無展開小節('+doc.querySelectorAll('#hkList details[open]').length+')', doc.querySelectorAll('#hkList details[open]').length===0);
 doc.getElementById('hkExpandAll').click();
 ok('展開全部後小節全開('+doc.querySelectorAll('#hkList details[open]').length+'/'+openBefore+')', doc.querySelectorAll('#hkList details[open]').length===openBefore);
+// v1.32 音標
+const ipaCards=[...doc.querySelectorAll('#hkList .vcard .ph')].filter(s=>/^\/.+\/$/.test(s.textContent.trim()));
+ok('v1.32 生字卡音標數=335('+ipaCards.length+')', ipaCards.length===335);
+ok('v1.32 音標樣例(hello=/həˈləʊ/)', doc.querySelector('#hkList .vcard .ph').textContent.includes('həˈləʊ'));
 
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
@@ -361,11 +367,26 @@ const tenRows=doc.querySelectorAll('#exTenBox .ex-bank tr').length-1;
 ok('v1.28 生成10套去重目錄卡', tenRows===10 && doc.getElementById('exTenBox').textContent.includes('互不相同'));
 const tenPapers=window.eval('window._tenPapers||[]');
 ok('v1.28 10套卷簽名互不相同', tenPapers.length===10 && new Set(tenPapers.map(p=>JSON.stringify(p))).size===10);
+ok('v1.30 題庫加厚 H/I/C 每級5套', ['P5','P6'].every(g=>{const b=window.eval('EXAM_QBANK')['P5']&&window.eval('EXAM_QBANK')[g];return b.H.length===5&&b.I.length===5&&b.C.length===5;}));
+ok('v1.30 10套卷 H+I 組合互不重複', tenPapers.length===10 && new Set(tenPapers.map(p=>p.H.title+'|'+p.I.title)).size===10);
 doc.getElementById('examTenPrintBtn').click();
 const tenHtml=doc.getElementById('examPrintSheet').innerHTML;
 ok('v1.28 打印頁含10個套號卷頭', (tenHtml.match(/第 \d+ 套/g)||[]).length===10);
 ok('v1.28 每套獨立分頁(9個分頁符)', (tenHtml.match(/page-break-before/g)||[]).length>=9);
 doc.getElementById('examPrintSheet').innerHTML='';
+ok('v1.29 目錄含10個「打開」按鈕', doc.querySelectorAll('#exTenBox button[onclick^="showTenPaper"]').length===10);
+doc.querySelector('#exTenBox button[onclick="showTenPaper(0)"]').click();
+ok('v1.29 打開第1套：卷頭標套號', doc.querySelector('#examPaperBox .ex-code').textContent.includes('第 1 套'));
+ok('v1.29 打開後作答卷渲染(含詞彙表+各段)', doc.querySelectorAll('#examPaperBox .ex-vocab td').length===8 && doc.querySelectorAll('#examPaperBox .ex-sec').length>=10);
+window.eval('genExamPaper()');
+ok('v1.29 出新卷清套號', !doc.querySelector('#examPaperBox .ex-code').textContent.includes('第 '));
+doc.getElementById('examTenBtn').click();
+const bestBefore=window.eval('JSON.parse(localStorage.getItem("hkk_exampaper_v0")||"{}")')['P6'];
+doc.querySelector('#exTenBox button[onclick="showTenAnswer(0)"]').click();
+ok('v1.31 答案模式：SCORE 100/100', doc.getElementById('examPaperResult').textContent.includes('100 / 100'));
+ok('v1.31 答案模式：全綠無錯題', doc.getElementById('examPaperResult').textContent.includes('全對'));
+const bestAfter=window.eval('JSON.parse(localStorage.getItem("hkk_exampaper_v0")||"{}")')['P6'];
+ok('v1.31 答案模式：最佳分不被污染', bestAfter===bestBefore);
 ok('題庫常量 EXAM_QBANK 且含 P5/P6', /const EXAM_QBANK=\{[\s\S]*P5:\{[\s\S]*P6:\{/.test(html));
 
 console.log('--- 诗词默写填空 + 朗读（练习→中文） ---');
@@ -502,5 +523,136 @@ try{
   ok('P4 英文卷真實渲染出 EDB 來源標記(.qsrc)', sawEdb);
 }catch(e){ ok('v1.15 EDB DOM 渲染執行', false); console.log('   err='+e.message); }
 
+// ============ v1.33 賬號系統（异步：Web Crypto sha256） ============
+(async()=>{try{
+  const g=id=>doc.getElementById(id);
+  ok('v1.33 sha256("abc") 標準向量', await window.eval('hkSha256("abc")')==='ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
+  ok('v1.33 sha256("") 標準向量', await window.eval('hkSha256("")')==='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855');
+  ok('v1.33 sha256("你好") UTF-8', await window.eval('hkSha256("你好")')===require('crypto').createHash('sha256').update('你好','utf8').digest('hex'));
+  ok('v1.33 本地默認免登入（authGate 不顯示）', !g('authGate').classList.contains('on') && window.eval('curUser')==='本地');
+  // 強制登入模式
+  window.eval('AUTH_FORCE=true');
+  window.eval('localStorage.removeItem("hkk_auth_sess")');
+  window.eval('authBoot()');
+  ok('v1.33 線上模式未登入→攔截', g('authGate').classList.contains('on'));
+  // 註冊校驗
+  g('authRegName').value='a';g('authRegPwd').value='test1234';g('authRegPwd2').value='test1234';
+  await window.eval('authRegister()');
+  ok('v1.33 暱稱太短被拒', g('authRegErr').textContent.includes('2–16'));
+  g('authRegName').value='叶小工';g('authRegPwd').value='123';g('authRegPwd2').value='123';
+  await window.eval('authRegister()');
+  ok('v1.33 密碼太短被拒', g('authRegErr').textContent.includes('至少 8 位'));
+  g('authRegPwd').value='test1234';g('authRegPwd2').value='test1234';
+  await window.eval('authRegister()');
+  const users=JSON.parse(window.localStorage.getItem('hkk_auth_users'));
+  ok('v1.33 註冊成功寫入用戶表', !!users['叶小工'] && /^[0-9a-f]{64}$/.test(users['叶小工'].hash));
+  ok('v1.33 hash=salt|密碼 的 sha256', users['叶小工'].hash===await window.eval('hkSha256('+JSON.stringify(users['叶小工'].salt)+'+"|test1234")'));
+  ok('v1.33 重名被拒', await (async()=>{g('authRegName').value='叶小工';g('authRegPwd').value='test1234';g('authRegPwd2').value='test1234';await window.eval('authRegister()');return g('authRegErr').textContent.includes('已註冊');})());
+  // 登入：錯誤密碼
+  g('authLoginName').value='叶小工';g('authLoginPwd').value='wrong1234';
+  await window.eval('authLogin()');
+  ok('v1.33 錯誤密碼被拒', g('authLoginErr').textContent.includes('密碼不正確'));
+  // 作用域往返
+  window.localStorage.setItem('hkk_exampaper_v0','SCOPE_TEST');
+  window.eval('authSaveScope("叶小工")');
+  ok('v1.33 作用域搬移後全局鍵清空', window.localStorage.getItem('hkk_exampaper_v0')===null && window.localStorage.getItem('hkk_u@叶小工@exampaper_v0')==='SCOPE_TEST');
+  window.eval('authLoadScope("叶小工")');
+  ok('v1.33 作用域搬回', window.localStorage.getItem('hkk_exampaper_v0')==='SCOPE_TEST' && window.localStorage.getItem('hkk_u@叶小工@exampaper_v0')===null);
+  // 正確密碼登入（remember=true → localStorage session）
+  g('authLoginName').value='叶小工';g('authLoginPwd').value='test1234';
+  await window.eval('authEnter("叶小工",true)');
+  ok('v1.33 登入寫入 session', JSON.parse(window.localStorage.getItem('hkk_auth_sess')).name==='叶小工');
+  ok('v1.33 登入後關閉登入頁', !g('authGate').classList.contains('on'));
+  ok('v1.33 歡迎條顯示暱稱', g('userChipName').textContent.includes('叶小工'));
+  // remember=false → sessionStorage
+  await window.eval('authEnter("叶小工",false)');
+  ok('v1.33 不記住我→sessionStorage', window.localStorage.getItem('hkk_auth_sess')===null && JSON.parse(window.sessionStorage.getItem('hkk_auth_sess')).name==='叶小工');
+  // 復原：清 session 回本地身份
+  window.eval('AUTH_FORCE=false');
+  window.localStorage.clear();
+  window.eval('authBoot()');
+  ok('v1.33 清存儲後復原本地身份', window.eval('curUser')==='本地' && !g('authGate').classList.contains('on'));
+}catch(e){ ok('v1.33 賬號系統測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.35 繪本閱讀打卡 ============
+try{
+  ok('v1.35 ORT 書單 204 本', window.eval('ORT_BOOKS.length')===204);
+  doc.querySelector('#enPracSub button[data-es="ort"]').click();
+  ok('v1.35 子標籤切換顯示 ortView', doc.getElementById('ortView').style.display==='block');
+  ok('v1.35 九階 chips 含計數（全部+9階=10）', (doc.getElementById('ortChips').textContent.match(/\(\d+\)/g)||[]).length===10);
+  const bk1=doc.querySelector('#ortList .ort-bk');
+  const k1=bk1.dataset.k;
+  bk1.click();
+  const bkAfter=[...doc.querySelectorAll('#ortList .ort-bk')].find(b=>b.dataset.k===k1);
+  ok('v1.35 打卡→done 類+存儲', bkAfter.classList.contains('done') && !!JSON.parse(window.localStorage.getItem('hkk_ort'))[k1]);
+  ok('v1.35 總進度=1', doc.getElementById('ortStat').innerHTML.includes('<b>1</b>'));
+  bkAfter.click();
+  ok('v1.35 再點取消打卡', !JSON.parse(window.localStorage.getItem('hkk_ort'))[k1]);
+  doc.querySelector('#ortChips .chip[data-lv="5階"]').click();
+  ok('v1.35 階 chip 過濾（僅 5 階）', doc.querySelectorAll('#ortList .ort-lv').length===1 && doc.querySelector('#ortList .ort-lv-h').textContent.includes('5階'));
+  // 資源地圖卡
+  ok('v1.35 資源地圖卡含本地路徑', doc.getElementById('ortView').textContent.includes('牛津树') && doc.getElementById('ortView').textContent.includes('香港朗文'));
+}catch(e){ ok('v1.35 繪本閱讀測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.38 择校：校车卡 + 东铁沿线（大埔）表 ============
+try{
+  doc.querySelector('nav button[data-tab="plan"]').click();
+  doc.querySelector('#planSub button[data-sub="schools"]').click();
+  ok('v1.38 校车卡：保姆车营办商+5-6月申请', doc.getElementById('schoolsView').textContent.includes('葉太') && doc.getElementById('schoolsView').textContent.includes('5–6 月'));
+  const rows=doc.querySelectorAll('#tpTable tbody tr');
+  ok('v1.39 大埔表 20 行', rows.length===20);
+  ok('v1.38 大埔英中 7 所（含三育）', [...rows].filter(r=>(' '+r.dataset.tp+' ').includes(' en ')).length===7);
+  ok('v1.38 直資 2（羅定邦雙標籤生效）', [...rows].filter(r=>(' '+r.dataset.tp+' ').includes(' dss ')).length===2);
+  ok('v1.38 王肇枝=英中（站旁）', [...rows].some(r=>r.textContent.includes('王肇枝中學') && r.textContent.includes('英中') && r.textContent.includes('站旁')));
+  doc.querySelector('#tpChips .chip[data-tp="en"]').click();
+  const vis=[...doc.querySelectorAll('#tpTable tbody tr')].filter(r=>r.style.display!=='none');
+  ok('v1.38 英中 chip 過濾=7 可見', vis.length===7);
+  doc.querySelector('#tpChips .chip[data-tp="all"]').click();
+  ok('v1.38 全部 chip 恢復 20 可見', [...doc.querySelectorAll('#tpTable tbody tr')].filter(r=>r.style.display!=='none').length===20);
+}catch(e){ ok('v1.38 择校测试执行', false); console.log('   err='+e.message); }
+
+// ============ v1.39 择校：电话列 + 删停办校 + 三育英中 ============
+try{
+  ok('v1.39 全站 40 個 tel 鏈接（北20+埔20）', doc.querySelectorAll('a[href^="tel:"]').length===40);
+  ok('v1.39 停辦的大埔官立已移除', !doc.querySelector('#tpTable tbody tr') || ![...doc.querySelectorAll('#tpTable tbody tr')].some(r=>r.textContent.includes('大埔官立中學')));
+  ok('v1.39 三育=直資英中+150位北區', [...doc.querySelectorAll('#tpTable tbody tr')].some(r=>r.textContent.includes('大埔三育中學')&&r.textContent.includes('英中')&&r.textContent.includes('150')));
+  ok('v1.39 三育 chips 雙標籤 en+dss', [...doc.querySelectorAll('#tpTable tbody tr')].filter(r=>(' '+r.dataset.tp+' ').includes(' en ')).length===7);
+  ok('v1.39 鄧顯電話 26726820', [...doc.querySelectorAll('#ssTable tbody tr')].some(r=>r.textContent.includes('鄧顯紀念中學')&&r.querySelector('a[href="tel:26726820"]')));
+  ok('v1.39 王肇枝電話 26561270', [...doc.querySelectorAll('#tpTable tbody tr')].some(r=>r.textContent.includes('王肇枝中學')&&r.querySelector('a[href="tel:26561270"]')));
+  ok('v1.39 何郭佩珍中英並重', [...doc.querySelectorAll('#tpTable tbody tr')].some(r=>r.textContent.includes('何郭佩珍')&&r.textContent.includes('中英並重')));
+}catch(e){ ok('v1.39 择校电话测试执行', false); console.log('   err='+e.message); }
+
+// ============ v1.37 本地播放 ▶ ============
+try{
+  ok('v1.37 204 本書全帶視頻 fs', window.eval('ORT_BOOKS.filter(b=>b.fs&&b.fs.length).length')===204);
+  ok('v1.37 視頻文件總數 503', window.eval('ORT_BOOKS.reduce((s,b)=>s+b.fs.length,0)')===503);
+  ok('v1.37 ortHref 編碼 file:///%20', window.eval('ortHref("牛津树1阶/01【正课】Look at Me-双语讲解.mp4")').indexOf('file:///G:/00%20')===0);
+  ok('v1.37 https 下不顯示 ▶', doc.querySelectorAll('#ortList .ort-play').length===0);
+  window.eval('curOrtLv="";ORT_LOCAL=true;renderOrt()');
+  const np=doc.querySelectorAll('#ortList .ort-play').length;
+  ok('v1.37 本地模式 ▶ 全顯示（503 個）', np===503);
+  const ph=doc.querySelector('#ortList .ort-play').getAttribute('href');
+  ok('v1.37 ▶ href 為 file:/// 且編碼空格', ph.indexOf('file:///G:/')===0 && ph.indexOf('%20')>0);
+  window.eval('ORT_LOCAL=false;renderOrt()');
+  ok('v1.37 關閉本地模式 ▶ 消失', doc.querySelectorAll('#ortList .ort-play').length===0);
+}catch(e){ ok('v1.37 本地播放測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.35 朗文詞庫 ============
+try{
+  ok('v1.35 LWTE 詞庫 140 條', window.eval('LWTE_BANKS.reduce((s,e)=>s+e.items.length,0)')===140);
+  ok('v1.35 LWTE 19 類', window.eval('LWTE_BANKS.length')===19);
+  doc.querySelector('#enPracSub button[data-es="lwte"]').click();
+  ok('v1.35 子標籤切換顯示 lwteView', doc.getElementById('lwteView').style.display==='block');
+  const li1=doc.querySelector('#lwteList .ort-bk');
+  const lk1=li1.dataset.k;
+  li1.click();
+  const liAfter=[...doc.querySelectorAll('#lwteList .ort-bk')].find(b=>b.dataset.k===lk1);
+  ok('v1.35 LWTE 打卡→done+存儲', liAfter.classList.contains('done') && !!JSON.parse(window.localStorage.getItem('hkk_lwte'))[lk1]);
+  ok('v1.35 LWTE 詞條帶中文釋義', liAfter.textContent.length > liAfter.textContent.replace(/[^\u4e00-\u9fff]/g,'').length ? [...doc.querySelectorAll('#lwteList .ort-bk')].some(b=>/[\u4e00-\u9fff]/.test(b.textContent)) : false);
+  doc.querySelector('#lwteChips .chip[data-bk="5B"]').click();
+  ok('v1.35 LWTE 冊 chip 過濾（僅 5B）', [...doc.querySelectorAll('#lwteList .ort-lv-h')].every(h=>h.textContent.includes('5B')));
+}catch(e){ ok('v1.35 朗文詞庫測試執行', false); console.log('   err='+e.message); }
+
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
+})();

@@ -228,13 +228,28 @@ print(f'词表 B1 档：{len(vocab)} 条（示例档，定级后替换涵涵实�
 # ---- 香港小學 1–6 年級通用英文基礎詞（坊間整理，非官方分級詞表） ----
 HK = os.path.join(WS, '_hk_primary_words.json')
 hk_words = json.load(open(HK, encoding='utf-8'))
-print(f'港小基礎詞：{len(hk_words)} 條（坊間整理，EDB 無官方分級必背詞表，年級為估算）')
+# 音標：英式 DJ 音標（人工標注，_add_ipa.py 生成/校驗 335 詞全覆蓋），以 Oxford/Longman 詞典為準
+IPA = json.load(open(os.path.join(WS, '_hk_word_ipa.json'), encoding='utf-8'))
+for e in hk_words:
+    e['ipa'] = IPA.get(e['w'], '')
+n_ipa = sum(1 for e in hk_words if e['ipa'])
+print(f'港小基礎詞：{len(hk_words)} 條（坊間整理，EDB 無官方分級必背詞表，年級為估算）；音標 {n_ipa} 條')
 
-data = {'poems': poems, 'vocab': vocab, 'hk_words': hk_words,
+# ---- 牛津树閱讀書單（build_ort.py 提取，正課視頻文件名 → 書名，按階分組，多集合併） ----
+ORT = json.load(open(os.path.join(WS, '_ort_books.json'), encoding='utf-8'))
+print(f'牛津樹書單：{len(ORT)} 本（書名/階數為事實信息，來源=本地課程視頻目錄）')
+
+# ---- 朗文 LWTE GOLD 5A/5B Word Bank（build_lwte.py，词条为教材词库短语列表，中文为自译） ----
+LWTE = json.load(open(os.path.join(WS, '_lwte_vocab.json'), encoding='utf-8'))
+print(f'朗文詞庫：{sum(len(e["items"]) for e in LWTE)} 條（5A/5B 詞庫頁，版權屬 Pearson，僅家庭學習）')
+
+data = {'poems': poems, 'vocab': vocab, 'hk_words': hk_words, 'ort_books': ORT, 'lwte_banks': LWTE,
         'meta': {'pinyin': 'pypinyin 生成，多音字/生僻字以课本为准',
                  'jyutping': 'jyutping 生成 + 人工校正（异体字/粤语特色音/古诗多音字），以粤语字典为准',
                  'vocab': 'word-atlas B1 档（CC BY 4.0，须署名 Word Atlas contributors 词光）',
-                 'hk_words': '坊間整理通用基礎詞，非 EDB 官方分級詞表；年級歸屬為常見教學進度估算，僅供練習參考'}}
+                 'hk_words': '坊間整理通用基礎詞，非 EDB 官方分級詞表；年級歸屬為常見教學進度估算，僅供練習參考；音標為英式 DJ 音標人工標注，以詞典為準',
+                 'ort_books': '牛津樹校園版書單（1–9 階，書名為事實信息，提取自家長購買的本地課程視頻目錄；本站僅做閱讀打卡，不含教材內容）',
+                 'lwte_banks': '朗文 LWTE GOLD 5A/5B Word Bank 詞條（常見短語列表，事實性內容；中文釋義為自譯；版權屬 Pearson Education Asia，僅供家庭學習參考，請勿外傳)'}}
 out = os.path.join(WS, 'build_data.json')
 json.dump(data, open(out, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print('写出', out, os.path.getsize(out), 'bytes')

@@ -1,0 +1,676 @@
+[
+ {
+  "bk": "5A",
+  "cat": "Actions",
+  "items": [
+   {
+    "w": "bath the baby",
+    "zh": "給嬰兒洗澡"
+   },
+   {
+    "w": "dress the baby",
+    "zh": "給嬰兒穿衣"
+   },
+   {
+    "w": "feed the baby",
+    "zh": "餵嬰兒"
+   },
+   {
+    "w": "read stories to the baby",
+    "zh": "給嬰兒講故事"
+   },
+   {
+    "w": "share my toys with the baby",
+    "zh": "和嬰兒分享玩具"
+   },
+   {
+    "w": "take photos of the baby",
+    "zh": "給嬰兒拍照"
+   },
+   {
+    "w": "take the baby for a walk",
+    "zh": "帶嬰兒散步"
+   },
+   {
+    "w": "teach the baby rhymes",
+    "zh": "教嬰兒念童謠"
+   }
+  ]
+ },
+ {
+  "bk": "5A",
+  "cat": "Plans",
+  "items": [
+   {
+    "w": "go swimming",
+    "zh": "去游泳"
+   },
+   {
+    "w": "join the Art Club",
+    "zh": "加入美術社"
+   },
+   {
+    "w": "join the Storytelling Club",
+    "zh": "加入故事社"
+   },
+   {
+    "w": "play sport",
+    "zh": "做運動"
+   },
+   {
+    "w": "read English books",
+    "zh": "讀英文書"
+   },
+   {
+    "w": "study hard",
+    "zh": "努力學習"
+   },
+   {
+    "w": "take a Japanese course",
+    "zh": "上日語課"
+   }
+  ]
+ },
+ {
+  "bk": "5A",
+  "cat": "Activities",
+  "items": [
+   {
+    "w": "fly kites",
+    "zh": "放風箏"
+   },
+   {
+    "w": "go on a picnic",
+    "zh": "去野餐"
+   },
+   {
+    "w": "go skating",
+    "zh": "去溜冰"
+   },
+   {
+    "w": "sing karaoke",
+    "zh": "唱卡拉OK"
+   },
+   {
+    "w": "watch a film",
+    "zh": "看電影"
+   }
+  ]
+ },
+ {
+  "bk": "5A",
+  "cat": "Illnesses",
+  "items": [
+   {
+    "w": "a broken arm",
+    "zh": "手臂骨折"
+   },
+   {
+    "w": "a cold",
+    "zh": "感冒"
+   },
+   {
+    "w": "a cough",
+    "zh": "咳嗽"
+   },
+   {
+    "w": "a fever",
+    "zh": "發燒"
+   },
+   {
+    "w": "a headache",
+    "zh": "頭痛"
+   },
+   {
+    "w": "a sore throat",
+    "zh": "喉嚨痛"
+   },
+   {
+    "w": "a stomachache",
+    "zh": "肚子痛"
+   },
+   {
+    "w": "a toothache",
+    "zh": "牙痛"
+   }
+  ]
+ },
+ {
+  "bk": "5A",
+  "cat": "Things to do when you are ill",
+  "items": [
+   {
+    "w": "drink more water",
+    "zh": "多喝水"
+   },
+   {
+    "w": "eat more fruit",
+    "zh": "多吃水果"
+   },
+   {
+    "w": "get an X-ray",
+    "zh": "拍 X 光"
+   },
+   {
+    "w": "rest in bed",
+    "zh": "臥床休息"
+   },
+   {
+    "w": "take some medicine",
+    "zh": "吃藥"
+   }
+  ]
+ },
+ {
+  "bk": "5A",
+  "cat": "Weather",
+  "items": [
+   {
+    "w": "foggy",
+    "zh": "有霧的"
+   },
+   {
+    "w": "wet",
+    "zh": "潮濕的"
+   },
+   {
+    "w": "windy",
+    "zh": "有風的"
+   }
+  ]
+ },
+ {
+  "bk": "5A",
+  "cat": "Things around us",
+  "items": [
+   {
+    "w": "a comb",
+    "zh": "梳子"
+   },
+   {
+    "w": "a comic",
+    "zh": "漫畫書"
+   },
+   {
+    "w": "an envelope",
+    "zh": "信封"
+   },
+   {
+    "w": "a handkerchief",
+    "zh": "手帕"
+   },
+   {
+    "w": "a hole punch",
+    "zh": "打孔機"
+   },
+   {
+    "w": "a magazine",
+    "zh": "雜誌"
+   },
+   {
+    "w": "a mirror",
+    "zh": "鏡子"
+   },
+   {
+    "w": "a newspaper",
+    "zh": "報紙"
+   },
+   {
+    "w": "a pair of scissors",
+    "zh": "一把剪刀"
+   },
+   {
+    "w": "a pin",
+    "zh": "大頭針"
+   },
+   {
+    "w": "some soap",
+    "zh": "一些肥皂"
+   },
+   {
+    "w": "a stapler",
+    "zh": "釘書機"
+   },
+   {
+    "w": "a swimsuit",
+    "zh": "泳衣"
+   },
+   {
+    "w": "a table tennis bat",
+    "zh": "乒乓球拍"
+   },
+   {
+    "w": "some tissues",
+    "zh": "一些紙巾"
+   },
+   {
+    "w": "some toothpaste",
+    "zh": "一些牙膏"
+   },
+   {
+    "w": "a toothbrush",
+    "zh": "牙刷"
+   },
+   {
+    "w": "a towel",
+    "zh": "毛巾"
+   },
+   {
+    "w": "an umbrella",
+    "zh": "雨傘"
+   },
+   {
+    "w": "a watch",
+    "zh": "手錶"
+   }
+  ]
+ },
+ {
+  "bk": "5A",
+  "cat": "Festivals and activities",
+  "items": [
+   {
+    "w": "get red packets",
+    "zh": "收紅包"
+   },
+   {
+    "w": "wear new clothes",
+    "zh": "穿新衣"
+   },
+   {
+    "w": "eat rice dumplings",
+    "zh": "吃糉子"
+   },
+   {
+    "w": "watch dragon boat races",
+    "zh": "看龍舟賽"
+   },
+   {
+    "w": "eat moon cakes",
+    "zh": "吃月餅"
+   },
+   {
+    "w": "play with lanterns",
+    "zh": "玩燈籠"
+   },
+   {
+    "w": "guess riddles",
+    "zh": "猜燈謎"
+   },
+   {
+    "w": "eat sweet dumplings",
+    "zh": "吃湯圓"
+   },
+   {
+    "w": "go hiking",
+    "zh": "去遠足"
+   },
+   {
+    "w": "decorate the Christmas tree",
+    "zh": "裝飾聖誕樹"
+   },
+   {
+    "w": "give presents",
+    "zh": "送禮物"
+   },
+   {
+    "w": "send Christmas cards",
+    "zh": "寄聖誕卡"
+   },
+   {
+    "w": "wear a costume",
+    "zh": "穿化裝服飾"
+   },
+   {
+    "w": "give flowers to my mother",
+    "zh": "送花給媽媽"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Actions (1)",
+  "items": [
+   {
+    "w": "draw a sign",
+    "zh": "畫告示牌"
+   },
+   {
+    "w": "write a notice",
+    "zh": "寫通知"
+   },
+   {
+    "w": "paint a fence",
+    "zh": "油漆柵欄"
+   },
+   {
+    "w": "break a flowerpot",
+    "zh": "打破花盆"
+   },
+   {
+    "w": "make the bed",
+    "zh": "整理床鋪"
+   },
+   {
+    "w": "tidy the room",
+    "zh": "收拾房間"
+   },
+   {
+    "w": "throw away the rubbish",
+    "zh": "丟垃圾"
+   },
+   {
+    "w": "sweep the floor",
+    "zh": "掃地"
+   },
+   {
+    "w": "do the washing",
+    "zh": "洗衣服"
+   },
+   {
+    "w": "put the tables and chairs away",
+    "zh": "收好桌椅"
+   },
+   {
+    "w": "drive a racing car",
+    "zh": "駕駛賽車"
+   },
+   {
+    "w": "fly a helicopter",
+    "zh": "開直升機"
+   },
+   {
+    "w": "meet a famous person",
+    "zh": "與名人會面"
+   },
+   {
+    "w": "participate in a charity walk",
+    "zh": "參加慈善步行"
+   },
+   {
+    "w": "watch a parade",
+    "zh": "看遊行"
+   },
+   {
+    "w": "see a pop concert",
+    "zh": "看流行演唱會"
+   },
+   {
+    "w": "perform in a Peking opera",
+    "zh": "表演京劇"
+   },
+   {
+    "w": "plant trees on National Tree-planting Day",
+    "zh": "植樹節種樹"
+   },
+   {
+    "w": "have snake soup",
+    "zh": "喝蛇湯"
+   },
+   {
+    "w": "give flowers to a pop star",
+    "zh": "送花給明星"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Actions (2)",
+  "items": [
+   {
+    "w": "celebrate Halloween",
+    "zh": "慶祝萬聖節"
+   },
+   {
+    "w": "eat insects",
+    "zh": "吃昆蟲"
+   },
+   {
+    "w": "pick fruit",
+    "zh": "摘水果"
+   },
+   {
+    "w": "watch birds",
+    "zh": "觀鳥"
+   },
+   {
+    "w": "go fishing",
+    "zh": "去釣魚"
+   },
+   {
+    "w": "look at plants and flowers",
+    "zh": "觀察花草"
+   },
+   {
+    "w": "go horse-riding",
+    "zh": "去騎馬"
+   },
+   {
+    "w": "watch wild animals",
+    "zh": "看野生動物"
+   },
+   {
+    "w": "watch butterflies",
+    "zh": "看蝴蝶"
+   },
+   {
+    "w": "go hiking",
+    "zh": "去遠足"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Animals",
+  "items": [
+   {
+    "w": "a sea turtle",
+    "zh": "海龜"
+   },
+   {
+    "w": "an Asian elephant",
+    "zh": "亞洲象"
+   },
+   {
+    "w": "a black-faced spoonbill",
+    "zh": "黑面琵鷺"
+   },
+   {
+    "w": "an orang-utan",
+    "zh": "紅毛猩猩"
+   },
+   {
+    "w": "a Chinese white dolphin",
+    "zh": "中華白海豚"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Feelings",
+  "items": [
+   {
+    "w": "shocked",
+    "zh": "震驚的"
+   },
+   {
+    "w": "tired",
+    "zh": "疲倦的"
+   },
+   {
+    "w": "frightened",
+    "zh": "害怕的"
+   },
+   {
+    "w": "surprised",
+    "zh": "驚訝的"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Meat",
+  "items": [
+   {
+    "w": "chicken",
+    "zh": "雞肉"
+   },
+   {
+    "w": "pork",
+    "zh": "豬肉"
+   },
+   {
+    "w": "beef",
+    "zh": "牛肉"
+   },
+   {
+    "w": "sausages",
+    "zh": "香腸"
+   },
+   {
+    "w": "duck",
+    "zh": "鴨肉"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Vegetables",
+  "items": [
+   {
+    "w": "peas",
+    "zh": "豌豆"
+   },
+   {
+    "w": "broccoli",
+    "zh": "西蘭花"
+   },
+   {
+    "w": "lettuce",
+    "zh": "生菜"
+   },
+   {
+    "w": "sweet corn",
+    "zh": "粟米"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Fruit",
+  "items": [
+   {
+    "w": "grapes",
+    "zh": "葡萄"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Snacks",
+  "items": [
+   {
+    "w": "a fruit tart",
+    "zh": "水果撻"
+   },
+   {
+    "w": "ice cream",
+    "zh": "雪糕"
+   },
+   {
+    "w": "yoghurt",
+    "zh": "乳酪"
+   },
+   {
+    "w": "crackers",
+    "zh": "克力架餅"
+   },
+   {
+    "w": "potato chips",
+    "zh": "薯片"
+   },
+   {
+    "w": "chocolate",
+    "zh": "朱古力"
+   },
+   {
+    "w": "cookies",
+    "zh": "曲奇"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Drink",
+  "items": [
+   {
+    "w": "apple juice",
+    "zh": "蘋果汁"
+   },
+   {
+    "w": "milk",
+    "zh": "牛奶"
+   },
+   {
+    "w": "tea",
+    "zh": "茶"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Seafood",
+  "items": [
+   {
+    "w": "fish",
+    "zh": "魚"
+   }
+  ]
+ },
+ {
+  "bk": "5B",
+  "cat": "Others",
+  "items": [
+   {
+    "w": "bread",
+    "zh": "麵包"
+   },
+   {
+    "w": "spaghetti",
+    "zh": "意大利麵"
+   },
+   {
+    "w": "noodles",
+    "zh": "麵"
+   },
+   {
+    "w": "rice",
+    "zh": "米飯"
+   },
+   {
+    "w": "a chicken wing",
+    "zh": "雞翼"
+   },
+   {
+    "w": "dim sum",
+    "zh": "點心"
+   },
+   {
+    "w": "hot dog",
+    "zh": "熱狗"
+   },
+   {
+    "w": "a steamed bun",
+    "zh": "包子"
+   },
+   {
+    "w": "butter",
+    "zh": "牛油"
+   },
+   {
+    "w": "salad dressing",
+    "zh": "沙拉醬"
+   }
+  ]
+ }
+]

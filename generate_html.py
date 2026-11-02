@@ -6,7 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
-v1.28：呈分試卷「一次出 10 套」——「📋 一次出 10 套」按鈕一鍵隨機組卷 10 套並簽名去重（組合空間每級約 10,368 種，屏幕出目錄卡列出各套閱讀/海報篇章與時態開頭，不影響當前作答卷）；「🖨 打印這 10 套」把 10 套整冊打印（每套獨立分頁 page-break，卷頭標「第 N 套」，勾含答案版時答案頁跟在各自卷後）。打印函數重構：卷體構造抽出 examPrintHtml(p,ans,examNo) 供單套/十套共用。verify2.js 加 10 套生成與打印內容斷言。v1.27：呈分試卷按第二批樣張補內容＋AI 出新卷——①題型補齊：新增 (I) 海報閱讀（公告海報＋MC 4×1%＋開放回答 2%×2，P5 校遊/舊書義賣、P6 慈善遊園會/沙灘清潔，仿樣張 I 版式）與 (J) since/therefore 填空（10×1%，各級 2 套，仿樣張 M）；樣張 K 電影職業（scriptwriter/film director/costume designer/extra/stuntman/set designer）與 L 習語（black sheep/green light/see red/egg on face/once in a blue moon/a slip of the tongue）、J 明喻詞庫分別併入 (D)(B)(A) 題庫（各加第 3 套）。②分值重排仍滿 100：A12+B12+C10(10×1%)+D10+E12+F10+G6(6×1%)+H10(MC 2%×2)+I8+J10。③「🤖 AI 出新卷」：復用英文卷的 OpenAI 兼容設置(hkk_ai_cfg)，大模型按 10 段 schema 生成整卷，結構校驗（exValidate：段數/題數/J 答案僅 since|therefore）通過才替換當前卷，卷頭標「AI 生成（請家長把關）」，失敗提示回退本地「🎲 出新卷」。④打印含 I/J 段與答案頁，AI 卷打印同步標注；verify2.js 更新 radio/textarea/段數斷言＋P5/P6 閉環滿分(SCORE 100/100)斷言。v1.25：繁體字庫分級擴充——簡→繁對照改為 FT_GRADES 分 P1–P6（自編分級：按簡體常用度＋繁體書寫複雜度遞增，頁面標注非教育局官方分級），字庫由 146 對擴至約 250 對，一簡對多繁字加注記（里/發/歷/復/鬆/隻/幾/盡等）；繁體對照視圖加年級 chips（全部/P1–P6）＋字數統計，搜尋在選中年級內生效。同版修復：.gsec margin 覆蓋 .wrap 居中致寬屏內容貼左（margin 12px 0 → 12px auto）。v1.24：練習→英文新增「呈分試卷」（P5–P6·仿版式原創題）——版式仿坊間呈分試模擬卷：生詞表8詞＋Warm-up詞形填空(不計分)＋(A)明喻12%＋(B)習語12%＋(C)時態篇章20%＋(D)職業對話10%＋(E)情境造句12%＋(F)短語動詞10%＋(G)量詞連詞12%＋(H)閱讀理解12%＝100%；每級2套分段題庫隨機組卷（2⁸組合），交卷自動批改（填空歸一化比對、開放題按要點關鍵詞、MC自動判分），記錄本級最佳(localStorage hkk_exampaper_v0)，打印含答案版；題目全部原創仿編，非任何機構真卷。verify2.js 加呈分試卷斷言。v1.23：全站免費——移除 v1.21 授權碼月付（英文卷／數學卷直接開放，無需激活；刪除鎖定面板、校驗 JS 與頁面注入密鑰；gen_license.py 保留在倉庫但不再被構建引用，後續如需收費可再啟）。免費為主的定位：題庫持續更新靠自願支持。verify2.js 改寫授權碼斷言為「免費直開」斷言（無鎖定面板／直出題卡）。v1.22：擇校分檔接入 schooland×教育局交叉勘誤——風采＝資助（EDB收費證明書免學費堂費$340，非直資）、官津英中僅6所（心誠直資英中、馬錦燦雙語部分英文、其餘中中）、茂峰＝元朗天水圍非北區、康樂/李興貴＝大埔接收北區跨境生；新增北區中學一覽20所（可篩選英中/官立/直資，含英文名/宗教/性別/地址）、升中攻略外鏈精選（EDB/中學概覽/schooland，正文版權屬原站）。verify2.js 加勘誤/篩選/外鏈斷言。v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
+v1.35：練習→英文新增「繪本閱讀」打卡模塊——牛津樹校園版 1–9 階共 204 本書單（build_ort.py 從家中課程視頻目錄提取正課書名，跨文件夾去重、多集合併標注講數，書名為事實信息不含教材內容）；每本點擊打卡（localStorage hkk_ort，隨賬號隔離），各階進度條＋總進度統計；模塊頂部「📁 家庭英語資源地圖」折疊卡列出牛津樹/朗文本地路徑與磨耳朵/精讀用法建議。同版新增「朗文詞庫」子標籤——LWTE GOLD 5A/5B Word Bank 19 類 140 條（build_lwte.py 以 .doc piece table 解析教材詞庫頁，兩欄串行人工清理；詞條為常見短語列表事實性內容，中文釋義自譯，版權屬 Pearson，站內標注僅家庭學習）；按冊/類別進度條＋點擊標記已掌握（hkk_lwte）。verify2.js 加 12 項斷言。v1.34：應葉工要求刪除頁腳「數據來源」可見標注行；授權信息改保留在 HTML 源碼注釋內（不顯示給訪客）。v1.33：登入註冊系統（仿 PLG iPlatform 風格）——線上鏈接強制登入方可使用（全屏登入頁：登入/註冊分 Tab、密碼👁切換、記住我、忘記密碼可重置賬號並清空進度），本地直開 file://·localhost 免登入以「本地」身份直接進站。本機賬號：暱稱+密碼存本瀏覽器 localStorage（密碼 salt+SHA-256 哈希，不上傳）；學習進度（打卡/最佳分/生字掌握等全部 hkk_* 鍵）按賬號隔離（hkk_u@暱稱@鍵 作用域搬移），多孩子各開賬號互不干擾，登入/退出時自動切換。⚠️ 純本地賬號：換設備需重新註冊，進度不跟隨；密碼遺失只能重置（清空該賬號進度）。原計劃接雲服務真賬號，開通確認被取消後改本地方案，日後可再開通升級。verify2.js 加 12 項賬號斷言（sha256 標準測向量/註冊登入/密碼錯拒/作用域往返/強制攔截）。v1.32：港小生字卡加英式 DJ 音標——335 詞全部配 IPA（/_add_ipa.py 人工標注生成 _hk_word_ipa.json，build_data.py 合併進 hk_words，全覆蓋校驗無缺無多）；生字卡詞後顯示音標（復用 .ph 樣式），閃卡「揭曉」同時顯示中文+音標。音標以 Oxford/Longman 詞典為準，個別詞有美式異讀。verify2.js 加音標斷言。v1.31：10 套卷答案可視——目錄卡每套加「📖 答案」按鈕，一按即載入該套卷並自動填入全部正確答案（A–J 十段、MC 打勾、開放題填範文），批改後全綠高亮 SCORE 100/100，答案即卷底可直接對照；答案模式不寫入「本級最佳」記錄（gradeExamPaper 加 noSave 參數）。打印含答案版照舊。verify2.js 加答案模式斷言（滿分+最佳分不被污染）。v1.30：呈分試卷題庫加厚，一次出 10 套不重樣——閱讀理解 (H) 與海報閱讀 (I) 每級由 2 套擴至 5 套（P5 新增街市/獅子山/節水 + 失物招領/閱讀週/游泳 gala，P6 新增猴子/港鐵/廚餘 + 運動會/探訪安老院/科學週），時態篇章 (C) 每級由 2 篇擴至 5 篇（P5 運動會/跨境上學/科學館，P6 賣物會/筆友/地質公園）；「一次出 10 套」新增硬規則：10 套卷的 H+I 組合互不重複（目錄上不會再有兩套同一篇閱讀+海報），全卷 JSON 簽名去重不變。修錯字 A umbrella→An umbrella。verify2.js 加題庫數量與 H+I 組合去重斷言。v1.29：呈分試卷「一次出 10 套」可視化——目錄卡每套新增「📄 打開」按鈕，點一下即把該套整卷載入屏幕作答區（可作答、可交卷批改、可單獨打印），卷頭標「第 N 套」；生成後自動滾動到目錄卡，唔使再靠「出新卷」碰運氣。目錄表加操作欄。按「🎲 出新卷」或切年級會清套號返回隨機卷。verify2.js 加「打開第 1 套」斷言。v1.28：呈分試卷「一次出 10 套」——「📋 一次出 10 套」按鈕一鍵隨機組卷 10 套並簽名去重（組合空間每級約 10,368 種，屏幕出目錄卡列出各套閱讀/海報篇章與時態開頭，不影響當前作答卷）；「🖨 打印這 10 套」把 10 套整冊打印（每套獨立分頁 page-break，卷頭標「第 N 套」，勾含答案版時答案頁跟在各自卷後）。打印函數重構：卷體構造抽出 examPrintHtml(p,ans,examNo) 供單套/十套共用。verify2.js 加 10 套生成與打印內容斷言。v1.27：呈分試卷按第二批樣張補內容＋AI 出新卷——①題型補齊：新增 (I) 海報閱讀（公告海報＋MC 4×1%＋開放回答 2%×2，P5 校遊/舊書義賣、P6 慈善遊園會/沙灘清潔，仿樣張 I 版式）與 (J) since/therefore 填空（10×1%，各級 2 套，仿樣張 M）；樣張 K 電影職業（scriptwriter/film director/costume designer/extra/stuntman/set designer）與 L 習語（black sheep/green light/see red/egg on face/once in a blue moon/a slip of the tongue）、J 明喻詞庫分別併入 (D)(B)(A) 題庫（各加第 3 套）。②分值重排仍滿 100：A12+B12+C10(10×1%)+D10+E12+F10+G6(6×1%)+H10(MC 2%×2)+I8+J10。③「🤖 AI 出新卷」：復用英文卷的 OpenAI 兼容設置(hkk_ai_cfg)，大模型按 10 段 schema 生成整卷，結構校驗（exValidate：段數/題數/J 答案僅 since|therefore）通過才替換當前卷，卷頭標「AI 生成（請家長把關）」，失敗提示回退本地「🎲 出新卷」。④打印含 I/J 段與答案頁，AI 卷打印同步標注；verify2.js 更新 radio/textarea/段數斷言＋P5/P6 閉環滿分(SCORE 100/100)斷言。v1.25：繁體字庫分級擴充——簡→繁對照改為 FT_GRADES 分 P1–P6（自編分級：按簡體常用度＋繁體書寫複雜度遞增，頁面標注非教育局官方分級），字庫由 146 對擴至約 250 對，一簡對多繁字加注記（里/發/歷/復/鬆/隻/幾/盡等）；繁體對照視圖加年級 chips（全部/P1–P6）＋字數統計，搜尋在選中年級內生效。同版修復：.gsec margin 覆蓋 .wrap 居中致寬屏內容貼左（margin 12px 0 → 12px auto）。v1.24：練習→英文新增「呈分試卷」（P5–P6·仿版式原創題）——版式仿坊間呈分試模擬卷：生詞表8詞＋Warm-up詞形填空(不計分)＋(A)明喻12%＋(B)習語12%＋(C)時態篇章20%＋(D)職業對話10%＋(E)情境造句12%＋(F)短語動詞10%＋(G)量詞連詞12%＋(H)閱讀理解12%＝100%；每級2套分段題庫隨機組卷（2⁸組合），交卷自動批改（填空歸一化比對、開放題按要點關鍵詞、MC自動判分），記錄本級最佳(localStorage hkk_exampaper_v0)，打印含答案版；題目全部原創仿編，非任何機構真卷。verify2.js 加呈分試卷斷言。v1.23：全站免費——移除 v1.21 授權碼月付（英文卷／數學卷直接開放，無需激活；刪除鎖定面板、校驗 JS 與頁面注入密鑰；gen_license.py 保留在倉庫但不再被構建引用，後續如需收費可再啟）。免費為主的定位：題庫持續更新靠自願支持。verify2.js 改寫授權碼斷言為「免費直開」斷言（無鎖定面板／直出題卡）。v1.22：擇校分檔接入 schooland×教育局交叉勘誤——風采＝資助（EDB收費證明書免學費堂費$340，非直資）、官津英中僅6所（心誠直資英中、馬錦燦雙語部分英文、其餘中中）、茂峰＝元朗天水圍非北區、康樂/李興貴＝大埔接收北區跨境生；新增北區中學一覽20所（可篩選英中/官立/直資，含英文名/宗教/性別/地址）、升中攻略外鏈精選（EDB/中學概覽/schooland，正文版權屬原站）。verify2.js 加勘誤/篩選/外鏈斷言。v1.21：新增授權碼月付（付費模組＝英文卷＋數學卷，其餘免費）——激活碼 HKSS-YYYYMMDD-XXXXXXXX（SHA256(密鑰|到期日)前8位），未激活時出卷區顯示鎖定面板（輸入碼解鎖，過期碼／無效碼分別提示），出卷／打印全鏈路守衛，操作列顯示「已激活至」；新增 gen_license.py 發碼工具（記錄 licenses_issued.csv）與 license_secret.txt 密鑰（首次構建自動生成）。防君子級：密鑰隨頁面分發，月付護城河＝持續更新內容。verify2.js 加授權碼斷言（鎖定面板／無效拒／過期拒／解鎖出卷／localStorage）。v1.20：修復數學卷年級 chip 切換失效——術語分類 chip 的綁定選擇器原為 #mathPracView .chip，誤把數學卷年級 chip(#mpgChips P1–P6) 也綁成術語處理器，導致點 P2–P6 仍抽 P1 題、localStorage 年級寫錯；收斂為 #mTermsView .chip 僅綁術語分類，年級 chip 不再被覆寫。verify2.js 數學卷斷言全過。v1.19：練習→數學新增「數學卷」（雙語對照·分 P1–P6）——仿編原創題庫（mc/fill/word 三型），英文題幹＋中文對照，按年級 chip 出卷＋交卷批改（應用題不計分給參考答案）＋打印含答案版；mathPracView 加 subnav 分「中↔英術語表／數學卷」。verify2.js 加數學卷斷言。v1.18：排版優化——詞彙頁（港小生字）加「展開全部／收起全部」按鈕（複用 hkCollapsed 狀態），長標題補 line-height:1.5 改善小屏折行。v1.17：港小生字（英文詞）按 P1–P6 分級分塊展示——移除年級 chip 過濾，改為六個可折疊小節（P1·一年級…P6·六年級），每節列出該年級英文詞＋中文義，帶搜索/主題/自測過濾，折疊狀態跨重渲染保留（hkCollapsed）；沿用簡繁對照式簡潔列表。verify2.js 改寫 hk 斷言（.gsec=6／每節含詞卡／首節標題含 P1 與一年級／總詞卡>300／搜索過濾）。v1.16：英文卷新增「綜合 P1–P6」分年級小節卷（每級 2 題）＋每題「🔄 換一題（本地）」與「🤖 AI 換題（接 OpenAI 兼容大模型，自填接口／密鑰，存 localStorage）」；AI 設置面板。v1.15：英文卷閱讀題庫接入教育局「中國寓言系列」——10 篇 EDB 公開英文寓言（鑿壁偷光/亡羊補牢/一飯千金/賣油翁/守株待兔/塞翁失馬/愚公移山/三人成虎/大禹治水/花木蘭）依官方英文文本改編為 read 題型（每篇 4 題含 1 道文法選擇填空），分散 P4(4)/P5(3)/P6(3)，標 src:'EDB' 來源；genEnPaper 拼接 EN_EDB 常量（不動原 EN_QBANK）；renderEnPaper/打印雙端顯示「來源：EDB」；enSrcNote 補 EDB 版權聲明。verify2.js 加 4 項斷言（EN_EDB 存在／各級含 EDB read／src 字段）。
 v1.14：練習→英文新增第 5 入口「詞彙路線圖」(goalView)——①站內現有詞量統計(港小335＋B1 1465＝1800，诗词185首另計，標注入門奠基包非全量)；②一年級→中六累計詞量目標表(P1 500–800…P6 2500–3000…S6 6000–8000／衝L5 10000+，坊間基準＋來源＋EDB不公布官方詞單聲明)；③本家庭落點(2027/28 插班中一，P6→S1 銜接路線)；④背詞方法(語境閱讀／主動被動詞彙／間隔重複／聽讀／遊戲化打卡／詞根聯想，標來源性質)。enPracSub 增第5按鈕與顯隱；verify2.js 加 3 項斷言(goalView 按鈕/點擊顯示/含「1,800」與「中六」與「2,500–3,000」)。
 v1.13：英文卷打印升級「一次性打印一套卷子」——①空卷時按「打印一套卷子」自動先出一套再印，無須先按「出新卷」；②卷頭增「共 N 題／總分」；③勾「含答案版」時答案獨立成頁（題卷＋答案卷＝完整一套，答案卷 page-break-before 獨立分頁）；按鈕改名「🖨 打印一套卷子」。verify2.js 加 3 項斷言（空卷自動出卷／題卷含總分／含答案版答案卷獨立成頁）。
 v1.12：升中面試模塊重做——依 2026 香港升中面試公開資料大幅擴充（4 大面試形式＋10 大題型佔比表＋英文自我介紹黃金4步＋互動練習卡＋小組討論 DO/DON'T＋分類題庫＋P5→P6 時間線＋2026 名校題例＋弱項自評＋資料來源）；新增自我介紹填空練習與錄音自測按鈕；verify2.js 加 6 項斷言。
@@ -425,12 +425,106 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
 .ex-anspage{margin-top:18px;border-top:2px dashed #999;padding-top:10px}
 .ex-ans{font-size:12.5px;line-height:1.9;margin:4px 0}
 .ex-lines{color:#bbb;letter-spacing:1px}
+/* ---- 登录注册页（v1.33，仿 PLG iPlatform 风格） ---- */
+#authGate{position:fixed;inset:0;background:#f6faf9;z-index:9999;display:none;overflow-y:auto;font-family:inherit}
+#authGate.on{display:block}
+body.authLock{overflow:hidden}
+.authHero{background:linear-gradient(135deg,#17b3a6,#2ecf9e);padding:34px 16px 26px;text-align:center;color:#fff;border-radius:0 0 42% 42%/0 0 12% 12%}
+.authHero .logo{font-size:38px;font-weight:800;letter-spacing:1px;text-shadow:0 2px 6px rgba(0,0,0,.15)}
+.authHero .logo .hl{color:#ffe37a}
+.authHero .sub{font-size:15px;margin-top:6px;opacity:.95}
+.authCard{max-width:400px;margin:-14px auto 24px;background:#fff;border:1px solid #e3eeec;border-radius:14px;box-shadow:0 6px 24px rgba(23,120,110,.10);padding:22px 20px 18px}
+.authTabs{display:flex;gap:6px;margin-bottom:16px}
+.authTabs button{flex:1;padding:9px 0;border:1px solid #d7e6e3;background:#f4fbfa;border-radius:8px;font-size:15px;cursor:pointer;color:#3d6b65;font-family:inherit}
+.authTabs button.on{background:#17b3a6;border-color:#17b3a6;color:#fff;font-weight:700}
+.authRow{display:flex;align-items:center;border:1px solid #d9e5e2;border-radius:8px;margin-bottom:12px;background:#fff;overflow:hidden}
+.authRow:focus-within{border-color:#17b3a6;box-shadow:0 0 0 2px rgba(23,179,166,.15)}
+.authRow .ico{padding:0 10px;font-size:16px;color:#8aa8a3}
+.authRow input{flex:1;border:0;outline:0;padding:11px 10px 11px 0;font-size:15px;min-width:0;font-family:inherit}
+.authRow .eye{border:0;background:none;cursor:pointer;padding:0 12px;font-size:15px;color:#5f8a84;font-family:inherit}
+.authOpts{display:flex;justify-content:space-between;align-items:center;margin:2px 0 14px;font-size:13px;color:#5f7f7a}
+.authOpts label{cursor:pointer;display:flex;gap:5px;align-items:center}
+.authOpts a{color:#17b3a6;cursor:pointer;text-decoration:underline}
+.authBtn{display:block;width:100%;padding:12px 0;border:0;border-radius:24px;background:#17b3a6;color:#fff;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit}
+.authBtn:active{transform:translateY(1px)}
+.authBtn.alt{margin-top:12px;background:#fff;color:#17b3a6;border:2px solid #17b3a6}
+.authErr{min-height:18px;font-size:13px;color:#d64545;margin:4px 0 8px;text-align:center}
+.authOk{color:#17a05c}
+.authFoot{max-width:400px;margin:0 auto 30px;text-align:center;font-size:12.5px;color:#7d9a95;line-height:1.7}
+.authFoot .terms{text-decoration:underline;color:#4a8f88;cursor:pointer}
+.authReset{border-top:1px dashed #dbe9e6;margin-top:16px;padding-top:12px;font-size:13px;color:#5f7f7a}
+.authReset summary{cursor:pointer;color:#4a8f88}
+#userChip{position:absolute;top:14px;right:16px;display:none;align-items:center;gap:8px;font-size:13px;color:#0d5a53;background:rgba(255,255,255,.85);border:1px solid #cfe8e4;border-radius:20px;padding:4px 6px 4px 12px;z-index:50}
+#userChip button{border:0;background:#17b3a6;color:#fff;border-radius:14px;padding:3px 10px;font-size:12px;cursor:pointer;font-family:inherit}
+header{position:relative}
+@media print{#authGate{display:none !important}#userChip{display:none !important}}
+.ort-map{margin:10px 0;border:1px solid var(--line);border-radius:10px;background:#fff}
+.ort-map summary{cursor:pointer;padding:9px 12px;font-size:13px;font-weight:600;color:#475069}
+.ort-map-body{padding:4px 14px 12px;font-size:13px;color:#3b4252}
+.ort-map-body code{background:#f0f4fb;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:12px;word-break:break-all}
+.ort-map-body ul{margin:4px 0 8px;padding-left:20px}
+.ort-map-body li{margin:3px 0}
+.ort-stat{font-size:13px;color:#475069;margin:8px 0}
+.ort-lv{margin:14px 0}
+.ort-lv-h{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.ort-bar{flex:1;height:8px;background:#e8edf5;border-radius:4px;overflow:hidden;min-width:80px}
+.ort-bar i{display:block;height:100%;background:var(--math);border-radius:4px;transition:width .3s}
+.ort-books{display:flex;flex-wrap:wrap;gap:6px}
+.ort-bk{padding:5px 11px;border:1px solid var(--line);border-radius:16px;background:#fff;font-size:13px;cursor:pointer;color:var(--ink);transition:.15s}
+.ort-bkw{display:inline-flex;align-items:center;gap:4px;margin:2px 0}
+.ort-play{font-size:11px;color:#0f766e;text-decoration:none;border:1px solid #99f6e4;border-radius:10px;padding:2px 6px;background:#f0fdfa}
+.ort-play:hover{background:#0f766e;color:#fff}
+.ort-bk:hover{border-color:var(--math);color:var(--math)}
+.ort-bk.done{background:var(--math);border-color:var(--math);color:#fff;text-decoration:line-through;opacity:.85}
+.ort-bk .ort-n{font-size:11px;opacity:.75;margin-left:3px}
 </style>
 </head>
 <body>
+<!-- ============ 登录注册页（v1.33）：線上強制登入，本地直開免登入 ============ -->
+<div id="authGate">
+  <div class="authHero">
+    <div class="logo">香港插班<span class="hl">學習站</span></div>
+    <div class="sub">中英數練習 · 呈分試模擬卷 · 升學規劃（免費）</div>
+  </div>
+  <div class="authCard">
+    <div class="authTabs">
+      <button id="authTabLogin" class="on" onclick="authShowTab('login')">登 入</button>
+      <button id="authTabReg" onclick="authShowTab('reg')">註 冊</button>
+    </div>
+    <div id="authLoginBox">
+      <div class="authRow"><span class="ico">👤</span><input id="authLoginName" maxlength="16" placeholder="暱稱（註冊時填的名字）"></div>
+      <div class="authRow"><span class="ico">🔒</span><input id="authLoginPwd" type="password" maxlength="64" placeholder="密碼（至少 8 位）"><button class="eye" type="button" onclick="authTogglePwd('authLoginPwd',this)">👁</button></div>
+      <div class="authOpts"><label><input type="checkbox" id="authRemember" checked> 記住我</label><a onclick="authShowTab('reset')">忘記密碼？</a></div>
+      <div class="authErr" id="authLoginErr"></div>
+      <button class="authBtn" id="authLoginBtn" onclick="authLogin()">登 入</button>
+      <button class="authBtn alt" onclick="authShowTab('reg')">創建新賬號</button>
+    </div>
+    <div id="authRegBox" style="display:none">
+      <div class="authRow"><span class="ico">👧</span><input id="authRegName" maxlength="16" placeholder="暱稱（2–16 字，中文或英文）"></div>
+      <div class="authRow"><span class="ico">🔒</span><input id="authRegPwd" type="password" maxlength="64" placeholder="密碼（至少 8 位）"><button class="eye" type="button" onclick="authTogglePwd('authRegPwd',this)">👁</button></div>
+      <div class="authRow"><span class="ico">✅</span><input id="authRegPwd2" type="password" maxlength="64" placeholder="再輸入一次密碼"></div>
+      <div class="authErr" id="authRegErr"></div>
+      <button class="authBtn" id="authRegBtn" onclick="authRegister()">創建賬號並登入</button>
+    </div>
+    <details class="authReset" id="authResetBox" style="display:none">
+      <summary>🔑 忘記密碼？重置賬號</summary>
+      <p style="margin:8px 0">⚠️ 純本地賬號無法找回舊密碼。輸入暱稱和新密碼可<strong>重置該賬號並清空其全部學習進度</strong>（其他賬號不受影響）。</p>
+      <div class="authRow"><span class="ico">👤</span><input id="authResetName" maxlength="16" placeholder="要重置的暱稱"></div>
+      <div class="authRow"><span class="ico">🔒</span><input id="authResetPwd" type="password" maxlength="64" placeholder="新密碼（至少 8 位）"></div>
+      <div class="authErr" id="authResetErr"></div>
+      <button class="authBtn alt" onclick="authReset()">重置賬號</button>
+    </details>
+  </div>
+  <div class="authFoot">
+    <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
+    數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
+    © 叶工 SteveHKSZ · 公開版 v1.39（全站免費）
+  </div>
+</div>
 <header>
+  <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 數據本地保存，不上傳 · 公開版 v1.28（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.39（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan">升學規劃</button>
@@ -574,6 +668,8 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
       <button data-es="paper">英文卷</button>
       <button data-es="goal">詞彙路線圖</button>
       <button data-es="exam">呈分試卷</button>
+      <button data-es="ort">繪本閱讀</button>
+      <button data-es="lwte">朗文詞庫</button>
     </div>
     <div id="hkView">
       <div class="tools">
@@ -925,6 +1021,38 @@ Thank you for your time.</div>
         題庫為本地仿編原創練習題，參考香港小學數學課程常見進度（數與運算／分數·小數·百分數／代數／幾何／度量／統計與概率）整理；非評估局（HKEAA）或學校真卷，年級難度為估算。正式以學校課本與教育局課程指引為準。
       </div>
     </div>
+    <div class="wrap gsec" id="ortView" style="display:none">
+      <div class="gtitle">繪本閱讀打卡 · 牛津樹校園版 1–9 階</div>
+      <span class="folk">書單提取自家中課程視頻目錄（書名與階數為事實信息）；本站僅做閱讀打卡記錄，不含任何教材內容。點書名即標記/取消「已讀」，進度按登入賬號分開保存。</span>
+      <details class="ort-map">
+        <summary>📁 家庭英語資源地圖（本地路徑 + 用法建議）</summary>
+        <div class="ort-map-body">
+          <p><b>牛津樹（Oxford Reading Tree）校園版</b> — <a href="file:///G:/00%20%E5%92%A8%E8%AF%A2%26%E5%85%AC%E8%87%AA%E5%AA%92%E4%BD%93/22%20%E9%A6%99%E6%B8%AF%E6%8F%92%E7%8F%AD/88%20%E6%B6%B5%E6%B6%B5/01%E8%8B%B1%E8%AA%9E/01%20%E7%89%9B%E6%B4%A5%E6%A0%91" target="_blank" rel="noopener"><code>G:\00 咨询&公自媒体\22 香港插班\88 涵涵\01英語\01 牛津树</code></a></p>
+          <ul>
+            <li><b>磨耳朵（每天 15–20 分鐘）</b>：<a href="file:///G:/00%20%E5%92%A8%E8%AF%A2%26%E5%85%AC%E8%87%AA%E5%AA%92%E4%BD%93/22%20%E9%A6%99%E6%B8%AF%E6%8F%92%E7%8F%AD/88%20%E6%B6%B5%E6%B6%B5/01%E8%8B%B1%E8%AA%9E/01%20%E7%89%9B%E6%B4%A5%E6%A0%91/%E6%A0%A1%E5%9B%AD%E7%89%88%E7%89%9B%E6%B4%A5%E6%A0%91%E9%9F%B3%E9%A2%91%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">校園版牛津树音频文件</a>按階播 mp3，配合已讀過的書循環聽。</li>
+            <li><b>精讀（每週 2 本）</b>：<a href="file:///G:/00%20%E5%92%A8%E8%AF%A2%26%E5%85%AC%E8%87%AA%E5%AA%92%E4%BD%93/22%20%E9%A6%99%E6%B8%AF%E6%8F%92%E7%8F%AD/88%20%E6%B6%B5%E6%B6%B5/01%E8%8B%B1%E8%AA%9E/01%20%E7%89%9B%E6%B4%A5%E6%A0%91/%E7%AB%A5%E8%80%81%E5%B8%88%E7%89%9B%E6%B4%A5%E7%BB%98%E6%9C%AC%E8%A7%86%E9%A2%91" target="_blank" rel="noopener">童老师牛津绘本视频</a>正課雙語講解（每本 1–2 講），先看講解再自讀，讀完來本頁打卡；書單裡每本書旁的 ▶ 按鈕本地打開時可直接播放。</li>
+            <li><b>娛樂時間</b>：<a href="file:///G:/00%20%E5%92%A8%E8%AF%A2%26%E5%85%AC%E8%87%AA%E5%AA%92%E4%BD%93/22%20%E9%A6%99%E6%B8%AF%E6%8F%92%E7%8F%AD/88%20%E6%B6%B5%E6%B6%B5/01%E8%8B%B1%E8%AA%9E/01%20%E7%89%9B%E6%B4%A5%E6%A0%91/%E7%89%9B%E6%B4%A5%E6%A0%91%E7%9C%9F%E4%BA%BA%E5%89%A7" target="_blank" rel="noopener">牛津树真人剧</a>Biff &amp; Chip 30 集 + The Magic Key 動畫，只准英文原聲。</li>
+          </ul>
+          <p><b>香港朗文（Longman）教材</b> — <a href="file:///G:/00%20%E5%92%A8%E8%AF%A2%26%E5%85%AC%E8%87%AA%E5%AA%92%E4%BD%93/22%20%E9%A6%99%E6%B8%AF%E6%8F%92%E7%8F%AD/88%20%E6%B6%B5%E6%B6%B5/01%E8%8B%B1%E8%AA%9E/10%20%E9%A6%99%E6%B8%AF%E6%9C%97%E6%96%87" target="_blank" rel="noopener"><code>G:\00 咨询&公自媒体\22 香港插班\88 涵涵\01英語\10 香港朗文</code></a></p>
+          <ul>
+            <li><b>課內同步</b>：<a href="file:///G:/00%20%E5%92%A8%E8%AF%A2%26%E5%85%AC%E8%87%AA%E5%AA%92%E4%BD%93/22%20%E9%A6%99%E6%B8%AF%E6%8F%92%E7%8F%AD/88%20%E6%B6%B5%E6%B6%B5/01%E8%8B%B1%E8%AA%9E/10%20%E9%A6%99%E6%B8%AF%E6%9C%97%E6%96%87/LWTEGOLD%201A-6B%20%E5%85%A8%E5%A5%97%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">LWTE GOLD 1A–6B 全套資源</a>教師用書/課件（跟學校進度預習複習）。</li>
+            <li><b>聽力</b>：<a href="file:///G:/00%20%E5%92%A8%E8%AF%A2%26%E5%85%AC%E8%87%AA%E5%AA%92%E4%BD%93/22%20%E9%A6%99%E6%B8%AF%E6%8F%92%E7%8F%AD/88%20%E6%B6%B5%E6%B6%B5/01%E8%8B%B1%E8%AA%9E/10%20%E9%A6%99%E6%B8%AF%E6%9C%97%E6%96%87/B5135-Longman%20English%20World" target="_blank" rel="noopener">Longman English World</a>各冊 Listening &amp; Speaking mp3。</li>
+            <li>⚠️ 教材音視頻版權屬出版社，僅限家庭使用，勿外傳。</li>
+          </ul>
+          <p class="folk">💡 上面的資料夾連結與書單 ▶ 按鈕，只有在**本機直接打開這份 HTML 文件**（地址欄是 file:/// 開頭）時才能點開；線上版不出現 ▶。</p>
+        </div>
+      </details>
+      <div class="pg-chips" id="ortChips"></div>
+      <div id="ortStat" class="ort-stat"></div>
+      <div id="ortList"></div>
+    </div>
+    <div class="wrap gsec" id="lwteView" style="display:none">
+      <div class="gtitle">朗文詞庫 · LWTE GOLD 5A/5B（19 類 140 條）</div>
+      <span class="folk">詞條取自朗文 LWTE GOLD 教材詞庫頁（常見短語/單詞列表，事實性內容；中文釋義為自譯；版權屬 Pearson Education Asia，僅供家庭學習參考，請勿外傳）。點擊即標記/取消「已掌握」。</span>
+      <div class="pg-chips" id="lwteChips"></div>
+      <div id="lwteStat" class="ort-stat"></div>
+      <div id="lwteList"></div>
+    </div>
   </div>
 </div>
 
@@ -965,10 +1093,17 @@ Thank you for your time.</div>
   <!-- 擇校分檔 -->
   <div class="wrap" id="schoolsView" style="display:none">
     <div class="gsec">
-      <h2>擇校分檔：北區中學 20 所＋跨區接收校（跨境插班視角）</h2>
+      <h2>擇校分檔：北區中學 20 所＋東鐵沿線（大埔）20 所</h2>
       <div class="gcard">
         <h3>北區跨境要點</h3>
         <p>北區（上水/粉嶺）是羅湖、福田（落馬洲支線）、文錦渡口岸入港第一站，東鐵線 1 站到上水、2 站到粉嶺，單程通關＋車程約 30–40 分鐘，跨境生比例全港最高。教育局有跨境學童派位安排，北區 <b>30 所學校</b>參與（2025 年度數據，中一跨境學額約 <b>171 個</b>，來源：教育局公開資料，坊間引用）。跨境校巴/保姆車體系成熟，校巴申請一般每年 5–6 月。</p>
+      </div>
+      <div class="gcard">
+        <h3>🚌 校車 / 保姆車怎麼回事（跨境交通現實）</h3>
+        <p>① <b>校巴/保姆車不是學校配套</b>：由私營營辦商按線路經營，跨境校巴在北區體系成熟（坊間常見營辦商如葉太、禮姨、菁荭等——坊間整理，2026-10-27 核對，線路與營辦商每年變動）。<b>申請一般在每年 5–6 月</b>，錯過要等補位。</p>
+        <p>② <b>中學階段的現實</b>：北區中學的跨境生絕大多數<b>自行搭東鐵通勤</b>（羅湖/落馬洲 → 上水/粉嶺，1–2 站）；中學保姆車線路遠少於小學，某校有沒有線路、上車點在哪、費用多少，要<b>逐校電話校務處問</b>（連同叩門一起問最省事）——下兩表已附各校電話，可直接點撥。</p>
+        <p>③ <b>大埔（東鐵沿線）</b>：粉嶺再一站即太和，鐵路通勤可控；保姆車線路更少，以東鐵為主——所以下表每所都標了「近東鐵站」（依地址所在社區估算）。</p>
+        <p class="src">來源：hk-placement 知識庫 v0.2（2026-10-27）＋ 校務處諮詢慣例整理；線路/費用/集合點以學校及營辦商當年公布為準。</p>
       </div>
       <div class="gcard warn">
         <h3>本家庭叩門總邏輯（身份 2027.6 到手的家庭先看這個）</h3>
@@ -1024,32 +1159,70 @@ Thank you for your time.</div>
         </div>
         <div class="scroll-x">
         <table class="mtable" id="ssTable">
-          <thead><tr><th>學校</th><th>英文名稱</th><th>種類</th><th>宗教</th><th>性別</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>地址</th></tr></thead>
+          <thead><tr><th>學校</th><th>英文名稱</th><th>種類</th><th>宗教</th><th>性別</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>地址</th><th>電話<br><span style="font-weight:400;color:#a33">核對 2026-11-02</span></th></tr></thead>
           <tbody>
-            <tr data-ss="en" data-lan="en"><td>鄧顯紀念中學</td><td>HKTA Tang Hin Memorial Secondary School</td><td>資助</td><td>道教</td><td>男女</td><td>英中</td><td>1</td><td>上水彩園邨</td></tr>
-            <tr data-ss="en" data-lan="en"><td>東華三院甲寅年總理中學</td><td>TWGHs Kap Yan Directors' College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>上水彩園邨</td></tr>
-            <tr data-ss="en" data-lan="en"><td>風采中學（教育評議會主辦）</td><td>Elegantia College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>上水清城路8號</td></tr>
-            <tr data-ss="en" data-lan="en"><td>田家炳中學</td><td>Tin Ka Ping Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>粉嶺維翰路1號</td></tr>
-            <tr data-ss="en" data-lan="en"><td>聖公會陳融中學</td><td>SKH Chan Young Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>英中</td><td>1</td><td>上水智昌路6號</td></tr>
-            <tr data-ss="en" data-lan="en"><td>東華三院李嘉誠中學</td><td>TWGHs Li Ka Shing College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>粉嶺祥華邨</td></tr>
-            <tr data-ss="dss" data-lan="en"><td>基督教香港信義會心誠中學</td><td>Fanling Lutheran Secondary School</td><td>直資</td><td>基督教</td><td>男女</td><td>英中</td><td>2</td><td>粉嶺馬會道270號</td></tr>
-            <tr data-ss="aided"><td>香海正覺蓮社佛教馬錦燦紀念英文中學</td><td>HHCKLA Buddhist Ma Kam Chan Memorial English Secondary School</td><td>資助</td><td>佛教</td><td>男女</td><td>雙語（部分英文）</td><td>2</td><td>粉嶺聯和墟聯益街9號</td></tr>
-            <tr data-ss="aided"><td>宣道會陳朱素華紀念中學</td><td>Christian Alliance S W Chan Memorial College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺暉明路12號</td></tr>
-            <tr data-ss="aided"><td>粉嶺禮賢會中學</td><td>Fanling Rhenish Church Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺聯和墟聯益街1號</td></tr>
-            <tr data-ss="aided"><td>保良局馬錦明中學</td><td>PLK Ma Kam Ming College</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺華明路38號</td></tr>
-            <tr data-ss="aided"><td>鳳溪廖萬石堂中學</td><td>Fung Kai Liu Man Shek Tong Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>上水鳳南路6號</td></tr>
-            <tr data-ss="aided"><td>粉嶺救恩書院</td><td>Fanling Kau Yan College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺欣盛里3號</td></tr>
-            <tr data-ss="aided"><td>鳳溪第一中學</td><td>Fung Kai No.1 Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>上水馬會道17號</td></tr>
-            <tr data-ss="aided"><td>明愛粉嶺陳震夏中學</td><td>Caritas Fanling Chan Chun Ha Secondary School</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺新運路28號</td></tr>
-            <tr data-ss="aided"><td>新界喇沙中學</td><td>De La Salle Secondary School, N.T.</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>上水金錢村</td></tr>
-            <tr data-ss="aided"><td>聖芳濟各書院</td><td>St. Francis Of Assisi's College</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺欣盛里1號</td></tr>
-            <tr data-ss="aided"><td>中華基督教會基新中學</td><td>CCC Kei San Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺蝴蝶山路8號</td></tr>
-            <tr data-ss="gov"><td>粉嶺官立中學</td><td>Fanling Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺一鳴路27號</td></tr>
-            <tr data-ss="gov"><td>上水官立中學</td><td>Sheung Shui Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3</td><td>上水百和路21號</td></tr>
+            <tr data-ss="en" data-lan="en"><td>鄧顯紀念中學</td><td>HKTA Tang Hin Memorial Secondary School</td><td>資助</td><td>道教</td><td>男女</td><td>英中</td><td>1</td><td>上水彩園邨</td><td><a href="tel:26726820">26726820</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>東華三院甲寅年總理中學</td><td>TWGHs Kap Yan Directors' College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>上水彩園邨</td><td><a href="tel:26727395">26727395</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>風采中學（教育評議會主辦）</td><td>Elegantia College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>上水清城路8號</td><td><a href="tel:24683680">24683680</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>田家炳中學</td><td>Tin Ka Ping Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>粉嶺維翰路1號</td><td><a href="tel:26731778">26731778</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>聖公會陳融中學</td><td>SKH Chan Young Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>英中</td><td>1</td><td>上水智昌路6號</td><td><a href="tel:26718989">26718989</a></td></tr>
+            <tr data-ss="en" data-lan="en"><td>東華三院李嘉誠中學</td><td>TWGHs Li Ka Shing College</td><td>資助</td><td>無</td><td>男女</td><td>英中</td><td>1</td><td>粉嶺祥華邨</td><td><a href="tel:26697455">26697455</a></td></tr>
+            <tr data-ss="dss" data-lan="en"><td>基督教香港信義會心誠中學</td><td>Fanling Lutheran Secondary School</td><td>直資</td><td>基督教</td><td>男女</td><td>英中</td><td>2</td><td>粉嶺馬會道270號</td><td><a href="tel:26700541">26700541</a></td></tr>
+            <tr data-ss="aided"><td>香海正覺蓮社佛教馬錦燦紀念英文中學</td><td>HHCKLA Buddhist Ma Kam Chan Memorial English Secondary School</td><td>資助</td><td>佛教</td><td>男女</td><td>雙語（部分英文）</td><td>2</td><td>粉嶺聯和墟聯益街9號</td><td><a href="tel:26699208">26699208</a></td></tr>
+            <tr data-ss="aided"><td>宣道會陳朱素華紀念中學</td><td>Christian Alliance S W Chan Memorial College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺暉明路12號</td><td><a href="tel:26709229">26709229</a></td></tr>
+            <tr data-ss="aided"><td>粉嶺禮賢會中學</td><td>Fanling Rhenish Church Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺聯和墟聯益街1號</td><td><a href="tel:29473698">29473698</a></td></tr>
+            <tr data-ss="aided"><td>保良局馬錦明中學</td><td>PLK Ma Kam Ming College</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺華明路38號</td><td><a href="tel:26794545">26794545</a></td></tr>
+            <tr data-ss="aided"><td>鳳溪廖萬石堂中學</td><td>Fung Kai Liu Man Shek Tong Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>上水鳳南路6號</td><td><a href="tel:26736106">26736106</a></td></tr>
+            <tr data-ss="aided"><td>粉嶺救恩書院</td><td>Fanling Kau Yan College</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>2</td><td>粉嶺欣盛里3號</td><td><a href="tel:26608405">26608405</a></td></tr>
+            <tr data-ss="aided"><td>鳳溪第一中學</td><td>Fung Kai No.1 Secondary School</td><td>資助</td><td>無</td><td>男女</td><td>中文</td><td>2</td><td>上水馬會道17號</td><td><a href="tel:26700366">26700366</a></td></tr>
+            <tr data-ss="aided"><td>明愛粉嶺陳震夏中學</td><td>Caritas Fanling Chan Chun Ha Secondary School</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺新運路28號</td><td><a href="tel:26699966">26699966</a></td></tr>
+            <tr data-ss="aided"><td>新界喇沙中學</td><td>De La Salle Secondary School, N.T.</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>上水金錢村</td><td><a href="tel:26700443">26700443</a></td></tr>
+            <tr data-ss="aided"><td>聖芳濟各書院</td><td>St. Francis Of Assisi's College</td><td>資助</td><td>天主教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺欣盛里1號</td><td><a href="tel:26779702">26779702</a></td></tr>
+            <tr data-ss="aided"><td>中華基督教會基新中學</td><td>CCC Kei San Secondary School</td><td>資助</td><td>基督教</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺蝴蝶山路8號</td><td><a href="tel:26693906">26693906</a></td></tr>
+            <tr data-ss="gov"><td>粉嶺官立中學</td><td>Fanling Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3</td><td>粉嶺一鳴路27號</td><td><a href="tel:26776778">26776778</a></td></tr>
+            <tr data-ss="gov"><td>上水官立中學</td><td>Sheung Shui Government Secondary School</td><td>官立</td><td>無</td><td>男女</td><td>中文</td><td>3</td><td>上水百和路21號</td><td><a href="tel:26680628">26680628</a></td></tr>
           </tbody>
         </table>
         </div>
-        <p class="src">事實欄（種類/宗教/性別/語言/地址）：schooland.hk 北區頁 2026-10-31 核對＋教育局中學概覽；英中判定以教育局名單為準；Band＝坊間非官方估計。</p>
+        <p class="src">事實欄（種類/宗教/性別/語言/地址）：schooland.hk 北區頁 2026-10-31 核對＋教育局中學概覽；英中判定以教育局名單為準；Band＝坊間非官方估計；電話：schooland.hk 各校資料頁 2026-11-02 核對。</p>
+      </div>
+      <div class="gcard">
+        <h3>東鐵沿線備選：大埔區中學 20 所（太和 / 大埔墟站）</h3>
+        <p>北區之後的東鐵備選梯隊：羅湖出發約 15–20 分鐘到太和（估算，4 站），通關＋車程單程約 45–60 分鐘。事實欄（類型/語言/地址）經升學天地/教育王國/家委會概覽多源交叉（2026-11-02 核對）；Band＝坊間非官方參考；<b>近站為依地址所在社區的估算</b>，步行時間以地圖為準；電話可點擊直撥（手機）——號碼來源 schooland.hk 各校資料頁 2026-11-02 逐一核對，變動以學校官網為準。⚠️ 原大埔官立中學已於 2014 年停辦，已從表移除。</p>
+        <div class="pg-chips" id="tpChips">
+          <span class="chip on" data-tp="all">全部 20</span>
+          <span class="chip" data-tp="en">英中 7</span>
+          <span class="chip" data-tp="dss">直資 2</span>
+          <span class="chip" data-tp="gov">官立 1</span>
+        </div>
+        <div class="scroll-x">
+        <table class="mtable" id="tpTable">
+          <thead><tr><th>學校</th><th>類型</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>近東鐵站<br><span style="font-weight:400;color:#a33">估算</span></th><th>備註</th><th>電話<br><span style="font-weight:400;color:#a33">核對 2026-11-02</span></th></tr></thead>
+          <tbody>
+            <tr data-tp="en"><td>迦密柏雨中學</td><td>資助</td><td>英中</td><td>1A</td><td>太和（大元邨）</td><td>區內龍頭，數理強</td><td><a href="tel:26650078">26650078</a></td></tr>
+            <tr data-tp="en"><td>聖公會莫壽增會督中學</td><td>資助</td><td>英中</td><td>1B</td><td>大埔墟（運頭角里）</td><td>聖公會，校風嚴謹</td><td><a href="tel:26567804">26567804</a></td></tr>
+            <tr data-tp="en"><td>王肇枝中學</td><td>資助</td><td>英中</td><td>1B</td><td>大埔墟（站旁）</td><td>大埔首間英中，通勤最省</td><td><a href="tel:26561270">26561270</a></td></tr>
+            <tr data-tp="en"><td>恩主教書院</td><td>資助</td><td>英中</td><td>1B–1C</td><td>大埔墟（培賢里）</td><td>天主教，全人教育</td><td><a href="tel:26560017">26560017</a></td></tr>
+            <tr data-tp="en"><td>南亞路德會沐恩中學</td><td>資助</td><td>英中</td><td>1C</td><td>太和（大元邨）</td><td>與柏雨同邨</td><td><a href="tel:26673129">26673129</a></td></tr>
+            <tr data-tp="en dss"><td>羅定邦中學</td><td>直資</td><td>英中</td><td>2A</td><td>大埔墟（馬聰路）</td><td>直資英中，商科/ICT 特色</td><td><a href="tel:26851210">26851210</a></td></tr>
+            <tr data-tp="en dss"><td>大埔三育中學</td><td>直資</td><td>英中</td><td>2</td><td>太和（大埔頭徑）</td><td>直資英中，學費約 $15,500；統一派位乙部 150 位分北區，跨境生備選友好</td><td><a href="tel:26653459">26653459</a></td></tr>
+            <tr data-tp="aided"><td>救恩書院（大埔富善邨）</td><td>資助</td><td>中文（部分科目英文分組）</td><td>2B</td><td>太和/大埔墟之間</td><td>與「粉嶺救恩書院」同名不同校</td><td><a href="tel:26608308">26608308</a></td></tr>
+            <tr data-tp="aided"><td>孔教學院大成何郭佩珍中學</td><td>資助</td><td>中英並重</td><td>2B</td><td>太和/大埔墟之間（富善邨）</td><td>孔教</td><td><a href="tel:26665926">26665926</a></td></tr>
+            <tr data-tp="aided"><td>港九街坊婦女會孫方中書院</td><td>資助</td><td>中文</td><td>2B</td><td>大埔滘（需巴士短駁）</td><td>離站較遠</td><td><a href="tel:26567123">26567123</a></td></tr>
+            <tr data-tp="aided"><td>香港道教聯合會圓玄學院第二中學</td><td>資助</td><td>中文</td><td>2B</td><td>太和/大埔墟之間（富善邨）</td><td>道教</td><td><a href="tel:26616038">26616038</a></td></tr>
+            <tr data-tp="aided"><td>神召會康樂中學</td><td>資助</td><td>中文</td><td>2C–3</td><td>太和（寶雅苑）</td><td>已列北區表（接收北區跨境生）；體育特色</td><td><a href="tel:26520698">26520698</a></td></tr>
+            <tr data-tp="aided"><td>迦密聖道中學</td><td>資助</td><td>中文</td><td>2C</td><td>太和（太和路）</td><td>基督教</td><td><a href="tel:26539786">26539786</a></td></tr>
+                        <tr data-tp="gov"><td>新界鄉議局大埔區中學</td><td>官立</td><td>中文</td><td>3B</td><td>太和（大元邨）</td><td>官立免費</td><td><a href="tel:26643032">26643032</a></td></tr>
+            <tr data-tp="aided"><td>中華聖潔會靈風中學</td><td>資助</td><td>中文</td><td>3A</td><td>太和（棟樑里）</td><td>基督教</td><td><a href="tel:29589694">29589694</a></td></tr>
+            <tr data-tp="aided"><td>靈糧堂劉梅軒中學</td><td>資助</td><td>中文</td><td>3A</td><td>大埔墟（雍宜里）</td><td>基督教</td><td><a href="tel:26531234">26531234</a></td></tr>
+            <tr data-tp="aided"><td>佛教大光慈航中學</td><td>資助</td><td>中文</td><td>3A</td><td>大埔墟（翠怡街）</td><td>佛教</td><td><a href="tel:26640833">26640833</a></td></tr>
+            <tr data-tp="aided"><td>中華基督教會馮梁結紀念中學</td><td>資助</td><td>中文</td><td>3B</td><td>大埔墟（寶湖道）</td><td>基督教</td><td><a href="tel:26516033">26516033</a></td></tr>
+            <tr data-tp="aided"><td>香港教師會李興貴中學</td><td>資助</td><td>中文</td><td>3B</td><td>大埔墟（運頭塘邨）</td><td>已列北區表；⭐ 有跨境學童支援</td><td><a href="tel:26317556">26317556</a></td></tr>
+            <tr data-tp="aided"><td>香港紅卍字會大埔卍慈中學</td><td>資助</td><td>中文</td><td>3C</td><td>富亨邨（需巴士短駁）</td><td>離站較遠</td><td><a href="tel:26666821">26666821</a></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="src">來源：教育王國大埔區中學列表＋hkecec 大埔區中學組別表＋schooland（救恩書院頁）＋hkstudyroute 大埔排名，多源交叉 2026-11-02 核對；英中判定以教育局微調教學語言安排及各校官網為準（王肇枝＝EMI 官網確認）；Band／近站／車程＝坊間非官方估算，以學校官網與港鐵路線圖為準。</p>
       </div>
       <div class="gcard">
         <h3>升中攻略 · 外鏈精選（正文版權屬原站）</h3>
@@ -1219,7 +1392,7 @@ Thank you for your time.</div>
 <div id="examPrintSheet" class="en-print"></div>
 
 <footer>
-數據來源：chinese-poetry（詩文）· word-atlas B1 檔（詞表，CC BY 4.0 須署名 Word Atlas contributors 詞光）· 港小基礎詞（坊間整理，非 EDB 官方分級詞表，年級為估算）· 拼音 pypinyin · 粵拼 jyutping<br>
+<!-- Credits (not displayed): 詞表源自 word-atlas（CC BY 4.0, Word Atlas contributors）；詩文取自 chinese-poetry 收錄之公有領域古典詩文；拼音 pypinyin；粵拼 jyutping。 -->
 數學術語表為手編中↔英對照，以香港課本／考評局用語為準。<br>
 速覽差異與繁體對照、英文卷結構為坊間整理，正式以香港教育局課程指引、考評局與學校公布為準。本頁為本地原型，未上傳任何數據。<br>
 🔊 朗讀功能依賴瀏覽器語音引擎：英文／普通話普遍支援；粵語朗讀需系統已安裝粵語嗓（如無則回退），以實際設備為準。
@@ -2254,7 +2427,13 @@ P5:{
   {s:'Last Friday, our class (e.g.) went (go) on a picnic in Tai Po Waterfront Park. The weather (1) {0} (be) sunny and cool. When we (2) {1} (arrive), some classmates (3) {2} (fly) kites on the grass. Miss Chan (4) {3} (teach) us how to make kites last month, so we all (5) {4} (bring) our own kites. At noon, we (6) {5} (share) the sandwiches that Mum (7) {6} (make) the night before. Suddenly, a strong wind (8) {7} (blow) and one kite (9) {8} (land) in a tall tree! A kind uncle (10) {9} (help) us get it back.',
    a:[['was'],['arrived'],['were flying'],['taught'],['brought'],['shared'],['made'],['blew'],['landed'],['helped']]},
   {s:'My cat Mochi (e.g.) is (be) three years old. She (1) {0} (have) big green eyes and soft grey fur. Every evening, she (2) {1} (sit) by the window and (3) {2} (watch) the birds outside. Last month, she (4) {3} (catch) her first cockroach, and we (5) {4} (be) all very proud. Mochi (6) {5} (not like) loud noises, so she always (7) {6} (hide) under the sofa during Chinese New Year. Now she (8) {7} (sleep) on my lap while I (9) {8} (write) this passage. I hope she (10) {9} (live) with us for many more years.',
-   a:[['has'],['sits'],['watches'],['caught'],['were'],['does not like','don’t like','dont like'],['hides'],['is sleeping'],['am writing'],['will live']]}
+   a:[['has'],['sits'],['watches'],['caught'],['were'],['does not like','don’t like','dont like'],['hides'],['is sleeping'],['am writing'],['will live']]},
+  {s:'Last Friday, our school (e.g.) held (hold) its annual Sports Day at the Sha Tin Sports Ground. The weather (1) {0} (be) perfect for running. In the morning, the headmaster (2) {1} (give) a short speech and then the races (3) {2} (begin). My best friend Ken (4) {3} (come) first in the 100-metre race, and our class (5) {4} (cheer) loudly for him. At noon, we (6) {5} (eat) lunch under the trees and (7) {6} (rest) before the afternoon events. In the relay race, Class 4B (8) {7} (drop) the baton, but they still (9) {8} (finish) the race with smiles. On the bus home, everyone (10) {9} (feel) tired but happy.',
+   a:[['was'],['gave'],['began'],['came'],['cheered'],['ate'],['rested'],['dropped'],['finished'],['felt']]},
+  {s:'My name is Tim and I (e.g.) live (live) in Shenzhen. Every school day, I (1) {0} (wake) up at half past five. My mother (2) {1} (make) breakfast while I (3) {2} (pack) my school bag. We then (4) {3} (take) the early train to the border. I never (5) {4} (forget) my travel documents because Mum (6) {5} (check) my bag every night. On the train, I often (7) {6} (revise) my spelling words. My friend Ada and I (8) {7} (play) word games when the journey is long. Our teacher (9) {8} (say) that reading on the train (10) {9} (be) a good habit.',
+   a:[['wake'],['makes'],['pack'],['take'],['forget'],['checks'],['revise'],['play'],['says'],['is']]},
+  {s:'Next Thursday, our class (e.g.) will visit (visit) the Hong Kong Science Museum. The bus (1) {0} (leave) the school gate at half past eight. Miss Cheung (2) {1} (remind) us to bring a pencil for the worksheet. At the museum, we (3) {2} (watch) a robot show first. Then a scientist (4) {3} (teach) us how to make simple circuits. I hope we (5) {4} (see) the giant dinosaur model too. Kitty (6) {5} (bring) her camera because she (7) {6} (want) to take photos of the space gallery. In the afternoon, we (8) {7} (eat) lunch at the museum café before we (9) {8} (return) to school. I believe it (10) {9} (be) the best trip this year.',
+   a:[['will leave','leaves'],['will remind','reminds'],['will watch','watch'],['will teach','teaches'],['will see','see'],['will bring','brings'],['wants'],['will eat','eat'],['return','will return'],['will be']]}
  ],
  D:[
   {bank:['teacher','nurse','police officer','farmer','singer'],lines:[
@@ -2318,7 +2497,28 @@ P5:{
        {q:'Why is the ferry a friendlier choice for the environment?',opts:['It is green and white.','It carries many tourists.','It costs only a few dollars.','It uses less fuel per passenger than cars.'],a:3}],
    open:[{q:'Who still uses the ferry every day?',keys:['commuters'],model:'Thousands of commuters still use it every day.'},
          {q:'Where do the boats run?',keys:['tsim sha tsui','central'],model:'They run between Tsim Sha Tsui and Central or Wan Chai.'}],
-   fill:{q:'A ferry ride across Victoria Harbour costs just a few {0} .',a:[['dollars']]}}
+   fill:{q:'A ferry ride across Victoria Harbour costs just a few {0} .',a:[['dollars']]}},
+  {title:'Wet Markets in Hong Kong',
+   s:'Early in the morning, wet markets all over Hong Kong become busy and noisy. Vendors shout to attract customers, and the smells of fresh fish, fruit and flowers fill the air. A wet market is a group of stalls selling fresh food, such as vegetables, meat, seafood and eggs.<br>Many people believe that food from wet markets is fresher than food from supermarkets, because most of it arrives from local farms and fishing boats early every morning. Customers can also ask the vendors to choose, weigh and even prepare the food for them.<br>However, fewer young people shop at wet markets now. Some markets have been moved into air-conditioned buildings so that shoppers can stay cool in summer and dry in the rain.',
+   mc:[{q:'What is a wet market?',opts:['A supermarket in a building.','A group of stalls selling fresh food.','A fishing boat from a local farm.','A restaurant selling vegetables.'],a:1},
+       {q:'Why is some wet market food very fresh?',opts:['Because it is frozen quickly.','Because it comes from other countries.','Because it arrives from local farms and boats early every morning.','Because vendors cook it every morning.'],a:2}],
+   open:[{q:'What can customers ask the vendors to do with the food?',keys:['choose','weigh'],model:'They can ask the vendors to choose, weigh and even prepare the food for them.'},
+         {q:'Why have some markets been moved into air-conditioned buildings?',keys:['cool'],model:'So that shoppers can stay cool in summer and dry in the rain.'}],
+   fill:{q:'The smells of fresh fish, fruit and flowers {0} the air.',a:[['fill']]}},
+  {title:'The Lion Rock',
+   s:'Lion Rock is a hill between Kowloon and the New Territories. From far away, the hill looks like a lion sitting and watching over the city, so people gave it this name. It is 495 metres high, and thousands of hikers climb it every year.<br>From the top, you can see Kowloon on one side and Sha Tin on the other. At sunset, the city lights begin to shine, and the view is wonderful.<br>Lion Rock is also a symbol of Hong Kong. In the past, many people worked very hard here to build a better life. The never-give-up spirit of those people is often called the Lion Rock spirit.',
+   mc:[{q:'Why is the hill called Lion Rock?',opts:['Because lions live there.','Because it looks like a sitting lion.','Because a lion statue stands on the top.','Because lions were born there long ago.'],a:1},
+       {q:'How high is Lion Rock?',opts:['459 metres','495 metres','549 metres','594 metres'],a:1}],
+   open:[{q:'What can you see from the top of Lion Rock?',keys:['kowloon'],model:'You can see Kowloon on one side and Sha Tin on the other.'},
+         {q:'What is the never-give-up spirit of Hong Kong people often called?',keys:['lion rock'],model:'It is often called the Lion Rock spirit.'}],
+   fill:{q:'From far away, the hill {0} like a lion sitting and watching over the city.',a:[['looks']]}},
+  {title:'Saving Water in Hong Kong',
+   s:'Hong Kong buys most of its water from the Dongjiang River in Guangdong, but the city also collects rainwater in its seventeen reservoirs. Together, these reservoirs cover about one quarter of Hong Kong’s land area.<br>Water is precious, and everyone should help to save it. Turn off the tap while brushing your teeth. Take shorter showers. Report dripping taps to your parents or teachers quickly, because one dripping tap can waste many litres of water in a single day.<br>The Water Supplies Department also visits schools to teach students how to use water wisely. If everybody does a little, Hong Kong will always have enough water for the future.',
+   mc:[{q:'Where does most of Hong Kong’s water come from?',opts:['From the seventeen reservoirs.','From the Dongjiang River in Guangdong.','From the sea around the city.','From the rain in summer only.'],a:1},
+       {q:'What can one dripping tap do in a single day?',opts:['Save many litres of water.','Waste many litres of water.','Fill a whole reservoir.','Water all the plants.'],a:1}],
+   open:[{q:'Name TWO ways to save water at home.',keys:['tap'],model:'Turn off the tap while brushing your teeth, take shorter showers and report dripping taps quickly.'},
+         {q:'How much land do the reservoirs cover?',keys:['quarter'],model:'They cover about one quarter of Hong Kong’s land area.'}],
+   fill:{q:'Hong Kong collects rainwater in its seventeen {0} .',a:[['reservoirs']]}}
  ],
 I:[
   {title:'School Picnic Day',
@@ -2336,7 +2536,31 @@ I:[
        {q:'Why does the Student Union hold the book sale?',opts:['To buy new books for the library.','To help students sell toys.','To raise money for a picnic.','To clean the school hall.'],a:0},
        {q:'What must sellers hand in before 5th May?',opts:['Old magazines','A signed permission slip','New books','Broken books'],a:1}],
    open:[{q:'When must students bring their old books?',keys:['8th may'],model:'They must bring their old books before 8th May.'},
-         {q:'Who must sign the permission slip?',keys:['parent'],model:'A parent must sign the permission slip.'}]}
+         {q:'Who must sign the permission slip?',keys:['parent'],model:'A parent must sign the permission slip.'}]},
+  {title:'Lost Property Notice',
+   s:'A wristwatch was found on the school playground yesterday afternoon.<br><b>Item:</b> A blue digital wristwatch with a silver strap.<br><b>Where:</b> Near the basketball courts, beside the drinking fountain.<br>If this watch is yours, please come to the General Office at lunchtime (1:00 p.m. to 1:40 p.m.) and describe the time shown on it. Unclaimed items will be kept for one month and then given to charity.<br><b>Please remember:</b> Do not leave your belongings in the playground. Write your name and class on everything you bring to school.',
+   mc:[{q:'Where was the watch found?',opts:['In the General Office.','Near the basketball courts.','In the school hall.','Beside the tuck shop.'],a:1},
+       {q:'When can the owner go to the General Office?',opts:['From 1:00 p.m. to 1:40 p.m.','After school at 4:00 p.m.','Before the morning assembly.','Any time on Saturday.'],a:0},
+       {q:'What will happen to unclaimed items after one month?',opts:['They will be sold at the tuck shop.','They will be thrown away.','They will be given to charity.','They will be kept for another year.'],a:2},
+       {q:'What should students write on everything they bring to school?',opts:['Their teacher’s name.','Their name and class.','Their home address.','Their phone number.'],a:1}],
+   open:[{q:'What must the owner do to prove the watch is theirs?',keys:['time'],model:'They must describe the time shown on the watch.'},
+         {q:'Where should students not leave their belongings?',keys:['playground'],model:'They should not leave their belongings in the playground.'}]},
+  {title:'School Reading Week',
+   s:'Our school Reading Week starts on Monday, 23rd April!<br><b>Events:</b> Monday — Bookmark design competition (apply at the library). Wednesday — Storytelling by S6 students in the hall at 1:30 p.m. Friday — Dress-up Day: come as your favourite storybook character!<br><b>Prizes:</b> The class that reads the most books will win a pizza party.<br><b>Important reminders:</b> Bring your reading passport every day this week. Teachers will stamp it for every book you finish. The last day to return library books for stamping is Friday, 27th April.',
+   mc:[{q:'When does the storytelling take place?',opts:['On Monday at 1:30 p.m.','On Wednesday at 1:30 p.m.','On Friday at 1:30 p.m.','On Wednesday at 3:30 p.m.'],a:1},
+       {q:'What happens on Dress-up Day?',opts:['Students wear the school uniform.','Students dress as their favourite storybook character.','Students design bookmarks.','Students make pizza.'],a:1},
+       {q:'What will the winning class get?',opts:['A pizza party.','A new set of storybooks.','A day off school.','A bookmark each.'],a:0},
+       {q:'When is the last day for stamping?',opts:['23rd April','25th April','27th April','30th April'],a:2}],
+   open:[{q:'Where can students apply for the bookmark design competition?',keys:['library'],model:'They can apply at the library.'},
+         {q:'What must students bring every day during Reading Week?',keys:['passport'],model:'They must bring their reading passport every day.'}]},
+  {title:'Annual Swimming Gala',
+   s:'The Annual Swimming Gala will be held on 18th October (Wednesday) at Kowloon Park Swimming Pool.<br><b>Time:</b> Report to your class teacher at the pool entrance at 8:15 a.m. The first race starts at 9:00 a.m.<br><b>Events:</b> Freestyle, breaststroke and backstroke races for all grades, plus the exciting teachers’ relay at the end!<br><b>Important reminders:</b> Swimmers must bring goggles, a towel and a swim cap. Spectators should bring a water bottle and stay in the seating area. Students who feel unwell must tell the teacher on duty at once. The gala will be postponed to 20th October if the red rainstorm warning is in force.',
+   mc:[{q:'When does the first race start?',opts:['At 8:15 a.m.','At 9:00 a.m.','At 9:15 a.m.','At 10:00 a.m.'],a:1},
+       {q:'What must swimmers bring?',opts:['Goggles, a towel and a swim cap.','A lunch box and snacks.','A chair for the seating area.','An umbrella and a raincoat.'],a:0},
+       {q:'When will the gala be postponed?',opts:['If it is too hot.','If the coach is late.','If the red rainstorm warning is in force.','If the pool is closed.'],a:2},
+       {q:'What special event happens at the end?',opts:['A prize ceremony.','The teachers’ relay.','A picnic.','A swimming lesson.'],a:1}],
+   open:[{q:'Where and when should students report?',keys:['entrance'],model:'They should report at the pool entrance at 8:15 a.m.'},
+         {q:'What must a student do if they feel unwell?',keys:['teacher'],model:'They must tell the teacher on duty at once.'}]}
  ],
 J:[
   {items:[
@@ -2420,7 +2644,13 @@ P6:{
   {s:'Hannah Wong (e.g.) is (be) a promising swimmer at her school. She (1) {0} (take) up swimming when she was only six years old. Last year, she (2) {1} (break) two school records and (3) {2} (be) named Best Athlete of the year. Since then, she (4) {3} (train) at the municipal pool every morning before school. Her coach says she (5) {4} (swim) faster than anyone he has ever seen. Next month, Hannah (6) {5} (compete) in the All-Hong Kong Youth Games. “I (7) {6} (never feel) so excited,” she said yesterday. “Winning is important, but I (8) {7} (enjoy) every race.” Unfortunately, she (9) {8} (hurt) her shoulder last week, but the doctor says she (10) {9} (be) fine by the weekend.',
    a:[['took'],['broke'],['was'],['has trained'],['swims'],['will compete'],['have never felt','’ve never felt','ve never felt'],['enjoy'],['hurt'],['will be']]},
   {s:'Uncle Lam (e.g.) runs (run) a small bakery in Sham Shui Po. Every morning he (1) {0} (get) up at four o’clock to prepare the dough. His pineapple buns (2) {1} (be) so popular that they (3) {2} (sell) out before noon every day. Ten years ago, he (4) {3} (borrow) money from his family to open the shop. Business (5) {4} (be) terrible in the first year, and he nearly (6) {5} (give) up. “My neighbours (7) {6} (support) me since day one,” he told our reporter. “Sometimes they (8) {7} (queue) for thirty minutes just for a fresh bun!” Last month, Uncle Lam (9) {8} (open) a second branch in Kowloon City. He says he (10) {9} (teach) young bakers for free in the future.',
-   a:[['gets'],['are'],['sell'],['borrowed'],['was'],['gave'],['have supported'],['queue'],['opened'],['will teach']]}
+   a:[['gets'],['are'],['sell'],['borrowed'],['was'],['gave'],['have supported'],['queue'],['opened'],['will teach']]},
+  {s:'Last Saturday, our school (e.g.) held (hold) a fun fair to raise money for the SPCA. Parents and teachers (1) {0} (work) together to set up game stalls in the playground. Kitty (2) {1} (help) at the lucky draw stall, while Ben (3) {2} (sell) cookies that his mother (4) {3} (bake) the night before. By noon, hundreds of visitors (5) {4} (arrive) and the playground (6) {5} (be) full of people. In the afternoon, the school choir (7) {6} (sing) three songs on the stage. At the end of the day, the headmaster (8) {7} (announce) that we (9) {8} (raise) more than eight thousand dollars. Everyone (10) {9} (agree) that it was a wonderful day.',
+   a:[['worked'],['helped'],['sold'],['had baked','baked'],['had arrived','arrived'],['was'],['sang'],['announced'],['had raised','raised'],['agreed']]},
+  {s:'May (e.g.) has (have) a pen friend called Emma in Australia. The two girls (1) {0} (write) to each other every month. Emma (2) {1} (live) on a farm near Melbourne. Her family (3) {2} (keep) sheep and chickens, and her brothers (4) {3} (ride) their bikes to school every day. In her last letter, Emma (5) {4} (tell) May about the bushfires last summer. Luckily, no one on her farm (6) {5} (be) hurt. “Australian animals (7) {6} (need) our help after the fires,” Emma wrote. May (8) {7} (reply) at once and (9) {8} (send) her a drawing of a koala. The two girls (10) {9} (hope) to meet each other one day.',
+   a:[['write'],['lives'],['keep'],['ride'],['told'],['was'],['need'],['replied'],['sent'],['hope']]},
+  {s:'Next Friday, our class (e.g.) will go (go) on a field trip to the Sai Kung geopark. A guide (1) {0} (show) us the famous hexagonal rock columns, which (2) {1} (form) more than 100 million years ago. We (3) {2} (travel) there by bus and (4) {3} (walk) along the coastal trail. Everyone (5) {4} (bring) a hat and plenty of water because the trail (6) {5} (have) little shade. During the trip, we (7) {6} (complete) a worksheet about rocks and landforms. Miss Ho (8) {7} (remind) us that we (9) {8} (must not) pick up or take away any rocks. I think the trip (10) {9} (be) both fun and educational.',
+   a:[['will show'],['formed'],['will travel','travel'],['will walk','walk'],['will bring','brings'],['has'],['will complete','complete'],['will remind','reminds'],['must not'],['will be']]}
  ],
  D:[
   {bank:['chef','pilot','dentist','journalist','firefighter'],lines:[
@@ -2484,7 +2714,28 @@ P6:{
        {q:'How long did the construction of the bridge take?',opts:['About 45 years','About 55 years','About 9 years','About 120 years'],a:2}],
    open:[{q:'How did travellers cross the delta before the bridge was built?',keys:['detour','ferry'],model:'They had to take a long detour around the delta or cross by ferry.'},
          {q:'Why did engineers include tunnels and artificial islands?',keys:['typhoon','ships'],model:'Because engineers had to consider strong typhoons and the impact of ships.'}],
-   fill:{q:'A journey between Hong Kong and Zhuhai now takes only about {0} minutes by bus.',a:[['45']]}}
+   fill:{q:'A journey between Hong Kong and Zhuhai now takes only about {0} minutes by bus.',a:[['45']]}},
+  {title:'Wild Neighbours: The Monkeys of Kam Shan',
+   s:'Kam Shan Country Park, also known as Monkey Hill, is home to more than a thousand wild monkeys. Most of them are rhesus macaques. They were introduced to Hong Kong about a hundred years ago to help control snakes around the old reservoirs.<br>The monkeys eat leaves, fruit and insects. However, many visitors feed them snacks, and this has changed their behaviour. The monkeys now gather near the car parks and sometimes snatch plastic bags from visitors because they think there is food inside.<br>Feeding wild monkeys is against the law, and offenders can be fined. If you meet a monkey, do not stare at it or show your teeth. Keep your food inside your bag and simply walk past calmly.',
+   mc:[{q:'Why were the monkeys introduced to Hong Kong?',opts:['To attract tourists to the park.','To help control snakes around the reservoirs.','To eat the leaves in the forests.','To carry things for the workers.'],a:1},
+       {q:'Why do the monkeys snatch plastic bags from visitors?',opts:['They like the colour of the bags.','They collect bags for their nests.','They think there is food inside.','They want to play with visitors.'],a:2}],
+   open:[{q:'What do the wild monkeys eat?',keys:['leaves'],model:'They eat leaves, fruit and insects.'},
+         {q:'What must you NOT do when you meet a monkey?',keys:['stare'],model:'Do not stare at it or show your teeth.'}],
+   fill:{q:'Feeding wild monkeys is against the law, and offenders can be {0} .',a:[['fined']]}},
+  {title:'The MTR: From One Line to a Network',
+   s:'The MTR began operating in 1979 with just one short line in Kowloon. Today, it is one of the most reliable railways in the world, carrying about five million passengers every weekday.<br>The first line ran from Shek Kip Mei to Kwun Tong. Over the years, new lines crossed the harbour, reached the New Territories and even Tung Chung on Lantau Island. The Airport Express opened in 1998 to serve the new airport.<br>The MTR is famous for being clean, fast and punctual. Trains usually arrive every few minutes, and air-conditioning keeps passengers comfortable even in summer. Many people say the MTR is the easiest way for visitors to travel around Hong Kong.',
+   mc:[{q:'When did the MTR begin operating?',opts:['In 1979','In 1998','In 1989','In 2007'],a:0},
+       {q:'What is the MTR famous for?',opts:['Being slow but cheap.','Being clean, fast and punctual.','Being the oldest railway in Asia.','Having no air-conditioning.'],a:1}],
+   open:[{q:'Where did the first MTR line run?',keys:['shek kip mei'],model:'It ran from Shek Kip Mei to Kwun Tong.'},
+         {q:'Why do passengers feel comfortable even in summer?',keys:['air-condition'],model:'Because air-conditioning keeps passengers comfortable.'}],
+   fill:{q:'The MTR carries about five million passengers every {0} .',a:[['weekday']]}},
+  {title:'Food Waste in Hong Kong',
+   s:'Every day, Hong Kong people throw away more than three thousand tonnes of food. That is like dumping 250 double-decker buses full of food into our landfills every single day. Most of this food is still edible when it is thrown away.<br>Food waste rotting in landfills produces methane, a greenhouse gas that is even more powerful than carbon dioxide. Our three landfills will be full in the coming years, so this problem cannot wait.<br>Everyone can help. Restaurants and hotels can join food donation programmes and send surplus food to food banks instead of the bin. At home, plan your meals, finish everything on your plate, and use leftover rice and vegetables to make fried rice the next day.',
+   mc:[{q:'How much food do Hong Kong people throw away every day?',opts:['More than three thousand tonnes.','About three hundred tonnes.','About 250 tonnes.','More than ten thousand tonnes.'],a:0},
+       {q:'What is methane?',opts:['A kind of food waste.','A new landfill in Hong Kong.','A greenhouse gas more powerful than carbon dioxide.','A programme that saves food.'],a:2}],
+   open:[{q:'Where can restaurants send surplus food?',keys:['food bank'],model:'They can send it to food banks through food donation programmes.'},
+         {q:'Name TWO things your family can do to reduce food waste at home.',keys:['plate'],model:'Plan meals, finish everything on the plate, and use leftovers to make fried rice.'}],
+   fill:{q:'Food waste rotting in landfills produces {0} , a greenhouse gas.',a:[['methane']]}}
  ],
 I:[
   {title:'School Charity Fair',
@@ -2502,7 +2753,31 @@ I:[
        {q:'What will students do after the clean-up?',opts:['Have a picnic.','Go swimming.','Watch a film.','Visit a museum.'],a:0},
        {q:'When will the event be cancelled?',opts:['If it is too hot.','If a typhoon signal No. 3 or above is hoisted.','If students forget their gloves.','If the coach is late.'],a:1}],
    open:[{q:'Where and when should students meet?',keys:['school gate','8:45'],model:'They should meet at the school gate at 8:45 a.m.'},
-         {q:'Who must sign the permission slip?',keys:['parent'],model:'The student’s parent must sign the permission slip.'}]}
+         {q:'Who must sign the permission slip?',keys:['parent'],model:'The student’s parent must sign the permission slip.'}]},
+  {title:'Annual Sports Day',
+   s:'The Annual Sports Day will be held on 24th November (Friday) at the Sha Tin Sports Ground.<br><b>Time:</b> Assemble at the sports ground at 8:00 a.m. Buses will leave the school gate at 7:40 a.m. for those who need transport.<br><b>Events:</b> 100 m, 200 m and 800 m races, high jump, long jump, and the 4×100 m inter-class relay.<br><b>Important reminders:</b> Bring your student card, water and sunblock. Spectators must stay in the stands. Only athletes may enter the track area. Lunch will NOT be provided, so bring your own lunch box. If tropical cyclone signal No. 1 or above is hoisted, Sports Day will be cancelled and a notice will be posted on the school website.',
+   mc:[{q:'When do the buses leave the school gate?',opts:['At 7:40 a.m.','At 8:00 a.m.','At 7:00 a.m.','At 8:40 a.m.'],a:0},
+       {q:'Who may enter the track area?',opts:['All students.','Spectators in the stands.','Only athletes.','Parents and teachers.'],a:2},
+       {q:'What about lunch?',opts:['The school provides lunch boxes.','Lunch is sold at the sports ground.','Students must bring their own lunch box.','There is no lunch break.'],a:2},
+       {q:'When will Sports Day be cancelled?',opts:['If it rains lightly.','If tropical cyclone signal No. 1 or above is hoisted.','If the buses are late.','If the track is wet.'],a:1}],
+   open:[{q:'Where and when should students assemble?',keys:['sports ground'],model:'They should assemble at the Sha Tin Sports Ground at 8:00 a.m.'},
+         {q:'Where will the cancellation notice be posted?',keys:['website'],model:'It will be posted on the school website.'}]},
+  {title:'Visit to the Elderly Home',
+   s:'The Community Youth Club is organising a visit to Wong Tai Sin Care Home for the Elderly on 6th December (Saturday).<br><b>Programme:</b> We will sing songs, perform a short play and play board games with the elderly. We will also give them handmade cards and fruit gift bags.<br><b>Meeting point:</b> School playground at 9:15 a.m. We will return to school at about 1:00 p.m.<br><b>How to prepare:</b> Volunteers must attend one rehearsal in the hall after school on 3rd December. Please bring one piece of fruit for the gift bags by 4th December.<br><b>Important reminders:</b> Speak loudly and slowly to the elderly, and be patient when they talk about their stories. Wear your school uniform with the CYC badge.',
+   mc:[{q:'What will the volunteers give to the elderly?',opts:['Toys and storybooks.','Handmade cards and fruit gift bags.','Cakes and biscuits.','Board games to keep.'],a:1},
+       {q:'When is the rehearsal?',opts:['On 6th December in the playground.','After school on 3rd December in the hall.','On 4th December at 9:15 a.m.','On the morning of the visit.'],a:1},
+       {q:'What time will the group return to school?',opts:['At about 11:00 a.m.','At about 12:00 noon.','At about 1:00 p.m.','At about 3:00 p.m.'],a:2},
+       {q:'By when must volunteers bring a piece of fruit?',opts:['3rd December','4th December','5th December','6th December'],a:1}],
+   open:[{q:'What must volunteers bring by 4th December?',keys:['fruit'],model:'They must bring one piece of fruit for the gift bags.'},
+         {q:'How should we speak to the elderly?',keys:['loudly'],model:'We should speak loudly and slowly, and be patient when they tell their stories.'}]},
+  {title:'Science Week Exhibition',
+   s:'The Science Society presents Science Week from 14th to 18th January in the school hall.<br><b>Exhibition highlights:</b> Student projects on renewable energy, a model of the International Space Station, and live experiments every lunchtime at 1:15 p.m.<br><b>Guest talk:</b> Dr Chan from HKUST will give a talk on robots in our daily life on 17th January (Wednesday) at 3:30 p.m. in the lecture theatre. S5 and S6 students may sign up at the Science Society notice board before 15th January.<br><b>Important reminders:</b> Please do not touch the exhibits unless a helper says it is allowed. Photography without flash is welcome. The hall will close at 5:00 p.m. every day during Science Week.',
+   mc:[{q:'When are the live experiments held?',opts:['Every morning at 8:15 a.m.','Every lunchtime at 1:15 p.m.','Every day at 3:30 p.m.','On 17th January only.'],a:1},
+       {q:'What is Dr Chan’s talk about?',opts:['Renewable energy.','The International Space Station.','Robots in our daily life.','Space travel.'],a:2},
+       {q:'When is the deadline to sign up for the talk?',opts:['14th January','15th January','17th January','18th January'],a:1},
+       {q:'What time does the hall close during Science Week?',opts:['At 3:30 p.m.','At 4:30 p.m.','At 5:00 p.m.','At 6:00 p.m.'],a:2}],
+   open:[{q:'Where can S5 and S6 students sign up for the talk?',keys:['notice board'],model:'At the Science Society notice board.'},
+         {q:'What kind of photography is welcome?',keys:['flash'],model:'Photography without flash is welcome.'}]}
  ],
 J:[
   {items:[
@@ -2538,13 +2813,14 @@ function exNorm(s){return (s||'').toLowerCase().replace(/[’']/g,'’').replace
 function exBankTable(rows){return '<table class="ex-bank">'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</table>';}
 function genExamPaper(){
   const B=EXAM_QBANK[curExamGrade];
+  curTenNo=0;
   curExamPaper={head:exPick(B.heads),A:exPick(B.A),B:exPick(B.B),C:exPick(B.C),D:exPick(B.D),E:exPick(B.E),F:exPick(B.F),G:exPick(B.G),H:exPick(B.H),I:exPick(B.I),J:exPick(B.J)};
   renderExamPaper(); showExamStat();
 }
 function exSecHtml(id,title,body){return '<div class="ex-sec" id="exSec'+id+'"><p class="ex-q"><b>'+title+'</b></p>'+body+'</div>';}
 function renderExamPaper(){
   const p=curExamPaper;
-  let h='<div class="ex-head"><span class="ex-code">'+curExamGrade+' ENGLISH · 呈分試模擬卷'+(p.src==='ai'?' · 🤖 AI 生成（請家長把關）':'')+'</span><span class="ex-nd">NAME: ____________　DATE: ____________</span></div>';
+  let h='<div class="ex-head"><span class="ex-code">'+curExamGrade+' ENGLISH · 呈分試模擬卷'+(curTenNo?' · 第 '+curTenNo+' 套':'')+(p.src==='ai'?' · 🤖 AI 生成（請家長把關）':'')+'</span><span class="ex-nd">NAME: ____________　DATE: ____________</span></div>';
   h+='<p class="ex-lead"><b>LEARN and MASTER new words.</b></p><table class="ex-vocab">';
   for(let r=0;r<2;r++){h+='<tr>';for(let c=0;c<4;c++){const w=p.head.words[r*4+c];h+='<td><b>'+w.w+'</b><br><span class="ex-zh">'+w.zh+'</span></td>';}h+='</tr>';}
   h+='</table>';
@@ -2587,7 +2863,7 @@ function renderExamPaper(){
   document.getElementById('examPaperBox').innerHTML=h;
   document.getElementById('examPaperResult').innerHTML='';
 }
-function gradeExamPaper(){
+function gradeExamPaper(noSave){
   if(!curExamPaper){genExamPaper();return;}
   let got=0,total=0,wrongs=[];
   function markFill(id,accs,w,label){
@@ -2643,8 +2919,10 @@ function gradeExamPaper(){
   });
   curExamPaper.J.items.forEach((it,i)=>{markFill('ex_J_'+i+'_0',Array.isArray(it.a)?it.a:[it.a],1,'J('+(i+1)+')');});
   const key='hkk_exampaper_v0';let rec={};
-  try{rec=JSON.parse(localStorage.getItem(key)||'{}');}catch(e){}
-  if(!rec[curExamGrade]||got>rec[curExamGrade]){rec[curExamGrade]=got;localStorage.setItem(key,JSON.stringify(rec));}
+  if(!noSave){
+   try{rec=JSON.parse(localStorage.getItem(key)||'{}');}catch(e){}
+   if(!rec[curExamGrade]||got>rec[curExamGrade]){rec[curExamGrade]=got;localStorage.setItem(key,JSON.stringify(rec));}
+  }
   let rh='<div class="ex-result"><b>SCORE: '+got+' / '+total+'</b>';
   if(wrongs.length){rh+='<ol class="ex-wrongs">'+wrongs.map(w=>'<li>'+w.label+' → '+w.ans+'</li>').join('')+'</ol>';}
   else rh+='<p>全對！繼續保持！</p>';
@@ -2713,21 +2991,53 @@ function printExamPaper(){
 // ---- v1.28 一次出 10 套（去重組卷 + 目錄卡 + 整冊打印） ----
 function genTenExamPapers(){
   const B=EXAM_QBANK[curExamGrade];
-  const seen={},list=[];
-  for(let tries=0;tries<200&&list.length<10;tries++){
+  const seen={},pairs={},list=[];
+  for(let tries=0;tries<800&&list.length<10;tries++){
     const p={head:exPick(B.heads),A:exPick(B.A),B:exPick(B.B),C:exPick(B.C),D:exPick(B.D),E:exPick(B.E),F:exPick(B.F),G:exPick(B.G),H:exPick(B.H),I:exPick(B.I),J:exPick(B.J)};
     const sig=JSON.stringify(p);
     if(seen[sig])continue;
-    seen[sig]=1;list.push(p);
+    const pair=p.H.title+' | '+p.I.title;
+    if(pairs[pair])continue;
+    seen[sig]=1;pairs[pair]=1;list.push(p);
   }
   window._tenPapers=list;
-  let h='<div class="ex-sec" id="exTenBox"><p class="ex-q"><b>📋 已生成 '+list.length+' 套互不相同的'+curExamGrade+' 呈分試模擬卷</b>（當前屏幕上的作答卷不受影響）</p><table class="ex-bank"><tr><th>套號</th><th>閱讀理解 (H)</th><th>海報閱讀 (I)</th><th>時態篇章 (C) 開頭</th></tr>';
+  let h='<div class="ex-sec" id="exTenBox"><p class="ex-q"><b>📋 已生成 '+list.length+' 套'+curExamGrade+' 呈分試模擬卷</b>（每套整卷內容互不相同，閱讀＋海報組合亦不重複；當前屏幕上的作答卷不受影響）</p><table class="ex-bank"><tr><th>套號</th><th>閱讀理解 (H)</th><th>海報閱讀 (I)</th><th>時態篇章 (C) 開頭</th><th>操作</th></tr>';
   list.forEach((p,i)=>{
-    h+='<tr><td><b>第 '+(i+1)+' 套</b></td><td>'+p.H.title+'</td><td>'+p.I.title+'</td><td>'+p.C.s.slice(0,38)+'…</td></tr>';
+    h+='<tr><td><b>第 '+(i+1)+' 套</b></td><td>'+p.H.title+'</td><td>'+p.I.title+'</td><td>'+p.C.s.slice(0,38)+'…</td><td><button class="btn" onclick="showTenPaper('+i+')">📄 打開</button> <button class="btn" onclick="showTenAnswer('+i+')">📖 答案</button></td></tr>';
   });
   h+='</table><p class="ex-it">勾選「含答案版」後按下方按鈕，10 套卷一次打印（每套獨立分頁，答案頁跟在各自卷後）。</p>';
-  h+='<p class="ex-it"><button class="btn" id="examTenPrintBtn" onclick="printTenExamPapers()">🖨 打印這 '+list.length+' 套卷子</button></p></div>';
+  h+='<p class="ex-it"><button class="btn" id="examTenPrintBtn" onclick="printTenExamPapers()">🖨 打印這 '+list.length+' 套卷子</button>　<span class="folk">每套右側「📄 打開」整卷作答，「📖 答案」直接在屏幕上開卷底答案（自動填入正確答案並綠色高亮，不計入最佳分）。</span></p></div>';
   document.getElementById('examPaperBox').insertAdjacentHTML('beforeend',h);
+  try{document.getElementById('exTenBox').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}
+}
+var curTenNo=0;
+function showTenPaper(i){
+  const p=(window._tenPapers||[])[i];
+  if(!p){alert('請先按「📋 一次出 10 套」。');return;}
+  curTenNo=i+1;
+  curExamPaper=p;
+  renderExamPaper();showExamStat();
+  try{document.getElementById('examPaperBox').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}
+}
+function showTenAnswer(i){
+  const p=(window._tenPapers||[])[i];
+  if(!p){alert('請先按「📋 一次出 10 套」。');return;}
+  showTenPaper(i);
+  p.A.items.forEach(function(it,k){const e0=document.getElementById('ex_A_'+k+'_0'),e1=document.getElementById('ex_A_'+k+'_1');if(e0)e0.value=it.a[0];if(e1)e1.value=it.a[1];});
+  p.B.items.forEach(function(it,k){const el=document.getElementById('ex_B_'+k+'_0');if(el)el.value=(Array.isArray(it.a)?it.a[0]:it.a);});
+  p.C.a.forEach(function(accs,k){const el=document.getElementById('ex_C_'+k);if(el)el.value=accs[0];});
+  p.D.lines.forEach(function(l,k){const el=document.getElementById('ex_D_'+k+'_0');if(el)el.value=l.a[0];});
+  p.E.items.forEach(function(it,k){const a=(Array.isArray(it.a)?it.a:[it.a]);const el=document.getElementById('ex_E_'+k);if(el)el.value=a[0];});
+  p.F.a.forEach(function(accs,k){const el=document.getElementById('ex_F_'+k);if(el)el.value=accs[0];});
+  p.G.a.forEach(function(accs,k){const el=document.getElementById('ex_G_'+k);if(el)el.value=accs[0];});
+  p.H.mc.forEach(function(m,k){const r=document.querySelector('input[name="ex_H_mc'+k+'"][value="'+m.a+'"]');if(r)r.checked=true;});
+  p.H.open.forEach(function(o,k){const el=document.getElementById('ex_H_open'+k);if(el)el.value=o.model;});
+  {const el=document.getElementById('ex_H_fill_0');if(el)el.value=p.H.fill.a.flat()[0];}
+  p.I.mc.forEach(function(m,k){const r=document.querySelector('input[name="ex_I_mc'+k+'"][value="'+m.a+'"]');if(r)r.checked=true;});
+  p.I.open.forEach(function(o,k){const el=document.getElementById('ex_I_open'+k);if(el)el.value=o.model;});
+  p.J.items.forEach(function(it,k){const el=document.getElementById('ex_J_'+k+'_0');if(el)el.value=(Array.isArray(it.a)?it.a[0]:it.a);});
+  gradeExamPaper(true);
+  try{document.getElementById('examPaperBox').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}
 }
 function printTenExamPapers(){
   const list=window._tenPapers||[];
@@ -2792,6 +3102,7 @@ async function exAiPaper(){
     let obj; try{ obj=JSON.parse(content); }catch(e){ throw new Error('內容不是合法 JSON（模型未按要求返回）'); }
     if(!exValidate(obj))throw new Error('結構不合規（段落或題數不符要求）');
     obj.src='ai';
+    curTenNo=0;
     curExamPaper=obj;
     renderExamPaper(); showExamStat();
   }catch(e){
@@ -2799,23 +3110,132 @@ async function exAiPaper(){
   }finally{ if(btn){btn.disabled=false;btn.textContent=t0;} }
 }
 
+// ============ 繪本閱讀打卡（v1.35，v1.37 加 ▶ 本地播放）：牛津樹 1–9 階書單 ============
+var ORT_BOOKS = DATA.ort_books || [];
+var ORT_ORDER = ['1階','1–2階','3階','4階','5階','6階','7階','8階','9階'];
+var curOrtLv = '';
+var ORT_LOCAL = (location.protocol === 'file:');  // ▶ 播放僅在本地打開本文件時可用
+var ORT_DIR = 'G:/00 咨询&公自媒体/22 香港插班/88 涵涵/01英語/01 牛津树/童老师牛津绘本视频';
+function ortHref(p){
+  try{
+    var segs=(ORT_DIR + '/' + p).split('/');
+    var drive=segs.shift();  // 盤符 'G:' 不編碼（encodeURIComponent 會把冒號變 %3A）
+    return 'file:///' + drive + '/' + segs.map(encodeURIComponent).join('/');
+  }catch(e){ return ''; }
+}
+function ortRead(){
+  try{ return JSON.parse(localStorage.getItem('hkk_ort')||'{}'); }catch(e){ return {}; }
+}
+function ortToggle(t){
+  var r = ortRead();
+  if(r[t]) delete r[t]; else r[t] = 1;
+  localStorage.setItem('hkk_ort', JSON.stringify(r));
+  renderOrt();
+}
+function renderOrt(){
+  // 阶 chips（全部 + 各阶，带计数）
+  var bylv = {}; ORT_BOOKS.forEach(function(b){ bylv[b.lv] = (bylv[b.lv]||0)+1; });
+  var ch = '<span class="chip'+(curOrtLv===''?' on':'')+'" data-lv="">全部 ('+ORT_BOOKS.length+')</span>';
+  ORT_ORDER.forEach(function(lv){
+    if(bylv[lv]) ch += '<span class="chip'+(curOrtLv===lv?' on':'')+'" data-lv="'+lv+'">'+lv+' ('+bylv[lv]+')</span>';
+  });
+  document.getElementById('ortChips').innerHTML = ch;
+  document.querySelectorAll('#ortChips .chip').forEach(function(c){
+    c.onclick = function(){ curOrtLv = c.dataset.lv; renderOrt(); };
+  });
+  // 书单（按阶分块，打卡）
+  var r = ortRead(), done = 0;
+  var h = '';
+  ORT_BOOKS.forEach(function(b){ if(r[b.lv+'|'+b.t]) done++; });
+  var shown = 0;
+  ORT_ORDER.forEach(function(lv){
+    if(curOrtLv && lv !== curOrtLv) return;
+    var bs = ORT_BOOKS.filter(function(b){ return b.lv === lv; });
+    if(!bs.length) return;
+    shown += bs.length;
+    var d = bs.filter(function(b){ return r[b.lv+'|'+b.t]; }).length;
+    var pct = Math.round(d/bs.length*100);
+    h += '<div class="ort-lv"><div class="ort-lv-h"><span>'+lv+' · '+bs.length+' 本</span>'
+      + '<span class="ort-bar"><i style="width:'+pct+'%"></i></span><span style="font-size:12px;color:#475069">'+d+'/'+bs.length+' 已讀</span></div>'
+      + '<div class="ort-books">';
+    bs.forEach(function(b){
+      var k = b.lv+'|'+b.t;
+      h += '<span class="ort-bkw"><button type="button" class="ort-bk'+(r[k]?' done':'')+'" data-k="'+k.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" onclick="ortToggle(this.dataset.k)">'
+        + (r[k]?'✓ ':'') + b.t + (b.n>1 ? '<span class="ort-n">('+b.n+'講)</span>' : '') + '</button>';
+      if(ORT_LOCAL && b.fs && b.fs.length){
+        b.fs.forEach(function(fp,i){
+          h += '<a class="ort-play" href="'+ortHref(fp)+'" target="_blank" rel="noopener" title="播放講解視頻">▶'+(b.fs.length>1?(i+1):'')+'</a>';
+        });
+      }
+      h += '</span>';
+    });
+    h += '</div></div>';
+  });
+  document.getElementById('ortStat').innerHTML = '總進度：<b>'+done+'</b> / '+ORT_BOOKS.length+' 本已讀'+(done>=ORT_BOOKS.length&&ORT_BOOKS.length?' 🎉 全部讀完！':'');
+  document.getElementById('ortList').innerHTML = h || '<p class="folk">沒有這一階的書。</p>';
+}
+// ============ 朗文詞庫（v1.35）：LWTE GOLD 5A/5B ============
+var LWTE_BANKS = DATA.lwte_banks || [];
+var curLwteBk = '';
+function lwteRead(){
+  try{ return JSON.parse(localStorage.getItem('hkk_lwte')||'{}'); }catch(e){ return {}; }
+}
+function lwteToggle(t){
+  var r = lwteRead();
+  if(r[t]) delete r[t]; else r[t] = 1;
+  localStorage.setItem('hkk_lwte', JSON.stringify(r));
+  renderLwte();
+}
+function renderLwte(){
+  var total = 0; LWTE_BANKS.forEach(function(e){ total += e.items.length; });
+  var bybk = {}; LWTE_BANKS.forEach(function(e){ bybk[e.bk] = (bybk[e.bk]||0)+e.items.length; });
+  var ch = '';
+  Object.keys(bybk).forEach(function(bk){
+    ch += '<span class="chip'+(curLwteBk===bk?' on':'')+'" data-bk="'+bk+'">'+bk+' ('+bybk[bk]+')</span>';
+  });
+  ch += '<span class="chip'+(curLwteBk===''?' on':'')+'" data-bk="">全部 ('+total+')</span>';
+  document.getElementById('lwteChips').innerHTML = ch;
+  document.querySelectorAll('#lwteChips .chip').forEach(function(c){
+    c.onclick = function(){ curLwteBk = c.dataset.bk; renderLwte(); };
+  });
+  var r = lwteRead(), done = 0, h = '';
+  LWTE_BANKS.forEach(function(e){ e.items.forEach(function(it){ if(r[e.bk+'|'+it.w]) done++; }); });
+  LWTE_BANKS.forEach(function(e){
+    if(curLwteBk && e.bk !== curLwteBk) return;
+    var d = e.items.filter(function(it){ return r[e.bk+'|'+it.w]; }).length;
+    var pct = Math.round(d/e.items.length*100);
+    h += '<div class="ort-lv"><div class="ort-lv-h"><span>'+e.bk+' · '+e.cat+' · '+e.items.length+'</span>'
+      + '<span class="ort-bar"><i style="width:'+pct+'%"></i></span><span style="font-size:12px;color:#475069">'+d+'/'+e.items.length+'</span></div>'
+      + '<div class="ort-books">';
+    e.items.forEach(function(it){
+      var k = e.bk+'|'+it.w;
+      var attr = k.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+      h += '<button type="button" class="ort-bk'+(r[k]?' done':'')+'" data-k="'+attr+'" onclick="lwteToggle(this.dataset.k)">'+it.w+'<span style="opacity:.8"> '+it.zh+'</span></button>';
+    });
+    h += '</div></div>';
+  });
+  document.getElementById('lwteStat').innerHTML = '總進度：<b>'+done+'</b> / '+total+' 條已掌握'+(done>=total&&total?' 🎉 全部掌握！':'');
+  document.getElementById('lwteList').innerHTML = h || '<p class="folk">沒有這一冊的詞庫。</p>';
+}
 document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
-  document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
-  document.getElementById('hkView').style.display = es==='hk'?'block':'none';
-  document.getElementById('vocabView').style.display = es==='vocab'?'block':'none';
-  document.getElementById('ivView').style.display = es==='iv'?'block':'none';
-  document.getElementById('paperView').style.display = es==='paper'?'block':'none';
-  document.getElementById('goalView').style.display = es==='goal'?'block':'none';
-  document.getElementById('examView').style.display = es==='exam'?'block':'none';
-  if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
+  const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
+  try{
+    document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
+    sw('hkView',es==='hk'); sw('vocabView',es==='vocab'); sw('ivView',es==='iv');
+    sw('paperView',es==='paper'); sw('goalView',es==='goal'); sw('examView',es==='exam');
+    sw('ortView',es==='ort'); sw('lwteView',es==='lwte');
+    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper(); else if(es==='ort')renderOrt(); else if(es==='lwte')renderLwte();
+  }catch(e){ console.error('切換視圖失敗：',e); }
 });
 document.querySelectorAll('#mathPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
-  document.querySelectorAll('#mathPracSub button').forEach(x=>x.classList.toggle('on',x===b));
-  document.getElementById('mTermsView').style.display = es==='mterms'?'block':'none';
-  document.getElementById('mathPaperView').style.display = es==='mpaper'?'block':'none';
-  if(es==='mpaper' && !curMathPaper.length) genMathPaper();
+  const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
+  try{
+    document.querySelectorAll('#mathPracSub button').forEach(x=>x.classList.toggle('on',x===b));
+    sw('mTermsView',es==='mterms'); sw('mathPaperView',es==='mpaper');
+    if(es==='mpaper' && !curMathPaper.length) genMathPaper();
+  }catch(e){ console.error('切換視圖失敗：',e); }
 });
 document.querySelectorAll('#mpgChips .chip').forEach(c=>c.onclick=()=>{
   curMathGrade=c.dataset.pg;
@@ -2827,6 +3247,13 @@ document.querySelectorAll('#ssChips .chip').forEach(c=>c.onclick=()=>{
   document.querySelectorAll('#ssChips .chip').forEach(x=>x.classList.toggle('on',x===c));
   document.querySelectorAll('#ssTable tbody tr').forEach(tr=>{
     tr.style.display=(k==='all'||tr.dataset.lan===k||tr.dataset.ss===k)?'':'none';
+  });
+});
+document.querySelectorAll('#tpChips .chip').forEach(c=>c.onclick=()=>{
+  const k=c.dataset.tp;
+  document.querySelectorAll('#tpChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  document.querySelectorAll('#tpTable tbody tr').forEach(tr=>{
+    tr.style.display=(k==='all'||(' '+tr.dataset.tp+' ').includes(' '+k+' '))?'':'none';
   });
 });
 function buildIntro(){
@@ -3001,7 +3428,7 @@ function renderHk(){
     words.forEach(w=>{
       const known=!!hProg[w.id];
       const d=document.createElement('div'); d.className='vcard'+(hide?' hidezh':'');
-      d.innerHTML=`<div><span class="w">${w.w}</span> <span class="mini" data-sp="${w.w}">🔊</span>${known?' <span class="ok">✓</span>':''}<span class="tp"> · ${w.grade} · ${w.theme}</span></div><div class="zh">${w.zh}</div>`;
+      d.innerHTML=`<div><span class="w">${w.w}</span> <span class="ph">${w.ipa||''}</span> <span class="mini" data-sp="${w.w}">🔊</span>${known?' <span class="ok">✓</span>':''}<span class="tp"> · ${w.grade} · ${w.theme}</span></div><div class="zh">${w.zh}</div>`;
       d.onclick=()=>{hProg[w.id]=!hProg[w.id];saveH();renderHk();document.getElementById('stHk').textContent=Object.keys(hProg).filter(k=>hProg[k]).length;renderBadges();};
       d.querySelector('.mini[data-sp]').onclick=e=>{e.stopPropagation();speak(w.w,'en-US');};
       body.appendChild(d);
@@ -3065,7 +3492,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.28',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.39',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -3104,7 +3531,7 @@ function renderBadges(){var known=Object.keys(hProg).filter(function(k){return h
 var flashQueue=[],flashIdx=0,flashKnown=0,flashTotal=0,flashCur=null;
 function startFlash(){flashQueue=HK.slice();for(var i=flashQueue.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=flashQueue[i];flashQueue[i]=flashQueue[j];flashQueue[j]=t;}flashIdx=0;flashKnown=0;flashTotal=0;document.getElementById('flashPanel').style.display='block';nextFlash();}
 function nextFlash(){if(flashIdx>=flashQueue.length){document.getElementById('flashCard').textContent='🎉 本輪完成！';document.getElementById('flashZh').style.display='none';document.getElementById('flashReveal').style.display='none';document.getElementById('flashKnow').style.display='none';document.getElementById('flashUnk').style.display='none';return;}flashCur=flashQueue[flashIdx];document.getElementById('flashCard').textContent=flashCur.w;var z=document.getElementById('flashZh');z.style.display='none';z.textContent=flashCur.zh;document.getElementById('flashReveal').style.display='inline-block';document.getElementById('flashKnow').style.display='none';document.getElementById('flashUnk').style.display='none';document.getElementById('flashStat').textContent='本輪：已認識 '+flashKnown+' / 共 '+flashTotal;}
-function flashReveal(){document.getElementById('flashZh').style.display='block';document.getElementById('flashReveal').style.display='none';document.getElementById('flashKnow').style.display='inline-block';document.getElementById('flashUnk').style.display='inline-block';}
+function flashReveal(){document.getElementById('flashZh').style.display='block';document.getElementById('flashZh').innerHTML=flashCur.zh+(flashCur.ipa?' <span class="ph">'+flashCur.ipa+'</span>':'');document.getElementById('flashReveal').style.display='none';document.getElementById('flashKnow').style.display='inline-block';document.getElementById('flashUnk').style.display='inline-block';}
 function flashKnow(){if(flashCur){hProg[flashCur.id]=true;saveH();}flashKnown++;flashTotal++;flashIdx++;document.getElementById('stHk').textContent=Object.keys(hProg).filter(function(k){return hProg[k];}).length;renderBadges();nextFlash();}
 function flashUnk(){if(flashCur){flashQueue.push(flashCur);}flashTotal++;flashIdx++;nextFlash();}
 document.getElementById('flashBtn').onclick=function(){startFlash();};
@@ -3115,6 +3542,106 @@ document.getElementById('flashSound').onclick=function(){if(flashCur)speak(flash
 renderPoemGrid();renderVocab();renderHk();renderMath();renderFt();showEnStat();
 bumpStreak();renderMoti();renderBadges();
 (function(){const c=getAiCfg();if(!c||!c.base)return;const b=document.getElementById('aiBase');if(b&&c.base)b.value=c.base;const k=document.getElementById('aiKey');if(k&&c.key)k.value=c.key;const m=document.getElementById('aiModel');if(m&&c.model)m.value=c.model;})();
+
+// ============ 賬號系統（v1.33）：本機賬號 + 進度按賬號隔離 ============
+// 純前端方案（雲服務未開通）：賬號/進度僅存本瀏覽器 localStorage，密碼存 salt+SHA-256（Web Crypto 標準實現）。
+// 線上（https 非本機域名）強制登入；本地直開 file:// / localhost 免登入，以「本地」身份使用。
+async function hkSha256(s){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(function(x){return ('0'+x.toString(16)).slice(-2);}).join('');
+}
+var AUTH_FORCE=(typeof location!=='undefined'&&location.protocol==='https:'&&location.hostname&&location.hostname.indexOf('localhost')!==0&&location.hostname.indexOf('127.')!==0&&location.hostname.indexOf('192.168.')!==0);
+var AUTH_USERS='hkk_auth_users',AUTH_SESS='hkk_auth_sess',DEFAULT_USER='本地';
+var curUser=DEFAULT_USER;
+function authUsers(){try{return JSON.parse(localStorage.getItem(AUTH_USERS)||'{}');}catch(e){return {};}}
+function authSaveUsers(u){localStorage.setItem(AUTH_USERS,JSON.stringify(u));}
+function authReadSess(){try{return JSON.parse(localStorage.getItem(AUTH_SESS)||sessionStorage.getItem(AUTH_SESS)||'null');}catch(e){return null;}}
+function authNameOk(n){return typeof n==='string'&&n.length>=2&&n.length<=16&&n!=='本地';}
+// 進度作用域：全局 hkk_* 鍵屬於當前用戶；切換時搬到 hkk_u@<名>@<鍵>，登入時搬回
+function authKeys(){var out=[];for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf('hkk_')===0&&k.indexOf('hkk_u@')!==0&&k!==AUTH_USERS&&k!==AUTH_SESS)out.push(k);}return out;}
+function authSaveScope(name){if(!name)return;authKeys().forEach(function(k){localStorage.setItem('hkk_u@'+name+'@'+k.slice(4),localStorage.getItem(k));localStorage.removeItem(k);});}
+function authLoadScope(name){if(!name||name===DEFAULT_USER)return;var pre='hkk_u@'+name+'@';for(var i=localStorage.length-1;i>=0;i--){var k=localStorage.key(i);if(k&&k.indexOf(pre)===0){localStorage.setItem('hkk_'+k.slice(pre.length),localStorage.getItem(k));localStorage.removeItem(k);}}}
+function authShowTab(t){
+  document.getElementById('authTabLogin').classList.toggle('on',t==='login');
+  document.getElementById('authTabReg').classList.toggle('on',t==='reg');
+  document.getElementById('authLoginBox').style.display=t==='login'?'block':'none';
+  document.getElementById('authRegBox').style.display=t==='reg'?'block':'none';
+  document.getElementById('authResetBox').style.display=t==='reset'?'block':'none';
+  if(t==='login')document.getElementById('authResetBox').style.display='none';
+  if(t==='reset')document.getElementById('authLoginBox').style.display='none';
+}
+function authTogglePwd(id,btn){var el=document.getElementById(id);if(!el)return;el.type=el.type==='password'?'text':'password';btn.textContent=el.type==='password'?'👁':'🙈';}
+function authErr(id,msg,ok){var el=document.getElementById(id);if(el){el.textContent=msg||'';el.className='authErr'+(ok?' authOk':'');}}
+function authShowGate(){var g=document.getElementById('authGate');g.classList.add('on');document.body.classList.add('authLock');document.getElementById('userChip').style.display='none';}
+function authHideGate(){var g=document.getElementById('authGate');g.classList.remove('on');document.body.classList.remove('authLock');var chip=document.getElementById('userChip');chip.style.display='inline-flex';document.getElementById('userChipName').textContent='👤 '+curUser;}
+function authRegister(){return authRegisterDo();}
+async function authRegisterDo(){
+  var n=document.getElementById('authRegName').value.trim(),p=document.getElementById('authRegPwd').value,p2=document.getElementById('authRegPwd2').value;
+  if(!authNameOk(n)){authErr('authRegErr','暱稱需 2–16 字（中文或英文），不能用「本地」');return;}
+  if(p.length<8){authErr('authRegErr','密碼至少 8 位');return;}
+  if(p!==p2){authErr('authRegErr','兩次密碼不一致');return;}
+  var u=authUsers();
+  if(u[n]){authErr('authRegErr','這個暱稱已註冊，請直接登入');return;}
+  var salt=(''+Math.random()).slice(2)+Date.now();
+  u[n]={salt:salt,hash:await hkSha256(salt+'|'+p),created:new Date().toISOString().slice(0,10)};
+  authSaveUsers(u);authErr('authRegErr','註冊成功，正在進入…',true);
+  authEnter(n,true);
+}
+function authLogin(){return authLoginDo();}
+async function authLoginDo(){
+  var n=document.getElementById('authLoginName').value.trim(),p=document.getElementById('authLoginPwd').value;
+  var u=authUsers();
+  if(!u[n]){authErr('authLoginErr','沒有這個暱稱，請先註冊');return;}
+  if(u[n].hash!==await hkSha256(u[n].salt+'|'+p)){authErr('authLoginErr','密碼不正確');return;}
+  authErr('authLoginErr','登入成功，正在進入…',true);
+  authEnter(n,document.getElementById('authRemember').checked);
+}
+function authReset(){return authResetDo();}
+async function authResetDo(){
+  var n=document.getElementById('authResetName').value.trim(),p=document.getElementById('authResetPwd').value;
+  var u=authUsers();
+  if(!u[n]){authErr('authResetErr','沒有這個暱稱');return;}
+  if(p.length<8){authErr('authResetErr','新密碼至少 8 位');return;}
+  if(!confirm('確定重置「'+n+'」？該賬號的全部學習進度將被清空，且無法恢復。'))return;
+  var salt=(''+Math.random()).slice(2)+Date.now();
+  u[n]={salt:salt,hash:await hkSha256(salt+'|'+p),created:new Date().toISOString().slice(0,10)};
+  authSaveUsers(u);
+  authKeys().forEach(function(k){localStorage.removeItem('hkk_u@'+n+'@'+k.slice(4));});
+  authErr('authResetErr','已重置，用新密碼登入吧',true);
+  authShowTab('login');document.getElementById('authLoginName').value=n;
+}
+function authEnter(name,remember){
+  if(curUser!==name){authSaveScope(curUser);authLoadScope(name);}
+  curUser=name;
+  try{sessionStorage.removeItem(AUTH_SESS);}catch(e){}
+  localStorage.removeItem(AUTH_SESS);
+  if(remember)localStorage.setItem(AUTH_SESS,JSON.stringify({name:name}));
+  else sessionStorage.setItem(AUTH_SESS,JSON.stringify({name:name}));
+  authHideGate();
+  try{location.reload();}catch(e){}
+}
+function authLogout(){
+  authSaveScope(curUser);
+  localStorage.removeItem(AUTH_SESS);try{sessionStorage.removeItem(AUTH_SESS);}catch(e){}
+  if(AUTH_FORCE){curUser=DEFAULT_USER;authSaveScope(DEFAULT_USER);location.reload();}
+  else{curUser=DEFAULT_USER;authLoadScope(DEFAULT_USER);authSaveScope(DEFAULT_USER);location.reload();}
+}
+function authBoot(){
+  var sess=authReadSess();
+  if(sess&&sess.name&&(sess.name===DEFAULT_USER||authUsers()[sess.name])){
+    curUser=sess.name;authLoadScope(sess.name);authHideGate();renderUserStat();return;
+  }
+  if(AUTH_FORCE){authShowGate();return;}
+  curUser=DEFAULT_USER;authHideGate();renderUserStat();
+}
+function renderUserStat(){
+  if(curUser===DEFAULT_USER)return;
+  var chip=document.getElementById('userChip');chip.style.display='inline-flex';
+  document.getElementById('userChipName').textContent='👤 '+curUser;
+}
+document.getElementById('authLoginPwd').addEventListener('keydown',function(e){if(e.key==='Enter')authLogin();});
+document.getElementById('authRegPwd2').addEventListener('keydown',function(e){if(e.key==='Enter')authRegister();});
+authBoot();
 </script>
 </body>
 </html>'''
