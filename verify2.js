@@ -613,7 +613,7 @@ try{
 
 // ============ v1.39 择校：电话列 + 删停办校 + 三育英中 ============
 try{
-  ok('v1.39 全站 40 個 tel 鏈接（北20+埔20）', doc.querySelectorAll('a[href^="tel:"]').length===40);
+  ok('v1.39 中學 tel 鏈接≥40（北20+埔20，v1.42 起全站 70 含小學30）', doc.querySelectorAll('a[href^="tel:"]').length>=40 && [...doc.querySelectorAll('#ssTable tbody tr')].every(r=>r.querySelector('a[href^="tel:"]')) && [...doc.querySelectorAll('#tpTable tbody tr')].every(r=>r.querySelector('a[href^="tel:"]')));
   ok('v1.39 停辦的大埔官立已移除', !doc.querySelector('#tpTable tbody tr') || ![...doc.querySelectorAll('#tpTable tbody tr')].some(r=>r.textContent.includes('大埔官立中學')));
   ok('v1.39 三育=直資英中+150位北區', [...doc.querySelectorAll('#tpTable tbody tr')].some(r=>r.textContent.includes('大埔三育中學')&&r.textContent.includes('英中')&&r.textContent.includes('150')));
   ok('v1.39 三育 chips 雙標籤 en+dss', [...doc.querySelectorAll('#tpTable tbody tr')].filter(r=>(' '+r.dataset.tp+' ').includes(' en ')).length===7);
@@ -646,6 +646,19 @@ try{
   ok('v1.41 心誠 Band 2C + flss.edu.hk', ssRows.some(r=>r.textContent.includes('心誠中學')&&r.textContent.includes('2C')&&r.querySelector('a[href*="flss.edu.hk"]')));
   ok('v1.41 表頭含官網欄', doc.querySelector('#ssTable thead').textContent.includes('官網'));
 }catch(e){ ok('v1.41 官網测试执行', false); console.log('   err='+e.message); }
+
+// ============ v1.42 北區小學 30 所 ============
+try{
+  const psRows=[...doc.querySelectorAll('#psTable tbody tr')];
+  ok('v1.42 小學表 30 行', psRows.length===30);
+  ok('v1.42 校網 80/81/83 = 14/14/2', psRows.filter(r=>r.dataset.net==='80').length===14 && psRows.filter(r=>r.dataset.net==='81').length===14 && psRows.filter(r=>r.dataset.net==='83').length===2);
+  ok('v1.42 30 行全帶 tel 電話', psRows.every(r=>r.querySelector('a[href^="tel:"]')));
+  ok('v1.42 馬錦燦=上水彩園邨+26711071（非火炭）', psRows.some(r=>r.textContent.includes('馬錦燦紀念小學')&&r.textContent.includes('彩園邨')&&r.querySelector('a[href="tel:26711071"]')));
+  ok('v1.42 官立 chip 過濾=1 行（粉嶺官立）', (()=>{psRows.forEach(r=>r.style.display='none');doc.querySelector('#psChips .chip[data-f="gov"]').click();return psRows.filter(r=>r.style.display!=='none').length===1 && psRows.find(r=>r.style.display!=='none').textContent.includes('粉嶺官立小學');})());
+  ok('v1.42 全部 chip 恢復 30 可見', (()=>{doc.querySelector('#psChips .chip[data-f="all"]').click();return psRows.filter(r=>r.style.display!=='none').length===30;})());
+  ok('v1.42 普教中標註≥4 所', psRows.filter(r=>r.textContent.includes('普教中')).length>=4);
+  ok('v1.42 全站 tel 鏈接 70 個（中40+小30）', doc.querySelectorAll('a[href^="tel:"]').length===70);
+}catch(e){ ok('v1.42 小學测试执行', false); console.log('   err='+e.message); }
 
 // ============ v1.37 本地播放 ▶ ============
 try{
