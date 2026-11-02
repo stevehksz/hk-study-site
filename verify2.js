@@ -695,6 +695,12 @@ try{
 ok('v1.43 51la SDK 脚本存在(https)', !!doc.querySelector('script#LA_COLLECT[src^="https://sdk.51.la/"]'));
 ok('v1.43 51la LA.init id/ck 注入', /LA\.init\(\{id:"3RhjH055gOjxA8UA",ck:"3RhjH055gOjxA8UA"\}\)/.test(html));
 
+// ============ v1.44 时间线加小学插班 ============
+ok('v1.44 小学插班时间线表存在', /小學插班（以 2027\.9 插小二為例/.test(html));
+ok('v1.44 小学时间线含直接向学校申请', html.includes('沒有中央派位') && html.includes('逐校向校務處交表'));
+ok('v1.44 中学时间线仍在', html.includes('中學插班（以 2027.9 入中一為例）') && html.includes('放榜＝2027.7.6'));
+ok('v1.44 春季卡补身份赶不上提示', html.includes('2027 年春季批趕不上'));
+
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
 })();

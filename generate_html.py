@@ -521,13 +521,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.43（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.44（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.43（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.44（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan">升學規劃</button>
@@ -1073,8 +1073,27 @@ Thank you for your time.</div>
   <!-- 時間線 -->
   <div class="wrap" id="timelineView">
     <div class="gsec">
-      <h2>申請時間線（以 2027.9 入中一為例）</h2>
+      <h2>申請時間線（中學插班＋小學插班，以 2027.9 入學為例）</h2>
       <p class="tip">適用以 9 月入學為主批、1 月春季為備選。具體日期以教育局及各校官網當年公告為準。</p>
+
+      <h3>🏫 小學插班（以 2027.9 插小二為例——本家庭適用）</h3>
+      <table class="mtable">
+        <thead><tr><th style="width:90px">階段</th><th style="width:140px">時間</th><th>動作</th></tr></thead>
+        <tbody>
+          <tr><td>備戰期</td><td>2026.10–2027.2</td><td>收集成績單（蓋章）＋繁體/英文翻譯；定 6–8 所北區小學選校單（校網 <b>80 = 上水跨境最優</b>）；低小插班看重<b>聽說與識字</b>，英文起步以牛津樹繪本＋日常聽說為主</td></tr>
+          <tr><td>申請高峰<br>（直接向學校申請）</td><td><b>2027.3–5</b></td><td>⚠️ 小學插班<b>沒有中央派位</b>——官津小學由各校自收插班生，逐校向校務處交表（電話先問是否收插班、收哪級）；直資/私立時間更早，逐校看公告</td></tr>
+          <tr><td>筆面試</td><td>2027.5–7</td><td>低小多為<b>中英面談＋遊戲觀察</b>，部分校有簡單筆試（坊間整理，以各校為準）；同步辦香港身份證；教育局途徑三（區域教育服務處登記學位需求）<b>5–8 月</b>可登記，兜底不會沒書讀</td></tr>
+          <tr><td>確認學位</td><td>2027.7–8</td><td>跟進各校空缺答覆；收 Offer 後 <b>3–7 天內繳留位費</b>；⚠️ 校巴/保姆車正期申請 <b>5–6 月</b>，7–8 月只能問補位</td></tr>
+          <tr><td>入學</td><td>2027.9</td><td>辦內地學籍轉出；校服書單；跨境生出席首日安排（校巴線路/集合點 8 月底與營辦商確認）</td></tr>
+        </tbody>
+      </table>
+      <div class="gcard warn">
+        <h3>小學插班與中學的兩個關鍵區別</h3>
+        <p>① <b>沒有統一派位</b>：中學插班還能蹭中一派位放榜後的叩門潮，小學插班全靠<b>逐校直接申請</b>，3–5 月就要動手，不能等 7 月；② <b>呈分試暫不相關</b>：呈分試影響中一派位，P5–P6 才關鍵——低小（P1–P3）插班主要看面談表現＋學位空缺，難度低於中學插班，但熱門校網（80）學位也緊張。</p>
+        <p class="src">來源：教育局區域教育服務處插班安排（官方途徑）＋各校插班慣例（坊間整理）｜以各校官網當年公告為準</p>
+      </div>
+
+      <h3>🎓 中學插班（以 2027.9 入中一為例）</h3>
       <table class="mtable">
         <thead><tr><th style="width:90px">階段</th><th style="width:140px">時間</th><th>動作</th></tr></thead>
         <tbody>
@@ -1088,9 +1107,9 @@ Thank you for your time.</div>
       </table>
       <div class="gcard warn">
         <h3>春季插班備選（1 月入學）</h3>
-        <p>前一年 <b>10–12 月</b>申請，<b>12 月上旬</b>基本截止，學位約為秋季 30%。</p>
+        <p>前一年 <b>10–12 月</b>申請，<b>12 月上旬</b>基本截止，學位約為秋季 30%。⚠️ 本家庭身份 2027.6 到手，<b>2027 年春季批趕不上</b>（申請時無身份）；2028 年春季批可作中途轉校備選。</p>
       </div>
-      <div class="src">來源：教育局 2025/2027 中一學位分配辦法（官方）｜適用 2027/28 學年｜具體以各校官網當年公告為準</div>
+      <div class="src">來源：教育局 2025/2027 中一學位分配辦法（官方）＋區域教育服務處插班安排｜適用 2027/28 學年｜具體以各校官網當年公告為準</div>
     </div>
   </div>
 
@@ -3589,7 +3608,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.43',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.44',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
