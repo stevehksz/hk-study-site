@@ -574,25 +574,6 @@ try{
   ok('v1.33 清存儲後復原本地身份', window.eval('curUser')==='本地' && !g('authGate').classList.contains('on'));
 }catch(e){ ok('v1.33 賬號系統測試執行', false); console.log('   err='+e.message); }
 
-// ============ v1.35 繪本閱讀打卡 ============
-try{
-  ok('v1.35 ORT 書單 204 本', window.eval('ORT_BOOKS.length')===204);
-  doc.querySelector('#enPracSub button[data-es="ort"]').click();
-  ok('v1.35 子標籤切換顯示 ortView', doc.getElementById('ortView').style.display==='block');
-  ok('v1.35 九階 chips 含計數（全部+9階=10）', (doc.getElementById('ortChips').textContent.match(/\(\d+\)/g)||[]).length===10);
-  const bk1=doc.querySelector('#ortList .ort-bk');
-  const k1=bk1.dataset.k;
-  bk1.click();
-  const bkAfter=[...doc.querySelectorAll('#ortList .ort-bk')].find(b=>b.dataset.k===k1);
-  ok('v1.35 打卡→done 類+存儲', bkAfter.classList.contains('done') && !!JSON.parse(window.localStorage.getItem('hkk_ort'))[k1]);
-  ok('v1.35 總進度=1', doc.getElementById('ortStat').innerHTML.includes('<b>1</b>'));
-  bkAfter.click();
-  ok('v1.35 再點取消打卡', !JSON.parse(window.localStorage.getItem('hkk_ort'))[k1]);
-  doc.querySelector('#ortChips .chip[data-lv="5階"]').click();
-  ok('v1.35 階 chip 過濾（僅 5 階）', doc.querySelectorAll('#ortList .ort-lv').length===1 && doc.querySelector('#ortList .ort-lv-h').textContent.includes('5階'));
-  // 資源地圖卡
-  ok('v1.35 資源地圖卡含本地路徑', doc.getElementById('ortView').textContent.includes('牛津树') && doc.getElementById('ortView').textContent.includes('香港朗文'));
-}catch(e){ ok('v1.35 繪本閱讀測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.38 择校：校车卡 + 东铁沿线（大埔）表 ============
 try{
@@ -676,36 +657,7 @@ try{
   ok('v1.47 小學表帶 mtable class（min-width 780px 生效）', /<table class="mtable" id="psTable">/.test(html));
 }catch(e){ ok('v1.45 小學表測試執行', false); console.log('   err='+e.message); }
 
-// ============ v1.37 本地播放 ▶ ============
-try{
-  ok('v1.37 204 本書全帶視頻 fs', window.eval('ORT_BOOKS.filter(b=>b.fs&&b.fs.length).length')===204);
-  ok('v1.37 視頻文件總數 503', window.eval('ORT_BOOKS.reduce((s,b)=>s+b.fs.length,0)')===503);
-  ok('v1.37 ortHref 編碼 file:///%20', window.eval('ortHref("牛津树1阶/01【正课】Look at Me-双语讲解.mp4")').indexOf('file:///G:/00%20')===0);
-  ok('v1.37 https 下不顯示 ▶', doc.querySelectorAll('#ortList .ort-play').length===0);
-  window.eval('curOrtLv="";ORT_LOCAL=true;renderOrt()');
-  const np=doc.querySelectorAll('#ortList .ort-play').length;
-  ok('v1.37 本地模式 ▶ 全顯示（503 個）', np===503);
-  const ph=doc.querySelector('#ortList .ort-play').getAttribute('href');
-  ok('v1.37 ▶ href 為 file:/// 且編碼空格', ph.indexOf('file:///G:/')===0 && ph.indexOf('%20')>0);
-  window.eval('ORT_LOCAL=false;renderOrt()');
-  ok('v1.37 關閉本地模式 ▶ 消失', doc.querySelectorAll('#ortList .ort-play').length===0);
-}catch(e){ ok('v1.37 本地播放測試執行', false); console.log('   err='+e.message); }
 
-// ============ v1.35 朗文詞庫 ============
-try{
-  ok('v1.35 LWTE 詞庫 140 條', window.eval('LWTE_BANKS.reduce((s,e)=>s+e.items.length,0)')===140);
-  ok('v1.35 LWTE 19 類', window.eval('LWTE_BANKS.length')===19);
-  doc.querySelector('#enPracSub button[data-es="lwte"]').click();
-  ok('v1.35 子標籤切換顯示 lwteView', doc.getElementById('lwteView').style.display==='block');
-  const li1=doc.querySelector('#lwteList .ort-bk');
-  const lk1=li1.dataset.k;
-  li1.click();
-  const liAfter=[...doc.querySelectorAll('#lwteList .ort-bk')].find(b=>b.dataset.k===lk1);
-  ok('v1.35 LWTE 打卡→done+存儲', liAfter.classList.contains('done') && !!JSON.parse(window.localStorage.getItem('hkk_lwte'))[lk1]);
-  ok('v1.35 LWTE 詞條帶中文釋義', liAfter.textContent.length > liAfter.textContent.replace(/[^\u4e00-\u9fff]/g,'').length ? [...doc.querySelectorAll('#lwteList .ort-bk')].some(b=>/[\u4e00-\u9fff]/.test(b.textContent)) : false);
-  doc.querySelector('#lwteChips .chip[data-bk="5B"]').click();
-  ok('v1.35 LWTE 冊 chip 過濾（僅 5B）', [...doc.querySelectorAll('#lwteList .ort-lv-h')].every(h=>h.textContent.includes('5B')));
-}catch(e){ ok('v1.35 朗文詞庫測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.43 51la 访问统计 ============
 ok('v1.43 51la SDK 脚本存在(https)', !!doc.querySelector('script#LA_COLLECT[src^="https://sdk.51.la/"]'));
@@ -740,6 +692,14 @@ try{
 try{
   ok('v1.50 初始化 showMain(curTab) 且無硬編碼 guide', /showMain\(curTab\);/.test(html) && !/showMain\('guide'\)/.test(html));
 }catch(e){ ok('v1.50 測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.53 繪本閱讀/朗文詞庫 已刪除 ============
+try{
+  ok('v1.53 兩 tab 按鈕已刪（繪本閱讀/朗文詞庫）', !/data-es="ort"/.test(html) && !/data-es="lwte"/.test(html) && !html.includes('繪本閱讀') && !html.includes('朗文詞庫'));
+  ok('v1.53 ortView/lwteView DOM 與 JS 全清', !/id="ortView"|id="lwteView"|ortView|lwteView/.test(html));
+  ok('v1.53 數據鏈已斷（無 ort_books/lwte_banks）', !/ort_books|lwte_banks/.test(html));
+  ok('v1.53 enPracSub 剩 6 tab', doc.querySelectorAll('#enPracSub button').length===6);
+}catch(e){ ok('v1.53 測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.52 時間線加回小學線 + 全站無 schooland ============
 try{
