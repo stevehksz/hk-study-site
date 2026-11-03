@@ -736,6 +736,11 @@ try{
   ok('v1.49 版本號 v1.49', (html.match(/公開版 v1\.49/g)||[]).length===2 && /hkk_v1\.49/.test(html));
 }catch(e){ ok('v1.49 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.50 初始化不覆蓋默認 tab ============
+try{
+  ok('v1.50 初始化 showMain(curTab) 且無硬編碼 guide', /showMain\(curTab\);/.test(html) && !/showMain\('guide'\)/.test(html));
+}catch(e){ ok('v1.50 測試執行', false); console.log('   err='+e.message); }
+
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
 })();

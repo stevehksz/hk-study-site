@@ -532,13 +532,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.49（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.50（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.49（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.50（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3485,7 +3485,7 @@ function buildIntro(){
     }catch(e){stat.textContent='錄音失敗：'+e.message;}
   };
 })();
-showMain('guide');
+showMain(curTab); // v1.50 修：原硬編碼 'guide' 蓋掉默認 tab，致 v1.48 ②未生效
 
 // ---- 數學術語表 ----
 let mathFilter='all';
@@ -3686,7 +3686,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.49',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.50',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
