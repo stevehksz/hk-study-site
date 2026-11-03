@@ -672,7 +672,8 @@ try{
   ok('v1.45 時間線小學表已遷入擇校分檔（小學 30 所區塊內）', html.indexOf('插小二為例') > html.indexOf('北區小學 30 所') && html.indexOf('插小二為例') < html.indexOf('材料清單（按身份類型準備）'));
   ok('v1.45 身份政策時間線只剩中學線', !/時間線（以 2027\.9 入中一為例）[\s\S]*插小二為例/.test(html.slice(html.indexOf('timelineView'), html.indexOf('schoolsView'))));
   ok('v1.45 頁腳微信號 SteveHKSZ', html.includes('微信號：<b>SteveHKSZ</b>'));
-  ok('v1.46 小學表包 scroll-x（與中學一致，手機橫向滾動）', /<div class="scroll-x">\s*<table id="psTable">/.test(html));
+  ok('v1.46 小學表包 scroll-x（與中學一致，手機橫向滾動）', /<div class="scroll-x">\s*<table (class="mtable" )?id="psTable">/.test(html));
+  ok('v1.47 小學表帶 mtable class（min-width 780px 生效）', /<table class="mtable" id="psTable">/.test(html) && /公開版 v1\.47/.test(html));
 }catch(e){ ok('v1.45 小學表測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.37 本地播放 ▶ ============
