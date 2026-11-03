@@ -444,7 +444,7 @@ ok('梯隊含 衝刺/穩妥/保底', tiers.has('衝刺') && tiers.has('穩妥') 
 ok('交叉勘誤卡存在', doc.getElementById('schoolsView').innerHTML.includes('交叉勘誤'));
 ok('北區一覽 20 行', doc.querySelectorAll('#ssTable tbody tr').length === 20);
 ok('英文名稱列存在', doc.querySelector('#ssTable tbody tr td:nth-child(2)').textContent.length > 3);
-ok('外鏈卡含 schooland+EDB', doc.querySelectorAll('#schoolsView a[href*="schooland"],#schoolsView a[href*="edb.gov.hk"]').length >= 5);
+ok('v1.52 外鏈卡只剩官方源（無 schooland，EDB/CHSC ≥5）', doc.querySelectorAll('#schoolsView a[href*="schooland"]').length===0 && doc.querySelectorAll('#schoolsView a[href*="edb.gov.hk"],#schoolsView a[href*="chsc.hk"]').length >= 5);
 doc.querySelector('#ssChips .chip[data-ss="en"]').click();
 ok('英中篩選後 7 行', [...doc.querySelectorAll('#ssTable tbody tr')].filter(tr=>tr.style.display!=='none').length === 7);
 doc.querySelector('#ssChips .chip[data-ss="all"]').click();
@@ -669,8 +669,8 @@ try{
   ok('v1.45 普教中 chip 點擊過濾=5', (()=>{psRows2.forEach(r=>r.style.display='none');doc.querySelector('#psChips .chip[data-m="pth"]').click();const n=psRows2.filter(r=>r.style.display!=='none').length;doc.querySelector('#psChips .chip[data-m="all"]').click();return n===5;})());
   ok('v1.45 chips 10 個（data-m）', doc.querySelectorAll('#psChips .chip[data-m]').length===10);
   ok('v1.45 分檔依據說明 tip 存在', /檔位＝跨境通勤便利粗分/.test(html));
-  ok('v1.45 時間線小學表已遷入擇校分檔（小學 30 所區塊內）', html.indexOf('插小二為例') > html.indexOf('北區小學 30 所') && html.indexOf('插小二為例') < html.indexOf('材料清單（按身份類型準備）'));
-  ok('v1.45 身份政策時間線只剩中學線', !/時間線（以 2027\.9 入中一為例）[\s\S]*插小二為例/.test(html.slice(html.indexOf('timelineView'), html.indexOf('schoolsView'))));
+  ok('v1.52 小學時間線遷回時間線 tab（timelineView 內、擇校外）', html.indexOf('插小二為例') > html.indexOf('id="timelineView"') && html.indexOf('插小二為例') < html.indexOf('id="schoolsView"'));
+  ok('v1.52 時間線 tab 現含中學+小學兩線（雙表齊）', (()=>{const seg=html.slice(html.indexOf('id="timelineView"'), html.indexOf('id="schoolsView"'));return seg.includes('入中一為例')&&seg.includes('插小二為例');})());
   ok('v1.45 頁腳微信號 SteveHKSZ', html.includes('微信號：<b>SteveHKSZ</b>'));
   ok('v1.46 小學表包 scroll-x（與中學一致，手機橫向滾動）', /<div class="scroll-x">\s*<table (class="mtable" )?id="psTable">/.test(html));
   ok('v1.47 小學表帶 mtable class（min-width 780px 生效）', /<table class="mtable" id="psTable">/.test(html));
@@ -740,6 +740,13 @@ try{
 try{
   ok('v1.50 初始化 showMain(curTab) 且無硬編碼 guide', /showMain\(curTab\);/.test(html) && !/showMain\('guide'\)/.test(html));
 }catch(e){ ok('v1.50 測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.52 時間線加回小學線 + 全站無 schooland ============
+try{
+  ok('v1.52 全站（含源碼注釋）無 schooland 字眼', (html.match(/schooland/gi)||[]).length===0);
+  ok('v1.52 小學時間線雙塊齊（時間線表+區別卡）', /插小二為例/.test(html) && /小學插班與中學的兩個關鍵區別/.test(html) && (html.match(/插小二為例/g)||[]).length===1);
+  ok('v1.52 深讀段換官方派位攻略鏈接', /<b>派位攻略<\/b>/.test(html) && (html.match(/edb\.gov\.hk/g)||[]).length>=3 && !/schooland\.hk\/post/.test(html));
+}catch(e){ ok('v1.52 測試執行', false); console.log('   err='+e.message); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);

@@ -500,13 +500,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.51（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.52（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.51（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.52（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1073,7 +1073,27 @@ Thank you for your time.</div>
       </div>
       <div class="src">來源：教育局 2025/2027 中一學位分配辦法（官方）＋區域教育服務處插班安排｜適用 2027/28 學年｜具體以各校官網當年公告為準</div>
     </div>
+  <!-- 小學插班時間線（v1.45 曾遷擇校分檔，v1.52 依葉工要求遷回時間線 tab） -->
+  <div class="gsec">
+          <h3>🏫 小學插班時間線（以 2027.9 插小二為例——本家庭適用）</h3>
+      <table class="mtable">
+        <thead><tr><th style="width:90px">階段</th><th style="width:140px">時間</th><th>動作</th></tr></thead>
+        <tbody>
+          <tr><td>備戰期</td><td>2026.10–2027.2</td><td>收集成績單（蓋章）＋繁體/英文翻譯；定 6–8 所北區小學選校單（校網 <b>80 = 上水跨境最優</b>）；低小插班看重<b>聽說與識字</b>，英文起步以牛津樹繪本＋日常聽說為主</td></tr>
+          <tr><td>申請高峰<br>（直接向學校申請）</td><td><b>2027.3–5</b></td><td>⚠️ 小學插班<b>沒有中央派位</b>——官津小學由各校自收插班生，逐校向校務處交表（電話先問是否收插班、收哪級）；直資/私立時間更早，逐校看公告</td></tr>
+          <tr><td>筆面試</td><td>2027.5–7</td><td>低小多為<b>中英面談＋遊戲觀察</b>，部分校有簡單筆試（坊間整理，以各校為準）；同步辦香港身份證；教育局途徑三（區域教育服務處登記學位需求）<b>5–8 月</b>可登記，兜底不會沒書讀</td></tr>
+          <tr><td>確認學位</td><td>2027.7–8</td><td>跟進各校空缺答覆；收 Offer 後 <b>3–7 天內繳留位費</b>；⚠️ 校巴/保姆車正期申請 <b>5–6 月</b>，7–8 月只能問補位</td></tr>
+          <tr><td>入學</td><td>2027.9</td><td>辦內地學籍轉出；校服書單；跨境生出席首日安排（校巴線路/集合點 8 月底與營辦商確認）</td></tr>
+        </tbody>
+      </table>
+      <div class="gcard warn">
+        <h3>小學插班與中學的兩個關鍵區別</h3>
+        <p>① <b>沒有統一派位</b>：中學插班還能蹭中一派位放榜後的叩門潮，小學插班全靠<b>逐校直接申請</b>，3–5 月就要動手，不能等 7 月；② <b>呈分試暫不相關</b>：呈分試影響中一派位，P5–P6 才關鍵——低小（P1–P3）插班主要看面談表現＋學位空缺，難度低於中學插班，但熱門校網（80）學位也緊張。</p>
+        <p class="src">來源：教育局區域教育服務處插班安排（官方途徑）＋各校插班慣例（坊間整理）｜以各校官網當年公告為準</p>
+      </div>
+    <div class="src">來源：教育局區域教育服務處插班安排（官方途徑）｜插班窗口為坊間通行整理｜以各校官網當年公告為準</div>
   </div>
+</div>
 
   <!-- 擇校分檔 -->
   <div class="wrap" id="schoolsView" style="display:none">
@@ -1136,8 +1156,8 @@ Thank you for your time.</div>
         <p>無論哪組，<b>7.6 一早從衝刺檔開始衝</b>，保底檔留 7.8–7.9 兜底，並同步走 EDB 途徑三。</p>
       </div>
       <div class="gcard warn">
-        <h3>⚠️ 交叉勘誤（2026-10-31 · schooland × 教育局 × 中學概覽）</h3>
-        <p>本次以 <a href="https://www.schooland.hk/ss/north" target="_blank" rel="noopener">schooland 北區中學頁</a>（2026-10-31 取樣）與教育局公開資料交叉核對，修正本表：① <b>風采中學＝資助</b>（EDB 收費證明書：學費免、堂費 $340/年），非直資；② 官津<b>英中僅 6 所</b>（教育局名單）：鄧顯/甲寅/田家炳/陳融/李嘉誠/風采；心誠為直資英中；馬錦燦屬雙語（部分科目英文，中學概覽），其餘均中中；③ 茂峰位於<b>元朗天水圍</b>（非北區，建議從策略中移除）、康樂/李興貴位於<b>大埔</b>（他區：北區，接收北區跨境生）。Band 各源不一，僅作非官方參考。</p>
+        <h3>⚠️ 交叉勘誤（2026-10-31 · 多源公開資料 × 教育局 × 中學概覽）</h3>
+        <p>本次以北區中學公開名冊（2026-10-31 取樣）與教育局公開資料交叉核對，修正本表：① <b>風采中學＝資助</b>（EDB 收費證明書：學費免、堂費 $340/年），非直資；② 官津<b>英中僅 6 所</b>（教育局名單）：鄧顯/甲寅/田家炳/陳融/李嘉誠/風采；心誠為直資英中；馬錦燦屬雙語（部分科目英文，中學概覽），其餘均中中；③ 茂峰位於<b>元朗天水圍</b>（非北區，建議從策略中移除）、康樂/李興貴位於<b>大埔</b>（他區：北區，接收北區跨境生）。Band 各源不一，僅作非官方參考。</p>
       </div>
       <div class="gcard">
         <h3>北區中學一覽（20 所 · 可篩選）</h3>
@@ -1174,11 +1194,11 @@ Thank you for your time.</div>
           </tbody>
         </table>
         </div>
-        <p class="src">事實欄（種類/宗教/性別/語言/地址）：schooland.hk 北區頁 2026-10-31 核對＋教育局中學概覽；英中判定以教育局名單為準；Band＝坊間非官方估計；電話：schooland.hk 各校資料頁 2026-11-02 核對。</p>
+        <p class="src">事實欄（種類/宗教/性別/語言/地址）：多源公開資料 2026-10-31 核對＋教育局中學概覽；英中判定以教育局名單為準；Band＝坊間非官方估計；電話：各校公開聯絡資料 2026-11-02 逐一核對。</p>
       </div>
       <div class="gcard">
         <h3>東鐵沿線備選：大埔區中學 20 所（太和 / 大埔墟站）</h3>
-        <p>北區之後的東鐵備選梯隊：羅湖出發約 15–20 分鐘到太和（估算，4 站），通關＋車程單程約 45–60 分鐘。事實欄（類型/語言/地址）經升學天地/教育王國/家委會概覽多源交叉（2026-11-02 核對）；Band＝坊間非官方參考；<b>近站為依地址所在社區的估算</b>，步行時間以地圖為準；電話可點擊直撥（手機）——號碼來源 schooland.hk 各校資料頁 2026-11-02 逐一核對，變動以學校官網為準。⚠️ 原大埔官立中學已於 2014 年停辦，已從表移除。</p>
+        <p>北區之後的東鐵備選梯隊：羅湖出發約 15–20 分鐘到太和（估算，4 站），通關＋車程單程約 45–60 分鐘。事實欄（類型/語言/地址）經升學天地/教育王國/家委會概覽多源交叉（2026-11-02 核對）；Band＝坊間非官方參考；<b>近站為依地址所在社區的估算</b>，步行時間以地圖為準；電話可點擊直撥（手機）——號碼來源各校公開聯絡資料 2026-11-02 逐一核對，變動以學校官網為準。⚠️ 原大埔官立中學已於 2014 年停辦，已從表移除。</p>
         <div class="pg-chips" id="tpChips">
           <span class="chip on" data-tp="all">全部 20</span>
           <span class="chip" data-tp="en">英中 7</span>
@@ -1212,43 +1232,26 @@ Thank you for your time.</div>
           </tbody>
         </table>
         </div>
-        <p class="src">來源：教育王國大埔區中學列表＋hkecec 大埔區中學組別表＋schooland（救恩書院頁）＋hkstudyroute 大埔排名，多源交叉 2026-11-02 核對；英中判定以教育局微調教學語言安排及各校官網為準（王肇枝＝EMI 官網確認）；Band／近站／車程＝坊間非官方估算，以學校官網與港鐵路線圖為準。</p>
+        <p class="src">來源：教育王國大埔區中學列表＋hkecec 大埔區中學組別表＋hkstudyroute 大埔排名，多源交叉 2026-11-02 核對；英中判定以教育局微調教學語言安排及各校官網為準（王肇枝＝EMI 官網確認）；Band／近站／車程＝坊間非官方估算，以學校官網與港鐵路線圖為準。</p>
       </div>
       <div class="gcard">
         <h3>升中攻略 · 外鏈精選（正文版權屬原站）</h3>
         <p><b>官方</b>：<a href="https://www.edb.gov.hk/en/student-parents/sch-info/sch-search/schlist-by-district/school-list-n.html" target="_blank" rel="noopener">教育局·北區中學名單</a>｜<a href="https://applications.edb.gov.hk/schoolsearch/" target="_blank" rel="noopener">教育局·學校搜尋（含收費證明書）</a>｜<a href="https://www.chsc.hk/ssp2025/" target="_blank" rel="noopener">家委會·中學概覽</a></p>
-        <p><b>深讀（schooland）</b>：<a href="https://www.schooland.hk/post/sspa00" target="_blank" rel="noopener">中學學位分配辦法</a>｜<a href="https://www.schooland.hk/post/sspa01" target="_blank" rel="noopener">自行分配重點分析</a>｜<a href="https://www.schooland.hk/post/sspa02" target="_blank" rel="noopener">統一派位重點分析</a>｜<a href="https://www.schooland.hk/post/sspa03" target="_blank" rel="noopener">升中部署日誌</a>｜<a href="https://www.schooland.hk/post/ss-banding" target="_blank" rel="noopener">Banding 怎樣分</a>｜<a href="https://www.schooland.hk/ss/direct-subsidy" target="_blank" rel="noopener">直資中學學費比較</a>｜<a href="https://www.schooland.hk/ss/traditional-elite" target="_blank" rel="noopener">傳統名校名單</a>｜<a href="https://www.schooland.hk/ss/north" target="_blank" rel="noopener">北區中學頁</a></p>
-        <p class="src">攻略文章版權屬各原站，此處僅收錄外鏈供家長延伸閱讀。</p>
+        <p><b>派位攻略</b>：<a href="https://www.edb.gov.hk/tc/student-parents/primary-secondary-spfa/system-tl/secondary-spfa-index.html" target="_blank" rel="noopener">教育局·中學學位分配辦法</a>｜<a href="https://www.chsc.hk/ssp2025/" target="_blank" rel="noopener">家委會·中學概覽（教學語言/收費）</a>｜<a href="https://www.edb.gov.hk/tc/edu-system/primary-secondary/spa-systems/direct-subsidy-scheme/index.html" target="_blank" rel="noopener">教育局·直資計劃介紹</a></p>
+        <p class="src">外鏈內容版權屬教育局及家委會，僅供家長延伸閱讀。</p>
       </div>
-      <div class="src">來源：北區 20 所中學（schooland.hk 2026-10-31 核對＋hk-placement 知識庫 v0.2）｜Band 組別＝坊間非官方參考（教育局不公布官方 Banding）｜學費/截止日以學校官網當年公告為準｜⚠️ 身份硬門檻：身份 2027.6 才到手者一律走放榜後叩門＋途徑三</div>
+      <div class="src">來源：北區 20 所中學（多源公開資料 2026-10-31 核對＋內部擇校知識庫）｜Band 組別＝坊間非官方參考（教育局不公布官方 Banding）｜學費/截止日以學校官網當年公告為準｜⚠️ 身份硬門檻：身份 2027.6 才到手者一律走放榜後叩門＋途徑三</div>
     </div>
   <!-- 北區小學（v1.42 建；v1.49 併入擇校分檔 tab，不再全 sub 常顯） -->
   <div class="gsec">
     <h2>北區小學 30 所（P1–P6 插班 · 小一校網 80/81/83）</h2>
-      <h3>🏫 小學插班時間線（以 2027.9 插小二為例——本家庭適用）</h3>
-      <table class="mtable">
-        <thead><tr><th style="width:90px">階段</th><th style="width:140px">時間</th><th>動作</th></tr></thead>
-        <tbody>
-          <tr><td>備戰期</td><td>2026.10–2027.2</td><td>收集成績單（蓋章）＋繁體/英文翻譯；定 6–8 所北區小學選校單（校網 <b>80 = 上水跨境最優</b>）；低小插班看重<b>聽說與識字</b>，英文起步以牛津樹繪本＋日常聽說為主</td></tr>
-          <tr><td>申請高峰<br>（直接向學校申請）</td><td><b>2027.3–5</b></td><td>⚠️ 小學插班<b>沒有中央派位</b>——官津小學由各校自收插班生，逐校向校務處交表（電話先問是否收插班、收哪級）；直資/私立時間更早，逐校看公告</td></tr>
-          <tr><td>筆面試</td><td>2027.5–7</td><td>低小多為<b>中英面談＋遊戲觀察</b>，部分校有簡單筆試（坊間整理，以各校為準）；同步辦香港身份證；教育局途徑三（區域教育服務處登記學位需求）<b>5–8 月</b>可登記，兜底不會沒書讀</td></tr>
-          <tr><td>確認學位</td><td>2027.7–8</td><td>跟進各校空缺答覆；收 Offer 後 <b>3–7 天內繳留位費</b>；⚠️ 校巴/保姆車正期申請 <b>5–6 月</b>，7–8 月只能問補位</td></tr>
-          <tr><td>入學</td><td>2027.9</td><td>辦內地學籍轉出；校服書單；跨境生出席首日安排（校巴線路/集合點 8 月底與營辦商確認）</td></tr>
-        </tbody>
-      </table>
-      <div class="gcard warn">
-        <h3>小學插班與中學的兩個關鍵區別</h3>
-        <p>① <b>沒有統一派位</b>：中學插班還能蹭中一派位放榜後的叩門潮，小學插班全靠<b>逐校直接申請</b>，3–5 月就要動手，不能等 7 月；② <b>呈分試暫不相關</b>：呈分試影響中一派位，P5–P6 才關鍵——低小（P1–P3）插班主要看面談表現＋學位空缺，難度低於中學插班，但熱門校網（80）學位也緊張。</p>
-        <p class="src">來源：教育局區域教育服務處插班安排（官方途徑）＋各校插班慣例（坊間整理）｜以各校官網當年公告為準</p>
-      </div>
-
     <div class="gcard">
       <h3>🎯 小學插班怎麼用這張表（P1–P2 年齡段）</h3>
       <p>① <b>通勤選校網</b>：校網 80＝上水（羅湖口岸 1 站，跨境最優先看這網）；校網 81＝粉嶺/聯和墟（再一站，皇后山新校區偏一點）；校網 83＝沙頭角（邊境禁區範圍，通勤遠，跨境生一般要保姆車，普通家庭不建議）。</p>
       <p>② <b>插班申請邏輯</b>：官津小學插班<b>直接向學校申請</b>（不像小一有統一派位），學位有空缺就收——<b>照表打電話問校務處</b>最直接；官津插班窗口通行為每年 3–5 月（秋季入學），越早問越主動。以學校當年公告為準。</p>
       <p>③ <b>語言現實</b>：北區小學基本全中文（粵語）授課，P1–P2 插班年齡小、語言適應快，是小學階段最大優勢。標「普教中」的學校用普通話教中文科，內地生過渡更順：鳳溪創新（全校普教中）、靳茂生/于良發/沙頭角中心（部分班）。曾憲備小學＝中英並重雙語教學。</p>
       <p>④ <b>材料</b>：受養人簽證、出生紙、深圳成績單（翻譯+蓋章）、免疫接種記錄、住址證明。P5 前無呈分試，低年級插班以成績表＋面試為主，筆試壓力小。</p>
-      <p class="src">事實欄（種類/校網/宗教/地址/電話）：schooland.hk 北區小學頁＋各校檔案頁＋教育局學校搜尋（馬錦燦地址以教育局為準），2026-11-02 核對；普教中名單＝schooland 匯總；插班窗口為坊間通行整理。以學校官網當年公告為準。</p>
+      <p class="src">事實欄（種類/校網/宗教/地址/電話）：各校公開資料＋教育局學校搜尋（馬錦燦地址以教育局為準），2026-11-02 核對；普教中名單＝教育局「普教中」學校名單彙總；插班窗口為坊間通行整理。以學校官網當年公告為準。</p>
     </div>
     <div class="chips" id="psChips">
       <span class="chip on" data-m="all">全部 30</span>
@@ -1271,7 +1274,7 @@ Thank you for your time.</div>
           <tr data-m="80 t1"><td class="tier1">首選</td><td>育賢學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水馬會道</td><td>1939創校，每級僅1班</td><td><a href="tel:26729917">2672 9917</a></td></tr>
           <tr data-m="80 t1"><td class="tier1">首選</td><td>石湖墟公立學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水天平邨</td><td></td><td><a href="tel:26721225">2672 1225</a></td></tr>
           <tr data-m="80 t1"><td class="tier1">首選</td><td>東華三院港九電器商聯會小學</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水石湖墟智昌路</td><td></td><td><a href="tel:26723285">2672 3285</a></td></tr>
-          <tr data-m="80 t1"><td class="tier1">首選</td><td>東華三院馬錦燦紀念小學</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水彩園邨（清城路2號）</td><td>⚠️ schooland 表行誤標沙田火炭，教育局+校方申請表確認上水彩園邨</td><td><a href="tel:26711071">2671 1071</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>東華三院馬錦燦紀念小學</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水彩園邨（清城路2號）</td><td>⚠️ 網上流傳表誤標沙田火炭，教育局+校方申請表確認上水彩園邨</td><td><a href="tel:26711071">2671 1071</a></td></tr>
           <tr data-m="80 t1"><td class="tier1">首選</td><td>香海正覺蓮社佛教陳式宏學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水彩園邨</td><td>宗教·佛教｜近彩園邨，鄰近上水站</td><td><a href="tel:26724813">2672 4813</a></td></tr>
           <tr data-m="80 t3"><td class="tier3">偏遠</td><td>金錢村何東學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水金錢村</td><td>鄉郊小校，近邊境</td><td><a href="tel:26703849">2670 3849</a></td></tr>
           <tr data-m="80 t2"><td class="tier2">常規</td><td>聖公會榮真小學</td><td>資助</td><td>中文（粵）</td><td>80網 · 粉嶺吉祥街3號</td><td>宗教·基督教｜地址在粉嶺但屬校網80</td><td><a href="tel:26703338">2670 3338</a></td></tr>
@@ -41384,7 +41387,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.51',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.52',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
