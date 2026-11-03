@@ -162,6 +162,22 @@ const ipaCards=[...doc.querySelectorAll('#hkList .vcard .ph')].filter(s=>/^\/.+\
 ok('v1.32 生字卡音標數=335('+ipaCards.length+')', ipaCards.length===335);
 ok('v1.32 音標樣例(hello=/həˈləʊ/)', doc.querySelector('#hkList .vcard .ph').textContent.includes('həˈləʊ'));
 
+// ============ v1.54 中學單詞（學段切換：小學 P1–P6 / 中學 S1–S3） ============
+try{
+  ok('v1.54 學段 chips 存在(小學/中學)', !!doc.getElementById('hkStagePri') && !!doc.getElementById('hkStageSec'));
+  ok('v1.54 tab 更名為 中小學單詞', doc.querySelector('#enPracSub button[data-es="hk"]').textContent==='中小學單詞');
+  doc.getElementById('hkStageSec').click();
+  const ssecs=doc.querySelectorAll('#hkList .gsec');
+  ok('v1.54 中學分級小節=3('+ssecs.length+')', ssecs.length===3);
+  ok('v1.54 中學首節標題含 S1 與 中一', !!ssecs[0] && /S1/.test(ssecs[0].querySelector('.gsec-h').textContent) && ssecs[0].querySelector('.gsec-h').textContent.indexOf('中一')>=0);
+  const secCards=doc.querySelectorAll('#hkList .vcard').length;
+  ok('v1.54 中學詞卡>100('+secCards+')', secCards>100);
+  const secIpa=[...doc.querySelectorAll('#hkList .vcard .ph')].filter(s=>/^\/.+\/$/.test(s.textContent.trim())).length;
+  ok('v1.54 中學音標全覆蓋('+secIpa+'/'+secCards+')', secIpa===secCards);
+  doc.getElementById('hkStagePri').click();
+  ok('v1.54 切回小學恢復 6 節('+doc.querySelectorAll('#hkList .gsec').length+')', doc.querySelectorAll('#hkList .gsec').length===6);
+}catch(e){ ok('v1.54 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();

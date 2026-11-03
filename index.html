@@ -500,13 +500,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.53（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.54（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.53（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.54（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -644,7 +644,7 @@ header{position:relative}
   <!-- 英文 -->
   <div class="wrap" id="enPracView" style="display:none">
     <div class="subnav" id="enPracSub" style="position:static;top:auto;margin:0 -16px 12px">
-      <button data-es="hk" class="on">港小生字</button>
+      <button data-es="hk" class="on">中小學單詞</button>
       <button data-es="vocab">詞表</button>
       <button data-es="iv">升中面試</button>
       <button data-es="paper">英文卷</button>
@@ -653,7 +653,9 @@ header{position:relative}
     </div>
     <div id="hkView">
       <div class="tools">
-        <span style="font-size:12px;color:#8a8aa0;align-self:center">按 P1–P6 分級 · 點標題折疊 · 年級為坊間估算，非 EDB 官方詞單</span>
+        <span class="chip on" data-hs="pri" id="hkStagePri">小學 P1–P6</span>
+        <span class="chip" data-hs="sec" id="hkStageSec">中學 S1–S3</span>
+        <span style="font-size:12px;color:#8a8aa0;align-self:center">按 P1–P6 / S1–S3 分級 · 點標題折疊 · 年級為坊間估算，非官方詞單</span>
         <select id="hkTheme"><option value="">全部主題</option></select>
         <input type="search" id="hkSearch" placeholder="搜單詞 / 中文義">
         <label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="hkHide"> 自測(隱中文)</label>
@@ -1578,7 +1580,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "cung4",
+      "sung1",
       "haa6",
       "man6",
       "tung4",
@@ -1639,7 +1641,7 @@ const DATA = {
       "sam1",
       "bat1",
       "zi1",
-      "cyu3",
+      "cyu5",
       ""
      ]
     }
@@ -1669,7 +1671,7 @@ const DATA = {
       "co4",
       "wo4",
       "jat6",
-      "dong1",
+      "dong3",
       "ng5",
       ""
      ]
@@ -1723,8 +1725,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "nap1",
-      "nap1",
+      "lap1",
+      "lap1",
       "gaai1",
       "san1",
       "fu2",
@@ -1757,7 +1759,7 @@ const DATA = {
       "ceon1",
       "min4",
       "bat1",
-      "gok3",
+      "gaau3",
       "hiu2",
       ""
      ]
@@ -1773,8 +1775,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "cyu3",
-      "cyu3",
+      "cyu5",
+      "cyu5",
       "man4",
       "tai4",
       "niu5",
@@ -1812,10 +1814,10 @@ const DATA = {
      ],
      "jy": [
       "faa1",
-      "lok6",
+      "laai6",
       "zi1",
       "do1",
-      "siu3",
+      "siu2",
       ""
      ]
     }
@@ -1846,7 +1848,7 @@ const DATA = {
       "waa1",
       "caang1",
       "siu2",
-      "teng5",
+      "ting5",
       ""
      ]
     },
@@ -1942,8 +1944,8 @@ const DATA = {
       "jau5",
       "sik1",
       "",
-      "kan5",
-      "ting3",
+      "gan6",
+      "teng1",
       "seoi2",
       "mou4",
       "sing1",
@@ -2112,9 +2114,9 @@ const DATA = {
       "baak6",
       "sing4",
       "zau1",
-      "zoeng1",
+      "zoeng3",
       "juk6",
-      "hang4",
+      "hang6",
       ""
      ]
     },
@@ -2134,7 +2136,7 @@ const DATA = {
       "fat1",
       "man4",
       "ngon6",
-      "soeng6",
+      "soeng5",
       "daap6",
       "go1",
       "sing1",
@@ -2225,7 +2227,7 @@ const DATA = {
       "ji4",
       "si6",
       "dei6",
-      "soeng6",
+      "soeng5",
       "soeng1",
       ""
      ]
@@ -2285,7 +2287,7 @@ const DATA = {
      ],
      "jy": [
       "gaai3",
-      "lok6",
+      "laai6",
       "saam1",
       "cau1",
       "jip6",
@@ -2448,7 +2450,7 @@ const DATA = {
       "cing1",
       "ting4",
       "laap6",
-      "soeng6",
+      "soeng5",
       "tau4",
       ""
      ]
@@ -2483,8 +2485,8 @@ const DATA = {
      ],
      "jy": [
       "gong1",
-      "naam4",
-      "hak1",
+      "naa4",
+      "ho2",
       "coi2",
       "lin4",
       "",
@@ -2560,7 +2562,7 @@ const DATA = {
       "hei3",
       "lin4",
       "jip6",
-      "naam4",
+      "naa4",
       "",
       "jyu4",
       "hei3",
@@ -2604,9 +2606,9 @@ const DATA = {
      ],
      "jy": [
       "tau4",
-      "soeng6",
+      "soeng5",
       "hung4",
-      "gun3",
+      "gun1",
       "bat1",
       "jung6",
       "coi4",
@@ -2616,7 +2618,7 @@ const DATA = {
       "syut3",
       "baak6",
       "zau2",
-      "zoeng1",
+      "zoeng3",
       "loi4",
       ""
      ]
@@ -2648,7 +2650,7 @@ const DATA = {
       "gam2",
       "hing1",
       "jin4",
-      "jyu5",
+      "jyu6",
       "",
       "jat1",
       "giu3",
@@ -2703,7 +2705,7 @@ const DATA = {
      ],
      "jy": [
       "sau2",
-      "hak1",
+      "ho2",
       "zaak6",
       "sing1",
       "san4",
@@ -2725,7 +2727,7 @@ const DATA = {
       "gam2",
       "gou1",
       "sing1",
-      "jyu5",
+      "jyu6",
       ""
      ]
     },
@@ -2743,7 +2745,7 @@ const DATA = {
       "hung2",
       "ging1",
       "tin1",
-      "soeng6",
+      "soeng5",
       "jan4",
       ""
      ]
@@ -2773,13 +2775,13 @@ const DATA = {
       ""
      ],
      "jy": [
-      "pung4",
+      "fung4",
       "tau4",
       "zi6",
       "zi2",
       "hok6",
       "seoi4",
-      "leon4",
+      "gwan1",
       ""
      ]
     },
@@ -2821,7 +2823,7 @@ const DATA = {
      "jy": [
       "lou6",
       "jan4",
-      "ze3",
+      "zik6",
       "man6",
       "jiu4",
       "ziu1",
@@ -2878,7 +2880,7 @@ const DATA = {
       "ceon1",
       "zung2",
       "jat1",
-      "nap1",
+      "lap1",
       "suk1",
       ""
      ]
@@ -2966,7 +2968,7 @@ const DATA = {
      ],
      "jy": [
       "cik1",
-      "lak6",
+      "laak6",
       "cyun1",
       "",
       "jam1",
@@ -2995,7 +2997,7 @@ const DATA = {
       "kung4",
       "lou4",
       "",
-      "lung5",
+      "lung4",
       "koi3",
       "sei3",
       "je5",
@@ -3139,7 +3141,7 @@ const DATA = {
       "si6",
       "ngan4",
       "ho4",
-      "lok6",
+      "laai6",
       "gau2",
       "tin1",
       ""
@@ -3313,8 +3315,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "gang1",
-      "soeng6",
+      "gaang1",
+      "soeng5",
       "jat1",
       "cang4",
       "lau4",
@@ -3354,7 +3356,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "loeng5",
+      "loeng2",
       "go3",
       "wong4",
       "lei4",
@@ -3363,10 +3365,10 @@ const DATA = {
       "lau5",
       "",
       "jat1",
-      "hang4",
+      "hang6",
       "baak6",
       "lou6",
-      "soeng6",
+      "soeng5",
       "cing1",
       "tin1",
       ""
@@ -3547,7 +3549,7 @@ const DATA = {
       "lei4",
       "lei4",
       "jyun4",
-      "soeng6",
+      "soeng5",
       "cou2",
       "",
       "jat1",
@@ -3640,7 +3642,7 @@ const DATA = {
       "fung1",
       "gwong1",
       "bat1",
-      "jyu5",
+      "jyu6",
       "sei3",
       "si4",
       "tung4",
@@ -3855,7 +3857,7 @@ const DATA = {
      "jy": [
       "ji4",
       "tung4",
-      "saan2",
+      "saan3",
       "hok6",
       "gwai1",
       "loi4",
@@ -3937,7 +3939,7 @@ const DATA = {
       "cuk1",
       "long6",
       "",
-      "saan2",
+      "saan3",
       "zok3",
       "mun5",
       "ho4",
@@ -4022,7 +4024,7 @@ const DATA = {
       "dai6",
       "dang1",
       "gou1",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -4043,7 +4045,7 @@ const DATA = {
       "caap3",
       "zyu1",
       "jyu4",
-      "siu3",
+      "siu2",
       "jat1",
       "jan4",
       ""
@@ -4110,10 +4112,10 @@ const DATA = {
      ],
      "jy": [
       "zing1",
-      "pung4",
+      "fung4",
       "ceot1",
       "hon3",
-      "sak1",
+      "coi3",
       "",
       "gwai1",
       "ngaan6",
@@ -4148,7 +4150,7 @@ const DATA = {
       "",
       "coeng4",
       "ho4",
-      "lok6",
+      "laai6",
       "jat6",
       "jyun4",
       ""
@@ -4219,7 +4221,7 @@ const DATA = {
      ],
      "jy": [
       "jat1",
-      "soeng6",
+      "soeng5",
       "gou1",
       "sing4",
       "maan6",
@@ -4231,7 +4233,7 @@ const DATA = {
       "joeng4",
       "lau5",
       "ci5",
-      "ding1",
+      "ting1",
       "zau1",
       ""
      ]
@@ -4335,11 +4337,11 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hang4",
+      "hang6",
       "jan4",
       "mok6",
       "man6",
-      "dong1",
+      "dong3",
       "nin4",
       "si6",
       "",
@@ -4389,7 +4391,7 @@ const DATA = {
       "dok6",
       "",
       "haak3",
-      "hang4",
+      "hang6",
       "bei1",
       "gu3",
       "hoeng1",
@@ -4446,7 +4448,7 @@ const DATA = {
      "jy": [
       "huk6",
       "jip6",
-      "lok6",
+      "laai6",
       "saan1",
       "lou6",
       "",
@@ -4564,7 +4566,7 @@ const DATA = {
       "bat1",
       "zi1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "ceoi1",
       "lou4",
       "gun2",
@@ -4624,7 +4626,7 @@ const DATA = {
       "saan1",
       "je6",
       "jyu5",
-      "zoeng3",
+      "zoeng2",
       "cau1",
       "ci4",
       ""
@@ -4652,7 +4654,7 @@ const DATA = {
      ],
      "jy": [
       "ho4",
-      "dong1",
+      "dong3",
       "gung6",
       "zin2",
       "sai1",
@@ -4746,7 +4748,7 @@ const DATA = {
       "gwai1",
       "mou4",
       "mik6",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -4799,7 +4801,7 @@ const DATA = {
      ],
      "jy": [
       "jyun5",
-      "soeng6",
+      "soeng5",
       "hon4",
       "saan1",
       "sek6",
@@ -4824,7 +4826,7 @@ const DATA = {
       "baak6",
       "wan4",
       "saang1",
-      "cyu3",
+      "cyu5",
       "jau5",
       "jan4",
       "gaa1",
@@ -5048,7 +5050,7 @@ const DATA = {
       "si6",
       "",
       "hang2",
-      "zoeng1",
+      "zoeng3",
       "seoi1",
       "nau2",
       "sik1",
@@ -5125,7 +5127,7 @@ const DATA = {
       "jau5",
       "ji3",
       "",
-      "hou3",
+      "hou2",
       "sau1",
       "ng4",
       "gwat1",
@@ -5157,8 +5159,8 @@ const DATA = {
      ],
      "jy": [
       "gong1",
-      "naam4",
-      "hou3",
+      "naa4",
+      "hou2",
       ""
      ]
     },
@@ -5233,7 +5235,7 @@ const DATA = {
       "jung4",
       "hoeng3",
       "lim5",
-      "loeng5",
+      "loeng2",
       "bin1",
       "hoi1",
       ""
@@ -5278,7 +5280,7 @@ const DATA = {
       "man4",
       "go1",
       "ci2",
-      "gok3",
+      "gaau3",
       "jau5",
       "jan4",
       "loi4",
@@ -5356,7 +5358,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "loeng5",
+      "loeng2",
       "ngon6",
       "jyun4",
       "sing1",
@@ -5430,7 +5432,7 @@ const DATA = {
       "fei1",
       "sing1",
       "",
-      "saan2",
+      "saan3",
       "jap6",
       "ceon1",
       "fung1",
@@ -5466,7 +5468,7 @@ const DATA = {
       "kuk1",
       "zung1",
       "man4",
-      "zit3",
+      "zip3",
       "lau5",
       "",
       "ho4",
@@ -5604,7 +5606,7 @@ const DATA = {
       "baak6",
       "tau4",
       "sou1",
-      "gang1",
+      "gaang1",
       "dyun2",
       "",
       "wan4",
@@ -5738,7 +5740,7 @@ const DATA = {
       "gu2",
       "dyun6",
       "jan4",
-      "hang4",
+      "hang6",
       "",
       "bin1",
       "cau1",
@@ -5766,7 +5768,7 @@ const DATA = {
      ],
      "jy": [
       "lou6",
-      "cung4",
+      "sung1",
       "gam1",
       "je6",
       "baak6",
@@ -5800,7 +5802,7 @@ const DATA = {
       "dai6",
       "gaai1",
       "fan1",
-      "saan2",
+      "saan3",
       "",
       "mou4",
       "gaa1",
@@ -5912,7 +5914,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "loeng5",
+      "loeng2",
       "ngon6",
       "cing1",
       "saan1",
@@ -6067,8 +6069,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "wui2",
-      "dong1",
+      "kui2",
+      "dong3",
       "ling4",
       "zyut6",
       "ding2",
@@ -6110,7 +6112,7 @@ const DATA = {
       "gwong1",
       "cau1",
       "jyut6",
-      "loeng5",
+      "loeng2",
       "soeng3",
       "wo4",
       ""
@@ -6370,7 +6372,7 @@ const DATA = {
       "",
       "muk6",
       "laan4",
-      "dong1",
+      "dong3",
       "wu6",
       "zik1",
       "",
@@ -6472,13 +6474,13 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zok6",
+      "zok3",
       "je6",
       "gin3",
       "gwan1",
       "tip3",
       "",
-      "hak1",
+      "ho2",
       "hon4",
       "daai6",
       "dim2",
@@ -6527,7 +6529,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "aa3",
+      "o1",
       "je4",
       "mou4",
       "daai6",
@@ -6545,7 +6547,7 @@ const DATA = {
       "on1",
       "maa5",
       "",
-      "cung4",
+      "sung1",
       "ci2",
       "tai3",
       "je4",
@@ -6594,7 +6596,7 @@ const DATA = {
       "on1",
       "zin1",
       "",
-      "naam4",
+      "naa4",
       "si5",
       "maai5",
       "bei3",
@@ -6826,7 +6828,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zoeng1",
+      "zoeng3",
       "gwan1",
       "baak3",
       "zin3",
@@ -6905,9 +6907,9 @@ const DATA = {
       "ci3",
       "baak3",
       "cin1",
-      "koeng5",
+      "koeng4",
       "",
-      "hak1",
+      "ho2",
       "hon4",
       "man6",
       "so2",
@@ -6919,7 +6921,7 @@ const DATA = {
       "jung6",
       "soeng6",
       "syu1",
-      "long4",
+      "long2",
       "",
       "jyun6",
       "ci4",
@@ -6988,15 +6990,15 @@ const DATA = {
       "gwok3",
       "soeng3",
       "fu4",
-      "zoeng1",
+      "zoeng3",
       "",
-      "aa3",
+      "o1",
       "zi2",
       "man4",
       "mui6",
       "loi4",
       "",
-      "dong1",
+      "dong3",
       "wu6",
       "lei5",
       "hung4",
@@ -7083,7 +7085,7 @@ const DATA = {
       "si4",
       "soeng4",
       "",
-      "dong1",
+      "dong3",
       "coeng1",
       "lei5",
       "wan4",
@@ -7132,16 +7134,16 @@ const DATA = {
       "mun4",
       "hon3",
       "fo2",
-      "bun6",
+      "pun2",
       "",
       "fo2",
-      "bun6",
+      "pun2",
       "gaai1",
       "ging1",
       "mong4",
       "",
       "tung4",
-      "hang4",
+      "hang6",
       "sap6",
       "ji6",
       "nin4",
@@ -7152,7 +7154,7 @@ const DATA = {
       "laan4",
       "si6",
       "leoi5",
-      "long4",
+      "long2",
       ""
      ]
     },
@@ -7250,7 +7252,7 @@ const DATA = {
       "saan1",
       "ngoi6",
       "",
-      "hang4",
+      "hang6",
       "zau1",
       "luk6",
       "seoi2",
@@ -7277,7 +7279,7 @@ const DATA = {
      "jy": [
       "ciu4",
       "ping4",
-      "loeng5",
+      "loeng2",
       "ngon6",
       "fut3",
       "",
@@ -7340,7 +7342,7 @@ const DATA = {
       "hoeng1",
       "syu1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "daat6",
       "",
       "gwai1",
@@ -7396,7 +7398,7 @@ const DATA = {
       "gau2",
       "tong4",
       "cin4",
-      "gei2",
+      "gei1",
       "dou6",
       "man4",
       ""
@@ -7426,12 +7428,12 @@ const DATA = {
       "zing1",
       "si6",
       "gong1",
-      "naam4",
-      "hou3",
+      "naa4",
+      "hou2",
       "fung1",
       "ging2",
       "",
-      "lok6",
+      "laai6",
       "faa1",
       "si4",
       "zit3",
@@ -7475,18 +7477,18 @@ const DATA = {
      ],
      "jy": [
       "jin1",
-      "lung5",
+      "lung4",
       "hon4",
       "seoi2",
       "jyut6",
-      "lung5",
+      "lung4",
       "saa1",
       "",
       "je6",
       "bok6",
       "ceon4",
       "waai4",
-      "kan5",
+      "gan6",
       "zau2",
       "gaa1",
       ""
@@ -7573,8 +7575,8 @@ const DATA = {
       "fan1",
       "",
       "lou6",
-      "soeng6",
-      "hang4",
+      "soeng5",
+      "hang6",
       "jan4",
       "juk6",
       "dyun6",
@@ -7603,12 +7605,12 @@ const DATA = {
       ""
      ],
      "jy": [
-      "ze3",
+      "zik6",
       "man6",
       "zau2",
       "gaa1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "jau5",
       "",
       "muk6",
@@ -7657,7 +7659,7 @@ const DATA = {
       "ngoi6",
       "",
       "loi4",
-      "cung4",
+      "sung1",
       "co2",
       "gwok3",
       "jau4",
@@ -7752,7 +7754,7 @@ const DATA = {
       "maan6",
       "lei5",
       "sung3",
-      "hang4",
+      "hang6",
       "zau1",
       ""
      ]
@@ -7805,7 +7807,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "soeng6",
+      "soeng5",
       "jau5",
       "wong4",
       "lei4",
@@ -7897,10 +7899,10 @@ const DATA = {
       "soeng3",
       "gin3",
       "si4",
-      "naan4",
+      "naan6",
       "bit6",
       "jik6",
-      "naan4",
+      "naan6",
       "",
       "dung1",
       "fung1",
@@ -7947,7 +7949,7 @@ const DATA = {
       "fui1",
       "leoi6",
       "ci2",
-      "kin4",
+      "gon1",
       ""
      ]
     },
@@ -7983,7 +7985,7 @@ const DATA = {
       "je6",
       "jam4",
       "jing1",
-      "gok3",
+      "gaau3",
       "jyut6",
       "gwong1",
       "hon4",
@@ -8011,7 +8013,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "pung4",
+      "fung4",
       "saan1",
       "ci2",
       "heoi3",
@@ -8146,7 +8148,7 @@ const DATA = {
       "dei6",
       "baak6",
       "cou2",
-      "zit3",
+      "zip3",
       "",
       "wu4",
       "tin1",
@@ -8218,7 +8220,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "saan2",
+      "saan3",
       "jap6",
       "zyu1",
       "lim4",
@@ -8257,7 +8259,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zoeng1",
+      "zoeng3",
       "gwan1",
       "gok3",
       "gung1",
@@ -8270,7 +8272,7 @@ const DATA = {
       "tit3",
       "ji1",
       "laang5",
-      "naan4",
+      "naan6",
       "zoek3",
       ""
      ]
@@ -8347,7 +8349,7 @@ const DATA = {
       "kam4",
       "pei4",
       "paa4",
-      "jyu5",
+      "jyu6",
       "goeng1",
       "dek6",
       ""
@@ -8383,7 +8385,7 @@ const DATA = {
       "mun4",
       "",
       "fung1",
-      "cit3",
+      "zai3",
       "hung4",
       "kei4",
       "dung3",
@@ -8461,12 +8463,12 @@ const DATA = {
       "gwan1",
       "",
       "syut3",
-      "soeng6",
+      "soeng5",
       "hung1",
       "lau4",
       "maa5",
-      "hang4",
-      "cyu3",
+      "hang6",
+      "cyu5",
       ""
      ]
     }
@@ -8548,7 +8550,7 @@ const DATA = {
       "hok6",
       "paai4",
       "wan4",
-      "soeng6",
+      "soeng5",
       "",
       "bin6",
       "jan5",
@@ -8595,7 +8597,7 @@ const DATA = {
       "wong4",
       "leoi5",
       "",
-      "daan6",
+      "daan2",
       "kam4",
       "fuk6",
       "coeng4",
@@ -8757,7 +8759,7 @@ const DATA = {
      "jy": [
       "joeng4",
       "faa1",
-      "lok6",
+      "laai6",
       "zeon6",
       "zi2",
       "kwai1",
@@ -8798,7 +8800,7 @@ const DATA = {
       "gei3",
       "sau4",
       "sam1",
-      "jyu5",
+      "jyu6",
       "ming4",
       "jyut6",
       "",
@@ -8807,7 +8809,7 @@ const DATA = {
       "zik6",
       "dou3",
       "je6",
-      "long4",
+      "long2",
       "sai1",
       ""
      ]
@@ -8856,7 +8858,7 @@ const DATA = {
       "gyun2",
       "ngo5",
       "uk1",
-      "soeng6",
+      "soeng5",
       "saam1",
       "zung6",
       "maau4",
@@ -8914,7 +8916,7 @@ const DATA = {
       "zyun3",
       "cam4",
       "tong4",
-      "aau1",
+      "aau3",
       ""
      ]
     },
@@ -8941,7 +8943,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "naam4",
+      "naa4",
       "cyun1",
       "kwan4",
       "tung4",
@@ -9086,7 +9088,7 @@ const DATA = {
       "",
       "giu1",
       "ji4",
-      "wu1",
+      "ok3",
       "ngo6",
       "daap6",
       "leoi5",
@@ -9121,7 +9123,7 @@ const DATA = {
       "lau6",
       "mou4",
       "gon3",
-      "cyu3",
+      "cyu5",
       "",
       "jyu5",
       "goek3",
@@ -9156,9 +9158,9 @@ const DATA = {
      "jy": [
       "zi6",
       "ging1",
-      "song1",
+      "song3",
       "lyun6",
-      "siu3",
+      "siu2",
       "seoi6",
       "min4",
       "",
@@ -9400,13 +9402,13 @@ const DATA = {
       "wong4",
       "ho4",
       "bing1",
-      "sak1",
+      "coi3",
       "cyun1",
       "",
-      "zoeng1",
+      "zoeng3",
       "dang1",
       "taai3",
-      "hang4",
+      "hang6",
       "syut3",
       "mun5",
       "saan1",
@@ -9440,7 +9442,7 @@ const DATA = {
       "diu3",
       "bik1",
       "kai1",
-      "soeng6",
+      "soeng5",
       "",
       "fat1",
       "fuk6",
@@ -9473,13 +9475,13 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hang4",
+      "hang6",
       "lou6",
-      "naan4",
+      "naan6",
       "",
-      "hang4",
+      "hang6",
       "lou6",
-      "naan4",
+      "naan6",
       "",
       "do1",
       "kei4",
@@ -9516,7 +9518,7 @@ const DATA = {
       "fung1",
       "po3",
       "long6",
-      "wui2",
+      "kui2",
       "jau5",
       "si4",
       "",
@@ -9559,7 +9561,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "koeng5",
+      "koeng4",
       "juk6",
       "dang1",
       "gou1",
@@ -9641,7 +9643,7 @@ const DATA = {
       "san1",
       "siu1",
       "taan3",
-      "naam4",
+      "naa4",
       "saan1",
       "zung1",
       ""
@@ -9676,7 +9678,7 @@ const DATA = {
       "fo2",
       "sik1",
       "",
-      "loeng5",
+      "loeng2",
       "ban3",
       "cong1",
       "cong1",
@@ -9716,7 +9718,7 @@ const DATA = {
       "jing4",
       "",
       "san1",
-      "soeng6",
+      "soeng5",
       "ji1",
       "soeng4",
       "hau2",
@@ -9746,10 +9748,10 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hak1",
+      "ho2",
       "lin4",
       "san1",
-      "soeng6",
+      "soeng5",
       "ji1",
       "zing1",
       "sim4",
@@ -9833,7 +9835,7 @@ const DATA = {
       "gou1",
       "",
       "si5",
-      "naam4",
+      "naa4",
       "mun4",
       "ngoi6",
       "nai4",
@@ -9865,7 +9867,7 @@ const DATA = {
      "jy": [
       "pin1",
       "pin1",
-      "loeng5",
+      "loeng2",
       "ke4",
       "loi4",
       "si6",
@@ -9873,7 +9875,7 @@ const DATA = {
       "",
       "wong4",
       "ji1",
-      "sai2",
+      "si2",
       "ze2",
       "baak6",
       "saam1",
@@ -9950,9 +9952,9 @@ const DATA = {
       "gan1",
       "",
       "gung1",
-      "sai2",
+      "si2",
       "keoi1",
-      "zoeng1",
+      "zoeng3",
       "sik1",
       "bat1",
       "dak1",
@@ -10031,7 +10033,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zit3",
+      "zip3",
       "gik1",
       "cam4",
       "saa1",
@@ -10040,7 +10042,7 @@ const DATA = {
       "siu1",
       "",
       "zi6",
-      "zoeng1",
+      "zoeng3",
       "mo4",
       "sai2",
       "jing6",
@@ -10073,9 +10075,9 @@ const DATA = {
       "dung1",
       "fung1",
       "bat1",
-      "jyu5",
+      "jyu6",
       "zau1",
-      "long4",
+      "long2",
       "bin6",
       "",
       "tung4",
@@ -10155,7 +10157,7 @@ const DATA = {
       "bit6",
       "",
       "gu1",
-      "pung4",
+      "fung4",
       "maan6",
       "lei5",
       "zing1",
@@ -10185,7 +10187,7 @@ const DATA = {
       "zi2",
       "ji3",
       "",
-      "lok6",
+      "laai6",
       "jat6",
       "gu3",
       "jan4",
@@ -10284,7 +10286,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "jyu5",
+      "jyu6",
       "gwan1",
       "lei4",
       "bit6",
@@ -10407,7 +10409,7 @@ const DATA = {
       "zung1",
       "leoi6",
       "bat1",
-      "kin4",
+      "gon1",
       ""
      ]
     },
@@ -10433,7 +10435,7 @@ const DATA = {
      ],
      "jy": [
       "maa5",
-      "soeng6",
+      "soeng5",
       "soeng3",
       "fung4",
       "mou4",
@@ -10443,7 +10445,7 @@ const DATA = {
       "pang4",
       "gwan1",
       "zyun6",
-      "jyu5",
+      "jyu6",
       "bou3",
       "ping4",
       "on1",
@@ -10569,7 +10571,7 @@ const DATA = {
       "faan4",
       "gwo3",
       "",
-      "beng6",
+      "bing6",
       "syu6",
       "cin4",
       "tau4",
@@ -10602,7 +10604,7 @@ const DATA = {
      "jy": [
       "gam1",
       "jat6",
-      "ting3",
+      "teng1",
       "gwan1",
       "go1",
       "jat1",
@@ -10687,7 +10689,7 @@ const DATA = {
       "saan1",
       "saan1",
       "wai4",
-      "lok6",
+      "laai6",
       "fai1",
       ""
      ]
@@ -10826,11 +10828,11 @@ const DATA = {
       ""
      ],
      "jy": [
-      "gei2",
-      "cyu3",
+      "gei1",
+      "cyu5",
       "zou2",
       "ang1",
-      "zaang1",
+      "zang1",
       "nyun5",
       "syu6",
       "",
@@ -10908,7 +10910,7 @@ const DATA = {
       "oi3",
       "wu4",
       "dung1",
-      "hang4",
+      "hang6",
       "bat1",
       "zuk1",
       "",
@@ -11077,8 +11079,8 @@ const DATA = {
       "gong1",
       "saan1",
       "jiu4",
-      "lok6",
-      "cyu3",
+      "laai6",
+      "cyu5",
       "",
       "lin4",
       "gwan1",
@@ -11170,8 +11172,8 @@ const DATA = {
       "sik1",
       "leoi5",
       "",
-      "sak1",
-      "soeng6",
+      "coi3",
+      "soeng5",
       "jin1",
       "zi1",
       "jing4",
@@ -11245,7 +11247,7 @@ const DATA = {
       "wong4",
       "gam1",
       "toi4",
-      "soeng6",
+      "soeng5",
       "ji3",
       "",
       "tai4",
@@ -11322,7 +11324,7 @@ const DATA = {
       "ging3",
       "tung1",
       "jau1",
-      "cyu3",
+      "cyu5",
       "",
       "sim4",
       "fong4",
@@ -11494,7 +11496,7 @@ const DATA = {
       "jau4",
       "jin4",
       "gin3",
-      "naam4",
+      "naa4",
       "saan1",
       ""
      ]
@@ -11525,7 +11527,7 @@ const DATA = {
       "fei1",
       "niu5",
       "soeng3",
-      "jyu5",
+      "jyu6",
       "waan4",
       ""
      ]
@@ -11716,14 +11718,14 @@ const DATA = {
       "hoeng1",
       "gwaan1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "si6",
       "",
       "jin1",
       "bo1",
       "gong1",
-      "soeng6",
-      "sai2",
+      "soeng5",
+      "si2",
       "jan4",
       "sau4",
       ""
@@ -11776,7 +11778,7 @@ const DATA = {
       "zeon6",
       "koek3",
       "saan1",
-      "hang4",
+      "hang6",
       ""
      ]
     },
@@ -11913,7 +11915,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zaang1",
+      "zang1",
       "caap3",
       "san1",
       "tou4",
@@ -11998,7 +12000,7 @@ const DATA = {
       "je6",
       "laan4",
       "ngo6",
-      "ting3",
+      "teng1",
       "fung1",
       "ceoi1",
       "jyu5",
@@ -12045,7 +12047,7 @@ const DATA = {
      ],
      "jy": [
       "ho4",
-      "cyu3",
+      "cyu5",
       "mong6",
       "san4",
       "zau1",
@@ -12081,7 +12083,7 @@ const DATA = {
       "hing1",
       "mong4",
       "do1",
-      "siu3",
+      "siu2",
       "si6",
       "",
       "jau4",
@@ -12132,7 +12134,7 @@ const DATA = {
      ],
      "jy": [
       "nin4",
-      "siu3",
+      "siu2",
       "maan6",
       "dau1",
       "mau4",
@@ -12140,7 +12142,7 @@ const DATA = {
       "zo6",
       "dyun6",
       "dung1",
-      "naam4",
+      "naa4",
       "zin3",
       "mei6",
       "jau1",
@@ -12191,7 +12193,7 @@ const DATA = {
      "jy": [
       "saang1",
       "zi2",
-      "dong1",
+      "dong3",
       "jyu4",
       "syun1",
       "zung6",
@@ -12269,7 +12271,7 @@ const DATA = {
       "zi6",
       "sau4",
       "",
-      "gang1",
+      "gaang1",
       "zoek3",
       "fung1",
       "wo4",
@@ -12297,11 +12299,11 @@ const DATA = {
       "mou4",
       "ji3",
       "fu2",
-      "zaang1",
+      "zang1",
       "ceon1",
       "",
       "jat1",
-      "jam6",
+      "jam4",
       "kwan4",
       "fong1",
       "dou3",
@@ -12328,7 +12330,7 @@ const DATA = {
      ],
      "jy": [
       "ling4",
-      "lok6",
+      "laai6",
       "sing4",
       "nai4",
       "zin2",
@@ -12536,7 +12538,7 @@ const DATA = {
      ],
      "jy": [
       "gong1",
-      "soeng6",
+      "soeng5",
       "cau1",
       "fung1",
       "dung6",
@@ -12562,7 +12564,7 @@ const DATA = {
       "jau5",
       "ji4",
       "tung4",
-      "tiu5",
+      "tiu1",
       "cuk1",
       "zik1",
       ""
@@ -12584,7 +12586,7 @@ const DATA = {
       "je6",
       "sam1",
       "lei4",
-      "lok6",
+      "laai6",
       "jat1",
       "dang1",
       "ming4",
@@ -12730,7 +12732,7 @@ const DATA = {
       "",
       "saan1",
       "ho4",
-      "biu1",
+      "biu2",
       "leoi5",
       "tung4",
       "gwaan1",
@@ -12788,8 +12790,8 @@ const DATA = {
       "ceon4",
       "hon3",
       "ging1",
-      "hang4",
-      "cyu3",
+      "hang6",
+      "cyu5",
       "",
       "gung1",
       "kyut3",
@@ -12863,7 +12865,7 @@ const DATA = {
       "tou4",
       "faa1",
       "saam1",
-      "loeng5",
+      "loeng2",
       "zi1",
       ""
      ]
@@ -12932,7 +12934,7 @@ const DATA = {
       "ho4",
       "tyun4",
       "juk6",
-      "soeng6",
+      "soeng5",
       "si4",
       ""
      ]
@@ -12986,12 +12988,12 @@ const DATA = {
       "zaau6",
       "sai1",
       "wu4",
-      "hou3",
+      "hou2",
       "",
       "luk6",
       "seoi2",
       "wai1",
-      "ji5",
+      "ji4",
       "",
       "fong1",
       "cou2",
@@ -13002,8 +13004,8 @@ const DATA = {
       "jan2",
       "sang1",
       "go1",
-      "cyu3",
-      "cyu3",
+      "cyu5",
+      "cyu5",
       "ceoi4",
       ""
      ]
@@ -13048,7 +13050,7 @@ const DATA = {
       "waat6",
       "",
       "bat1",
-      "gok3",
+      "gaau3",
       "syun4",
       "ji4",
       "",
@@ -13098,7 +13100,7 @@ const DATA = {
      "jy": [
       "ming4",
       "jyut6",
-      "gei2",
+      "gei1",
       "si4",
       "jau5",
       "",
@@ -13131,7 +13133,7 @@ const DATA = {
       "bat1",
       "zi1",
       "tin1",
-      "soeng6",
+      "soeng5",
       "gung1",
       "kyut3",
       "",
@@ -13183,7 +13185,7 @@ const DATA = {
       "jyu5",
       "",
       "gou1",
-      "cyu3",
+      "cyu5",
       "bat1",
       "sing3",
       "hon4",
@@ -13327,7 +13329,7 @@ const DATA = {
       "ci2",
       "si6",
       "gu2",
-      "naan4",
+      "naan6",
       "cyun4",
       ""
      ]
@@ -13411,7 +13413,7 @@ const DATA = {
       "fu1",
       "liu4",
       "faat3",
-      "siu3",
+      "siu2",
       "nin4",
       "kwong4",
       "",
@@ -13471,7 +13473,7 @@ const DATA = {
       "",
       "hon3",
       "syun1",
-      "long4",
+      "long2",
       ""
      ]
     },
@@ -13564,7 +13566,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "wui2",
+      "kui2",
       "waan5",
       "diu1",
       "gung1",
@@ -13650,7 +13652,7 @@ const DATA = {
       "joeng4",
       "sai1",
       "haa6",
-      "gei2",
+      "gei1",
       "si4",
       "wui4",
       ""
@@ -13678,11 +13680,11 @@ const DATA = {
      ],
      "jy": [
       "mou4",
-      "hak1",
+      "ho2",
       "noi6",
       "ho4",
       "faa1",
-      "lok6",
+      "laai6",
       "heoi3",
       "",
       "ci5",
@@ -13794,7 +13796,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "fong2",
+      "pong4",
       "fat1",
       "mung6",
       "wan4",
@@ -13804,7 +13806,7 @@ const DATA = {
       "",
       "man4",
       "tin1",
-      "jyu5",
+      "jyu6",
       "",
       "jan1",
       "kan4",
@@ -13812,7 +13814,7 @@ const DATA = {
       "ngo5",
       "gwai1",
       "ho4",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -13892,7 +13894,7 @@ const DATA = {
       "jau1",
       "zyu6",
       "",
-      "pung4",
+      "fung4",
       "zau1",
       "ceoi1",
       "ceoi2",
@@ -13935,7 +13937,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "sak1",
+      "coi3",
       "haa6",
       "cau1",
       "loi4",
@@ -13992,7 +13994,7 @@ const DATA = {
       "",
       "coeng4",
       "jin1",
-      "lok6",
+      "laai6",
       "jat6",
       "gu1",
       "sing4",
@@ -14032,7 +14034,7 @@ const DATA = {
       "jin1",
       "jin4",
       "mei6",
-      "lak6",
+      "laak6",
       "gwai1",
       "mou4",
       "gai3",
@@ -14076,7 +14078,7 @@ const DATA = {
       "bat1",
       "mei6",
       "",
-      "zoeng1",
+      "zoeng3",
       "gwan1",
       "baak6",
       "faat3",
@@ -14122,13 +14124,13 @@ const DATA = {
       "fei1",
       "loi4",
       "saan1",
-      "soeng6",
+      "soeng5",
       "cin1",
       "cam4",
       "taap3",
       "",
       "man4",
-      "seoi3",
+      "sok3",
       "gai1",
       "ming4",
       "gin3",
@@ -14207,7 +14209,7 @@ const DATA = {
       "gam1",
       "ling4",
       "sing4",
-      "soeng6",
+      "soeng5",
       "sai1",
       "lau4",
       "",
@@ -14267,9 +14269,9 @@ const DATA = {
       "",
       "zam1",
       "jing1",
-      "saan2",
+      "saan3",
       "",
-      "gei2",
+      "gei1",
       "si4",
       "sau1",
       ""
@@ -14335,7 +14337,7 @@ const DATA = {
      "jy": [
       "zeoi3",
       "leoi5",
-      "tiu5",
+      "tiu1",
       "dang1",
       "hon3",
       "gim3",
@@ -14388,7 +14390,7 @@ const DATA = {
       "sap6",
       "jin4",
       "faan1",
-      "sak1",
+      "coi3",
       "ngoi6",
       "sing1",
       "",
@@ -14485,7 +14487,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hak1",
+      "ho2",
       "lin4",
       "baak6",
       "faat3",
@@ -14574,7 +14576,7 @@ const DATA = {
      "jy": [
       "siu2",
       "jyun4",
-      "gei2",
+      "gei1",
       "heoi2",
       "",
       "sau1",
@@ -14802,7 +14804,7 @@ const DATA = {
      "jy": [
       "jat1",
       "nin4",
-      "hou3",
+      "hou2",
       "ging2",
       "gwan1",
       "seoi1",
@@ -14950,10 +14952,10 @@ const DATA = {
       "ceoi4",
       "ceon1",
       "se5",
-      "kan5",
+      "gan6",
       "",
       "ji1",
-      "gun3",
+      "gun1",
       "gaan2",
       "pok3",
       "gu2",
@@ -14983,7 +14985,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "cung4",
+      "sung1",
       "gam1",
       "joek6",
       "heoi2",
@@ -15045,7 +15047,7 @@ const DATA = {
       "gon3",
       "gwo1",
       "liu4",
-      "lok6",
+      "laai6",
       "sei3",
       "zau1",
       "sing1",
@@ -15116,7 +15118,7 @@ const DATA = {
       "hung2",
       "taan1",
       "tau4",
-      "seoi3",
+      "sok3",
       "wong4",
       "hung2",
       "",
@@ -15199,7 +15201,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "siu3",
+      "siu2",
       "nin4",
       "bat1",
       "sik1",
@@ -15208,7 +15210,7 @@ const DATA = {
       "mei6",
       "",
       "oi3",
-      "soeng6",
+      "soeng5",
       "cang4",
       "lau4",
       ""
@@ -15233,7 +15235,7 @@ const DATA = {
      ],
      "jy": [
       "oi3",
-      "soeng6",
+      "soeng5",
       "cang4",
       "lau4",
       "",
@@ -15241,8 +15243,8 @@ const DATA = {
       "fu3",
       "san1",
       "ci4",
-      "koeng5",
-      "seoi3",
+      "koeng4",
+      "sok3",
       "sau4",
       ""
      ]
@@ -15274,7 +15276,7 @@ const DATA = {
       "mei6",
       "",
       "juk6",
-      "seoi3",
+      "sok3",
       "waan4",
       "jau1",
       ""
@@ -15299,7 +15301,7 @@ const DATA = {
      ],
      "jy": [
       "juk6",
-      "seoi3",
+      "sok3",
       "waan4",
       "jau1",
       "",
@@ -15307,7 +15309,7 @@ const DATA = {
       "dou6",
       "tin1",
       "loeng4",
-      "hou3",
+      "hou2",
       "go3",
       "cau1",
       ""
@@ -15352,7 +15354,7 @@ const DATA = {
       "?",
       "cing4",
       "fong1",
-      "hou3",
+      "hou2",
       "",
       "saan1",
       "sik1",
@@ -15396,7 +15398,7 @@ const DATA = {
       "daam6",
       "zong1",
       "nung4",
-      "mut3",
+      "maat3",
       "zung2",
       "soeng3",
       "ji4",
@@ -15434,7 +15436,7 @@ const DATA = {
      "jy": [
       "sap6",
       "ng5",
-      "cung4",
+      "sung1",
       "gwan1",
       "zing1",
       "",
@@ -15472,7 +15474,7 @@ const DATA = {
       "gaa1",
       "zung1",
       "jau5",
-      "aa3",
+      "o1",
       "seoi4",
       ""
      ]
@@ -15500,11 +15502,11 @@ const DATA = {
       "gwan1",
       "gaa1",
       "",
-      "cung4",
+      "sung1",
       "paak3",
       "cung2",
-      "leoi6",
-      "leoi6",
+      "leoi5",
+      "leoi5",
       ""
      ]
     },
@@ -15526,15 +15528,15 @@ const DATA = {
      ],
      "jy": [
       "tou3",
-      "cung4",
+      "sung1",
       "gau2",
       "dau6",
       "jap6",
       "",
       "zi6",
-      "cung4",
+      "sung1",
       "loeng4",
-      "soeng6",
+      "soeng5",
       "fei1",
       ""
      ]
@@ -15562,8 +15564,8 @@ const DATA = {
       "leoi5",
       "guk1",
       "",
-      "zing2",
-      "soeng6",
+      "zeng2",
+      "soeng5",
       "saang1",
       "leoi5",
       "kwai4",
@@ -15627,7 +15629,7 @@ const DATA = {
       "bat1",
       "zi1",
       "ji4",
-      "aa3",
+      "o1",
       "seoi4",
       ""
      ]
@@ -15656,7 +15658,7 @@ const DATA = {
       "hon3",
       "",
       "leoi6",
-      "lok6",
+      "laai6",
       "zim1",
       "ngo5",
       "ji1",
@@ -15725,11 +15727,11 @@ const DATA = {
      "jy": [
       "paan1",
       "tiu4",
-      "zit3",
+      "zip3",
       "kei4",
       "wing4",
       "",
-      "zoeng1",
+      "zoeng3",
       "ji5",
       "wai4",
       "so2",
@@ -15896,7 +15898,7 @@ const DATA = {
       "kam4",
       "sau3",
       "",
-      "hang4",
+      "hang6",
       "zi2",
       "ji1",
       "lam4",
@@ -15997,7 +15999,7 @@ const DATA = {
       "saan1",
       "dou2",
       "sung2",
-      "ci5",
+      "zi6",
       ""
      ]
     },
@@ -16083,7 +16085,7 @@ const DATA = {
       "jat6",
       "jyut6",
       "zi1",
-      "hang4",
+      "hang6",
       "",
       "joek6",
       "ceot1",
@@ -16161,8 +16163,8 @@ const DATA = {
       "ting4",
       "ting4",
       "saan1",
-      "soeng6",
-      "cung4",
+      "soeng5",
+      "sung1",
       "",
       "sat1",
       "sat1",
@@ -16195,7 +16197,7 @@ const DATA = {
       "ho4",
       "sing4",
       "",
-      "cung4",
+      "sung1",
       "zi1",
       "jat1",
       "ho4",
@@ -16257,7 +16259,7 @@ const DATA = {
       "jing4",
       "hon4",
       "",
-      "cung4",
+      "sung1",
       "paak3",
       "jau5",
       "bun2",
@@ -16313,7 +16315,7 @@ const DATA = {
       "si4",
       "",
       "tang4",
-      "se4",
+      "ji4",
       "sing4",
       "mou6",
       "",
@@ -16411,7 +16413,7 @@ const DATA = {
       "zi1",
       "fuk1",
       "",
-      "hak1",
+      "ho2",
       "dak1",
       "wing5",
       "nin4",
@@ -16500,7 +16502,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zung1",
+      "zung3",
       "ngo5",
       "bat1",
       "wong5",
@@ -16555,7 +16557,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zung1",
+      "zung3",
       "ngo5",
       "bat1",
       "wong5",
@@ -16592,7 +16594,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "tiu5",
+      "tiu1",
       "hai4",
       "daat6",
       "hai4",
@@ -16821,7 +16823,7 @@ const DATA = {
      "jy": [
       "sou3",
       "wui4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "dou6",
@@ -16831,7 +16833,7 @@ const DATA = {
       "",
       "sou3",
       "jau4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "jyun2",
@@ -16917,7 +16919,7 @@ const DATA = {
      "jy": [
       "sou3",
       "wui4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "dou6",
@@ -16927,7 +16929,7 @@ const DATA = {
       "",
       "sou3",
       "jau4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "jyun2",
@@ -17013,7 +17015,7 @@ const DATA = {
      "jy": [
       "sou3",
       "wui4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "dou6",
@@ -17023,7 +17025,7 @@ const DATA = {
       "",
       "sou3",
       "jau4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "jyun2",
@@ -17088,7 +17090,7 @@ const DATA = {
       "",
       "gwan1",
       "zi2",
-      "hou3",
+      "hou2",
       "kau4",
       ""
      ]
@@ -17118,8 +17120,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "sam1",
-      "caai1",
+      "cam1",
+      "caa1",
       "hang6",
       "coi3",
       "",
@@ -17212,8 +17214,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "sam1",
-      "caai1",
+      "cam1",
+      "caa1",
       "hang6",
       "coi3",
       "",
@@ -17259,8 +17261,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "sam1",
-      "caai1",
+      "cam1",
+      "caa1",
       "hang6",
       "coi3",
       "",
@@ -17319,8 +17321,8 @@ const DATA = {
       "gam1",
       "jat6",
       "jau6",
-      "naam4",
-      "gun3",
+      "naa4",
+      "gun1",
       ""
      ]
     },
@@ -17376,13 +17378,13 @@ const DATA = {
       "zi1",
       "cyun4",
       "lou6",
-      "kan5",
+      "gan6",
       "",
       "juk6",
       "bit6",
       "gu3",
       "hoeng1",
-      "naan4",
+      "naan6",
       ""
      ]
     },
@@ -17489,7 +17491,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "lok6",
+      "laai6",
       "hung4",
       "bat1",
       "si6",
@@ -17501,7 +17503,7 @@ const DATA = {
       "zok3",
       "ceon1",
       "nai4",
-      "gang1",
+      "gaang1",
       "wu6",
       "faa1",
       ""
@@ -17717,9 +17719,9 @@ const DATA = {
      ],
      "jy": [
       "fu2",
-      "zoeng1",
+      "zoeng3",
       "nung4",
-      "koeng5",
+      "koeng4",
       "paai3",
       "zok3",
       "ngo4",
@@ -17832,9 +17834,9 @@ const DATA = {
       "hung4",
       "mut6",
       "lou6",
-      "dong1",
+      "dong3",
       "mo4",
-      "zit3",
+      "zip3",
       ""
      ]
     },
@@ -17860,7 +17862,7 @@ const DATA = {
       "hung4",
       "can4",
       "ho4",
-      "cyu3",
+      "cyu5",
       "mik6",
       "zi1",
       "jam1",
@@ -17915,7 +17917,7 @@ const DATA = {
       "cau1",
       "fung1",
       "ceoi1",
-      "saan2",
+      "saan3",
       "maa5",
       "tai4",
       "sing1",
@@ -18033,11 +18035,11 @@ const DATA = {
      ],
      "jy": [
       "daan6",
-      "sai2",
+      "si2",
       "lung4",
       "sing4",
       "fei1",
-      "zoeng1",
+      "zoeng3",
       "zoi6",
       ""
      ]
@@ -18217,7 +18219,7 @@ const DATA = {
      ],
      "jy": [
       "juk6",
-      "zoeng1",
+      "zoeng3",
       "hing1",
       "ke4",
       "zuk6",
@@ -18270,7 +18272,7 @@ const DATA = {
      "jy": [
       "wan4",
       "mou5",
-      "bing2",
+      "ping4",
       "fung1",
       "zuk1",
       "jing2",
@@ -18294,7 +18296,7 @@ const DATA = {
       "coeng4",
       "ho4",
       "zim6",
-      "lok6",
+      "laai6",
       "hiu2",
       "sing1",
       "sam2",
@@ -18418,7 +18420,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hak1",
+      "ho2",
       "lin4",
       "gau2",
       "jyut6",
@@ -18545,7 +18547,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hak1",
+      "ho2",
       "oi3",
       "sam1",
       "hung4",
@@ -18712,7 +18714,7 @@ const DATA = {
       "pei4",
       "paa4",
       "maa5",
-      "soeng6",
+      "soeng5",
       "ceoi1",
       ""
      ]
@@ -18757,7 +18759,7 @@ const DATA = {
       "loi4",
       "zing1",
       "zin3",
-      "gei2",
+      "gei1",
       "jan4",
       "wui4",
       ""
@@ -18826,7 +18828,7 @@ const DATA = {
      "jy": [
       "soeng3",
       "hon3",
-      "loeng5",
+      "loeng2",
       "bat1",
       "jim3",
       ""
@@ -18975,10 +18977,10 @@ const DATA = {
      ],
      "jy": [
       "bat1",
-      "leon4",
+      "leon6",
       "ping4",
       "dei6",
-      "jyu5",
+      "jyu6",
       "saan1",
       "zim1",
       "",
@@ -19080,7 +19082,7 @@ const DATA = {
      ],
      "jy": [
       "jyun5",
-      "kan5",
+      "gan6",
       "gou1",
       "dai1",
       "zung2",
@@ -19180,7 +19182,7 @@ const DATA = {
       "daan6",
       "man4",
       "jan4",
-      "jyu5",
+      "jyu6",
       "hoeng2",
       ""
      ]
@@ -19219,7 +19221,7 @@ const DATA = {
       "ziu3",
       "cing1",
       "toi4",
-      "soeng6",
+      "soeng5",
       ""
      ]
     }
@@ -19298,7 +19300,7 @@ const DATA = {
       "jat6",
       "coeng4",
       "lei4",
-      "lok6",
+      "laai6",
       "mou4",
       "jan4",
       "gwo3",
@@ -19354,8 +19356,8 @@ const DATA = {
       "tau4",
       "syu6",
       "",
-      "do2",
-      "do2",
+      "doe2",
+      "doe2",
       "faa1",
       "hoi1",
       "daam6",
@@ -19389,7 +19391,7 @@ const DATA = {
       "jiu3",
       "jan4",
       "kwaa1",
-      "hou3",
+      "hou2",
       "ngaan4",
       "sik1",
       "",
@@ -19398,7 +19400,7 @@ const DATA = {
       "cing1",
       "hei3",
       "mun5",
-      "kin4",
+      "gon1",
       "kwan1",
       ""
      ]
@@ -19433,7 +19435,7 @@ const DATA = {
      ],
      "jy": [
       "saang1",
-      "dong1",
+      "dong3",
       "zok3",
       "jan4",
       "git6",
@@ -19511,7 +19513,7 @@ const DATA = {
      ],
      "jy": [
       "lei4",
-      "lok6",
+      "laai6",
       "so1",
       "so1",
       "jat1",
@@ -19562,7 +19564,7 @@ const DATA = {
       "coi3",
       "faa1",
       "mou4",
-      "cyu3",
+      "cyu5",
       "cam4",
       ""
      ]
@@ -19601,7 +19603,7 @@ const DATA = {
       "siu2",
       "",
       "kai1",
-      "soeng6",
+      "soeng5",
       "cing1",
       "cing1",
       "cou2",
@@ -19634,7 +19636,7 @@ const DATA = {
       "jam1",
       "soeng3",
       "mei6",
-      "hou3",
+      "hou2",
       "",
       "baak6",
       "faat3",
@@ -19667,7 +19669,7 @@ const DATA = {
       "daai6",
       "ji4",
       "co4",
-      "dau6",
+      "dau2",
       "kai1",
       "dung1",
       "",
@@ -19676,7 +19678,7 @@ const DATA = {
       "zing1",
       "zik1",
       "gai1",
-      "lung5",
+      "lung4",
       ""
      ]
     },
@@ -19711,7 +19713,7 @@ const DATA = {
       "ngo6",
       "mok1",
       "lin4",
-      "pung4",
+      "fung4",
       ""
      ]
     }
@@ -19742,7 +19744,7 @@ const DATA = {
      "jy": [
       "mui4",
       "syut3",
-      "zaang1",
+      "zang1",
       "ceon1",
       "mei6",
       "hang2",
@@ -19917,7 +19919,7 @@ const DATA = {
       "zeon6",
       "hung4",
       "si1",
-      "gei2",
+      "gei1",
       "maan6",
       "tiu4",
       ""
@@ -19986,7 +19988,7 @@ const DATA = {
      "jy": [
       "ming4",
       "jyut6",
-      "cung4",
+      "sung1",
       "gaan3",
       "ziu3",
       ""
@@ -20006,7 +20008,7 @@ const DATA = {
       "cing1",
       "cyun4",
       "sek6",
-      "soeng6",
+      "soeng5",
       "lau4",
       ""
      ]
@@ -20082,7 +20084,7 @@ const DATA = {
       "wong4",
       "syun1",
       "zi6",
-      "hak1",
+      "ho2",
       "lau4",
       ""
      ]
@@ -20217,7 +20219,7 @@ const DATA = {
      ],
      "jy": [
       "jyut6",
-      "lok6",
+      "laai6",
       "wu1",
       "tai4",
       "soeng1",
@@ -20323,7 +20325,7 @@ const DATA = {
       "wong4",
       "ho4",
       "jyun5",
-      "soeng6",
+      "soeng5",
       "baak6",
       "wan4",
       "gaan3",
@@ -20425,7 +20427,7 @@ const DATA = {
      ],
      "jy": [
       "sai1",
-      "sak1",
+      "coi3",
       "saan1",
       "cin4",
       "baak6",
@@ -20605,7 +20607,7 @@ const DATA = {
      ],
      "jy": [
       "zik1",
-      "cung4",
+      "sung1",
       "baa1",
       "haap6",
       "cyun1",
@@ -20719,7 +20721,7 @@ const DATA = {
      "jy": [
       "fei1",
       "si6",
-      "ze3",
+      "zik6",
       "cau1",
       "fung1",
       ""
@@ -20770,7 +20772,7 @@ const DATA = {
       "jau4",
       "zi2",
       "san1",
-      "soeng6",
+      "soeng5",
       "ji1",
       ""
      ]
@@ -20787,10 +20789,10 @@ const DATA = {
      ],
      "jy": [
       "lam4",
-      "hang4",
+      "hang6",
       "mat6",
       "mat6",
-      "fung6",
+      "fung4",
       ""
      ]
     },
@@ -20884,7 +20886,7 @@ const DATA = {
       "haan4",
       "gwai3",
       "faa1",
-      "lok6",
+      "laai6",
       "",
       "je6",
       "zing6",
@@ -21082,7 +21084,7 @@ const DATA = {
       "ji4",
       "leoi5",
       "gok3",
-      "dong1",
+      "dong3",
       "gaa1",
       ""
      ]
@@ -21104,7 +21106,7 @@ const DATA = {
       "syun1",
       "mei6",
       "gaai3",
-      "gung3",
+      "gung1",
       "gaang1",
       "zik1",
       ""
@@ -21176,7 +21178,7 @@ const DATA = {
       "",
       "saan1",
       "haam4",
-      "lok6",
+      "laai6",
       "jat6",
       "zam3",
       "hon4",
@@ -21211,7 +21213,7 @@ const DATA = {
       "heoi3",
       "waang4",
       "ngau4",
-      "bui3",
+      "bui6",
       "",
       "dyun2",
       "dek6",
@@ -21379,7 +21381,7 @@ const DATA = {
       "cin1",
       "jan6",
       "ngok6",
-      "soeng6",
+      "soeng5",
       "mo1",
       "tin1",
       ""
@@ -21421,7 +21423,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "naam4",
+      "naa4",
       "mong6",
       "wong4",
       "si1",
@@ -21476,7 +21478,7 @@ const DATA = {
       "si1",
       "cyun1",
       "ceoi2",
-      "dong1",
+      "dong3",
       "ngan4",
       "zing1",
       ""
@@ -21650,7 +21652,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zok6",
+      "zok3",
       "je6",
       "gong1",
       "bin1",
@@ -21725,7 +21727,7 @@ const DATA = {
       "lau4",
       "zi6",
       "zoi6",
-      "hang4",
+      "hang6",
       ""
      ]
     }
@@ -21806,7 +21808,7 @@ const DATA = {
       "jyut6",
       "haan4",
       "jan4",
-      "siu3",
+      "siu2",
       ""
      ]
     },
@@ -21885,7 +21887,7 @@ const DATA = {
       "wu4",
       "go1",
       "mou5",
-      "gei2",
+      "gei1",
       "si4",
       "jau1",
       ""
@@ -21983,7 +21985,7 @@ const DATA = {
       "cai4",
       "?",
       "gau3",
-      "hak1",
+      "ho2",
       "oi1",
       ""
      ]
@@ -22080,7 +22082,7 @@ const DATA = {
       "gwaan1",
       "naa5",
       "bun6",
-      "hang4",
+      "hang6",
       "",
       "je6",
       "sam1",
@@ -22119,11 +22121,11 @@ const DATA = {
      "jy": [
       "fung1",
       "jat1",
-      "gang1",
+      "gaang1",
       "",
       "syut3",
       "jat1",
-      "gang1",
+      "gaang1",
       "",
       "kut3",
       "seoi3",
@@ -22278,7 +22280,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "siu3",
+      "siu2",
       "siu2",
       "lei4",
       "gaa1",
@@ -22328,9 +22330,9 @@ const DATA = {
       "siu3",
       "man6",
       "haak3",
-      "cung4",
+      "sung1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "loi4",
       ""
      ]
@@ -22418,7 +22420,7 @@ const DATA = {
       "gong1",
       "cing1",
       "jyut6",
-      "kan5",
+      "gan6",
       "jan4",
       ""
      ]
@@ -22451,7 +22453,7 @@ const DATA = {
       "ceon1",
       "sing4",
       "mou4",
-      "cyu3",
+      "cyu5",
       "bat1",
       "fei1",
       "faa1",
@@ -22519,7 +22521,7 @@ const DATA = {
      "jy": [
       "hing1",
       "jin1",
-      "saan2",
+      "saan3",
       "jap6",
       "ng5",
       "hau4",
@@ -22579,7 +22581,7 @@ const DATA = {
       "sik1",
       "jiu4",
       "hon3",
-      "kan5",
+      "gan6",
       "koek3",
       "mou4",
       ""
@@ -22603,8 +22605,8 @@ const DATA = {
       "jat1",
       "nin4",
       "ceon1",
-      "hou3",
-      "cyu3",
+      "hou2",
+      "cyu5",
       ""
      ]
     },
@@ -22654,7 +22656,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hou3",
+      "hou2",
       "jyu5",
       "zi1",
       "si4",
@@ -22673,7 +22675,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "dong1",
+      "dong3",
       "ceon1",
       "naai5",
       "faat3",
@@ -22772,7 +22774,7 @@ const DATA = {
       "hon3",
       "hung4",
       "sap1",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -22866,7 +22868,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "naam4",
+      "naa4",
       "ziu1",
       "sei3",
       "baak3",
@@ -22890,7 +22892,7 @@ const DATA = {
      ],
      "jy": [
       "do1",
-      "siu3",
+      "siu2",
       "lau4",
       "toi4",
       "jin1",
@@ -22974,7 +22976,7 @@ const DATA = {
       "jyu4",
       "gam1",
       "zik6",
-      "soeng6",
+      "soeng5",
       "ngan4",
       "ho4",
       "heoi3",
@@ -23038,7 +23040,7 @@ const DATA = {
      ],
      "jy": [
       "haak3",
-      "se3",
+      "se2",
       "cing1",
       "cing1",
       "joeng4",
@@ -23062,7 +23064,7 @@ const DATA = {
      "jy": [
       "hyun3",
       "gwan1",
-      "gang1",
+      "gaang1",
       "zeon6",
       "jat1",
       "bui1",
@@ -23319,7 +23321,7 @@ const DATA = {
      ],
      "jy": [
       "ho4",
-      "dong1",
+      "dong3",
       "gam1",
       "lok3",
       "nou5",
@@ -23422,7 +23424,7 @@ const DATA = {
       "loi4",
       "fat1",
       "ceoi1",
-      "saan2",
+      "saan3",
       ""
      ]
     },
@@ -23513,7 +23515,7 @@ const DATA = {
      "jy": [
       "juk6",
       "man6",
-      "hang4",
+      "hang6",
       "jan4",
       "heoi3",
       "naa5",
@@ -23523,7 +23525,7 @@ const DATA = {
       "ngaan5",
       "jing4",
       "jing4",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -23580,9 +23582,9 @@ const DATA = {
       "joek6",
       "dou3",
       "gong1",
-      "naam4",
+      "naa4",
       "gon2",
-      "soeng6",
+      "soeng5",
       "ceon1",
       "",
       "cin1",
@@ -23773,11 +23775,11 @@ const DATA = {
       "seoi2",
       "wu6",
       "tin4",
-      "zoeng1",
+      "zoeng3",
       "luk6",
       "jiu2",
       "",
-      "loeng5",
+      "loeng2",
       "saan1",
       "paai4",
       "taat3",
@@ -23811,7 +23813,7 @@ const DATA = {
      ],
      "jy": [
       "gong1",
-      "soeng6",
+      "soeng5",
       "wong5",
       "loi4",
       "jan4",
@@ -23951,7 +23953,7 @@ const DATA = {
       "zi6",
       "luk6",
       "gong1",
-      "naam4",
+      "naa4",
       "ngon6",
       ""
      ]
@@ -24028,7 +24030,7 @@ const DATA = {
       "zam3",
       "kai1",
       "",
-      "cung4",
+      "sung1",
       "gaan3",
       "saa1",
       "lou6",
@@ -24081,7 +24083,7 @@ const DATA = {
       "saang1",
       "mou4",
       "zoi3",
-      "siu3",
+      "siu2",
       "",
       "mun4",
       "cin4",
@@ -24092,7 +24094,7 @@ const DATA = {
       "sai1",
       "",
       "jau1",
-      "zoeng1",
+      "zoeng3",
       "baak6",
       "faat3",
       "coeng3",
@@ -24132,12 +24134,12 @@ const DATA = {
       "ceon1",
       "gwai1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "",
       "zik6",
       "mok6",
       "mou4",
-      "hang4",
+      "hang6",
       "lou6",
       ""
      ]
@@ -24168,7 +24170,7 @@ const DATA = {
       "zi1",
       "ceon1",
       "heoi3",
-      "cyu3",
+      "cyu5",
       "",
       "wun6",
       "ceoi2",
@@ -24320,11 +24322,11 @@ const DATA = {
       "faa1",
       "hoeng1",
       "leoi5",
-      "seoi3",
+      "sok3",
       "fung1",
       "nin4",
       "",
-      "ting3",
+      "teng1",
       "ceoi2",
       "waa1",
       "sing1",
@@ -24359,7 +24361,7 @@ const DATA = {
       "tin1",
       "ngoi6",
       "",
-      "loeng5",
+      "loeng2",
       "saam1",
       "dim2",
       "jyu5",
@@ -24626,7 +24628,7 @@ const DATA = {
       "soeng3",
       "heoi3",
       "fuk6",
-      "gei2",
+      "gei1",
       "heoi2",
       ""
      ]
@@ -24658,7 +24660,7 @@ const DATA = {
       "mak6",
       "bat1",
       "dak1",
-      "jyu5",
+      "jyu6",
       ""
      ]
     }
@@ -24815,7 +24817,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "siu3",
+      "siu2",
       "zong3",
       "bat1",
       "lou5",
@@ -24910,7 +24912,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hang4",
+      "hang6",
       "dou6",
       "ci4",
       "ci4",
@@ -25119,11 +25121,11 @@ const DATA = {
       "gin1",
       "ging3",
       "",
-      "jam6",
+      "jam4",
       "ji5",
       "dung1",
       "sai1",
-      "naam4",
+      "naa4",
       "bak1",
       "fung1",
       ""
@@ -36605,13 +36607,1229 @@ const DATA = {
    "theme": "連詞與副詞",
    "grade": "六年級",
    "ipa": "/ˈweðə/"
+  },
+  {
+   "id": "sk000",
+   "w": "secondary",
+   "zh": "中學",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ˈsekəndri/"
+  },
+  {
+   "id": "sk001",
+   "w": "timetable",
+   "zh": "時間表",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ˈtaɪmteɪbl/"
+  },
+  {
+   "id": "sk002",
+   "w": "assembly",
+   "zh": "週會；集會",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/əˈsembli/"
+  },
+  {
+   "id": "sk003",
+   "w": "recess",
+   "zh": "小息",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/rɪˈses/"
+  },
+  {
+   "id": "sk004",
+   "w": "canteen",
+   "zh": "食堂",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/kænˈtiːn/"
+  },
+  {
+   "id": "sk005",
+   "w": "uniform",
+   "zh": "校服",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ˈjuːnɪfɔːm/"
+  },
+  {
+   "id": "sk006",
+   "w": "club",
+   "zh": "學會；俱樂部",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/klʌb/"
+  },
+  {
+   "id": "sk007",
+   "w": "member",
+   "zh": "成員",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ˈmembə/"
+  },
+  {
+   "id": "sk008",
+   "w": "activity",
+   "zh": "活動",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ækˈtɪvəti/"
+  },
+  {
+   "id": "sk009",
+   "w": "corridor",
+   "zh": "走廊",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ˈkɒridɔː/"
+  },
+  {
+   "id": "sk010",
+   "w": "locker",
+   "zh": "儲物櫃",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ˈlɒkə/"
+  },
+  {
+   "id": "sk011",
+   "w": "prefect",
+   "zh": "風紀；級長",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ˈpriːfekt/"
+  },
+  {
+   "id": "sk012",
+   "w": "register",
+   "zh": "點名；名冊",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ˈredʒɪstə/"
+  },
+  {
+   "id": "sk013",
+   "w": "noticeboard",
+   "zh": "佈告板",
+   "theme": "校園生活",
+   "grade": "中一",
+   "ipa": "/ˈnəʊtisbɔːd/"
+  },
+  {
+   "id": "sk014",
+   "w": "subject",
+   "zh": "科目",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/ˈsʌbdʒɪkt/"
+  },
+  {
+   "id": "sk015",
+   "w": "assignment",
+   "zh": "功課；作業",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/əˈsaɪnmənt/"
+  },
+  {
+   "id": "sk016",
+   "w": "project",
+   "zh": "專題研習",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/ˈprɒdʒekt/"
+  },
+  {
+   "id": "sk017",
+   "w": "revision",
+   "zh": "溫習",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/rɪˈvɪʒn/"
+  },
+  {
+   "id": "sk018",
+   "w": "dictionary",
+   "zh": "字典",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/ˈdɪkʃənri/"
+  },
+  {
+   "id": "sk019",
+   "w": "knowledge",
+   "zh": "知識",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/ˈnɒlɪdʒ/"
+  },
+  {
+   "id": "sk020",
+   "w": "mistake",
+   "zh": "錯誤",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/mɪˈsteɪk/"
+  },
+  {
+   "id": "sk021",
+   "w": "improvement",
+   "zh": "進步",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/ɪmˈpruːvmənt/"
+  },
+  {
+   "id": "sk022",
+   "w": "attend",
+   "zh": "出席",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/əˈtend/"
+  },
+  {
+   "id": "sk023",
+   "w": "concentrate",
+   "zh": "專注",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/ˈkɒnsntreɪt/"
+  },
+  {
+   "id": "sk024",
+   "w": "explain",
+   "zh": "解釋",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/ɪkˈspleɪn/"
+  },
+  {
+   "id": "sk025",
+   "w": "describe",
+   "zh": "描述",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/dɪˈskraɪb/"
+  },
+  {
+   "id": "sk027",
+   "w": "recite",
+   "zh": "背誦",
+   "theme": "學習與考試",
+   "grade": "中一",
+   "ipa": "/rɪˈsaɪt/"
+  },
+  {
+   "id": "sk028",
+   "w": "relative",
+   "zh": "親戚",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/ˈrelətɪv/"
+  },
+  {
+   "id": "sk029",
+   "w": "cousin",
+   "zh": "表兄弟姊妹",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/ˈkʌzn/"
+  },
+  {
+   "id": "sk030",
+   "w": "generation",
+   "zh": "一代",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/ˌdʒenəˈreɪʃn/"
+  },
+  {
+   "id": "sk031",
+   "w": "relationship",
+   "zh": "關係",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/rɪˈleɪʃnʃɪp/"
+  },
+  {
+   "id": "sk032",
+   "w": "friendship",
+   "zh": "友誼",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/ˈfrendʃɪp/"
+  },
+  {
+   "id": "sk033",
+   "w": "personality",
+   "zh": "性格",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/ˌpɜːsəˈnæləti/"
+  },
+  {
+   "id": "sk034",
+   "w": "hobby",
+   "zh": "嗜好",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/ˈhɒbi/"
+  },
+  {
+   "id": "sk035",
+   "w": "interest",
+   "zh": "興趣",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/ˈɪntrəst/"
+  },
+  {
+   "id": "sk036",
+   "w": "share",
+   "zh": "分享",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/ʃeə/"
+  },
+  {
+   "id": "sk037",
+   "w": "trust",
+   "zh": "信任",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/trʌst/"
+  },
+  {
+   "id": "sk038",
+   "w": "care",
+   "zh": "關心",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/keə/"
+  },
+  {
+   "id": "sk039",
+   "w": "support",
+   "zh": "支持",
+   "theme": "家庭與朋友",
+   "grade": "中一",
+   "ipa": "/səˈpɔːt/"
+  },
+  {
+   "id": "sk040",
+   "w": "neighbourhood",
+   "zh": "鄰里；社區",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/ˈneɪbəhʊd/"
+  },
+  {
+   "id": "sk041",
+   "w": "community",
+   "zh": "社區",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/kəˈmjuːnəti/"
+  },
+  {
+   "id": "sk042",
+   "w": "market",
+   "zh": "市場",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/ˈmɑːkɪt/"
+  },
+  {
+   "id": "sk043",
+   "w": "mall",
+   "zh": "商場",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/mɔːl/"
+  },
+  {
+   "id": "sk044",
+   "w": "price",
+   "zh": "價格",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/praɪs/"
+  },
+  {
+   "id": "sk045",
+   "w": "cheap",
+   "zh": "便宜的",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/tʃiːp/"
+  },
+  {
+   "id": "sk046",
+   "w": "expensive",
+   "zh": "昂貴的",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/ɪkˈspensɪv/"
+  },
+  {
+   "id": "sk047",
+   "w": "customer",
+   "zh": "顧客",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/ˈkʌstəmə/"
+  },
+  {
+   "id": "sk048",
+   "w": "spend",
+   "zh": "花費",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/spend/"
+  },
+  {
+   "id": "sk050",
+   "w": "discount",
+   "zh": "折扣",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/ˈdɪskaʊnt/"
+  },
+  {
+   "id": "sk051",
+   "w": "receipt",
+   "zh": "收據",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/rɪˈsiːt/"
+  },
+  {
+   "id": "sk052",
+   "w": "queue",
+   "zh": "排隊",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/kjuː/"
+  },
+  {
+   "id": "sk053",
+   "w": "crowded",
+   "zh": "擁擠的",
+   "theme": "社區與購物",
+   "grade": "中一",
+   "ipa": "/ˈkraʊdɪd/"
+  },
+  {
+   "id": "sk054",
+   "w": "journey",
+   "zh": "旅程",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˈdʒɜːni/"
+  },
+  {
+   "id": "sk055",
+   "w": "abroad",
+   "zh": "國外",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/əˈbrɔːd/"
+  },
+  {
+   "id": "sk056",
+   "w": "passport",
+   "zh": "護照",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˈpɑːspɔːt/"
+  },
+  {
+   "id": "sk057",
+   "w": "luggage",
+   "zh": "行李",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˈlʌɡɪdʒ/"
+  },
+  {
+   "id": "sk058",
+   "w": "tourist",
+   "zh": "遊客",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˈtʊərɪst/"
+  },
+  {
+   "id": "sk059",
+   "w": "attraction",
+   "zh": "景點",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/əˈtrækʃn/"
+  },
+  {
+   "id": "sk060",
+   "w": "scenery",
+   "zh": "風景",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˈsiːnəri/"
+  },
+  {
+   "id": "sk061",
+   "w": "destination",
+   "zh": "目的地",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˌdestɪˈneɪʃn/"
+  },
+  {
+   "id": "sk062",
+   "w": "direction",
+   "zh": "方向",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/dəˈrekʃn/"
+  },
+  {
+   "id": "sk063",
+   "w": "climate",
+   "zh": "氣候",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˈklaɪmət/"
+  },
+  {
+   "id": "sk064",
+   "w": "border",
+   "zh": "邊界",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˈbɔːdə/"
+  },
+  {
+   "id": "sk065",
+   "w": "transport",
+   "zh": "交通",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˈtrænspɔːt/"
+  },
+  {
+   "id": "sk066",
+   "w": "souvenir",
+   "zh": "手信；紀念品",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ˌsuːvəˈnɪə/"
+  },
+  {
+   "id": "sk067",
+   "w": "explore",
+   "zh": "探索",
+   "theme": "旅行與地理",
+   "grade": "中二",
+   "ipa": "/ɪkˈsplɔː/"
+  },
+  {
+   "id": "sk068",
+   "w": "technology",
+   "zh": "科技",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/tekˈnɒlədʒi/"
+  },
+  {
+   "id": "sk069",
+   "w": "device",
+   "zh": "裝置",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/dɪˈvaɪs/"
+  },
+  {
+   "id": "sk070",
+   "w": "screen",
+   "zh": "螢幕",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/skriːn/"
+  },
+  {
+   "id": "sk071",
+   "w": "online",
+   "zh": "網上的",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/ˌɒnˈlaɪn/"
+  },
+  {
+   "id": "sk072",
+   "w": "website",
+   "zh": "網站",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/ˈwebsaɪt/"
+  },
+  {
+   "id": "sk074",
+   "w": "download",
+   "zh": "下載",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/ˌdaʊnˈləʊd/"
+  },
+  {
+   "id": "sk075",
+   "w": "upload",
+   "zh": "上載",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/ˌʌpˈləʊd/"
+  },
+  {
+   "id": "sk076",
+   "w": "search",
+   "zh": "搜尋",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/sɜːtʃ/"
+  },
+  {
+   "id": "sk077",
+   "w": "password",
+   "zh": "密碼",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/ˈpɑːswɜːd/"
+  },
+  {
+   "id": "sk078",
+   "w": "invent",
+   "zh": "發明",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/ɪnˈvent/"
+  },
+  {
+   "id": "sk079",
+   "w": "programme",
+   "zh": "程式；節目",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/ˈprəʊɡræm/"
+  },
+  {
+   "id": "sk080",
+   "w": "update",
+   "zh": "更新",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/ˌʌpˈdeɪt/"
+  },
+  {
+   "id": "sk081",
+   "w": "digital",
+   "zh": "數碼的",
+   "theme": "科技與媒體",
+   "grade": "中二",
+   "ipa": "/ˈdɪdʒɪtl/"
+  },
+  {
+   "id": "sk082",
+   "w": "ecosystem",
+   "zh": "生態系統",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/ˈiːkəʊsɪstəm/"
+  },
+  {
+   "id": "sk085",
+   "w": "waste",
+   "zh": "廢物；浪費",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/weɪst/"
+  },
+  {
+   "id": "sk087",
+   "w": "nature",
+   "zh": "大自然",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/ˈneɪtʃə/"
+  },
+  {
+   "id": "sk088",
+   "w": "wildlife",
+   "zh": "野生動物",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/ˈwaɪldlaɪf/"
+  },
+  {
+   "id": "sk089",
+   "w": "planet",
+   "zh": "行星；地球",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/ˈplænɪt/"
+  },
+  {
+   "id": "sk090",
+   "w": "renewable",
+   "zh": "可再生的",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/rɪˈnjuːəbl/"
+  },
+  {
+   "id": "sk091",
+   "w": "reduce",
+   "zh": "減少",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/rɪˈdjuːs/"
+  },
+  {
+   "id": "sk092",
+   "w": "reuse",
+   "zh": "重用",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/ˌriːˈjuːz/"
+  },
+  {
+   "id": "sk093",
+   "w": "forest",
+   "zh": "森林",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/ˈfɒrɪst/"
+  },
+  {
+   "id": "sk094",
+   "w": "survive",
+   "zh": "生存",
+   "theme": "環境與自然",
+   "grade": "中二",
+   "ipa": "/səˈvaɪv/"
+  },
+  {
+   "id": "sk095",
+   "w": "sincere",
+   "zh": "真誠的",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/sɪnˈsɪə/"
+  },
+  {
+   "id": "sk096",
+   "w": "gentle",
+   "zh": "溫和的",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/ˈdʒentl/"
+  },
+  {
+   "id": "sk099",
+   "w": "generous",
+   "zh": "慷慨的",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/ˈdʒenərəs/"
+  },
+  {
+   "id": "sk100",
+   "w": "cheerful",
+   "zh": "開朗的",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/ˈtʃɪəfl/"
+  },
+  {
+   "id": "sk101",
+   "w": "kindness",
+   "zh": "善良",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/ˈkaɪndnəs/"
+  },
+  {
+   "id": "sk102",
+   "w": "respect",
+   "zh": "尊重",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/rɪˈspekt/"
+  },
+  {
+   "id": "sk103",
+   "w": "grateful",
+   "zh": "感恩的",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/ˈgreɪtfl/"
+  },
+  {
+   "id": "sk104",
+   "w": "jealous",
+   "zh": "嫉妒的",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/ˈdʒeləs/"
+  },
+  {
+   "id": "sk105",
+   "w": "pride",
+   "zh": "自豪",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/praɪd/"
+  },
+  {
+   "id": "sk106",
+   "w": "calm",
+   "zh": "冷靜的",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/kɑːm/"
+  },
+  {
+   "id": "sk107",
+   "w": "attitude",
+   "zh": "態度",
+   "theme": "情感與品格",
+   "grade": "中二",
+   "ipa": "/ˈætɪtjuːd/"
+  },
+  {
+   "id": "sk108",
+   "w": "society",
+   "zh": "社會",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/səˈsaɪəti/"
+  },
+  {
+   "id": "sk109",
+   "w": "government",
+   "zh": "政府",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/ˈɡʌvənmənt/"
+  },
+  {
+   "id": "sk110",
+   "w": "law",
+   "zh": "法律",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/lɔː/"
+  },
+  {
+   "id": "sk111",
+   "w": "right",
+   "zh": "權利",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/raɪt/"
+  },
+  {
+   "id": "sk112",
+   "w": "responsibility",
+   "zh": "責任",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/rɪˌspɒnsəˈbɪləti/"
+  },
+  {
+   "id": "sk113",
+   "w": "volunteer",
+   "zh": "義工",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/ˌvɒlənˈtɪə/"
+  },
+  {
+   "id": "sk114",
+   "w": "charity",
+   "zh": "慈善機構",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/ˈtʃærəti/"
+  },
+  {
+   "id": "sk115",
+   "w": "donate",
+   "zh": "捐贈",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/dəʊˈneɪt/"
+  },
+  {
+   "id": "sk116",
+   "w": "citizen",
+   "zh": "市民；公民",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/ˈsɪtɪzn/"
+  },
+  {
+   "id": "sk117",
+   "w": "policy",
+   "zh": "政策",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/ˈpɒləsi/"
+  },
+  {
+   "id": "sk118",
+   "w": "equal",
+   "zh": "平等的",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/ˈiːkwl/"
+  },
+  {
+   "id": "sk119",
+   "w": "fairness",
+   "zh": "公平",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/ˈfeənəs/"
+  },
+  {
+   "id": "sk120",
+   "w": "rule",
+   "zh": "規則",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/ruːl/"
+  },
+  {
+   "id": "sk121",
+   "w": "harmony",
+   "zh": "和諧",
+   "theme": "社會與公民",
+   "grade": "中三",
+   "ipa": "/ˈhɑːməni/"
+  },
+  {
+   "id": "sk122",
+   "w": "global",
+   "zh": "全球的",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/ˈɡləʊbl/"
+  },
+  {
+   "id": "sk123",
+   "w": "heritage",
+   "zh": "遺產；傳承",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/ˈherɪtɪdʒ/"
+  },
+  {
+   "id": "sk125",
+   "w": "poverty",
+   "zh": "貧窮",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/ˈpɒvəti/"
+  },
+  {
+   "id": "sk126",
+   "w": "hunger",
+   "zh": "飢餓",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/ˈhʌŋɡə/"
+  },
+  {
+   "id": "sk127",
+   "w": "peace",
+   "zh": "和平",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/piːs/"
+  },
+  {
+   "id": "sk128",
+   "w": "population",
+   "zh": "人口",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/ˌpɒpjuˈleɪʃn/"
+  },
+  {
+   "id": "sk129",
+   "w": "language",
+   "zh": "語言",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/ˈlæŋɡwɪdʒ/"
+  },
+  {
+   "id": "sk130",
+   "w": "exchange",
+   "zh": "交流",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/ɪksˈtʃeɪndʒ/"
+  },
+  {
+   "id": "sk131",
+   "w": "international",
+   "zh": "國際的",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/ˌɪntəˈnæʃnəl/"
+  },
+  {
+   "id": "sk132",
+   "w": "develop",
+   "zh": "發展",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/dɪˈveləp/"
+  },
+  {
+   "id": "sk133",
+   "w": "diversity",
+   "zh": "多樣性",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/daɪˈvɜːsəti/"
+  },
+  {
+   "id": "sk134",
+   "w": "belief",
+   "zh": "信念",
+   "theme": "全球與文化",
+   "grade": "中三",
+   "ipa": "/bɪˈliːf/"
+  },
+  {
+   "id": "sk135",
+   "w": "analyse",
+   "zh": "分析",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˈænəlaɪz/"
+  },
+  {
+   "id": "sk136",
+   "w": "compare",
+   "zh": "比較",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/kəmˈpeə/"
+  },
+  {
+   "id": "sk137",
+   "w": "conclusion",
+   "zh": "總結",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/kənˈkluːʒn/"
+  },
+  {
+   "id": "sk138",
+   "w": "evidence",
+   "zh": "證據",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˈevɪdəns/"
+  },
+  {
+   "id": "sk139",
+   "w": "viewpoint",
+   "zh": "觀點",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˈvjuːpɔɪnt/"
+  },
+  {
+   "id": "sk140",
+   "w": "argument",
+   "zh": "論點",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˈɑːɡjumənt/"
+  },
+  {
+   "id": "sk142",
+   "w": "advantage",
+   "zh": "優點",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ədˈvɑːntɪdʒ/"
+  },
+  {
+   "id": "sk143",
+   "w": "disadvantage",
+   "zh": "缺點",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˌdɪsədˈvɑːntɪdʒ/"
+  },
+  {
+   "id": "sk144",
+   "w": "purpose",
+   "zh": "目的",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˈpɜːpəs/"
+  },
+  {
+   "id": "sk145",
+   "w": "method",
+   "zh": "方法",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˈmeθəd/"
+  },
+  {
+   "id": "sk146",
+   "w": "data",
+   "zh": "數據",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˈdeɪtə/"
+  },
+  {
+   "id": "sk147",
+   "w": "summarise",
+   "zh": "歸納",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˈsʌməraɪz/"
+  },
+  {
+   "id": "sk148",
+   "w": "justify",
+   "zh": "說明理由；證成",
+   "theme": "學術與思維",
+   "grade": "中三",
+   "ipa": "/ˈdʒʌstɪfaɪ/"
+  },
+  {
+   "id": "sk149",
+   "w": "ambition",
+   "zh": "志向",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/æmˈbɪʃn/"
+  },
+  {
+   "id": "sk150",
+   "w": "target",
+   "zh": "目標",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/ˈtɑːɡɪt/"
+  },
+  {
+   "id": "sk151",
+   "w": "achieve",
+   "zh": "達成",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/əˈtʃiːv/"
+  },
+  {
+   "id": "sk152",
+   "w": "succeed",
+   "zh": "成功",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/səkˈsiːd/"
+  },
+  {
+   "id": "sk153",
+   "w": "effort",
+   "zh": "努力",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/ˈefət/"
+  },
+  {
+   "id": "sk154",
+   "w": "opportunity",
+   "zh": "機會",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/ˌɒpəˈtjuːnəti/"
+  },
+  {
+   "id": "sk155",
+   "w": "challenge",
+   "zh": "挑戰",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/ˈtʃælɪndʒ/"
+  },
+  {
+   "id": "sk156",
+   "w": "decision",
+   "zh": "決定",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/dɪˈsɪʒn/"
+  },
+  {
+   "id": "sk157",
+   "w": "independence",
+   "zh": "獨立",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/ˌɪndɪˈpendəns/"
+  },
+  {
+   "id": "sk158",
+   "w": "confidence",
+   "zh": "信心",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/ˈkɒnfɪdəns/"
+  },
+  {
+   "id": "sk159",
+   "w": "overcome",
+   "zh": "克服",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/ˌəʊvəˈkʌm/"
+  },
+  {
+   "id": "sk160",
+   "w": "experience",
+   "zh": "經驗",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/ɪkˈspɪəriəns/"
+  },
+  {
+   "id": "sk161",
+   "w": "encourage",
+   "zh": "鼓勵",
+   "theme": "未來與成長",
+   "grade": "中三",
+   "ipa": "/ɪnˈkʌrɪdʒ/"
   }
  ],
  "meta": {
   "pinyin": "pypinyin 生成，多音字/生僻字以课本为准",
   "jyutping": "jyutping 生成 + 人工校正（异体字/粤语特色音/古诗多音字），以粤语字典为准",
   "vocab": "word-atlas B1 档（CC BY 4.0，须署名 Word Atlas contributors 词光）",
-  "hk_words": "坊間整理通用基礎詞，非 EDB 官方分級詞表；年級歸屬為常見教學進度估算，僅供練習參考；音標為英式 DJ 音標人工標注，以詞典為準"
+  "hk_words": "坊間整理通用基礎詞（小學 P1–P6＋初中 S1–S3），非 EDB 官方分級詞表；年級歸屬為常見教學進度估算，僅供練習參考；音標為英式 DJ 音標人工標注，以詞典為準"
  }
 };
 const POEMS = DATA.poems, VOCAB = DATA.vocab, HK = DATA.hk_words;
@@ -37518,7 +38736,7 @@ function showMain(m){
   const bestKey='hkk_snake_best';
   let best=+localStorage.getItem(bestKey)||0;
   document.getElementById('snakeBest').textContent=best;
-  function rndWord(){ return HK[Math.floor(Math.random()*HK.length)]; }
+  function rndWord(){ const pool=HK.filter(w=>w.grade && w.grade.indexOf('中')!==0); return pool[Math.floor(Math.random()*pool.length)]; } // 貪吃蛇只用小學詞（不引 HK_PRI_GRADES，避免 TDZ）
   function placeFood(){
     const w=rndWord(); let x,y,tries=0;
     do{ x=Math.floor(Math.random()*G); y=Math.floor(Math.random()*G); tries++; }
@@ -38544,17 +39762,28 @@ function renderVocab(){
 }
 (function(){const sel=document.getElementById('vocabTopic');const ts=[...new Set(VOCAB.map(v=>v.topic))].filter(Boolean).sort();ts.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o);});})();
 
-// ---- 香港小學基礎詞（坊間整理，非 EDB 官方分級詞表；年級為估算） ----
-// 按 P1–P6（一年級…六年級）分級分塊展示，可折疊；搜索/主題/自測過濾；折疊狀態跨重渲染保留
-const HK_GRADE_CODE={'一年級':'P1','二年級':'P2','三年級':'P3','四年級':'P4','五年級':'P5','六年級':'P6'};
-const HK_GRADE_RANK={'一年級':1,'二年級':2,'三年級':3,'四年級':4,'五年級':5,'六年級':6};
+// ---- 香港中小學單詞（坊間整理，非官方分級詞表；年級為估算） ----
+// 小學 P1–P6（一年級…六年級）＋初中 S1–S3（中一…中三，v1.54 新增）；
+// 學段 chips 過濾（小學/中學），分級分塊可折疊；搜索/主題/自測過濾
+const HK_GRADE_CODE={'一年級':'P1','二年級':'P2','三年級':'P3','四年級':'P4','五年級':'P5','六年級':'P6','中一':'S1','中二':'S2','中三':'S3'};
+const HK_GRADE_RANK={'一年級':1,'二年級':2,'三年級':3,'四年級':4,'五年級':5,'六年級':6,'中一':7,'中二':8,'中三':9};
+const HK_PRI_GRADES=['一年級','二年級','三年級','四年級','五年級','六年級'];
+let hkStage='pri';
+function hkPool(){ return hkStage==='sec' ? HK.filter(w=>!HK_PRI_GRADES.includes(w.grade)) : HK.filter(w=>HK_PRI_GRADES.includes(w.grade)); }
+function hkRebuildThemes(){
+  const sel=document.getElementById('hkTheme'); const keep=sel.value;
+  sel.innerHTML='<option value="">全部主題</option>';
+  const ts=[...new Set(hkPool().map(w=>w.theme))].filter(Boolean).sort();
+  ts.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o);});
+  if(ts.includes(keep))sel.value=keep;
+}
 let hkCollapsed=new Set();
 function renderHk(){
   const q=document.getElementById('hkSearch').value.trim().toLowerCase();
   const tp=document.getElementById('hkTheme').value;
   const hide=document.getElementById('hkHide').checked;
   const list=document.getElementById('hkList'); list.innerHTML='';
-  const grades=[...new Set(HK.map(w=>w.grade))].filter(Boolean)
+  const grades=[...new Set(hkPool().map(w=>w.grade))].filter(Boolean)
     .sort((a,b)=>((HK_GRADE_RANK[a]||99)-(HK_GRADE_RANK[b]||99))||a.localeCompare(b,'zh-Hant'));
   let any=false;
   grades.forEach(g=>{
@@ -38582,10 +39811,15 @@ function renderHk(){
   if(!any)list.innerHTML='<div style="color:#888;font-size:13px">無相符詞彙</div>';
 }
 function hkExpandAll(){hkCollapsed.clear();renderHk();}
-function hkCollapseAll(){[...new Set(HK.map(w=>w.grade))].forEach(g=>hkCollapsed.add(g));renderHk();}
+function hkCollapseAll(){[...new Set(hkPool().map(w=>w.grade))].forEach(g=>hkCollapsed.add(g));renderHk();}
 document.getElementById('hkExpandAll').onclick=hkExpandAll;
 document.getElementById('hkCollapseAll').onclick=hkCollapseAll;
-(function(){const sel=document.getElementById('hkTheme');const ts=[...new Set(HK.map(w=>w.theme))].filter(Boolean).sort();ts.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o);});})();
+hkRebuildThemes();
+document.querySelectorAll('#hkView .chip[data-hs]').forEach(c=>c.onclick=()=>{
+  hkStage=c.dataset.hs;
+  document.querySelectorAll('#hkView .chip[data-hs]').forEach(x=>x.classList.toggle('on',x===c));
+  hkCollapsed.clear(); hkRebuildThemes(); renderHk();
+});
 
 // ---- 繁體對照（v1.25 分級） ----
 let curFtGrade='all';
@@ -38634,7 +39868,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.53',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.54',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -38671,7 +39905,7 @@ function bumpStreak(){var s=+localStorage.getItem('hkk_streak')||0;var last=loca
 function renderMoti(){var s=+localStorage.getItem('hkk_streak')||0;var e=document.getElementById('streakNum');if(e)e.textContent=s;var fl=document.getElementById('flame');if(fl)fl.style.opacity=s>0?'1':'.25';var g=document.getElementById('dailyGoal');if(g){if(s===0)g.textContent='今天開始第一次打卡吧！';else if(s<7)g.textContent='再堅持 '+(7-s)+' 天點亮 🔥 七天火焰徽章';else g.textContent='火焰不滅，已連續 '+s+' 天！';}}
 function renderBadges(){var known=Object.keys(hProg).filter(function(k){return hProg[k];}).length;var s=+localStorage.getItem('hkk_streak')||0;var themes={};HK.forEach(function(w){if(hProg[w.id])themes[w.theme]=1;});var ts=Object.keys(themes).length;var B=[{ic:'🌱',n:'初露鋒芒',need:'掌握 10 詞',ok:known>=10},{ic:'🌿',n:'漸入佳境',need:'掌握 30 詞',ok:known>=30},{ic:'🌳',n:'詞彙小達人',need:'掌握 60 詞',ok:known>=60},{ic:'🏆',n:'百詞斬',need:'掌握 100 詞',ok:known>=100},{ic:'🔥',n:'七天火焰',need:'連續 7 天',ok:s>=7},{ic:'♨️',n:'半月火焰',need:'連續 15 天',ok:s>=15},{ic:'⭐',n:'主題探索',need:'橫跨 5 主題',ok:ts>=5}];var box=document.getElementById('badgeBox');if(!box)return;box.innerHTML=B.map(function(b){return '<div class="badge'+(b.ok?'':' off')+'"><div class="bi">'+b.ic+'</div><div class="bn">'+b.n+'</div><div class="bd">'+(b.ok?'已獲得 🎉':b.need)+'</div></div>';}).join('');}
 var flashQueue=[],flashIdx=0,flashKnown=0,flashTotal=0,flashCur=null;
-function startFlash(){flashQueue=HK.slice();for(var i=flashQueue.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=flashQueue[i];flashQueue[i]=flashQueue[j];flashQueue[j]=t;}flashIdx=0;flashKnown=0;flashTotal=0;document.getElementById('flashPanel').style.display='block';nextFlash();}
+function startFlash(){flashQueue=hkPool().slice();for(var i=flashQueue.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=flashQueue[i];flashQueue[i]=flashQueue[j];flashQueue[j]=t;}flashIdx=0;flashKnown=0;flashTotal=0;document.getElementById('flashPanel').style.display='block';nextFlash();}
 function nextFlash(){if(flashIdx>=flashQueue.length){document.getElementById('flashCard').textContent='🎉 本輪完成！';document.getElementById('flashZh').style.display='none';document.getElementById('flashReveal').style.display='none';document.getElementById('flashKnow').style.display='none';document.getElementById('flashUnk').style.display='none';return;}flashCur=flashQueue[flashIdx];document.getElementById('flashCard').textContent=flashCur.w;var z=document.getElementById('flashZh');z.style.display='none';z.textContent=flashCur.zh;document.getElementById('flashReveal').style.display='inline-block';document.getElementById('flashKnow').style.display='none';document.getElementById('flashUnk').style.display='none';document.getElementById('flashStat').textContent='本輪：已認識 '+flashKnown+' / 共 '+flashTotal;}
 function flashReveal(){document.getElementById('flashZh').style.display='block';document.getElementById('flashZh').innerHTML=flashCur.zh+(flashCur.ipa?' <span class="ph">'+flashCur.ipa+'</span>':'');document.getElementById('flashReveal').style.display='none';document.getElementById('flashKnow').style.display='inline-block';document.getElementById('flashUnk').style.display='inline-block';}
 function flashKnow(){if(flashCur){hProg[flashCur.id]=true;saveH();}flashKnown++;flashTotal++;flashIdx++;document.getElementById('stHk').textContent=Object.keys(hProg).filter(function(k){return hProg[k];}).length;renderBadges();nextFlash();}

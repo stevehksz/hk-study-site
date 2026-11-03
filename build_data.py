@@ -235,6 +235,13 @@ for e in hk_words:
 n_ipa = sum(1 for e in hk_words if e['ipa'])
 print(f'港小基礎詞：{len(hk_words)} 條（坊間整理，EDB 無官方分級必背詞表，年級為估算）；音標 {n_ipa} 條')
 
+# ---- 香港初中（中一至中三）通用英文詞彙（坊間整理，與港小庫去重） ----
+SEC = os.path.join(WS, '_hk_secondary_words.json')
+sec_words = json.load(open(SEC, encoding='utf-8'))
+hk_words = hk_words + sec_words
+n_ipa2 = sum(1 for e in sec_words if e['ipa'])
+print(f'初中通用詞：{len(sec_words)} 條（坊間整理，年級為估算）；音標 {n_ipa2} 條')
+
 # ---- 牛津树閱讀書單（build_ort.py 提取，正課視頻文件名 → 書名，按階分組，多集合併） ----
 
 
@@ -242,7 +249,7 @@ data = {'poems': poems, 'vocab': vocab, 'hk_words': hk_words,
         'meta': {'pinyin': 'pypinyin 生成，多音字/生僻字以课本为准',
                  'jyutping': 'jyutping 生成 + 人工校正（异体字/粤语特色音/古诗多音字），以粤语字典为准',
                  'vocab': 'word-atlas B1 档（CC BY 4.0，须署名 Word Atlas contributors 词光）',
-                 'hk_words': '坊間整理通用基礎詞，非 EDB 官方分級詞表；年級歸屬為常見教學進度估算，僅供練習參考；音標為英式 DJ 音標人工標注，以詞典為準',
+                 'hk_words': '坊間整理通用基礎詞（小學 P1–P6＋初中 S1–S3），非 EDB 官方分級詞表；年級歸屬為常見教學進度估算，僅供練習參考；音標為英式 DJ 音標人工標注，以詞典為準',
                                 }}
 out = os.path.join(WS, 'build_data.json')
 json.dump(data, open(out, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
