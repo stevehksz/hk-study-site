@@ -521,13 +521,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.45（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.46（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.45（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.46（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan">升學規劃</button>
@@ -1281,7 +1281,7 @@ Thank you for your time.</div>
       <span class="chip" data-m="bil">雙語 1</span>
     </div>
     <p class="tip" style="margin:4px 0 10px">檔位＝跨境通勤便利粗分（依已核實地址推算，非官方）：首選＝上水市區（羅湖 1 站，步行/短保姆車可及）｜常規＝粉嶺/聯和墟/皇后山（東鐵 2 站）｜偏遠＝鄉郊/邊境（須保姆車）。點 chips 可疊加單選篩選。</p>
-    <div class="tablewrap">
+    <div class="scroll-x">
       <table id="psTable">
         <thead><tr><th style="width:52px">檔位</th><th>學校</th><th>類型</th><th>語言</th><th>校網 · 位置</th><th>備註</th><th>電話<br><span style="font-weight:400;color:#a33">核對 2026-11-02</span></th></tr></thead>
         <tbody>
@@ -3614,7 +3614,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.45',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.46',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
