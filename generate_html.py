@@ -35,7 +35,12 @@ TEMPLATE = r'''<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>香港教學速覽 · 中英數 ＋ 練習</title>
+<title>香港插班擇校 · 北區中小學名單＋申請時間線｜葉工</title>
+<meta name="description" content="香港新界北區跨境學童插班指南：北區小學 30 所／中學 20 所名單（電話·校網·檔位篩選）、申請時間線、材料清單、中英數練習。葉工整理，全站免費。">
+<meta property="og:title" content="香港插班擇校 · 北區中小學名單＋申請時間線｜葉工">
+<meta property="og:description" content="北區小學 30 所／中學 20 所（電話·校網·檔位篩選）＋插班時間線＋材料清單＋中英數練習，跨境學童家長免費使用。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stevehksz.github.io/hk-study-site/">
 <style>
   :root{--bg:#eef1f7;--card:#fff;--ink:#1b2435;--mut:#6b7280;--acc:#4f46e5;--jy:#d6452f;--line:#e7eaf2;--math:#0d9488;--acc2:#c79a3a;--grad:linear-gradient(135deg,#4f46e5 0%,#6d28d9 55%,#4338ca 100%);--gold:linear-gradient(135deg,#e7c074,#c79a3a);--shadow-sm:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);--shadow-md:0 6px 16px -4px rgba(16,24,40,.12),0 12px 28px -10px rgba(16,24,40,.14);--radius:16px}
   *{box-sizing:border-box}
@@ -477,6 +482,12 @@ header{position:relative}
 .ort-bk:hover{border-color:var(--math);color:var(--math)}
 .ort-bk.done{background:var(--math);border-color:var(--math);color:#fff;text-decoration:line-through;opacity:.85}
 .ort-bk .ort-n{font-size:11px;opacity:.75;margin-left:3px}
+  /* v1.48 悬浮咨询按钮 */
+  #ctaFab{position:fixed;right:14px;bottom:18px;z-index:15}
+  #ctaFabBtn{padding:11px 16px;border:none;border-radius:26px;background:linear-gradient(135deg,#2c7be5,#1a5fc4);color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px -4px rgba(28,90,180,.5)}
+  #ctaFabBtn:active{transform:scale(.96)}
+  #ctaModal .wechat{font-size:22px;font-weight:800;letter-spacing:.5px;color:#1a5fc4;background:#f0f6ff;border:1px dashed #9cc0ee;border-radius:8px;padding:10px 14px;text-align:center;margin:10px 0}
+  @media print{#ctaFab{display:none!important}}
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
 <script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js"></script>
@@ -521,17 +532,17 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.47（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.48（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.47（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.48（全站免費）</p>
 </header>
 <nav>
-  <button data-tab="plan">升學規劃</button>
-  <button data-tab="guide" class="on">速覽指南</button>
+  <button data-tab="plan" class="on">升學規劃</button>
+  <button data-tab="guide">速覽指南</button>
   <button data-tab="practice">練習</button>
   <button data-tab="progress">學習進度</button>
   <button data-tab="fun">悠閒</button>
@@ -549,7 +560,7 @@ header{position:relative}
 </div>
 
 <!-- ============ 速覽指南 ============ -->
-<div id="guideView">
+<div id="guideView" style="display:none">
   <!-- 中文 -->
   <div class="wrap gsec" id="cnView">
     <div class="gtitle">中文科 · 內地 vs 香港 速覽</div>
@@ -1060,7 +1071,7 @@ Thank you for your time.</div>
 </div>
 
 <!-- ============ 升學規劃（插班思路） ============ -->
-<div id="planView" style="display:none">
+<div id="planView">
   <div class="subnav" id="planSub">
     <button data-sub="timeline" class="on">時間線</button>
     <button data-sub="schools">擇校分檔</button>
@@ -1068,6 +1079,18 @@ Thank you for your time.</div>
     <button data-sub="study">學習路線</button>
     <button data-sub="policy">身份政策</button>
     <button data-sub="faq">常見問題</button>
+  </div>
+
+  <div class="wrap" id="welcomeCard">
+    <div class="gcard" style="border-left-color:#c79a3a">
+      <h3>👋 新來港家長，從這裡開始</h3>
+      <p style="margin-bottom:10px">三步走：先看學校定目標 → 對時間線排月曆 → 按清單備材料。學習提升路線和疑問解答也在本欄。</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" style="padding:10px 16px;font-size:14px" onclick="swPlan('schools')">🏫 看學校（小學 30＋中學 20）</button>
+        <button class="btn" style="padding:10px 16px;font-size:14px" onclick="swPlan('timeline')">📅 看申請時間線</button>
+        <button class="btn" style="padding:10px 16px;font-size:14px" onclick="swPlan('docs')">📋 材料清單</button>
+      </div>
+    </div>
   </div>
 
   <!-- 時間線 -->
@@ -1100,6 +1123,11 @@ Thank you for your time.</div>
   <div class="wrap" id="schoolsView" style="display:none">
     <div class="gsec">
       <h2>擇校分檔：北區中學 20 所＋東鐵沿線（大埔）20 所＋北區小學 30 所</h2>
+      <div style="display:flex;gap:10px;margin:12px 0">
+        <button class="btn" id="jmpPri" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🏫 北區小學 30 所</button>
+        <button class="btn" id="jmpSec" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🎓 北區中學 20 所</button>
+      </div>
+      <p class="tip" style="margin:0 0 6px">按上面按鈕直達對應名單；上次看的表會被記住。</p>
       <div class="gcard">
         <h3>北區跨境要點</h3>
         <p>北區（上水/粉嶺）是羅湖、福田（落馬洲支線）、文錦渡口岸入港第一站，東鐵線 1 站到上水、2 站到粉嶺，單程通關＋車程約 30–40 分鐘，跨境生比例全港最高。教育局有跨境學童派位安排，北區 <b>30 所學校</b>參與（2025 年度數據，中一跨境學額約 <b>171 個</b>，來源：教育局公開資料，坊間引用）。跨境校巴/保姆車體系成熟，校巴申請一般每年 5–6 月。</p>
@@ -1495,6 +1523,22 @@ Thank you for your time.</div>
 <div id="enPrintSheet" class="en-print"></div>
 <div id="mathPrintSheet" class="en-print"></div>
 <div id="examPrintSheet" class="en-print"></div>
+
+<!-- v1.48 悬浮咨询 -->
+<div id="ctaFab"><button id="ctaFabBtn">💬 諮詢葉工</button></div>
+<div class="mask" id="ctaMask">
+  <div class="modal" id="ctaModal">
+    <span class="x" id="ctaClose">×</span>
+    <h2>諮詢葉工</h2>
+    <p class="sub">擇校分析｜插班時間線｜學習規劃——直接加微信，備註「插班」</p>
+    <div class="wechat">SteveHKSZ</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="ctaCopy" style="padding:9px 16px">📋 複製微信號</button>
+      <a class="btn" href="mailto:hkeec2023@gmail.com" style="padding:9px 16px;text-decoration:none">📧 郵件諮詢</a>
+    </div>
+    <p style="font-size:12px;color:#8a8aa0;margin-top:12px">公眾號：史蒂夫HKSZ｜免費回答，擇校數據以教育局及學校官網為準</p>
+  </div>
+</div>
 
 <div class="wrap" id="aboutView">
   <div class="gcard about-card">
@@ -2379,7 +2423,7 @@ function speakPoem(){
 }
 
 // ---- 主導航 + 子導航 ----
-let curTab='guide', curGuide='cn', curPractice='cn', curPlan='timeline';
+let curTab='plan', curGuide='cn', curPractice='cn', curPlan='timeline';
 function showMain(m){
   curTab=m;
   document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.tab===m));
@@ -2393,6 +2437,22 @@ function showMain(m){
   document.getElementById('practiceSub').style.display = m==='practice'?'flex':'none';
   if(m==='progress')renderProgress();
 }
+
+// ---- v1.48 悬浮咨询按钮 ----
+(function(){
+  const fab=document.getElementById('ctaFabBtn'),mask=document.getElementById('ctaMask'),x=document.getElementById('ctaClose');
+  if(!fab||!mask)return;
+  fab.onclick=()=>mask.classList.add('show');
+  x.onclick=()=>mask.classList.remove('show');
+  mask.onclick=e=>{if(e.target===mask)mask.classList.remove('show')};
+  const cp=document.getElementById('ctaCopy');
+  if(cp)cp.onclick=()=>{
+    const t='SteveHKSZ', done=()=>{const o=cp.textContent;cp.textContent='✅ 已複製';setTimeout(()=>cp.textContent=o,1500);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallback());}
+    else fallback();
+    function fallback(){const i=document.createElement('input');i.value=t;document.body.appendChild(i);i.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(i);done();}
+  };
+})();
 
 // ---- 單詞貪吃蛇（悠閒 · 邊玩邊記） ----
 (function(){
@@ -2474,11 +2534,24 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   document.getElementById('mathPracView').style.display = curPractice==='math'?'block':'none';
   if(curPractice==='en'){renderHk();renderVocab();}
 });
-document.querySelectorAll('#planSub button').forEach(b=>b.onclick=()=>{
-  curPlan=b.dataset.sub;
-  document.querySelectorAll('#planSub button').forEach(x=>x.classList.toggle('on',x===b));
-  ['timeline','schools','docs','study','policy','faq'].forEach(s=>{const el=document.getElementById(s+'View'); if(el) el.style.display = s===curPlan?'block':'none';});
-});
+function swPlan(s){
+  curPlan=s;
+  document.querySelectorAll('#planSub button').forEach(x=>x.classList.toggle('on',x.dataset.sub===s));
+  ['timeline','schools','docs','study','policy','faq'].forEach(t=>{const el=document.getElementById(t+'View'); if(el) el.style.display = t===s?'block':'none';});
+}
+document.querySelectorAll('#planSub button').forEach(b=>b.onclick=()=>swPlan(b.dataset.sub));
+// v1.48 擇校頁小學/中學置頂切換（滾動定位＋記住上次）
+function jmpSch(k){
+  const t=document.getElementById(k==='pri'?'psTable':'ssTable'); if(!t)return;
+  const g=t.closest('.gsec')||t; if(g.scrollIntoView)g.scrollIntoView({behavior:'smooth',block:'start'});
+  try{localStorage.setItem('hkk_lastSchool',k)}catch(e){}
+}
+(function(){
+  const a=document.getElementById('jmpPri'),b=document.getElementById('jmpSec'); if(!a||!b)return;
+  a.onclick=()=>jmpSch('pri'); b.onclick=()=>jmpSch('sec');
+  let last=null; try{last=localStorage.getItem('hkk_lastSchool')}catch(e){}
+  if(last){const el=last==='pri'?a:b; el.style.borderColor='#0d9488'; el.style.color='#0d9488';}
+})();
 // 英文練習內部分類切換（港小生字 / 詞表）
 // ---- v1.24 呈分試卷（英文呈分試模擬卷 · P5–P6 · 仿編原創） ----
 // 版式仿照坊間呈分試卷：生詞表＋詞形填空＋明喻/習語/時態篇章/職業對話/情境造句/短語動詞/量詞連詞/閱讀理解，全卷 100%。
@@ -3614,7 +3687,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.47',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.48',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

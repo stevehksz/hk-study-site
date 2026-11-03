@@ -673,7 +673,7 @@ try{
   ok('v1.45 身份政策時間線只剩中學線', !/時間線（以 2027\.9 入中一為例）[\s\S]*插小二為例/.test(html.slice(html.indexOf('timelineView'), html.indexOf('schoolsView'))));
   ok('v1.45 頁腳微信號 SteveHKSZ', html.includes('微信號：<b>SteveHKSZ</b>'));
   ok('v1.46 小學表包 scroll-x（與中學一致，手機橫向滾動）', /<div class="scroll-x">\s*<table (class="mtable" )?id="psTable">/.test(html));
-  ok('v1.47 小學表帶 mtable class（min-width 780px 生效）', /<table class="mtable" id="psTable">/.test(html) && /公開版 v1\.47/.test(html));
+  ok('v1.47 小學表帶 mtable class（min-width 780px 生效）', /<table class="mtable" id="psTable">/.test(html));
 }catch(e){ ok('v1.45 小學表測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.37 本地播放 ▶ ============
@@ -716,6 +716,17 @@ ok('v1.44 小学插班时间线表存在（v1.45 起迁入择校分档）', /小
 ok('v1.44 小学时间线含直接向学校申请', html.includes('沒有中央派位') && html.includes('逐校向校務處交表'));
 ok('v1.44 中学时间线仍在', html.includes('中學插班（以 2027.9 入中一為例）') && html.includes('放榜＝2027.7.6'));
 ok('v1.44 春季卡补身份赶不上提示', html.includes('2027 年春季批趕不上'));
+
+// ============ v1.48 A批：title+OG / 默认首屏 / 择校切换 / 悬浮咨询 ============
+try{
+  ok('v1.48 title 改插班擇校關鍵詞', /<title>香港插班擇校 · 北區中小學名單＋申請時間線｜葉工<\/title>/.test(html));
+  ok('v1.48 meta description＋OG 四標籤齊', /<meta name="description" content="香港新界北區/.test(html) && (html.match(/<meta property="og:/g)||[]).length===4);
+  ok('v1.48 默認主 tab＝升學規劃（nav on＋planView 可見＋guideView 隱藏）', doc.querySelector('nav button.on').dataset.tab==='plan' && !/id="planView" style="display:none/.test(html) && /id="guideView" style="display:none/.test(html) && /let curTab='plan'/.test(html));
+  ok('v1.48 引導卡 3 按鈕（schools/timeline/docs）', /id="welcomeCard"/.test(html) && (html.match(/onclick="swPlan\('/g)||[]).length===3);
+  ok('v1.48 擇校頁小學/中學切換按鈕＋jmpSch 函數', /id="jmpPri"/.test(html) && /id="jmpSec"/.test(html) && /function jmpSch\(/.test(html));
+  ok('v1.48 悬浮諮詢按鈕＋彈層（SteveHKSZ＋複製＋列印隱藏）', /id="ctaFabBtn">💬 諮詢葉工</.test(html) && /<div class="wechat">SteveHKSZ<\/div>/.test(html) && /id="ctaCopy"/.test(html) && /@media print\{#ctaFab\{display:none!important\}\}/.test(html));
+  ok('v1.48 版本號 v1.48（footer×2＋ver）', (html.match(/公開版 v1\.48/g)||[]).length===2 && /hkk_v1\.48/.test(html));
+}catch(e){ ok('v1.48 A批測試執行', false); console.log('   err='+e.message); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
