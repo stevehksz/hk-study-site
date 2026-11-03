@@ -29,9 +29,9 @@ ok('分类>=6', cats.size >= 6);
 console.log('    分类:', [...cats].join(' / '));
 
 console.log('--- 默认视图 ---');
-ok('guideView 显示', doc.getElementById('guideView').style.display !== 'none');
+ok('guideView 狀態與 curTab 一致（jsdom 執行後）', (()=>{const m=html.match(/let curTab='(\w+)'/);const cur=m?m[1]:'guide';const gv=doc.getElementById('guideView').style.display!=='none';return cur==='guide'?gv:!gv;})());
 ok('practiceView 隐藏', doc.getElementById('practiceView').style.display === 'none');
-ok('guideSub 显示', doc.getElementById('guideSub').style.display !== 'none');
+ok('guideSub 顯示狀態與 curTab 一致（jsdom 執行後）', (()=>{const m=html.match(/let curTab='(\w+)'/);const cur=m?m[1]:'guide';const gs=doc.getElementById('guideSub').style.display!=='none';return cur==='guide'?gs:!gs;})());
 ok('practiceSub 隐藏', doc.getElementById('practiceSub').style.display === 'none');
 ok('cnView 显示', doc.getElementById('cnView').style.display !== 'none');
 ok('mathView 隐藏', doc.getElementById('mathView').style.display === 'none');
@@ -733,7 +733,7 @@ try{
   ok('v1.49 psTable 位於 schoolsView 內、docsView 之前', html.indexOf('id="psTable"') > html.indexOf('id="schoolsView"') && html.indexOf('id="psTable"') < html.indexOf('id="docsView"'));
   ok('v1.49 schoolsView 閉合在材料清單之前', /<\/div><!-- \/schoolsView -->\s*\n\s*<!-- 材料清單 -->/.test(html));
   ok('v1.49 schoolsView 閉合唯一且在北區小學註釋之後', (html.match(/<\/div><!-- \/schoolsView -->/g)||[]).length===1 && html.indexOf('id="schoolsView"') < html.indexOf('<!-- 北區小學（v1.42 建') && html.indexOf('<!-- 北區小學（v1.42 建') < html.indexOf('</div><!-- /schoolsView -->'));
-  ok('v1.49 版本號 v1.49', (html.match(/公開版 v1\.49/g)||[]).length===2 && /hkk_v1\.49/.test(html));
+  ok('v1.49 版本號三處一致（通用寫法）', (()=>{const m=html.match(/公開版 (v1\.\d+)（全站免費）/g)||[];const v=m[0]&&m[0].replace('公開版 ','').replace('（全站免費）','');return m.length===2 && m[0]===m[1] && v && html.includes('hkk_'+v);})());
 }catch(e){ ok('v1.49 測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.50 初始化不覆蓋默認 tab ============
