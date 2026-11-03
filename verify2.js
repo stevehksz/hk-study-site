@@ -722,7 +722,7 @@ try{
   ok('v1.48 title 改插班擇校關鍵詞', /<title>香港插班擇校 · 北區中小學名單＋申請時間線｜葉工<\/title>/.test(html));
   ok('v1.48 meta description＋OG 四標籤齊', /<meta name="description" content="香港新界北區/.test(html) && (html.match(/<meta property="og:/g)||[]).length===4);
   ok('v1.48 默認主 tab＝升學規劃（nav on＋planView 可見＋guideView 隱藏）', doc.querySelector('nav button.on').dataset.tab==='plan' && !/id="planView" style="display:none/.test(html) && /id="guideView" style="display:none/.test(html) && /let curTab='plan'/.test(html));
-  ok('v1.48 引導卡 3 按鈕（schools/timeline/docs）', /id="welcomeCard"/.test(html) && (html.match(/onclick="swPlan\('/g)||[]).length===3);
+  ok('v1.51 引導卡已刪除（葉工：用子目錄導航）', !html.includes('welcomeCard') && !html.includes('從這裡開始'));
   ok('v1.48 擇校頁小學/中學切換按鈕＋jmpSch 函數', /id="jmpPri"/.test(html) && /id="jmpSec"/.test(html) && /function jmpSch\(/.test(html));
   ok('v1.48 悬浮諮詢按鈕＋彈層（SteveHKSZ＋複製＋列印隱藏）', /id="ctaFabBtn">💬 諮詢葉工</.test(html) && /<div class="wechat">SteveHKSZ<\/div>/.test(html) && /id="ctaCopy"/.test(html) && /@media print\{#ctaFab\{display:none!important\}\}/.test(html));
   ok('v1.48 版本號三處一致（footer×2 同一版本＋ver）', (()=>{const m=html.match(/公開版 (v1\.\d+)（全站免費）/g)||[];const v=m[0]&&m[0].replace('公開版 ','').replace('（全站免費）','');return m.length===2 && m[0]===m[1] && v && html.includes('hkk_'+v);})());
