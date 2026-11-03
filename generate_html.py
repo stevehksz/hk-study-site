@@ -521,13 +521,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.44（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.45（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.44（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.45（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan">升學規劃</button>
@@ -1073,25 +1073,8 @@ Thank you for your time.</div>
   <!-- 時間線 -->
   <div class="wrap" id="timelineView">
     <div class="gsec">
-      <h2>申請時間線（中學插班＋小學插班，以 2027.9 入學為例）</h2>
+      <h2>申請時間線（以 2027.9 入中一為例）</h2>
       <p class="tip">適用以 9 月入學為主批、1 月春季為備選。具體日期以教育局及各校官網當年公告為準。</p>
-
-      <h3>🏫 小學插班（以 2027.9 插小二為例——本家庭適用）</h3>
-      <table class="mtable">
-        <thead><tr><th style="width:90px">階段</th><th style="width:140px">時間</th><th>動作</th></tr></thead>
-        <tbody>
-          <tr><td>備戰期</td><td>2026.10–2027.2</td><td>收集成績單（蓋章）＋繁體/英文翻譯；定 6–8 所北區小學選校單（校網 <b>80 = 上水跨境最優</b>）；低小插班看重<b>聽說與識字</b>，英文起步以牛津樹繪本＋日常聽說為主</td></tr>
-          <tr><td>申請高峰<br>（直接向學校申請）</td><td><b>2027.3–5</b></td><td>⚠️ 小學插班<b>沒有中央派位</b>——官津小學由各校自收插班生，逐校向校務處交表（電話先問是否收插班、收哪級）；直資/私立時間更早，逐校看公告</td></tr>
-          <tr><td>筆面試</td><td>2027.5–7</td><td>低小多為<b>中英面談＋遊戲觀察</b>，部分校有簡單筆試（坊間整理，以各校為準）；同步辦香港身份證；教育局途徑三（區域教育服務處登記學位需求）<b>5–8 月</b>可登記，兜底不會沒書讀</td></tr>
-          <tr><td>確認學位</td><td>2027.7–8</td><td>跟進各校空缺答覆；收 Offer 後 <b>3–7 天內繳留位費</b>；⚠️ 校巴/保姆車正期申請 <b>5–6 月</b>，7–8 月只能問補位</td></tr>
-          <tr><td>入學</td><td>2027.9</td><td>辦內地學籍轉出；校服書單；跨境生出席首日安排（校巴線路/集合點 8 月底與營辦商確認）</td></tr>
-        </tbody>
-      </table>
-      <div class="gcard warn">
-        <h3>小學插班與中學的兩個關鍵區別</h3>
-        <p>① <b>沒有統一派位</b>：中學插班還能蹭中一派位放榜後的叩門潮，小學插班全靠<b>逐校直接申請</b>，3–5 月就要動手，不能等 7 月；② <b>呈分試暫不相關</b>：呈分試影響中一派位，P5–P6 才關鍵——低小（P1–P3）插班主要看面談表現＋學位空缺，難度低於中學插班，但熱門校網（80）學位也緊張。</p>
-        <p class="src">來源：教育局區域教育服務處插班安排（官方途徑）＋各校插班慣例（坊間整理）｜以各校官網當年公告為準</p>
-      </div>
 
       <h3>🎓 中學插班（以 2027.9 入中一為例）</h3>
       <table class="mtable">
@@ -1260,6 +1243,23 @@ Thank you for your time.</div>
   <!-- 北區小學（v1.42） -->
   <div class="gsec">
     <h2>北區小學 30 所（P1–P6 插班 · 小一校網 80/81/83）</h2>
+      <h3>🏫 小學插班時間線（以 2027.9 插小二為例——本家庭適用）</h3>
+      <table class="mtable">
+        <thead><tr><th style="width:90px">階段</th><th style="width:140px">時間</th><th>動作</th></tr></thead>
+        <tbody>
+          <tr><td>備戰期</td><td>2026.10–2027.2</td><td>收集成績單（蓋章）＋繁體/英文翻譯；定 6–8 所北區小學選校單（校網 <b>80 = 上水跨境最優</b>）；低小插班看重<b>聽說與識字</b>，英文起步以牛津樹繪本＋日常聽說為主</td></tr>
+          <tr><td>申請高峰<br>（直接向學校申請）</td><td><b>2027.3–5</b></td><td>⚠️ 小學插班<b>沒有中央派位</b>——官津小學由各校自收插班生，逐校向校務處交表（電話先問是否收插班、收哪級）；直資/私立時間更早，逐校看公告</td></tr>
+          <tr><td>筆面試</td><td>2027.5–7</td><td>低小多為<b>中英面談＋遊戲觀察</b>，部分校有簡單筆試（坊間整理，以各校為準）；同步辦香港身份證；教育局途徑三（區域教育服務處登記學位需求）<b>5–8 月</b>可登記，兜底不會沒書讀</td></tr>
+          <tr><td>確認學位</td><td>2027.7–8</td><td>跟進各校空缺答覆；收 Offer 後 <b>3–7 天內繳留位費</b>；⚠️ 校巴/保姆車正期申請 <b>5–6 月</b>，7–8 月只能問補位</td></tr>
+          <tr><td>入學</td><td>2027.9</td><td>辦內地學籍轉出；校服書單；跨境生出席首日安排（校巴線路/集合點 8 月底與營辦商確認）</td></tr>
+        </tbody>
+      </table>
+      <div class="gcard warn">
+        <h3>小學插班與中學的兩個關鍵區別</h3>
+        <p>① <b>沒有統一派位</b>：中學插班還能蹭中一派位放榜後的叩門潮，小學插班全靠<b>逐校直接申請</b>，3–5 月就要動手，不能等 7 月；② <b>呈分試暫不相關</b>：呈分試影響中一派位，P5–P6 才關鍵——低小（P1–P3）插班主要看面談表現＋學位空缺，難度低於中學插班，但熱門校網（80）學位也緊張。</p>
+        <p class="src">來源：教育局區域教育服務處插班安排（官方途徑）＋各校插班慣例（坊間整理）｜以各校官網當年公告為準</p>
+      </div>
+
     <div class="gcard">
       <h3>🎯 小學插班怎麼用這張表（P1–P2 年齡段）</h3>
       <p>① <b>通勤選校網</b>：校網 80＝上水（羅湖口岸 1 站，跨境最優先看這網）；校網 81＝粉嶺/聯和墟（再一站，皇后山新校區偏一點）；校網 83＝沙頭角（邊境禁區範圍，通勤遠，跨境生一般要保姆車，普通家庭不建議）。</p>
@@ -1269,46 +1269,52 @@ Thank you for your time.</div>
       <p class="src">事實欄（種類/校網/宗教/地址/電話）：schooland.hk 北區小學頁＋各校檔案頁＋教育局學校搜尋（馬錦燦地址以教育局為準），2026-11-02 核對；普教中名單＝schooland 匯總；插班窗口為坊間通行整理。以學校官網當年公告為準。</p>
     </div>
     <div class="chips" id="psChips">
-      <span class="chip on" data-f="all">全部 30</span>
-      <span class="chip" data-f="80">校網80（上水）14</span>
-      <span class="chip" data-f="81">校網81（粉嶺）14</span>
-      <span class="chip" data-f="83">校網83（沙頭角）2</span>
-      <span class="chip" data-f="gov">官立 1</span>
+      <span class="chip on" data-m="all">全部 30</span>
+      <span class="chip" data-m="t1">首選·上水市區 12</span>
+      <span class="chip" data-m="t2">常規·粉嶺/皇后山 14</span>
+      <span class="chip" data-m="t3">偏遠·鄉郊邊境 4</span>
+      <span class="chip" data-m="80">校網80 14</span>
+      <span class="chip" data-m="81">校網81 14</span>
+      <span class="chip" data-m="83">校網83 2</span>
+      <span class="chip" data-m="gov">官立 1</span>
+      <span class="chip" data-m="pth">普教中 5</span>
+      <span class="chip" data-m="bil">雙語 1</span>
     </div>
+    <p class="tip" style="margin:4px 0 10px">檔位＝跨境通勤便利粗分（依已核實地址推算，非官方）：首選＝上水市區（羅湖 1 站，步行/短保姆車可及）｜常規＝粉嶺/聯和墟/皇后山（東鐵 2 站）｜偏遠＝鄉郊/邊境（須保姆車）。點 chips 可疊加單選篩選。</p>
     <div class="tablewrap">
       <table id="psTable">
-        <thead><tr><th>學校</th><th>類型</th><th>校網</th><th>宗教</th><th>位置</th><th>電話<br><span style="font-weight:400;color:#a33">核對 2026-11-02</span></th><th>備註</th></tr></thead>
+        <thead><tr><th style="width:52px">檔位</th><th>學校</th><th>類型</th><th>語言</th><th>校網 · 位置</th><th>備註</th><th>電話<br><span style="font-weight:400;color:#a33">核對 2026-11-02</span></th></tr></thead>
         <tbody>
-          <tr data-net="80"><td>香海正覺蓮社佛教正慧小學</td><td>資助</td><td>80</td><td>佛教</td><td>上水清城路6號</td><td><a href="tel:26689088">2668 9088</a></td><td>2003創校，近上水站</td></tr>
-          <tr data-net="80"><td>育賢學校</td><td>資助</td><td>80</td><td>—</td><td>上水馬會道</td><td><a href="tel:26729917">2672 9917</a></td><td>1939創校，每級僅1班</td></tr>
-          <tr data-net="80"><td>石湖墟公立學校</td><td>資助</td><td>80</td><td>—</td><td>上水天平邨</td><td><a href="tel:26721225">2672 1225</a></td><td></td></tr>
-          <tr data-net="80"><td>東華三院港九電器商聯會小學</td><td>資助</td><td>80</td><td>—</td><td>上水石湖墟智昌路</td><td><a href="tel:26723285">2672 3285</a></td><td></td></tr>
-          <tr data-net="80"><td>東華三院馬錦燦紀念小學</td><td>資助</td><td>80</td><td>—</td><td>上水彩園邨（清城路2號）</td><td><a href="tel:26711071">2671 1071</a></td><td>⚠️ schooland 表行誤標沙田火炭，教育局+校方申請表確認上水彩園邨</td></tr>
-          <tr data-net="80"><td>香海正覺蓮社佛教陳式宏學校</td><td>資助</td><td>80</td><td>佛教</td><td>上水彩園邨</td><td><a href="tel:26724813">2672 4813</a></td><td>近彩園邨，鄰近上水站</td></tr>
-          <tr data-net="80"><td>金錢村何東學校</td><td>資助</td><td>80</td><td>—</td><td>上水金錢村</td><td><a href="tel:26703849">2670 3849</a></td><td>鄉郊小校，近邊境</td></tr>
-          <tr data-net="80"><td>聖公會榮真小學</td><td>資助</td><td>80</td><td>基督教</td><td>粉嶺吉祥街3號</td><td><a href="tel:26703338">2670 3338</a></td><td>地址在粉嶺但屬校網80</td></tr>
-          <tr data-net="80"><td>曾梅千禧學校</td><td>資助</td><td>80</td><td>—</td><td>上水清城路1號</td><td><a href="tel:26703111">2670 3111</a></td><td>30班大校，每級5班</td></tr>
-          <tr data-net="80"><td>上水惠州公立學校</td><td>資助</td><td>80</td><td>—</td><td>上水天平路51號</td><td><a href="tel:26731183">2673 1183</a></td><td></td></tr>
-          <tr data-net="80"><td>鳳溪第一小學</td><td>資助</td><td>80</td><td>—</td><td>上水馬會道19號</td><td><a href="tel:26709353">2670 9353</a></td><td>鳳溪系，校園超大型</td></tr>
-          <tr data-net="80"><td>鳳溪創新小學</td><td>資助</td><td>80</td><td>—</td><td>上水馬會道19號A</td><td><a href="tel:26392201">2639 2201</a></td><td><b>全校普教中</b>，4位外籍英語教師</td></tr>
-          <tr data-net="80"><td>李志達紀念學校</td><td>資助</td><td>80</td><td>—</td><td>上水天平路30號</td><td><a href="tel:26738581">2673 8581</a></td><td></td></tr>
-          <tr data-net="80"><td>東莞學校</td><td>資助</td><td>80</td><td>—</td><td>上水馬會道</td><td><a href="tel:26700334">2670 0334</a></td><td>1959創校</td></tr>
-          <tr data-net="81" data-gov="1"><td>粉嶺官立小學</td><td>官立</td><td>81</td><td>—</td><td>粉嶺祥華村</td><td><a href="tel:26692024">2669 2024</a></td><td>聯繫中學：粉嶺官立/上水官立（升中統一派位保留學位）</td></tr>
-          <tr data-net="81"><td>五旬節靳茂生小學</td><td>資助</td><td>81</td><td>基督教</td><td>粉嶺璧峰路4號</td><td><a href="tel:26700103">2670 0103</a></td><td>普教中（部分班）</td></tr>
-          <tr data-net="81"><td>聖公會嘉福榮真小學</td><td>資助</td><td>81</td><td>基督教</td><td>粉嶺嘉福邨</td><td><a href="tel:29476888">2947 6888</a></td><td></td></tr>
-          <tr data-net="81"><td>基督教粉嶺神召會小學</td><td>資助</td><td>81</td><td>基督教</td><td>粉嶺和鳴里2號</td><td><a href="tel:29479966">2947 9966</a></td><td></td></tr>
-          <tr data-net="81"><td>鳳溪廖潤琛紀念學校</td><td>資助</td><td>81</td><td>—</td><td>粉嶺華明邨</td><td><a href="tel:26772311">2677 2311</a></td><td></td></tr>
-          <tr data-net="81"><td>方樹福堂基金方樹泉小學</td><td>資助</td><td>81</td><td>—</td><td>粉嶺華明邨二期</td><td><a href="tel:27082211">2708 2211</a></td><td></td></tr>
-          <tr data-net="81"><td>五旬節于良發小學</td><td>資助</td><td>81</td><td>基督教</td><td>粉嶺暉明路16號</td><td><a href="tel:26795626">2679 5626</a></td><td>普教中（部分班）</td></tr>
-          <tr data-net="81"><td>上水宣道小學</td><td>資助</td><td>81</td><td>基督教</td><td>粉嶺聯和墟和睦路2號</td><td><a href="tel:26702257">2670 2257</a></td><td>聯和墟中心位置</td></tr>
-          <tr data-net="81"><td>粉嶺公立學校</td><td>資助</td><td>81</td><td>—</td><td>粉嶺粉嶺村651號</td><td><a href="tel:26702297">2670 2297</a></td><td>1936創校</td></tr>
-          <tr data-net="81"><td>香海正覺蓮社佛教正覺蓮社學校</td><td>資助</td><td>81</td><td>佛教</td><td>粉嶺一鳴路12號</td><td><a href="tel:26754411">2675 4411</a></td><td></td></tr>
-          <tr data-net="81"><td>寶血會培靈學校</td><td>資助</td><td>81</td><td>天主教</td><td>粉嶺安樂村安樂門街13號</td><td><a href="tel:26756617">2675 6617</a></td><td></td></tr>
-          <tr data-net="81"><td>東華三院曾憲備小學</td><td>資助</td><td>81</td><td>—</td><td>粉嶺龍馬路53號（皇后山）</td><td><a href="tel:23709811">2370 9811</a></td><td>2021創校，<b>中英並重雙語教學</b></td></tr>
-          <tr data-net="81"><td>救世軍中原慈善基金皇后山學校</td><td>資助</td><td>81</td><td>基督教</td><td>粉嶺龍峻路2號（皇后山）</td><td><a href="tel:31510323">3151 0323</a></td><td>2021創校新校</td></tr>
-          <tr data-net="81"><td>打鼓嶺嶺英公立學校</td><td>資助</td><td>81</td><td>—</td><td>打鼓嶺週田村</td><td><a href="tel:26740538">2674 0538</a></td><td>邊境鄉郊小校，普教中（部分班）；跨境通勤須保姆車</td></tr>
-          <tr data-net="83"><td>福德學社小學</td><td>資助</td><td>83</td><td>—</td><td>沙頭角山咀村</td><td><a href="tel:26742120">2674 2120</a></td><td>沙頭角邊境，通勤遠</td></tr>
-          <tr data-net="83"><td>沙頭角中心小學</td><td>資助</td><td>83</td><td>—</td><td>沙頭角墟第四區</td><td><a href="tel:26749080">2674 9080</a></td><td>普教中（部分班）；沙頭角屬邊境禁區範圍</td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>香海正覺蓮社佛教正慧小學</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水清城路6號</td><td>宗教·佛教｜2003創校，近上水站</td><td><a href="tel:26689088">2668 9088</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>育賢學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水馬會道</td><td>1939創校，每級僅1班</td><td><a href="tel:26729917">2672 9917</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>石湖墟公立學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水天平邨</td><td></td><td><a href="tel:26721225">2672 1225</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>東華三院港九電器商聯會小學</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水石湖墟智昌路</td><td></td><td><a href="tel:26723285">2672 3285</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>東華三院馬錦燦紀念小學</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水彩園邨（清城路2號）</td><td>⚠️ schooland 表行誤標沙田火炭，教育局+校方申請表確認上水彩園邨</td><td><a href="tel:26711071">2671 1071</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>香海正覺蓮社佛教陳式宏學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水彩園邨</td><td>宗教·佛教｜近彩園邨，鄰近上水站</td><td><a href="tel:26724813">2672 4813</a></td></tr>
+          <tr data-m="80 t3"><td class="tier3">偏遠</td><td>金錢村何東學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水金錢村</td><td>鄉郊小校，近邊境</td><td><a href="tel:26703849">2670 3849</a></td></tr>
+          <tr data-m="80 t2"><td class="tier2">常規</td><td>聖公會榮真小學</td><td>資助</td><td>中文（粵）</td><td>80網 · 粉嶺吉祥街3號</td><td>宗教·基督教｜地址在粉嶺但屬校網80</td><td><a href="tel:26703338">2670 3338</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>曾梅千禧學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水清城路1號</td><td>30班大校，每級5班</td><td><a href="tel:26703111">2670 3111</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>上水惠州公立學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水天平路51號</td><td></td><td><a href="tel:26731183">2673 1183</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>鳳溪第一小學</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水馬會道19號</td><td>鳳溪系，校園超大型</td><td><a href="tel:26709353">2670 9353</a></td></tr>
+          <tr data-m="80 t1 pth"><td class="tier1">首選</td><td>鳳溪創新小學</td><td>資助</td><td><b>全校普教中</b></td><td>80網 · 上水馬會道19號A</td><td><b>全校普教中</b>，4位外籍英語教師</td><td><a href="tel:26392201">2639 2201</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>李志達紀念學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水天平路30號</td><td></td><td><a href="tel:26738581">2673 8581</a></td></tr>
+          <tr data-m="80 t1"><td class="tier1">首選</td><td>東莞學校</td><td>資助</td><td>中文（粵）</td><td>80網 · 上水馬會道</td><td>1959創校</td><td><a href="tel:26700334">2670 0334</a></td></tr>
+          <tr data-m="81 t2 gov"><td class="tier2">常規</td><td>粉嶺官立小學</td><td>官立</td><td>中文（粵）</td><td>81網 · 粉嶺祥華村</td><td>聯繫中學：粉嶺官立/上水官立（升中統一派位保留學位）</td><td><a href="tel:26692024">2669 2024</a></td></tr>
+          <tr data-m="81 t2 pth"><td class="tier2">常規</td><td>五旬節靳茂生小學</td><td>資助</td><td>普教中（部分）</td><td>81網 · 粉嶺璧峰路4號</td><td>宗教·基督教｜普教中（部分班）</td><td><a href="tel:26700103">2670 0103</a></td></tr>
+          <tr data-m="81 t2"><td class="tier2">常規</td><td>聖公會嘉福榮真小學</td><td>資助</td><td>中文（粵）</td><td>81網 · 粉嶺嘉福邨</td><td>宗教·基督教</td><td><a href="tel:29476888">2947 6888</a></td></tr>
+          <tr data-m="81 t2"><td class="tier2">常規</td><td>基督教粉嶺神召會小學</td><td>資助</td><td>中文（粵）</td><td>81網 · 粉嶺和鳴里2號</td><td>宗教·基督教</td><td><a href="tel:29479966">2947 9966</a></td></tr>
+          <tr data-m="81 t2"><td class="tier2">常規</td><td>鳳溪廖潤琛紀念學校</td><td>資助</td><td>中文（粵）</td><td>81網 · 粉嶺華明邨</td><td></td><td><a href="tel:26772311">2677 2311</a></td></tr>
+          <tr data-m="81 t2"><td class="tier2">常規</td><td>方樹福堂基金方樹泉小學</td><td>資助</td><td>中文（粵）</td><td>81網 · 粉嶺華明邨二期</td><td></td><td><a href="tel:27082211">2708 2211</a></td></tr>
+          <tr data-m="81 t2 pth"><td class="tier2">常規</td><td>五旬節于良發小學</td><td>資助</td><td>普教中（部分）</td><td>81網 · 粉嶺暉明路16號</td><td>宗教·基督教｜普教中（部分班）</td><td><a href="tel:26795626">2679 5626</a></td></tr>
+          <tr data-m="81 t2"><td class="tier2">常規</td><td>上水宣道小學</td><td>資助</td><td>中文（粵）</td><td>81網 · 粉嶺聯和墟和睦路2號</td><td>宗教·基督教｜聯和墟中心位置</td><td><a href="tel:26702257">2670 2257</a></td></tr>
+          <tr data-m="81 t2"><td class="tier2">常規</td><td>粉嶺公立學校</td><td>資助</td><td>中文（粵）</td><td>81網 · 粉嶺粉嶺村651號</td><td>1936創校</td><td><a href="tel:26702297">2670 2297</a></td></tr>
+          <tr data-m="81 t2"><td class="tier2">常規</td><td>香海正覺蓮社佛教正覺蓮社學校</td><td>資助</td><td>中文（粵）</td><td>81網 · 粉嶺一鳴路12號</td><td>宗教·佛教</td><td><a href="tel:26754411">2675 4411</a></td></tr>
+          <tr data-m="81 t2"><td class="tier2">常規</td><td>寶血會培靈學校</td><td>資助</td><td>中文（粵）</td><td>81網 · 粉嶺安樂村安樂門街13號</td><td>宗教·天主教</td><td><a href="tel:26756617">2675 6617</a></td></tr>
+          <tr data-m="81 t2 bil"><td class="tier2">常規</td><td>東華三院曾憲備小學</td><td>資助</td><td><b>雙語（中英並重）</b></td><td>81網 · 粉嶺龍馬路53號（皇后山）</td><td>2021創校，<b>中英並重雙語教學</b></td><td><a href="tel:23709811">2370 9811</a></td></tr>
+          <tr data-m="81 t2"><td class="tier2">常規</td><td>救世軍中原慈善基金皇后山學校</td><td>資助</td><td>中文（粵）</td><td>81網 · 粉嶺龍峻路2號（皇后山）</td><td>宗教·基督教｜2021創校新校</td><td><a href="tel:31510323">3151 0323</a></td></tr>
+          <tr data-m="81 t3 pth"><td class="tier3">偏遠</td><td>打鼓嶺嶺英公立學校</td><td>資助</td><td>普教中（部分）</td><td>81網 · 打鼓嶺週田村</td><td>邊境鄉郊小校，普教中（部分班）；跨境通勤須保姆車</td><td><a href="tel:26740538">2674 0538</a></td></tr>
+          <tr data-m="83 t3"><td class="tier3">偏遠</td><td>福德學社小學</td><td>資助</td><td>中文（粵）</td><td>83網 · 沙頭角山咀村</td><td>沙頭角邊境，通勤遠</td><td><a href="tel:26742120">2674 2120</a></td></tr>
+          <tr data-m="83 t3 pth"><td class="tier3">偏遠</td><td>沙頭角中心小學</td><td>資助</td><td>普教中（部分）</td><td>83網 · 沙頭角墟第四區</td><td>普教中（部分班）；沙頭角屬邊境禁區範圍</td><td><a href="tel:26749080">2674 9080</a></td></tr>
         </tbody>
       </table>
     </div>
@@ -1494,7 +1500,7 @@ Thank you for your time.</div>
   <div class="gcard about-card">
     <h2>關於葉工 · 諮詢與合作</h2>
     <p>葉工（公眾號「史蒂夫HKSZ」）：香港註冊專業工程師（RPE）、英國特許工程師（CEng）、香港科技大學碩士，深港雙城生活。本站最初為女兒的插班學習工具，現免費開放給同路的內地家庭。</p>
-    <p>📧 <a href="mailto:hkeec2023@gmail.com">hkeec2023@gmail.com</a>（諮詢／合作／勘誤）　💬 公眾號搜「史蒂夫HKSZ」（插班乾貨更新）　🗓 擇校諮詢：郵件留言（孩子年級／身份／目標），會回覆安排</p>
+    <p>📧 <a href="mailto:hkeec2023@gmail.com">hkeec2023@gmail.com</a>（諮詢／合作／勘誤）　💬 微信號：<b>SteveHKSZ</b>（擇校諮詢直接加）　💬 公眾號搜「史蒂夫HKSZ」（插班乾貨更新）　🗓 或郵件留言（孩子年級／身份／目標），會回覆安排</p>
     <!-- TODO(v1.41+): 預約表單外鏈（騰訊問卷/金數據，待葉工開通帳號後填入）；數據埋點（51la/umami，同） -->
     <p class="folk">⚠️ 免責聲明：本站內容為公開資料整理與非官方參考（Band 組別等均非教育局公布），一切以學校官網、教育局、考評局當年公布為準；本站不構成任何升學承諾；牛津樹／朗文等教材內容僅限家庭學習，勿商用或外傳。</p>
   </div>
@@ -3366,10 +3372,10 @@ document.querySelectorAll('#tpChips .chip').forEach(c=>c.onclick=()=>{
   });
 });
 document.querySelectorAll('#psChips .chip').forEach(c=>c.onclick=()=>{
-  const k=c.dataset.f;
+  const k=c.dataset.m;
   document.querySelectorAll('#psChips .chip').forEach(x=>x.classList.toggle('on',x===c));
   document.querySelectorAll('#psTable tbody tr').forEach(tr=>{
-    tr.style.display=(k==='all'||tr.dataset.net===k||(k==='gov'&&tr.dataset.gov==='1'))?'':'none';
+    tr.style.display=(k==='all'||(' '+tr.dataset.m+' ').includes(' '+k+' '))?'':'none';
   });
 });
 function buildIntro(){
@@ -3608,7 +3614,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.44',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.45',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

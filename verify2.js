@@ -651,14 +651,28 @@ try{
 try{
   const psRows=[...doc.querySelectorAll('#psTable tbody tr')];
   ok('v1.42 小學表 30 行', psRows.length===30);
-  ok('v1.42 校網 80/81/83 = 14/14/2', psRows.filter(r=>r.dataset.net==='80').length===14 && psRows.filter(r=>r.dataset.net==='81').length===14 && psRows.filter(r=>r.dataset.net==='83').length===2);
+  ok('v1.42 校網 80/81/83 = 14/14/2（v1.45 起 data-m）', psRows.filter(r=>(' '+r.dataset.m+' ').includes(' 80 ')).length===14 && psRows.filter(r=>(' '+r.dataset.m+' ').includes(' 81 ')).length===14 && psRows.filter(r=>(' '+r.dataset.m+' ').includes(' 83 ')).length===2);
   ok('v1.42 30 行全帶 tel 電話', psRows.every(r=>r.querySelector('a[href^="tel:"]')));
   ok('v1.42 馬錦燦=上水彩園邨+26711071（非火炭）', psRows.some(r=>r.textContent.includes('馬錦燦紀念小學')&&r.textContent.includes('彩園邨')&&r.querySelector('a[href="tel:26711071"]')));
-  ok('v1.42 官立 chip 過濾=1 行（粉嶺官立）', (()=>{psRows.forEach(r=>r.style.display='none');doc.querySelector('#psChips .chip[data-f="gov"]').click();return psRows.filter(r=>r.style.display!=='none').length===1 && psRows.find(r=>r.style.display!=='none').textContent.includes('粉嶺官立小學');})());
-  ok('v1.42 全部 chip 恢復 30 可見', (()=>{doc.querySelector('#psChips .chip[data-f="all"]').click();return psRows.filter(r=>r.style.display!=='none').length===30;})());
+  ok('v1.45 官立 chip 過濾=1 行（粉嶺官立）', (()=>{psRows.forEach(r=>r.style.display='none');doc.querySelector('#psChips .chip[data-m="gov"]').click();return psRows.filter(r=>r.style.display!=='none').length===1 && psRows.find(r=>r.style.display!=='none').textContent.includes('粉嶺官立小學');})());
+  ok('v1.45 全部 chip 恢復 30 可見', (()=>{doc.querySelector('#psChips .chip[data-m="all"]').click();return psRows.filter(r=>r.style.display!=='none').length===30;})());
   ok('v1.42 普教中標註≥4 所', psRows.filter(r=>r.textContent.includes('普教中')).length>=4);
   ok('v1.42 全站 tel 鏈接 70 個（中40+小30）', doc.querySelectorAll('a[href^="tel:"]').length===70);
 }catch(e){ ok('v1.42 小學测试执行', false); console.log('   err='+e.message); }
+
+// ============ v1.45 小學表對齊中學格式 + 時間線搬遷 ============
+try{
+  const psRows2=[...doc.querySelectorAll('#psTable tbody tr')];
+  ok('v1.45 檔位 t1/t2/t3 = 12/14/4', psRows2.filter(r=>(' '+r.dataset.m+' ').includes(' t1 ')).length===12 && psRows2.filter(r=>(' '+r.dataset.m+' ').includes(' t2 ')).length===14 && psRows2.filter(r=>(' '+r.dataset.m+' ').includes(' t3 ')).length===4);
+  ok('v1.45 檔位首列 tier class 樣式', psRows2.filter(r=>r.querySelector('td.tier1')).length===12 && psRows2.filter(r=>r.querySelector('td.tier3')).length===4);
+  ok('v1.45 語言列：普教中 5+雙語 1', psRows2.filter(r=>(' '+r.dataset.m+' ').includes(' pth ')).length===5 && psRows2.filter(r=>(' '+r.dataset.m+' ').includes(' bil ')).length===1);
+  ok('v1.45 普教中 chip 點擊過濾=5', (()=>{psRows2.forEach(r=>r.style.display='none');doc.querySelector('#psChips .chip[data-m="pth"]').click();const n=psRows2.filter(r=>r.style.display!=='none').length;doc.querySelector('#psChips .chip[data-m="all"]').click();return n===5;})());
+  ok('v1.45 chips 10 個（data-m）', doc.querySelectorAll('#psChips .chip[data-m]').length===10);
+  ok('v1.45 分檔依據說明 tip 存在', /檔位＝跨境通勤便利粗分/.test(html));
+  ok('v1.45 時間線小學表已遷入擇校分檔（小學 30 所區塊內）', html.indexOf('插小二為例') > html.indexOf('北區小學 30 所') && html.indexOf('插小二為例') < html.indexOf('材料清單（按身份類型準備）'));
+  ok('v1.45 身份政策時間線只剩中學線', !/時間線（以 2027\.9 入中一為例）[\s\S]*插小二為例/.test(html.slice(html.indexOf('timelineView'), html.indexOf('schoolsView'))));
+  ok('v1.45 頁腳微信號 SteveHKSZ', html.includes('微信號：<b>SteveHKSZ</b>'));
+}catch(e){ ok('v1.45 小學表測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.37 本地播放 ▶ ============
 try{
@@ -696,7 +710,7 @@ ok('v1.43 51la SDK 脚本存在(https)', !!doc.querySelector('script#LA_COLLECT[
 ok('v1.43 51la LA.init id/ck 注入', /LA\.init\(\{id:"3RhjH055gOjxA8UA",ck:"3RhjH055gOjxA8UA"\}\)/.test(html));
 
 // ============ v1.44 时间线加小学插班 ============
-ok('v1.44 小学插班时间线表存在', /小學插班（以 2027\.9 插小二為例/.test(html));
+ok('v1.44 小学插班时间线表存在（v1.45 起迁入择校分档）', /小學插班時間線（以 2027\.9 插小二為例/.test(html));
 ok('v1.44 小学时间线含直接向学校申请', html.includes('沒有中央派位') && html.includes('逐校向校務處交表'));
 ok('v1.44 中学时间线仍在', html.includes('中學插班（以 2027.9 入中一為例）') && html.includes('放榜＝2027.7.6'));
 ok('v1.44 春季卡补身份赶不上提示', html.includes('2027 年春季批趕不上'));
