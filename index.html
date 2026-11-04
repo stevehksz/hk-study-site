@@ -500,13 +500,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.57（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.58（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.57（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.58（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1087,6 +1087,14 @@ Thank you for your time.</div>
         <p class="src">地圖服務：騰訊位置服務（合規地圖數據源）。校點坐標內置自教育局開放數據「學校位置及資料」（SCH_LOC_EDB.csv，每月更新，WGS84 已轉 GCJ-02），位置僅供參考，以各校官網地址為準。</p>
       </div>
       <div class="gcard">
+        <h3>📖 學校詳情（中學）</h3>
+        <p style="margin:4px 0 6px">下面兩張中學表每行有「📄 詳情」按鈕——點開看該校完整檔案：基本資料、2025/2026 收費、教師概況、班級結構、中一收生準則、辦學宗旨、聯絡資料。</p>
+        <p class="src">詳情資料來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實的官方公開資料），以各校官網最新公布為準。</p>
+      </div>
+      <div id="schModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(20,20,40,.55)" onclick="if(event.target===this)this.style.display='none'">
+        <div style="max-width:680px;margin:3vh auto;background:var(--card,#fff);border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="schModalBody"></div>
+      </div>
+      <div class="gcard">
         <h3>北區跨境要點</h3>
         <p>北區（上水/粉嶺）是羅湖、福田（落馬洲支線）、文錦渡口岸入港第一站，東鐵線 1 站到上水、2 站到粉嶺，單程通關＋車程約 30–40 分鐘，跨境生比例全港最高。教育局有跨境學童派位安排，北區 <b>30 所學校</b>參與（2025 年度數據，中一跨境學額約 <b>171 個</b>，來源：教育局公開資料，坊間引用）。跨境校巴/保姆車體系成熟，校巴申請一般每年 5–6 月。</p>
       </div>
@@ -1594,7 +1602,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "cung4",
+      "sung1",
       "haa6",
       "man6",
       "tung4",
@@ -1632,7 +1640,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zi2",
+      "zek3",
       "zoi6",
       "ci2",
       "saan1",
@@ -1655,7 +1663,7 @@ const DATA = {
       "sam1",
       "bat1",
       "zi1",
-      "cyu3",
+      "cyu5",
       ""
      ]
     }
@@ -1701,7 +1709,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hon6",
+      "hon4",
       "dik1",
       "wo4",
       "haa6",
@@ -1739,8 +1747,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "lap1",
-      "lap1",
+      "nap1",
+      "nap1",
       "gaai1",
       "san1",
       "fu2",
@@ -1773,7 +1781,7 @@ const DATA = {
       "ceon1",
       "min4",
       "bat1",
-      "gaau3",
+      "gok3",
       "hiu2",
       ""
      ]
@@ -1789,8 +1797,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "cyu3",
-      "cyu3",
+      "cyu5",
+      "cyu5",
       "man4",
       "tai4",
       "niu5",
@@ -1812,7 +1820,7 @@ const DATA = {
       "loi4",
       "fung1",
       "jyu5",
-      "sing1",
+      "seng1",
       ""
      ]
     },
@@ -1828,7 +1836,7 @@ const DATA = {
      ],
      "jy": [
       "faa1",
-      "laai6",
+      "lok6",
       "zi1",
       "do1",
       "siu3",
@@ -1897,7 +1905,7 @@ const DATA = {
      ],
      "jy": [
       "bat1",
-      "gaai2",
+      "gaai3",
       "cong4",
       "zung1",
       "zik1",
@@ -1952,17 +1960,17 @@ const DATA = {
       ""
      ],
      "jy": [
-      "jyun6",
+      "jyun5",
       "hon3",
       "saan1",
       "jau5",
       "sik1",
       "",
-      "kan5",
-      "teng1",
+      "gan6",
+      "ting1",
       "seoi2",
       "mou4",
-      "sing1",
+      "seng1",
       ""
      ]
     },
@@ -1993,7 +2001,7 @@ const DATA = {
       "loi4",
       "niu5",
       "bat1",
-      "ging1",
+      "geng1",
       ""
      ]
     }
@@ -2128,7 +2136,7 @@ const DATA = {
       "baak6",
       "sing4",
       "zau1",
-      "zoeng3",
+      "zoeng1",
       "juk6",
       "hang4",
       ""
@@ -2153,7 +2161,7 @@ const DATA = {
       "soeng5",
       "daap6",
       "go1",
-      "sing1",
+      "seng1",
       ""
      ]
     },
@@ -2300,9 +2308,9 @@ const DATA = {
       ""
      ],
      "jy": [
-      "gaai2",
-      "laai6",
-      "saam3",
+      "gaai3",
+      "lok6",
+      "saam1",
       "cau1",
       "jip6",
       ""
@@ -2393,7 +2401,7 @@ const DATA = {
       "cyun4",
       "ngaan5",
       "mou4",
-      "sing1",
+      "seng1",
       "sik1",
       "sai3",
       "lau4",
@@ -2499,8 +2507,8 @@ const DATA = {
      ],
      "jy": [
       "gong1",
-      "naam4",
-      "ho2",
+      "naa4",
+      "hak1",
       "coi2",
       "lin4",
       "",
@@ -2576,7 +2584,7 @@ const DATA = {
       "hei3",
       "lin4",
       "jip6",
-      "naam4",
+      "naa4",
       "",
       "jyu4",
       "hei3",
@@ -2632,7 +2640,7 @@ const DATA = {
       "syut3",
       "baak6",
       "zau2",
-      "zoeng3",
+      "zoeng1",
       "loi4",
       ""
      ]
@@ -2719,7 +2727,7 @@ const DATA = {
      ],
      "jy": [
       "sau2",
-      "ho2",
+      "hak1",
       "zaak6",
       "sing1",
       "san4",
@@ -2740,7 +2748,7 @@ const DATA = {
       "bat1",
       "gam2",
       "gou1",
-      "sing1",
+      "seng1",
       "jyu5",
       ""
      ]
@@ -2757,7 +2765,7 @@ const DATA = {
      ],
      "jy": [
       "hung2",
-      "ging1",
+      "geng1",
       "tin1",
       "soeng5",
       "jan4",
@@ -2861,7 +2869,7 @@ const DATA = {
       "paa3",
       "dak1",
       "jyu4",
-      "ging1",
+      "geng1",
       "bat1",
       "jing1",
       "jan4",
@@ -2892,9 +2900,9 @@ const DATA = {
      ],
      "jy": [
       "ceon1",
-      "zung2",
+      "zung3",
       "jat1",
-      "lap1",
+      "nap1",
       "suk1",
       ""
      ]
@@ -2982,7 +2990,7 @@ const DATA = {
      ],
      "jy": [
       "cik1",
-      "lak6",
+      "laak6",
       "cyun1",
       "",
       "jam1",
@@ -3132,7 +3140,7 @@ const DATA = {
       "lau4",
       "zik6",
       "haa6",
-      "saam3",
+      "saam1",
       "cin1",
       "cek3",
       ""
@@ -3155,7 +3163,7 @@ const DATA = {
       "si6",
       "ngan4",
       "ho4",
-      "laai6",
+      "lok6",
       "gau2",
       "tin1",
       ""
@@ -3313,7 +3321,7 @@ const DATA = {
       "juk6",
       "kung4",
       "cin1",
-      "leoi5",
+      "lei5",
       "muk6",
       ""
      ]
@@ -3329,7 +3337,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "gang1",
+      "gang3",
       "soeng5",
       "jat1",
       "cang4",
@@ -3370,7 +3378,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "loeng2",
+      "loeng5",
       "go3",
       "wong4",
       "lei4",
@@ -3412,7 +3420,7 @@ const DATA = {
       "coeng1",
       "ham4",
       "sai1",
-      "leng5",
+      "ling5",
       "cin1",
       "cau1",
       "syut3",
@@ -3422,7 +3430,7 @@ const DATA = {
       "dung1",
       "ng4",
       "maan6",
-      "leoi5",
+      "lei5",
       "syun4",
       ""
      ]
@@ -3734,7 +3742,7 @@ const DATA = {
      "jy": [
       "coeng4",
       "gok3",
-      "sou3",
+      "sou2",
       "zi1",
       "mui4",
       ""
@@ -3990,7 +3998,7 @@ const DATA = {
       "zoi6",
       "ji6",
       "hoeng1",
-      "wai4",
+      "wai6",
       "ji6",
       "haak3",
       ""
@@ -4038,7 +4046,7 @@ const DATA = {
       "dai6",
       "dang1",
       "gou1",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -4094,7 +4102,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "daan1",
+      "sin6",
       "ce1",
       "juk6",
       "man6",
@@ -4129,7 +4137,7 @@ const DATA = {
       "pung4",
       "ceot1",
       "hon3",
-      "sak1",
+      "coi3",
       "",
       "gwai1",
       "ngaan6",
@@ -4164,7 +4172,7 @@ const DATA = {
       "",
       "coeng4",
       "ho4",
-      "laai6",
+      "lok6",
       "jat6",
       "jyun4",
       ""
@@ -4196,7 +4204,7 @@ const DATA = {
       "dou1",
       "wu6",
       "zoi6",
-      "jin3",
+      "jin1",
       "jin4",
       ""
      ]
@@ -4239,7 +4247,7 @@ const DATA = {
       "gou1",
       "sing4",
       "maan6",
-      "leoi5",
+      "lei5",
       "sau4",
       "",
       "gaam1",
@@ -4430,7 +4438,7 @@ const DATA = {
      ],
      "jy": [
       "gai1",
-      "sing1",
+      "seng1",
       "maau4",
       "dim3",
       "jyut6",
@@ -4462,7 +4470,7 @@ const DATA = {
      "jy": [
       "huk6",
       "jip6",
-      "laai6",
+      "lok6",
       "saan1",
       "lou6",
       "",
@@ -4539,7 +4547,7 @@ const DATA = {
      ],
      "jy": [
       "wui4",
-      "ngok6",
+      "lok6",
       "fung1",
       "cin4",
       "saa1",
@@ -4547,7 +4555,7 @@ const DATA = {
       "syut3",
       "",
       "sau6",
-      "hong4",
+      "gong3",
       "sing4",
       "ngoi6",
       "jyut6",
@@ -4580,7 +4588,7 @@ const DATA = {
       "bat1",
       "zi1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "ceoi1",
       "lou4",
       "gun2",
@@ -4676,7 +4684,7 @@ const DATA = {
       "zuk1",
       "",
       "koek3",
-      "waa6",
+      "waa2",
       "baa1",
       "saan1",
       "je6",
@@ -4738,7 +4746,7 @@ const DATA = {
       "tou4",
       "faa1",
       "ci2",
-      "sing6",
+      "sing4",
       "hoi1",
       ""
      ]
@@ -4762,7 +4770,7 @@ const DATA = {
       "gwai1",
       "mou4",
       "mik6",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -4814,7 +4822,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "jyun6",
+      "jyun5",
       "soeng5",
       "hon4",
       "saan1",
@@ -4840,7 +4848,7 @@ const DATA = {
       "baak6",
       "wan4",
       "saang1",
-      "cyu3",
+      "cyu5",
       "jau5",
       "jan4",
       "gaa1",
@@ -4970,7 +4978,7 @@ const DATA = {
       "cing1",
       "kai1",
       "hoeng3",
-      "saam3",
+      "saam1",
       "haap6",
       "",
       "si1",
@@ -5056,7 +5064,7 @@ const DATA = {
      ],
      "jy": [
       "juk6",
-      "wai4",
+      "wai6",
       "sing3",
       "ming4",
       "ceoi4",
@@ -5064,7 +5072,7 @@ const DATA = {
       "si6",
       "",
       "hang2",
-      "zoeng3",
+      "zoeng1",
       "seoi1",
       "nau2",
       "sik1",
@@ -5097,7 +5105,7 @@ const DATA = {
       "wan4",
       "waang6",
       "ceon4",
-      "leng5",
+      "ling5",
       "gaa1",
       "ho4",
       "zoi6",
@@ -5135,13 +5143,13 @@ const DATA = {
      "jy": [
       "zi1",
       "jyu5",
-      "jyun6",
+      "jyun5",
       "loi4",
       "jing1",
       "jau5",
       "ji3",
       "",
-      "hou3",
+      "hou2",
       "sau1",
       "ng4",
       "gwat1",
@@ -5173,8 +5181,8 @@ const DATA = {
      ],
      "jy": [
       "gong1",
-      "naam4",
-      "hou3",
+      "naa4",
+      "hou2",
       ""
      ]
     },
@@ -5249,7 +5257,7 @@ const DATA = {
       "jung4",
       "hoeng3",
       "lim5",
-      "loeng2",
+      "loeng5",
       "bin1",
       "hoi1",
       ""
@@ -5294,7 +5302,7 @@ const DATA = {
       "man4",
       "go1",
       "ci2",
-      "gaau3",
+      "gok3",
       "jau5",
       "jan4",
       "loi4",
@@ -5350,7 +5358,7 @@ const DATA = {
      ],
      "jy": [
       "cin1",
-      "leoi5",
+      "lei5",
       "gong1",
       "ling4",
       "jat1",
@@ -5372,10 +5380,10 @@ const DATA = {
       ""
      ],
      "jy": [
-      "loeng2",
+      "loeng5",
       "ngon6",
       "jyun4",
-      "sing1",
+      "seng1",
       "tai4",
       "bat1",
       "zeon6",
@@ -5444,14 +5452,14 @@ const DATA = {
       "dek6",
       "am3",
       "fei1",
-      "sing1",
+      "seng1",
       "",
       "saan3",
       "jap6",
       "ceon1",
       "fung1",
       "mun5",
-      "lok3",
+      "lok6",
       "sing4",
       ""
      ]
@@ -5564,7 +5572,7 @@ const DATA = {
       "han6",
       "bit6",
       "niu5",
-      "ging1",
+      "geng1",
       "sam1",
       ""
      ]
@@ -5589,7 +5597,7 @@ const DATA = {
       "fung1",
       "fo2",
       "lin4",
-      "saam3",
+      "saam1",
       "jyut6",
       "",
       "gaa1",
@@ -5620,7 +5628,7 @@ const DATA = {
       "baak6",
       "tau4",
       "sou1",
-      "gang1",
+      "gang3",
       "dyun2",
       "",
       "wan4",
@@ -5712,7 +5720,7 @@ const DATA = {
       "si1",
       "",
       "wai4",
-      "gaai2",
+      "gaai3",
       "maan6",
       "tin1",
       "zok3",
@@ -5752,7 +5760,7 @@ const DATA = {
      "jy": [
       "syu3",
       "gu2",
-      "dyun3",
+      "tyun5",
       "jan4",
       "hang4",
       "",
@@ -5760,7 +5768,7 @@ const DATA = {
       "cau1",
       "jat1",
       "ngaan6",
-      "sing1",
+      "seng1",
       ""
      ]
     },
@@ -5782,7 +5790,7 @@ const DATA = {
      ],
      "jy": [
       "lou6",
-      "cung4",
+      "sung1",
       "gam1",
       "je6",
       "baak6",
@@ -5885,7 +5893,7 @@ const DATA = {
       "tin1",
       "mun4",
       "zung1",
-      "dyun3",
+      "tyun5",
       "co2",
       "gong1",
       "hoi1",
@@ -5928,11 +5936,11 @@ const DATA = {
       ""
      ],
      "jy": [
-      "loeng2",
+      "loeng5",
       "ngon6",
       "cing1",
       "saan1",
-      "soeng3",
+      "soeng1",
       "deoi3",
       "ceot1",
       ""
@@ -6083,7 +6091,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "wui6",
+      "wui2",
       "dong3",
       "ling4",
       "zyut6",
@@ -6126,8 +6134,8 @@ const DATA = {
       "gwong1",
       "cau1",
       "jyut6",
-      "loeng2",
-      "soeng3",
+      "loeng5",
+      "soeng1",
       "wo4",
       ""
      ]
@@ -6293,7 +6301,7 @@ const DATA = {
      ],
      "jy": [
       "juk6",
-      "zai3",
+      "zai2",
       "mou4",
       "zau1",
       "zip3",
@@ -6394,11 +6402,11 @@ const DATA = {
       "man4",
       "gei1",
       "cyu5",
-      "sing1",
+      "seng1",
       "",
       "wai4",
       "man4",
-      "leoi5",
+      "neoi5",
       "taan3",
       "sik1",
       ""
@@ -6434,24 +6442,24 @@ const DATA = {
      ],
      "jy": [
       "man6",
-      "leoi5",
+      "neoi5",
       "ho4",
       "so2",
       "si1",
       "",
       "man6",
-      "leoi5",
+      "neoi5",
       "ho4",
       "so2",
       "jik1",
       "",
-      "leoi5",
+      "neoi5",
       "jik6",
       "mou4",
       "so2",
       "si1",
       "",
-      "leoi5",
+      "neoi5",
       "jik6",
       "mou4",
       "so2",
@@ -6494,8 +6502,8 @@ const DATA = {
       "gwan1",
       "tip3",
       "",
-      "ho2",
-      "hon6",
+      "hak1",
+      "hon4",
       "daai6",
       "dim2",
       "bing1",
@@ -6556,12 +6564,12 @@ const DATA = {
       "hing1",
       "",
       "jyun6",
-      "wai4",
+      "wai6",
       "si5",
       "on1",
       "maa5",
       "",
-      "cung4",
+      "sung1",
       "ci2",
       "tai3",
       "je4",
@@ -6610,7 +6618,7 @@ const DATA = {
       "on1",
       "zin1",
       "",
-      "naam4",
+      "naa4",
       "si5",
       "maai5",
       "bei3",
@@ -6676,8 +6684,8 @@ const DATA = {
       "je4",
       "noeng4",
       "wun6",
-      "leoi5",
-      "sing1",
+      "neoi5",
+      "seng1",
       "",
       "daan6",
       "man4",
@@ -6743,12 +6751,12 @@ const DATA = {
       "je4",
       "noeng4",
       "wun6",
-      "leoi5",
-      "sing1",
+      "neoi5",
+      "seng1",
       "",
       "daan6",
       "man4",
-      "jin3",
+      "jin1",
       "saan1",
       "wu4",
       "ke4",
@@ -6788,20 +6796,20 @@ const DATA = {
      ],
      "jy": [
       "maan6",
-      "leoi5",
+      "lei5",
       "fu6",
       "jung4",
       "gei1",
       "",
       "gwaan1",
       "saan1",
-      "dou6",
+      "dok6",
       "joek6",
       "fei1",
       "",
       "sok3",
       "hei3",
-      "zyun2",
+      "cyun4",
       "gam1",
       "tok3",
       "",
@@ -6842,7 +6850,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zoeng3",
+      "zoeng1",
       "gwan1",
       "baak3",
       "zin3",
@@ -6921,10 +6929,10 @@ const DATA = {
       "ci3",
       "baak3",
       "cin1",
-      "koeng4",
+      "koeng5",
       "",
-      "ho2",
-      "hon6",
+      "hak1",
+      "hon4",
       "man6",
       "so2",
       "juk6",
@@ -6935,12 +6943,12 @@ const DATA = {
       "jung6",
       "soeng6",
       "syu1",
-      "long2",
+      "long4",
       "",
       "jyun6",
       "ci4",
       "cin1",
-      "leoi5",
+      "lei5",
       "zuk1",
       "",
       "sung3",
@@ -6997,14 +7005,14 @@ const DATA = {
       "je4",
       "noeng4",
       "man4",
-      "leoi5",
+      "neoi5",
       "loi4",
       "",
       "ceot1",
       "gwok3",
-      "soeng3",
+      "soeng1",
       "fu4",
-      "zoeng3",
+      "zoeng1",
       "",
       "o1",
       "zi2",
@@ -7093,7 +7101,7 @@ const DATA = {
       "si4",
       "pou4",
       "",
-      "zoek6",
+      "zoek3",
       "ngo5",
       "gau6",
       "si4",
@@ -7153,7 +7161,7 @@ const DATA = {
       "fo2",
       "pun2",
       "gaai1",
-      "ging1",
+      "geng1",
       "mong4",
       "",
       "tung4",
@@ -7167,8 +7175,8 @@ const DATA = {
       "muk6",
       "laan4",
       "si6",
-      "leoi5",
-      "long2",
+      "neoi5",
+      "long4",
       ""
      ]
     },
@@ -7293,7 +7301,7 @@ const DATA = {
      "jy": [
       "ciu4",
       "ping4",
-      "loeng2",
+      "loeng5",
       "ngon6",
       "fut3",
       "",
@@ -7356,12 +7364,12 @@ const DATA = {
       "hoeng1",
       "syu1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "daat6",
       "",
       "gwai1",
       "ngaan6",
-      "lok3",
+      "lok6",
       "joeng4",
       "bin1",
       ""
@@ -7412,8 +7420,8 @@ const DATA = {
       "gau2",
       "tong4",
       "cin4",
-      "gei1",
-      "dou6",
+      "gei2",
+      "dok6",
       "man4",
       ""
      ]
@@ -7442,12 +7450,12 @@ const DATA = {
       "zing1",
       "si6",
       "gong1",
-      "naam4",
-      "hou3",
+      "naa4",
+      "hou2",
       "fung1",
       "ging2",
       "",
-      "laai6",
+      "lok6",
       "faa1",
       "si4",
       "zit3",
@@ -7502,7 +7510,7 @@ const DATA = {
       "bok6",
       "ceon4",
       "waai4",
-      "kan5",
+      "gan6",
       "zau2",
       "gaa1",
       ""
@@ -7530,7 +7538,7 @@ const DATA = {
      ],
      "jy": [
       "soeng1",
-      "leoi5",
+      "neoi5",
       "bat1",
       "zi1",
       "mong4",
@@ -7593,7 +7601,7 @@ const DATA = {
       "hang4",
       "jan4",
       "juk6",
-      "dyun3",
+      "tyun5",
       "wan4",
       ""
      ]
@@ -7624,7 +7632,7 @@ const DATA = {
       "zau2",
       "gaa1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "jau5",
       "",
       "muk6",
@@ -7667,13 +7675,13 @@ const DATA = {
      ],
      "jy": [
       "dou6",
-      "jyun6",
+      "jyun5",
       "ging1",
       "mun4",
       "ngoi6",
       "",
       "loi4",
-      "cung4",
+      "sung1",
       "co2",
       "gwok3",
       "jau4",
@@ -7766,7 +7774,7 @@ const DATA = {
       "seoi2",
       "",
       "maan6",
-      "leoi5",
+      "lei5",
       "sung3",
       "hang4",
       "zau1",
@@ -7910,13 +7918,13 @@ const DATA = {
       ""
      ],
      "jy": [
-      "soeng3",
+      "soeng1",
       "gin3",
       "si4",
-      "naan6",
+      "naan4",
       "bit6",
       "jik6",
-      "naan6",
+      "naan4",
       "",
       "dung1",
       "fung1",
@@ -7963,7 +7971,7 @@ const DATA = {
       "fui1",
       "leoi6",
       "ci2",
-      "gon1",
+      "kin4",
       ""
      ]
     },
@@ -7999,7 +8007,7 @@ const DATA = {
       "je6",
       "jam4",
       "jing1",
-      "gaau3",
+      "gok3",
       "jyut6",
       "gwong1",
       "hon4",
@@ -8039,7 +8047,7 @@ const DATA = {
       "niu5",
       "jan1",
       "kan4",
-      "wai4",
+      "wai6",
       "taam3",
       "hon3",
       ""
@@ -8273,7 +8281,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zoeng3",
+      "zoeng1",
       "gwan1",
       "gok3",
       "gung1",
@@ -8286,8 +8294,8 @@ const DATA = {
       "tit3",
       "ji1",
       "laang5",
-      "naan6",
-      "zoek6",
+      "naan4",
+      "zoek3",
       ""
      ]
     },
@@ -8315,7 +8323,7 @@ const DATA = {
       "hon6",
       "hoi2",
       "laan4",
-      "gon3",
+      "gon1",
       "baak3",
       "zoeng6",
       "bing1",
@@ -8323,9 +8331,9 @@ const DATA = {
       "sau4",
       "wan4",
       "caam2",
-      "daam6",
+      "taam5",
       "maan6",
-      "leoi5",
+      "lei5",
       "jing4",
       ""
      ]
@@ -8399,7 +8407,7 @@ const DATA = {
       "mun4",
       "",
       "fung1",
-      "zai3",
+      "cit3",
       "hung4",
       "kei4",
       "dung3",
@@ -8482,7 +8490,7 @@ const DATA = {
       "lau4",
       "maa5",
       "hang4",
-      "cyu3",
+      "cyu5",
       ""
      ]
     }
@@ -8566,7 +8574,7 @@ const DATA = {
       "wan4",
       "soeng5",
       "",
-      "pin4",
+      "bin6",
       "jan5",
       "si1",
       "cing4",
@@ -8611,7 +8619,7 @@ const DATA = {
       "wong4",
       "leoi5",
       "",
-      "daan2",
+      "daan6",
       "kam4",
       "fuk6",
       "coeng4",
@@ -8645,7 +8653,7 @@ const DATA = {
       "ming4",
       "jyut6",
       "loi4",
-      "soeng3",
+      "soeng1",
       "ziu3",
       ""
      ]
@@ -8714,7 +8722,7 @@ const DATA = {
       "nai4",
       "jung4",
       "fei1",
-      "jin3",
+      "jin1",
       "zi2",
       ""
      ]
@@ -8773,7 +8781,7 @@ const DATA = {
      "jy": [
       "joeng4",
       "faa1",
-      "laai6",
+      "lok6",
       "zeon6",
       "zi2",
       "kwai1",
@@ -8823,7 +8831,7 @@ const DATA = {
       "zik6",
       "dou3",
       "je6",
-      "long2",
+      "long4",
       "sai1",
       ""
      ]
@@ -8873,7 +8881,7 @@ const DATA = {
       "ngo5",
       "uk1",
       "soeng5",
-      "saam3",
+      "saam1",
       "zung6",
       "maau4",
       ""
@@ -8957,7 +8965,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "naam4",
+      "naa4",
       "cyun1",
       "kwan4",
       "tung4",
@@ -8971,7 +8979,7 @@ const DATA = {
       "nang4",
       "deoi3",
       "min6",
-      "wai4",
+      "wai6",
       "dou6",
       "caak6",
       ""
@@ -9102,7 +9110,7 @@ const DATA = {
       "",
       "giu1",
       "ji4",
-      "ok3",
+      "wu3",
       "ngo6",
       "daap6",
       "leoi5",
@@ -9136,15 +9144,15 @@ const DATA = {
       "uk1",
       "lau6",
       "mou4",
-      "gon3",
-      "cyu3",
+      "gon1",
+      "cyu5",
       "",
       "jyu5",
       "goek3",
       "jyu4",
       "maa4",
       "mei6",
-      "dyun3",
+      "tyun5",
       "zyut6",
       ""
      ]
@@ -9172,7 +9180,7 @@ const DATA = {
      "jy": [
       "zi6",
       "ging1",
-      "song3",
+      "song1",
       "lyun6",
       "siu3",
       "seoi6",
@@ -9416,10 +9424,10 @@ const DATA = {
       "wong4",
       "ho4",
       "bing1",
-      "sak1",
+      "coi3",
       "cyun1",
       "",
-      "zoeng3",
+      "zoeng1",
       "dang1",
       "taai3",
       "hang4",
@@ -9491,11 +9499,11 @@ const DATA = {
      "jy": [
       "hang4",
       "lou6",
-      "naan6",
+      "naan4",
       "",
       "hang4",
       "lou6",
-      "naan6",
+      "naan4",
       "",
       "do1",
       "kei4",
@@ -9532,7 +9540,7 @@ const DATA = {
       "fung1",
       "po3",
       "long6",
-      "wui6",
+      "wui2",
       "jau5",
       "si4",
       "",
@@ -9540,7 +9548,7 @@ const DATA = {
       "gwaa3",
       "wan4",
       "faan4",
-      "zai3",
+      "zai2",
       "cong1",
       "hoi2",
       ""
@@ -9575,7 +9583,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "koeng4",
+      "koeng5",
       "juk6",
       "dang1",
       "gou1",
@@ -9657,7 +9665,7 @@ const DATA = {
       "san1",
       "siu1",
       "taan3",
-      "naam4",
+      "naa4",
       "saan1",
       "zung1",
       ""
@@ -9692,7 +9700,7 @@ const DATA = {
       "fo2",
       "sik1",
       "",
-      "loeng2",
+      "loeng5",
       "ban3",
       "cong1",
       "cong1",
@@ -9762,13 +9770,13 @@ const DATA = {
       ""
      ],
      "jy": [
-      "ho2",
+      "hak1",
       "lin4",
       "san1",
       "soeng5",
       "ji1",
       "zing1",
-      "daan1",
+      "sin6",
       "",
       "sam1",
       "jau1",
@@ -9849,7 +9857,7 @@ const DATA = {
       "gou1",
       "",
       "si5",
-      "naam4",
+      "naa4",
       "mun4",
       "ngoi6",
       "nai4",
@@ -9881,7 +9889,7 @@ const DATA = {
      "jy": [
       "pin1",
       "pin1",
-      "loeng2",
+      "loeng5",
       "ke4",
       "loi4",
       "si6",
@@ -9923,7 +9931,7 @@ const DATA = {
       "man4",
       "syu1",
       "hau2",
-      "cing1",
+      "cang3",
       "cik1",
       "",
       "wui4",
@@ -9968,7 +9976,7 @@ const DATA = {
       "gung1",
       "si2",
       "keoi1",
-      "zoeng3",
+      "zoeng1",
       "sik1",
       "bat1",
       "dak1",
@@ -10056,7 +10064,7 @@ const DATA = {
       "siu1",
       "",
       "zi6",
-      "zoeng3",
+      "zoeng1",
       "mo4",
       "sai2",
       "jing6",
@@ -10091,8 +10099,8 @@ const DATA = {
       "bat1",
       "jyu5",
       "zau1",
-      "long2",
-      "pin4",
+      "long4",
+      "bin6",
       "",
       "tung4",
       "zoek3",
@@ -10167,13 +10175,13 @@ const DATA = {
       "ci2",
       "dei6",
       "jat1",
-      "wai4",
+      "wai6",
       "bit6",
       "",
       "gu1",
       "pung4",
       "maan6",
-      "leoi5",
+      "lei5",
       "zing1",
       ""
      ]
@@ -10201,7 +10209,7 @@ const DATA = {
       "zi2",
       "ji3",
       "",
-      "laai6",
+      "lok6",
       "jat6",
       "gu3",
       "jan4",
@@ -10272,7 +10280,7 @@ const DATA = {
       "sing4",
       "kyut3",
       "fu6",
-      "saam3",
+      "saam1",
       "ceon4",
       "",
       "fung1",
@@ -10363,13 +10371,13 @@ const DATA = {
      ],
      "jy": [
       "mou4",
-      "wai4",
+      "wai6",
       "zoi6",
       "kei4",
       "lou6",
       "",
       "ji4",
-      "leoi5",
+      "neoi5",
       "gung6",
       "zim1",
       "gan1",
@@ -10423,7 +10431,7 @@ const DATA = {
       "zung1",
       "leoi6",
       "bat1",
-      "gon1",
+      "kin4",
       ""
      ]
     },
@@ -10450,7 +10458,7 @@ const DATA = {
      "jy": [
       "maa5",
       "soeng5",
-      "soeng3",
+      "soeng1",
       "fung4",
       "mou4",
       "zi2",
@@ -10458,7 +10466,7 @@ const DATA = {
       "",
       "pang4",
       "gwan1",
-      "zyun2",
+      "cyun4",
       "jyu5",
       "bou3",
       "ping4",
@@ -10509,7 +10517,7 @@ const DATA = {
       "",
       "ji6",
       "sap6",
-      "saam3",
+      "saam1",
       "nin4",
       "hei3",
       "zi3",
@@ -10585,7 +10593,7 @@ const DATA = {
       "faan4",
       "gwo3",
       "",
-      "bing6",
+      "beng6",
       "syu6",
       "cin4",
       "tau4",
@@ -10618,7 +10626,7 @@ const DATA = {
      "jy": [
       "gam1",
       "jat6",
-      "teng1",
+      "ting1",
       "gwan1",
       "go1",
       "jat1",
@@ -10703,7 +10711,7 @@ const DATA = {
       "saan1",
       "saan1",
       "wai4",
-      "laai6",
+      "lok6",
       "fai1",
       ""
      ]
@@ -10756,10 +10764,10 @@ const DATA = {
       ""
      ],
      "jy": [
-      "soeng3",
+      "soeng1",
       "gu3",
       "mou4",
-      "soeng3",
+      "soeng1",
       "sik1",
       "",
       "coeng4",
@@ -10807,7 +10815,7 @@ const DATA = {
       "saan1",
       "zi6",
       "bak1",
-      "gu2",
+      "gaa2",
       "ting4",
       "sai1",
       "",
@@ -10842,18 +10850,18 @@ const DATA = {
       ""
      ],
      "jy": [
-      "gei1",
-      "cyu3",
+      "gei2",
+      "cyu5",
       "zou2",
       "ang1",
-      "zang1",
+      "zaang1",
       "nyun5",
       "syu6",
       "",
       "seoi4",
       "gaa1",
       "san1",
-      "jin3",
+      "jin1",
       "doek3",
       "ceon1",
       "nai4",
@@ -10971,7 +10979,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "saam3",
+      "saam1",
       "nin4",
       "zaak6",
       "waan6",
@@ -11093,8 +11101,8 @@ const DATA = {
       "gong1",
       "saan1",
       "jiu4",
-      "laai6",
-      "cyu3",
+      "lok6",
+      "cyu5",
       "",
       "lin4",
       "gwan1",
@@ -11179,16 +11187,16 @@ const DATA = {
      ],
      "jy": [
       "gok3",
-      "sing1",
+      "seng1",
       "mun5",
       "tin1",
       "cau1",
       "sik1",
       "leoi5",
       "",
-      "sak1",
+      "coi3",
       "soeng5",
-      "jin3",
+      "jin1",
       "zi1",
       "jing4",
       "je6",
@@ -11222,14 +11230,14 @@ const DATA = {
       "hung4",
       "kei4",
       "lam4",
-      "ji6",
+      "jik6",
       "seoi2",
       "",
       "soeng1",
       "zung6",
       "gu2",
       "hon4",
-      "sing1",
+      "seng1",
       "bat1",
       "hei2",
       ""
@@ -11268,7 +11276,7 @@ const DATA = {
       "kwai4",
       "juk6",
       "lung4",
-      "wai4",
+      "wai6",
       "gwan1",
       "sei2",
       ""
@@ -11338,7 +11346,7 @@ const DATA = {
       "ging3",
       "tung1",
       "jau1",
-      "cyu3",
+      "cyu5",
       "",
       "sin6",
       "fong4",
@@ -11477,7 +11485,7 @@ const DATA = {
       "ji5",
       "",
       "sam1",
-      "jyun6",
+      "jyun5",
       "dei6",
       "zi6",
       "pin1",
@@ -11510,7 +11518,7 @@ const DATA = {
       "jau4",
       "jin4",
       "gin3",
-      "naam4",
+      "naa4",
       "saan1",
       ""
      ]
@@ -11540,7 +11548,7 @@ const DATA = {
       "",
       "fei1",
       "niu5",
-      "soeng3",
+      "soeng1",
       "jyu5",
       "waan4",
       ""
@@ -11660,7 +11668,7 @@ const DATA = {
       "baak6",
       "wan4",
       "cin1",
-      "zoi2",
+      "zoi3",
       "hung1",
       "jau4",
       "jau4",
@@ -11732,7 +11740,7 @@ const DATA = {
       "hoeng1",
       "gwaan1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "si6",
       "",
       "jin1",
@@ -11788,7 +11796,7 @@ const DATA = {
       "",
       "siu2",
       "kai1",
-      "faan3",
+      "faan6",
       "zeon6",
       "koek3",
       "saan1",
@@ -11831,7 +11839,7 @@ const DATA = {
       "lei4",
       "sei3",
       "ng5",
-      "sing1",
+      "seng1",
       ""
      ]
     }
@@ -11862,7 +11870,7 @@ const DATA = {
      "jy": [
       "baau3",
       "zuk1",
-      "sing1",
+      "seng1",
       "zung1",
       "jat1",
       "seoi3",
@@ -11929,7 +11937,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zang1",
+      "zaang1",
       "caap3",
       "san1",
       "tou4",
@@ -11982,7 +11990,7 @@ const DATA = {
       "",
       "soeng6",
       "si1",
-      "wai4",
+      "wai6",
       "gwok3",
       "syu3",
       "leon4",
@@ -12014,7 +12022,7 @@ const DATA = {
       "je6",
       "laan4",
       "ngo6",
-      "teng1",
+      "ting1",
       "fung1",
       "ceoi1",
       "jyu5",
@@ -12061,7 +12069,7 @@ const DATA = {
      ],
      "jy": [
       "ho4",
-      "cyu3",
+      "cyu5",
       "mong6",
       "san4",
       "zau1",
@@ -12094,7 +12102,7 @@ const DATA = {
      "jy": [
       "cin1",
       "gu2",
-      "hing3",
+      "hing1",
       "mong4",
       "do1",
       "siu3",
@@ -12154,9 +12162,9 @@ const DATA = {
       "mau4",
       "",
       "zo6",
-      "dyun3",
+      "tyun5",
       "dung1",
-      "naam4",
+      "naa4",
       "zin3",
       "mei6",
       "jau1",
@@ -12246,7 +12254,7 @@ const DATA = {
      "jy": [
       "jik6",
       "ngoi6",
-      "dyun3",
+      "tyun5",
       "kiu4",
       "bin1",
       "",
@@ -12285,8 +12293,8 @@ const DATA = {
       "zi6",
       "sau4",
       "",
-      "gang1",
-      "zoek6",
+      "gang3",
+      "zoek3",
       "fung1",
       "wo4",
       "jyu5",
@@ -12313,7 +12321,7 @@ const DATA = {
       "mou4",
       "ji3",
       "fu2",
-      "zang1",
+      "zaang1",
       "ceon1",
       "",
       "jat1",
@@ -12344,14 +12352,14 @@ const DATA = {
      ],
      "jy": [
       "ling4",
-      "laai6",
+      "lok6",
       "sing4",
       "nai4",
       "nin5",
       "zok3",
       "can4",
       "",
-      "zi2",
+      "zek3",
       "jau5",
       "hoeng1",
       "jyu4",
@@ -12395,7 +12403,7 @@ const DATA = {
       "tung4",
       "",
       "lau6",
-      "dyun3",
+      "tyun5",
       "jan4",
       "co1",
       "zing6",
@@ -12454,7 +12462,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "ging1",
+      "geng1",
       "hei2",
       "koek3",
       "wui4",
@@ -12534,7 +12542,7 @@ const DATA = {
       "jip6",
       "sung3",
       "hon4",
-      "sing1",
+      "seng1",
       ""
      ]
     },
@@ -12600,7 +12608,7 @@ const DATA = {
       "je6",
       "sam1",
       "lei4",
-      "laai6",
+      "lok6",
       "jat1",
       "dang1",
       "ming4",
@@ -12690,7 +12698,7 @@ const DATA = {
       "sai1",
       "haa6",
       "",
-      "dyun3",
+      "tyun5",
       "coeng4",
       "jan4",
       "zoi6",
@@ -12805,7 +12813,7 @@ const DATA = {
       "hon3",
       "ging1",
       "hang4",
-      "cyu3",
+      "cyu5",
       "",
       "gung1",
       "kyut3",
@@ -12835,7 +12843,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hing3",
+      "hing1",
       "",
       "baak3",
       "sing3",
@@ -12878,8 +12886,8 @@ const DATA = {
       "ngoi6",
       "tou4",
       "faa1",
-      "saam3",
-      "loeng2",
+      "saam1",
+      "loeng5",
       "zi1",
       ""
      ]
@@ -13002,12 +13010,12 @@ const DATA = {
       "zaau6",
       "sai1",
       "wu4",
-      "hou3",
+      "hou2",
       "",
       "luk6",
       "seoi2",
       "wai1",
-      "ji4",
+      "ji5",
       "",
       "fong1",
       "cou2",
@@ -13018,8 +13026,8 @@ const DATA = {
       "jan2",
       "sang1",
       "go1",
-      "cyu3",
-      "cyu3",
+      "cyu5",
+      "cyu5",
       "ceoi4",
       ""
      ]
@@ -13064,7 +13072,7 @@ const DATA = {
       "waat6",
       "",
       "bat1",
-      "gaau3",
+      "gok3",
       "syun4",
       "ji4",
       "",
@@ -13073,7 +13081,7 @@ const DATA = {
       "lin4",
       "ji1",
       "",
-      "ging1",
+      "geng1",
       "hei2",
       "saa1",
       "kam4",
@@ -13114,7 +13122,7 @@ const DATA = {
      "jy": [
       "ming4",
       "jyut6",
-      "gei1",
+      "gei2",
       "si4",
       "jau5",
       "",
@@ -13199,7 +13207,7 @@ const DATA = {
       "jyu5",
       "",
       "gou1",
-      "cyu3",
+      "cyu5",
       "bat1",
       "sing3",
       "hon4",
@@ -13343,7 +13351,7 @@ const DATA = {
       "ci2",
       "si6",
       "gu2",
-      "naan6",
+      "naan4",
       "cyun4",
       ""
      ]
@@ -13372,7 +13380,7 @@ const DATA = {
       "gau2",
       "",
       "cin1",
-      "leoi5",
+      "lei5",
       "gung6",
       "sim4",
       "gyun1",
@@ -13473,7 +13481,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "wai4",
+      "wai6",
       "bou3",
       "king1",
       "sing4",
@@ -13487,7 +13495,7 @@ const DATA = {
       "",
       "hon3",
       "syun1",
-      "long2",
+      "long4",
       ""
      ]
     },
@@ -13580,7 +13588,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "wui6",
+      "wui2",
       "waan5",
       "diu1",
       "gung1",
@@ -13666,7 +13674,7 @@ const DATA = {
       "joeng4",
       "sai1",
       "haa6",
-      "gei1",
+      "gei2",
       "si4",
       "wui4",
       ""
@@ -13694,18 +13702,18 @@ const DATA = {
      ],
      "jy": [
       "mou4",
-      "ho2",
+      "hak1",
       "noi6",
       "ho4",
       "faa1",
-      "laai6",
+      "lok6",
       "heoi3",
       "",
       "ci5",
       "cang4",
-      "soeng3",
+      "soeng1",
       "sik1",
-      "jin3",
+      "jin1",
       "gwai1",
       "loi4",
       ""
@@ -13828,7 +13836,7 @@ const DATA = {
       "ngo5",
       "gwai1",
       "ho4",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -13863,9 +13871,9 @@ const DATA = {
       "",
       "hok6",
       "si1",
-      "maan6",
+      "maan4",
       "jau5",
-      "ging1",
+      "geng1",
       "jan4",
       "geoi3",
       ""
@@ -13898,7 +13906,7 @@ const DATA = {
      "jy": [
       "gau2",
       "maan6",
-      "leoi5",
+      "lei5",
       "fung1",
       "paang4",
       "zing1",
@@ -13912,7 +13920,7 @@ const DATA = {
       "zau1",
       "ceoi1",
       "ceoi2",
-      "saam3",
+      "saam1",
       "saan1",
       "heoi3",
       ""
@@ -13951,7 +13959,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "sak1",
+      "coi3",
       "haa6",
       "cau1",
       "loi4",
@@ -13997,7 +14005,7 @@ const DATA = {
       "sei3",
       "min6",
       "bin1",
-      "sing1",
+      "seng1",
       "lin4",
       "gok3",
       "hei2",
@@ -14008,7 +14016,7 @@ const DATA = {
       "",
       "coeng4",
       "jin1",
-      "laai6",
+      "lok6",
       "jat6",
       "gu1",
       "sing4",
@@ -14043,12 +14051,12 @@ const DATA = {
       "bui1",
       "gaa1",
       "maan6",
-      "leoi5",
+      "lei5",
       "",
-      "jin3",
+      "jin1",
       "jin4",
       "mei6",
-      "lak6",
+      "laak6",
       "gwai1",
       "mou4",
       "gai3",
@@ -14092,7 +14100,7 @@ const DATA = {
       "bat1",
       "mei6",
       "",
-      "zoeng3",
+      "zoeng1",
       "gwan1",
       "baak6",
       "faat3",
@@ -14144,7 +14152,7 @@ const DATA = {
       "taap3",
       "",
       "man4",
-      "sok3",
+      "syut3",
       "gai1",
       "ming4",
       "gin3",
@@ -14249,7 +14257,7 @@ const DATA = {
      ],
      "jy": [
       "maan6",
-      "leoi5",
+      "lei5",
       "zik6",
       "joeng4",
       "seoi4",
@@ -14285,7 +14293,7 @@ const DATA = {
       "jing1",
       "saan3",
       "",
-      "gei1",
+      "gei2",
       "si4",
       "sau1",
       ""
@@ -14394,7 +14402,7 @@ const DATA = {
      "jy": [
       "baat3",
       "baak3",
-      "leoi5",
+      "lei5",
       "fan1",
       "fai1",
       "haa6",
@@ -14404,9 +14412,9 @@ const DATA = {
       "sap6",
       "jin4",
       "faan1",
-      "sak1",
+      "coi3",
       "ngoi6",
-      "sing1",
+      "seng1",
       "",
       "saa1",
       "coeng4",
@@ -14447,7 +14455,7 @@ const DATA = {
       "pik1",
       "lik1",
       "jin4",
-      "ging1",
+      "geng1",
       ""
      ]
     },
@@ -14501,7 +14509,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "ho2",
+      "hak1",
       "lin4",
       "baak6",
       "faat3",
@@ -14567,7 +14575,7 @@ const DATA = {
       "fung1",
       "",
       "hou4",
-      "hing3",
+      "hing1",
       "soeng4",
       "joeng4",
       ""
@@ -14590,7 +14598,7 @@ const DATA = {
      "jy": [
       "siu2",
       "jyun4",
-      "gei1",
+      "gei2",
       "heoi2",
       "",
       "sau1",
@@ -14648,8 +14656,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "jyun6",
-      "jyun6",
+      "jyun5",
+      "jyun5",
       "wai4",
       "coeng4",
       "",
@@ -14703,7 +14711,7 @@ const DATA = {
       "ngau5",
       "jin4",
       "sing4",
-      "hing3",
+      "hing1",
       "",
       "bou6",
       "gwo3",
@@ -14735,7 +14743,7 @@ const DATA = {
       "ji4",
       "tai4",
       "",
-      "jin3",
+      "jin1",
       "ji4",
       "mou5",
       "",
@@ -14818,7 +14826,7 @@ const DATA = {
      "jy": [
       "jat1",
       "nin4",
-      "hou3",
+      "hou2",
       "ging2",
       "gwan1",
       "seoi1",
@@ -14966,7 +14974,7 @@ const DATA = {
       "ceoi4",
       "ceon1",
       "se5",
-      "kan5",
+      "gan6",
       "",
       "ji1",
       "gun3",
@@ -14999,7 +15007,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "cung4",
+      "sung1",
       "gam1",
       "joek6",
       "heoi2",
@@ -15058,10 +15066,10 @@ const DATA = {
       "jat1",
       "ging1",
       "",
-      "gon3",
+      "gon1",
       "gwo1",
       "liu4",
-      "laai6",
+      "lok6",
       "sei3",
       "zau1",
       "sing1",
@@ -15132,7 +15140,7 @@ const DATA = {
       "hung2",
       "taan1",
       "tau4",
-      "sok3",
+      "syut3",
       "wong4",
       "hung2",
       "",
@@ -15180,7 +15188,7 @@ const DATA = {
       "daan1",
       "sam1",
       "ziu3",
-      "hon6",
+      "hon4",
       "cing1",
       ""
      ]
@@ -15253,12 +15261,12 @@ const DATA = {
       "cang4",
       "lau4",
       "",
-      "wai4",
+      "wai6",
       "fu3",
       "san1",
       "ci4",
-      "koeng4",
-      "sok3",
+      "koeng5",
+      "syut3",
       "sau4",
       ""
      ]
@@ -15290,7 +15298,7 @@ const DATA = {
       "mei6",
       "",
       "juk6",
-      "sok3",
+      "syut3",
       "waan4",
       "jau1",
       ""
@@ -15315,7 +15323,7 @@ const DATA = {
      ],
      "jy": [
       "juk6",
-      "sok3",
+      "syut3",
       "waan4",
       "jau1",
       "",
@@ -15323,7 +15331,7 @@ const DATA = {
       "dou6",
       "tin1",
       "loeng4",
-      "hou3",
+      "hou2",
       "go3",
       "cau1",
       ""
@@ -15368,7 +15376,7 @@ const DATA = {
       "?",
       "cing4",
       "fong1",
-      "hou3",
+      "hou2",
       "",
       "saan1",
       "sik1",
@@ -15376,7 +15384,7 @@ const DATA = {
       "mung4",
       "jyu5",
       "jik6",
-      "gei1",
+      "kei4",
       ""
      ]
     },
@@ -15409,12 +15417,12 @@ const DATA = {
       "sai1",
       "zi2",
       "",
-      "daam6",
+      "taam5",
       "zong1",
       "nung4",
       "mut3",
       "zung2",
-      "soeng3",
+      "soeng1",
       "ji4",
       ""
      ]
@@ -15450,7 +15458,7 @@ const DATA = {
      "jy": [
       "sap6",
       "ng5",
-      "cung4",
+      "sung1",
       "gwan1",
       "zing1",
       "",
@@ -15482,7 +15490,7 @@ const DATA = {
       "dou6",
       "fung4",
       "hoeng1",
-      "leoi5",
+      "lei5",
       "jan4",
       "",
       "gaa1",
@@ -15516,11 +15524,11 @@ const DATA = {
       "gwan1",
       "gaa1",
       "",
-      "cung4",
+      "sung1",
       "paak3",
       "cung2",
-      "leoi5",
-      "leoi5",
+      "leoi4",
+      "leoi4",
       ""
      ]
     },
@@ -15542,13 +15550,13 @@ const DATA = {
      ],
      "jy": [
       "tou3",
-      "cung4",
+      "sung1",
       "gau2",
       "dau6",
       "jap6",
       "",
       "zi6",
-      "cung4",
+      "sung1",
       "loeng4",
       "soeng5",
       "fei1",
@@ -15578,7 +15586,7 @@ const DATA = {
       "leoi5",
       "guk1",
       "",
-      "zeng2",
+      "zing2",
       "soeng5",
       "saang1",
       "leoi5",
@@ -15672,7 +15680,7 @@ const DATA = {
       "hon3",
       "",
       "leoi6",
-      "laai6",
+      "lok6",
       "zim1",
       "ngo5",
       "ji1",
@@ -15711,7 +15719,7 @@ const DATA = {
       "ting4",
       "zung1",
       "jau5",
-      "gei1",
+      "kei4",
       "syu6",
       "",
       "luk6",
@@ -15745,7 +15753,7 @@ const DATA = {
       "kei4",
       "wing4",
       "",
-      "zoeng3",
+      "zoeng1",
       "ji5",
       "wai4",
       "so2",
@@ -15777,7 +15785,7 @@ const DATA = {
       "zau6",
       "",
       "lou6",
-      "jyun6",
+      "jyun5",
       "mok6",
       "zi3",
       "zi1",
@@ -15851,7 +15859,7 @@ const DATA = {
       "hei3",
       "",
       "cin1",
-      "leoi5",
+      "lei5",
       "syu4",
       "fung1",
       "jyu5",
@@ -16013,7 +16021,7 @@ const DATA = {
       "saan1",
       "dou2",
       "sung2",
-      "zi6",
+      "ci5",
       ""
      ]
     },
@@ -16178,7 +16186,7 @@ const DATA = {
       "ting4",
       "saan1",
       "soeng5",
-      "cung4",
+      "sung1",
       "",
       "sat1",
       "sat1",
@@ -16206,12 +16214,12 @@ const DATA = {
      ],
      "jy": [
       "fung1",
-      "sing1",
+      "seng1",
       "jat1",
       "ho4",
-      "sing6",
+      "sing4",
       "",
-      "cung4",
+      "sung1",
       "zi1",
       "jat1",
       "ho4",
@@ -16273,7 +16281,7 @@ const DATA = {
       "jing4",
       "hon4",
       "",
-      "cung4",
+      "sung1",
       "paak3",
       "jau5",
       "bun2",
@@ -16329,12 +16337,12 @@ const DATA = {
       "si4",
       "",
       "tang4",
-      "ji4",
+      "se4",
       "sing4",
       "mou6",
       "",
       "zung1",
-      "wai4",
+      "wai6",
       "tou2",
       "fui1",
       ""
@@ -16373,7 +16381,7 @@ const DATA = {
       "zi3",
       "zoi6",
       "cin1",
-      "leoi5",
+      "lei5",
       "",
       "lit6",
       "si6",
@@ -16427,7 +16435,7 @@ const DATA = {
       "zi1",
       "fuk1",
       "",
-      "ho2",
+      "hak1",
       "dak1",
       "wing5",
       "nin4",
@@ -16624,7 +16632,7 @@ const DATA = {
       "gin3",
       "",
       "jyu4",
-      "saam3",
+      "saam1",
       "jyut6",
       "hai4",
       ""
@@ -16689,7 +16697,7 @@ const DATA = {
       "gu3",
       "",
       "wu4",
-      "wai4",
+      "wai6",
       "fu4",
       "zung1",
       "lou6",
@@ -16743,7 +16751,7 @@ const DATA = {
       "gung1",
       "",
       "wu4",
-      "wai4",
+      "wai6",
       "fu4",
       "nai4",
       "zung1",
@@ -16794,7 +16802,7 @@ const DATA = {
       "",
       "baak6",
       "lou6",
-      "wai4",
+      "wai6",
       "soeng1",
       "",
       "so2",
@@ -16837,7 +16845,7 @@ const DATA = {
      "jy": [
       "sou3",
       "wui4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "dou6",
@@ -16847,7 +16855,7 @@ const DATA = {
       "",
       "sou3",
       "jau4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "jyun2",
@@ -16933,7 +16941,7 @@ const DATA = {
      "jy": [
       "sou3",
       "wui4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "dou6",
@@ -16943,7 +16951,7 @@ const DATA = {
       "",
       "sou3",
       "jau4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "jyun2",
@@ -17029,7 +17037,7 @@ const DATA = {
      "jy": [
       "sou3",
       "wui4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "dou6",
@@ -17039,7 +17047,7 @@ const DATA = {
       "",
       "sou3",
       "jau4",
-      "cung4",
+      "sung1",
       "zi1",
       "",
       "jyun2",
@@ -17100,11 +17108,11 @@ const DATA = {
       "jiu2",
       "tiu5",
       "suk6",
-      "leoi5",
+      "neoi5",
       "",
       "gwan1",
       "zi2",
-      "hou3",
+      "hou2",
       "kau4",
       ""
      ]
@@ -17134,8 +17142,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "caam1",
-      "ci1",
+      "sam1",
+      "caai1",
       "hang6",
       "coi3",
       "",
@@ -17147,7 +17155,7 @@ const DATA = {
       "jiu2",
       "tiu5",
       "suk6",
-      "leoi5",
+      "neoi5",
       "",
       "ng6",
       "mei6",
@@ -17228,8 +17236,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "caam1",
-      "ci1",
+      "sam1",
+      "caai1",
       "hang6",
       "coi3",
       "",
@@ -17241,7 +17249,7 @@ const DATA = {
       "jiu2",
       "tiu5",
       "suk6",
-      "leoi5",
+      "neoi5",
       "",
       "kam4",
       "sat1",
@@ -17275,8 +17283,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "caam1",
-      "ci1",
+      "sam1",
+      "caai1",
       "hang6",
       "coi3",
       "",
@@ -17288,11 +17296,11 @@ const DATA = {
       "jiu2",
       "tiu5",
       "suk6",
-      "leoi5",
+      "neoi5",
       "",
       "zung1",
       "gu2",
-      "ngok6",
+      "lok6",
       "zi1",
       ""
      ]
@@ -17326,7 +17334,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "saam3",
+      "saam1",
       "nin4",
       "gei1",
       "leoi5",
@@ -17335,7 +17343,7 @@ const DATA = {
       "gam1",
       "jat6",
       "jau6",
-      "naam4",
+      "naa4",
       "gun3",
       ""
      ]
@@ -17392,13 +17400,13 @@ const DATA = {
       "zi1",
       "cyun4",
       "lou6",
-      "kan5",
+      "gan6",
       "",
       "juk6",
       "bit6",
       "gu3",
       "hoeng1",
-      "naan6",
+      "naan4",
       ""
      ]
     },
@@ -17505,7 +17513,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "laai6",
+      "lok6",
       "hung4",
       "bat1",
       "si6",
@@ -17517,7 +17525,7 @@ const DATA = {
       "zok3",
       "ceon1",
       "nai4",
-      "gang1",
+      "gang3",
       "wu6",
       "faa1",
       ""
@@ -17559,7 +17567,7 @@ const DATA = {
       "ngau4",
       "",
       "go1",
-      "sing1",
+      "seng1",
       "zan3",
       "lam4",
       "?",
@@ -17660,7 +17668,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "wai4",
+      "wai6",
       "lei4",
       "haa6",
       "wong4",
@@ -17733,9 +17741,9 @@ const DATA = {
      ],
      "jy": [
       "fu2",
-      "zoeng3",
+      "zoeng1",
       "nung4",
-      "koeng4",
+      "koeng5",
       "paai3",
       "zok3",
       "ngo4",
@@ -17876,7 +17884,7 @@ const DATA = {
       "hung4",
       "can4",
       "ho4",
-      "cyu3",
+      "cyu5",
       "mik6",
       "zi1",
       "jam1",
@@ -17934,7 +17942,7 @@ const DATA = {
       "saan3",
       "maa5",
       "tai4",
-      "sing1",
+      "seng1",
       ""
      ]
     },
@@ -17972,7 +17980,7 @@ const DATA = {
       "tung4",
       "gwaan1",
       "bat1",
-      "gaai2",
+      "gaai3",
       "ping4",
       ""
      ]
@@ -18026,7 +18034,7 @@ const DATA = {
      ],
      "jy": [
       "maan6",
-      "leoi5",
+      "lei5",
       "coeng4",
       "zing1",
       "jan4",
@@ -18053,7 +18061,7 @@ const DATA = {
       "lung4",
       "sing4",
       "fei1",
-      "zoeng3",
+      "zoeng1",
       "zoi6",
       ""
      ]
@@ -18075,7 +18083,7 @@ const DATA = {
       "gaau3",
       "wu4",
       "maa5",
-      "dou6",
+      "dok6",
       "jam1",
       "saan1",
       ""
@@ -18115,7 +18123,7 @@ const DATA = {
      ],
      "jy": [
       "cin1",
-      "leoi5",
+      "lei5",
       "wong4",
       "wan4",
       "baak6",
@@ -18213,7 +18221,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "daan1",
+      "sin6",
       "jyu4",
       "je6",
       "deon6",
@@ -18233,7 +18241,7 @@ const DATA = {
      ],
      "jy": [
       "juk6",
-      "zoeng3",
+      "zoeng1",
       "heng1",
       "ke4",
       "zuk6",
@@ -18286,7 +18294,7 @@ const DATA = {
      "jy": [
       "wan4",
       "mou5",
-      "bing2",
+      "ping4",
       "fung1",
       "zuk1",
       "jing2",
@@ -18310,7 +18318,7 @@ const DATA = {
       "coeng4",
       "ho4",
       "zim6",
-      "laai6",
+      "lok6",
       "hiu2",
       "sing1",
       "sam2",
@@ -18434,12 +18442,12 @@ const DATA = {
       ""
      ],
      "jy": [
-      "ho2",
+      "hak1",
       "lin4",
       "gau2",
       "jyut6",
       "co1",
-      "saam3",
+      "saam1",
       "je6",
       ""
      ]
@@ -18561,7 +18569,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "ho2",
+      "hak1",
       "oi3",
       "sam1",
       "hung4",
@@ -18599,7 +18607,7 @@ const DATA = {
       "baat3",
       "jyut6",
       "tou4",
-      "sing1",
+      "seng1",
       "hau3",
       "dei6",
       "loi4",
@@ -18621,7 +18629,7 @@ const DATA = {
      "jy": [
       "tau4",
       "gou1",
-      "sou3",
+      "sou2",
       "zoeng6",
       "cuk1",
       "saan1",
@@ -18773,7 +18781,7 @@ const DATA = {
       "loi4",
       "zing1",
       "zin3",
-      "gei1",
+      "gei2",
       "jan4",
       "wui4",
       ""
@@ -18840,9 +18848,9 @@ const DATA = {
       ""
      ],
      "jy": [
-      "soeng3",
+      "soeng1",
       "hon3",
-      "loeng2",
+      "loeng5",
       "bat1",
       "jim3",
       ""
@@ -18859,7 +18867,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zi2",
+      "zek3",
       "jau5",
       "ging3",
       "ting4",
@@ -18939,12 +18947,12 @@ const DATA = {
       ""
      ],
      "jy": [
-      "lok3",
+      "lok6",
       "joeng4",
       "can1",
       "jau5",
       "jyu4",
-      "soeng3",
+      "soeng1",
       "man6",
       "",
       "jat1",
@@ -19003,7 +19011,7 @@ const DATA = {
       "fung1",
       "gwong1",
       "zeon6",
-      "bei6",
+      "pei5",
       "zim3",
       ""
      ]
@@ -19037,11 +19045,11 @@ const DATA = {
       "mat6",
       "hau6",
       "",
-      "wai4",
+      "wai6",
       "seoi4",
       "san1",
       "fu2",
-      "wai4",
+      "wai6",
       "seoi4",
       "tim4",
       ""
@@ -19075,7 +19083,7 @@ const DATA = {
       "waang6",
       "hon3",
       "sing4",
-      "leng5",
+      "ling5",
       "zak1",
       "sing4",
       "fung1",
@@ -19095,8 +19103,8 @@ const DATA = {
       ""
      ],
      "jy": [
-      "jyun6",
-      "kan5",
+      "jyun5",
+      "gan6",
       "gou1",
       "dai1",
       "zung2",
@@ -19141,7 +19149,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "zi2",
+      "zek3",
       "jyun4",
       "san1",
       "zoi6",
@@ -19314,7 +19322,7 @@ const DATA = {
       "jat6",
       "coeng4",
       "lei4",
-      "laai6",
+      "lok6",
       "mou4",
       "jan4",
       "gwo3",
@@ -19374,7 +19382,7 @@ const DATA = {
       "doe2",
       "faa1",
       "hoi1",
-      "daam6",
+      "taam5",
       "mak6",
       "han4",
       ""
@@ -19402,19 +19410,19 @@ const DATA = {
      ],
      "jy": [
       "bat1",
-      "jiu1",
+      "jiu3",
       "jan4",
       "kwaa1",
-      "hou3",
+      "hou2",
       "ngaan4",
       "sik1",
       "",
-      "zi2",
+      "zek3",
       "lau4",
       "cing1",
       "hei3",
       "mun5",
-      "gon1",
+      "kin4",
       "kwan1",
       ""
      ]
@@ -19456,7 +19464,7 @@ const DATA = {
       "",
       "sei2",
       "jik6",
-      "wai4",
+      "wai6",
       "gwai2",
       "hung4",
       ""
@@ -19527,7 +19535,7 @@ const DATA = {
      ],
      "jy": [
       "lei4",
-      "laai6",
+      "lok6",
       "so1",
       "so1",
       "jat1",
@@ -19578,7 +19586,7 @@ const DATA = {
       "coi3",
       "faa1",
       "mou4",
-      "cyu3",
+      "cyu5",
       "cam4",
       ""
      ]
@@ -19612,7 +19620,7 @@ const DATA = {
      ],
      "jy": [
       "maau4",
-      "jim4",
+      "sim4",
       "dai1",
       "siu2",
       "",
@@ -19648,9 +19656,9 @@ const DATA = {
       "leoi5",
       "ng4",
       "jam1",
-      "soeng3",
+      "soeng1",
       "mei6",
-      "hou3",
+      "hou2",
       "",
       "baak6",
       "faat3",
@@ -19683,7 +19691,7 @@ const DATA = {
       "daai6",
       "ji4",
       "co4",
-      "dau2",
+      "dau6",
       "kai1",
       "dung1",
       "",
@@ -19758,11 +19766,11 @@ const DATA = {
      "jy": [
       "mui4",
       "syut3",
-      "zang1",
+      "zaang1",
       "ceon1",
       "mei6",
       "hang2",
-      "hong4",
+      "gong3",
       ""
      ]
     },
@@ -19806,7 +19814,7 @@ const DATA = {
       "seoi1",
       "seon3",
       "syut3",
-      "saam3",
+      "saam1",
       "fan1",
       "baak6",
       ""
@@ -19886,7 +19894,7 @@ const DATA = {
       "hin1",
       "ngau4",
       "zik1",
-      "leoi5",
+      "neoi5",
       "dou6",
       "ho4",
       "kiu4",
@@ -19933,7 +19941,7 @@ const DATA = {
       "zeon6",
       "hung4",
       "si1",
-      "gei1",
+      "gei2",
       "maan6",
       "tiu4",
       ""
@@ -20002,7 +20010,7 @@ const DATA = {
      "jy": [
       "ming4",
       "jyut6",
-      "cung4",
+      "sung1",
       "gaan1",
       "ziu3",
       ""
@@ -20042,7 +20050,7 @@ const DATA = {
       "hyun1",
       "gwai1",
       "wun5",
-      "leoi5",
+      "neoi5",
       ""
      ]
     },
@@ -20098,7 +20106,7 @@ const DATA = {
       "wong4",
       "syun1",
       "zi6",
-      "ho2",
+      "hak1",
       "lau4",
       ""
      ]
@@ -20233,7 +20241,7 @@ const DATA = {
      ],
      "jy": [
       "jyut6",
-      "laai6",
+      "lok6",
       "wu1",
       "tai4",
       "soeng1",
@@ -20304,7 +20312,7 @@ const DATA = {
       "je6",
       "bun3",
       "zung1",
-      "sing1",
+      "seng1",
       "dou3",
       "haak3",
       "syun4",
@@ -20338,7 +20346,7 @@ const DATA = {
      "jy": [
       "wong4",
       "ho4",
-      "jyun6",
+      "jyun5",
       "soeng5",
       "baak6",
       "wan4",
@@ -20408,7 +20416,7 @@ const DATA = {
       "ceon1",
       "gwong1",
       "bat1",
-      "dou6",
+      "dok6",
       "juk6",
       "mun4",
       "gwaan1",
@@ -20441,7 +20449,7 @@ const DATA = {
      ],
      "jy": [
       "sai1",
-      "sak1",
+      "coi3",
       "saan1",
       "cin4",
       "baak6",
@@ -20554,7 +20562,7 @@ const DATA = {
       "gim3",
       "ngoi6",
       "fat1",
-      "zyun2",
+      "cyun4",
       "sau1",
       "gai3",
       "bak1",
@@ -20621,7 +20629,7 @@ const DATA = {
      ],
      "jy": [
       "zik1",
-      "cung4",
+      "sung1",
       "baa1",
       "haap6",
       "cyun1",
@@ -20643,12 +20651,12 @@ const DATA = {
       ""
      ],
      "jy": [
-      "pin4",
+      "bin6",
       "haa6",
       "soeng1",
       "joeng4",
       "hoeng3",
-      "lok3",
+      "lok6",
       "joeng4",
       ""
      ]
@@ -20716,9 +20724,9 @@ const DATA = {
      "jy": [
       "geoi1",
       "gou1",
-      "sing1",
+      "seng1",
       "zi6",
-      "jyun6",
+      "jyun5",
       ""
      ]
     },
@@ -20806,7 +20814,7 @@ const DATA = {
       "hang4",
       "mat6",
       "mat6",
-      "fung6",
+      "fung4",
       ""
      ]
     },
@@ -20861,7 +20869,7 @@ const DATA = {
      "jy": [
       "bou3",
       "dak1",
-      "saam3",
+      "saam1",
       "ceon1",
       "fai1",
       ""
@@ -20900,7 +20908,7 @@ const DATA = {
       "haan4",
       "gwai3",
       "faa1",
-      "laai6",
+      "lok6",
       "",
       "je6",
       "zing6",
@@ -20929,7 +20937,7 @@ const DATA = {
      "jy": [
       "jyut6",
       "ceot1",
-      "ging1",
+      "geng1",
       "saan1",
       "niu5",
       "",
@@ -20991,7 +20999,7 @@ const DATA = {
      "jy": [
       "jin1",
       "faa1",
-      "saam3",
+      "saam1",
       "jyut6",
       "haa6",
       "joeng4",
@@ -21014,7 +21022,7 @@ const DATA = {
      "jy": [
       "gu1",
       "faan4",
-      "jyun6",
+      "jyun5",
       "jing2",
       "bik1",
       "saan1",
@@ -21096,7 +21104,7 @@ const DATA = {
       "cyun1",
       "zong1",
       "ji4",
-      "leoi5",
+      "neoi5",
       "gok3",
       "dong3",
       "gaa1",
@@ -21119,7 +21127,7 @@ const DATA = {
       "tung4",
       "syun1",
       "mei6",
-      "gaai2",
+      "gaai3",
       "gung1",
       "gaang1",
       "zik1",
@@ -21144,7 +21152,7 @@ const DATA = {
       "song1",
       "jam1",
       "hok6",
-      "zung2",
+      "zung3",
       "gwaa1",
       ""
      ]
@@ -21192,7 +21200,7 @@ const DATA = {
       "",
       "saan1",
       "haam4",
-      "laai6",
+      "lok6",
       "jat6",
       "zam3",
       "hon4",
@@ -21368,9 +21376,9 @@ const DATA = {
       ""
      ],
      "jy": [
-      "saam3",
+      "saam1",
       "maan6",
-      "leoi5",
+      "lei5",
       "ho4",
       "dung1",
       "jap6",
@@ -21437,7 +21445,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "naam4",
+      "naa4",
       "mong6",
       "wong4",
       "si1",
@@ -21533,7 +21541,7 @@ const DATA = {
       "lei4",
       "seoi3",
       "dei6",
-      "sing1",
+      "seng1",
       ""
      ]
     }
@@ -21795,7 +21803,7 @@ const DATA = {
      "jy": [
       "zi2",
       "kwai1",
-      "sing1",
+      "seng1",
       "leoi5",
       "jyu5",
       "jyu4",
@@ -21901,7 +21909,7 @@ const DATA = {
       "wu4",
       "go1",
       "mou5",
-      "gei1",
+      "gei2",
       "si4",
       "jau1",
       ""
@@ -21999,7 +22007,7 @@ const DATA = {
       "cai4",
       "?",
       "gau3",
-      "ho2",
+      "hak1",
       "oi1",
       ""
      ]
@@ -22037,7 +22045,7 @@ const DATA = {
       "keoi1",
       "jat1",
       "gaak3",
-      "hong4",
+      "gong3",
       "jan4",
       "coi4",
       ""
@@ -22135,11 +22143,11 @@ const DATA = {
      "jy": [
       "fung1",
       "jat1",
-      "gang1",
+      "gang3",
       "",
       "syut3",
       "jat1",
-      "gang1",
+      "gang3",
       "",
       "kut3",
       "seoi3",
@@ -22153,7 +22161,7 @@ const DATA = {
       "jyun4",
       "mou4",
       "ci2",
-      "sing1",
+      "seng1",
       ""
      ]
     }
@@ -22208,7 +22216,7 @@ const DATA = {
       "laang5",
       "lou6",
       "mou4",
-      "sing1",
+      "seng1",
       "sap1",
       "gwai3",
       "faa1",
@@ -22335,18 +22343,18 @@ const DATA = {
      "jy": [
       "ji4",
       "tung4",
-      "soeng3",
+      "soeng1",
       "gin3",
       "bat1",
-      "soeng3",
+      "soeng1",
       "sik1",
       "",
       "siu3",
       "man6",
       "haak3",
-      "cung4",
+      "sung1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "loi4",
       ""
      ]
@@ -22434,7 +22442,7 @@ const DATA = {
       "gong1",
       "cing1",
       "jyut6",
-      "kan5",
+      "gan6",
       "jan4",
       ""
      ]
@@ -22467,7 +22475,7 @@ const DATA = {
       "ceon1",
       "sing4",
       "mou4",
-      "cyu3",
+      "cyu5",
       "bat1",
       "fei1",
       "faa1",
@@ -22514,7 +22522,7 @@ const DATA = {
       "mou6",
       "hon3",
       "gung1",
-      "zyun2",
+      "cyun4",
       "laap6",
       "zuk1",
       ""
@@ -22595,7 +22603,7 @@ const DATA = {
       "sik1",
       "jiu4",
       "hon3",
-      "kan5",
+      "gan6",
       "koek3",
       "mou4",
       ""
@@ -22619,8 +22627,8 @@ const DATA = {
       "jat1",
       "nin4",
       "ceon1",
-      "hou3",
-      "cyu3",
+      "hou2",
+      "cyu5",
       ""
      ]
     },
@@ -22670,7 +22678,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "hou3",
+      "hou2",
       "jyu5",
       "zi1",
       "si4",
@@ -22731,7 +22739,7 @@ const DATA = {
       "mat6",
       "sai3",
       "mou4",
-      "sing1",
+      "seng1",
       ""
      ]
     },
@@ -22788,7 +22796,7 @@ const DATA = {
       "hon3",
       "hung4",
       "sap1",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -22837,7 +22845,7 @@ const DATA = {
      ],
      "jy": [
       "cin1",
-      "leoi5",
+      "lei5",
       "ang1",
       "tai4",
       "luk6",
@@ -22882,7 +22890,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "naam4",
+      "naa4",
       "ziu1",
       "sei3",
       "baak3",
@@ -22953,7 +22961,7 @@ const DATA = {
       "wong4",
       "ho4",
       "maan6",
-      "leoi5",
+      "lei5",
       "saa1",
       "",
       "long6",
@@ -23000,7 +23008,7 @@ const DATA = {
       "hin1",
       "ngau4",
       "zik1",
-      "leoi5",
+      "neoi5",
       "gaa1",
       ""
      ]
@@ -23078,7 +23086,7 @@ const DATA = {
      "jy": [
       "hyun3",
       "gwan1",
-      "gang1",
+      "gang3",
       "zeon6",
       "jat1",
       "bui1",
@@ -23229,7 +23237,7 @@ const DATA = {
      "jy": [
       "baa2",
       "zau2",
-      "waa6",
+      "waa2",
       "song1",
       "maa4",
       ""
@@ -23315,7 +23323,7 @@ const DATA = {
       ""
      ],
      "jy": [
-      "jin3",
+      "jin1",
       "saan1",
       "jyut6",
       "ci5",
@@ -23539,7 +23547,7 @@ const DATA = {
       "ngaan5",
       "jing4",
       "jing4",
-      "cyu3",
+      "cyu5",
       ""
      ]
     },
@@ -23596,7 +23604,7 @@ const DATA = {
       "joek6",
       "dou3",
       "gong1",
-      "naam4",
+      "naa4",
       "gon2",
       "soeng5",
       "ceon1",
@@ -23747,7 +23755,7 @@ const DATA = {
      ],
      "jy": [
       "maau4",
-      "jim4",
+      "sim4",
       "coeng4",
       "sou3",
       "zing6",
@@ -23789,11 +23797,11 @@ const DATA = {
       "seoi2",
       "wu6",
       "tin4",
-      "zoeng3",
+      "zoeng1",
       "luk6",
       "jiu2",
       "",
-      "loeng2",
+      "loeng5",
       "saan1",
       "paai4",
       "taat3",
@@ -23943,7 +23951,7 @@ const DATA = {
       "saan1",
       "?",
       "gaak3",
-      "sou3",
+      "sou2",
       "zung6",
       "saan1",
       ""
@@ -23967,7 +23975,7 @@ const DATA = {
       "zi6",
       "luk6",
       "gong1",
-      "naam4",
+      "naa4",
       "ngon6",
       ""
      ]
@@ -24044,7 +24052,7 @@ const DATA = {
       "zam3",
       "kai1",
       "",
-      "cung4",
+      "sung1",
       "gaan1",
       "saa1",
       "lou6",
@@ -24108,7 +24116,7 @@ const DATA = {
       "sai1",
       "",
       "jau1",
-      "zoeng3",
+      "zoeng1",
       "baak6",
       "faat3",
       "coeng3",
@@ -24148,7 +24156,7 @@ const DATA = {
       "ceon1",
       "gwai1",
       "ho4",
-      "cyu3",
+      "cyu5",
       "",
       "zik6",
       "mok6",
@@ -24184,7 +24192,7 @@ const DATA = {
       "zi1",
       "ceon1",
       "heoi3",
-      "cyu3",
+      "cyu5",
       "",
       "wun6",
       "ceoi2",
@@ -24254,7 +24262,7 @@ const DATA = {
       "mou4",
       "jan4",
       "nang4",
-      "gaai2",
+      "gaai3",
       "",
       "jan1",
       "fung1",
@@ -24300,7 +24308,7 @@ const DATA = {
       "jyut6",
       "bit6",
       "zi1",
-      "ging1",
+      "geng1",
       "coek3",
       "",
       "cing1",
@@ -24336,14 +24344,14 @@ const DATA = {
       "faa1",
       "hoeng1",
       "leoi5",
-      "sok3",
+      "syut3",
       "fung1",
       "nin4",
       "",
-      "teng1",
+      "ting1",
       "ceoi2",
       "waa1",
-      "sing1",
+      "seng1",
       "jat1",
       "pin3",
       ""
@@ -24375,8 +24383,8 @@ const DATA = {
       "tin1",
       "ngoi6",
       "",
-      "loeng2",
-      "saam3",
+      "loeng5",
+      "saam1",
       "dim2",
       "jyu5",
       "saan1",
@@ -24550,7 +24558,7 @@ const DATA = {
       "gaau2",
       "ho4",
       "hon3",
-      "leoi5",
+      "neoi5",
       ""
      ]
     },
@@ -24639,10 +24647,10 @@ const DATA = {
       "ce2",
       "cin2",
       "",
-      "soeng3",
+      "soeng1",
       "heoi3",
       "fuk6",
-      "gei1",
+      "gei2",
       "heoi2",
       ""
      ]
@@ -24775,7 +24783,7 @@ const DATA = {
       "zit3",
       "zi3",
       "",
-      "wan6",
+      "kwan1",
       "wong4",
       "waa6",
       "jip6",
@@ -24931,9 +24939,9 @@ const DATA = {
       "ci4",
       "ci4",
       "",
-      "zoi2",
+      "zoi3",
       "hot3",
-      "zoi2",
+      "zoi3",
       "gei1",
       ""
      ]
@@ -25045,7 +25053,7 @@ const DATA = {
       "bat1",
       "paa3",
       "",
-      "jiu1",
+      "jiu3",
       "lau4",
       "cing1",
       "baak6",
@@ -25139,7 +25147,7 @@ const DATA = {
       "ji5",
       "dung1",
       "sai1",
-      "naam4",
+      "naa4",
       "bak1",
       "fung1",
       ""
@@ -38121,12 +38129,2575 @@ const DATA = {
    "lng": 114.223648
   }
  },
+ "sch_profiles": {
+  "保良局馬錦明中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1995",
+   "motto": "愛敬勤誠",
+   "sponsoring": "保良局",
+   "principal": "夏文亮先生 （香港中文大學榮譽理學士；香港中文大學教育文憑）",
+   "area": "約 7500平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$335"
+    ],
+    "中五": [
+     "-",
+     "$335"
+    ],
+    "中六": [
+     "-",
+     "$335"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "69",
+   "t_training": "96%",
+   "t_bachelor": "99%",
+   "t_master": "49%",
+   "t_sen": "46%",
+   "t_senior": "62%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重：校內成績30%；操行10%；課外活動5%；獎項10%；面試30%；申請學生的「成績次第名單」（由教育局提供）15%。",
+   "induction": ": 本校舉辦「中一迎新課程」、「中一家長座談會」及「中一家長講座」等，以協助新生適應中學生活；老師採用「陽光電話」方式與家長密切聯繫，讓家長了解子女的適應及學習情況。；\n學校透過早會、講座及展覽，向學生傳遞健康訊息；又舉行幸福時光、POMA　RUN（周四長跑日）、POMA　FITNESS　DAY、運動會，讓全體學生身體力行，學習自我照顧的方法、一起做運動。校方在流感高峰期按指引要求學生量體溫，常洗手，防止病症蔓延。",
+   "mission": "本校秉承保良局的辦學方針，五育並重，為學生提供多元化的機會，讓他們汲取知識，鍛煉體格，掌握共通能力，建立優良品格，適應未來社會的需要和變化。",
+   "facilities": ": 34    學校設施  : 全校具備千禧校舍的標準設施，課室室及禮堂均安裝冷氣，並鋪設電腦光纖網絡。禮堂及課室均裝設多媒體投影機及視聽音響設備。保馬設施完備，全面支援學生的需要。學習設施包括：語文藝術室、歷史文化館、圖書館、數學資源室、地理室、Makerspace、電腦室、視藝室、多媒體學習中心、音樂室、數碼錄音室、綜藝舞台、學生活動室、自修室、健身室、生涯規劃室、家長資源中心、心靈健康空間（心岸）及室內運動空間等，讓學生在完善設備下追求卓越。保馬學生與老師共建校園，「周會搬椅」和「美化校園」（包括數學資源室、化學室、地理室、美術室、輔導室、學校及圖書館外牆）等計劃，培養學生的責任感和使命感，也讓保馬成為學生的第二個家。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、視覺藝術、體育、公民、經濟與社會（中一及中二）、家政（中一及中二）、會計及經濟（中三）、音樂、地理（中三）、歷史（中三）、電腦（中三）",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、企業會計與財務概論、公民與社會發展科、中國歷史、歷史、地理、視覺藝術、經濟、資訊及通訊科技、健康管理與社會關懷（中四及中五）、旅遊與款待（中四）、體育",
+   "subj_jh_e": ": 英國語文、數學、科學",
+   "address": "新界粉嶺華明路三十八號",
+   "tel": "26794545",
+   "email": "info@plkmkmc.edu.hk",
+   "web": "http://www.plkmkmc.edu.hk",
+   "chsc_id": "16"
+  },
+  "大埔三育中學": {
+   "type": "直資",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1956",
+   "motto": "止於至善",
+   "sponsoring": "基督復臨安息日會教育；\n機構（香港）有限公司",
+   "principal": "陳漢源博士 （香港大學理學士，香港浸會大學教育文憑，香港中文大學理碩士，倫敦大學文碩士，香港教育大學教育博士）",
+   "area": "約 6000平方米",
+   "fees": {
+    "中一": [
+     "$12400",
+     "-"
+    ],
+    "中二": [
+     "$10800",
+     "-"
+    ],
+    "中三": [
+     "$10800",
+     "-"
+    ],
+    "中四": [
+     "$10800",
+     "-"
+    ],
+    "中五": [
+     "$10800",
+     "-"
+    ],
+    "中六": [
+     "$10800",
+     "-"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "62",
+   "t_training": "77%",
+   "t_bachelor": "100%",
+   "t_master": "45%",
+   "t_sen": "79%",
+   "t_senior": "47%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一入學收生準則：「申請學生成績次第名單」的排名佔20%；兩年內操行成績佔20%；課外活動、服務及獎項佔20%；面試（中、英文能力）佔20%、面試（禮貌、溝通能力、解難能力）佔20%；最近兩年內的校內成績（作參考用）。",
+   "induction": ": 為了讓新生適應新的學習環境，本校設有新生適應課程及訓練，包括中一迎新日及中一家長日。本校安排初中同學（中一至中三級）必須留校午膳，為同學挑選合適午膳，以符合衞生署所建議的健康飲食守則及聖經中的飲食教誨；於初中必修的家政科中學習健康飲食原則。在學年初為中一級舉辦訓練營，建立學生團隊精神。",
+   "mission": "本校秉承基督精神，致力以靈、智、體全人教育培育學生品格與價值觀，啟發潛能，追求卓越，實踐榮神益人、服務社群之理想。",
+   "facilities": ": 30    學校設施  : 全校網絡速度已提升至1000GHz，為電子學習創設實踐平台，所有課室已增設86吋互動觸控顯示屏，圖書館藏書豐富，約35000項中英文書刊、4000個電子書及視聽資料項目，並提供24小時線上書籍搜尋、預約借還服務。全校課室均裝有分體式冷氣、固網及無綫網絡及實物投影機。另設有健身室、大禮堂、多媒體學習室、設計與科技室、校園電視台、四個實驗室、兩個電腦室、音樂室、家政室、視覺藝術室、青少年中心、多用途室及升降機。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、生活與社會／公民、經濟與社會、中史、宗教（基督教）及普通話",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展科、中史、地理、宗教（基督教）、健康管理與社會關懷、旅遊與款待、視覺藝術及生物",
+   "subj_jh_e": ": 英國語文、數學、綜合科學、地理、電腦與資訊科技、視覺藝術、音樂、設計與科技、家政及體育",
+   "address": "新界大埔大埔頭徑2號",
+   "tel": "26653459",
+   "email": "enquiry@tpsy.edu.hk",
+   "web": "http://www.tpsy.edu.hk",
+   "chsc_id": "47"
+  },
+  "東華三院甲寅年總理中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1982",
+   "motto": "勤、儉、忠、信",
+   "sponsoring": "東華三院",
+   "principal": "邱春燕女士 （文學士、教育碩士（學校領導及行政）、行政長官卓越教學獎（德育及公民教育））",
+   "area": "約 4600平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "69",
+   "t_training": "90%",
+   "t_bachelor": "100%",
+   "t_master": "38%",
+   "t_sen": "54%",
+   "t_senior": "54%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 中一自行分配學位收生準則及比重：\n（a） 教育局「成績次第名單」，並參考校內學業成績 56% （b） 課外活動、服務及獎項 14% （c） 面試表現 30%",
+   "induction": ": 迎新活動：中一迎新日、暑期英語銜接及提升課程、中一生活教育營、領袖生及朋輩輔導員陪同中一同學午膳、校長、班主任及副班主任午膳班訪。；\n；\n健康生活：推動全校園健康計劃及政策，為學生提供安全及健康的校園環境，幫助學生達致生理上、心理上及社交上的良好狀況；家政科教導學生認識健康飲食；鼓勵全校學生參與「學校體適能獎勵計劃」；訓導組、輔導組及德育組透過活動，幫助學生培養健康生活習慣及正面的價值觀和態度，成為有識見及正面價值觀的公民。",
+   "mission": "東華三院甲寅年總理中學是一所提供優質教育的中學，我們以學生為本，營造一個理想及愉快的學習環境，提倡全人教育。致力於發展學生各方面的潛質和能力，面對瞬息萬變的未來；也著重培養學生的獨立思考能力及積極的人生態度，使其建立正確的價值觀，為社會和國家作出貢獻。",
+   "facilities": ": 30    學校設施  : 學生活動中心、STEM教育中心、全校電腦網絡（包括光纖無線網絡Wi-Fi　900計劃）、校園電視台、圖書館、實驗室、視覺藝術室、音樂室、家政室CAFE、科藝創建空間暨設計與科技工作室、演講廳、AI　Lab、資優教育室及家長資源中心。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、普通話、公民、經濟與社會、體育",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展科、中國文學、中國歷史、旅遊與款待、其他學習經歷（例：體育、藝術教育、社創課程）",
+   "subj_jh_e": ": 英國語文、數學、科學、地理、歷史、電腦認知、STEM、家政、音樂、視覺藝術",
+   "address": "新界上水彩園邨",
+   "tel": "26727395",
+   "email": "mail@twghkyds.edu.hk",
+   "web": "https://www.twghkyds.edu.hk",
+   "chsc_id": "66"
+  },
+  "東華三院李嘉誠中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1982",
+   "motto": "勤、儉、忠、信",
+   "sponsoring": "東華三院",
+   "principal": "歐文素女士 （香港中文大學理學士，教育文憑，學生輔導專業文憑，教育碩士）",
+   "area": "約 7000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "71",
+   "t_training": "90%",
+   "t_bachelor": "100%",
+   "t_master": "49%",
+   "t_sen": "59%",
+   "t_senior": "52%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重：\n學業成績（校內成績及教育局提供申請學生的「成績次第名單」）50%；\n面試表現35%；\n課外活動15%。",
+   "induction": ": 1） 迎新活動：於八月舉辦英語精修課程，並於八月下旬舉行新生家長輔導日及新生培訓營。；\n2） 午膳政策：本校中一至中三學生均須留校午膳，由飯商提供營養均衡的健康午餐。；\n3） 培養運動習慣：學校設有健身室，鼓勵同學強身健體，並每年舉辦班際長跑比賽，以協助學生養成運動習慣。",
+   "mission": "推行全人教育，訓練學生自律自愛，誘發學生盡顯個人潛能。勉勵老師提升專業精神及能力，提供優質教育，為國家社會培育優秀人才。",
+   "facilities": ": 30    學校設施  : 本校已設置Wifi900的加強無線網絡基礎設施，全校課室及禮堂均安裝冷氣，並已裝置電腦及智慧互動電子白板，以全面開展資訊科技教學。另設有電腦室、演講室、健身室、學生自學中心、學生活動室及水簾溫室等。本校地理室亦已安裝沉浸式VR虛擬實境應用系統，為學生提供更貼近現實環境的學習體驗。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、歷史、公民、經濟與社會、音樂、體育、視覺藝術、德育及公民教育、普通話。",
+   "subj_sh_c": "以中文為教學語言  : 必修科目：中國語文、公民與社會發展　　　；\n選修科目：中國歷史、歷史、旅遊與款待、視覺藝術；\n其他：綜合藝術教育（中四、中五）、體育、德育及公民教育",
+   "subj_jh_e": ": 英國語文、跨課程語文、數學、地理、科學（中一、中二）、科學（物理、化學、生物）（中三）、電腦認知、家政、設計與科技。",
+   "address": "新界粉嶺祥華邨",
+   "tel": "26697455",
+   "email": "lksss@tungwah.org.hk",
+   "web": "https://www.twghlkss.edu.hk",
+   "chsc_id": "68"
+  },
+  "恩主教書院": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "天主教",
+   "founded": "1976",
+   "motto": "知行合一",
+   "sponsoring": "天主教香港教區",
+   "principal": "黃菱茵女士 （文學士、教育碩士、教育文憑）",
+   "area": "約 4647平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "57",
+   "t_training": "95%",
+   "t_bachelor": "98%",
+   "t_master": "51%",
+   "t_sen": "53%",
+   "t_senior": "72%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。收生準則包括（按比重次序排列）：\n1.　學生學業成績（校內成績及教育局提供的排名）　50%；　　2.　面試表現　20%；　　3.　操行　10%； \n4.　藝術、運動或服務方面表現　10%；　　　　　　　　　　　5.　與本校之聯繫　10%。",
+   "induction": ": 中一迎新活動：；\n1.　為中一新生設英語、人文學科、科學暑期銜接課程；　　2.　舉辦學生及家長迎新活動；；\n3.　十月期間舉辦歷奇訓練日； 由九月至十二月期間，安排學長每天到中一各班協助新生適應中學生活。；\n健康校園活動：；\n1.　協助初中學生訂立個人目標，增強正面積極的性格特質；　　2.　參加「大埔區健康校園計劃」，推廣健康生活方式。",
+   "mission": "1.　為本校學生提供靈、德、智、體、群、美六育均衡發展的全人教育；；\n2.　協助學生盡展所長，服務社會，貢獻國家；；\n3.　以互愛的精神，幫助學生找尋真理、道路和生命，宣揚基督的福音。",
+   "facilities": ": 31    學校設施  : 本校校舍共有五座，其中包括課室、實驗室、電腦室、學生活動中心、心靈教育中心、STEAM活動室、全方位體育素養自主學習中心、圖書館、禮堂。本校亦鋪設了Wifi網絡以支援電子教學。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、體育、普通話、倫理與宗教、公民、經濟與社會（中一及中二）",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中國歷史、體育、倫理與宗教、中國文學、公民與社會發展科",
+   "subj_jh_e": ": 英國語文、數學、科學（中一及中二）、電腦、音樂、視覺藝術、科技與生活、生活與社會（中三）、歷史、地理、商業、物理（中三）、化學（中三）、生物（中三）",
+   "address": "新界大埔培賢里",
+   "tel": "26560017",
+   "email": "valtorta@valtorta.edu.hk",
+   "web": "https://www.valtorta.edu.hk",
+   "chsc_id": "82"
+  },
+  "粉嶺官立中學": {
+   "type": "官立",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1992",
+   "motto": "文行忠信",
+   "sponsoring": "政府",
+   "principal": "黃碧華女士 （教育榮譽學士、教育文憑）",
+   "area": "約 7000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "-"
+    ],
+    "中五": [
+     "-",
+     "-"
+    ],
+    "中六": [
+     "-",
+     "-"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "61",
+   "t_training": "91%",
+   "t_bachelor": "100%",
+   "t_master": "38%",
+   "t_sen": "62%",
+   "t_senior": "81%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n中一自行分配學位收生準則及比重：申請學生的「成績次第名單」（由教育局提供）20%、操行30%、面試表現30%、奬項／課外活動／服務紀錄20%。",
+   "induction": ": 暑假期間舉行中一家長迎新日、中一新生迎新活動（包括圖書館課、德育教育、自我管理工作坊、電子學習及認識校園活動）和中、英、數銜接課程，幫助學生提早適應中學生活；全學年推行「守望星計劃」，安排老師個別照顧每位中一新生。；\n本校致力推廣校園健康飲食文化，午膳供應商每天提供的餐盒中，五穀、蔬菜和肉類的比例為3：2：1，符合衞生署建議的標準。此外，本校積極鼓勵學生持續參與運動，在日常生活中實踐健康的生活模式。",
+   "mission": "本校著重學生德、智、體、群、美五育的發展；以文、行、忠、信為校訓，為學生的升學及就業作準備，並使學生成為負責任及良好的公民。",
+   "facilities": ": 26    學校設施  : 本校共有標準課室26間，多間特別室，包括實驗室、電腦室、地理室、家政室、音樂室、視覺藝術室、設計與應用科技室、英語自學中心、語言活動室、聯課活動室、STEAM房及學生活動室等。此外，還有校園電視台、學生會房、禮堂、演講廳、圖書館、輔導室、生涯規劃資源中心、會客室、教職員休息室、有蓋及露天操場。體育場地則包括籃球場、手球場、排球場及羽毛球場等。",
+   "classrooms": "",
+   "subj_jh_c": "中一及中二：中國語文、數學、公民、經濟與社會、科學、中國歷史、普通話、普通電腦、家政、設計與科技、視覺藝術、音樂、體育、歷史、地理及班主任課。；\n中三：中國語文、數學、生活與社會、中國歷史、歷史、地理、商業、科學、普通話、普通電腦、視覺藝術、音樂、體育及班主任課。",
+   "subj_sh_c": "以中文為教學語言  : 中一及中二：中國語文、數學、公民、經濟與社會、科學、中國歷史、普通話、普通電腦、家政、設計與科技、視覺藝術、音樂、體育、歷史、地理及班主任課。；\n中三：中國語文、數學、生活與社會、中國歷史、歷史、地理、商業、科學、普通話、普通電腦、視覺藝術、音樂、體育及班主任課。",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界粉嶺一鳴路27號",
+   "tel": "26776778",
+   "email": "fgss@edb.gov.hk",
+   "web": "http://www.fgss.edu.hk",
+   "chsc_id": "84"
+  },
+  "粉嶺救恩書院": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "2000",
+   "motto": "信、望、愛",
+   "sponsoring": "基督教香港崇真會",
+   "principal": "邱潔瑩女士 （文學士、教育文憑、文學碩士）",
+   "area": "約 6500平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$370"
+    ],
+    "中五": [
+     "-",
+     "$370"
+    ],
+    "中六": [
+     "-",
+     "$370"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "73",
+   "t_training": "97%",
+   "t_bachelor": "100%",
+   "t_master": "33%",
+   "t_sen": "66%",
+   "t_senior": "47%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n2026年度中一自行分配學位收生準則及比重包括：　\n1.　學業成績（30%）；2.　個人品行（30%）；3.　面試表現（40%）",
+   "induction": ": 我們以自主學習模式舉行「中一新生家長會」，讓家長和學生體驗自主學習策略。每年暑假，我們會安排中一新生家訪，老師們探訪所有中一家庭，建立家校合作關係和了解學生背景及需要，提供更適切的支援。我們亦會於九月舉辦中一適應課程，幫助中一學生建立良好學習習慣。本校致力推動健康生活，藉「健康校園計劃」、「4Rs精神健康約章」及「全校園健康計劃」的多元化活動，幫助學生發展健康的生活習慣、培養正面的人生觀與價值觀及建立校園正向文化。",
+   "mission": "我們相信每個孩子都有尊嚴，都可教導，都可成功。我們效法基督以「生命影響生命」的精神，為香港培育一群追求卓越、樂於奉獻、勇於承擔的新一代。",
+   "facilities": ": 30    學校設施  : 1.　校舍為千禧設計，並有現代化的資訊科技設備。我們設立4個配備最新科技的「二十一世紀教室」，包括虛擬實境體驗館、創新科技實驗室、創科夢工場及音樂中心，以培養學生6Cs素養（創意、溝通、合作、明辨思維、公民意識及品格教育）。；\n2.　我們設置航空實驗室，添置飛行模擬器，藉STEAM課程和聯課活動，讓學生體驗航空業發展。同時，英文科和普通話科老師設計教學活動，於航空實驗室教導學生旅遊、款待及日常口語，提升學生溝通能力。；\n3.　我們於所有課室增設電子黑板，增強課程互動性。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話（中一及中二）、數學*、公民、經濟與社會*、宗教、中史、歷史（中三）*、地理*、資訊科技、音樂（中一及中二）*、體育、視覺藝術",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展、宗教、中國歷史、歷史、地理、經濟、企業，會計與財務概論、體育（中學文憑）、體育、視覺藝術、資訊及通訊科技、健康管理與社會關懷",
+   "subj_jh_e": ": 英國語文；\n中一、中二：科學；\n中三：科學（包括物理、化學、生物課程）",
+   "address": "新界粉嶺欣盛里3號",
+   "tel": "26608405",
+   "email": "info@fkyc.edu.hk",
+   "web": "http://www.fkyc.edu.hk",
+   "chsc_id": "85"
+  },
+  "粉嶺禮賢會中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1999",
+   "motto": "進學明道",
+   "sponsoring": "中華基督教禮賢會；\n香港區會",
+   "principal": "陳俊平博士 （香港中文大學工學士，香港中文大學哲學碩士，香港中文大學學位教師教育文憑，香港大學教育碩士，香港中文大學教育博士）",
+   "area": "約 7000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$320"
+    ],
+    "中五": [
+     "-",
+     "$320"
+    ],
+    "中六": [
+     "-",
+     "$320"
+    ]
+   },
+   "fee_other": "$300",
+   "teachers": "71",
+   "t_training": "90%",
+   "t_bachelor": "99%",
+   "t_master": "52%",
+   "t_sen": "41%",
+   "t_senior": "71%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一行分配學位申請資格：小五及小六各科成績及操行優良。收生準則： 學生成績40%，學業以外的表現（操行、課外活動、服務、獎項等）30%，面試表現30%。",
+   "induction": ": 1.　本校於暑期舉辦的中一迎新活動，讓學生盡快適應和融入校園生活、掌握協同探究的學習模式及課堂常規；特別聘請導師教授暑期英語科學及數學銜接課程。　2.　輔導學長（BBS）全年與中一同行，關顧學弟妹學習、適應及成長的需要。　3.　舉行新生家長日，讓家長認識學校，並與班主任會面及交流。　4.　本校致力建立一個健康校園，注重學生均衡營養的膳食；透過參與環校跑、「禮賢健力士挑戰賽」、制服團隊、香港青年獎勵計劃及領袖訓練，新建健身室等，幫助同學建立運動習慣，提升體適能，鍛鍊同學堅毅意志，提高抗逆力；　5.　透過老師早會分享、周會講座、校園電視台（RTV）宣傳片等，向學生講解電子煙和依托咪酯等毒品的禍害，並提倡健康生活方式，以建立無毒和健康的校園文化。",
+   "mission": "讓學生在德、智、體、群、美及靈育各方面得到均衡的發展，並鼓勵同學努力進取學習、明白及彰顯真道、裝備自己，尋獲並實現豐盛的人生。",
+   "facilities": ": 32    學校設施  : 本年進行多項優化設施工程：新建校史室暨會議室、翻新家政室及化學實驗室。透過優質教育基金計劃建立的STEAM　LAB（賢創教室）及MAKER　SPACE（賢創坊）讓STEM尖子多加開發及鑽研科技，並支援初中STEAM的普及課程；新建分析科學實驗室，配備專業級分析儀器，促進科學探究。基督教教育中心培育學生靈命；薈賢閣，佈置小型房間，讓師生、生生交流互動；地下設圖書館及獨立座位自修室，放置學習材料，窗外綠化樹影，優化閱讀環境；健身室，提供多元健身器材。其他設施包括環校緩跑徑、英語學習中心等亦有助豐富同學學習經歷。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話、地理、歷史、中國歷史、普通電腦、視覺藝術、體育、家政、音樂、公民、經濟與社會（中一及中二）、生活與社會（中三）、基督教教育。",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展、地理、歷史、中國歷史、經濟、資訊及通訊科技、旅遊與款待、企業、會計與財務概論、視覺藝術、藝術發展、體育、基督教教育、生命教育、應用學習。",
+   "subj_jh_e": ": 英國語文（包括英語藝術）、數學、科學（中一及中二）、科學（中三：化學、物理、生物）",
+   "address": "新界粉嶺聯和墟聯益街1號",
+   "tel": "29473698",
+   "email": "mail@frcss.edu.hk",
+   "web": "https://www.frcss.edu.hk/",
+   "chsc_id": "86"
+  },
+  "風采中學（教育評議會主辦）": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "2002",
+   "motto": "風度文采",
+   "sponsoring": "教育評議會教育基金有限公司",
+   "principal": "梁惠君女士 （文學碩士、文學士、教育文憑）",
+   "area": "約 9000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "72",
+   "t_training": "100%",
+   "t_bachelor": "100%",
+   "t_master": "57%",
+   "t_sen": "71%",
+   "t_senior": "60%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n中一自行分配學位收生準則及比重：申請學生的「成績次第名單」（由教育局提供）及小學學業成績（40%）；操行、課外活動、服務及獎項（30%）；面試（30%）",
+   "induction": ": 全體新生必須於暑期內參加多天新生輔導活動，包括中英語文、數學、科學銜接班及歷奇活動。另於暑假和開學後舉辦新生家長會。；\n1.　本校一向重視學生的健康生活，除中六級外，全校留校午膳，保證膳食質素。 ；\n2.　本校充份運用綠化校園的優勢，提供優質體育課程及聯課活動，發展學生的體適能及提升健康水平。",
+   "mission": "培養新一代成為具備自主學習能力及高度責任感的終身學習者。",
+   "facilities": ": 31    學校設施  : 本校採用千禧校舍設計，設30個標準課室、多個輔導教室、跨學科自主學習中心、多媒體教學室、圖書館、實驗室、演講廳、藝廊、溫室、禮堂、籃球場、足球場等。另本校具特色的專室及空間，如英語學習中心、文采閣、數學室、歷史研習室、樂以軒、夢飛號英語空間、生態探知館、文學閣、心靈培育室、學生活動中心、采藝坊、科學潮地帶、青雲閣，為學與教提供了完善的設備。本校獲優質教育基金撥款改建「身。心。靈體驗空間」，以推行正向教育。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、公民、經濟與社會（中一、中二）、中國歷史、歷史、體育、普通話、生活教育、專題研習",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展、中國歷史、中國文學、歷史、視覺藝術、資訊及通訊科技、體育",
+   "subj_jh_e": ": 英國語文、英語戲劇（中三）、科學、數學、地理、電腦、會計（中三）、生活與社會（資源與經濟活動）（中三）、生活與科技、視覺藝術、音樂",
+   "address": "新界上水清城路八號",
+   "tel": "24683680",
+   "email": "ec-mail@hkedcity.net",
+   "web": "http://www.elegantia.edu.hk",
+   "chsc_id": "87"
+  },
+  "鳳溪第一中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1952",
+   "motto": "謙信勤敏",
+   "sponsoring": "鳳溪公立學校",
+   "principal": "曾美月女士 （香港中文大學理學士；香港中文大學教育文憑；香港都會大學教育碩士；香港中文大學文學碩士）",
+   "area": "約 100000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "79",
+   "t_training": "76%",
+   "t_bachelor": "61%",
+   "t_master": "38%",
+   "t_sen": "54%",
+   "t_senior": "61%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。30%的中一學額供自行分配學位。中一自行分配學位申請收生準則及比重︰學校成績（中、英、數、常識）40%、操行15%、課外活動表現10%、其他傑出表現10%、面試表現25%。",
+   "induction": ": 1.本校每年八月中為中一新生舉辦適應課程，內容包括：中文、英文、數學升中課程、正向心態的認識和培養、社工介紹、學習技巧訓練、認識青春期生理及心理變化等。 ；\n2.開學前舉辦中一迎新家長日，讓家長了解本校的教育理念和日常運作，從而加深家長對學校的認知，促進家校合作。 ；\n3.本校每年均舉辦校內越野賽、田徑運動會、體藝周活動、班際及社際球類比賽，為學生提供適切鍛煉身心的機會。 ；\n4.本校飯盒供應商提供「3低（低脂、低鹽、低糖）1高（高纖）及0添加（無反式脂肪）」午餐。",
+   "mission": "本校以「謙、信、勤、敏」為訓，實施德、智、體、群、美全人教育，鍛鍊學生獨立思考能力，並協助他們建立正確及積極人生觀，為學生提供優良之學習環境及全面均衡之課程，讓他們愉快學習，發展潛能，日後回饋社會。",
+   "facilities": ": 34    學校設施  : 跑道、足球場、籃球場、排球場、跳遠及三級跳沙池、哥爾夫球練習場、射箭場、投擲區（可進行投擲鉛球、標槍、鐵餅）、生態池、學生活動中心、1200座位大禮堂、實驗室、電腦室、地理室、音樂室、家政室、視覺藝術室、資訊科技及創科中心、多媒體教學中心、英語自學中心、圖書館、董事局自費興建之三層教學大樓。全校空氣調節。另外，鳳溪室內游泳館已於2019年9月開始動工，快將落成。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話、普腦、普腦（創科研習）（中一至中三）、科學*（中一及中二）、公民、經濟與社會　（中一及中二）、家政、中史、地理*、歷史*、音樂、體育、生活與社會（經濟）*（中三）、科學（物理）*（中三）、科學（化學）*（中三）、科學（生物）*（中三）、生命教育、視覺藝術",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中史、地理、歷史、資訊及通訊科技、公民與社會發展科、旅遊與款待、企業、會計與財務概論、體育（考試）、體育、視藝（考試）、其他學習經歷",
+   "subj_jh_e": ": 英國語文　",
+   "address": "新界上水馬會道17號",
+   "tel": "26700366",
+   "email": "fk1ss@fk1ss.edu.hk",
+   "web": "http://www.fk1ss.edu.hk",
+   "chsc_id": "88"
+  },
+  "鳳溪廖萬石堂中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1996",
+   "motto": "謙信勤敏",
+   "sponsoring": "鳳溪公立學校",
+   "principal": "朱國輝先生 （中大文學士， 港大教育碩士）",
+   "area": "約 6000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "68",
+   "t_training": "94%",
+   "t_bachelor": "99%",
+   "t_master": "46%",
+   "t_sen": "38%",
+   "t_senior": "71%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n中一自行分配學位收生準則依照教育局提供申請學生的「成績次第名單」，但會剔除以下申請人：\n1.　小五、六英文科總成績曾出現 C 級或更低　2.　小五、六操行曾被評為B-級或更低者　3.面試表現不合格或缺席面試\n** 另外，本校在升中安排上沒有與其他小學存在直屬、聯繫或一條龍關係。",
+   "induction": ": 向中一出發、中一英文銜接課程、新生同FUN日、中一新生家長日（8月）及中一家長晚會（11月）。；\n全校學生均需參加體適能計劃。舉辦「跑出自信」計劃，同學如參加以下任何兩項本地10公里賽跑或是學校比賽，即可獲得2個優點。此外，本校亦有一人一義工計劃；本校獲評為「有心學校」，近年本校學生之義工服務時數通常為全港首三名之一。",
+   "mission": "以「謙、信、勤、敏」為訓，實施全人教育。鍛鍊學生獨立思考能力，建立正確人生觀，並提供優良學習環境，讓學生發展潛能，回饋社會。",
+   "facilities": ": 54    學校設施  : 冷氣校園。標準規格以外另有3間電腦室、多媒體教學中心、網絡實驗室、英語中心、電腦輔助學習室、舞蹈室、多用途活動室、DT電腦學習室、自修室。全校所有課室均已裝設電子白板及賽物投影器。此外，禮堂設有9呎x16呎的LED屏幕。；\n本校辦學團體撥款興建一座室內暖水游泳館，將於2026年下旬啟用。計劃中的游泳館設有一主池，長25米，共10條線道，並附設一預備池，長　15米，共5條線道。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中文文言文、普通話、中史、生命教育、視覺藝術、音樂、體育、家政、設計與科技、公民、經濟與社會、歷史、地理、電腦",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中國文學、公民與社會發展科、中史、世界歷史、資訊與通訊科技、視覺藝術、旅遊與款待、體育（非公開試學科）、生命教育（非公開試學科）、健康管理與社會關懷",
+   "subj_jh_e": ": 英國語文、數學、科學",
+   "address": "新界上水鳳南路6號",
+   "tel": "26736106",
+   "email": "info@fklmstss.edu.hk",
+   "web": "http://www.fklmstss.edu.hk",
+   "chsc_id": "89"
+  },
+  "佛教大光慈航中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "佛教",
+   "founded": "2009",
+   "motto": "明智顯悲",
+   "sponsoring": "香港佛教聯合會及大光園有限公司",
+   "principal": "梁穎媛女士 （文學士、教育文憑、文學碩士、教育碩士）",
+   "area": "約 7000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "55",
+   "t_training": "80%",
+   "t_bachelor": "98%",
+   "t_master": "62%",
+   "t_sen": "56%",
+   "t_senior": "42%",
+   "classes": {
+    "中一": "3",
+    "中二": "3",
+    "中三": "3",
+    "中四": "3",
+    "中五": "3",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重如下： 校內表現，包括學業、課外活動、服務表現、參與社區活動經驗：30%；　　面試：30%；　　操行：40%。",
+   "induction": ": 1.　舉辦中一新生迎新活動、親子活動、多元化暑期銜接課程，讓新生早日適應中學生活及掌握學習技巧。 ；\n2.　提供課後學習支援、學術增潤班，鞏固及延展所學。；\n3.　為幫助學生達致生理、心理及社交上的良好狀態，本校推行「健康校園政策」，幫助學生培養健康的生活習慣，建立正面的人生觀與價值觀，培訓生活技能及抗拒誘惑的技巧。",
+   "mission": "本校以「明智顯悲」為校訓，「德、智、體、群、美、靈」六育齊施，致力培育學生全人發展；並本着佛陀慈悲的精神，致力提升學生成績，並推行佛化教育，培養良好品德，建立正確的人生觀，孕育社會棟樑。",
+   "facilities": ": 25    學校設施  : 校舍為標準設計，全校均備空調，校園舖設光纖網絡。所有課室均有完善的網絡系統與影音設備。其他設備方面，設多個實驗室、電腦室與多媒體學習中心、禪修室、家長資源中心、英語自學中心、STEM　Room、學生活動室、健身室、籃球場、排球場、訓練跑道、射擊室、縫紉室與輔導活動室。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、數學*、科學*、中國歷史、佛化德育及價值教育*、普通電腦*、地理*、歷史*、公民、經濟與社會（中一、中二）*、生活與社會（中三）*、音樂*、視覺藝術*、體育*、設計與科技*、家政*、普通話、生涯規劃（中一、中二）",
+   "subj_sh_c": "以中文為教學語言  : 必修科目：中國語文、數學、公民與社會發展　　　；\n選修科目：中國歷史、地理、旅遊與款待、資訊及通訊科技、視覺藝術、生物、化學、物理、倫理與宗教、經濟、企業會計與財務概論、數學（延伸部分—單元二）；\n非公開試科目：佛化德育及價值教育、體育、成長及發展（中四）、體藝STEM（中五）、英語傳意（中六）",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界大埔翠怡街四號",
+   "tel": "26640833",
+   "email": "btc@btkchc.edu.hk",
+   "web": "http://www.btkchc.edu.hk",
+   "chsc_id": "90"
+  },
+  "港九街坊婦女會孫方中書院": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "2002",
+   "motto": "勤、廉、信、慎",
+   "sponsoring": "港九街坊婦女會有限公司",
+   "principal": "胡鳳琼女士 （文學士（榮譽）， 學位教師教育文憑 （ 中學 ）， 教育碩士）",
+   "area": "約 11557平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$370"
+    ],
+    "中五": [
+     "-",
+     "$370"
+    ],
+    "中六": [
+     "-",
+     "$370"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "58",
+   "t_training": "96%",
+   "t_bachelor": "100%",
+   "t_master": "64%",
+   "t_sen": "38%",
+   "t_senior": "61%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n1.　面試表現 20%；　2.　學業表現 20%；　3.　操行表現 20%；　4.　獎項（包括學術、體藝及服務） 20%；　5.　教育局所提供之名次 20%。",
+   "induction": ": 1.　除出版「新生攻略」和「家長手冊」（網上版）外，更舉辦中一新生家長會，協助新同學和家長了解學校的辦學理念、目標和運作。透過為期兩周的暑期銜接班，新生可以適應本校以普通話和英語授課的特色，適應活動包括：認識校園、團隊建立、紀律訓練，更設普通話、數學、科學及電腦銜接班，以鞏固同學的根基，讓同學們無懼升中的新挑戰。；\n2.　成立「健康校園政策小組」，按學生需要制訂相關政策，幫助學生發展健康生活習慣、正面人生觀與價值觀、生活技能及抗拒誘惑的技巧。本年度關注重點包括：正向心理學、健康飲食、無毒校園、無煙生活、自我形象、情緒健康、生涯規劃、性教育等。",
+   "mission": "秉承辦學團體的辦學方針，注重學生兩文三語培訓，乃香港首間以普通話為教學語言的津貼中學。發掘學生多元智能，使他們得到全面而具個性的發展，樂於終身學習，成為有創意、具應變能力、富責任感及積極進取的公民。",
+   "facilities": ": 30    學校設施  : 千禧校舍已安裝空調設備及鋪設光纖和wifi網絡。標準設施外，設英語學習室、英語花園、生涯規劃室、數碼圖書館、資訊科技學習中心、設計與應用科技室，購置立體打印機和鐳射切割機、增設實物投影機及電子白板供教室使用。另外，校舍更設足球場、跑道、沙池、健身室等。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文（與普通話融合）、數學*、歷史*、地理*、中國歷史、公民、經濟與社會（中一至中二）、生活與社會（中三）、視覺藝術、音樂、設計與科技、家政（中一至中二）、體育（以上科目以普通話授課）",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學、公民與社會發展科、歷史、中國歷史、地理、經濟、視覺藝術、設計與應用科技、數學（延伸單元二）",
+   "subj_jh_e": ": 英國語文、電腦、科學",
+   "address": "新界大埔大埔公路大埔滘段4643號",
+   "tel": "26567123",
+   "email": "info@sunfc.edu.hk",
+   "web": "http://sunfc.edu.hk",
+   "chsc_id": "113"
+  },
+  "基督教香港信義會心誠中學": {
+   "type": "直資",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1964",
+   "motto": "心靈誠實",
+   "sponsoring": "基督教香港信義會",
+   "principal": "麥沃華先生 （教育政策及行政學碩士，教育學榮譽學士，教師證書）",
+   "area": "約 17000平方米",
+   "fees": {
+    "中一": [
+     "$7100",
+     "-"
+    ],
+    "中二": [
+     "$7100",
+     "-"
+    ],
+    "中三": [
+     "$7100",
+     "-"
+    ],
+    "中四": [
+     "$8400",
+     "-"
+    ],
+    "中五": [
+     "$8400",
+     "-"
+    ],
+    "中六": [
+     "$8400",
+     "-"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "85",
+   "t_training": "86%",
+   "t_bachelor": "100%",
+   "t_master": "49%",
+   "t_sen": "32%",
+   "t_senior": "56%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n中一自行分配學位收生準則及比重：學業成績20%；面試表現35%；操行15%；課外活動10%；獎項10%；學校評語（例如小學成績表）10%。",
+   "induction": ": 本校設有中一新生導向營，讓新生適應新學習環境，並舉辦暑期新生英語班，讓學生盡快投入學校生活。本校重視培育學生多元智能，在考慮取錄學生時，既重視同學的學習態度，更重視其德行及對體藝活動的興趣，以配合本校「一生一體藝」的發展方向。此外，促進中一新生之間，與及班主任之間互相認識，減低新生的憂慮情緒及建立新生的歸屬感，也是適應活動重要的元素。故本校於學期初，為中一新生舉辦多項班團建立活動，促進新生朋輩及師生交流，以培養他們自我認識及表達能力，建立正向情緒及幸福感。",
+   "mission": "以「提供全人成長之基督教教育、服務社會、見證基督」為辦學宗旨，幫助學生發展多元智能，使他們將來成為能獨立思考、面對時代挑戰、積極服務社會的優質公民。",
+   "facilities": ": 36    學校設施  : 本校校園寬闊，環境優美，除一般學校設施外，更有充裕的設施和活動空間，包括多媒體學習中心、語言實驗室、STEAM實驗室及一座可容納超過1200名觀眾之演奏廳及室內體育館兩用大禮堂。全校禮堂、所有實驗室及課室均設有內聯網及多媒體教學設施作教學之用。此外，每個課室及大部分特別室已設有86吋的互動教學屏幕，有效促進電子教學及自主學習。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、歷史、綜合人文、音樂、體育、視覺藝術、普通話、宗教教育、地理、公民、經濟與社會。",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展、中國文學、中國歷史、歷史、地理、體育、視覺藝術、旅遊與款待、化學、生物、健康管理與社會關懷、資訊及通訊科技。；\n",
+   "subj_jh_e": ": 英國語文、英國文學、數學、科學、生物、化學、物理、普通電腦。",
+   "address": "新界粉嶺馬會道270號",
+   "tel": "26700541",
+   "email": "flss@flss.edu.hk",
+   "web": "http://www.flss.edu.hk/",
+   "chsc_id": "137"
+  },
+  "迦密柏雨中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1979",
+   "motto": "明道律己　忠主善群",
+   "sponsoring": "基督教興學會有限公司",
+   "principal": "黃峻先生 （工商管理學士）",
+   "area": "約 8000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$320"
+    ],
+    "中五": [
+     "-",
+     "$320"
+    ],
+    "中六": [
+     "-",
+     "$320"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "55",
+   "t_training": "87%",
+   "t_bachelor": "100%",
+   "t_master": "49%",
+   "t_sen": "68%",
+   "t_senior": "56%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則： \n1.　學業成績（50%）　　　2.　面試（20%）\n3.　課外活動（20%）　　　4.　操行及服務（10%）。",
+   "induction": ": 迎新活動：；\n1.　升中銜接課程。　　2.　迎新日及中一活動日。；\n健康生活：；\n1.　提供各樣有益身心的活動給學生參與。　　2.　舉辦健康講座，邀請專業人士主講，提倡健康生活信息。",
+   "mission": "提供優良的基督教全人教育，栽培學生的德、智、體、群、美和靈育，啟發學生潛能。",
+   "facilities": ": 25    學校設施  : 1.　休憩設施：籃球場3個、羽毛球場、小型足球場、跑道。；\n2.　資訊科技教學設施：創科空間由Cyber　Hub、InnoLab及STEAM　Cave組成，演講廳、電腦化圖書館，多媒體學習中心等。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、普通話、聖經、音樂、體育、視覺藝術、設計與科技",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中國文學、中國歷史、公民與社會發展、聖經、音樂、體育",
+   "subj_jh_e": ": 英國語文、數學、資訊及通訊科技、綜合科學（中一及中二）、歷史、物理（中三）、化學（中三）、生物（中三）、地理、「公民、經濟與社會」（中一及中二）、經濟與商業（中三）",
+   "address": "新界大埔大元邨",
+   "tel": "26650078",
+   "email": "cpu@cpu.edu.hk",
+   "web": "http://www.cpu.edu.hk",
+   "chsc_id": "145"
+  },
+  "迦密聖道中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1998",
+   "motto": "明道律己，忠主善群",
+   "sponsoring": "基督教興學會有限公司",
+   "principal": "劉詠詩女士 （文學士、教育文憑、教育碩士）",
+   "area": "約 8000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$300"
+    ],
+    "中五": [
+     "-",
+     "$300"
+    ],
+    "中六": [
+     "-",
+     "$300"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "58",
+   "t_training": "95%",
+   "t_bachelor": "100%",
+   "t_master": "50%",
+   "t_sen": "53%",
+   "t_senior": "66%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。校內成績及教育局「成績次第名單」排名40%；操行及評語20%；活動、服務及獎項10%；面試表現30%。",
+   "induction": ": 暑假期間舉行新生家長講座、迎新日及銜接課程，學期初舉行教育主日、家長晚會及與班主任會談。；\n推動健康校園政策、建設校園關愛及欣賞文化、培育學生對學校的歸屬感、為學生提供生命教育及有益身心的活動、培養他們正向思維、正確價值觀、建立人生目標等，幫助學生身、心、靈健康成長。",
+   "mission": "按聖經真理提供全人教育，讓學生在德、智、體、群、美和靈命上，得到全面優質栽培，以致學能得以提高，個人潛質得以確立和發揮，並且認識真神，明白真道，建立優良品格，樹立律己精神，得以在信、望、愛中成長，長大後能立身處世，關心國家和社會，榮神益人。",
+   "facilities": ": 26    學校設施  : 校舍為標準設計，有2個籃球場、2個雨天操場，更備有獨立禮堂、學生活動中心、閃耀舞台、圖書館、多用途教室、英語角、學習中心、電腦室、STEAM　Lab（2026年9月前落成）及家長資源中心等。全校安裝空調，並鋪設光纖網絡。所有課室均有影音及電子黑板輔助教學。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、科學（中一及中二）*、物理（中三）、化學（中三）、生物（中三）、地理*、歷史*、中國歷史、公民、經濟與社會（中一及中二）、生活與社會（中三）、電腦認知、STEAM、聖經、普通話、視覺藝術、音樂、體育",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展科、中國文學、中國歷史、經濟、地理、歷史、生物、化學、物理、資訊及通訊科技、視覺藝術、企業會計與財務概論、旅遊與款待、聖經、音樂、體育",
+   "subj_jh_e": ": 英國語文、數學",
+   "address": "新界大埔太和路10號",
+   "tel": "26539786",
+   "email": "mail@chw.edu.hk",
+   "web": "http://www.chw.edu.hk",
+   "chsc_id": "146"
+  },
+  "救恩書院（大埔富善邨）": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1950",
+   "motto": "信、望、愛",
+   "sponsoring": "基督教香港崇真會",
+   "principal": "温結冰女士 （文學士、文學碩士）",
+   "area": "約 6337平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "58",
+   "t_training": "98%",
+   "t_bachelor": "98%",
+   "t_master": "56%",
+   "t_sen": "59%",
+   "t_senior": "60%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重：\n（a） 學業成績︰50%；（b） 課外活動及服務︰20%；（c） 面試表現︰30%。",
+   "induction": ": 學校為中一新生安排銜接課程「新鮮人學堂」，內容包括跨學科英語運用、課室英語、電子學習應用、英語全方位活動、學習技巧訓練，並有中文、英文、數學、科學與地理課程，以及團隊建立和紀律培訓活動。學校亦會為家長安排迎新講座，加強家校合作。；\n學校重視師生的健康，注意校園清潔及衞生，提倡建立健康飲食及運動習慣，食物部提供營養均衡的食物及飲品選擇。此外，亦推行反吸煙及禁毒教育，維持無煙、無濫藥的學校環境。",
+   "mission": "本著基督仁愛精神，提供全人教育，為學生建立積極、健康的學習環境，使學生在五育及靈育得到均衡發展，從而服侍人群，關心社會，貢獻國家民族。",
+   "facilities": ": 29    學校設施  : 14間特別室、禮堂、小禮堂、學生活動中心、升學就業輔導室、綜合藝術室、舞蹈室及兩個操場。學校資訊科技設備完善，設有兩個電腦室、多媒體學習中心及電腦輔助學習教室。各教室已安裝互動電子白板，以配合電子學習及與世界各地之姊妹學校交流的需要。全校已鋪設光纖網絡及Wi-Fi網絡，並提供足夠的平板電腦供學生使用。新設中華歷史文化館、STEAM　Room、英文室，增加活動空間。有蓋操場設有小舞台「清雅臺」，定期舉行學生表演，讓同學盡展音樂才華；並將設「平行心間站」，讓師生放鬆身心，重新得力。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話、公民、經濟與社會（中一、中二）／生活與社會（中三）、中國歷史、歷史、倫理／宗教教育、視覺藝術、音樂、體育課",
+   "subj_sh_c": "以中文為教學語言  : 必修科：中國語文；公民與社會發展科；\n選修科：中國文學（中五至中六）；中國歷史；歷史；資訊及通訊科技；視覺藝術；企業、會計與財務概論；旅遊與款待；\n非公開試科目：倫理／宗教教育；藝術發展；體育課",
+   "subj_jh_e": ": 英國語文、科學、地理",
+   "address": "新界大埔富善邨",
+   "tel": "26608308",
+   "email": "mail@kyc.edu.hk",
+   "web": "https://www.kyc.edu.hk",
+   "chsc_id": "168"
+  },
+  "孔教學院大成何郭佩珍中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "孔教",
+   "founded": "1963",
+   "motto": "敬教勸學",
+   "sponsoring": "孔教學院",
+   "principal": "周啓廸先生 （香港大學理學士、香港大學教育文憑、香港科技大學文學碩士）",
+   "area": "約 6500平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$310"
+    ],
+    "中五": [
+     "-",
+     "$310"
+    ],
+    "中六": [
+     "-",
+     "$310"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "63",
+   "t_training": "78%",
+   "t_bachelor": "100%",
+   "t_master": "32%",
+   "t_sen": "60%",
+   "t_senior": "51%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。收生準則除考慮申請者的學業成績外，尤其注重學生的品行，申請者的校內操行及中、英、數等各項表現突出者可獲優先考慮。\n中一自行分配學位收生準則及比重如下：學業成績佔40%、操行25%、課外活動20%（體育／藝術／領袖才能／社區服務）、面試15%。詳細說明可瀏覽學校網頁。",
+   "induction": ": 為協助中一新生適應中學生活、了解中學課程、培養學生守規及訓練學生解難的能力，特舉辦「中一銜接班」、「中一迎新營」及「中一迎新日」。另會舉行「中一新生家長晚會」，以加強家校間的聯繫及溝通。透過活動讓學生了解本校的",
+   "mission": "秉承孔教學院精神，以推廣孔教，弘揚孔道，化導人心，發揚我國固有道德文化，為社會培育才德兼備人材為宗旨。在提高學生的學術成績外，全力推行德、智、體、群、美五育，以期學生有更全面的教育及健全的成長。",
+   "facilities": ": 29    學校設施  : 除了標準設施外，本校自2004年起陸續增設英語學習中心、演講廳及校園電視台控制室。同時，本校在禮堂及有蓋操場安裝巨型LED顯示牆，讓學生於課餘能參與更多元化的活動。2021年，本校把天面活動區改建成室內運動場，讓學生能不受天雨影響進行體育活動。此外，本校重新修葺圖書館，館內佈置加入中式元素，另增設自修空間，提供舒適的自習及閱讀環境。為推廣中華文化，園林休憩區加建傳統擺設「欹器」，寓意：「虛則欹，中則正，滿則覆」，提醒學生應以「中庸之道」立身處世。2022年，本校增設創新科技中心Innovation　Centre，配備高規格STEAM設備，讓學生發揮創意，實現科研夢想。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話、經訓、中國歷史、生活與社會（中三）、公民、經濟與社會科（中一、中二）、德育及公民教育、歷史、數學*、電腦*、科技與生活、音樂、體育、視覺藝術",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展科、中國歷史、中國文學、地理、數學、歷史、視藝、化學、物理、生物、旅遊與款待、經訓、體育",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界大埔富善邨第十七區",
+   "tel": "26665926",
+   "email": "info@ctshkpcc.net",
+   "web": "http://www.ctshkpcc.edu.hk",
+   "chsc_id": "173"
+  },
+  "靈糧堂劉梅軒中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1999",
+   "motto": "敬畏耶和華是智慧的開端，認識至聖者便是聰明。",
+   "sponsoring": "基督教靈糧世界佈道會；\n香港靈糧堂堂務委員會",
+   "principal": "林治彬先生 （教育行政碩士、道學學士、理學士、教育文憑）",
+   "area": "約 7000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "65",
+   "t_training": "91%",
+   "t_bachelor": "100%",
+   "t_master": "57%",
+   "t_sen": "46%",
+   "t_senior": "71%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n面試的整體表現：35%；申請學生成績次第名單（教育局提供）及校內學業成績：35%；操行及小學對學生各方面的評語：15%；課外活動、服務及所獲獎項：15%。",
+   "induction": ": 設有為期四天的中一適應課程，幫助新生認識學校文化，預備中學學習模式，令學生盡早適應中學生活，投入學習；期間更特設家長講座及親子工作坊。本課程收效顯著，參與率超過90%，深受家長及學生的歡迎。；\n；\n推行健康校園計劃，建立學生正向人生觀，推動共融文化；舉辦醫療及營養講座、注射流感疫苗計劃、各類體育活動，提倡健康生活。照顧學生身、心、靈的健康。",
+   "mission": "以聖經真理為基礎，幫助學生在愉快、健康及關懷的學習環境中成長，使他們在靈、德、智、體、群、美六育方面得到完整的發展。",
+   "facilities": ": 30    學校設施  : 課室30間、特別室19間，其中包括多元學習中心、英語自學中心、創科工作室及體能訓練室各一個。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、數學*、電腦*、綜合科學*（中一及中二）、物理*（中三）、化學*（中三）、生物*（中三）、中國歷史、歷史*、地理*、公民，經濟與社會（中一及中二）、生活與社會（中三）、音樂、體育、家政*、設計與科技*、視覺藝術*、宗教",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學、數學延伸課程一、公民與社會發展、生物、化學、物理、企業會計與財務概論、經濟、地理、中史、歷史、視藝、資訊及通訊科技、設計與應用科技、體育（文憑試）、應用學習、音樂、體育、宗教",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界大埔雍宜路3號",
+   "tel": "26531234",
+   "email": "school@llcmhlau.edu.hk",
+   "web": "http://www.llcmhlau.edu.hk",
+   "chsc_id": "195"
+  },
+  "羅定邦中學": {
+   "type": "直資",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1991",
+   "motto": "誠正思行",
+   "sponsoring": "羅氏信託有限公司",
+   "principal": "郭永強先生 （理學學士、教育學士、理學碩士、帝國學院文憑） BBS MH 太平紳士",
+   "area": "約 9320平方米",
+   "fees": {
+    "中一": [
+     "$23946",
+     "-"
+    ],
+    "中二": [
+     "$23946",
+     "-"
+    ],
+    "中三": [
+     "$23946",
+     "-"
+    ],
+    "中四": [
+     "$23946",
+     "-"
+    ],
+    "中五": [
+     "$23946",
+     "-"
+    ],
+    "中六": [
+     "$23946",
+     "-"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "73",
+   "t_training": "71%",
+   "t_bachelor": "100%",
+   "t_master": "45%",
+   "t_sen": "44%",
+   "t_senior": "47%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校不接受中一自行分配學位申請。本校不參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。",
+   "induction": ": 暑假期間舉辦中一迎新活動及暑期銜接課程，以協助新生適應學校環境及中學學習生活。本校亦著重學生心靈及身體健康，參與不同計劃，如健康校園計劃，校園好精神計劃，並設課後支援，以照顧學生不同需要。",
+   "mission": "本校致力讓學生的個人潛能得以發展，並在德、智、體、群、美方面得到全面栽培，讓他們擁有S-T-A-R素質，即具備自我管理能力（S）、受教的心（T）、有志向抱負（A）、迎難而上的韌力（R），成為有識見及負責任的公民。",
+   "facilities": ": 31    學校設施  : 校舍面積約9320平方米。校舍共有兩座六層樓高的建築，包括31間課室，另有禮堂、運動場、2個有蓋操場。特別室包括：電腦室（2間）、視覺藝術室、表演藝術室（2間）、音樂室、圖書館、科學實驗室、物理實驗室、化學實驗室、生物實驗室、食品科學室、創新科技室、多媒體製作室、學生輔導室、會議室、多用途空間、學生活動中心、學生會室、生涯規劃輔導室。所有課室均已安裝互動式顯示屏。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史　（本校為非華語學生提供課程和評核調適安排）",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中國歷史、中國文學、中國語文（非華語）",
+   "subj_jh_e": ": 英國語文、數學、綜合科學（中一及二）、科學（中三物理、化學及生物單元）、地理、歷史、電腦及資訊科技、音樂、視覺藝術、體育、表演藝術、西班牙語、創新科技、增潤課程",
+   "address": "新界大埔馬聰路八號",
+   "tel": "26851210",
+   "email": "ltpss@ltpss.edu.hk",
+   "web": "http://www.ltpss.edu.hk",
+   "chsc_id": "206"
+  },
+  "明愛粉嶺陳震夏中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "天主教",
+   "founded": "1988",
+   "motto": "忠誠勤樸、敬主愛人",
+   "sponsoring": "香港明愛",
+   "principal": "何應翰先生 （理學士、教育文憑、文學碩士、教育碩士）",
+   "area": "約 5700平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$370"
+    ],
+    "中五": [
+     "-",
+     "$370"
+    ],
+    "中六": [
+     "-",
+     "$370"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "80",
+   "t_training": "90%",
+   "t_bachelor": "100%",
+   "t_master": "36%",
+   "t_sen": "43%",
+   "t_senior": "56%",
+   "classes": {
+    "中一": "4",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重：學業成績40%、操行及態度30%、課外活動表現10%及面試表現20%。",
+   "induction": ": 本年度學校為中一新生舉行三天的中一新生適應課程「愛學習、樂成長」，目標如下：（1）認識校園環境及學校制度，適應中學的學習生活；（2）建立自信，培養良好的學習態度；（3）自我認識，建立明確的目標和學習實踐方法；（4）建立家長和學生對學校的歸屬感。內容包括：學術篇（教授學習技巧及學習態度）、成長篇及紀律篇。；\n本校推行「中一二級留校午膳計劃」，期望能盡早協助初中同學適應校園生活及建立對學校的歸屬感，並設中一新生家長日，藉此加強家校溝通，建立合作關係。本校亦設有專責組別推展正向校園文化，透過全方位活動、正規及非正規的課程，例如跨學科學習、班級經營、心靈培育、戀愛教育及服務學習等，讓學生體驗正向人際關係，並培育正向價值觀。",
+   "mission": "以學生為主體，配合大學，專業及專上教育或就業的需要，為不同學習性向及能力的學生提供全人教育，發展多元才能。建立天主教價值觀，發揚明愛「愛德服務」之精神。",
+   "facilities": ": 30    學校設施  : 1.　無線網絡覆蓋全校；；\n2.　創新科技室、校園電視台、英語角、祈禱室；；\n3.　太陽能光伏板。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、普通話、數學、倫理與宗教、公民、經濟與社會*、歷史、地理*、科學*、創新科技、生活藝術（中一至中二）、視覺藝術、音樂、體育、生涯規劃（中三）",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學、公民與社會發展、生物、化學、物理、經濟、企業會計與財務概論、資訊及通訊科技、中國文學、中國歷史、地理、歷史、數學延伸課程單元一／二、旅遊與款待、視覺藝術（中學文憑）、體育（中學文憑）、倫理與宗教、生涯規劃",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界粉嶺新運路二十八號",
+   "tel": "26699966",
+   "email": "cfs@cfs.edu.hk",
+   "web": "https://cfs.edu.hk/",
+   "chsc_id": "222"
+  },
+  "南亞路德會沐恩中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1983",
+   "motto": "博學明道、臻善益群",
+   "sponsoring": "南亞路德會有限公司",
+   "principal": "屈佩芬女士 （健康科學碩士）",
+   "area": "約 6500平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "57",
+   "t_training": "95%",
+   "t_bachelor": "100%",
+   "t_master": "49%",
+   "t_sen": "77%",
+   "t_senior": "63%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n中一自行分配學位取錄準則包括小五、小六學業成績（基本要求為中、英、數三科成績在 B 級或以上）\n及教育局提供之學生名次（50%）、面試表現（25%）、操行、課外活動、服務、獎項、專長、才能（25%）。",
+   "induction": ": 本校會在暑假期間為新生舉辦不同迎新活動，如新生家長晚會及迎新適應課程，期望透過真實的課堂學習、講座及團體活動，幫助學生認識學校文化及期望，協助學生盡快適應及投入中學生活。；\n本校積極籌辦不同活動以協助同學建立健康的生活習慣，其中以提高學生對精神健康的關注為焦點，教導學生以正面積極的思想面對不同壓力。活動包括以精神健康為題的工作坊、小組、健康資訊攤位及講座；亦有為中六生加油打氣的關愛活動短片播送。此外，本校亦透過不同媒介提醒同學避免沾染不良生活習慣，遠離毒品。",
+   "mission": "南亞路德會沐恩中學以提供基督教優質教育為己任，致力建立一個健康的學習環境，發展及提升學生潛能，讓他們在智能、體能、社群、靈性各方面均衡發展，漸臻美善，以迎戰生命中的各項挑戰。",
+   "facilities": ": 26    學校設施  : 禮堂、演講室及所有教室均裝設冷氣，並有已接駁寬頻上網之電腦、10G光纖內聯網、WiFi-6e無線網絡，LED智能黑板、流動平板電腦、投射機與及實物投映器等多媒體設備。全校建有人工智能與機械教室，多媒體教室、科技實驗室、學生活動室、英語學習中心、健身室及校史館等，為學生提供完備的學習設施。",
+   "classrooms": "",
+   "subj_jh_c": "中一至中三：中國語文，中國歷史，公民、經濟與社會，基督教倫理，及體育；\n中一至中二：普通話",
+   "subj_sh_c": "以中文為教學語言  : 中國語文，公民與社會發展科，中國歷史，視覺藝術，基督教倫理，藝術發展，及體育",
+   "subj_jh_e": ": 中一至中三：英國語文，數學、科學、歷史、地理、視覺藝術，及音樂；\n中一至中二：電腦、家政及設計與科技；\n中三：綜合科技",
+   "address": "新界大埔大元邨",
+   "tel": "26673129",
+   "email": "info@ilc.edu.hk",
+   "web": "http://www.ilc.edu.hk",
+   "chsc_id": "232"
+  },
+  "上水官立中學": {
+   "type": "官立",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1991",
+   "motto": "愛健忠勤",
+   "sponsoring": "政府",
+   "principal": "蔡永強先生 （經濟學學士、文學碩士、教育文憑）",
+   "area": "約 7500平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "-"
+    ],
+    "中五": [
+     "-",
+     "-"
+    ],
+    "中六": [
+     "-",
+     "-"
+    ]
+   },
+   "fee_other": "$200",
+   "teachers": "61",
+   "t_training": "98%",
+   "t_bachelor": "100%",
+   "t_master": "66%",
+   "t_sen": "85%",
+   "t_senior": "90%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "5",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重︰操行（20%）、學業成績（20%）、課外活動（15%）、小學老師對學生學行表現的評語（5%）、獎項（10%）、面試（包括態度、儀容、談吐、應對等）（30%）。 以上資訊將於2025年11月於學校網站公布。",
+   "induction": ": 本校在7月中旬至八月中旬舉行中一迎新家長日、中一學生迎新日及中一新生暑期銜接課程（中文、英文、數學、科學及STEAM教育）；中一學生在開課後需參加成長訓練營。中一、中二及中三級學生須留校午膳。學校經常舉辦各類型講座及參觀，並鼓勵學生參加sportACT獎勵計劃。",
+   "mission": "本校為一所官立中學，創辦於一九九一年，矢志為本區學子提供優質教育，致力培養學生五育兼備，能掌握資訊科技，懂欣賞學習情趣，具終身學習能力，並能應付社會急促變化；更以誠信、勇敢、創新、進取、協作、關懷為主導價值，發揚校訓「愛、健、忠、勤」的精神。；\n；",
+   "facilities": ": 41    學校設施  : 本校已設置Wi-Fi　900的加強無線網絡基礎設施。本校的禮堂、所有課室、特別室均有空調設備，並裝設寬頻上網、熒幕、投射器、實物投影機和無線咪系統，以支援資訊科技教學，讓老師可隨時使用網絡資源。；\n本校有多個特別室，例如：STEM學習資源室、實驗室、音樂室、設計與科技室、家政室、視覺藝術室、中文資源室、英語角、多媒體研習中心、自學資源室，多種用途室及學生活動中心供學生參與不同類型的學習活動，也有充裕的空間讓學生進行各種球類活動和比賽。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、數學*、中國歷史、普通電腦*、音樂*、體育*、家政*、設計與科技*、普通話、視覺藝術*、德育及公民教育、科學*、地理*、歷史*、公民及經濟與社會*（中一及中二）。",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學*、中國歷史、普通電腦*、音樂*、體育*、家政*、設計與科技*、普通話、視覺藝術*、德育及公民教育、科學*、地理*、歷史*、公民及經濟與社會*（中一及中二）。",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界上水百和路21號",
+   "tel": "26680628",
+   "email": "ssgss@edb.gov.hk",
+   "web": "http://www.ssgss.edu.hk",
+   "chsc_id": "267"
+  },
+  "神召會康樂中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1961",
+   "motto": "信、愛、勤、篤",
+   "sponsoring": "竹園區神召會",
+   "principal": "蔡康年校長 （經濟學碩士、英文碩士、經濟學學士）",
+   "area": "約 6000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "61",
+   "t_training": "93%",
+   "t_bachelor": "100%",
+   "t_master": "79%",
+   "t_sen": "67%",
+   "t_senior": "74%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n取錄標準考慮下列因素，包括學業成績（40%）、操行（20%）、在面試之表現（20%）、非學業表現（15%）及與本校之聯繫（5%）。（有關詳情請參閱學校網頁）",
+   "induction": ": 本校每年於八月為中一新生舉辦暑期銜接課程，內容包括班級經營、學習技巧、訓育、宗教教育及中西樂器訓練，並在九月中舉辦新生家長講座。本校每年約在12月亦為中一同學舉辦為期三天之信仰生活紀律營，學習團體紀律生活、與人合作。本校極為關心同學身、心、靈的發展，並與教會、衞生署及各機構合作，致力教育同學如何實踐健康的生活方式，以迎接成長中所面對的挑戰。",
+   "mission": "本校秉承基督教教育的精神，遵照聖經的教導，藉著福音的大能，提供基督教全人教育，讓學生在真理和神的愛中，培育成材，養成良好品格、發展多元潛能、建立積極信心、培養終生學習的能力、熱愛生命的情操、敢於創新的思維和勇於承擔的使命感，俾能建立美滿豐盛的人生，貢獻社會，榮神益人。",
+   "facilities": ": 44    學校設施  : 除基本設施外，全校課室、特別室、圖書館、有蓋操場及禮堂均已裝置空調、電腦及多媒體教學設施。全校課室皆設有無線寬頻網絡，並添置超過一百部平版電腦，以推動流動電子學習。；\nSTREAM教學中心設置AI機械車、mBot機械車、機械人、無人機，航拍機、3D打印機及雷射切割機等。；\n本年度亦新增設STREAM　Lab，以配合校本機械車及火箭車跨科課程，進一步促進STREAM教育。；\n學校設有自修室，開放給有需要的學生留校自修，讓學生在寧靜的環境中溫習。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通電腦*、中國歷史、歷史、科學（中三）、地理、商業（中三）、公民、經濟與社會、普通話、音樂、視覺藝術、體育、宗教教育、聯課活動（中一，中二）、生活教育（中一，中二）",
+   "subj_sh_c": "以中文為教學語言  : 必修科：中國語文、數學、公民與社會發展；\n選修科：經濟、地理、歷史、中國歷史、旅遊與款待、物理、化學、生物、企業，會計與財務概論、資訊及通訊科技、視覺藝術、數學（延伸部份：單元二）；\n非公開試科目：體育、音樂、宗教教育",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界大埔寶雅苑",
+   "tel": "26520698",
+   "email": "aoghsspchk@yahoo.com.hk",
+   "web": "https://www.hebron.edu.hk",
+   "chsc_id": "271"
+  },
+  "聖芳濟各書院": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "天主教",
+   "founded": "1977",
+   "motto": "進德修業，敬主愛人，和平美善，芳濟精神。",
+   "sponsoring": "天主教香港教區",
+   "principal": "馬慧茹女士 （教育學士、文學碩士）",
+   "area": "約 12000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "80",
+   "t_training": "80%",
+   "t_bachelor": "100%",
+   "t_master": "45%",
+   "t_sen": "65%",
+   "t_senior": "49%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n中一自行分配學位收生準則及比重：面試表現（40%）；按學業成績（30%）；操行（15%）；課外／聯課活動及服務 （15%）。",
+   "induction": ": 學校於學年初會舉辦中一家長迎新日及中一學生適應課程。；\n；\n本校重視學生的身心健康，經常透過不同的活動，例如：全校早會分享、各類型健康講座、午膳師生交流，讓同學們明白均衡飲食、持續運動及規律生活的重要。",
+   "mission": "本校本著天主教教育「全人教育」的信念，致力培育學生之自律及自學精神，教導學生熱愛家庭，關心社會，服務人群，以發揚中國文化。",
+   "facilities": ": 32    學校設施  : 1間宗教活動室、1所祈禱室、2間電腦室、1間未來實驗室和1間學生健康發展中心。全校課室、禮堂、多用途室、有蓋操場、1個籃球場、1個排球場、圖書館裝設冷氣及寬頻網絡接點。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話、中國歷史、（中一、中二）公民、經濟與社會*、綜合人文科*、倫理及宗教*、電腦*、設計與科技*、科技與生活*、音樂、視覺藝術、體育、數學*、科學（中一、中二）*、初中科學（中三：物理、化學、生物）*、價值教育及中國文化",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中國歷史、歷史、企業會計與財務概論、資訊及通訊科技、視覺藝術、倫理與宗教、旅遊與款待、體育、地理、化學、生物、物理、經濟、公民與社會發展科（中四、中五、中六）、設計與應用科技、數學必修部分、健康管理與社會關懷",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界粉嶺欣盛里一號",
+   "tel": "26779702",
+   "email": "principal@sfac.edu.hk",
+   "web": "http://www.sfac.edu.hk",
+   "chsc_id": "278"
+  },
+  "聖公會陳融中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1989",
+   "motto": "志學知天",
+   "sponsoring": "聖公宗（香港）中學委員會有限公司",
+   "principal": "張世鵬先生",
+   "area": "約 4000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$300"
+    ],
+    "中五": [
+     "-",
+     "$300"
+    ],
+    "中六": [
+     "-",
+     "$300"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "67",
+   "t_training": "96%",
+   "t_bachelor": "100%",
+   "t_master": "45%",
+   "t_sen": "46%",
+   "t_senior": "58%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。學生成績、操行及面試成績分別佔60%，10%及30%。合適的申請人將被邀請參加面試，面試包括英語會話及小組討論，各佔50%，學校根據學生儀容舉止、語文表達能力、溝通能力、分析能力等評分。",
+   "induction": ": 迎新活動：學校於開學前為中一新生舉辦適應計劃，計劃特別安排英語導師教授英語課程，另安排校友擔任小組導師，目的提高學生運用英語學習的能力及面對轉變的適應和解難能力，以及早適應中學生活。此外，學校推行「師兄師姐」計劃，由師兄師姐協助中一學生成長。；\n健康生活：為了讓學生達致靈性、生理、心理及社交上的良好狀態，學生發展小組特制訂「健康校園政策」，釐訂政策及推行多項措施，為學生提供各方面的健康生活模式，其中包括舉辦講座及參加體適能獎勵計劃等。另外，學校為推動校內正向文化，於校內建立關懷大使團隊，協助於個別班級以至全校推廣關愛文化，增加學生對本班以至校園的歸屬感，並透過不同形式的精神健康推廣活動，提升全校學生對精神健康的認識和關注。",
+   "mission": "本於基督精神，發展全人教育，在靈育、立身、為學、科技、體藝、社會、中國文化七個範疇培育學生正面價值觀及態度、知識和能力，將來見用於社會，榮神益人。",
+   "facilities": ": 29    學校設施  : 學設有兩個操場、資訊科技及媒體室、電腦室、四間實驗室、地理室、視覺藝術室、音樂室、家政室、縫紉室、設計與科技室、創新科技室、禮堂、演講廳、圖書館、會議室、醫療室、社工室、宗教室、學生活動中心及英語閣等。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話、中國歷史、體育、全方位學習、宗教教育、視覺藝術",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中國文學、中國歷史、公民與社會發展、倫理與宗教、視覺藝術、旅遊與款待、全方位學習#、體育#（#非文憑試科目）",
+   "subj_jh_e": ": 英國語文、數學、普通電腦、科學（中一、中二）、物理（中三）、化學（中三）、生物（中三）、科技教育（中一、中二）、歷史（中一）、地理、公民經濟與社會（中一、中二）、生活與社會（中三）、音樂及表演藝術",
+   "address": "新界上水智昌路六號",
+   "tel": "26718989",
+   "email": "info@skhcyss.edu.hk",
+   "web": "http://www.skhcyss.edu.hk",
+   "chsc_id": "282"
+  },
+  "聖公會莫壽增會督中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1975",
+   "motto": "德、智、體、群、美、靈",
+   "sponsoring": "聖公宗（香港）中學；\n委員會有限公司",
+   "principal": "王莉莉女士 （教育碩士、文學士）",
+   "area": "約 6000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "55",
+   "t_training": "91%",
+   "t_bachelor": "98%",
+   "t_master": "67%",
+   "t_sen": "69%",
+   "t_senior": "69%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。學業成績50% （中文、英文及數學科達乙級或以上；本校將參考教育局提供之成績及名次）；課外活動15% （小四至小六校內外獎項／資歷／獎狀／服務）；面試表現35% （溝通能力、英語水平、數學及邏輯思維能力） \n（申請人操行必須達乙級或以上）",
+   "induction": ": 每年8月中舉辦中一新生導向周，除為中一同學及家長舉辦講座，以幫助同學適應校園生活外，同時設 English Summer Camp，協助同學適應英語教學環境。；\n透過不同科組的課堂及活動，如禁毒教育、正確使用互聯網、健康均衡飲食、注重運動、善用時間等，幫助同學培養健康的生活習慣、正面的人生觀與價值觀、提升生活技能及抗拒誘惑的技巧。",
+   "mission": "建立基督教及人性價值，培養正面人生態度及發展多元技能，以使學生發揮潛能、貢獻社會，成為盡責的良好公民。努力營造關愛的校園環境，讓彼此信任、尊重、愛護，使學校生活成為最美好的學習經驗。",
+   "facilities": ": 30    學校設施  : 本校設有學生活動中心、STEM教室、多用途中心、多媒體教學中心、圖書館、電腦室、學生會室、輔導室、學生長室、牧靈室、校史展覽室及英語角。所有課室均設有電腦、多媒體投影機、音響系統及揚聲設備。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、普通話、公民、經濟與社會（中一、中二）、生活與社會（中三）、宗教、體育、視覺藝術",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中國歷史、公民與社會發展科、宗教、體育、中國文學、視覺藝術",
+   "subj_jh_e": ": 英國語文、數學、歷史、地理、普通電腦、音樂、家政、科學、基本商業（中三）",
+   "address": "新界大埔運頭角里26號",
+   "tel": "26567804",
+   "email": "info@mst.edu.hk",
+   "web": "http://www.mst.edu.hk",
+   "chsc_id": "291"
+  },
+  "田家炳中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1994",
+   "motto": "思明至善",
+   "sponsoring": "田家炳基金會",
+   "principal": "陳雨瀚先生 （香港中文大學理學士、教育文憑、教育碩士）",
+   "area": "約 7000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$400"
+    ],
+    "中五": [
+     "-",
+     "$400"
+    ],
+    "中六": [
+     "-",
+     "$400"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "71",
+   "t_training": "92%",
+   "t_bachelor": "100%",
+   "t_master": "46%",
+   "t_sen": "21%",
+   "t_senior": "52%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重：校內表現佔60%（評核項目包括：校內成績、操行、聯課／課外活動及獎項、服務）。面試表現佔40%（評核項目包括：禮貌、衣著、談吐應對、理解及分析能力、溝通能力及技巧、創意能力、興趣、日常生活知識、時事觸覺及對本校的認識）。所有申請者均會獲得面試機會。",
+   "induction": ": 每年暑假均舉辦「中一英語提升課程」、「中一校園適應週」及「中一新生及家長輔導日」等活動。另外，開學初期特為全級中一同學舉辦「生活紀律訓練營」，讓同學能盡早建立穩定的個人生活紀律和良好的學習習慣，同創「嚴謹而愉快」的校園及家庭生活。本校一向注重學生均衡的身心健康發展，舉辦多元化活動，如陸運會、水運會、全校旅行、文化日、境外交流、",
+   "mission": "田家炳中學懷抱全人教育理想，致力開展學與教、生活輔導、聯課活動及造就時代公民素質的整全與均衡教育，與時並進，塑造明日公民領袖。",
+   "facilities": ": 34    學校設施  : 校史室、電子學習教室、電腦室、科技教育研習中心、英語角、學生活動中心、高中視藝室、職學室、中華文化推廣室、普通話推廣室、流行樂隊室、通識教育室、數碼自修室及健身室。所有課室及特別室裝置桌面電腦、實物投影機及LED電視機，推廣閱讀分享及加強校內資訊流通。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、普通話（中一及二）、生活教育、公民、經濟與社會",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中國歷史、中國文學、生活教育、公民與社會發展科、體育（文憑試）",
+   "subj_jh_e": ": 英國語文、數學、科學、歷史（中二及中三）、地理（中一及中三）、科技教育（商業單元）（中三）、電腦與科技、視覺藝術、音樂、體育",
+   "address": "新界粉嶺維翰路一號",
+   "tel": "26731778",
+   "email": "tkpss@web.tkpss.edu.hk",
+   "web": "http://web.tkpss.edu.hk/",
+   "chsc_id": "344"
+  },
+  "王肇枝中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1960",
+   "motto": "博愛信修",
+   "sponsoring": "王肇枝中學",
+   "principal": "鄭思宏先生 （訓導文憑， 理學士，教育文憑，教育碩士，社會企業研究院院士）",
+   "area": "約 8000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$290"
+    ],
+    "中五": [
+     "-",
+     "$290"
+    ],
+    "中六": [
+     "-",
+     "$290"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "54",
+   "t_training": "96%",
+   "t_bachelor": "100%",
+   "t_master": "50%",
+   "t_sen": "63%",
+   "t_senior": "61%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n甄選面試評分：由教育局提供之「申請學生成績次第」佔60%；校內中文、英文及數學成績佔10%；操行佔10%；課外活動（服務）佔8%；課外活動（才藝）佔12%。\n收生評分：上述甄選面試評分佔70%；中文面試溝通及分析能力佔10%；英文面試溝通及分析能力佔20%。",
+   "induction": ": 7月中旬舉行中一迎新日，7、8月舉辦為期兩周之中一新生暑期英語銜接課程， 開學前會進行中一團隊訓練活動。中一學年內，透過「學會學習自學計劃」及「天使行動」兩項輔導計劃，分別協助同學掌握中學學習技巧及提供學長從旁的支援以適應校園生活。本校亦與中華基督教女青年會及路德會青欣中心協作推行「健康校園計劃」，建立學生良好生活習慣、正向思維及抗毒意識。",
+   "mission": "本校以基督為完美榜樣，致力提供基督化全人教育，建立融洽有序的校園生活，讓學生在德、智、體、群、美、靈六育皆有均衡發展；使其熱愛學習，主動探索解難，積極發揮潛能，從而養成終身自學的能力；並具應變創新、自律自信之質素，以回饋社會，貢獻國家。",
+   "facilities": ": 26    學校設施  : 近年，校園增設語言及創新科技中心以支援STEAM的發展及教學需求。特別室計有校史館、電腦輔助學習室、設計及工藝室、英語活動室、學生活動中心、圖書館、升學及就業輔導室、室內體育館和自修室。運動場面積逾二萬平方呎（為三個標準籃球場的面積），可進行籃球、足球、手球、壘球、排球和射箭等各類型活動及訓練。此外，本校最新增設健身室及攀石牆，讓學生可嘗試新的運動項目。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中史、公民，經濟與社會（中一至中二）、音樂、體育、普通話、聖經、視覺藝術",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、中國文學、中史、公民與社會發展科、視覺藝術",
+   "subj_jh_e": ": 英國語文、數學、綜合科學（中三修讀物理、化學、生物）、歷史、地理、電腦、家政、設計與科技、經濟與社會（中三）",
+   "address": "新界大埔廣福道182號",
+   "tel": "26561270",
+   "email": "mail@wscss.edu.hk",
+   "web": "http://www.wscss.edu.hk",
+   "chsc_id": "347"
+  },
+  "鄧顯紀念中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "道教",
+   "founded": "1982",
+   "motto": "明道立德",
+   "sponsoring": "香港道教聯合會",
+   "principal": "黃信德先生 （工學士， 教育文憑， 文學碩士）",
+   "area": "約 5400平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$370"
+    ],
+    "中五": [
+     "-",
+     "$370"
+    ],
+    "中六": [
+     "-",
+     "$370"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "66",
+   "t_training": "89%",
+   "t_bachelor": "100%",
+   "t_master": "47%",
+   "t_sen": "39%",
+   "t_senior": "59%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n中一自行分配學位收生準則及比重：面試成績（30%）、小學成績及操行（30%）、\n課外活動／校內或校外服務／獎項（20%）、教育局提供申請學生的「成績次第名單」（20%）。",
+   "induction": ": 迎新活動：●　中一迎新日：家長及新生可透過當天活動全面瞭解本校。　●　中一英語暑期銜接課程：由本校老師因應新生需要，編訂課程施教，讓學生更容易適應初中課程及英語教學模式。　●　迎新周：由高中同學帶領新生遊覽及認識校園，熟習環境，有助適應中學生活。；\n健康生活：●　健康教育組向學生提供健康資訊，並舉辦多項活動，如健康講座、流感疫苗注射等，有助學生身心健康成長。　●　參加體適能獎勵計劃，鼓勵學生經常參與體育活動。　●　舉辦「Let's　keep　fit!xMVPA60獎勵計劃」，鼓勵學生定期體育鍛鍊，保持身體健康。　●　鼓勵學生多做運動，成立花式跳繩隊，增強學生心肺功能。　●　參與教育局「躍動校園　活力人生」計劃，協助學生建立健康的生活方式，培養積極正面的人生態度。",
+   "mission": "本校秉承母會「以道為宗，以德為化，以修為教，以仁為育」的辦學宗旨，推行「道化教育」，並以「明道立德」為校訓，透過品德和學業兼備的全人教育，使學生在德、智、體、群、美各方面都得到全面發展。",
+   "facilities": ": 34    學校設施  : ●　教學設施：STEM學習室、實驗室、視覺藝術室、圖書館、音樂室及電腦室，各班設有電腦、互動電視及多元化視聽器材。；\n●　自學設施：網上學習平台及多媒體資源。；\n●　其他校園設施：演講廳、自然教育徑、藝術廊、中式園林、文化廊、校園電視台、舞蹈室、健身器材、智能咭系統、精神健康角、水耕農圃、天台花園及太陽能氣象站。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、體育、普通話、生命教育、「公民、經濟與社會」",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展、中國歷史、中國文學、體育",
+   "subj_jh_e": ": 英國語文、數學、科學、地理、資訊及通訊科技與STEM、視覺藝術、音樂、基本商業（中三）",
+   "address": "新界上水彩園邨",
+   "tel": "26726820",
+   "email": "school@tanghin.edu.hk",
+   "web": "http://www.tanghin.edu.hk",
+   "chsc_id": "361"
+  },
+  "香港道教聯合會圓玄學院第二中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "道教",
+   "founded": "1988",
+   "motto": "明道立德",
+   "sponsoring": "香港道教聯合會",
+   "principal": "楊映輝先生 （文學士、教育文憑、教育碩士）",
+   "area": "約 5011平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "58",
+   "t_training": "100%",
+   "t_bachelor": "100%",
+   "t_master": "43%",
+   "t_sen": "52%",
+   "t_senior": "52%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。學業成績40%、操行及面試表現30%、課外活動、服務及獎項20%、體藝成績10%。",
+   "induction": ": 舉辦「暑期中一銜接課程」，內容包括生活教育、認識學校設施、學校常規及學習方法。；\n",
+   "mission": "本校秉承母會「以道為宗，以德為化，以修為教，以仁為育」的辦學宗旨，推行「道化教育」，並以「明道立德」為校訓，透過品德和學業兼備的全人教育，使學生在德、智、體、群、美各方面都得到全面發展。",
+   "facilities": ": 30    學校設施  : 1.　課室30間，全部設有電腦、電子黑板、實物投影機、LCD投影機，連接互聯網絡；　；\n2.　設有3間電腦室、人工智能創意中心、英語閣、生涯規劃室、輔導室、自修室、健身室、可容納120人的演講室及學生活動中心。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話、中國歷史、宗教倫理、視覺藝術、體育、中國文學（中三）、公民、經濟與社會、地理（中一及中三）、歷史（中二及中三）、企業及會計（中三）、設計與科技、家政、音樂",
+   "subj_sh_c": "以中文為教學語言  : 文憑試核心科目：中國語文、公民與社會發展；文憑試選修科目：體育（文憑試課程）、視覺藝術、中國文學、中國歷史、歷史、旅遊與款待、地理；非公開試科目：體育課、藝術發展（中五）、宗教倫理（中四）",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界大埔富善邨",
+   "tel": "26616038",
+   "email": "enquiry@yy2.edu.hk",
+   "web": "http://www.yy2.edu.hk",
+   "chsc_id": "363"
+  },
+  "香港紅卍字會大埔卍慈中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1989",
+   "motto": "宣道展慈",
+   "sponsoring": "香港紅卍字會",
+   "principal": "施家祺博士 （文學碩士， 教育碩士，教育博士）",
+   "area": "約 4000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "58",
+   "t_training": "86%",
+   "t_bachelor": "100%",
+   "t_master": "41%",
+   "t_sen": "61%",
+   "t_senior": "39%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "3",
+    "中四": "3",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重：學業成績20%、操行20%、課外活動20%、面試表現20%、家長支援20%。",
+   "induction": ": 迎新活動﹕；\n1. 　中一新生家長日（七月中）；；\n2. 　中一「卍慈生活樂繽紛」日營；；\n3. 　中一「潛能盡展」學習課程。；\n健康生活：透過多元化講座、活動及義工服務，推廣『全人健康』的概念，照顧學生身心的不同需要。",
+   "mission": "秉承香港紅卍字會辦學宗旨，注重五育均衡發展；施教重啟發、善誘導、嚴紀律，以期培育造福社群之有為青年，實現「卍慈學子，邦國之珍」之崇高理想。",
+   "facilities": ": 24    學校設施  : 全校鋪設高速無線網絡，並添置超過300部平板電腦，以推動流動電子學習。其他設施包括：1個創科天地，2個多用途活動室，1個學生發展中心，1個多媒體學習中心，1個電腦室，1個自學資源中心及『通達』圖書館。學校亦全面安裝冷氣機，課室及雨天操場裝設中央播放系統。為照顧不同學生的需要，特設多元教育活動室及體適能訓練中心。全校課室及特別室裝設電腦、影音設備、投影機及投影幕；課室更增設互動電子白板；另有空調飯堂、空調有蓋操場及電子告示板。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、數學*、綜合科學*、中史、歷史*（中三）、音樂、視覺藝術、體育、家政、普通話、地理*、創科教育*、生活與社會（中三）、公民、經濟與社會（中一、中二）。",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學、公民與社會發展科、資訊及通訊科技、企業-會計與財務概論、經濟、旅遊與款待、體育（中學文憑課程）、地理、生物、視覺藝術、歷史、中史、物理、化學、數學延伸部分（M2）。",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界大埔富亨邨",
+   "tel": "26666821",
+   "email": "info@hkrsstpss.edu.hk",
+   "web": "http://www.hkrsstpss.edu.hk",
+   "chsc_id": "370"
+  },
+  "香港教師會李興貴中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1994",
+   "motto": "敦品力學、智仁勇",
+   "sponsoring": "香港教師會教育發展有限公司",
+   "principal": "陳思慈女士 （文學碩士、榮譽社會科學學士、教育文憑）",
+   "area": "約 6000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "54",
+   "t_training": "87%",
+   "t_bachelor": "100%",
+   "t_master": "51%",
+   "t_sen": "30%",
+   "t_senior": "60%",
+   "classes": {
+    "中一": "3",
+    "中二": "3",
+    "中三": "3",
+    "中四": "3",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重：\n學業成績20%、操行10%、教育局成績次第20%、面試表現30%、課外活動及服務表現20%。詳情可參考本校網頁。",
+   "induction": ": 為使學生更快及更有效融入本校生活，學校亦特別撥出資源，讓學生免費參與適應課程。課程內容精彩，例如有STEM工作坊及校園遊蹤活動，學術與活動並重，全面照顧新生的需要。本校高度重視學生身心及社交上的健康成長，並成立專責單位－健康教育組負責策劃相關課程及活動，以積極推廣健康校園文化。健康教育組與體育科合作，推出了具體措施：《LHK Family運動健康成長日誌》計劃。該計劃目標為鼓勵學生記錄其體能活動量，同時提供多元的健康資訊，以激發學生培養活躍且健康的生活方式。",
+   "mission": "為實踐校訓「敦品力學智仁勇」，學校除了傳授學生課堂知識及技能外，亦透過多元化的學習活動、成長活動及課外活動等，使學生明紀律、辨是非，成為有責任感的公民。",
+   "facilities": ": 30    學校設施  : 本校新翼校舍於2004年9月正式啟用。全校30個標準教室皆裝置空調、LED顯示屏、電腦網絡等設施。此外設有3所電腦室、學生支援中心、語言自學中心、夢想咖啡廳、電腦化圖書館、輔導教學室、STEM實驗室、領袖生室、學生會室、健身室等。；\n；\n學校近年新設的G.R.I.T.區域，分為四大領域：感恩區 (Zone of Gratefulness)；榮譽區(Zone of Recognition)；啟發區(Zone of Inspiration)和友愛區(Zone of Togetherness)。四大區域；\n成為學校標誌性地點，令學生及來賓更了解學校發展及學生各方面成就，展現學校核心價值觀，凝聚學生歸屬感。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、數學、公民、經濟與社會、綜合科學、歷史*、中國歷史、地理*、普通電腦*、設計及科技*、普通話、視覺藝術、音樂*、資源管理（中三）、體育、價值觀教育",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學、公民與社會發展、生物、物理、化學、資訊及通訊科技（中五及中六）、設計與應用科技、經濟、企業、會計及財務概論、視覺藝術、歷史、旅遊與款待、中國歷史、地埋、音樂、體育、體育選修科（中五及中六）、STEM及增潤課程、價值觀教育",
+   "subj_jh_e": ": 英國語文、英語延展活動課*（中一及中二）",
+   "address": "新界大埔運頭塘邨",
+   "tel": "26317556",
+   "email": "info@hktalhk.edu.hk",
+   "web": "http://www.hktalhk.edu.hk",
+   "chsc_id": "373"
+  },
+  "香海正覺蓮社佛教馬錦燦紀念英文中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "佛教",
+   "founded": "1993",
+   "motto": "覺正行儀",
+   "sponsoring": "香海正覺蓮社",
+   "principal": "方奕亮先生 （香港大學文學士、文學碩士；香港中文大學教育碩士、教育文憑）",
+   "area": "約 8277平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "73",
+   "t_training": "84%",
+   "t_bachelor": "100%",
+   "t_master": "45%",
+   "t_sen": "69%",
+   "t_senior": "62%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。 \n中一自行分配學位收生準則：學業成績30%，課外活動15%，操行及態度25%，面試表現30%。",
+   "induction": ": 為了讓中一新生儘快適應中學生活及學習，並積極投入校園生活， 本校設有暑期英語銜接課程、開學前迎新輔導活動及新生家長日。在後疫情下，為了加強正向教育及提升學生的身、心、靈健康，本校已經向禁毒基金成功申請九十萬，本年度推行校本活動，協助學生建立正面的人生觀、加強抗逆能力及建立健康的生活模式，並營造健康正面的校園文化。",
+   "mission": "藉著佛化教育，使學生覺悟自己所具備的本質，令思想純潔正確，指導自己的說話和行為，誠懇有禮，符合儀範法則，成為社會良好公民。",
+   "facilities": ": 34    學校設施  : 新翼校舍於2004年9月落成，設施提升至千禧校舍水平，新增設施包括學生活動中心、閱讀中心、電腦輔助學習室、英語室、會議室等。另外，另設創客科技室及可容納200多人的多用途室，方便學生每天留校溫習。全校教室及禮堂均安裝冷氣、鋪設網絡、安裝多媒體電腦、投影器及實物投映機。另外，2023-24學年於7樓新建「虛擬實境創意學習中心」及多間多用途室，配合STEAM及電子教學的推展，為學生提供優質的學習環境。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、數學*、公民、經濟與社會（中一及中二）、生活與社會（中三）、中國歷史、歷史、佛學、普通話、普通電腦、音樂、視覺藝術、家政（中三）、體育",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展、中國歷史、歷史、中國文學、視覺藝術、倫理與宗教、資訊及通訊科技、健康管理與社會關懷、旅遊與款待、佛學#、體育＊#、生活教育#、生活藝術與服務#、音樂研究及藝術發展#、創客科技#（#非文憑試科目.＊部分學生修讀文憑試課程）",
+   "subj_jh_e": ": 英國語文、科學、地理（中一及中二）、綜合人文（中三）",
+   "address": "新界粉嶺聯和墟聯益街九號",
+   "tel": "26699208",
+   "email": "info@bmkc.edu.hk",
+   "web": "http://www.bmkc.edu.hk",
+   "chsc_id": "397"
+  },
+  "新界喇沙中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "天主教",
+   "founded": "1965",
+   "motto": "忠信、仁愛",
+   "sponsoring": "香港喇沙修士會",
+   "principal": "盧國輝博士 （教育博士 — 教育領導與政策研究、理科碩士 — 教育應用資訊科技、學位教師教育文憑 — 數學教育專業、理學士學位 — 電機工程，成績優異）",
+   "area": "約 13000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$360"
+    ],
+    "中五": [
+     "-",
+     "$360"
+    ],
+    "中六": [
+     "-",
+     "$360"
+    ]
+   },
+   "fee_other": "$25",
+   "teachers": "64",
+   "t_training": "83%",
+   "t_bachelor": "100%",
+   "t_master": "34%",
+   "t_sen": "63%",
+   "t_senior": "47%",
+   "classes": {
+    "中一": "3",
+    "中二": "4",
+    "中三": "4",
+    "中四": "5",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則：面試表現40%；學業成績30%；課外活動表現30%。",
+   "induction": ": 設中一適應課程，分為兩個階段，內容包括一系列學習及體驗活動，包括英文科銜接課程、團隊訓練及身心健康管理活動、新生輔導日和學校常規與學習技巧訓練。家長可參加升中講座及體驗活動，獲取更多資訊，增加對校園生活的了解。學校提倡少肉多菜、均衡營養的膳食。透過各科組舉辦的活動如「共創成長路」計劃、領袖訓練計劃、講座、徵文比賽、標語及漫畫創作比賽、體育活動和老師分享等，增強同學對身心健康的認識， 正向思維及推動禁毒教育。",
+   "mission": "我們相信每一位學生都是獨一無二的、珍貴的，我們會以愛心、尊重和悉心培育，觸動學生的心靈。本著喇沙精神──信德、熱忱和團體的精神，我們為學生提供以天主為中心，並以人為本的優質教育，充分發展他們的潛能。",
+   "facilities": ": 26    學校設施  : 1.　課室設施：課室、特別室及禮堂均有音響、電腦、實物投影機、86吋互勳觸控屏、電腦投影設備及空調。；\n2.　體育設施：草地足球場、手球場、籃球場、體適能中心、箭藝設施、羽毛球場及乒乓球練習場。；\n3.　特別室：圖書館、高中學生自修室、英語角、社工室、校園電視台、自動氣象站、2個電腦室、音樂室、設計與科技室、視藝室、地理探知室、綜合科學實驗室、物理實驗室、化學實驗室、生物實驗室、綜合活動室、學生活動中心、小聖堂、家教會室、STEAM創客空間、 BioSTEAM室、正念空間、貓舍、禮堂及地面禮堂。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話、中國歷史、歷史*（中一、中二）、數學（中一*、中二*、中三）、科學*、普通電腦*、視覺藝術*、音樂*、體育、設計與科技（中一、中二*）、倫理與宗教*、生活與社會（中三）、公民、經濟與社會*（中一、中二）、地理*（中三）",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學、M1、公民與社會發展、中國歷史、地理、經濟、物理、化學、生物、旅遊與款待、視覺藝術、資訊及通訊科技、體育、宗教教育（中五）、ApL（智能數碼建築、數碼漫畫設計與製作、西式食品製作、酒店營運、職業英語--英文傳意）",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界上水金錢村",
+   "tel": "26700443",
+   "email": "email@delasalle.edu.hk",
+   "web": "https://www.delasalle.edu.hk/",
+   "chsc_id": "402"
+  },
+  "新界鄉議局大埔區中學": {
+   "type": "官立",
+   "gender": "男女",
+   "religion": "不適用",
+   "founded": "1981",
+   "motto": "務本力學",
+   "sponsoring": "教育局",
+   "principal": "黃國強先生 （理學士、教育碩士、社會科學碩士、教師證書）",
+   "area": "約 6466平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "-"
+    ],
+    "中五": [
+     "-",
+     "-"
+    ],
+    "中六": [
+     "-",
+     "-"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "51",
+   "t_training": "94%",
+   "t_bachelor": "98%",
+   "t_master": "63%",
+   "t_sen": "75%",
+   "t_senior": "80%",
+   "classes": {
+    "中一": "3",
+    "中二": "3",
+    "中三": "3",
+    "中四": "3",
+    "中五": "3",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。自行分配學位收生準則及比重如下：\n學業成績 20%； 品行 15%； \n體藝才能 5%； 課外活動參與及表現 5%； 校內／校外服務 5%；\n面試表現 50%。",
+   "induction": ": 在暑假期間，我們為即將升讀中一的學生及家長舉辦迎新會，並提供中一銜接課程，以幫助學生盡快適應中學學習生活。有關詳情於中一註冊時公佈。此外，我們將為中一學生舉辦「躍動樂群」學習活動，透過有趣的活動，如擲飛鏢和彩繪等，訓練學生專注合群，發展他們的共通能力和潛能，並建立他們的正向思維。此外，亦舉辦沿繩下降訓練活動，以幫助學生增強自信心和毅力，以應對未來各種的挑戰。另外，我們推出朋輩輔導計劃，由高年級學生擔任學生輔導員，為中一學生籌辦多元化活動，加強他們對學校的認識，提升他們的歸屬感。；\n全人發展委員會轄下不同組別，根據不同級別學生的個人成長需要，為學生設定各種活動及計劃，培育學生正向價值觀及品格素質，並建立健康人生。",
+   "mission": "本校校訓為務本力學，學校致力培育學生德、智、體、群、美五育的均衡發展，使學生除掌握學科知識外，更能對家庭及社會承擔責任，成為良好公民。",
+   "facilities": ": 25    學校設施  : 本校設備完善，除設有禮堂和校史館外，共有標準課室二十五間、特別室二十八間，包括創新科技室、設計與科技室、多媒體教室、電腦室、音樂室、圖書館、實驗室、生涯規劃資源中心、英語角、社工室、學生活動中心、健身室及樂韻室，上述地方全部均已安裝空調設備，所有上課學習地方亦已安裝多媒體教學設備，為學生多元化的活動提供更完備設施。而有蓋操場、籃球場、排球場、休憩花園及小食部亦是學生休憩和活動的好去處。此外，本校設有升降機及暢通易達洗手間。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話（中一及中二）、數學*、科學*、中國歷史、地理*、歷史*、公民經濟與社會發展科*、普通電腦*、設計與科技*、家政*、音樂*、視覺藝術*及體育*。",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、普通話（中一及中二）、數學*、科學*、中國歷史、地理*、歷史*、公民經濟與社會發展科*、普通電腦*、設計與科技*、家政*、音樂*、視覺藝術*及體育*。",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界大埔大元邨",
+   "tel": "26643032",
+   "email": "nthyktpdss@edb.gov.hk",
+   "web": "http://www.nthyktpdss.edu.hk",
+   "chsc_id": "404"
+  },
+  "宣道會陳朱素華紀念中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1998",
+   "motto": "敬畏耶和華是智慧的開端，認識至聖者便是聰明。",
+   "sponsoring": "香港九龍塘基督教中華宣道會",
+   "principal": "鄺永燊先生 （B.S.Sc.， Dip.Ed.， Dip.Bs.，M.Ed.）",
+   "area": "約 8900平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "72",
+   "t_training": "96%",
+   "t_bachelor": "100%",
+   "t_master": "47%",
+   "t_sen": "57%",
+   "t_senior": "64%",
+   "classes": {
+    "中一": "5",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。所有報考本校小六學生均獲面試機會。評核項目及比重：主要包括：\n1.　小學成績、操行、活動、服務（50%）　2.　中、英語表達能力（25%）\n3.　數學、創意、邏輯、分析力（15%）　　4.　禮貌、態度（10%）",
+   "induction": ": （1）為小六同學設一星期「英語銜接課程」。；\n（2）著重同學STEAM學科發展，中一級特設Dr STEAM獎學金5名，得獎者有機會免費參加境外科研考察團。；\n（3）開學前一系列「中一迎新輔導活動」，關懷學生全人成長，建立對校園的歸屬感。；\n（4）透過「健康校園計劃」、「社會關懷大使」，以多元化活動從精神、身體、飲食等方面培養學生健康的生活習慣及意識。；\n（5）於2024-25學年試行「生日禮遇」及「動感星期五」營造正向健康的校園文化。",
+   "mission": "本著基督精神，發展全人教育。；\n我們相信每位學生都是神獨特的創造，致力培育學生自尊與潛能，讓學生在靈、德、智、體、群、美六育上全面成長，發揮所長。",
+   "facilities": ": 31    學校設施  : （1）各課室設置智慧黑板，提升學與教效能。；\n（2）設立「生物科技研習中心」，讓學生在科學領域有更大的發展。；\n（3）設陳朱創科學堂，培育學生的STEAM發展。；\n（4）設溫習自修室，供學生在課餘時間有一個舒適寬敞和寧靜的環境温習。；\n（5）小食部及有蓋操場增設冷氣設施，讓同學在炎熱天氣下能有舒適的環境。；\n（6）設有健身室，讓已受訓的學生鍛鍊身體。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、數學（中一）、公民、經濟與社會、中國歷史、歷史、地理、設計與科技（中一至中二）、STEAM（中三）、科技與生活、電腦、音樂、體育、視覺藝術、普通話（中一至中二）、閱讀課（中一至中二）、基督教教育及倫理、其他學習經歷（中一至中二）",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、公民與社會發展、中國歷史、歷史、經濟、地理、旅遊與款待、生物、資訊及通訊科技、健康管理與社會關懷、企業，會計與財務概論、體育（文憑試）、應用學習（模式二）：1.幼兒發展（中四及中五）、2.應用心理學（中四及中五）、3.應用日語及日本文化（中四及中五）、音樂#、視覺藝術#、科技與生活#、設計與科技#、運動科學#、編程與多媒體#、基督教教育及倫理#、體育#、理財教育#、科學探究#（#非文憑試科目）",
+   "subj_jh_e": ": 英國語文、科學（中一至中三）",
+   "address": "新界粉嶺暉明路十二號",
+   "tel": "26709229",
+   "email": "school@caswcmc.edu.hk",
+   "web": "https://www.caswcmc.edu.hk",
+   "chsc_id": "409"
+  },
+  "中華基督教會馮梁結紀念中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1987",
+   "motto": "明道律己 好學立人",
+   "sponsoring": "中華基督教會香港區會",
+   "principal": "黃慧珊女士 （理學士、教育文憑、理碩士）",
+   "area": "約 6000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "53",
+   "t_training": "79%",
+   "t_bachelor": "100%",
+   "t_master": "40%",
+   "t_sen": "57%",
+   "t_senior": "40%",
+   "classes": {
+    "中一": "3",
+    "中二": "3",
+    "中三": "3",
+    "中四": "3",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一入學：\n1.　面試表現（包括：儀容及禮貌、表達能力、對本校的認識、興趣及日常生活習慣等）　30%；　2.　小五及小六學業成績　30%；\n3.　小五及小六的操行、功過紀錄及評語　20%；　4.　其他表現（包括：課外活動、服務及各類獎項）　20%。",
+   "induction": ": 迎新活動：1.　暑假期間舉辦「中一新生適應課程」，內容包括早會、班主任課、暑期功課輔導及新興活動等；　2.　開學前舉辦中一家長晚會，介紹學校政策，讓家長與班主任會面；　3.　關顧學生的身心靈發展，暑假期間與教會合辦暑期活動，內容包括：補習班及樂器班，讓學生正式入學前已在關愛的氣氛下適應中學校園生活；　4.　開學後，舉辦中一迎新活動、挑戰日營及家長講座，讓學生盡早投入中學生活。；\n；\n健康生活：本校關注學生全人發展，推動環保教育及推展健康飲食計劃；又藉班級經營活動，以建立健康和諧的校園環境，讓同學愉快成長。",
+   "mission": "提供全人教育，藉基督教信仰建立價值觀及服務精神、發揮學生個人潛能、建立自尊感、培訓其獨立思考能力、批判能力及創造力。本校致力提升學生語文能力，並積極推展科學科技教育，培育新一代成為具創意思維的人才。",
+   "facilities": ": 25    學校設施  : 學校設備完善，全校有600多部電腦，所有課室及專室均設有電腦和智慧黑板。設有自修室，讓同學可於課餘在校內安心溫習。學校的資訊科技設施優良，設有資訊科技研習室及多媒體室等電腦專室共4間。圖書館已全面電腦化，並發展網上閱讀模式。本校備有超過200部平板電腦配合電子教學政策，加強互動效能。本校共設有英語閣讓學生可以經常與外籍老師溝通。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、普通話、中國歷史、數學*、綜合科學*、普通電腦*、基本商業*、音樂*、體育、宗教教育、生活與社會*、公民、經濟與社會*、歷史、地理、基本科技、視覺藝術*",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學、公民與社會發展、宗教教育、體育、物理、經濟、視覺藝術、生物、資訊及通訊科技、「企業、會計與財務概論-會計」、「企業、會計與財務概論-商業管理」、設計與應用科技、化學、中國歷史、其他學習經歷、應用學習課程、「形象設計」先修課程",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界大埔寶湖道22號",
+   "tel": "26516033",
+   "email": "info@flk.edu.hk",
+   "web": "http://www.flk.edu.hk",
+   "chsc_id": "436"
+  },
+  "中華基督教會基新中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1969",
+   "motto": "學以致用",
+   "sponsoring": "中華基督教會香港區會",
+   "principal": "高國榮博士 （理學士、教育碩士、工商管理博士）",
+   "area": "約 7000平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$340"
+    ],
+    "中五": [
+     "-",
+     "$340"
+    ],
+    "中六": [
+     "-",
+     "$340"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "81",
+   "t_training": "86%",
+   "t_bachelor": "100%",
+   "t_master": "56%",
+   "t_sen": "65%",
+   "t_senior": "67%",
+   "classes": {
+    "中一": "4",
+    "中二": "5",
+    "中三": "5",
+    "中四": "5",
+    "中五": "5",
+    "中六": "5"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。中一自行分配學位收生準則及比重：學業成績40%；學生操行30%；面試表現20%；其他技能（如課外活動、體育、音樂、社會服務）10%。",
+   "induction": ": 每年8月中有中一新生銜接課程、輔導活動及中一新生家長會。中一至中三級學生，留校午膳。本校設有小賣部及午膳監察小組，監督小食部及留校午膳供應商提供食物的質素及營養，確保學生獲提供優質及具營養價值的食物。",
+   "mission": "本校肯定「學生學習」較學校其他事務重要，為學生進行「全人教育」。堅持及創造「以人為本」、「人人可教」的校園學習風氣，培育學生有正確價值觀及國際視野：本著基督精神，拓展豐盛而有意義的人生，服務社會，成為良好公民。",
+   "facilities": ": 30    學校設施  : 除基本設施外，全校課室及特別室裝有冷氣及多媒體教學器材，包括投影機和智能黑板，鋪設光纖網絡，供師生隨時隨地在校內進行學與教。學校有過百部電腦，包括：資訊科技研習中心（36部）、電腦室（36部）、CAL電腦輔助學習室（41部）。學生可於課外時間進入資訊科技研習中心及CAL電腦輔助學習室使用電腦，進行編程及人工智能學習。全校師生可於學校任何位置利用流動電子學習裝置，經Wi-Fi網絡連接互聯網學習。另設圖書館、師生討論空間、學生自修室、訓導室、輔導室、英文閣、文心閣（中文學習室）、STEAM室、健身室、流行音樂室、社工室、多個學生活動室及校史館等。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、中國歷史、數學*、普通電腦*、基本商業*、體育*、音樂*、宗教*、視覺藝術*、公經社*、地理*；中二至中三：世界歷史*；中一至中二：普通話、科學*；中三：經濟與公共事務*、科學（物理）*、科學（化學）*、科學（生物）*",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學（提供延伸單元一）、公民與社會發展、物理、化學、生物、「企業、會計與財務概論」（會計及商管單元）、資訊與通訊科技、經濟、地理、旅遊與款待、視覺藝術、中國歷史、體育（非考試課程）、倫理與宗教（非考試課程）。",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界粉嶺蝴蝶山路8號",
+   "tel": "26693906",
+   "email": "mail@ks.edu.hk",
+   "web": "http://www.ks.edu.hk",
+   "chsc_id": "444"
+  },
+  "中華聖潔會靈風中學": {
+   "type": "資助",
+   "gender": "男女",
+   "religion": "基督教",
+   "founded": "1998",
+   "motto": "育德育才，作鹽作光",
+   "sponsoring": "中華聖潔會",
+   "principal": "李志誠先生 （文學士、學位教師教育文憑、文科碩士、教育碩士）",
+   "area": "約 6800平方米",
+   "fees": {
+    "中一": [
+     "-",
+     "-"
+    ],
+    "中二": [
+     "-",
+     "-"
+    ],
+    "中三": [
+     "-",
+     "-"
+    ],
+    "中四": [
+     "-",
+     "$290"
+    ],
+    "中五": [
+     "-",
+     "$290"
+    ],
+    "中六": [
+     "-",
+     "$290"
+    ]
+   },
+   "fee_other": "",
+   "teachers": "62",
+   "t_training": "100%",
+   "t_bachelor": "100%",
+   "t_master": "61%",
+   "t_sen": "53%",
+   "t_senior": "76%",
+   "classes": {
+    "中一": "4",
+    "中二": "4",
+    "中三": "4",
+    "中四": "4",
+    "中五": "4",
+    "中六": "4"
+   },
+   "s1_admission": "本校接受中一自行分配學位申請。本校參加中學學位分配辦法的統一派位（適用於2026 年9月升讀中一）。操行25%、學業25%、服務及活動25%、面試25%。",
+   "induction": ": 中一銜接活動類型：；\n（1） 學術方面：中一暑期學校、中一學習適應及鞏固課程、學術領袖生支援學習計劃。；\n（2） 品格方面：紀律訓練、班團建立活動、建立學習常規習慣。；\n（3） 家長聯繫方面：家長日、家長教育講座及課程、家長晚會、班主任與家長面談。；\n本校更積極提升學生體能及建立健康生活意識，初、高中分別教授各種運動，並成立健康校園小組，積極推動及建立健康的校園。",
+   "mission": "本著聖經真理和基督仁愛，肯定學生的尊嚴和價值，誘發潛能，建立自信、優良品德、正確價值觀及積極人生態度，激發求知、自學、創作、思考及情意發展。",
+   "facilities": ": 31    學校設施  : 標準設施齊備，並增設攀石牆、健身室、英語活動室、多媒體教學室、資訊科技室、地理及創新科技室、綜合表演藝術室、學習支援活動室、家長資源室、學生會等特別室及暖水游泳訓練池。全校均設空調、電腦、投影機、光纖網絡、內聯網系統及太陽能系統。",
+   "classrooms": "",
+   "subj_jh_c": "中國語文、數學*、綜合科學*（中一及中二）、物理（中三）、化學*（中三）、生物（中三）、電腦教育、中國歷史、歷史、地理*、宗教、視覺藝術、音樂、體育、德育、普通話（中一及中二）、設計與科技（中一及中二）、STEAM（中三）、公民、經濟與社會",
+   "subj_sh_c": "以中文為教學語言  : 中國語文、數學、公民與社會發展、生物、化學、物理、中國歷史、歷史、地理、經濟、企業、會計與財務概論（商業管理）、會計與財務概論（會計）、旅遊與款待、視覺藝術、資訊及通訊科技、數學延伸單元二、宗教、德育、體育、綜合藝術；\n多元學習課程：數碼音樂　／　玩具設計　/　新興運動　／　服務學習　/　數碼編程　/　理財教育　/　STEAM　/　電影與媒體製作",
+   "subj_jh_e": ": 英國語文",
+   "address": "新界大埔棟樑里一號",
+   "tel": "29589694",
+   "email": "lsc@lsc.edu.hk",
+   "web": "http://www.lsc.edu.hk",
+   "chsc_id": "456"
+  }
+ },
  "meta": {
   "pinyin": "pypinyin 生成，多音字/生僻字以课本为准",
   "jyutping": "jyutping 生成 + 人工校正（异体字/粤语特色音/古诗多音字），以粤语字典为准",
   "vocab": "word-atlas B1 档（CC BY 4.0，须署名 Word Atlas contributors 词光）",
   "hk_words": "坊間整理通用基礎詞（小學 P1–P6＋初中 S1–S3），非 EDB 官方分級詞表；年級歸屬為常見教學進度估算，僅供練習參考；音標為英式 DJ 音標人工標注，以詞典為準",
-  "school_geo": "坐標來源：教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv（每月更新），WGS84 已轉 GCJ-02（騰訊地圖坐標系），位置僅供參考以學校官網為準"
+  "school_geo": "坐標來源：教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv（每月更新），WGS84 已轉 GCJ-02（騰訊地圖坐標系），位置僅供參考以學校官網為準",
+  "sch_profiles": "來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實的官方公開資料）；收費/教師/收生準則等以學校官網最新公布為準"
  }
 };
 const POEMS = DATA.poems, VOCAB = DATA.vocab, HK = DATA.hk_words;
@@ -39217,6 +41788,62 @@ document.querySelectorAll('#mapChips .chip').forEach(c=>c.onclick=()=>{
 });
 const mapLoadBtn=document.getElementById('mapLoadBtn');
 if(mapLoadBtn)mapLoadBtn.onclick=initSchoolMap;
+
+// ---- 學校詳情（v1.58：CHSC 中學概覽 2025/2026，點表格「📄 詳情」彈出） ----
+const SCH_PROFILES=DATA.sch_profiles||{};
+function schEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function injectSchBtns(){
+  [['ssTable','詳情'],['tpTable','詳情']].forEach(([tid])=>{
+    const t=document.getElementById(tid); if(!t)return;
+    const th=t.querySelector('thead tr');
+    if(th&&!th.querySelector('th[data-schbtn]')){const h=document.createElement('th');h.setAttribute('data-schbtn','1');h.textContent='詳情';th.appendChild(h);}
+    t.querySelectorAll('tbody tr').forEach(tr=>{
+      if(tr.querySelector('td[data-schbtn]'))return;
+      const name=tr.querySelector('td')?tr.querySelector('td').textContent.trim():'';
+      const td=document.createElement('td');td.setAttribute('data-schbtn','1');
+      if(SCH_PROFILES[name]){
+        const b=document.createElement('button');b.className='chip';b.textContent='📄 詳情';b.style.cursor='pointer';
+        b.onclick=()=>openSchDetail(name);td.appendChild(b);
+      }
+      tr.appendChild(td);
+    });
+  });
+}
+function openSchDetail(name){
+  const p=SCH_PROFILES[name]; if(!p)return;
+  const row=(k,v)=>v?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">'+k+'</span><span>'+schEsc(v)+'</span></div>':'';
+  let h='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><h3 style="margin:0">'+schEsc(name)+'</h3>'
+    +(p.type?'<span class="chip on">'+schEsc(p.type)+'</span>':'')+(p.gender?'<span class="chip">'+schEsc(p.gender)+'</span>':'')+'</div>';
+  h+='<div style="margin:10px 0 4px;padding:8px 10px;background:var(--bg,#f6f6fa);border-radius:8px">';
+  h+=row('類別',p.type)+row('性別',p.gender)+row('宗教',p.religion)+row('創校',p.founded)+row('辦學團體',p.sponsoring)+row('校訓',p.motto)+row('校長',p.principal);
+  h+='</div>';
+  const feeRows=['中一','中二','中三','中四','中五','中六'].map(g=>{const f=p.fees&&p.fees[g];if(!f||!f.length)return '';const tf=v=>(!v||v==='-')?'—':v;return '<tr><td>'+g+'</td><td>'+schEsc(tf(f[0]))+'</td><td>'+schEsc(tf(f[1]))+'</td></tr>';}).join('');
+  if(feeRows)h+='<h4 style="margin:12px 0 4px">2025/2026 全年收費</h4><div class="scroll-x"><table class="mtable" style="min-width:0"><thead><tr><th>級別</th><th>學費($)</th><th>堂費($)</th></tr></thead><tbody>'+feeRows+'</tbody></table></div>'
+    +(p.fee_other?'<p style="font-size:13px;margin:4px 0">非標準項目核准收費（年費）：'+schEsc(p.fee_other)+'</p>':'')
+    +'<p style="font-size:12px;color:#8a8aa0;margin:2px 0">官津（資助/官立）學費全免，表中「—」即免費；直資學費由學校自訂。</p>';
+  if(p.teachers)h+='<h4 style="margin:12px 0 4px">教師概況（2025/2026）</h4><div style="display:flex;gap:8px;flex-wrap:wrap">'
+    +'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.teachers)+'</div><div style="font-size:12px;color:#8a8aa0">教師總人數</div></div>'
+    +(p.t_master?'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.t_master)+'</div><div style="font-size:12px;color:#8a8aa0">碩士／博士</div></div>':'')
+    +(p.t_senior?'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.t_senior)+'</div><div style="font-size:12px;color:#8a8aa0">年資 10 年+</div></div>':'')
+    +(p.t_bachelor?'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.t_bachelor)+'</div><div style="font-size:12px;color:#8a8aa0">學士</div></div>':'')
+    +'</div>';
+  const cls=p.classes||{};const clsStr=['中一','中二','中三','中四','中五','中六'].map(g=>cls[g]?g+' '+cls[g]+'班':null).filter(Boolean).join(' · ');
+  if(clsStr)h+='<h4 style="margin:12px 0 4px">班級結構</h4><p style="margin:2px 0;font-size:13.5px">'+clsStr+'</p>';
+  if(p.s1_admission)h+='<h4 style="margin:12px 0 4px">中一入學 · 收生準則</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.s1_admission)+'</p>';
+  if(p.mission)h+='<h4 style="margin:12px 0 4px">辦學宗旨</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.mission)+'</p>';
+  if(p.facilities)h+='<h4 style="margin:12px 0 4px">學校設施</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.facilities)+'</p>';
+  h+='<h4 style="margin:12px 0 4px">聯絡</h4><div style="padding:8px 10px;background:var(--bg,#f6f6fa);border-radius:8px">'
+    +(p.address?row('📍 地址',p.address):'')
+    +(p.tel?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">📞 電話</span><a href="tel:'+schEsc(p.tel)+'">'+schEsc(p.tel)+'</a></div>':'')
+    +(p.web?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">🔗 官網</span><a href="'+schEsc(p.web)+'" target="_blank" rel="noopener">'+schEsc(p.web.replace(/^https?:\/\//,''))+'</a></div>':'')
+    +'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">🗺️ 位置</span><a target="_blank" rel="noopener" href="https://apis.map.qq.com/uri/v1/search?keyword='+encodeURIComponent(name)+'&region='+encodeURIComponent('香港')+'">在騰訊地圖打開 / 導航 ↗</a></div>';
+  h+='</div>';
+  h+='<p class="src" style="margin:10px 0 2px">資料來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實），以學校官網最新公布為準。</p>';
+  h+='<p style="text-align:right;margin:8px 0 0"><button class="chip" onclick="document.getElementById(\'schModal\').style.display=\'none\'">關閉</button></p>';
+  document.getElementById('schModalBody').innerHTML=h;
+  document.getElementById('schModal').style.display='block';
+}
+injectSchBtns();
 // 英文練習內部分類切換（港小生字 / 詞表）
 // ---- v1.24 呈分試卷（英文呈分試模擬卷 · P5–P6 · 仿編原創） ----
 // 版式仿照坊間呈分試卷：生詞表＋詞形填空＋明喻/習語/時態篇章/職業對話/情境造句/短語動詞/量詞連詞/閱讀理解，全卷 100%。
@@ -40260,7 +42887,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.57',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.58',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.58：應葉工要求（發中學詳情頁截圖「模仿這個詳細程度」）——擇校分檔兩張中學表每行新增「📄 詳情」按鈕，點開模態看該校完整檔案（仿截圖板塊：基本資料/2025-2026 收費/教師概況/班級結構/中一收生準則/辦學宗旨/學校設施/聯絡+地圖導航）；數據源：新腳本 gen_sch_profiles.py 抓取 CHSC《中學概覽 2025/2026》（chsc.hk 官方公開資料，學校提供及核實）40 所中學詳情頁（原始 HTML 緩存 _chsc_raw/，39+1 所重試成功），解析為 _sch_profiles.json（字段 40/40 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教師人數與學歷年資%/各年級學費堂費/班數/收生準則比重/宗旨/設施/地址電話官網）；解析坑：字段真實格式是「|label|\n| :\n|值|」（冒號前後有管道+換行），首版 regex 過嚴全空，改 [\s|]* 容忍；收費表/聯絡欄/長文本各用專用提取；build_data.py 合併 sch_profiles（assert 40）；模態站內標注來源與「以學校官網為準」。
 v1.57：葉工二測校園地圖仍 0/70，錯誤可視化顯示「網絡請求失敗」——破案：SDK 源碼實錐 service 請求走 serviceHost 代理（serviceHost&&(c=...serviceHost...)），代理層只代理地圖瓦片、不轉發搜索接口，前端無解；徹底改架構：棄用運行時 POI 解析，校點坐標**內置自教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv**（官方源，每月更新，2026-11-04 下載版本截至 2026-09-30），70/70 校名全部匹配官方坐標（含别忽略全形括號差異），WGS84→GCJ-02（標準公開偏移算法）預轉換後存 _school_geo.json；build_data.py 合併 school_geo（assert 70）進 DATA；地圖 SDK 就緒即直接標點（零運行時解析、零等待），删 mapSearchPoi/mapGeocodeAll/localStorage 緩存/Service 庫引用（gljs 不再 libraries=service）；狀態行與頁面說明改標官方數據源；verify2 改真數據斷言（DATA.school_geo 70 校全有坐標且範圍合理）。
 v1.56：修 v1.55 校園地圖「已載 0/70」——葉工 workbuddy 域名實測地圖渲染成功（代理層正常）但 POI 解析全掛：破案方法名寫錯，官方正確名是 searchInBounds（來源 lbs.qq.com 官方文章 id=1262，2026-11-04 核實），原探测的 searchBoundingBox/search 均不存在導致 call=null 全部靜默失敗；同修 InfoWindow 默認展開懸空白彈窗（創建後立即 close）；解析失敗時狀態行顯示失敗數+原因（不再靜默），錯誤寫 __mapLastErr + console.warn 便診斷。
 v1.55：應葉工要求擇校分檔新增「校園地圖」（實時地圖標點中學40+小學30）——地圖服務選型經合規審查：騰訊地圖 GL JS 默認 key 代理模式（_TMapSecurityConfig 佔位符由運行時替換，前端零 key；高德/百度需自備 key 且前端明文有泄露風險，OSM/Leaflet 不在合規白名單不用）；校點數據直接從頁面三張學校表 DOM 收集（ssTable 20＋tpTable 20＋psTable 30，不重複造數據）；坐標由 TMap.service.Search POI 搜索實時解析（關鍵詞=校名，範圍框覆蓋北區+大埔，120ms 節流），localStorage 緩存（hkk_mapgeo_v1）；學段 chips 過濾（全部/中學/小學），點標點彈 InfoWindow（名/型/語言/Band/地址/電話/導航鏈接）；SDK 或代理不可用時自動降級為「在騰訊地圖打開」URI API 鏈接列表（apis.map.qq.com/uri/v1/search，免 key）；標點僅供參考以學校官網地址為準。verify2.js 加校園地圖靜態+行為斷言（DOM 收集數=70/降級列表70鏈接/chips）。
@@ -536,13 +537,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.57（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.58（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.57（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.58（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1121,6 +1122,14 @@ Thank you for your time.</div>
         <p style="margin:8px 0 0"><button class="btn" id="mapLoadBtn">🗺️ 載入地圖</button> <span id="mapStatus" style="font-size:12px;color:#8a8aa0"></span></p>
         <div id="mapFallback" style="display:none"></div>
         <p class="src">地圖服務：騰訊位置服務（合規地圖數據源）。校點坐標內置自教育局開放數據「學校位置及資料」（SCH_LOC_EDB.csv，每月更新，WGS84 已轉 GCJ-02），位置僅供參考，以各校官網地址為準。</p>
+      </div>
+      <div class="gcard">
+        <h3>📖 學校詳情（中學）</h3>
+        <p style="margin:4px 0 6px">下面兩張中學表每行有「📄 詳情」按鈕——點開看該校完整檔案：基本資料、2025/2026 收費、教師概況、班級結構、中一收生準則、辦學宗旨、聯絡資料。</p>
+        <p class="src">詳情資料來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實的官方公開資料），以各校官網最新公布為準。</p>
+      </div>
+      <div id="schModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(20,20,40,.55)" onclick="if(event.target===this)this.style.display='none'">
+        <div style="max-width:680px;margin:3vh auto;background:var(--card,#fff);border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="schModalBody"></div>
       </div>
       <div class="gcard">
         <h3>北區跨境要點</h3>
@@ -2623,6 +2632,62 @@ document.querySelectorAll('#mapChips .chip').forEach(c=>c.onclick=()=>{
 });
 const mapLoadBtn=document.getElementById('mapLoadBtn');
 if(mapLoadBtn)mapLoadBtn.onclick=initSchoolMap;
+
+// ---- 學校詳情（v1.58：CHSC 中學概覽 2025/2026，點表格「📄 詳情」彈出） ----
+const SCH_PROFILES=DATA.sch_profiles||{};
+function schEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function injectSchBtns(){
+  [['ssTable','詳情'],['tpTable','詳情']].forEach(([tid])=>{
+    const t=document.getElementById(tid); if(!t)return;
+    const th=t.querySelector('thead tr');
+    if(th&&!th.querySelector('th[data-schbtn]')){const h=document.createElement('th');h.setAttribute('data-schbtn','1');h.textContent='詳情';th.appendChild(h);}
+    t.querySelectorAll('tbody tr').forEach(tr=>{
+      if(tr.querySelector('td[data-schbtn]'))return;
+      const name=tr.querySelector('td')?tr.querySelector('td').textContent.trim():'';
+      const td=document.createElement('td');td.setAttribute('data-schbtn','1');
+      if(SCH_PROFILES[name]){
+        const b=document.createElement('button');b.className='chip';b.textContent='📄 詳情';b.style.cursor='pointer';
+        b.onclick=()=>openSchDetail(name);td.appendChild(b);
+      }
+      tr.appendChild(td);
+    });
+  });
+}
+function openSchDetail(name){
+  const p=SCH_PROFILES[name]; if(!p)return;
+  const row=(k,v)=>v?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">'+k+'</span><span>'+schEsc(v)+'</span></div>':'';
+  let h='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><h3 style="margin:0">'+schEsc(name)+'</h3>'
+    +(p.type?'<span class="chip on">'+schEsc(p.type)+'</span>':'')+(p.gender?'<span class="chip">'+schEsc(p.gender)+'</span>':'')+'</div>';
+  h+='<div style="margin:10px 0 4px;padding:8px 10px;background:var(--bg,#f6f6fa);border-radius:8px">';
+  h+=row('類別',p.type)+row('性別',p.gender)+row('宗教',p.religion)+row('創校',p.founded)+row('辦學團體',p.sponsoring)+row('校訓',p.motto)+row('校長',p.principal);
+  h+='</div>';
+  const feeRows=['中一','中二','中三','中四','中五','中六'].map(g=>{const f=p.fees&&p.fees[g];if(!f||!f.length)return '';const tf=v=>(!v||v==='-')?'—':v;return '<tr><td>'+g+'</td><td>'+schEsc(tf(f[0]))+'</td><td>'+schEsc(tf(f[1]))+'</td></tr>';}).join('');
+  if(feeRows)h+='<h4 style="margin:12px 0 4px">2025/2026 全年收費</h4><div class="scroll-x"><table class="mtable" style="min-width:0"><thead><tr><th>級別</th><th>學費($)</th><th>堂費($)</th></tr></thead><tbody>'+feeRows+'</tbody></table></div>'
+    +(p.fee_other?'<p style="font-size:13px;margin:4px 0">非標準項目核准收費（年費）：'+schEsc(p.fee_other)+'</p>':'')
+    +'<p style="font-size:12px;color:#8a8aa0;margin:2px 0">官津（資助/官立）學費全免，表中「—」即免費；直資學費由學校自訂。</p>';
+  if(p.teachers)h+='<h4 style="margin:12px 0 4px">教師概況（2025/2026）</h4><div style="display:flex;gap:8px;flex-wrap:wrap">'
+    +'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.teachers)+'</div><div style="font-size:12px;color:#8a8aa0">教師總人數</div></div>'
+    +(p.t_master?'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.t_master)+'</div><div style="font-size:12px;color:#8a8aa0">碩士／博士</div></div>':'')
+    +(p.t_senior?'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.t_senior)+'</div><div style="font-size:12px;color:#8a8aa0">年資 10 年+</div></div>':'')
+    +(p.t_bachelor?'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.t_bachelor)+'</div><div style="font-size:12px;color:#8a8aa0">學士</div></div>':'')
+    +'</div>';
+  const cls=p.classes||{};const clsStr=['中一','中二','中三','中四','中五','中六'].map(g=>cls[g]?g+' '+cls[g]+'班':null).filter(Boolean).join(' · ');
+  if(clsStr)h+='<h4 style="margin:12px 0 4px">班級結構</h4><p style="margin:2px 0;font-size:13.5px">'+clsStr+'</p>';
+  if(p.s1_admission)h+='<h4 style="margin:12px 0 4px">中一入學 · 收生準則</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.s1_admission)+'</p>';
+  if(p.mission)h+='<h4 style="margin:12px 0 4px">辦學宗旨</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.mission)+'</p>';
+  if(p.facilities)h+='<h4 style="margin:12px 0 4px">學校設施</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.facilities)+'</p>';
+  h+='<h4 style="margin:12px 0 4px">聯絡</h4><div style="padding:8px 10px;background:var(--bg,#f6f6fa);border-radius:8px">'
+    +(p.address?row('📍 地址',p.address):'')
+    +(p.tel?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">📞 電話</span><a href="tel:'+schEsc(p.tel)+'">'+schEsc(p.tel)+'</a></div>':'')
+    +(p.web?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">🔗 官網</span><a href="'+schEsc(p.web)+'" target="_blank" rel="noopener">'+schEsc(p.web.replace(/^https?:\/\//,''))+'</a></div>':'')
+    +'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">🗺️ 位置</span><a target="_blank" rel="noopener" href="https://apis.map.qq.com/uri/v1/search?keyword='+encodeURIComponent(name)+'&region='+encodeURIComponent('香港')+'">在騰訊地圖打開 / 導航 ↗</a></div>';
+  h+='</div>';
+  h+='<p class="src" style="margin:10px 0 2px">資料來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實），以學校官網最新公布為準。</p>';
+  h+='<p style="text-align:right;margin:8px 0 0"><button class="chip" onclick="document.getElementById(\'schModal\').style.display=\'none\'">關閉</button></p>';
+  document.getElementById('schModalBody').innerHTML=h;
+  document.getElementById('schModal').style.display='block';
+}
+injectSchBtns();
 // 英文練習內部分類切換（港小生字 / 詞表）
 // ---- v1.24 呈分試卷（英文呈分試模擬卷 · P5–P6 · 仿編原創） ----
 // 版式仿照坊間呈分試卷：生詞表＋詞形填空＋明喻/習語/時態篇章/職業對話/情境造句/短語動詞/量詞連詞/閱讀理解，全卷 100%。
@@ -3666,7 +3731,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.57',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.58',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

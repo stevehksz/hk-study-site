@@ -213,6 +213,31 @@ try{
   ok('v1.57 渲染直接用內置坐標', html.indexOf('SCHOOL_GEO[s.name]')>=0);
 }catch(e){ ok('v1.57 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.58 學校詳情（CHSC 中學概覽，40 校模態檔案） ============
+try{
+  const WV=doc.defaultView;
+  ok('v1.58 模態 DOM 存在', !!doc.getElementById('schModal') && !!doc.getElementById('schModalBody'));
+  ok('v1.58 源碼含 sch_profiles 數據', html.indexOf('sch_profiles')>=0);
+  const SP=WV.eval('SCH_PROFILES');
+  ok('v1.58 內置詳情=40('+(SP?Object.keys(SP).length:0)+')', SP && Object.keys(SP).length===40);
+  const SPsample=SP&&SP['保良局馬錦明中學'];
+  ok('v1.58 樣本校關鍵字段齊', !!SPsample && !!SPsample.type && !!SPsample.teachers && !!SPsample.s1_admission && !!SPsample.address && !!SPsample.tel);
+  // 行為斷言：打開模態
+  WV.eval('openSchDetail("保良局馬錦明中學")');
+  const modal=doc.getElementById('schModal');
+  ok('v1.58 點詳情模態打開', modal.style.display==='block');
+  const body=doc.getElementById('schModalBody');
+  ok('v1.58 模態含校名/收費/收生準則/來源', body.textContent.includes('保良局馬錦明中學') && body.textContent.includes('全年收費') && body.textContent.includes('收生準則') && body.textContent.includes('chsc.hk'));
+  ok('v1.58 模態直資學費可見', !SPsample.fees['中一'] || body.textContent.length>500);
+  WV.eval('document.getElementById("schModal").style.display="none"');
+  ok('v1.58 模態可關閉', modal.style.display==='none');
+  // 按鈕注入
+  const btns=doc.querySelectorAll('#ssTable td[data-schbtn] button, #tpTable td[data-schbtn] button');
+  ok('v1.58 兩張中學表注入詳情按鈕=40('+btns.length+')', btns.length===40);
+  const ths=doc.querySelectorAll('#ssTable th[data-schbtn], #tpTable th[data-schbtn]');
+  ok('v1.58 表頭加詳情列=2', ths.length===2);
+}catch(e){ ok('v1.58 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();
@@ -672,7 +697,7 @@ try{
 // ============ v1.41 北区表官網列 + Band 細分 ============
 try{
   const ssRows=[...doc.querySelectorAll('#ssTable tbody tr')];
-  ok('v1.41 北區 20 行都有官網 .edu.hk 鏈接', ssRows.length===20 && ssRows.every(r=>{const a=r.querySelector('td:last-child a');return a&&/\.edu\.hk/.test(a.href);}));
+  ok('v1.41 北區 20 行都有官網 .edu.hk 鏈接', ssRows.length===20 && ssRows.every(r=>{const a=r.querySelector('a[href*=".edu.hk"]');return a&&/\.edu\.hk/.test(a.href);}));
   ok('v1.41 鄧顯 Band 1A + tanghin.edu.hk', ssRows.some(r=>r.textContent.includes('鄧顯紀念中學')&&r.textContent.includes('1A')&&r.querySelector('a[href*="tanghin.edu.hk"]')));
   ok('v1.41 上水官立 Band 3C + ssgss.edu.hk', ssRows.some(r=>r.textContent.includes('上水官立中學')&&r.textContent.includes('3C')&&r.querySelector('a[href*="ssgss.edu.hk"]')));
   ok('v1.41 心誠 Band 2C + flss.edu.hk', ssRows.some(r=>r.textContent.includes('心誠中學')&&r.textContent.includes('2C')&&r.querySelector('a[href*="flss.edu.hk"]')));
@@ -689,7 +714,8 @@ try{
   ok('v1.45 官立 chip 過濾=1 行（粉嶺官立）', (()=>{psRows.forEach(r=>r.style.display='none');doc.querySelector('#psChips .chip[data-m="gov"]').click();return psRows.filter(r=>r.style.display!=='none').length===1 && psRows.find(r=>r.style.display!=='none').textContent.includes('粉嶺官立小學');})());
   ok('v1.45 全部 chip 恢復 30 可見', (()=>{doc.querySelector('#psChips .chip[data-m="all"]').click();return psRows.filter(r=>r.style.display!=='none').length===30;})());
   ok('v1.42 普教中標註≥4 所', psRows.filter(r=>r.textContent.includes('普教中')).length>=4);
-  ok('v1.42 全站 tel 鏈接 70 個（中40+小30）', doc.querySelectorAll('a[href^="tel:"]').length===70);
+  const telN=doc.querySelectorAll('#ssTable a[href^="tel:"],#tpTable a[href^="tel:"],#psTable a[href^="tel:"]').length;
+  ok('v1.42 三表 tel 鏈接 70 個（實際 '+telN+'）', telN===70);
 }catch(e){ ok('v1.42 小學测试执行', false); console.log('   err='+e.message); }
 
 // ============ v1.45 小學表對齊中學格式 + 時間線搬遷 ============
