@@ -500,13 +500,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.55（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.56（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.55（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.56（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -38862,7 +38862,9 @@ function collectMapSchools(){
   });
   mapSchoolList=out; return out;
 }
+window.__mapLastErr=null;
 window.__mapSchoolsTest=()=>collectMapSchools().length;
+window.__mapSearchPoiTest=kw=>{let r;mapSearchPoi(kw,x=>{r=x});return r;}; // v1.56 測試鉤子（mock 同步 then）
 function mapGeoCache(){try{return JSON.parse(localStorage.getItem(MAP_GEO_KEY)||'{}')}catch(e){return{}}}
 function mapGeoSave(addr,pos){try{const c=mapGeoCache();c[addr]=pos;localStorage.setItem(MAP_GEO_KEY,JSON.stringify(c))}catch(e){}}
 function loadTMapSdk(done){
@@ -38890,10 +38892,13 @@ function mapSearchPoi(kw,done){
   try{
     const svc=new TMap.service.Search({pageSize:5,pageIndex:1});
     const bounds=new TMap.LatLngBounds(new TMap.LatLng(22.40,113.98),new TMap.LatLng(22.56,114.30)); // 北區+大埔
-    const call=svc.searchBoundingBox?svc.searchBoundingBox({bounds:bounds,keyword:kw}):(svc.search?svc.search({keyword:kw+' 香港'}):null);
+    // v1.56 修：方法名改官方正確名——searchInBounds（官方文章 id=1262 核實 2026-11-04）；
+    // 原 searchBoundingBox/search 均不存在導致 0/70 全部靜默失敗
+    const call=svc.searchInBounds?svc.searchInBounds({bounds:bounds,keyword:kw,pageSize:5})
+      :(svc.searchRegion?svc.searchRegion({keyword:kw,region:'香港'}):null);
     if(!call||!call.then)return done(null);
-    call.then(r=>done(mapPickResult(r)),()=>done(null));
-  }catch(e){done(null);}
+    call.then(r=>done(mapPickResult(r)),e=>{window.__mapLastErr=(e&&e.message)||String(e);done(null);});
+  }catch(e){window.__mapLastErr=(e&&e.message)||String(e);done(null);}
 }
 function mapUriLink(s){
   return 'https://apis.map.qq.com/uri/v1/search?keyword='+encodeURIComponent(s.name)+'&region='+encodeURIComponent('香港'+s.region);
@@ -38938,14 +38943,18 @@ function mapGeocodeAll(){
   const todo=list.filter(s=>!cache[s.name]);
   if(!todo.length){mapRenderMarkers();return;}
   if(mapGeoBusy)return; mapGeoBusy=true;
-  let i=0;
+  let i=0,errN=0;
   const st=document.getElementById('mapStatus');
   const step=()=>{
-    if(i>=todo.length){mapGeoBusy=false;mapRenderMarkers();return;}
+    if(i>=todo.length){mapGeoBusy=false;mapRenderMarkers();
+      if(errN>0){window.__mapLastErr&&console.warn('校點解析最後錯誤：',window.__mapLastErr);
+        const st2=document.getElementById('mapStatus');
+        if(st2)st2.textContent+='（解析失敗 '+errN+' 所'+(errN>=todo.length?'，原因：'+(window.__mapLastErr||'接口異常'):'')+'，可刷新重試）';}
+      return;}
     const s=todo[i++];
     st.textContent='解析校點中 '+i+' / '+todo.length+'：'+s.name;
     mapSearchPoi(s.name,pos=>{
-      if(pos)mapGeoSave(s.name,pos);
+      if(pos)mapGeoSave(s.name,pos);else errN++;
       setTimeout(step,120); // 節流，避免請求過密
     });
   };
@@ -38960,6 +38969,7 @@ function initSchoolMap(){
     try{
       tmapObj=new TMap.Map('mapContainer',{zoom:12,center:new TMap.LatLng(22.478,114.16)});
       tmapInfoWin=new TMap.InfoWindow({map:tmapObj,position:new TMap.LatLng(22.478,114.16),offset:{x:0,y:-32}});
+      tmapInfoWin.close(); // v1.56 修：InfoWindow 默認展開，不關會懸空白彈窗（葉工截圖實錘）
       mapMultiMarker=new TMap.MultiMarker({map:tmapObj,styles:{default:new TMap.MarkerStyle({width:24,height:35})},geometries:[]});
       document.getElementById('mapPlaceholder').style.display='none';
       mapGeocodeAll();
@@ -40016,7 +40026,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.55',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.56',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
