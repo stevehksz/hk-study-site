@@ -500,13 +500,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.54（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.55（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.54（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.55（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1072,6 +1072,20 @@ Thank you for your time.</div>
         <button class="btn" id="jmpSec" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🎓 北區中學 20 所</button>
       </div>
       <p class="tip" style="margin:0 0 6px">按上面按鈕直達對應名單；上次看的表會被記住。</p>
+      <div class="gcard" id="mapCard">
+        <h3>🗺️ 校園地圖（騰訊地圖 · 實時）</h3>
+        <div class="pg-chips" id="mapChips">
+          <span class="chip on" data-mf="all">全部</span>
+          <span class="chip" data-mf="sec">中學 40</span>
+          <span class="chip" data-mf="pri">小學 30</span>
+        </div>
+        <div id="mapContainer" style="width:100%;height:60vh;min-height:420px;border-radius:8px;border:1.5px solid var(--line);position:relative;overflow:hidden">
+          <div id="mapPlaceholder" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a8aa0;font-size:14px;background:var(--card,#fff)">按「載入地圖」開始（首次需聯網解析約 70 所學校位置，之後有本地緩存）</div>
+        </div>
+        <p style="margin:8px 0 0"><button class="btn" id="mapLoadBtn">🗺️ 載入地圖</button> <span id="mapStatus" style="font-size:12px;color:#8a8aa0"></span></p>
+        <div id="mapFallback" style="display:none"></div>
+        <p class="src">地圖服務：騰訊位置服務（合規地圖數據源，GCJ-02 坐標由騰訊地圖按校名/地址實時解析，僅本地緩存）。地圖標點位置僅供參考，以各校官網地址為準。</p>
+      </div>
       <div class="gcard">
         <h3>北區跨境要點</h3>
         <p>北區（上水/粉嶺）是羅湖、福田（落馬洲支線）、文錦渡口岸入港第一站，東鐵線 1 站到上水、2 站到粉嶺，單程通關＋車程約 30–40 分鐘，跨境生比例全港最高。教育局有跨境學童派位安排，北區 <b>30 所學校</b>參與（2025 年度數據，中一跨境學額約 <b>171 個</b>，來源：教育局公開資料，坊間引用）。跨境校巴/保姆車體系成熟，校巴申請一般每年 5–6 月。</p>
@@ -38825,6 +38839,140 @@ function jmpSch(k){
   let last=null; try{last=localStorage.getItem('hkk_lastSchool')}catch(e){}
   if(last){const el=last==='pri'?a:b; el.style.borderColor='#0d9488'; el.style.color='#0d9488';}
 })();
+// ---- v1.55 校園地圖（騰訊地圖 GL JS · 默認 key 代理模式，合規數據源） ----
+// 校點數據直接從頁面三張學校表收集（不重複造數據）；坐標由騰訊地圖 POI 搜索實時解析＋localStorage 緩存；
+// SDK/代理不可用時自動降級為「在騰訊地圖查看」链接列表（URI API，免 key）。
+const MAP_GEO_KEY='hkk_mapgeo_v1';
+let tmapObj=null, tmapInfoWin=null, mapMultiMarker=null, mapFilterMode='all', mapSchoolList=null, mapGeoBusy=false;
+function collectMapSchools(){
+  if(mapSchoolList)return mapSchoolList;
+  const out=[];
+  document.querySelectorAll('#ssTable tbody tr').forEach(tr=>{
+    const tds=tr.querySelectorAll('td'); if(tds.length<8)return;
+    out.push({name:tds[0].textContent.trim(),type:tds[2].textContent.trim(),lang:tds[5].textContent.trim(),band:tds[6].textContent.trim(),addr:tds[7].textContent.trim(),tel:(tds[8]&&tds[8].textContent.trim())||'',grp:'sec',region:'北區'});
+  });
+  document.querySelectorAll('#tpTable tbody tr').forEach(tr=>{
+    const tds=tr.querySelectorAll('td'); if(tds.length<7)return;
+    out.push({name:tds[0].textContent.trim(),type:tds[1].textContent.trim(),lang:tds[2].textContent.trim(),band:tds[3].textContent.trim(),addr:'',near:tds[4].textContent.trim(),tel:(tds[6]&&tds[6].textContent.trim())||'',grp:'sec',region:'大埔區'});
+  });
+  document.querySelectorAll('#psTable tbody tr').forEach(tr=>{
+    const tds=tr.querySelectorAll('td'); if(tds.length<6)return;
+    const nl=tds[4].textContent.trim();const pi=nl.indexOf('·');
+    out.push({name:tds[1].textContent.trim(),type:tds[2].textContent.trim(),lang:tds[3].textContent.trim(),band:'',addr:pi>0?nl.slice(pi+1).trim():nl,tel:(tds[6]&&tds[6].textContent.trim())||'',grp:'pri',region:'北區'});
+  });
+  mapSchoolList=out; return out;
+}
+window.__mapSchoolsTest=()=>collectMapSchools().length;
+function mapGeoCache(){try{return JSON.parse(localStorage.getItem(MAP_GEO_KEY)||'{}')}catch(e){return{}}}
+function mapGeoSave(addr,pos){try{const c=mapGeoCache();c[addr]=pos;localStorage.setItem(MAP_GEO_KEY,JSON.stringify(c))}catch(e){}}
+function loadTMapSdk(done){
+  if(window.TMap)return done(true);
+  const ensure=()=>{let n=0;const t=setInterval(()=>{if(window.TMap){clearInterval(t);done(true)}else if(++n>60){clearInterval(t);done(false)}},200);};
+  if(document.getElementById('tmapSdk'))return ensure();
+  window._TMapSecurityConfig={serviceHost:'http://127.0.0.1:__WB_HTTP_PORT__/_TMapService/_wbt/__WB_TMAP_SECRET__'};
+  const s=document.createElement('script');s.id='tmapSdk';
+  s.src='https://map.qq.com/api/gljs?v=1.exp&libraries=service';
+  s.onload=ensure; s.onerror=()=>done(false);
+  document.head.appendChild(s);
+}
+function mapPickResult(r){
+  let list=[];
+  if(r&&Array.isArray(r.data))list=r.data;
+  else if(r&&r.data&&Array.isArray(r.data.data))list=r.data.data;
+  else if(r&&Array.isArray(r.result))list=r.result;
+  for(let i=0;i<list.length;i++){
+    const p=list[i];
+    if(p&&p.location&&typeof p.location.lat==='number')return {lat:p.location.lat,lng:p.location.lng,title:p.title||'',address:p.address||''};
+  }
+  return null;
+}
+function mapSearchPoi(kw,done){
+  try{
+    const svc=new TMap.service.Search({pageSize:5,pageIndex:1});
+    const bounds=new TMap.LatLngBounds(new TMap.LatLng(22.40,113.98),new TMap.LatLng(22.56,114.30)); // 北區+大埔
+    const call=svc.searchBoundingBox?svc.searchBoundingBox({bounds:bounds,keyword:kw}):(svc.search?svc.search({keyword:kw+' 香港'}):null);
+    if(!call||!call.then)return done(null);
+    call.then(r=>done(mapPickResult(r)),()=>done(null));
+  }catch(e){done(null);}
+}
+function mapUriLink(s){
+  return 'https://apis.map.qq.com/uri/v1/search?keyword='+encodeURIComponent(s.name)+'&region='+encodeURIComponent('香港'+s.region);
+}
+function mapPopupHtml(s,pos){
+  const bits=[];
+  bits.push('<b>'+s.name+'</b>');
+  bits.push('<span style="color:#888">'+[s.type,s.lang,s.band?('Band '+s.band+'（非官方）'):null].filter(Boolean).join(' · ')+'</span>');
+  if(s.addr)bits.push('📍 '+s.region+' · '+s.addr);
+  if(s.near)bits.push('🚉 近東鐵站（估算）：'+s.near);
+  if(s.tel)bits.push('📞 <a href="tel:'+s.tel.replace(/[^0-9]/g,'')+'">'+s.tel+'</a>');
+  bits.push('<a href="'+mapUriLink(s)+'" target="_blank" rel="noopener">在騰訊地圖中打開 / 導航 ↗</a>');
+  return bits.join('<br>');
+}
+function mapFail(msg){
+  const fb=document.getElementById('mapFallback');
+  const ph=document.getElementById('mapPlaceholder');
+  const list=collectMapSchools();
+  let h='<p style="color:#a33;font-size:13px;margin:8px 0">⚠️ '+(msg||'當前域名暫不支持內嵌地圖')+'——先用下面直達鏈接（每校一鍵在騰訊地圖中打開位置/導航）：</p><div style="display:flex;flex-wrap:wrap;gap:6px">';
+  list.forEach(s=>{h+='<a class="chip" style="text-decoration:none" target="_blank" rel="noopener" href="'+mapUriLink(s)+'">'+s.name+'</a>';});
+  h+='</div>';
+  fb.innerHTML=h; fb.style.display='block';
+  if(ph)ph.style.display='none';
+}
+window.__mapFailTest=()=>mapFail('測試降級');
+function mapRenderMarkers(){
+  if(!mapMultiMarker||!window.TMap)return;
+  const cache=mapGeoCache();
+  const geos=collectMapSchools().filter(s=>(mapFilterMode==='all'||s.grp===mapFilterMode)&&cache[s.name]);
+  const geometries=geos.map((s,i)=>({id:String(i),styleId:'default',position:new TMap.LatLng(cache[s.name].lat,cache[s.name].lng),properties:s}));
+  mapMultiMarker.setGeometries(geometries);
+  const doneN=geos.length,total=collectMapSchools().filter(s=>mapFilterMode==='all'||s.grp===mapFilterMode).length;
+  document.getElementById('mapStatus').textContent='已標 '+doneN+' / '+total+' 所（其餘可能解析失敗或超時，刷新重試）';
+  mapMultiMarker.on('click',function(e){
+    const s=e&&e.geometry&&e.geometry.properties; if(!s)return;
+    const pos=e.geometry.position;
+    tmapInfoWin.open(); tmapInfoWin.setPosition(pos); tmapInfoWin.setContent(mapPopupHtml(s));
+  });
+}
+function mapGeocodeAll(){
+  const list=collectMapSchools();const cache=mapGeoCache();
+  const todo=list.filter(s=>!cache[s.name]);
+  if(!todo.length){mapRenderMarkers();return;}
+  if(mapGeoBusy)return; mapGeoBusy=true;
+  let i=0;
+  const st=document.getElementById('mapStatus');
+  const step=()=>{
+    if(i>=todo.length){mapGeoBusy=false;mapRenderMarkers();return;}
+    const s=todo[i++];
+    st.textContent='解析校點中 '+i+' / '+todo.length+'：'+s.name;
+    mapSearchPoi(s.name,pos=>{
+      if(pos)mapGeoSave(s.name,pos);
+      setTimeout(step,120); // 節流，避免請求過密
+    });
+  };
+  step();
+}
+function initSchoolMap(){
+  const st=document.getElementById('mapStatus');
+  st.textContent='地圖 SDK 加載中…';
+  loadTMapSdk(ok=>{
+    if(!ok){mapFail('地圖服務加載失敗（需聯網；部分域名不支持內嵌地圖）');return;}
+    st.textContent='地圖初始化…';
+    try{
+      tmapObj=new TMap.Map('mapContainer',{zoom:12,center:new TMap.LatLng(22.478,114.16)});
+      tmapInfoWin=new TMap.InfoWindow({map:tmapObj,position:new TMap.LatLng(22.478,114.16),offset:{x:0,y:-32}});
+      mapMultiMarker=new TMap.MultiMarker({map:tmapObj,styles:{default:new TMap.MarkerStyle({width:24,height:35})},geometries:[]});
+      document.getElementById('mapPlaceholder').style.display='none';
+      mapGeocodeAll();
+    }catch(e){mapFail('地圖初始化失敗：'+(e&&e.message||'未知錯誤'));}
+  });
+}
+document.querySelectorAll('#mapChips .chip').forEach(c=>c.onclick=()=>{
+  mapFilterMode=c.dataset.mf;
+  document.querySelectorAll('#mapChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  mapRenderMarkers();
+});
+const mapLoadBtn=document.getElementById('mapLoadBtn');
+if(mapLoadBtn)mapLoadBtn.onclick=initSchoolMap;
 // 英文練習內部分類切換（港小生字 / 詞表）
 // ---- v1.24 呈分試卷（英文呈分試模擬卷 · P5–P6 · 仿編原創） ----
 // 版式仿照坊間呈分試卷：生詞表＋詞形填空＋明喻/習語/時態篇章/職業對話/情境造句/短語動詞/量詞連詞/閱讀理解，全卷 100%。
@@ -39868,7 +40016,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.54',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.55',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

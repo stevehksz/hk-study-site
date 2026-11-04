@@ -178,6 +178,21 @@ try{
   ok('v1.54 切回小學恢復 6 節('+doc.querySelectorAll('#hkList .gsec').length+')', doc.querySelectorAll('#hkList .gsec').length===6);
 }catch(e){ ok('v1.54 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.55 校園地圖（騰訊地圖 · 擇校分檔） ============
+try{
+  const WV=doc.defaultView;
+  ok('v1.55 mapCard/mapContainer/載入按鈕存在', !!doc.getElementById('mapCard') && !!doc.getElementById('mapContainer') && !!doc.getElementById('mapLoadBtn'));
+  ok('v1.55 地圖學段 chips=3', doc.querySelectorAll('#mapChips .chip').length===3);
+  ok('v1.55 校點 DOM 收集=70('+(WV.__mapSchoolsTest?WV.__mapSchoolsTest():'err')+')', WV.__mapSchoolsTest && WV.__mapSchoolsTest()===70);
+  ok('v1.55 標注騰訊位置服務來源', doc.getElementById('mapCard').textContent.includes('騰訊位置服務'));
+  ok('v1.55 默認不出外部 SDK 標籤', !doc.getElementById('tmapSdk'));
+  if(WV.__mapFailTest){WV.__mapFailTest();}
+  ok('v1.55 降級模式可見', doc.getElementById('mapFallback').style.display==='block');
+  const fbLinks=doc.querySelectorAll('#mapFallback a.chip').length;
+  ok('v1.55 降級鏈接=70('+fbLinks+')', fbLinks===70);
+  ok('v1.55 降級鏈接走騰訊 URI API', (doc.querySelector('#mapFallback a.chip')||{href:''}).href.indexOf('apis.map.qq.com/uri/v1/search')>=0);
+}catch(e){ ok('v1.55 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();
