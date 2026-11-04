@@ -193,22 +193,25 @@ try{
   ok('v1.55 降級鏈接走騰訊 URI API', (doc.querySelector('#mapFallback a.chip')||{href:''}).href.indexOf('apis.map.qq.com/uri/v1/search')>=0);
 }catch(e){ ok('v1.55 測試執行', false); console.log('   err='+e.message); }
 
-// ============ v1.56 校點解析修復（方法名 searchInBounds + InfoWindow 關閉） ============
+// ============ v1.57 校點坐標內置（教育局官方數據，零運行時解析） ============
 try{
   const WV=doc.defaultView;
-  ok('v1.56 源碼用 searchInBounds', html.indexOf('searchInBounds')>=0);
-  ok('v1.56 已棄用錯誤方法名', html.indexOf('svc.searchBoundingBox')<0);
-  ok('v1.56 InfoWindow 創建後立即 close', html.indexOf("tmapInfoWin.close();")>=0);
-  // 行為斷言：mock TMap.service.Search，驗證 mapSearchPoi 調用正確方法且傳參對
-  let calledArgs=null, calledMethod='';
-  WV.TMap={LatLng:function(a,b){this.lat=a;this.lng=b;},LatLngBounds:function(a,b){this.sw=a;this.ne=b;},
-    service:{Search:function(){return {searchInBounds:function(p){calledMethod='searchInBounds';calledArgs=p;return {then:function(okcb){okcb({data:[{location:{lat:22.5,lng:114.15},title:'測試校'}]});}};}};}}};
-  WV.__mapLastErr=null;
-  const r56=WV.__mapSearchPoiTest?WV.__mapSearchPoiTest('測試中學'):null;
-  ok('v1.56 mapSearchPoi 調用 searchInBounds', calledMethod==='searchInBounds');
-  ok('v1.56 傳參含 keyword+bounds+pageSize', !!calledArgs && !!calledArgs.keyword && !!calledArgs.bounds && calledArgs.pageSize===5);
-  ok('v1.56 解析結果坐標正確', r56 && r56.lat===22.5 && r56.lng===114.15);
-}catch(e){ ok('v1.56 測試執行', false); console.log('   err='+e.message); }
+  // 舊 POI 解析流程已徹底刪除
+  ok('v1.57 已刪 POI 運行時解析', html.indexOf('mapSearchPoi')<0 && html.indexOf('mapGeocodeAll')<0 && html.indexOf('libraries=service')<0);
+  ok('v1.57 InfoWindow 創建後立即 close', html.indexOf("tmapInfoWin.close();")>=0);
+  // 真數據斷言：內置坐標 70 校全有且範圍合理（GCJ-02，北區+大埔一帶）
+  const SG=WV.__schoolGeoTest?WV.__schoolGeoTest():null;
+  ok('v1.57 DATA.school_geo 存在', !!SG);
+  const names=Object.keys(SG||{});
+  ok('v1.57 內置坐標=70('+names.length+')', names.length===70);
+  const bad=names.filter(n=>!(SG[n].lat>22.1&&SG[n].lat<22.7&&SG[n].lng>113.8&&SG[n].lng<114.5));
+  ok('v1.57 坐標範圍全合理(異常'+bad.length+')', bad.length===0);
+  // 頁面 70 校名與內置坐標鍵一一對應
+  const pageNames=(WV.__mapSchoolsTest?WV.eval('collectMapSchools().map(s=>s.name)'):[]);
+  ok('v1.57 頁面校名全部有坐標', pageNames.length===70 && pageNames.every(n=>!!SG[n]));
+  ok('v1.57 標注官方數據源', html.indexOf('SCH_LOC_EDB')>=0);
+  ok('v1.57 渲染直接用內置坐標', html.indexOf('SCHOOL_GEO[s.name]')>=0);
+}catch(e){ ok('v1.57 測試執行', false); console.log('   err='+e.message); }
 
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();

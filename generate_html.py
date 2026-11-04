@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.57：葉工二測校園地圖仍 0/70，錯誤可視化顯示「網絡請求失敗」——破案：SDK 源碼實錐 service 請求走 serviceHost 代理（serviceHost&&(c=...serviceHost...)），代理層只代理地圖瓦片、不轉發搜索接口，前端無解；徹底改架構：棄用運行時 POI 解析，校點坐標**內置自教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv**（官方源，每月更新，2026-11-04 下載版本截至 2026-09-30），70/70 校名全部匹配官方坐標（含别忽略全形括號差異），WGS84→GCJ-02（標準公開偏移算法）預轉換後存 _school_geo.json；build_data.py 合併 school_geo（assert 70）進 DATA；地圖 SDK 就緒即直接標點（零運行時解析、零等待），删 mapSearchPoi/mapGeocodeAll/localStorage 緩存/Service 庫引用（gljs 不再 libraries=service）；狀態行與頁面說明改標官方數據源；verify2 改真數據斷言（DATA.school_geo 70 校全有坐標且範圍合理）。
 v1.56：修 v1.55 校園地圖「已載 0/70」——葉工 workbuddy 域名實測地圖渲染成功（代理層正常）但 POI 解析全掛：破案方法名寫錯，官方正確名是 searchInBounds（來源 lbs.qq.com 官方文章 id=1262，2026-11-04 核實），原探测的 searchBoundingBox/search 均不存在導致 call=null 全部靜默失敗；同修 InfoWindow 默認展開懸空白彈窗（創建後立即 close）；解析失敗時狀態行顯示失敗數+原因（不再靜默），錯誤寫 __mapLastErr + console.warn 便診斷。
 v1.55：應葉工要求擇校分檔新增「校園地圖」（實時地圖標點中學40+小學30）——地圖服務選型經合規審查：騰訊地圖 GL JS 默認 key 代理模式（_TMapSecurityConfig 佔位符由運行時替換，前端零 key；高德/百度需自備 key 且前端明文有泄露風險，OSM/Leaflet 不在合規白名單不用）；校點數據直接從頁面三張學校表 DOM 收集（ssTable 20＋tpTable 20＋psTable 30，不重複造數據）；坐標由 TMap.service.Search POI 搜索實時解析（關鍵詞=校名，範圍框覆蓋北區+大埔，120ms 節流），localStorage 緩存（hkk_mapgeo_v1）；學段 chips 過濾（全部/中學/小學），點標點彈 InfoWindow（名/型/語言/Band/地址/電話/導航鏈接）；SDK 或代理不可用時自動降級為「在騰訊地圖打開」URI API 鏈接列表（apis.map.qq.com/uri/v1/search，免 key）；標點僅供參考以學校官網地址為準。verify2.js 加校園地圖靜態+行為斷言（DOM 收集數=70/降級列表70鏈接/chips）。
 v1.54：應葉工要求英文單詞加入中學部分——港小生字升級為「中小學單詞」：新增學段 chips（小學 P1–P6／中學 S1–S3，默認小學）；新增 gen_hk_secondary_words.py 生成初中通用詞彙 152 條（中一52/中二48/中三52，12 主題：校園生活/學習考試/家庭朋友/社區購物/旅行地理/科技媒體/環境自然/情感品格/社會公民/全球文化/學術思維/未來成長；坊間整理非官方非出版社詞表，年級為估算；與港小庫去重 10 詞；音標英式 DJ 152 條全覆蓋，以詞典為準）；build_data.py 合併進 hk_words（id 前綴 sk）；renderHk 按 hkStage 過濾（hkPool），主題下拉隨學段重建，閃卡抽查隨學段出詞，單詞貪吃蛇只用小學詞（HK_PRI_GRADES）；站內標注「按 P1–P6 / S1–S3 分級 · 年級為坊間估算，非官方詞單」。verify2.js 加中學學段斷言（切換後 gsec=3/S1 標題/詞卡>100/切回小學恢復 6 節）。
@@ -535,13 +536,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.56（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.57（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.56（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.57（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1115,11 +1116,11 @@ Thank you for your time.</div>
           <span class="chip" data-mf="pri">小學 30</span>
         </div>
         <div id="mapContainer" style="width:100%;height:60vh;min-height:420px;border-radius:8px;border:1.5px solid var(--line);position:relative;overflow:hidden">
-          <div id="mapPlaceholder" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a8aa0;font-size:14px;background:var(--card,#fff)">按「載入地圖」開始（首次需聯網解析約 70 所學校位置，之後有本地緩存）</div>
+          <div id="mapPlaceholder" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a8aa0;font-size:14px;background:var(--card,#fff)">按「載入地圖」開始（坐標已內置教育局官方數據，點開即顯示）</div>
         </div>
         <p style="margin:8px 0 0"><button class="btn" id="mapLoadBtn">🗺️ 載入地圖</button> <span id="mapStatus" style="font-size:12px;color:#8a8aa0"></span></p>
         <div id="mapFallback" style="display:none"></div>
-        <p class="src">地圖服務：騰訊位置服務（合規地圖數據源，GCJ-02 坐標由騰訊地圖按校名/地址實時解析，僅本地緩存）。地圖標點位置僅供參考，以各校官網地址為準。</p>
+        <p class="src">地圖服務：騰訊位置服務（合規地圖數據源）。校點坐標內置自教育局開放數據「學校位置及資料」（SCH_LOC_EDB.csv，每月更新，WGS84 已轉 GCJ-02），位置僅供參考，以各校官網地址為準。</p>
       </div>
       <div class="gcard">
         <h3>北區跨境要點</h3>
@@ -2528,10 +2529,9 @@ function jmpSch(k){
   if(last){const el=last==='pri'?a:b; el.style.borderColor='#0d9488'; el.style.color='#0d9488';}
 })();
 // ---- v1.55 校園地圖（騰訊地圖 GL JS · 默認 key 代理模式，合規數據源） ----
-// 校點數據直接從頁面三張學校表收集（不重複造數據）；坐標由騰訊地圖 POI 搜索實時解析＋localStorage 緩存；
+// 校點數據直接從頁面三張學校表收集（不重複造數據）；坐標內置自教育局開放數據 SCH_LOC_EDB（v1.57，已預轉 GCJ-02，零運行時解析）；
 // SDK/代理不可用時自動降級為「在騰訊地圖查看」链接列表（URI API，免 key）。
-const MAP_GEO_KEY='hkk_mapgeo_v1';
-let tmapObj=null, tmapInfoWin=null, mapMultiMarker=null, mapFilterMode='all', mapSchoolList=null, mapGeoBusy=false;
+let tmapObj=null, tmapInfoWin=null, mapMultiMarker=null, mapFilterMode='all', mapSchoolList=null;
 function collectMapSchools(){
   if(mapSchoolList)return mapSchoolList;
   const out=[];
@@ -2550,43 +2550,18 @@ function collectMapSchools(){
   });
   mapSchoolList=out; return out;
 }
-window.__mapLastErr=null;
+const SCHOOL_GEO=DATA.school_geo||{}; // v1.57：教育局官方坐標（SCH_LOC_EDB.csv，已轉 GCJ-02），內置零運行時解析
 window.__mapSchoolsTest=()=>collectMapSchools().length;
-window.__mapSearchPoiTest=kw=>{let r;mapSearchPoi(kw,x=>{r=x});return r;}; // v1.56 測試鉤子（mock 同步 then）
-function mapGeoCache(){try{return JSON.parse(localStorage.getItem(MAP_GEO_KEY)||'{}')}catch(e){return{}}}
-function mapGeoSave(addr,pos){try{const c=mapGeoCache();c[addr]=pos;localStorage.setItem(MAP_GEO_KEY,JSON.stringify(c))}catch(e){}}
+window.__schoolGeoTest=()=>SCHOOL_GEO; // v1.57 測試鉤子
 function loadTMapSdk(done){
   if(window.TMap)return done(true);
   const ensure=()=>{let n=0;const t=setInterval(()=>{if(window.TMap){clearInterval(t);done(true)}else if(++n>60){clearInterval(t);done(false)}},200);};
   if(document.getElementById('tmapSdk'))return ensure();
   window._TMapSecurityConfig={serviceHost:'http://127.0.0.1:__WB_HTTP_PORT__/_TMapService/_wbt/__WB_TMAP_SECRET__'};
   const s=document.createElement('script');s.id='tmapSdk';
-  s.src='https://map.qq.com/api/gljs?v=1.exp&libraries=service';
+  s.src='https://map.qq.com/api/gljs?v=1.exp'; // v1.57 不再需要 service 庫（坐標內置）
   s.onload=ensure; s.onerror=()=>done(false);
   document.head.appendChild(s);
-}
-function mapPickResult(r){
-  let list=[];
-  if(r&&Array.isArray(r.data))list=r.data;
-  else if(r&&r.data&&Array.isArray(r.data.data))list=r.data.data;
-  else if(r&&Array.isArray(r.result))list=r.result;
-  for(let i=0;i<list.length;i++){
-    const p=list[i];
-    if(p&&p.location&&typeof p.location.lat==='number')return {lat:p.location.lat,lng:p.location.lng,title:p.title||'',address:p.address||''};
-  }
-  return null;
-}
-function mapSearchPoi(kw,done){
-  try{
-    const svc=new TMap.service.Search({pageSize:5,pageIndex:1});
-    const bounds=new TMap.LatLngBounds(new TMap.LatLng(22.40,113.98),new TMap.LatLng(22.56,114.30)); // 北區+大埔
-    // v1.56 修：方法名改官方正確名——searchInBounds（官方文章 id=1262 核實 2026-11-04）；
-    // 原 searchBoundingBox/search 均不存在導致 0/70 全部靜默失敗
-    const call=svc.searchInBounds?svc.searchInBounds({bounds:bounds,keyword:kw,pageSize:5})
-      :(svc.searchRegion?svc.searchRegion({keyword:kw,region:'香港'}):null);
-    if(!call||!call.then)return done(null);
-    call.then(r=>done(mapPickResult(r)),e=>{window.__mapLastErr=(e&&e.message)||String(e);done(null);});
-  }catch(e){window.__mapLastErr=(e&&e.message)||String(e);done(null);}
 }
 function mapUriLink(s){
   return 'https://apis.map.qq.com/uri/v1/search?keyword='+encodeURIComponent(s.name)+'&region='+encodeURIComponent('香港'+s.region);
@@ -2614,39 +2589,16 @@ function mapFail(msg){
 window.__mapFailTest=()=>mapFail('測試降級');
 function mapRenderMarkers(){
   if(!mapMultiMarker||!window.TMap)return;
-  const cache=mapGeoCache();
-  const geos=collectMapSchools().filter(s=>(mapFilterMode==='all'||s.grp===mapFilterMode)&&cache[s.name]);
-  const geometries=geos.map((s,i)=>({id:String(i),styleId:'default',position:new TMap.LatLng(cache[s.name].lat,cache[s.name].lng),properties:s}));
+  const geos=collectMapSchools().filter(s=>(mapFilterMode==='all'||s.grp===mapFilterMode)&&SCHOOL_GEO[s.name]);
+  const geometries=geos.map((s,i)=>({id:String(i),styleId:'default',position:new TMap.LatLng(SCHOOL_GEO[s.name].lat,SCHOOL_GEO[s.name].lng),properties:s}));
   mapMultiMarker.setGeometries(geometries);
   const doneN=geos.length,total=collectMapSchools().filter(s=>mapFilterMode==='all'||s.grp===mapFilterMode).length;
-  document.getElementById('mapStatus').textContent='已標 '+doneN+' / '+total+' 所（其餘可能解析失敗或超時，刷新重試）';
+  document.getElementById('mapStatus').textContent='已標 '+doneN+' / '+total+' 所（坐標來源：教育局開放數據 SCH_LOC_EDB · GCJ-02，僅供參考）';
   mapMultiMarker.on('click',function(e){
     const s=e&&e.geometry&&e.geometry.properties; if(!s)return;
     const pos=e.geometry.position;
     tmapInfoWin.open(); tmapInfoWin.setPosition(pos); tmapInfoWin.setContent(mapPopupHtml(s));
   });
-}
-function mapGeocodeAll(){
-  const list=collectMapSchools();const cache=mapGeoCache();
-  const todo=list.filter(s=>!cache[s.name]);
-  if(!todo.length){mapRenderMarkers();return;}
-  if(mapGeoBusy)return; mapGeoBusy=true;
-  let i=0,errN=0;
-  const st=document.getElementById('mapStatus');
-  const step=()=>{
-    if(i>=todo.length){mapGeoBusy=false;mapRenderMarkers();
-      if(errN>0){window.__mapLastErr&&console.warn('校點解析最後錯誤：',window.__mapLastErr);
-        const st2=document.getElementById('mapStatus');
-        if(st2)st2.textContent+='（解析失敗 '+errN+' 所'+(errN>=todo.length?'，原因：'+(window.__mapLastErr||'接口異常'):'')+'，可刷新重試）';}
-      return;}
-    const s=todo[i++];
-    st.textContent='解析校點中 '+i+' / '+todo.length+'：'+s.name;
-    mapSearchPoi(s.name,pos=>{
-      if(pos)mapGeoSave(s.name,pos);else errN++;
-      setTimeout(step,120); // 節流，避免請求過密
-    });
-  };
-  step();
 }
 function initSchoolMap(){
   const st=document.getElementById('mapStatus');
@@ -2660,7 +2612,7 @@ function initSchoolMap(){
       tmapInfoWin.close(); // v1.56 修：InfoWindow 默認展開，不關會懸空白彈窗（葉工截圖實錘）
       mapMultiMarker=new TMap.MultiMarker({map:tmapObj,styles:{default:new TMap.MarkerStyle({width:24,height:35})},geometries:[]});
       document.getElementById('mapPlaceholder').style.display='none';
-      mapGeocodeAll();
+      mapRenderMarkers(); // v1.57：坐標內置，SDK 就緒即直接標點（零運行時解析）
     }catch(e){mapFail('地圖初始化失敗：'+(e&&e.message||'未知錯誤'));}
   });
 }
@@ -3714,7 +3666,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.56',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.57',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
