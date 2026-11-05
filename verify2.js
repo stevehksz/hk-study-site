@@ -260,6 +260,35 @@ try{
   ok('v1.59 小學表頭加詳情列=1', pth.length===1);
 }catch(e){ ok('v1.59 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.60 補習材料（35週減壓排期＋面試庫＋翻卡＋泛讀打卡） ============
+try{
+  ok('v1.60 planSub 補習材料按鈕存在', !!doc.querySelector('#planSub button[data-sub="tutor"]'));
+  doc.querySelector('#planSub button[data-sub="tutor"]').click();
+  ok('v1.60 tutorView 顯示', doc.getElementById('tutorView').style.display !== 'none');
+  ok('v1.60 studyView 隱藏', doc.getElementById('studyView').style.display === 'none');
+  ok('v1.60 面試話題庫 10 題('+doc.querySelectorAll('#ivList details').length+')', doc.querySelectorAll('#ivList details').length===10);
+  ok('v1.60 術語翻卡 60 張(全部)('+doc.querySelectorAll('#termGrid .fcard').length+')', doc.querySelectorAll('#termGrid .fcard').length===60);
+  ok('v1.60 繁體翻卡 100 張('+doc.querySelectorAll('#ftGrid .fcard').length+')', doc.querySelectorAll('#ftGrid .fcard').length===100);
+  ok('v1.60 泛讀打卡 21 格', doc.querySelectorAll('#readGrid .rcell').length===21);
+  const tvTxt=doc.getElementById('tutorView').textContent;
+  ok('v1.60 排期表含 7.6 叩門', tvTxt.includes('7.6 官津放榜後叩門'));
+  ok('v1.60 教材 Great Writing 兩本', tvTxt.includes('Great Writing Foundations') && tvTxt.includes('別買 Level 2'));
+  ok('v1.60 版權提醒（僅限家庭學習）', tvTxt.includes('僅限家庭學習'));
+  ok('v1.60 RTHK 免費資源', tvTxt.includes('RTHK'));
+  ok('v1.60 排期標來源性質（機構推文非學術）', tvTxt.includes('機構推文') && tvTxt.includes('非學術'));
+  doc.querySelector('#termGrid .fcard').click();
+  ok('v1.60 術語翻卡點擊翻面', doc.querySelector('#termGrid .fcard').dataset.open==='1');
+  doc.querySelector('#termGrid .fcard').click();
+  ok('v1.60 再點蓋回', doc.querySelector('#termGrid .fcard').dataset.open==='0');
+  doc.querySelector('#termChips button[data-wk="3"]').click();
+  ok('v1.60 第3週 chips 過濾=10 張('+doc.querySelectorAll('#termGrid .fcard').length+')', doc.querySelectorAll('#termGrid .fcard').length===10);
+  doc.querySelector('#readGrid .rcell[data-day="1"]').click();
+  ok('v1.60 打卡第1天亮起', doc.querySelector('#readGrid .rcell[data-day="1"]').classList.contains('on'));
+  ok('v1.60 打卡統計連續 1 天', doc.getElementById('readStat').textContent.includes('連續 1 天'));
+  doc.querySelector('#planSub button[data-sub="timeline"]').click();
+  ok('v1.60 測後切回 timeline（不污染後續默認態斷言）', doc.getElementById('timelineView').style.display !== 'none');
+}catch(e){ ok('v1.60 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();
@@ -527,7 +556,7 @@ console.log('--- 升學規劃 tab + 5 子頁 ---');
 doc.querySelector('nav button[data-tab="plan"]').click();
 ok('planView 顯示', doc.getElementById('planView').style.display !== 'none');
 ok('guideView 隱藏', doc.getElementById('guideView').style.display === 'none');
-ok('planSub 6个(timeline/schools/docs/study/policy/faq)', doc.querySelectorAll('#planSub button').length === 6);
+ok('planSub 7个(timeline/schools/docs/study/tutor/policy/faq)', doc.querySelectorAll('#planSub button').length === 7);
 ok('timelineView 顯示(默認)', doc.getElementById('timelineView').style.display !== 'none');
 ok('schoolsView 隱藏', doc.getElementById('schoolsView').style.display === 'none');
 // 切到擇校分檔
@@ -704,7 +733,7 @@ try{
 // ============ v1.40 FAQ 子页 + 关于/CTA/免责卡 ============
 try{
   ok('v1.40 faqView 存在且 10 張問答卡', doc.querySelectorAll('#faqView .gcard').length===10);
-  ok('v1.40 planSub 6 個子按鈕', doc.querySelectorAll('#planSub button').length===6);
+  ok('v1.40 planSub 7 個子按鈕', doc.querySelectorAll('#planSub button').length===7);
   ok('v1.40 faq 默認隱藏', doc.getElementById('faqView').style.display==='none');
   doc.querySelector('#planSub button[data-sub="faq"]').click();
   ok('v1.40 點 faq 後顯示', doc.getElementById('faqView').style.display==='block');

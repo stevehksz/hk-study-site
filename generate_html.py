@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.60：應葉工要求把女兒補習材料搬上站——升學規劃新增第 7 子頁「補習材料」（planSub data-sub="tutor"，插中一 35 週減壓版：小六英文中上、每週≤3h，設計原則「不背單詞——詞彙靠興趣泛讀自然復現」）：①35 週排期表（2026.11→2027.7.6 叩門，月份/能力線 80%/應試線 20%/驗收指標）＋每週≤3h 課表；②教材與資源清單（只買兩本 Great Writing Foundations→Level 1；牛津樹家庭學習版權注；RTHK/教育局字詞表免費資源；教材級別標坊間整理以定級三連測為準）；③面試話題庫 10 題（details 展開答題要點＋90 秒可停計時器）；④數學英文術語翻卡 60 詞 6 週（週 chips 過濾，點卡翻面看中文，全部翻開/蓋回按鈕）；⑤繁體認讀翻卡 100 字（簡→繁自建常用對照非官方字表，「干→乾」「面→麵」一字多繁附備註）；⑥泛讀打卡 21 天挑戰網格（localStorage hkk_ereg_v0，前綴規則自動跟賬號隔離，連續天數統計＋清空重來）。verify2.js 加 15 項斷言（子頁切換/面試 10 題/術語 60/繁體 100/打卡 21 格/翻卡行為/chips 過濾/打卡行為/版權與教材標注）。
 v1.59：應葉工要求小學 30 所也加同款詳情——新腳本 gen_sch_pri_profiles.py 抓取 CHSC《小學概覽 2026》（psp2026，chsc.hk 官方公開資料，學校提供及核實）30 所小學詳情頁（原始 HTML 緩存 _chsc_pri_raw/，3 所 502 重試成功），解析為 _sch_pri_profiles.json（字段 30/30 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教學語言/校車/一條龍/直屬/聯繫中學/收費平鋪欄（學費/堂費/家長會費/非標準）/教師人數與學歷年資%/小一至小六班數/宗旨/設施/地址電話官網）；與中學的字段差異：小學概覽無收生準則板塊、收費非分年級表而是平鋪欄、多「聯繫中學」等升中欄位（對插班家庭有價值）；openSchDetail 按 SCH_PRI_PROFILES 判斷學段分別渲染（基本資料多升中欄、收費改平鋪、設施改欄位卡）；injectSchBtns 三表統一（psTable 校名在第 2 列，首列是檔位）；build_data.py 合併 sch_pri_profiles（assert 30）。
 v1.58：應葉工要求（發中學詳情頁截圖「模仿這個詳細程度」）——擇校分檔兩張中學表每行新增「📄 詳情」按鈕，點開模態看該校完整檔案（仿截圖板塊：基本資料/2025-2026 收費/教師概況/班級結構/中一收生準則/辦學宗旨/學校設施/聯絡+地圖導航）；數據源：新腳本 gen_sch_profiles.py 抓取 CHSC《中學概覽 2025/2026》（chsc.hk 官方公開資料，學校提供及核實）40 所中學詳情頁（原始 HTML 緩存 _chsc_raw/，39+1 所重試成功），解析為 _sch_profiles.json（字段 40/40 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教師人數與學歷年資%/各年級學費堂費/班數/收生準則比重/宗旨/設施/地址電話官網）；解析坑：字段真實格式是「|label|\n| :\n|值|」（冒號前後有管道+換行），首版 regex 過嚴全空，改 [\s|]* 容忍；收費表/聯絡欄/長文本各用專用提取；build_data.py 合併 sch_profiles（assert 40）；模態站內標注來源與「以學校官網為準」。
 v1.57：葉工二測校園地圖仍 0/70，錯誤可視化顯示「網絡請求失敗」——破案：SDK 源碼實錐 service 請求走 serviceHost 代理（serviceHost&&(c=...serviceHost...)），代理層只代理地圖瓦片、不轉發搜索接口，前端無解；徹底改架構：棄用運行時 POI 解析，校點坐標**內置自教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv**（官方源，每月更新，2026-11-04 下載版本截至 2026-09-30），70/70 校名全部匹配官方坐標（含别忽略全形括號差異），WGS84→GCJ-02（標準公開偏移算法）預轉換後存 _school_geo.json；build_data.py 合併 school_geo（assert 70）進 DATA；地圖 SDK 就緒即直接標點（零運行時解析、零等待），删 mapSearchPoi/mapGeocodeAll/localStorage 緩存/Service 庫引用（gljs 不再 libraries=service）；狀態行與頁面說明改標官方數據源；verify2 改真數據斷言（DATA.school_geo 70 校全有坐標且範圍合理）。
@@ -400,6 +401,14 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .gcount{margin-left:8px;font-size:12px;color:#8a8aa0;font-weight:600}
   .gsec-body{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;padding:12px}
   .gsec-body .vcard{margin-bottom:0}
+  .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;padding:12px}
+  .fcard{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:10px 6px;text-align:center;cursor:pointer;user-select:none}
+  .fcard .fw{display:block;font-size:17px;font-weight:600;word-break:break-word}
+  .fcard small{display:block;font-size:11px;color:#8a8aa0;margin-top:4px;line-height:1.3}
+  .fcard.open{background:#eef2ff;border-color:#4f46e5}
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:8px;padding:12px}
+  .rcell{height:44px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--card);font-size:14px}
+  .rcell.on{background:#16a34a;color:#fff;border-color:#16a34a;font-weight:700}
   .ok{color:#1a8a4a;font-weight:700}
   .hk-actions{display:flex;gap:6px;align-self:center}
   .qzh{font-size:12px;color:#6b7280;margin:2px 0 6px;line-height:1.5}
@@ -538,13 +547,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.59（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.60（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.59（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.60（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1051,6 +1060,7 @@ Thank you for your time.</div>
     <button data-sub="schools">擇校分檔</button>
     <button data-sub="docs">材料清單</button>
     <button data-sub="study">學習路線</button>
+    <button data-sub="tutor">補習材料</button>
     <button data-sub="policy">身份政策</button>
     <button data-sub="faq">常見問題</button>
   </div>
@@ -1404,6 +1414,95 @@ Thank you for your time.</div>
         <p>① 買齊六本教材從 Foundations 一路排到 Level 5（讀不完）；② 只刷題不建能力（面試一開口就露）；③ 只建能力不做應試（沒見過題型、沒模擬面試）；④ 忽略繁體與粵語（中文卷讀不完、面試聽不懂）；⑤ 按年齡選級別（12 歲≠Level 2，按定級）；⑥ 把機構推文當官方結論。</p>
       </div>
       <div class="src">來源：學術英語能力路線（hk-placement 知識庫 v1.0，2026-10-29）＋ 插班時間線 v1.1｜80/20 框架性質＝機構軟文（非學術）｜教材 CEFR/藍思為坊間教輔整理，選級以定級測試為準｜各校英文卷寫作題型未取到（待向目標校索取）</div>
+    </div>
+  </div>
+
+  <!-- 補習材料（v1.60：女兒學習角——35 週減壓排期＋教材清單＋面試話題庫＋翻卡＋泛讀打卡） -->
+  <div class="wrap" id="tutorView" style="display:none">
+    <div class="gsec">
+      <h2>補習材料 · 女兒學習角（插中一 · 35 週減壓版）</h2>
+      <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
+    </div>
+
+    <div class="gsec">
+      <h2>① 35 週排期表（能力線 80% ＋ 應試線 20%）</h2>
+      <table class="mtable">
+        <thead><tr><th style="width:110px">月份</th><th>能力線（80%）</th><th>應試線（20%）</th><th>驗收指標</th></tr></thead>
+        <tbody>
+          <tr><td>2026.11</td><td>定級三連測；每日 20 分鐘興趣泛讀啟動（本頁打卡）</td><td>收集 3 所目標校收生準則與面試形式；直資報名資訊</td><td>定級表出結果；泛讀連續打卡 21 天</td></tr>
+          <tr><td>2026.12–2027.1</td><td>寫作從句子層起步（每週 2 次×30 分鐘）</td><td><b>直資報名窗口內遞表</b>（各校截止日不同，以官網當年公告為準）；面試話題庫 ≥10 題</td><td>能寫 8–10 句連貫、無重大語法錯的段落</td></tr>
+          <tr><td>2027.2–3</td><td>段落寫作（主題句＋支撐）每週 1 篇＋批改；每週 90 秒口頭分享</td><td>目標校題型摸底；數學英文術語啟動（本頁翻卡）</td><td>100–120 詞、有主題句的段落</td></tr>
+          <tr><td>2027.4–5</td><td>維持，不加新內容</td><td>模擬卷 1–2 套＋模擬面試 ×2</td><td>限時內完成模擬卷</td></tr>
+          <tr><td>2027.6–7</td><td>只做錯項弱項</td><td><b>6 月材料齊套</b>（成績單蓋章＋繁體/英文翻譯）；<b>7.6 官津放榜後叩門實戰</b></td><td>90 秒自我介紹不卡；材料 8 樣齊</td></tr>
+        </tbody>
+      </table>
+      <h3>每週課表（≤3 小時）</h3>
+      <table class="mtable">
+        <thead><tr><th>項目</th><th style="width:110px">頻率</th><th style="width:100px">時長</th><th>對應</th></tr></thead>
+        <tbody>
+          <tr><td>興趣泛讀（不查詞典、不考核）</td><td>每天</td><td>20 分鐘</td><td>本頁「泛讀打卡」</td></tr>
+          <tr><td>寫作（Great Writing 教材）</td><td>每週 2 次</td><td>各 30 分鐘</td><td>教材清單②</td></tr>
+          <tr><td>口頭分享／面試練習</td><td>每週 1 次</td><td>30 分鐘</td><td>本頁「面試話題庫」</td></tr>
+          <tr><td>數學英文術語翻卡</td><td>每週 1 次</td><td>20 分鐘</td><td>本頁（2027.2 起）</td></tr>
+          <tr><td>繁體字認讀</td><td>每天</td><td>10 分鐘</td><td>本頁「繁體翻卡」</td></tr>
+          <tr><td>粵語磨耳朵（RTHK 兒童節目）</td><td>每天</td><td>10 分鐘</td><td>只聽不跟讀</td></tr>
+        </tbody>
+      </table>
+      <div class="src">來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29）｜7.6 放榜日＝教育局中一學位分配安排（官方，適用 2027/28 學年）｜各校直資截止日以學校官網當年公告為準</div>
+    </div>
+
+    <div class="gsec">
+      <h2>② 教材與資源清單（只買兩本，其餘免費）</h2>
+      <table class="mtable">
+        <thead><tr><th style="width:110px">模塊</th><th>用什麼</th><th style="width:150px">費用</th></tr></thead>
+        <tbody>
+          <tr><td>寫作主線</td><td><b>Great Writing Foundations → Level 1</b>（NGL/Cengage 第五版）：Foundations 練「寫對句子」，句子穩了進 Level 1 學「主題句＋支撐＋結論」。35 週讀完這兩級剛好，<b>別買 Level 2</b>。若定級測出句子層已過關，跳過 Foundations 直接 Level 1。</td><td>只買這兩本</td></tr>
+          <tr><td>泛讀堆量</td><td>① 手頭已有<b>牛津閱讀樹/TreeTops</b> ② 圖書館／電商按藍思值自選：橋梁書起步，中後期進英文兒童非虛構（選她感興趣的主題）</td><td>免費（已有＋圖書館）</td></tr>
+          <tr><td>面試／口語</td><td>本頁面試話題庫＋90 秒計時器，不用買書</td><td>免費</td></tr>
+          <tr><td>數學題幹</td><td>本頁數學英文術語翻卡 60 詞（6 週）</td><td>免費</td></tr>
+          <tr><td>繁體字</td><td>教育局《香港小學學習字詞表》（官方文件）＋本頁繁體翻卡 100 字</td><td>免費</td></tr>
+          <tr><td>粵語聽力</td><td>RTHK（香港電台）兒童節目／粵語配音動畫</td><td>免費</td></tr>
+        </tbody>
+      </table>
+      <div class="gcard warn">
+        <h3>⚠️ 版權與級別提醒</h3>
+        <p>牛津樹／朗文內容<b>僅限家庭學習</b>，請勿外傳、勿打印傳閱。教材 CEFR/級別對應為<b>坊間教輔整理（非官方測評）</b>，起點以定級三連測為準；教材版本信息以出版社官網為準。</p>
+      </div>
+    </div>
+
+    <div class="gsec">
+      <h2>③ 面試話題庫（10 題）＋ 90 秒計時器</h2>
+      <p class="tip">用法：每週挑 1–2 題，先按「90 秒計時」開講；講完展開看要點，對照補漏。面試語言多為粵語＋英文（坊間整理，各校不同）——英文講不出的內容可先用中文說再試英文。</p>
+      <div id="ivTimerBox" style="display:flex;align-items:center;gap:12px;margin:10px 0;flex-wrap:wrap">
+        <button id="ivStart">▶ 90 秒計時</button>
+        <span id="ivTime" style="font-size:22px;font-weight:700;letter-spacing:2px">01:30</span>
+        <span class="tip" style="margin:0">再按一次可中途停止</span>
+      </div>
+      <div id="ivList"></div>
+    </div>
+
+    <div class="gsec">
+      <h2>④ 數學英文術語翻卡（60 詞 · 6 週）</h2>
+      <p class="tip">2027.2 起每週 1 組 10 詞：先翻卡認詞，再在自己的數學練習裡找出這個詞。點卡片翻面看中文。</p>
+      <div class="subnav" id="termChips"></div>
+      <div class="fgrid" id="termGrid"></div>
+      <p style="padding:0 12px"><button id="termFlipAll">全部翻開</button> <button id="termFlipNone">全部蓋回</button></p>
+      <div class="src">自建通用數學英文術語（坊間整理非官方詞單）；正式題幹訓練 2027.2 後再啟動</div>
+    </div>
+
+    <div class="gsec">
+      <h2>⑤ 繁體認讀翻卡（100 字 · 簡→繁）</h2>
+      <p class="tip">每天 10 分鐘翻一組：看簡體想繁體，翻開對答案。全部認熟後換書本認讀（教育局《香港小學學習字詞表》）。</p>
+      <div class="fgrid" id="ftGrid"></div>
+      <p style="padding:0 12px"><button id="ftFlipAll">全部翻開</button> <button id="ftFlipNone">全部蓋回</button></p>
+      <div class="src">自建常用簡繁對照（學習用，非官方字表）；「干→乾」「面→麵」等一字多繁情形附備註</div>
+    </div>
+
+    <div class="gsec">
+      <h2>⑥ 泛讀打卡（21 天挑戰）</h2>
+      <p class="tip">規則只有一條：每天碰英文 20 分鐘（漫畫/故事/科普視頻都算），做完點一格。不查詞典、不寫讀後感、不考核——打卡本身就是全部任務。數據保存在本設備、跟賬號走。</p>
+      <div class="rgrid" id="readGrid"></div>
+      <p style="padding:0 12px"><b id="readStat"></b> <button id="readReset">清空重來</button></p>
     </div>
   </div>
 
@@ -2408,6 +2507,118 @@ function speakPoem(){
   speak(curPoem.lines.map(l=>l.text).join('。'), 'zh-HK');
 }
 
+// ---- 補習材料（v1.60：35週減壓排期＋面試庫＋術語/繁體翻卡＋泛讀打卡）----
+function hkEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+const TUTOR_TERMS=[
+ [["sum","和（加法結果）"],["difference","差（減法結果）"],["product","積（乘法結果）"],["quotient","商（除法結果）"],["remainder","餘數"],["plus","加"],["minus","減"],["multiply","乘"],["divide","除"],["equal","等於"]],
+ [["fraction","分數"],["decimal","小數"],["percent","百分比"],["numerator","分子"],["denominator","分母"],["mixed number","帶分數"],["round off","四捨五入"],["estimate","估算"],["approximately","約等於"],["convert","換算"]],
+ [["perimeter","周長"],["area","面積"],["volume","體積"],["angle","角"],["degree","度"],["triangle","三角形"],["quadrilateral","四邊形"],["circle","圓形"],["radius","半徑"],["diameter","直徑"]],
+ [["length","長度"],["weight","重量"],["capacity","容量"],["centimeter","厘米"],["metre","米"],["kilometre","千米"],["gram","克"],["kilogram","千克"],["litre","升"],["millilitre","毫升"]],
+ [["average","平均數"],["ratio","比"],["proportion","比例"],["data","數據"],["bar chart","柱狀圖"],["pie chart","圓形圖"],["table","表格"],["pattern","規律"],["sequence","序列"],["term","項"]],
+ [["equation","方程"],["unknown","未知數"],["solve","求解"],["speed","速度"],["distance","距離"],["discount","折扣"],["profit","利潤"],["total","總計"],["each","每個"],["remain","剩餘"]]
+];
+const TUTOR_WK_NAMES=['第 1 週 加減乘除','第 2 週 分數小數','第 3 週 幾何圖形','第 4 週 度量單位','第 5 週 統計規律','第 6 週 應用題'];
+const FT_PAIRS=[["学","學"],["习","習"],["书","書"],["写","寫"],["读","讀"],["听","聽"],["说","說"],["话","話"],["问","問"],["译","譯"],
+["课","課"],["业","業"],["笔","筆"],["纸","紙"],["图","圖"],["画","畫"],["号","號"],["记","記"],["忆","憶"],["练","練"],
+["试","試"],["验","驗"],["题","題"],["错","錯"],["对","對"],["级","級"],["组","組"],["选","選"],["择","擇"],["决","決"],
+["计","計"],["数","數"],["个","個"],["边","邊"],["长","長"],["宽","寬"],["点","點"],["线","線"],["体","體"],["积","積"],
+["岁","歲"],["时","時"],["钟","鐘"],["间","間"],["环","環"],["节","節"],["周","週"],["历","歷"],["动","動"],["静","靜"],
+["门","門"],["户","戶"],["车","車"],["桥","橋"],["机","機"],["电","電"],["灯","燈"],["网","網"],["台","臺"],["风","風"],
+["云","雲"],["灾","災"],["热","熱"],["凉","涼"],["湿","濕"],["干","乾","乾燥的乾；「幹活」的幹另寫"],["净","淨"],["脏","髒"],["药","藥"],["医","醫"],
+["疗","療"],["饭","飯"],["面","麵","麵條的麵；「表面」仍寫「面」"],["鸡","雞"],["鸭","鴨"],["鱼","魚"],["猪","豬"],["猫","貓"],["鸟","鳥"],["虫","蟲"],
+["贝","貝"],["亲","親"],["妈","媽"],["儿","兒"],["孙","孫"],["爷","爺"],["邻","鄰"],["让","讓"],["谢","謝"],["请","請"],
+["赏","賞"],["乐","樂"],["艺","藝"],["术","術"],["剧","劇"],["戏","戲"],["赛","賽"],["赢","贏"],["输","輸"],["奖","獎"]];
+const INTERVIEW_Q=[
+ ["請用英文自我介紹。","要點：名字＋年級＋興趣＋一句亮點（如比賽/特長）；60–90 秒講完，語速放慢比講快好。"],
+ ["為什麼想來香港讀書？","要點：講具體真實的原因（教學語言／家人安排／對某科興趣），不要背套話；加一句對香港生活的期待。"],
+ ["為什麼選我們學校？","要點：提前查該校特色（社團／教學語言／課外活動），說出 1–2 個具體的；能連回自身興趣最好。"],
+ ["你最喜歡的科目是什麼？為什麼？","要點：科目＋一個具體例子（做過的實驗／讀過的書），說明你為此做過什麼。"],
+ ["你平時喜歡做什麼？","要點：真實興趣＋堅持了多久＋一個小成果；避免只答「玩手機」。"],
+ ["遇到困難時你會怎樣做？","要點：舉一個真實小例子（學新東西卡住／與同學有分歧），說明你當時的具體做法。"],
+ ["你會說粵語嗎？","要點：大方承認正在學，會幾句就說幾句；聽不懂禮貌請對方重複，不要沉默。"],
+ ["介紹一本你讀過的英文書。","要點：書名＋主要內容一句話＋最喜歡的角色/情節；讀不完也可以講已讀部分。"],
+ ["你的優點和缺點是什麼？","要點：優點配一個例子；缺點要附「正在改進」的具體行動。"],
+ ["你有什麼問題想問我們？","要點：準備 1 個真誠的問題（迎新活動／社團選擇），不要問「幾時放假」。"]
+];
+function hkCard(f,b,n,sub){
+  var note=n?' data-n="'+hkEsc(n)+'"':'';
+  return '<div class="fcard" data-open="0" data-f="'+hkEsc(f)+'" data-b="'+hkEsc(b)+'"'+note+'><span class="fw">'+hkEsc(f)+'</span><small>'+(sub||'點擊翻卡')+'</small></div>';
+}
+function hkBindFlips(grid){
+  grid.querySelectorAll('.fcard').forEach(function(c){
+    c.onclick=function(){
+      var open=c.dataset.open==='1';
+      var w=c.querySelector('.fw'),n=c.querySelector('small');
+      if(open){w.textContent=c.dataset.f;n.textContent='點擊翻卡';c.classList.remove('open');c.dataset.open='0';}
+      else{w.textContent=c.dataset.b;n.textContent=c.dataset.n||'點擊蓋回';c.classList.add('open');c.dataset.open='1';}
+    };
+  });
+}
+function hkFlipSet(grid,open){grid.querySelectorAll('.fcard').forEach(function(c){if((c.dataset.open==='1')!==open)c.click();});}
+let termWk=0;
+function renderTermChips(){
+  const box=document.getElementById('termChips'); if(!box)return;
+  let html='<button data-wk="0"'+(termWk===0?' class="on"':'')+'>全部 60 詞</button>';
+  for(let i=1;i<=6;i++)html+='<button data-wk="'+i+'"'+(termWk===i?' class="on"':'')+'>'+TUTOR_WK_NAMES[i-1]+'</button>';
+  box.innerHTML=html;
+  box.querySelectorAll('button').forEach(b=>b.onclick=function(){termWk=+b.dataset.wk;renderTermChips();renderTutorTerms();});
+}
+function renderTutorTerms(){
+  const grid=document.getElementById('termGrid'); if(!grid)return;
+  const src=[];
+  TUTOR_TERMS.forEach(function(g,gi){ if(termWk===0||termWk===gi+1) g.forEach(function(p){src.push([p[0],p[1],'第'+(gi+1)+'週 · 點擊翻卡']);}); });
+  grid.innerHTML=src.map(function(p){return hkCard(p[0],p[1],'',p[2]);}).join('');
+  hkBindFlips(grid);
+}
+function renderTutorFt(){
+  const grid=document.getElementById('ftGrid'); if(!grid)return;
+  grid.innerHTML=FT_PAIRS.map(function(p){return hkCard(p[0],p[1],p[2]||'','點擊翻卡');}).join('');
+  hkBindFlips(grid);
+}
+function renderTutorIv(){
+  const box=document.getElementById('ivList'); if(!box)return;
+  box.innerHTML=INTERVIEW_Q.map(function(q,i){
+    return '<details class="gsec" style="margin:8px 0"><summary class="gsec-h" style="border-left-color:#7c3aed">Q'+(i+1)+' · '+hkEsc(q[0])+'</summary><div style="padding:10px 14px;border-top:1px solid var(--line)">'+hkEsc(q[1])+'</div></details>';
+  }).join('');
+}
+const RKEY='hkk_ereg_v0';
+function readLoad(){try{return JSON.parse(localStorage.getItem(RKEY)||'{}');}catch(e){return {};}}
+function readSave(d){try{localStorage.setItem(RKEY,JSON.stringify(d));}catch(e){}}
+function renderRead(){
+  const grid=document.getElementById('readGrid'); if(!grid)return;
+  const d=readLoad(); let html='',i;
+  for(i=1;i<=21;i++)html+='<div class="rcell'+(d['d'+i]?' on':'')+'" data-day="'+i+'">'+i+'</div>';
+  grid.innerHTML=html;
+  grid.querySelectorAll('.rcell').forEach(function(c){c.onclick=function(){const dd=readLoad();const k='d'+c.dataset.day;dd[k]=!dd[k];readSave(dd);renderRead();};});
+  let total=0,streak=0;
+  for(i=1;i<=21;i++)if(d['d'+i])total++;
+  for(i=1;i<=21;i++){if(d['d'+i])streak++;else break;}
+  const st=document.getElementById('readStat');
+  if(st)st.textContent='已打卡 '+total+'／21 天 · 從第 1 天連續 '+streak+' 天'+(total>=21?' · 🎉 挑戰完成！':(streak===0?' · 今天開始第 1 天吧':''));
+}
+(function(){
+  const fa=document.getElementById('termFlipAll'),fn=document.getElementById('termFlipNone');
+  if(fa&&fn){fa.onclick=()=>hkFlipSet(document.getElementById('termGrid'),true);fn.onclick=()=>hkFlipSet(document.getElementById('termGrid'),false);}
+  const fa2=document.getElementById('ftFlipAll'),fn2=document.getElementById('ftFlipNone');
+  if(fa2&&fn2){fa2.onclick=()=>hkFlipSet(document.getElementById('ftGrid'),true);fn2.onclick=()=>hkFlipSet(document.getElementById('ftGrid'),false);}
+  const rr=document.getElementById('readReset');
+  if(rr)rr.onclick=function(){if(confirm('確定清空全部泛讀打卡記錄？')){readSave({});renderRead();}};
+  const el=document.getElementById('ivTime'),btn=document.getElementById('ivStart');
+  if(el&&btn){
+    let t=null,left=90;
+    btn.onclick=function(){
+      if(t){clearInterval(t);t=null;btn.textContent='▶ 90 秒計時';el.textContent='01:30';return;}
+      left=90;btn.textContent='⏸ 停止';
+      t=setInterval(function(){
+        left--;
+        el.textContent='0'+Math.floor(left/60)+':'+('0'+(left%60)).slice(-2);
+        if(left<=0){clearInterval(t);t=null;btn.textContent='▶ 90 秒計時';el.textContent='時間到！講完了嗎？';}
+      },1000);
+    };
+  }
+})();
+renderTermChips();renderTutorTerms();renderTutorFt();renderTutorIv();renderRead();
+
 // ---- 主導航 + 子導航 ----
 let curTab='plan', curGuide='cn', curPractice='cn', curPlan='timeline';
 function showMain(m){
@@ -2523,7 +2734,7 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
 function swPlan(s){
   curPlan=s;
   document.querySelectorAll('#planSub button').forEach(x=>x.classList.toggle('on',x.dataset.sub===s));
-  ['timeline','schools','docs','study','policy','faq'].forEach(t=>{const el=document.getElementById(t+'View'); if(el) el.style.display = t===s?'block':'none';});
+  ['timeline','schools','docs','study','tutor','policy','faq'].forEach(t=>{const el=document.getElementById(t+'View'); if(el) el.style.display = t===s?'block':'none';});
 }
 document.querySelectorAll('#planSub button').forEach(b=>b.onclick=()=>swPlan(b.dataset.sub));
 // v1.48 擇校頁小學/中學置頂切換（滾動定位＋記住上次）
@@ -3756,7 +3967,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.59',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.60',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
