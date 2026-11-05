@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.59：應葉工要求小學 30 所也加同款詳情——新腳本 gen_sch_pri_profiles.py 抓取 CHSC《小學概覽 2026》（psp2026，chsc.hk 官方公開資料，學校提供及核實）30 所小學詳情頁（原始 HTML 緩存 _chsc_pri_raw/，3 所 502 重試成功），解析為 _sch_pri_profiles.json（字段 30/30 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教學語言/校車/一條龍/直屬/聯繫中學/收費平鋪欄（學費/堂費/家長會費/非標準）/教師人數與學歷年資%/小一至小六班數/宗旨/設施/地址電話官網）；與中學的字段差異：小學概覽無收生準則板塊、收費非分年級表而是平鋪欄、多「聯繫中學」等升中欄位（對插班家庭有價值）；openSchDetail 按 SCH_PRI_PROFILES 判斷學段分別渲染（基本資料多升中欄、收費改平鋪、設施改欄位卡）；injectSchBtns 三表統一（psTable 校名在第 2 列，首列是檔位）；build_data.py 合併 sch_pri_profiles（assert 30）。
 v1.58：應葉工要求（發中學詳情頁截圖「模仿這個詳細程度」）——擇校分檔兩張中學表每行新增「📄 詳情」按鈕，點開模態看該校完整檔案（仿截圖板塊：基本資料/2025-2026 收費/教師概況/班級結構/中一收生準則/辦學宗旨/學校設施/聯絡+地圖導航）；數據源：新腳本 gen_sch_profiles.py 抓取 CHSC《中學概覽 2025/2026》（chsc.hk 官方公開資料，學校提供及核實）40 所中學詳情頁（原始 HTML 緩存 _chsc_raw/，39+1 所重試成功），解析為 _sch_profiles.json（字段 40/40 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教師人數與學歷年資%/各年級學費堂費/班數/收生準則比重/宗旨/設施/地址電話官網）；解析坑：字段真實格式是「|label|\n| :\n|值|」（冒號前後有管道+換行），首版 regex 過嚴全空，改 [\s|]* 容忍；收費表/聯絡欄/長文本各用專用提取；build_data.py 合併 sch_profiles（assert 40）；模態站內標注來源與「以學校官網為準」。
 v1.57：葉工二測校園地圖仍 0/70，錯誤可視化顯示「網絡請求失敗」——破案：SDK 源碼實錐 service 請求走 serviceHost 代理（serviceHost&&(c=...serviceHost...)），代理層只代理地圖瓦片、不轉發搜索接口，前端無解；徹底改架構：棄用運行時 POI 解析，校點坐標**內置自教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv**（官方源，每月更新，2026-11-04 下載版本截至 2026-09-30），70/70 校名全部匹配官方坐標（含别忽略全形括號差異），WGS84→GCJ-02（標準公開偏移算法）預轉換後存 _school_geo.json；build_data.py 合併 school_geo（assert 70）進 DATA；地圖 SDK 就緒即直接標點（零運行時解析、零等待），删 mapSearchPoi/mapGeocodeAll/localStorage 緩存/Service 庫引用（gljs 不再 libraries=service）；狀態行與頁面說明改標官方數據源；verify2 改真數據斷言（DATA.school_geo 70 校全有坐標且範圍合理）。
 v1.56：修 v1.55 校園地圖「已載 0/70」——葉工 workbuddy 域名實測地圖渲染成功（代理層正常）但 POI 解析全掛：破案方法名寫錯，官方正確名是 searchInBounds（來源 lbs.qq.com 官方文章 id=1262，2026-11-04 核實），原探测的 searchBoundingBox/search 均不存在導致 call=null 全部靜默失敗；同修 InfoWindow 默認展開懸空白彈窗（創建後立即 close）；解析失敗時狀態行顯示失敗數+原因（不再靜默），錯誤寫 __mapLastErr + console.warn 便診斷。
@@ -537,13 +538,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.58（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.59（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.58（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.59（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2633,19 +2634,22 @@ document.querySelectorAll('#mapChips .chip').forEach(c=>c.onclick=()=>{
 const mapLoadBtn=document.getElementById('mapLoadBtn');
 if(mapLoadBtn)mapLoadBtn.onclick=initSchoolMap;
 
-// ---- 學校詳情（v1.58：CHSC 中學概覽 2025/2026，點表格「📄 詳情」彈出） ----
+// ---- 學校詳情（v1.58 中學 40 校＋v1.59 小學 30 校：CHSC 官方，點表格「📄 詳情」彈出） ----
 const SCH_PROFILES=DATA.sch_profiles||{};
+const SCH_PRI_PROFILES=DATA.sch_pri_profiles||{};
 function schEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function injectSchBtns(){
-  [['ssTable','詳情'],['tpTable','詳情']].forEach(([tid])=>{
+  // v1.59：psTable 校名在第 2 列（第 1 列是檔位），故三張表分開處理
+  [['ssTable',0],['tpTable',0],['psTable',1]].forEach(([tid,idx])=>{
     const t=document.getElementById(tid); if(!t)return;
     const th=t.querySelector('thead tr');
     if(th&&!th.querySelector('th[data-schbtn]')){const h=document.createElement('th');h.setAttribute('data-schbtn','1');h.textContent='詳情';th.appendChild(h);}
     t.querySelectorAll('tbody tr').forEach(tr=>{
       if(tr.querySelector('td[data-schbtn]'))return;
-      const name=tr.querySelector('td')?tr.querySelector('td').textContent.trim():'';
+      const tds=tr.querySelectorAll('td');
+      const name=tds[idx]?tds[idx].textContent.trim():'';
       const td=document.createElement('td');td.setAttribute('data-schbtn','1');
-      if(SCH_PROFILES[name]){
+      if(SCH_PROFILES[name]||SCH_PRI_PROFILES[name]){
         const b=document.createElement('button');b.className='chip';b.textContent='📄 詳情';b.style.cursor='pointer';
         b.onclick=()=>openSchDetail(name);td.appendChild(b);
       }
@@ -2654,35 +2658,56 @@ function injectSchBtns(){
   });
 }
 function openSchDetail(name){
-  const p=SCH_PROFILES[name]; if(!p)return;
+  const isPri=!!SCH_PRI_PROFILES[name]&&!SCH_PROFILES[name];
+  const p=isPri?SCH_PRI_PROFILES[name]:SCH_PROFILES[name]; if(!p)return;
   const row=(k,v)=>v?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">'+k+'</span><span>'+schEsc(v)+'</span></div>':'';
+  const statCard=(v,label)=>'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(v)+'</div><div style="font-size:12px;color:#8a8aa0">'+label+'</div></div>';
   let h='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><h3 style="margin:0">'+schEsc(name)+'</h3>'
     +(p.type?'<span class="chip on">'+schEsc(p.type)+'</span>':'')+(p.gender?'<span class="chip">'+schEsc(p.gender)+'</span>':'')+'</div>';
   h+='<div style="margin:10px 0 4px;padding:8px 10px;background:var(--bg,#f6f6fa);border-radius:8px">';
-  h+=row('類別',p.type)+row('性別',p.gender)+row('宗教',p.religion)+row('創校',p.founded)+row('辦學團體',p.sponsoring)+row('校訓',p.motto)+row('校長',p.principal);
-  h+='</div>';
-  const feeRows=['中一','中二','中三','中四','中五','中六'].map(g=>{const f=p.fees&&p.fees[g];if(!f||!f.length)return '';const tf=v=>(!v||v==='-')?'—':v;return '<tr><td>'+g+'</td><td>'+schEsc(tf(f[0]))+'</td><td>'+schEsc(tf(f[1]))+'</td></tr>';}).join('');
+  if(isPri){
+    h+=row('類別',p.type)+row('性別',p.gender)+row('宗教',p.religion)+row('創校',p.founded)+row('辦學團體',p.sponsoring)+row('校訓',p.motto)+row('校長',p.principal)
+      +row('教學語言',p.medium)+row('校車',p.bus)+row('一條龍中學',p.through_train&&p.through_train!=='-'?p.through_train:'')+row('直屬中學',p.affiliate&&p.affiliate!=='-'?p.affiliate:'')+row('聯繫中學',p.linked&&p.linked!=='-'?p.linked:'')+row('佔地面積',p.area);
+    h+='</div>';
+    const feeRow=(k,v)=>v&&v!=='-'?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:120px">'+k+'</span><span>'+schEsc(v)+'</span></div>':'';
+    if(p.fee_tuition&&p.fee_tuition!=='-'||p.fee_hall&&p.fee_hall!=='-'||p.fee_pta&&p.fee_pta!=='-'||p.fee_other){
+      h+='<h4 style="margin:12px 0 4px">2026/2027 全年收費</h4><div style="padding:8px 10px;background:var(--bg,#f6f6fa);border-radius:8px">'
+        +feeRow('學費',p.fee_tuition)+feeRow('堂費',p.fee_hall)+feeRow('家長教師會會費',p.fee_pta)
+        +(p.fee_other?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:120px">非標準項目收費</span><span>'+schEsc(p.fee_other)+'</span></div>':'')+'</div>'
+        +'<p style="font-size:12px;color:#8a8aa0;margin:2px 0">官津（資助/官立）小學學費全免，表中「—」即不適用。</p>';
+    }
+  }else{
+    h+=row('類別',p.type)+row('性別',p.gender)+row('宗教',p.religion)+row('創校',p.founded)+row('辦學團體',p.sponsoring)+row('校訓',p.motto)+row('校長',p.principal);
+    h+='</div>';
+  }
+  const feeRows=isPri?[]:['中一','中二','中三','中四','中五','中六'].map(g=>{const f=p.fees&&p.fees[g];if(!f||!f.length)return '';const tf=v=>(!v||v==='-')?'—':v;return '<tr><td>'+g+'</td><td>'+schEsc(tf(f[0]))+'</td><td>'+schEsc(tf(f[1]))+'</td></tr>';}).join('');
   if(feeRows)h+='<h4 style="margin:12px 0 4px">2025/2026 全年收費</h4><div class="scroll-x"><table class="mtable" style="min-width:0"><thead><tr><th>級別</th><th>學費($)</th><th>堂費($)</th></tr></thead><tbody>'+feeRows+'</tbody></table></div>'
     +(p.fee_other?'<p style="font-size:13px;margin:4px 0">非標準項目核准收費（年費）：'+schEsc(p.fee_other)+'</p>':'')
     +'<p style="font-size:12px;color:#8a8aa0;margin:2px 0">官津（資助/官立）學費全免，表中「—」即免費；直資學費由學校自訂。</p>';
-  if(p.teachers)h+='<h4 style="margin:12px 0 4px">教師概況（2025/2026）</h4><div style="display:flex;gap:8px;flex-wrap:wrap">'
-    +'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.teachers)+'</div><div style="font-size:12px;color:#8a8aa0">教師總人數</div></div>'
-    +(p.t_master?'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.t_master)+'</div><div style="font-size:12px;color:#8a8aa0">碩士／博士</div></div>':'')
-    +(p.t_senior?'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.t_senior)+'</div><div style="font-size:12px;color:#8a8aa0">年資 10 年+</div></div>':'')
-    +(p.t_bachelor?'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(p.t_bachelor)+'</div><div style="font-size:12px;color:#8a8aa0">學士</div></div>':'')
+  if(p.teachers)h+='<h4 style="margin:12px 0 4px">教師概況'+(isPri?'（2025/2026）':'（2025/2026）')+'</h4><div style="display:flex;gap:8px;flex-wrap:wrap">'
+    +statCard(p.teachers,'教師總人數')
+    +(p.t_master?statCard(p.t_master,'碩士／博士'):'')
+    +(p.t_senior?statCard(p.t_senior,'年資 10 年+'):'')
+    +(p.t_bachelor?statCard(p.t_bachelor,'學士'):'')
     +'</div>';
-  const cls=p.classes||{};const clsStr=['中一','中二','中三','中四','中五','中六'].map(g=>cls[g]?g+' '+cls[g]+'班':null).filter(Boolean).join(' · ');
+  const cls=p.classes||{};
+  const clsStr=isPri?['小一','小二','小三','小四','小五','小六'].map(g=>cls[g]?g+' '+cls[g]+'班':null).filter(Boolean).join(' · ')+(p.classes_total?'（總數 '+p.classes_total+' 班）':'')
+    :['中一','中二','中三','中四','中五','中六'].map(g=>cls[g]?g+' '+cls[g]+'班':null).filter(Boolean).join(' · ');
   if(clsStr)h+='<h4 style="margin:12px 0 4px">班級結構</h4><p style="margin:2px 0;font-size:13.5px">'+clsStr+'</p>';
-  if(p.s1_admission)h+='<h4 style="margin:12px 0 4px">中一入學 · 收生準則</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.s1_admission)+'</p>';
+  if(!isPri&&p.s1_admission)h+='<h4 style="margin:12px 0 4px">中一入學 · 收生準則</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.s1_admission)+'</p>';
   if(p.mission)h+='<h4 style="margin:12px 0 4px">辦學宗旨</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.mission)+'</p>';
-  if(p.facilities)h+='<h4 style="margin:12px 0 4px">學校設施</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.facilities)+'</p>';
+  if(isPri&&(p.classrooms||p.special_rooms)){
+    h+='<h4 style="margin:12px 0 4px">學校設施</h4><div style="padding:8px 10px;background:var(--bg,#f6f6fa);border-radius:8px">'
+      +row('課室',p.classrooms)+row('禮堂',p.halls)+row('操場',p.playgrounds)+row('圖書館',p.libraries)+row('特別室',p.special_rooms)+row('支援 SEN 設施',p.sen_fac&&p.sen_fac!=='-'?p.sen_fac:'')+'</div>';
+  }
+  if(!isPri&&p.facilities)h+='<h4 style="margin:12px 0 4px">學校設施</h4><p style="margin:2px 0;font-size:13.5px;line-height:1.6">'+schEsc(p.facilities)+'</p>';
   h+='<h4 style="margin:12px 0 4px">聯絡</h4><div style="padding:8px 10px;background:var(--bg,#f6f6fa);border-radius:8px">'
     +(p.address?row('📍 地址',p.address):'')
     +(p.tel?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">📞 電話</span><a href="tel:'+schEsc(p.tel)+'">'+schEsc(p.tel)+'</a></div>':'')
     +(p.web?'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">🔗 官網</span><a href="'+schEsc(p.web)+'" target="_blank" rel="noopener">'+schEsc(p.web.replace(/^https?:\/\//,''))+'</a></div>':'')
     +'<div style="display:flex;gap:6px;padding:3px 0;font-size:13.5px"><span style="color:#8a8aa0;min-width:88px">🗺️ 位置</span><a target="_blank" rel="noopener" href="https://apis.map.qq.com/uri/v1/search?keyword='+encodeURIComponent(name)+'&region='+encodeURIComponent('香港')+'">在騰訊地圖打開 / 導航 ↗</a></div>';
   h+='</div>';
-  h+='<p class="src" style="margin:10px 0 2px">資料來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實），以學校官網最新公布為準。</p>';
+  h+='<p class="src" style="margin:10px 0 2px">資料來源：家庭與學校合作事宜委員會《'+(isPri?'小學概覽 2026':'中學概覽 2025/2026')+'》（chsc.hk，學校提供及核實），以學校官網最新公布為準。</p>';
   h+='<p style="text-align:right;margin:8px 0 0"><button class="chip" onclick="document.getElementById(\'schModal\').style.display=\'none\'">關閉</button></p>';
   document.getElementById('schModalBody').innerHTML=h;
   document.getElementById('schModal').style.display='block';
@@ -3731,7 +3756,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.58',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.59',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

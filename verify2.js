@@ -237,6 +237,28 @@ try{
   const ths=doc.querySelectorAll('#ssTable th[data-schbtn], #tpTable th[data-schbtn]');
   ok('v1.58 表頭加詳情列=2', ths.length===2);
 }catch(e){ ok('v1.58 測試執行', false); console.log('   err='+e.message); }
+// ============ v1.59 小學詳情（CHSC 小學概覽 2026，30 校） ============
+try{
+  const WV=doc.defaultView;
+  const SPP=WV.eval('SCH_PRI_PROFILES');
+  ok('v1.59 內置小學詳情=30('+(SPP?Object.keys(SPP).length:0)+')', SPP && Object.keys(SPP).length===30);
+  const SPs=SPP&&SPP['粉嶺官立小學'];
+  ok('v1.59 樣本小學關鍵字段齊', !!SPs && !!SPs.type && !!SPs.teachers && !!SPs.classes_total && !!SPs.address && !!SPs.tel && !!SPs.linked);
+  ok('v1.59 聯繫中學字段含官中', SPs && SPs.linked.includes('粉嶺官立中學'));
+  // 行為斷言：小學模態
+  WV.eval('openSchDetail("粉嶺官立小學")');
+  const modal=doc.getElementById('schModal');
+  ok('v1.59 小學詳情模態打開', modal.style.display==='block');
+  const body=doc.getElementById('schModalBody');
+  ok('v1.59 小學模態含校名/班級/小學概覽來源', body.textContent.includes('粉嶺官立小學') && body.textContent.includes('班級結構') && body.textContent.includes('小學概覽'));
+  ok('v1.59 小學模態含聯繫中學欄', body.textContent.includes('聯繫中學'));
+  WV.eval('document.getElementById("schModal").style.display="none"');
+  // 按鈕注入
+  const pbtns=doc.querySelectorAll('#psTable td[data-schbtn] button');
+  ok('v1.59 小學表注入詳情按鈕=30('+pbtns.length+')', pbtns.length===30);
+  const pth=doc.querySelectorAll('#psTable th[data-schbtn]');
+  ok('v1.59 小學表頭加詳情列=1', pth.length===1);
+}catch(e){ ok('v1.59 測試執行', false); console.log('   err='+e.message); }
 
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();

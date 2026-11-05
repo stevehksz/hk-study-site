@@ -253,13 +253,18 @@ assert len(school_geo) == 70, f'school_geo 應 70 所，實得 {len(school_geo)}
 sch_profiles = json.load(open(os.path.join(WS, '_sch_profiles.json'), encoding='utf-8'))
 assert len(sch_profiles) == 40, f'sch_profiles 應 40 所，實得 {len(sch_profiles)}'
 
-data = {'poems': poems, 'vocab': vocab, 'hk_words': hk_words, 'school_geo': school_geo, 'sch_profiles': sch_profiles,
+# ---- 小學詳情檔案（v1.59：CHSC 小學概覽 2026 psp2026 官方公開資料，30 所） ----
+sch_pri_profiles = json.load(open(os.path.join(WS, '_sch_pri_profiles.json'), encoding='utf-8'))
+assert len(sch_pri_profiles) == 30, f'sch_pri_profiles 應 30 所，實得 {len(sch_pri_profiles)}'
+
+data = {'poems': poems, 'vocab': vocab, 'hk_words': hk_words, 'school_geo': school_geo, 'sch_profiles': sch_profiles, 'sch_pri_profiles': sch_pri_profiles,
         'meta': {'pinyin': 'pypinyin 生成，多音字/生僻字以课本为准',
                  'jyutping': 'jyutping 生成 + 人工校正（异体字/粤语特色音/古诗多音字），以粤语字典为准',
                  'vocab': 'word-atlas B1 档（CC BY 4.0，须署名 Word Atlas contributors 词光）',
                  'hk_words': '坊間整理通用基礎詞（小學 P1–P6＋初中 S1–S3），非 EDB 官方分級詞表；年級歸屬為常見教學進度估算，僅供練習參考；音標為英式 DJ 音標人工標注，以詞典為準',
                  'school_geo': '坐標來源：教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv（每月更新），WGS84 已轉 GCJ-02（騰訊地圖坐標系），位置僅供參考以學校官網為準',
                  'sch_profiles': '來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實的官方公開資料）；收費/教師/收生準則等以學校官網最新公布為準',
+                 'sch_pri_profiles': '來源：家庭與學校合作事宜委員會《小學概覽 2026》psp2026（chsc.hk，學校提供及核實的官方公開資料）；收費/教師/班級/設施等以學校官網最新公布為準',
                                 }}
 out = os.path.join(WS, 'build_data.json')
 json.dump(data, open(out, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
