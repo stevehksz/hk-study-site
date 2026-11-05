@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.62：葉工要求把教育局官方字表搬上站——補習材料新增「⑥ 教育局官方字表」（泛讀打卡順延爲⑦）：《香港小學學習字詞表》(2007) 小學用字一覽表 3,171 字（官方簡介 PDF 載明第一學習階段 2,169＋第二階段 1,002，筆畫序，異體字算一字；文本轉錄 GitHub huwan/HKCLL4PL，字數與官方一致、常見字抽查全中，2026-11-05 核實，build_data.py assert 3171 唯一）。功能：①搜字（可粘多字逐個查，在表卡顯示筆畫序號、不在表卡紅字標注）②「今日認讀」每天 20 字推進（3,171 字≈159 天，進度指針 localStorage hkk_lex_pos 跟賬號隔離，前進/回退按鈕）③全表按筆畫序分頁瀏覽（60 字/頁 53 頁，select 跳頁）④附官方電子檢索版鏈接（edbchinese.hk/lexlist_ch 含粵普發音＋筆順動畫）。verify2 加 10 項斷言（3171 唯一/首頁 60 格/今日組 20 格/前進後進度/搜字在表與否/跳頁）。
 v1.61：葉工要求悠閒 tab 加数独——新增「🔢 數獨（邏輯推理）」模塊：三檔難度 chips（4×4 入門挖 9 洞／6×6 進階挖 22／9×9 挑戰挖 48，宮形 2×2/2×3/3×3）；純本地生成＝隨機回溯填滿→隨機序挖洞，每挖一格用 MRV 啟發式計數求解器驗證**唯一解**（不唯一則回填）；點格選中＋數字面板/鍵盤數字鍵填數（⌫/0 清除，僅 fun tab 生效避免干擾）＋同行/列/宮衝突自動標紅＋💡提示一格（優先用選中格）＋✅檢查標錯＋⏱計時＋各尺寸最佳紀錄（localStorage hkk_sudoku_best_N 跟賬號隔離）；固定格（盤面給定）不可選不可改；測試鉤子 __sdkTest/__sdkFillSol。verify2 加 11 項行為斷言（默認 4×4 出盤/給定數/計時/正確填數/衝突高亮/提示/切 9×9=81 格/填滿正解→完成/切回重開）。
 v1.60：應葉工要求把女兒補習材料搬上站——升學規劃新增第 7 子頁「補習材料」（planSub data-sub="tutor"，插中一 35 週減壓版：小六英文中上、每週≤3h，設計原則「不背單詞——詞彙靠興趣泛讀自然復現」）：①35 週排期表（2026.11→2027.7.6 叩門，月份/能力線 80%/應試線 20%/驗收指標）＋每週≤3h 課表；②教材與資源清單（只買兩本 Great Writing Foundations→Level 1；牛津樹家庭學習版權注；RTHK/教育局字詞表免費資源；教材級別標坊間整理以定級三連測為準）；③面試話題庫 10 題（details 展開答題要點＋90 秒可停計時器）；④數學英文術語翻卡 60 詞 6 週（週 chips 過濾，點卡翻面看中文，全部翻開/蓋回按鈕）；⑤繁體認讀翻卡 100 字（簡→繁自建常用對照非官方字表，「干→乾」「面→麵」一字多繁附備註）；⑥泛讀打卡 21 天挑戰網格（localStorage hkk_ereg_v0，前綴規則自動跟賬號隔離，連續天數統計＋清空重來）。verify2.js 加 15 項斷言（子頁切換/面試 10 題/術語 60/繁體 100/打卡 21 格/翻卡行為/chips 過濾/打卡行為/版權與教材標注）。
 v1.59：應葉工要求小學 30 所也加同款詳情——新腳本 gen_sch_pri_profiles.py 抓取 CHSC《小學概覽 2026》（psp2026，chsc.hk 官方公開資料，學校提供及核實）30 所小學詳情頁（原始 HTML 緩存 _chsc_pri_raw/，3 所 502 重試成功），解析為 _sch_pri_profiles.json（字段 30/30 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教學語言/校車/一條龍/直屬/聯繫中學/收費平鋪欄（學費/堂費/家長會費/非標準）/教師人數與學歷年資%/小一至小六班數/宗旨/設施/地址電話官網）；與中學的字段差異：小學概覽無收生準則板塊、收費非分年級表而是平鋪欄、多「聯繫中學」等升中欄位（對插班家庭有價值）；openSchDetail 按 SCH_PRI_PROFILES 判斷學段分別渲染（基本資料多升中欄、收費改平鋪、設施改欄位卡）；injectSchBtns 三表統一（psTable 校名在第 2 列，首列是檔位）；build_data.py 合併 sch_pri_profiles（assert 30）。
@@ -557,13 +558,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.61（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.62（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.61（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.62（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1509,7 +1510,27 @@ Thank you for your time.</div>
     </div>
 
     <div class="gsec">
-      <h2>⑥ 泛讀打卡（21 天挑戰）</h2>
+      <h2>⑥ 教育局官方字表（3,171 字 · 筆畫序）</h2>
+      <p class="tip">來源：教育局《香港小學學習字詞表》(2007) 小學用字一覽表——共 3,171 字（第一學習階段小一至小三 2,169 字＋第二學習階段小四至小六 1,002 字），按筆畫序，異體字算一字。三種用法：搜字驗證、今日認讀推進、全表瀏覽。</p>
+      <div style="display:flex;gap:10px;padding:0 12px;flex-wrap:wrap;align-items:center">
+        <input id="lexQ" placeholder="輸入漢字查是否在官方字表（可粘貼多個）" style="flex:1;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px">
+        <button id="lexGo">🔍 查字</button>
+      </div>
+      <div id="lexQMsg" class="tip" style="padding:6px 12px;min-height:18px"></div>
+      <div class="fgrid" id="lexQRes" style="display:none"></div>
+      <div class="gcard" style="margin:10px 12px">
+        <h3>今日認讀 · 第 <span id="lexGroupN">1</span> 組（每天 20 字，認完點下一組）</h3>
+        <div class="fgrid" id="lexToday"></div>
+        <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button></p>
+        <p class="tip" style="margin:4px 0 0">每天 20 字 × 3,171 字 ≈ 159 天（約 5 個月），剛好覆蓋 35 週路線裏的繁體認讀線；配合上方⑤的簡→繁翻卡一起用。</p>
+      </div>
+      <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）</p>
+      <div class="fgrid" id="lexAll"></div>
+      <div class="src">數據：教育局《香港小學學習字詞表》小學用字一覽表 3,171 字（文本轉錄 GitHub huwan/HKCLL4PL，字數與教育局官方簡介 PDF 一致，2026-11-05 核實）；含粵普發音＋筆順動畫的官方電子檢索版：<a href="https://www.edbchinese.hk/lexlist_ch/index.jsp" target="_blank" rel="noopener">edbchinese.hk/lexlist_ch</a>（逐字查詢）</div>
+    </div>
+
+    <div class="gsec">
+      <h2>⑦ 泛讀打卡（21 天挑戰）</h2>
       <p class="tip">規則只有一條：每天碰英文 20 分鐘（漫畫/故事/科普視頻都算），做完點一格。不查詞典、不寫讀後感、不考核——打卡本身就是全部任務。數據保存在本設備、跟賬號走。</p>
       <div class="rgrid" id="readGrid"></div>
       <p style="padding:0 12px"><b id="readStat"></b> <button id="readReset">清空重來</button></p>
@@ -2613,6 +2634,66 @@ function renderTutorIv(){
     return '<details class="gsec" style="margin:8px 0"><summary class="gsec-h" style="border-left-color:#7c3aed">Q'+(i+1)+' · '+hkEsc(q[0])+'</summary><div style="padding:10px 14px;border-top:1px solid var(--line)">'+hkEsc(q[1])+'</div></details>';
   }).join('');
 }
+// ---- 教育局官方字表（v1.62：3171 字筆畫序 · 搜字／今日認讀／分頁瀏覽） ----
+const LEX=DATA.lex_chars||'';
+const LEX_DAY=20, LEX_PAGE=60, LEX_PAGES=Math.ceil(LEX.length/LEX_PAGE)||1;
+let lexPage=0;
+function lexPosGet(){const v=parseInt(localStorage.getItem('hkk_lex_pos')||'0',10);return isNaN(v)?0:Math.max(0,Math.min(v,Math.max(0,LEX.length-LEX_DAY)));}
+function lexPosSet(v){try{localStorage.setItem('hkk_lex_pos',String(v));}catch(e){}}
+function lexCell(ch,sub,warn){
+  return '<div class="fcard"'+(warn?' style="border-color:#e24b4a"':'')+'><span class="fw">'+hkEsc(ch)+'</span><small>'+(warn?'不在官方字表內':hkEsc(sub))+'</small></div>';
+}
+function renderLexToday(){
+  const grid=document.getElementById('lexToday'); if(!grid)return;
+  const pos=lexPosGet();
+  const gn=document.getElementById('lexGroupN'); if(gn)gn.textContent=Math.floor(pos/LEX_DAY)+1;
+  let html='';
+  for(let i=pos;i<Math.min(pos+LEX_DAY,LEX.length);i++)html+=lexCell(LEX[i],'筆畫序第 '+(i+1)+' 字');
+  grid.innerHTML=html;
+  const pg=document.getElementById('lexProg');
+  if(pg)pg.textContent='進度：已認到第 '+pos+'／'+LEX.length+' 字 · 剩約 '+Math.ceil((LEX.length-pos)/LEX_DAY)+' 天';
+}
+function renderLexAll(){
+  const grid=document.getElementById('lexAll'); if(!grid)return;
+  const st=Math.min(lexPage*LEX_PAGE,LEX.length), en=Math.min(st+LEX_PAGE,LEX.length);
+  let html='';
+  for(let i=st;i<en;i++)html+=lexCell(LEX[i],'第 '+(i+1)+' 字');
+  grid.innerHTML=html;
+}
+function lexSearch(){
+  const inp=document.getElementById('lexQ'),res=document.getElementById('lexQRes'),msg=document.getElementById('lexQMsg');
+  if(!inp||!res||!msg)return;
+  const chars=Array.from(new Set(Array.from(inp.value.replace(/\s+/g,'')))).slice(0,40);
+  if(!chars.length){msg.textContent='請先輸入要查的漢字。';res.style.display='none';return;}
+  let html='',hit=0;
+  chars.forEach(function(c){
+    const i=LEX.indexOf(c);
+    if(i>=0){hit++;html+=lexCell(c,'筆畫序第 '+(i+1)+' 字 · 在表內');}
+    else html+=lexCell(c,'',true);
+  });
+  msg.textContent='查 '+chars.length+' 字：'+hit+' 字在表內'+(chars.length-hit?('，'+(chars.length-hit)+' 字不在（若輸入的是簡體字，請先轉成繁體再查）'):'（全部命中）');
+  res.innerHTML=html;res.style.display='grid';
+}
+(function(){
+  const q=document.getElementById('lexQ'); if(!q)return;
+  const sel=document.getElementById('lexPageSel');
+  if(sel){
+    let opts='';
+    for(let p=0;p<LEX_PAGES;p++)opts+='<option value="'+p+'">第 '+(p+1)+'／'+LEX_PAGES+' 頁</option>';
+    sel.innerHTML=opts;
+    sel.onchange=function(){lexPage=+sel.value;renderLexAll();};
+  }
+  const go=document.getElementById('lexGo');
+  if(go)go.onclick=lexSearch;
+  q.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();lexSearch();}});
+  const nx=document.getElementById('lexNext');
+  if(nx)nx.onclick=function(){lexPosSet(Math.min(lexPosGet()+LEX_DAY,Math.max(0,LEX.length-LEX_DAY)));renderLexToday();};
+  const bk=document.getElementById('lexBack');
+  if(bk)bk.onclick=function(){lexPosSet(Math.max(0,lexPosGet()-LEX_DAY));renderLexToday();};
+  renderLexToday();renderLexAll();
+  window.__lexTest=function(){const s={};for(const c of LEX)s[c]=1;return{total:LEX.length,unique:Object.keys(s).length,pos:lexPosGet(),todayCells:document.querySelectorAll('#lexToday .fcard').length,allCells:document.querySelectorAll('#lexAll .fcard').length,pages:LEX_PAGES,idxOf:function(c){return LEX.indexOf(c);}};};
+})();
+
 const RKEY='hkk_ereg_v0';
 function readLoad(){try{return JSON.parse(localStorage.getItem(RKEY)||'{}');}catch(e){return {};}}
 function readSave(d){try{localStorage.setItem(RKEY,JSON.stringify(d));}catch(e){}}
@@ -4175,7 +4256,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.61',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.62',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

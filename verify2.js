@@ -327,6 +327,37 @@ try{
   ok('v1.61 切回 4×4 重新出盤', ST().n===4 && ST().cells===16 && !ST().done && ST().given>=7);
 }catch(e){ ok('v1.61 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.62 補習材料·教育局官方字表（3171 字·搜字/今日認讀/分頁） ============
+try{
+  doc.querySelector('nav button[data-tab="plan"]').click();
+  doc.querySelector('#planSub button[data-sub="tutor"]').click();
+  const LT=doc.defaultView.__lexTest();
+  ok('v1.62 官方字表 3171 字且唯一', LT.total===3171 && LT.unique===3171);
+  ok('v1.62 今日認讀默認 20 格·第 1 組', LT.todayCells===20 && doc.getElementById('lexGroupN').textContent==='1');
+  ok('v1.62 今日組首字=表首字「一」', doc.querySelector('#lexToday .fcard .fw').textContent==='一');
+  ok('v1.62 全表瀏覽首頁 60 格·53 頁', LT.allCells===60 && LT.pages===53);
+  ok('v1.62 進度文案含 3171', doc.getElementById('lexProg').textContent.includes('3171'));
+  // 今日認讀前進/回退（localStorage hkk_lex_pos）
+  doc.getElementById('lexNext').click();
+  ok('v1.62 下一組→組號 2·首卡標「第 21 字」', doc.getElementById('lexGroupN').textContent==='2' && doc.querySelector('#lexToday .fcard small').textContent.includes('第 21 字'));
+  ok('v1.62 進度指針 pos=20 已持久化', doc.defaultView.__lexTest().pos===20);
+  doc.getElementById('lexBack').click();
+  ok('v1.62 回上一組→組號 1', doc.getElementById('lexGroupN').textContent==='1');
+  // 搜字：在表 + 不在表
+  doc.getElementById('lexQ').value='的A';
+  doc.getElementById('lexGo').click();
+  const qres=doc.querySelectorAll('#lexQRes .fcard');
+  ok('v1.62 搜「的A」出 2 張卡', qres.length===2);
+  ok('v1.62 「的」在表卡帶序號', qres[0].textContent.includes('在表內') && qres[0].textContent.includes('筆畫序第'));
+  ok('v1.62 「A」不在表卡紅標', qres[1].textContent.includes('不在官方字表內') && qres[1].getAttribute('style').includes('#e24b4a'));
+  // 跳頁
+  const sel=doc.getElementById('lexPageSel');
+  sel.value='52'; sel.dispatchEvent(new doc.defaultView.Event('change'));
+  ok('v1.62 跳末頁 51 格（3171=53×60-9）', doc.defaultView.__lexTest().allCells===3171-52*60);
+  doc.querySelector('#planSub button[data-sub="timeline"]').click();
+  ok('v1.62 測後切回 timeline', doc.getElementById('timelineView').style.display !== 'none');
+}catch(e){ ok('v1.62 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();

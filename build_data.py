@@ -257,7 +257,16 @@ assert len(sch_profiles) == 40, f'sch_profiles 應 40 所，實得 {len(sch_prof
 sch_pri_profiles = json.load(open(os.path.join(WS, '_sch_pri_profiles.json'), encoding='utf-8'))
 assert len(sch_pri_profiles) == 30, f'sch_pri_profiles 應 30 所，實得 {len(sch_pri_profiles)}'
 
+# ---- 教育局官方字表（v1.62：《香港小學學習字詞表》(2007) 小學用字一覽表 3,171 字，筆畫序） ----
+# 來源：教育局官方簡介 PDF（int_lexical list_TC_2026.pdf）載明 3,171 字（第一學習階段 2,169＋第二學習階段 1,002）；
+# 文本轉錄取自 GitHub huwan/HKCLL4PL 3171.char.txt（按筆畫序，異體字算一字），字數與官方一致，常見字抽查全中。2026-11-05 核實。
+lex_raw = open(os.path.join(WS, '_lex3171.txt'), encoding='utf-8').read()
+lex_chars = ''.join(c for c in lex_raw if not c.isspace())
+assert len(lex_chars) == 3171 and len(set(lex_chars)) == 3171, \
+    f'lex_chars 應 3171 唯一字，實得 {len(lex_chars)}/{len(set(lex_chars))}'
+
 data = {'poems': poems, 'vocab': vocab, 'hk_words': hk_words, 'school_geo': school_geo, 'sch_profiles': sch_profiles, 'sch_pri_profiles': sch_pri_profiles,
+        'lex_chars': lex_chars,
         'meta': {'pinyin': 'pypinyin 生成，多音字/生僻字以课本为准',
                  'jyutping': 'jyutping 生成 + 人工校正（异体字/粤语特色音/古诗多音字），以粤语字典为准',
                  'vocab': 'word-atlas B1 档（CC BY 4.0，须署名 Word Atlas contributors 词光）',
@@ -265,6 +274,7 @@ data = {'poems': poems, 'vocab': vocab, 'hk_words': hk_words, 'school_geo': scho
                  'school_geo': '坐標來源：教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv（每月更新），WGS84 已轉 GCJ-02（騰訊地圖坐標系），位置僅供參考以學校官網為準',
                  'sch_profiles': '來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實的官方公開資料）；收費/教師/收生準則等以學校官網最新公布為準',
                  'sch_pri_profiles': '來源：家庭與學校合作事宜委員會《小學概覽 2026》psp2026（chsc.hk，學校提供及核實的官方公開資料）；收費/教師/班級/設施等以學校官網最新公布為準',
+                 'lex_chars': '來源：教育局《香港小學學習字詞表》(2007) 小學用字一覽表 3,171 字（第一學習階段 2,169＋第二學習階段 1,002，筆畫序，異體字算一字）；文本轉錄取自 GitHub huwan/HKCLL4PL，字數與教育局官方簡介 PDF 一致（2026-11-05 核實）；官方電子檢索版 edbchinese.hk/lexlist_ch 含粵普發音及筆順動畫',
                                 }}
 out = os.path.join(WS, 'build_data.json')
 json.dump(data, open(out, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
