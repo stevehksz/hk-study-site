@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.61：葉工要求悠閒 tab 加数独——新增「🔢 數獨（邏輯推理）」模塊：三檔難度 chips（4×4 入門挖 9 洞／6×6 進階挖 22／9×9 挑戰挖 48，宮形 2×2/2×3/3×3）；純本地生成＝隨機回溯填滿→隨機序挖洞，每挖一格用 MRV 啟發式計數求解器驗證**唯一解**（不唯一則回填）；點格選中＋數字面板/鍵盤數字鍵填數（⌫/0 清除，僅 fun tab 生效避免干擾）＋同行/列/宮衝突自動標紅＋💡提示一格（優先用選中格）＋✅檢查標錯＋⏱計時＋各尺寸最佳紀錄（localStorage hkk_sudoku_best_N 跟賬號隔離）；固定格（盤面給定）不可選不可改；測試鉤子 __sdkTest/__sdkFillSol。verify2 加 11 項行為斷言（默認 4×4 出盤/給定數/計時/正確填數/衝突高亮/提示/切 9×9=81 格/填滿正解→完成/切回重開）。
 v1.60：應葉工要求把女兒補習材料搬上站——升學規劃新增第 7 子頁「補習材料」（planSub data-sub="tutor"，插中一 35 週減壓版：小六英文中上、每週≤3h，設計原則「不背單詞——詞彙靠興趣泛讀自然復現」）：①35 週排期表（2026.11→2027.7.6 叩門，月份/能力線 80%/應試線 20%/驗收指標）＋每週≤3h 課表；②教材與資源清單（只買兩本 Great Writing Foundations→Level 1；牛津樹家庭學習版權注；RTHK/教育局字詞表免費資源；教材級別標坊間整理以定級三連測為準）；③面試話題庫 10 題（details 展開答題要點＋90 秒可停計時器）；④數學英文術語翻卡 60 詞 6 週（週 chips 過濾，點卡翻面看中文，全部翻開/蓋回按鈕）；⑤繁體認讀翻卡 100 字（簡→繁自建常用對照非官方字表，「干→乾」「面→麵」一字多繁附備註）；⑥泛讀打卡 21 天挑戰網格（localStorage hkk_ereg_v0，前綴規則自動跟賬號隔離，連續天數統計＋清空重來）。verify2.js 加 15 項斷言（子頁切換/面試 10 題/術語 60/繁體 100/打卡 21 格/翻卡行為/chips 過濾/打卡行為/版權與教材標注）。
 v1.59：應葉工要求小學 30 所也加同款詳情——新腳本 gen_sch_pri_profiles.py 抓取 CHSC《小學概覽 2026》（psp2026，chsc.hk 官方公開資料，學校提供及核實）30 所小學詳情頁（原始 HTML 緩存 _chsc_pri_raw/，3 所 502 重試成功），解析為 _sch_pri_profiles.json（字段 30/30 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教學語言/校車/一條龍/直屬/聯繫中學/收費平鋪欄（學費/堂費/家長會費/非標準）/教師人數與學歷年資%/小一至小六班數/宗旨/設施/地址電話官網）；與中學的字段差異：小學概覽無收生準則板塊、收費非分年級表而是平鋪欄、多「聯繫中學」等升中欄位（對插班家庭有價值）；openSchDetail 按 SCH_PRI_PROFILES 判斷學段分別渲染（基本資料多升中欄、收費改平鋪、設施改欄位卡）；injectSchBtns 三表統一（psTable 校名在第 2 列，首列是檔位）；build_data.py 合併 sch_pri_profiles（assert 30）。
 v1.58：應葉工要求（發中學詳情頁截圖「模仿這個詳細程度」）——擇校分檔兩張中學表每行新增「📄 詳情」按鈕，點開模態看該校完整檔案（仿截圖板塊：基本資料/2025-2026 收費/教師概況/班級結構/中一收生準則/辦學宗旨/學校設施/聯絡+地圖導航）；數據源：新腳本 gen_sch_profiles.py 抓取 CHSC《中學概覽 2025/2026》（chsc.hk 官方公開資料，學校提供及核實）40 所中學詳情頁（原始 HTML 緩存 _chsc_raw/，39+1 所重試成功），解析為 _sch_profiles.json（字段 40/40 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教師人數與學歷年資%/各年級學費堂費/班數/收生準則比重/宗旨/設施/地址電話官網）；解析坑：字段真實格式是「|label|\n| :\n|值|」（冒號前後有管道+換行），首版 regex 過嚴全空，改 [\s|]* 容忍；收費表/聯絡欄/長文本各用專用提取；build_data.py 合併 sch_profiles（assert 40）；模態站內標注來源與「以學校官網為準」。
@@ -409,6 +410,15 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:8px;padding:12px}
   .rcell{height:44px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--card);font-size:14px}
   .rcell.on{background:#16a34a;color:#fff;border-color:#16a34a;font-weight:700}
+  .sdkGrid{display:grid;gap:2px;background:#444;border:2px solid #444;border-radius:6px;overflow:hidden;margin:10px auto;touch-action:manipulation}
+  .sdkCell{background:var(--card);aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;min-width:0}
+  .sdkCell.given{background:#f1efe8;font-weight:700;color:#2b2b6b;cursor:default}
+  .sdkCell.sel{outline:2px solid #4f46e5;outline-offset:-2px;z-index:1}
+  .sdkCell.conflict{color:#b91c1c;background:#fcebeb}
+  .sdkCell.wrong{outline:2px solid #e24b4a;outline-offset:-2px}
+  .sdkCell.hint{color:#1d4ed8;font-weight:700}
+  .sdkCell.br{border-right:2px solid #444}
+  .sdkCell.bb{border-bottom:2px solid #444}
   .ok{color:#1a8a4a;font-weight:700}
   .hk-actions{display:flex;gap:6px;align-self:center}
   .qzh{font-size:12px;color:#6b7280;margin:2px 0 6px;line-height:1.5}
@@ -547,13 +557,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.60（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.61（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.60（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.61（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1589,6 +1599,28 @@ Thank you for your time.</div>
       <p class="snake-tip">電腦用方向鍵，手機用上面按鈕。撞牆或咬到自己就結束。</p>
     </div>
   </div>
+
+  <!-- 數獨（v1.61：悠閒·邏輯推理） -->
+  <div class="gsec" id="sdkCard">
+    <h2>🔢 數獨（悠閒 · 邏輯推理）</h2>
+    <span class="folk">每行、每列、每宮數字不重複。純本地生成＋唯一解校驗，計時與最佳紀錄跟賬號存本機。</span>
+    <div class="subnav" id="sdkChips">
+      <button data-sdk="4" class="on">4×4 入門</button>
+      <button data-sdk="6">6×6 進階</button>
+      <button data-sdk="9">9×9 挑戰</button>
+    </div>
+    <div style="display:flex;gap:14px;align-items:center;padding:0 12px;flex-wrap:wrap">
+      <span>⏱ <b id="sdkTime">0</b> 秒</span>
+      <span>本尺寸最佳：<b id="sdkBest">—</b> 秒</span>
+      <button class="btn" id="sdkNew">🎲 新盤</button>
+      <button class="btn" id="sdkCheck">✅ 檢查</button>
+      <button class="btn" id="sdkHint">💡 提示一格</button>
+    </div>
+    <div id="sdkMsg" style="padding:6px 12px;min-height:20px;font-size:13px">出盤中…</div>
+    <div id="sdkGrid" class="sdkGrid"></div>
+    <div id="sdkNums" class="subnav" style="justify-content:center"></div>
+    <p class="snake-tip" style="text-align:center">先點格子選中，再點下面的數字填入；電腦可直接按數字鍵，⌫／0 清除。灰色固定格不可改。</p>
+  </div>
 </div>
 
 <div class="mask" id="mask">
@@ -2618,6 +2650,182 @@ function renderRead(){
   }
 })();
 renderTermChips();renderTutorTerms();renderTutorFt();renderTutorIv();renderRead();
+
+// ---- 數獨（v1.61：4×4/6×6/9×9 唯一解生成·衝突高亮·提示·計時最佳） ----
+const SDK_CONF={4:{rb:2,cb:2,holes:9,fs:'22px',w:'240px'},6:{rb:2,cb:3,holes:22,fs:'18px',w:'310px'},9:{rb:3,cb:3,holes:48,fs:'15px',w:'420px'}};
+const sdkS={n:4,rb:2,cb:2,sol:null,puz:null,cur:null,sel:-1,sec:0,timer:null,done:false,hints:0};
+function sdkRow(i){return Math.floor(i/sdkS.n);} function sdkCol(i){return i%sdkS.n;}
+function sdkIdx(r,c){return r*sdkS.n+c;}
+function sdkBoxOf(i){return Math.floor(sdkRow(i)/sdkS.rb)*(sdkS.n/sdkS.cb)+Math.floor(sdkCol(i)/sdkS.cb);}
+function sdkOk(bd,i,v){
+  const n=sdkS.n,r=sdkRow(i),c=sdkCol(i);
+  for(let k=0;k<n;k++){if(bd[sdkIdx(r,k)]===v||bd[sdkIdx(k,c)]===v)return false;}
+  const r0=Math.floor(r/sdkS.rb)*sdkS.rb,c0=Math.floor(c/sdkS.cb)*sdkS.cb;
+  for(let dr=0;dr<sdkS.rb;dr++)for(let dc=0;dc<sdkS.cb;dc++){if(bd[sdkIdx(r0+dr,c0+dc)]===v)return false;}
+  return true;
+}
+function sdkFill(bd){
+  const n=sdkS.n,vals=[...Array(n).keys()].map(k=>k+1);
+  function rec(pos){
+    if(pos===n*n)return true;
+    for(let i=vals.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=vals[i];vals[i]=vals[j];vals[j]=t;}
+    for(let k=0;k<n;k++){const v=vals[k];if(sdkOk(bd,pos,v)){bd[pos]=v;if(rec(pos+1))return true;bd[pos]=0;}}
+    return false;
+  }
+  return rec(0);
+}
+function sdkCountSol(bd,limit){
+  const n=sdkS.n;const uR=[],uC=[],uB=[];
+  for(let i=0;i<n;i++){uR.push(new Set());uC.push(new Set());uB.push(new Set());}
+  for(let i=0;i<n*n;i++){const v=bd[i];if(v){uR[sdkRow(i)].add(v);uC[sdkCol(i)].add(v);uB[sdkBoxOf(i)].add(v);}}
+  let count=0;
+  function rec(){
+    if(count>=limit)return;
+    let best=-1,bestCand=null;
+    for(let i=0;i<n*n;i++){
+      if(bd[i])continue;
+      const cand=[];
+      for(let v=1;v<=n;v++)if(!uR[sdkRow(i)].has(v)&&!uC[sdkCol(i)].has(v)&&!uB[sdkBoxOf(i)].has(v))cand.push(v);
+      if(!cand.length)return;
+      if(!bestCand||cand.length<bestCand.length){best=i;bestCand=cand;if(cand.length===1)break;}
+    }
+    if(best===-1){count++;return;}
+    for(const v of bestCand){
+      bd[best]=v;uR[sdkRow(best)].add(v);uC[sdkCol(best)].add(v);uB[sdkBoxOf(best)].add(v);
+      rec();
+      bd[best]=0;uR[sdkRow(best)].delete(v);uC[sdkCol(best)].delete(v);uB[sdkBoxOf(best)].delete(v);
+      if(count>=limit)return;
+    }
+  }
+  rec();return count;
+}
+function sdkGenPuzzle(holes){
+  const total=sdkS.n*sdkS.n;
+  const sol=new Array(total).fill(0);
+  if(!sdkFill(sol))return sdkGenPuzzle(holes);
+  const puz=sol.slice();
+  const order=[...Array(total).keys()];
+  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=order[i];order[i]=order[j];order[j]=t;}
+  let removed=0;
+  for(const i of order){
+    if(removed>=holes)break;
+    const bak=puz[i];puz[i]=0;
+    if(sdkCountSol(puz.slice(),2)===1)removed++;else puz[i]=bak;
+  }
+  return {sol,puz};
+}
+function sdkKey(){return 'hkk_sudoku_best_'+sdkS.n;}
+function sdkShowBest(){const el=document.getElementById('sdkBest');if(!el)return;const b=+localStorage.getItem(sdkKey())||0;el.textContent=b?b:'—';}
+function sdkStartTimer(){
+  if(sdkS.timer)clearInterval(sdkS.timer);
+  sdkS.timer=setInterval(function(){if(sdkS.done)return;sdkS.sec++;const el=document.getElementById('sdkTime');if(el)el.textContent=sdkS.sec;},1000);
+  const el=document.getElementById('sdkTime');if(el)el.textContent='0';
+}
+function sdkConflicts(){
+  const grid=document.getElementById('sdkGrid');if(!grid)return;
+  const cells=grid.querySelectorAll('.sdkCell'),n=sdkS.n,groups=[];
+  for(let r=0;r<n;r++){const g=[];for(let c=0;c<n;c++)g.push(sdkIdx(r,c));groups.push(g);}
+  for(let c=0;c<n;c++){const g=[];for(let r=0;r<n;r++)g.push(sdkIdx(r,c));groups.push(g);}
+  for(let b=0;b<n;b++){
+    const r0=Math.floor(b/(n/sdkS.cb))*sdkS.rb,c0=(b%(n/sdkS.cb))*sdkS.cb,g=[];
+    for(let dr=0;dr<sdkS.rb;dr++)for(let dc=0;dc<sdkS.cb;dc++)g.push(sdkIdx(r0+dr,c0+dc));
+    groups.push(g);
+  }
+  cells.forEach(el=>el.classList.remove('conflict'));
+  groups.forEach(function(g){
+    const seen={};
+    g.forEach(function(i){const v=sdkS.cur[i];if(v){(seen[v]=seen[v]||[]).push(i);}});
+    Object.keys(seen).forEach(function(k){if(seen[k].length>1)seen[k].forEach(function(i){cells[i].classList.add('conflict');});});
+  });
+}
+function sdkRenderNums(){
+  const box=document.getElementById('sdkNums');if(!box)return;
+  let html='';
+  for(let v=1;v<=sdkS.n;v++)html+='<button data-v="'+v+'">'+v+'</button>';
+  html+='<button data-v="0" title="清除">⌫</button>';
+  box.innerHTML=html;
+  box.querySelectorAll('button').forEach(b=>b.onclick=()=>sdkSet(+b.dataset.v));
+}
+function sdkRender(){
+  const grid=document.getElementById('sdkGrid');if(!grid)return;
+  const conf=SDK_CONF[sdkS.n];
+  grid.style.maxWidth=conf.w;grid.style.fontSize=conf.fs;
+  grid.style.gridTemplateColumns='repeat('+sdkS.n+',1fr)';
+  let html='';
+  for(let i=0;i<sdkS.n*sdkS.n;i++){
+    const r=sdkRow(i),c=sdkCol(i);let cls='sdkCell';
+    if((c+1)%sdkS.cb===0&&c<sdkS.n-1)cls+=' br';
+    if((r+1)%sdkS.rb===0&&r<sdkS.n-1)cls+=' bb';
+    if(sdkS.puz[i]!==0)cls+=' given';
+    if(i===sdkS.sel)cls+=' sel';
+    html+='<div class="'+cls+'" data-i="'+i+'">'+(sdkS.cur[i]||'')+'</div>';
+  }
+  grid.innerHTML=html;
+  grid.querySelectorAll('.sdkCell').forEach(el=>el.onclick=()=>{const i=+el.dataset.i;if(sdkS.puz[i]!==0)return;sdkS.sel=(sdkS.sel===i?-1:i);sdkRender();});
+  sdkRenderNums();sdkConflicts();
+}
+function sdkCheckDone(){
+  for(let i=0;i<sdkS.n*sdkS.n;i++)if(sdkS.cur[i]!==sdkS.sol[i])return;
+  sdkS.done=true;if(sdkS.timer){clearInterval(sdkS.timer);sdkS.timer=null;}
+  const k=sdkKey(),best=+localStorage.getItem(k)||0;
+  let msg='🎉 完成！用時 '+sdkS.sec+' 秒'+(sdkS.hints?'（用了 '+sdkS.hints+' 次提示）':'');
+  if(!best||sdkS.sec<best){localStorage.setItem(k,sdkS.sec);msg+=' · 🏅 新紀錄！';sdkShowBest();}
+  const m=document.getElementById('sdkMsg');if(m)m.textContent=msg;
+}
+function sdkSet(v){
+  if(sdkS.sel<0||sdkS.done)return;
+  const i=sdkS.sel;if(sdkS.puz[i]!==0)return;
+  sdkS.cur[i]=v;sdkRender();sdkCheckDone();
+}
+function sdkHint(){
+  if(sdkS.done)return;
+  let i=sdkS.sel;
+  if(i<0||sdkS.cur[i]===sdkS.sol[i]){
+    const empt=[];for(let k=0;k<sdkS.n*sdkS.n;k++)if(sdkS.cur[k]!==sdkS.sol[k])empt.push(k);
+    if(!empt.length)return;
+    i=empt[Math.floor(Math.random()*empt.length)];
+  }
+  sdkS.cur[i]=sdkS.sol[i];sdkS.hints++;
+  if(sdkS.sel===i)sdkS.sel=-1;
+  sdkRender();sdkCheckDone();
+}
+function sdkCheckBtn(){
+  const grid=document.getElementById('sdkGrid');if(!grid)return;
+  let wrong=0,empty=0;
+  grid.querySelectorAll('.sdkCell').forEach(function(el){
+    const i=+el.dataset.i;el.classList.remove('wrong');
+    if(sdkS.puz[i]!==0)return;
+    if(!sdkS.cur[i]){empty++;return;}
+    if(sdkS.cur[i]!==sdkS.sol[i]){el.classList.add('wrong');wrong++;}
+  });
+  const m=document.getElementById('sdkMsg');
+  if(m)m.textContent=wrong?('❌ 有 '+wrong+' 格不對（紅框標出）'+(empty?'，還有 '+empty+' 格空著':'')):(empty?('目前為止全對，還有 '+empty+' 格空著——繼續！'):'全對！');
+}
+function sdkNew(n){
+  sdkS.n=n;sdkS.rb=SDK_CONF[n].rb;sdkS.cb=SDK_CONF[n].cb;
+  const g=sdkGenPuzzle(SDK_CONF[n].holes);
+  sdkS.sol=g.sol;sdkS.puz=g.puz;sdkS.cur=g.puz.slice();sdkS.sel=-1;sdkS.sec=0;sdkS.done=false;sdkS.hints=0;
+  sdkRender();sdkStartTimer();sdkShowBest();
+  const m=document.getElementById('sdkMsg');if(m)m.textContent='新盤已生成（唯一解）——加油！';
+}
+document.querySelectorAll('#sdkChips button').forEach(b=>b.onclick=function(){
+  document.querySelectorAll('#sdkChips button').forEach(x=>x.classList.toggle('on',x===b));
+  sdkNew(+b.dataset.sdk);
+});
+document.getElementById('sdkNew').onclick=()=>sdkNew(sdkS.n);
+document.getElementById('sdkCheck').onclick=sdkCheckBtn;
+document.getElementById('sdkHint').onclick=sdkHint;
+document.addEventListener('keydown',function(e){
+  if(curTab!=='fun')return;
+  if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'))return;
+  if(!/^[0-9]$/.test(e.key)&&e.key!=='Backspace'&&e.key!=='Delete')return;
+  const v=(e.key==='Backspace'||e.key==='Delete'||e.key==='0')?0:+e.key;
+  if(v>sdkS.n)return;
+  sdkSet(v);
+});
+window.__sdkTest=function(){return{n:sdkS.n,given:sdkS.puz.filter(v=>v!==0).length,cells:document.querySelectorAll('#sdkGrid .sdkCell').length,puz:sdkS.puz.slice(),sol:sdkS.sol.slice(),cur:sdkS.cur.slice(),timerOn:!!sdkS.timer,hints:sdkS.hints,done:sdkS.done};};
+window.__sdkFillSol=function(){sdkS.cur=sdkS.sol.slice();sdkS.sel=-1;sdkRender();sdkCheckDone();};
+sdkNew(4);
 
 // ---- 主導航 + 子導航 ----
 let curTab='plan', curGuide='cn', curPractice='cn', curPlan='timeline';
@@ -3967,7 +4175,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.60',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.61',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

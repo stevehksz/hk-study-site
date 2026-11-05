@@ -289,6 +289,44 @@ try{
   ok('v1.60 測後切回 timeline（不污染後續默認態斷言）', doc.getElementById('timelineView').style.display !== 'none');
 }catch(e){ ok('v1.60 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.61 悠閒·數獨（4×4/6×6/9×9 唯一解·衝突·提示·計時） ============
+try{
+  ok('v1.61 sdkCard＋難度 chips=3 存在', !!doc.getElementById('sdkCard') && doc.querySelectorAll('#sdkChips button').length===3);
+  const ST=window.__sdkTest;
+  ok('v1.61 默認 4×4 出盤(16格)('+ST().cells+')', ST().n===4 && ST().cells===16);
+  ok('v1.61 給定數字≥7('+ST().given+')', ST().given>=7);
+  ok('v1.61 計時器已啟動', ST().timerOn);
+  const t0=ST(); let empty=-1;
+  for(let i=0;i<t0.puz.length;i++)if(!t0.puz[i]){empty=i;break;}
+  doc.querySelectorAll('#sdkGrid .sdkCell')[empty].click();
+  doc.querySelector('#sdkNums button[data-v="'+t0.sol[empty]+'"]').click();
+  ok('v1.61 選格＋正確填數生效', doc.querySelectorAll('#sdkGrid .sdkCell')[empty].textContent===String(t0.sol[empty]));
+  const t1=ST(); let cell=-1,dup=0;
+  outer:
+  for(let i=0;i<t1.puz.length;i++){
+    if(t1.puz[i]||i===empty)continue;
+    for(let j=0;j<t1.puz.length;j++){
+      if(j!==i && Math.floor(j/t1.n)===Math.floor(i/t1.n) && t1.cur[j] && t1.puz[j]){dup=t1.cur[j];cell=i;break outer;}
+    }
+  }
+  if(cell>=0){
+    doc.querySelectorAll('#sdkGrid .sdkCell')[cell].click();
+    doc.querySelector('#sdkNums button[data-v="'+dup+'"]').click();
+  }
+  ok('v1.61 同行重複→衝突標紅('+(cell>=0)+')', cell>=0 && !!doc.querySelector('#sdkGrid .sdkCell.conflict'));
+  const h0=ST().hints;
+  doc.getElementById('sdkHint').click();
+  ok('v1.61 提示填對一格(hints '+(h0+1)+')', ST().hints===h0+1);
+  doc.querySelector('#sdkChips button[data-sdk="9"]').click();
+  ok('v1.61 切 9×9＝81 格('+ST().cells+')', ST().n===9 && ST().cells===81);
+  ok('v1.61 9×9 給定數≥30（唯一解盤）('+ST().given+')', ST().given>=30);
+  ok('v1.61 9×9 盤面自洽（給定處處無衝突）', !doc.querySelector('#sdkGrid .sdkCell.given.conflict'));
+  window.__sdkFillSol();
+  ok('v1.61 填滿正解→完成＋計時停', ST().done && doc.getElementById('sdkMsg').textContent.includes('完成') && !ST().timerOn);
+  doc.querySelector('#sdkChips button[data-sdk="4"]').click();
+  ok('v1.61 切回 4×4 重新出盤', ST().n===4 && ST().cells===16 && !ST().done && ST().given>=7);
+}catch(e){ ok('v1.61 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();
