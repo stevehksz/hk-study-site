@@ -509,6 +509,27 @@ try{
   ok('v1.70 窄屏已清 cta-right 的 flex-basis', /\.cta-right\{flex:0 0 auto;width:100%;min-width:0\}/.test(html));
 }catch(e){ ok('v1.70 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.71 微信二維碼上線（彈窗 200px＋全屏放大層） ============
+try{
+  const qrFile='assets/wechat_qr.png';
+  const qrSize=fs.existsSync(qrFile)?fs.statSync(qrFile).size:0;
+  ok('v1.71 二維碼圖檔存在且 ≥100KB（686px 無損 PNG）', qrSize>=100*1024);
+  const qrImgs=[...doc.querySelectorAll('img[src="assets/wechat_qr.png"]')];
+  ok('v1.71 兩處 img 指向同一碼圖（彈窗＋放大層）', qrImgs.length===2 && !!doc.getElementById('ctaQrImg') && !!doc.getElementById('qrZoomImg'));
+  const qi=doc.getElementById('ctaQrImg');
+  ok('v1.71 彈窗二維碼放大到 200px（原 150px）', qi.getAttribute('width')==='200' && qi.getAttribute('height')==='200' && /\.cta-qr\{[^}]*flex:0 0 202px/.test(html));
+  ok('v1.71 彈窗碼下文案含「點圖放大／長按存圖」', /點圖放大 · 長按存圖/.test(html));
+  const cmTxt=doc.getElementById('ctaModal').textContent;
+  ok('v1.71 三條分場景指引齊（相冊／掃屏幕上／添加朋友）', cmTxt.includes('相冊') && cmTxt.includes('掃屏幕上') && cmTxt.includes('添加朋友'));
+  const z=doc.getElementById('qrZoom');
+  ok('v1.71 #qrZoom 定位用老語法 left/top/width/height（不用 inset 簡寫）',
+     !!z && /#qrZoom\{display:none;position:fixed;left:0;top:0;width:100%;height:100%/.test(html) && !/#qrZoom\{[^}]*inset:/.test(html));
+  ok('v1.71 放大層圖寬 86vw／最大 520px', /#qrZoom img\{[^}]*width:86vw[^}]*max-width:520px/.test(html));
+  ok('v1.71 放大層說明含長按存圖＋另一台設備掃', !!z && z.textContent.includes('長按') && z.textContent.includes('掃'));
+  ok('v1.71 點碼開放大層、點背景關而點圖片不關',
+     /qr\.onclick=\(\)=>\{[^}]*zoom\.classList\.add\('show'\)/.test(html) && /e\.target!==document\.getElementById\('qrZoomImg'\)/.test(html));
+}catch(e){ ok('v1.71 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();

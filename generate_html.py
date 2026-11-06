@@ -6,7 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
-v1.70：葉工問「登陸界面可以用微信登陸然後獲取微信號碼嗎，還是怎麼樣吸引別人加到我的微信」——結論：微信登錄拿微信號在三條路上全堵（①微信開放平台「網站應用」掃碼登錄需企業主體＋備案域名，本站是 workbuddy 托管域＋GitHub Pages 無備案；②公眾號網頁授權需認證服務號，個人訂閱號無權限；③微信從未向第三方開放微信號字段，手機號僅小程序 getPhoneNumber 且需企業主體），故轉向「讓對方主動加」的合規引流改造：①浮動鈕文案「💬 諮詢葉工」→「💬 加微信 · 進插班群」；②ctaModal 全面重寫——標題「加微信 · 進插班家長群」、頂部二維碼位（assets/wechat_qr.png，JS 用 img.complete&&naturalWidth 偵測，圖存在才 display:flex 顯示、加載失敗整塊隱藏不出破圖，未傳圖時彈窗靠微信號＋複製仍完整可用）、右側微信號＋📋複製＋複製後操作指引、「加進來能得到什麼」三條清單（插班家長群／問題直接問不推銷／政策與名額更新）、底部郵件與公眾號兜底；③新增 .cta-strip 情境化 CTA 三處——擇校分檔底部（看完 70 所還在搖擺）、學習路線底部（路線按小六英文中上排，起點不同可對照）、補習材料底部（打卡卡在第 3 週正常），點擊統一走 window.openCta()（原 IIFE 內部改為全域函數，不複製彈窗邏輯）；④_gh_sync.py FILE_MAP 加 assets/wechat_qr.png（缺失自動跳過），新建 assets/ 含放置說明；⑤窄屏 .cta-flex 轉列、.cta-strip 堆疊且按鈕滿寬；版權說明：葉工原要求把某 share.google 短鏈的模擬卷拷進站，因短鏈本機打不開且模擬卷屬商業版權（倉庫已公開＝公開發行），未拷入，改為待其提供內容後僅提煉題型結構仿寫；verify2 新增 12 項（浮動鈕文案／彈窗標題／三條理由清單／二維碼位默認隱藏／複製鈕／三處 cta-strip 存在且 onclick 正確／openCta 全域可調用）＋434→446 項
+v1.71：葉工發來微信個人二維碼圖片並問「能不能直接識別，別人加我」——①先驗真：cv2 解出內容 https://u.wechat.com/MKpsNHQUMQl6ml4hMG2bqmw?s=4（微信個人碼短鏈格式正確），普通瀏覽器訪問 301 跳 www.wechat.com 屬正常（該鏈僅微信客戶端識別），碼本身清晰可解；②圖片處理：原 JPEG 有壓縮噪點，轉 686×686 無損 PNG 存 assets/wechat_qr.png（349KB，轉換後復檢仍可解出同一鏈）；③站內接入：加微信彈窗二維碼由 150px 放大到 200px（.cta-qr flex-basis 152→202），圖片下方文案改「點圖放大 · 長按存圖」，右側補三條分場景指引（手機長按存相冊→微信掃一掃→右上相冊選圖／電腦用手機微信掃屏幕／或複製微信號粘貼搜索）；④新增全屏放大層 #qrZoom——點二維碼彈出，圖寬 86vw／最大 520px，手機可在此層長按存原分辨率圖、另一台設備可直接掃屏幕，點背景或 × 關閉、點圖片本身不關（留長按時間）；定位用 left/top/width/height 分寫不用 inset 簡寫（沿用 v1.64 舊 WebView 教訓），放 body 頂層避免動畫祖先劫持 fixed；⑤assets/README.txt 改寫為換碼手冊；_gh_sync.py 已含該文件夾映射，缺失自動跳過、加載失敗彈窗內整塊隱藏不出破圖；⑥驗證邊界說明：OpenCV 檢測器對這種彩色漸變碼只在原分辨率穩定（縮到 1/2 即失敗），故未據此下可掃性結論——真實可掃性需微信實測；已知風險：非微信原生黑白碼，屏幕小尺寸/低光/反光下識別率可能下降，已用「放大 + 可點全屏 + 長按存原圖」三條路兜底；verify2 新增 9 項（qr 圖檔存在且 ≥100KB／兩處 img 指向同一文件／彈窗顯示 200px／碼下文案／三條分場景指引／#qrZoom 老語法定位且無 inset／qrZoom 圖寬 86vw／放大層說明含長按／點碼開放大層且點圖不關）＋453→462 項\nv1.70：葉工問「登陸界面可以用微信登陸然後獲取微信號碼嗎，還是怎麼樣吸引別人加到我的微信」——結論：微信登錄拿微信號在三條路上全堵（①微信開放平台「網站應用」掃碼登錄需企業主體＋備案域名，本站是 workbuddy 托管域＋GitHub Pages 無備案；②公眾號網頁授權需認證服務號，個人訂閱號無權限；③微信從未向第三方開放微信號字段，手機號僅小程序 getPhoneNumber 且需企業主體），故轉向「讓對方主動加」的合規引流改造：①浮動鈕文案「💬 諮詢葉工」→「💬 加微信 · 進插班群」；②ctaModal 全面重寫——標題「加微信 · 進插班家長群」、頂部二維碼位（assets/wechat_qr.png，JS 用 img.complete&&naturalWidth 偵測，圖存在才 display:flex 顯示、加載失敗整塊隱藏不出破圖，未傳圖時彈窗靠微信號＋複製仍完整可用）、右側微信號＋📋複製＋複製後操作指引、「加進來能得到什麼」三條清單（插班家長群／問題直接問不推銷／政策與名額更新）、底部郵件與公眾號兜底；③新增 .cta-strip 情境化 CTA 三處——擇校分檔底部（看完 70 所還在搖擺）、學習路線底部（路線按小六英文中上排，起點不同可對照）、補習材料底部（打卡卡在第 3 週正常），點擊統一走 window.openCta()（原 IIFE 內部改為全域函數，不複製彈窗邏輯）；④_gh_sync.py FILE_MAP 加 assets/wechat_qr.png（缺失自動跳過），新建 assets/ 含放置說明；⑤窄屏 .cta-flex 轉列、.cta-strip 堆疊且按鈕滿寬；版權說明：葉工原要求把某 share.google 短鏈的模擬卷拷進站，因短鏈本機打不開且模擬卷屬商業版權（倉庫已公開＝公開發行），未拷入，改為待其提供內容後僅提煉題型結構仿寫；verify2 新增 12 項（浮動鈕文案／彈窗標題／三條理由清單／二維碼位默認隱藏／複製鈕／三處 cta-strip 存在且 onclick 正確／openCta 全域可調用）＋434→446 項
 v1.69：葉工圈截圖問「詞彙路線圖是不是要放第一，子目錄的順序幫我看一下怎麼排比較合理」——練習→英文 6 個子頁按「學習動線」重排：原序 中小學單詞／詞表／升中面試／英文卷／詞彙路線圖／呈分試卷（路線圖埋在第 5，新訪客看不到總覽）→ 新序 詞彙路線圖→中小學單詞→詞表→英文卷→呈分試卷→升中面試，邏輯為 總覽（該背多少・怎麼背）→ 詞彙輸入（分級詞卡＋通用詞表）→ 筆試輸出（分級練習卷→呈分試模擬）→ 口語輸出（面試）；①路線圖升為第 1 顆按鈕並設默認 on，hkView 加 display:none、goalView 去掉；②路線圖頁頂加 4 顆動線按鈕（🎴去背單詞／📝去出練習卷／🎯模擬呈分試／🗣升中面試）＋說明「本頁是總覽」，新增 enGoSub(es) 複用既有切換邏輯（找對應 data-es 按鈕 .click()，不另寫顯隱代碼）；③順帶把「③ 本家庭落點」改中性口吻「③ 示例落點與推進路線」（原句「按六年級必背古詩詞素材推算，當前約小六水平」是第一人稱自評，公開站對訪客無意義）；④DOM 內各子頁 div 物理順序未動（切換靠 display，按鈕順序即用戶可見順序），加註釋說明；verify2 新增 5 項（首顆 goal＋on／按鈕順序數組／默認 goalView 顯示 hkView 隱藏／動線鈕 4 顆／點🎴去背單詞後 hkView 顯示）＋424→429 項；未採納：加「記住上次看的子頁」localStorage（多一次點擊成本極低，但會讓子頁狀態跨會話漂移、測試不穩，違反能不加以不加）
 v1.68：葉工圈截圖「補習材料·女兒學習角」——①刪掉站內關於女兒的介紹：頁標題「補習材料 · 女兒學習角（插中一 · 35 週減壓版）」→「補習材料（插中一 · 35 週減壓版）」；關於葉工卡「本站最初為女兒的插班學習工具」→「本站為來港插班家庭整理的實用工具站」；源碼註釋同步去「女兒學習角」表述（全站可見文本已無「女兒/女儿/涵涵」）。②補習材料頁折疊優化：7 個 gsec 塊（① 35 週排期表＋每週課表／② 教材與資源清單／③ 面試話題庫／④ 數學術語翻卡／⑤ 繁體認讀翻卡／⑥ 教育局官方字表／⑦ 泛讀打卡）轉 `details.gsec.fold`＋`summary.gsec-h`（Python 腳本 div 深度淨計數配對轉換，複用 v1.65 方法；站內本已有 .gsec/.gsec-h 折疊樣式組，直接複用不新造），默認只展開 ①（第一屏仍是整體節奏），其餘 6 塊收起——頁面從約 15 屏降到 2 屏，7 個模塊標題一眼看全；CSS 補 fold 標題條字號 15px／min-height 44px（觸控友好）／hover 變色／展開態分隔線／收起態間距緊湊；頭部加一條藍底提示說明「點標題條展開」。verify2 加 6 項斷言（7 details/1 open/標題條文本/女兒字樣已清/fcard 仍渲染 60+100/泛讀 21 格）。
 v1.67：葉工圈三張截圖要求刪改——①「原則與來源」卡：刪掉紅線標注的框架出處整句（2025-12-01 公眾號文章《13歲，雅思8分，沒刷一套題》＋該文為機構軟文說明），刪後「不能照搬其三年打底」失去指代，整理重寫為「原則」卡：能力是主線／應試是兌換分數的動作＋兩點本地化（不能照搬三年打底 6–12 個月時間窗、純英文路線會漏繁體中文卷／英文題幹數學卷／粵語面試）；②「關於葉工·諮詢與合作」卡字號過大——加 .about-card 專屬字號（h2 17px、正文 12.5px/行高 1.75、folk 11px），不動全局 .gcard 樣式；③免責聲明刪「牛津樹／朗文等教材內容僅限家庭學習，勿商用或外傳」（v1.53 已下線繪本閱讀/朗文詞庫，站內無此類內容，聲明失去對象；補習材料頁的教材版權提醒保留）。
@@ -544,12 +544,16 @@ header{position:relative}
   #ctaModal .wechat{font-size:22px;font-weight:800;letter-spacing:.5px;color:#1a5fc4;background:#f0f6ff;border:1px dashed #9cc0ee;border-radius:8px;padding:10px 14px;text-align:center;margin:10px 0}
   /* v1.70 微信引流：彈窗（二維碼＋微信號＋加群理由）與工具頁情境條 */
   #ctaModal{max-width:520px}
-  .cta-flex{display:flex;gap:18px;margin:14px 0 6px;flex-wrap:wrap;align-items:flex-start}
-  .cta-qr{display:flex;flex-direction:column;align-items:center;gap:6px;flex:0 0 152px}
-  .cta-qr img{display:block;border:1px solid var(--line);border-radius:10px;background:#fff}
-  .cta-qr span{font-size:11px;color:#8a8aa0}
+  .cta-flex{display:flex;gap:18px;margin:14px 0 4px;flex-wrap:wrap;align-items:center}
+  .cta-qr{display:flex;flex-direction:column;align-items:center;gap:6px;flex:0 0 202px}
+  .cta-qr img{display:block;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:zoom-in}
+  .cta-qr span{font-size:11px;color:#8a8aa0;text-align:center;line-height:1.5}
   .cta-right{flex:1 1 220px;min-width:190px}
   .cta-tip{font-size:12px;color:#8a8aa0;margin:2px 0 0}
+  /* v1.71 三條加好友路徑：全寬獨立塊，避免擠在右欄變碎行 */
+  .cta-guide{background:#f7f9fd;border:1px solid #e2eaf6;border-radius:10px;padding:10px 13px;margin:10px 0 4px}
+  .cta-guide p{margin:0;font-size:12.5px;line-height:1.95;color:#475069}
+  .cta-guide b{display:inline-block;min-width:40px;color:#1a5fc4;font-weight:700}
   .cta-why{background:#f6fbfa;border:1px solid #d6ece8;border-radius:12px;padding:12px 14px;margin:12px 0 8px}
   .cta-why h4{margin:0 0 7px;font-size:13.5px;color:#0d5a53}
   .cta-why ul{margin:0;padding-left:18px}
@@ -560,16 +564,38 @@ header{position:relative}
   .cta-strip .btn{flex:0 0 auto;background:#1a5fc4;border-color:#1a5fc4;color:#fff;font-weight:700}
   .cta-strip .btn:hover{background:#1550a6;border-color:#1550a6;color:#fff}
   @media screen and (max-width:640px){
-    .cta-flex{flex-direction:column;gap:12px}
-    /* flex-basis 在 column 方向會變成「高度」，必須清掉 152px/220px 的 basis，否則撐出大塊空白 */
-    .cta-qr{flex:0 0 auto;width:100%}
+    .cta-flex{flex-direction:column;gap:10px;margin:10px 0 4px}
+    /* flex-basis 在 column 方向會變成「高度」，必須清掉 202px/220px 的 basis，否則撐出大塊空白 */
+    .cta-qr{flex:0 0 auto;width:100%;gap:4px}
+    /* 窄屏碼縮到 140 顯示（點開放大看原圖），否則彈窗遠高於視口要滾動 */
+    .cta-qr img{width:140px;height:140px}
+    /* 圖注「點圖放大·長按存圖」與下面指引第一條重複，窄屏省掉 */
+    .cta-qr span{display:none}
     .cta-right{flex:0 0 auto;width:100%;min-width:0}
+    #ctaModal .wechat{font-size:20px;padding:8px 12px;margin:8px 0}
+    #ctaModal #ctaCopy{padding:7px 14px;width:100%}
+    /* 手機上只留第一條指引（長按存圖）；「電腦掃屏幕」「粘貼搜索」在手機用不到，白佔高度 */
+    /* 手機上只留「長按存圖」這條；「電腦掃屏幕」「手打搜索」在手機用不到，白佔高度 */
+    .cta-guide{padding:9px 11px;margin:8px 0 4px}
+    .cta-guide p{font-size:12px;line-height:1.75}
+    .cta-guide p:nth-of-type(2),.cta-guide p:nth-of-type(3){display:none}
+    .cta-why{padding:10px 12px;margin:10px 0 6px}
+    .cta-why h4{margin:0 0 5px;font-size:13px}
+    .cta-why ul{padding-left:16px}
+    .cta-why li{font-size:12.5px;line-height:1.6}
+    .cta-alt{margin:6px 0 0}
     .cta-strip{flex-direction:column;align-items:stretch;text-align:center;padding:14px}
     .cta-strip .btn{width:100%}
   }
   /* 彈窗打開時收起浮動鈕與右上賬號膠囊，避免壓在彈窗上 */
   body.cta-open #ctaFab,body.cta-open #userChip{display:none!important}
   .cta-alt a{color:#1a5fc4;font-weight:600}
+  /* v1.71 二維碼放大查看：手機長按存原圖 / 另一台設備掃屏幕大圖。定位用 left/top/width/height 分寫，不用 inset 簡寫（舊 WebView 不認） */
+  #qrZoom{display:none;position:fixed;left:0;top:0;width:100%;height:100%;z-index:10001;background:rgba(12,12,22,.93);align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:18px;box-sizing:border-box}
+  #qrZoom.show{display:flex}
+  #qrZoom img{display:block;width:86vw;max-width:520px;height:auto;max-height:60vh;background:#fff;border-radius:12px;padding:10px}
+  #qrZoom p{margin:0;color:#fff;font-size:13px;line-height:1.85;text-align:center;max-width:430px}
+  #qrZoom .qr-x{position:absolute;right:14px;top:10px;color:#fff;font-size:26px;line-height:1;opacity:.75;cursor:pointer;padding:6px}
   @media print{#ctaFab{display:none!important}}
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
@@ -615,13 +641,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.70（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.71（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.70（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.71（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1759,14 +1785,19 @@ Thank you for your time.</div>
     <p class="sub">同區同級家長互相對照，踩過的坑有人提醒。加好友請備註「孩子年級＋目標區」，方便我拉你進對應的群。</p>
     <div class="cta-flex">
       <div class="cta-qr" id="ctaQrBox" style="display:none">
-        <img id="ctaQrImg" src="assets/wechat_qr.png" alt="葉工微信二維碼" width="150" height="150">
-        <span>長按識別 / 掃碼加好友</span>
+        <img id="ctaQrImg" src="assets/wechat_qr.png" alt="葉工微信二維碼" width="200" height="200">
+        <span>點圖放大 · 長按存圖</span>
       </div>
       <div class="cta-right">
         <div class="wechat">SteveHKSZ</div>
         <button class="btn" id="ctaCopy" style="padding:9px 16px">📋 複製微信號</button>
-        <p class="cta-tip">複製後打開微信 → 添加朋友 → 粘貼搜索</p>
       </div>
+    </div>
+    <!-- v1.71 三條加好友路徑：右欄寬度不夠會把指引擠成碎行，改全寬獨立塊 -->
+    <div class="cta-guide">
+      <p><b>手機</b>長按上圖存相冊 → 微信「掃一掃」→ 右上角相冊選圖</p>
+      <p><b>電腦</b>手機微信「掃一掃」直接掃屏幕上這張碼</p>
+      <p><b>手打</b>複製微信號 → 微信「添加朋友」粘貼搜索</p>
     </div>
     <div class="cta-why">
       <h4>加進來能得到什麼</h4>
@@ -1778,6 +1809,13 @@ Thank you for your time.</div>
     </div>
     <p class="cta-alt">不方便加微信？<a href="mailto:hkeec2023@gmail.com">郵件諮詢</a>　｜　公眾號搜「史蒂夫HKSZ」看插班乾貨</p>
   </div>
+</div>
+
+<!-- v1.71 二維碼放大：手機長按存原圖（686px），或另一台設備掃屏幕大圖 -->
+<div id="qrZoom">
+  <span class="qr-x" id="qrZoomX">×</span>
+  <img id="qrZoomImg" src="assets/wechat_qr.png" alt="葉工微信二維碼（放大）">
+  <p>手機長按圖片 → 存到相冊 → 微信「掃一掃」→ 右上角相冊選圖<br>或用另一台手機的微信直接掃這張圖</p>
 </div>
 
 <div class="wrap" id="aboutView">
@@ -3062,6 +3100,13 @@ function showMain(m){
     // complete 時要顯式判斷：圖片 404 可能在腳本執行前就結束，onerror 錯過就永遠不會觸發
     if(qr.complete){ if(qr.naturalWidth>0) showQr(); else hideQr(); }
     else { qr.onload=showQr; qr.onerror=hideQr; }
+  }
+  // v1.71 點圖放大：手機端長按存原圖（686px 原分辨率）、另一台設備直接掃屏幕大圖
+  const zoom=document.getElementById('qrZoom');
+  if(qr&&zoom){
+    qr.onclick=()=>{ if(qr.naturalWidth>0) zoom.classList.add('show'); };
+    // 點圖片本身不關（要留時間長按存圖），點背景或 × 才關
+    zoom.onclick=e=>{ if(e.target!==document.getElementById('qrZoomImg')) zoom.classList.remove('show'); };
   }
   const cp=document.getElementById('ctaCopy');
   if(cp)cp.onclick=()=>{
@@ -4552,7 +4597,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.70',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.71',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
