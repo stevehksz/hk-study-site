@@ -43682,13 +43682,24 @@ function showMain(m){
   x.onclick=closeCta;
   mask.onclick=e=>{if(e.target===mask)closeCta()};
   // 二維碼：圖存在才顯示（assets/wechat_qr.png 未上傳時整塊隱藏，不出破圖，彈窗靠微信號+複製仍完整可用）
-  const qr=document.getElementById('ctaQrImg'), qrBox=document.getElementById('ctaQrBox');
+  const qr=document.getElementById('ctaQrImg'), qrBox=document.getElementById('ctaQrBox'), qrZoomImg=document.getElementById('qrZoomImg');
   if(qr&&qrBox){
     const showQr=()=>{qrBox.style.display='flex'};
     const hideQr=()=>{qrBox.style.display='none'};
-    // complete 時要顯式判斷：圖片 404 可能在腳本執行前就結束，onerror 錯過就永遠不會觸發
+    // workbuddy 托管域對靜態資源也校驗 sharecode（裸路徑返回 403「链接不完整」），
+    // 故按當前頁 URL 的 sharecode 透傳給圖片；GitHub Pages / 本地無此參數，走裸路徑即可
+    let qsrc=qr.getAttribute('src')||'assets/wechat_qr.png';
+    try{
+      const sc=new URLSearchParams(location.search).get('sharecode');
+      if(sc&&qsrc.indexOf('sharecode=')<0){
+        qsrc+='?sharecode='+encodeURIComponent(sc);
+        qr.setAttribute('src',qsrc);
+        if(qrZoomImg) qrZoomImg.setAttribute('src',qsrc);
+      }
+    }catch(e){}
+    qr.onload=showQr; qr.onerror=hideQr;
+    // complete 時要顯式判斷：圖片 404 可能在腳本執行前就結束，onload 錯過就永遠不會觸發
     if(qr.complete){ if(qr.naturalWidth>0) showQr(); else hideQr(); }
-    else { qr.onload=showQr; qr.onerror=hideQr; }
   }
   // v1.71 點圖放大：手機端長按存原圖（686px 原分辨率）、另一台設備直接掃屏幕大圖
   const zoom=document.getElementById('qrZoom');
