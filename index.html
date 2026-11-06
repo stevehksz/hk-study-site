@@ -43698,8 +43698,10 @@ function showMain(m){
       }
     }catch(e){}
     qr.onload=showQr; qr.onerror=hideQr;
-    // complete 時要顯式判斷：圖片 404 可能在腳本執行前就結束，onload 錯過就永遠不會觸發
-    if(qr.complete){ if(qr.naturalWidth>0) showQr(); else hideQr(); }
+    // complete 判斷有 race：CDN 命中緩存時可能 complete=true 但 naturalWidth 還是 0（尚未解碼），
+    // 這時判失敗會永久隱藏（onload 已錯過）。decode() 會等解碼真正結束再給結果，故優先用它。
+    if(qr.decode){ qr.decode().then(showQr).catch(hideQr); }
+    else if(qr.complete&&qr.naturalWidth>0){ showQr(); }
   }
   // v1.71 點圖放大：手機端長按存原圖（686px 原分辨率）、另一台設備直接掃屏幕大圖
   const zoom=document.getElementById('qrZoom');
