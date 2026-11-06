@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.68：葉工圈截圖「補習材料·女兒學習角」——①刪掉站內關於女兒的介紹：頁標題「補習材料 · 女兒學習角（插中一 · 35 週減壓版）」→「補習材料（插中一 · 35 週減壓版）」；關於葉工卡「本站最初為女兒的插班學習工具」→「本站為來港插班家庭整理的實用工具站」；源碼註釋同步去「女兒學習角」表述（全站可見文本已無「女兒/女儿/涵涵」）。②補習材料頁折疊優化：7 個 gsec 塊（① 35 週排期表＋每週課表／② 教材與資源清單／③ 面試話題庫／④ 數學術語翻卡／⑤ 繁體認讀翻卡／⑥ 教育局官方字表／⑦ 泛讀打卡）轉 `details.gsec.fold`＋`summary.gsec-h`（Python 腳本 div 深度淨計數配對轉換，複用 v1.65 方法；站內本已有 .gsec/.gsec-h 折疊樣式組，直接複用不新造），默認只展開 ①（第一屏仍是整體節奏），其餘 6 塊收起——頁面從約 15 屏降到 2 屏，7 個模塊標題一眼看全；CSS 補 fold 標題條字號 15px／min-height 44px（觸控友好）／hover 變色／展開態分隔線／收起態間距緊湊；頭部加一條藍底提示說明「點標題條展開」。verify2 加 6 項斷言（7 details/1 open/標題條文本/女兒字樣已清/fcard 仍渲染 60+100/泛讀 21 格）。
 v1.67：葉工圈三張截圖要求刪改——①「原則與來源」卡：刪掉紅線標注的框架出處整句（2025-12-01 公眾號文章《13歲，雅思8分，沒刷一套題》＋該文為機構軟文說明），刪後「不能照搬其三年打底」失去指代，整理重寫為「原則」卡：能力是主線／應試是兌換分數的動作＋兩點本地化（不能照搬三年打底 6–12 個月時間窗、純英文路線會漏繁體中文卷／英文題幹數學卷／粵語面試）；②「關於葉工·諮詢與合作」卡字號過大——加 .about-card 專屬字號（h2 17px、正文 12.5px/行高 1.75、folk 11px），不動全局 .gcard 樣式；③免責聲明刪「牛津樹／朗文等教材內容僅限家庭學習，勿商用或外傳」（v1.53 已下線繪本閱讀/朗文詞庫，站內無此類內容，聲明失去對象；補習材料頁的教材版權提醒保留）。
 v1.66：葉工指令「爬 topschool.hket.com 看看有什麼值得學習的，複製到我的網站」——該站直連被攔（沙箱代理 502／直連 RST），改經檢索摸清功能清單後選型落地兩大招牌功能（其餘項目分析後不採納，見 v1.66 分析卡）：①⚖️ 學校對比（借鑑 TOPSchool「一鍵比較」）：三張學校表每行加 ⚖️ 按鈕（僅有 CHSC 官方檔案的 70 校），最多 3 所並排，底部浮動對比條（cmpBar，fixed bottom 老語法）顯示已選清單，點「對比」彈 cmpModal（body 頂層、老語法定位，同 v1.64 schModal 教訓）渲染並排對比表：類別/性別/宗教/創校/辦學團體/校訓/校長/教學語言（中學取表格行，檔案無此欄）/教師人數/碩士%/年資 10 年+/班級結構/全年收費（中學中一+中六、小學學費）/一條龍直屬聯繫（小學）/地址/電話/跳詳情；超 3 所提示寫進對比條文字（不用 alert，jsdom 兼容）；②❤ 我的心水（借鑑 TOPSchool「我的心水」）：三張表每行 🤍/❤️ 收藏鍵（全部行可用），schoolsView 頂部新增「❤ 我的心水」折疊卡（favCard）集中渲染收藏 chips（點名字開詳情、× 移除、上限 30 所防呆），詳情彈窗標題旁同樣加 ⚖️/❤ 按鈕；兩組狀態 localStorage hkk_schcmp_v0/hkk_schfav_v0（hkk_ 前綴自動跟賬號隔離）。verify2 更新 v1.58/59 按鈕計數（40/30→120/90）＋新增 10 項斷言（cmpModal body 頂層定位/favCard 存在/行內 3 鈕/心水 toggle 渲染/對比 2 所出表/3 所上限拒絕/清空隱藏）。
 v1.65：葉工圈截圖「擇校分檔這裡看看怎么处理，折叠目錄，不用整个子目录看起来非常的长」——擇校分檔子頁全區塊折疊化：12 張 gcard 說明/資訊卡轉原生 details.fold（Python 腳本 div 深度配對逐塊轉換：div→details 保 id 保 class、h3→summary、配對閉合 </div>→</details>；psChips+psTable 無 gcard 包裹，另整段包一張 open 卡「北區小學 30 所總表」），收起只留標題條、▸箭頭展開旋轉變色；默認展開僅 3 張核心校表（北區中學 20 所/大埔 20 所/北區小學 30 所總表），其餘 9 張（校園地圖/學校詳情說明/跨境要點/校車保姆車/叩門總邏輯/叩門衝刺/交叉勘誤/升中攻略/小學插班怎麼用）默認收起——頁面視覺長度大幅縮短，地圖收起也讓懶載入更合理（點開才載入）。CSS 新增 details.gcard>summary 樣式組。verify2 加 4 項斷言（12 details/3 open/mapCard 是 details/summary 文本抽查）。
@@ -416,6 +417,11 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .gsec-h::-webkit-details-marker{display:none}
   .gsec-h::after{content:'▾';margin-left:auto;font-size:12px;color:#8a8aa0}
   .gsec[open]>.gsec-h::after{content:'▴'}
+  /* v1.68 補習材料頁折疊：7 個 gsec 轉 details，標題條可讀性與 hover 回饋 */
+  .gsec.fold>summary.gsec-h{font-size:15px;letter-spacing:.2px;transition:.15s;min-height:44px}
+  .gsec.fold:not([open])>summary.gsec-h:hover{background:rgba(79,70,229,.15)}
+  .gsec.fold[open]>.gsec-h{border-bottom:1px solid var(--line)}
+  .gsec.fold:not([open]){margin:8px auto}
   .gcode{display:inline-block;min-width:34px;text-align:center;background:var(--accent,#4f46e5);color:#fff;border-radius:6px;padding:2px 6px;font-size:13px}
   .glabel{font-size:15px}
   .gcount{margin-left:8px;font-size:12px;color:#8a8aa0;font-weight:600}
@@ -576,13 +582,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.67（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.68（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.67（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.68（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1081,15 +1087,16 @@ Thank you for your time.</div>
       </div>
     </div>
   </div>
-  <!-- 補習材料（v1.60：女兒學習角——35 週減壓排期＋教材清單＋面試話題庫＋翻卡＋泛讀打卡） -->
+  <!-- 補習材料（v1.60 建立，v1.68 七塊折疊化——35 週減壓排期＋教材清單＋面試話題庫＋翻卡＋泛讀打卡） -->
   <div class="wrap" id="tutorView" style="display:none">
     <div class="gsec">
-      <h2>補習材料 · 女兒學習角（插中一 · 35 週減壓版）</h2>
+      <h2>補習材料（插中一 · 35 週減壓版）</h2>
       <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
+      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 7 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦。</p>
     </div>
 
-    <div class="gsec">
-      <h2>① 35 週排期表（能力線 80% ＋ 應試線 20%）</h2>
+    <details class="gsec fold" open>
+      <summary class="gsec-h">① 35 週排期表（能力線 80% ＋ 應試線 20%）</summary>
       <table class="mtable">
         <thead><tr><th style="width:110px">月份</th><th>能力線（80%）</th><th>應試線（20%）</th><th>驗收指標</th></tr></thead>
         <tbody>
@@ -1113,10 +1120,10 @@ Thank you for your time.</div>
         </tbody>
       </table>
       <div class="src">來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29）｜7.6 放榜日＝教育局中一學位分配安排（官方，適用 2027/28 學年）｜各校直資截止日以學校官網當年公告為準</div>
-    </div>
+    </details>
 
-    <div class="gsec">
-      <h2>② 教材與資源清單（只買兩本，其餘免費）</h2>
+    <details class="gsec fold">
+      <summary class="gsec-h">② 教材與資源清單（只買兩本，其餘免費）</summary>
       <table class="mtable">
         <thead><tr><th style="width:110px">模塊</th><th>用什麼</th><th style="width:150px">費用</th></tr></thead>
         <tbody>
@@ -1132,10 +1139,10 @@ Thank you for your time.</div>
         <h3>⚠️ 版權與級別提醒</h3>
         <p>牛津樹／朗文內容<b>僅限家庭學習</b>，請勿外傳、勿打印傳閱。教材 CEFR/級別對應為<b>坊間教輔整理（非官方測評）</b>，起點以定級三連測為準；教材版本信息以出版社官網為準。</p>
       </div>
-    </div>
+    </details>
 
-    <div class="gsec" id="ivCard">
-      <h2>③ 面試話題庫（10 題）＋ 90 秒計時器</h2>
+    <details class="gsec fold" id="ivCard">
+      <summary class="gsec-h">③ 面試話題庫（10 題）＋ 90 秒計時器</summary>
       <p class="tip">用法：每週挑 1–2 題，先按「90 秒計時」開講；講完展開看要點，對照補漏。面試語言多為粵語＋英文（坊間整理，各校不同）——英文講不出的內容可先用中文說再試英文。</p>
       <div id="ivTimerBox" style="display:flex;align-items:center;gap:12px;margin:10px 0;flex-wrap:wrap">
         <button id="ivStart">▶ 90 秒計時</button>
@@ -1143,27 +1150,27 @@ Thank you for your time.</div>
         <span class="tip" style="margin:0">再按一次可中途停止</span>
       </div>
       <div id="ivList"></div>
-    </div>
+    </details>
 
-    <div class="gsec">
-      <h2>④ 數學英文術語翻卡（60 詞 · 6 週）</h2>
+    <details class="gsec fold">
+      <summary class="gsec-h">④ 數學英文術語翻卡（60 詞 · 6 週）</summary>
       <p class="tip">2027.2 起每週 1 組 10 詞：先翻卡認詞，再在自己的數學練習裡找出這個詞。點卡片翻面看中文。</p>
       <div class="subnav" id="termChips"></div>
       <div class="fgrid" id="termGrid"></div>
       <p style="padding:0 12px"><button id="termFlipAll">全部翻開</button> <button id="termFlipNone">全部蓋回</button></p>
       <div class="src">自建通用數學英文術語（坊間整理非官方詞單）；正式題幹訓練 2027.2 後再啟動</div>
-    </div>
+    </details>
 
-    <div class="gsec">
-      <h2>⑤ 繁體認讀翻卡（100 字 · 簡→繁）</h2>
+    <details class="gsec fold">
+      <summary class="gsec-h">⑤ 繁體認讀翻卡（100 字 · 簡→繁）</summary>
       <p class="tip">每天 10 分鐘翻一組：看簡體想繁體，翻開對答案。全部認熟後換書本認讀（教育局《香港小學學習字詞表》）。</p>
       <div class="fgrid" id="ftGrid"></div>
       <p style="padding:0 12px"><button id="ftFlipAll">全部翻開</button> <button id="ftFlipNone">全部蓋回</button></p>
       <div class="src">自建常用簡繁對照（學習用，非官方字表）；「干→乾」「面→麵」等一字多繁情形附備註</div>
-    </div>
+    </details>
 
-    <div class="gsec" id="lexCard">
-      <h2>⑥ 教育局官方字表（3,171 字 · 筆畫序）</h2>
+    <details class="gsec fold" id="lexCard">
+      <summary class="gsec-h">⑥ 教育局官方字表（3,171 字 · 筆畫序）</summary>
       <p class="tip">來源：教育局《香港小學學習字詞表》(2007) 小學用字一覽表——共 3,171 字（第一學習階段小一至小三 2,169 字＋第二學習階段小四至小六 1,002 字），按筆畫序，異體字算一字。三種用法：搜字驗證、今日認讀推進、全表瀏覽。</p>
       <div style="display:flex;gap:10px;padding:0 12px;flex-wrap:wrap;align-items:center">
         <input id="lexQ" placeholder="輸入漢字查是否在官方字表（可粘貼多個）" style="flex:1;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px">
@@ -1180,14 +1187,14 @@ Thank you for your time.</div>
       <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）</p>
       <div class="fgrid" id="lexAll"></div>
       <div class="src">數據：教育局《香港小學學習字詞表》小學用字一覽表 3,171 字（文本轉錄 GitHub huwan/HKCLL4PL，字數與教育局官方簡介 PDF 一致，2026-11-05 核實）；含粵普發音＋筆順動畫的官方電子檢索版：<a href="https://www.edbchinese.hk/lexlist_ch/index.jsp" target="_blank" rel="noopener">edbchinese.hk/lexlist_ch</a>（逐字查詢）</div>
-    </div>
+    </details>
 
-    <div class="gsec">
-      <h2>⑦ 泛讀打卡（21 天挑戰）</h2>
+    <details class="gsec fold">
+      <summary class="gsec-h">⑦ 泛讀打卡（21 天挑戰）</summary>
       <p class="tip">規則只有一條：每天碰英文 20 分鐘（漫畫/故事/科普視頻都算），做完點一格。不查詞典、不寫讀後感、不考核——打卡本身就是全部任務。數據保存在本設備、跟賬號走。</p>
       <div class="rgrid" id="readGrid"></div>
       <p style="padding:0 12px"><b id="readStat"></b> <button id="readReset">清空重來</button></p>
-    </div>
+    </details>
   </div>
 
 </div>
@@ -1704,7 +1711,7 @@ Thank you for your time.</div>
 <div class="wrap" id="aboutView">
   <div class="gcard about-card">
     <h2>關於葉工 · 諮詢與合作</h2>
-    <p>葉工（公眾號「史蒂夫HKSZ」）：香港註冊專業工程師（RPE）、英國特許工程師（CEng）、香港科技大學碩士，深港雙城生活。本站最初為女兒的插班學習工具，現免費開放給同路的內地家庭。</p>
+    <p>葉工（公眾號「史蒂夫HKSZ」）：香港註冊專業工程師（RPE）、英國特許工程師（CEng）、香港科技大學碩士，深港雙城生活。本站為來港插班家庭整理的實用工具站，現免費開放給同路的內地家庭。</p>
     <p>📧 <a href="mailto:hkeec2023@gmail.com">hkeec2023@gmail.com</a>（諮詢／合作／勘誤）　💬 微信號：<b>SteveHKSZ</b>（擇校諮詢直接加）　💬 公眾號搜「史蒂夫HKSZ」（插班乾貨更新）　🗓 或郵件留言（孩子年級／身份／目標），會回覆安排</p>
     <!-- TODO(v1.41+): 預約表單外鏈（騰訊問卷/金數據，待葉工開通帳號後填入）；數據埋點（51la/umami，同） -->
     <p class="folk">⚠️ 免責聲明：本站內容為公開資料整理與非官方參考（Band 組別等均非教育局公布），一切以學校官網、教育局、考評局當年公布為準；本站不構成任何升學承諾。</p>
@@ -4457,7 +4464,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.67',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.68',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

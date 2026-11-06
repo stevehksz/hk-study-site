@@ -422,6 +422,27 @@ try{
   ok('v1.67 免責聲明已去教材句（保留免責與升學承諾）', about67 && !about67.textContent.includes('牛津樹／朗文') && about67.textContent.includes('免責聲明') && about67.textContent.includes('不構成任何升學承諾'));
 }catch(e){ ok('v1.67 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.68 補習材料頁折疊＋去女兒介紹 ============
+try{
+  doc.querySelector('nav button[data-tab="practice"]').click();
+  doc.querySelector('#practiceSub button[data-sub="tutor"]').click();
+  const tv=doc.getElementById('tutorView');
+  doc.querySelector('#termChips button[data-wk="0"]').click(); // 復位：v1.60 測試點過「第 3 週」過濾，切回全部
+  const dets=[...tv.querySelectorAll('details.gsec.fold')];
+  ok('v1.68 補習材料 7 塊折疊('+dets.length+')', dets.length===7);
+  ok('v1.68 默認僅展開 ①排期表', dets.filter(d=>d.open).length===1 && dets[0].open && dets[0].querySelector('summary').textContent.includes('35 週排期表'));
+  const sums=[...tv.querySelectorAll('details.gsec.fold > summary.gsec-h')].map(s=>s.textContent);
+  ok('v1.68 七塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀）('+sums.length+')', sums.length===7 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡'].every(t=>sums.some(s=>s.includes(t))));
+  const nTerm=tv.querySelectorAll('#termGrid .fcard').length, nFt=tv.querySelectorAll('#ftGrid .fcard').length, nRead=tv.querySelectorAll('#readGrid .rcell').length;
+  ok('v1.68 折疊後內容仍在 DOM（術語 '+nTerm+'／繁體 '+nFt+'／打卡 '+nRead+'）', nTerm===60 && nFt===100 && nRead===21);
+  ok('v1.68 頁標題已去「女兒學習角」', tv.querySelector('h2').textContent==='補習材料（插中一 · 35 週減壓版）');
+  const whole15=doc.documentElement.outerHTML;
+  ok('v1.68 全站可見文本無「女兒/女儿/涵涵」', doc.body.textContent.indexOf('女兒')<0 && doc.body.textContent.indexOf('女儿')<0 && doc.body.textContent.indexOf('涵涵')<0);
+  ok('v1.68 關於卡改為中性表述', doc.getElementById('aboutView').textContent.includes('本站為來港插班家庭整理的實用工具站'));
+  ok('v1.68 頭部折疊提示已加', tv.textContent.includes('點標題條展開'));
+  doc.querySelector('#practiceSub button[data-sub="cn"]').click();
+}catch(e){ ok('v1.68 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();
