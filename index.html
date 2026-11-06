@@ -217,6 +217,15 @@ input[type=search],select{padding:9px 12px;border:1px solid var(--line);border-r
 .gtitle::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:5px;border-radius:3px;background:var(--grad)}
 .folk{font-size:11px;color:#8a6d1f;background:linear-gradient(135deg,#fdf3d8,#f7e6b8);padding:3px 11px;border-radius:12px;display:inline-block;margin:0 0 14px;font-weight:600;border:1px solid #ecd9a0}
 .gcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:.2s;border-left:4px solid var(--math)}
+/* v1.65 擇校分檔折疊目錄：gcard 轉 details.fold，summary 即標題條 */
+details.gcard>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-weight:700;font-size:16.5px;user-select:none}
+details.gcard>summary::-webkit-details-marker{display:none}
+details.gcard>summary::before{content:'▸';color:#8a8aa0;font-size:14px;transition:transform .15s;flex:none}
+details.gcard[open]>summary::before{transform:rotate(90deg);color:var(--acc)}
+details.gcard>summary:hover{color:var(--acc)}
+details.gcard[open]>summary{margin-bottom:12px;border-bottom:1px dashed var(--line);padding-bottom:10px}
+details.gcard:not([open]){padding:14px 16px}
+details.gcard:not([open]):hover{border-color:var(--acc);box-shadow:var(--shadow-md)}
 .gcard:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 .gcard h3{margin:0 0 8px;font-size:16.5px;font-weight:800}
 .gcard p{margin:6px 0;font-size:14px;color:#475569;line-height:1.78}
@@ -517,13 +526,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.64（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.65（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.64（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.65（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1199,8 +1208,8 @@ Thank you for your time.</div>
         <button class="btn" id="jmpSec" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🎓 北區中學 20 所</button>
       </div>
       <p class="tip" style="margin:0 0 6px">按上面按鈕直達對應名單；上次看的表會被記住。</p>
-      <div class="gcard" id="mapCard">
-        <h3>🗺️ 校園地圖（騰訊地圖 · 實時）</h3>
+      <details class="gcard fold" id="mapCard">
+        <summary>🗺️ 校園地圖（騰訊地圖 · 實時）</summary>
         <div class="pg-chips" id="mapChips">
           <span class="chip on" data-mf="all">全部</span>
           <span class="chip" data-mf="sec">中學 40</span>
@@ -1212,27 +1221,27 @@ Thank you for your time.</div>
         <p style="margin:8px 0 0"><button class="btn" id="mapLoadBtn">🗺️ 載入地圖</button> <span id="mapStatus" style="font-size:12px;color:#8a8aa0"></span></p>
         <div id="mapFallback" style="display:none"></div>
         <p class="src">地圖服務：騰訊位置服務（合規地圖數據源）。校點坐標內置自教育局開放數據「學校位置及資料」（SCH_LOC_EDB.csv，每月更新，WGS84 已轉 GCJ-02），位置僅供參考，以各校官網地址為準。</p>
-      </div>
-      <div class="gcard">
-        <h3>📖 學校詳情（中學）</h3>
+      </details>
+      <details class="gcard fold">
+        <summary>📖 學校詳情（中學）</summary>
         <p style="margin:4px 0 6px">下面兩張中學表每行有「📄 詳情」按鈕——點開看該校完整檔案：基本資料、2025/2026 收費、教師概況、班級結構、中一收生準則、辦學宗旨、聯絡資料。</p>
         <p class="src">詳情資料來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實的官方公開資料），以各校官網最新公布為準。</p>
-      </div>
-      <div class="gcard">
-        <h3>北區跨境要點</h3>
+      </details>
+      <details class="gcard fold">
+        <summary>北區跨境要點</summary>
         <p>北區（上水/粉嶺）是羅湖、福田（落馬洲支線）、文錦渡口岸入港第一站，東鐵線 1 站到上水、2 站到粉嶺，單程通關＋車程約 30–40 分鐘，跨境生比例全港最高。教育局有跨境學童派位安排，北區 <b>30 所學校</b>參與（2025 年度數據，中一跨境學額約 <b>171 個</b>，來源：教育局公開資料，坊間引用）。跨境校巴/保姆車體系成熟，校巴申請一般每年 5–6 月。</p>
-      </div>
-      <div class="gcard">
-        <h3>🚌 校車 / 保姆車怎麼回事（跨境交通現實）</h3>
+      </details>
+      <details class="gcard fold">
+        <summary>🚌 校車 / 保姆車怎麼回事（跨境交通現實）</summary>
         <p>① <b>校巴/保姆車不是學校配套</b>：由私營營辦商按線路經營，跨境校巴在北區體系成熟（坊間常見營辦商如葉太、禮姨、菁荭等——坊間整理，2026-10-27 核對，線路與營辦商每年變動）。<b>申請一般在每年 5–6 月</b>，錯過要等補位。</p>
         <p>② <b>中學階段的現實</b>：北區中學的跨境生絕大多數<b>自行搭東鐵通勤</b>（羅湖/落馬洲 → 上水/粉嶺，1–2 站）；中學保姆車線路遠少於小學，某校有沒有線路、上車點在哪、費用多少，要<b>逐校電話校務處問</b>（連同叩門一起問最省事）——下兩表已附各校電話，可直接點撥。</p>
         <p>③ <b>大埔（東鐵沿線）</b>：粉嶺再一站即太和，鐵路通勤可控；保姆車線路更少，以東鐵為主——所以下表每所都標了「近東鐵站」（依地址所在社區估算）。</p>
         <p class="src">來源：hk-placement 知識庫 v0.2（2026-10-27）＋ 校務處諮詢慣例整理；線路/費用/集合點以學校及營辦商當年公布為準。</p>
-      </div>
-      <div class="gcard warn">
-        <h3>本家庭叩門總邏輯（身份 2027.6 到手的家庭先看這個）</h3>
+      </details>
+      <details class="gcard warn fold">
+        <summary>本家庭叩門總邏輯（身份 2027.6 到手的家庭先看這個）</summary>
         <p>孩子身份預計 <b>2027 年 6 月到手</b>，意味著：① 2027.1.4–1.18 自行分配窗口＝錯過（須遞交時已持身份）；② 5 月前所有主申請＝錯過；③ 唯一現實路徑＝兩條並行——<b>A. 2027.7.6 放榜後叩門</b>（黃金期 7.6–7.9，官津每班約 1 個留班位）＋ <b>B. 教育局途徑三</b>（新來港兒童資助中一，2027.5–8 月登記，分批 7.6/7 月底/8 月中出結果，兜底不會沒書讀）；④ 直資僅心誠一所（風采經 2026-10-31 教育局收費證明書勘誤為資助、免學費僅堂費 $340/年，走官津派位窗口），不存在「身份到手即報第一批占位」紅利。</p>
-      </div>
+      </details>
         <div class="scroll-x">
         <table class="mtable" id="tierTable">
           <thead><tr><th>梯隊</th><th>學校</th><th>類型</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>學費</th><th>申請路徑（本家庭）</th></tr></thead>
@@ -1263,18 +1272,18 @@ Thank you for your time.</div>
           </tbody>
         </table>
       </div>
-      <div class="gcard">
-        <h3>叩門衝刺組合建議（按英文水平分）</h3>
+      <details class="gcard fold">
+        <summary>叩門衝刺組合建議（按英文水平分）</summary>
         <p><b>英文達標（PET 量級）</b>：衝刺 鄧顯/甲寅年/田家炳/陳融 ＋ 求穩 風采/心誠 ＋ 保底 基新/上水官立/粉嶺救恩/粉嶺官立（粉嶺官立 2026-10-31 勘誤為中中，接受中文授課才納入）。</p>
         <p><b>英文偏弱</b>：衝刺 甲寅年/李嘉誠 ＋ 求穩 鳳溪一中/救恩/基新 ＋ 保底 基新/上水官立/李興貴（先中文過渡一年，再圖轉校）。</p>
         <p>無論哪組，<b>7.6 一早從衝刺檔開始衝</b>，保底檔留 7.8–7.9 兜底，並同步走 EDB 途徑三。</p>
-      </div>
-      <div class="gcard warn">
-        <h3>⚠️ 交叉勘誤（2026-10-31 · 多源公開資料 × 教育局 × 中學概覽）</h3>
+      </details>
+      <details class="gcard warn fold">
+        <summary>⚠️ 交叉勘誤（2026-10-31 · 多源公開資料 × 教育局 × 中學概覽）</summary>
         <p>本次以北區中學公開名冊（2026-10-31 取樣）與教育局公開資料交叉核對，修正本表：① <b>風采中學＝資助</b>（EDB 收費證明書：學費免、堂費 $340/年），非直資；② 官津<b>英中僅 6 所</b>（教育局名單）：鄧顯/甲寅/田家炳/陳融/李嘉誠/風采；心誠為直資英中；馬錦燦屬雙語（部分科目英文，中學概覽），其餘均中中；③ 茂峰位於<b>元朗天水圍</b>（非北區，建議從策略中移除）、康樂/李興貴位於<b>大埔</b>（他區：北區，接收北區跨境生）。Band 各源不一，僅作非官方參考。</p>
-      </div>
-      <div class="gcard">
-        <h3>北區中學一覽（20 所 · 可篩選）</h3>
+      </details>
+      <details class="gcard fold" open>
+        <summary>北區中學一覽（20 所 · 可篩選）</summary>
         <div class="pg-chips" id="ssChips">
           <span class="chip on" data-ss="all">全部 20</span>
           <span class="chip" data-ss="en">英中 7</span>
@@ -1309,9 +1318,9 @@ Thank you for your time.</div>
         </table>
         </div>
         <p class="src">事實欄（種類/宗教/性別/語言/地址）：多源公開資料 2026-10-31 核對＋教育局中學概覽；英中判定以教育局名單為準；Band＝坊間非官方估計；電話：各校公開聯絡資料 2026-11-02 逐一核對。</p>
-      </div>
-      <div class="gcard">
-        <h3>東鐵沿線備選：大埔區中學 20 所（太和 / 大埔墟站）</h3>
+      </details>
+      <details class="gcard fold" open>
+        <summary>東鐵沿線備選：大埔區中學 20 所（太和 / 大埔墟站）</summary>
         <p>北區之後的東鐵備選梯隊：羅湖出發約 15–20 分鐘到太和（估算，4 站），通關＋車程單程約 45–60 分鐘。事實欄（類型/語言/地址）經升學天地/教育王國/家委會概覽多源交叉（2026-11-02 核對）；Band＝坊間非官方參考；<b>近站為依地址所在社區的估算</b>，步行時間以地圖為準；電話可點擊直撥（手機）——號碼來源各校公開聯絡資料 2026-11-02 逐一核對，變動以學校官網為準。⚠️ 原大埔官立中學已於 2014 年停辦，已從表移除。</p>
         <div class="pg-chips" id="tpChips">
           <span class="chip on" data-tp="all">全部 20</span>
@@ -1347,26 +1356,28 @@ Thank you for your time.</div>
         </table>
         </div>
         <p class="src">來源：教育王國大埔區中學列表＋hkecec 大埔區中學組別表＋hkstudyroute 大埔排名，多源交叉 2026-11-02 核對；英中判定以教育局微調教學語言安排及各校官網為準（王肇枝＝EMI 官網確認）；Band／近站／車程＝坊間非官方估算，以學校官網與港鐵路線圖為準。</p>
-      </div>
-      <div class="gcard">
-        <h3>升中攻略 · 外鏈精選（正文版權屬原站）</h3>
+      </details>
+      <details class="gcard fold">
+        <summary>升中攻略 · 外鏈精選（正文版權屬原站）</summary>
         <p><b>官方</b>：<a href="https://www.edb.gov.hk/en/student-parents/sch-info/sch-search/schlist-by-district/school-list-n.html" target="_blank" rel="noopener">教育局·北區中學名單</a>｜<a href="https://applications.edb.gov.hk/schoolsearch/" target="_blank" rel="noopener">教育局·學校搜尋（含收費證明書）</a>｜<a href="https://www.chsc.hk/ssp2025/" target="_blank" rel="noopener">家委會·中學概覽</a></p>
         <p><b>派位攻略</b>：<a href="https://www.edb.gov.hk/tc/student-parents/primary-secondary-spfa/system-tl/secondary-spfa-index.html" target="_blank" rel="noopener">教育局·中學學位分配辦法</a>｜<a href="https://www.chsc.hk/ssp2025/" target="_blank" rel="noopener">家委會·中學概覽（教學語言/收費）</a>｜<a href="https://www.edb.gov.hk/tc/edu-system/primary-secondary/spa-systems/direct-subsidy-scheme/index.html" target="_blank" rel="noopener">教育局·直資計劃介紹</a></p>
         <p class="src">外鏈內容版權屬教育局及家委會，僅供家長延伸閱讀。</p>
-      </div>
+      </details>
       <div class="src">來源：北區 20 所中學（多源公開資料 2026-10-31 核對＋內部擇校知識庫）｜Band 組別＝坊間非官方參考（教育局不公布官方 Banding）｜學費/截止日以學校官網當年公告為準｜⚠️ 身份硬門檻：身份 2027.6 才到手者一律走放榜後叩門＋途徑三</div>
     </div>
   <!-- 北區小學（v1.42 建；v1.49 併入擇校分檔 tab，不再全 sub 常顯） -->
   <div class="gsec">
     <h2>北區小學 30 所（P1–P6 插班 · 小一校網 80/81/83）</h2>
-    <div class="gcard">
-      <h3>🎯 小學插班怎麼用這張表（P1–P2 年齡段）</h3>
+    <details class="gcard fold">
+      <summary>🎯 小學插班怎麼用這張表（P1–P2 年齡段）</summary>
       <p>① <b>通勤選校網</b>：校網 80＝上水（羅湖口岸 1 站，跨境最優先看這網）；校網 81＝粉嶺/聯和墟（再一站，皇后山新校區偏一點）；校網 83＝沙頭角（邊境禁區範圍，通勤遠，跨境生一般要保姆車，普通家庭不建議）。</p>
       <p>② <b>插班申請邏輯</b>：官津小學插班<b>直接向學校申請</b>（不像小一有統一派位），學位有空缺就收——<b>照表打電話問校務處</b>最直接；官津插班窗口通行為每年 3–5 月（秋季入學），越早問越主動。以學校當年公告為準。</p>
       <p>③ <b>語言現實</b>：北區小學基本全中文（粵語）授課，P1–P2 插班年齡小、語言適應快，是小學階段最大優勢。標「普教中」的學校用普通話教中文科，內地生過渡更順：鳳溪創新（全校普教中）、靳茂生/于良發/沙頭角中心（部分班）。曾憲備小學＝中英並重雙語教學。</p>
       <p>④ <b>材料</b>：受養人簽證、出生紙、深圳成績單（翻譯+蓋章）、免疫接種記錄、住址證明。P5 前無呈分試，低年級插班以成績表＋面試為主，筆試壓力小。</p>
       <p class="src">事實欄（種類/校網/宗教/地址/電話）：各校公開資料＋教育局學校搜尋（馬錦燦地址以教育局為準），2026-11-02 核對；普教中名單＝教育局「普教中」學校名單彙總；插班窗口為坊間通行整理。以學校官網當年公告為準。</p>
-    </div>
+    </details>
+    <details class="gcard fold" open>
+      <summary>北區小學 30 所總表（chips 篩選 · 詳情按鈕）</summary>
     <div class="chips" id="psChips">
       <span class="chip on" data-m="all">全部 30</span>
       <span class="chip" data-m="t1">首選·上水市區 12</span>
@@ -1417,6 +1428,7 @@ Thank you for your time.</div>
         </tbody>
       </table>
     </div>
+    </details>
   </div>
   </div><!-- /schoolsView -->
 
@@ -44857,7 +44869,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.64',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.65',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

@@ -270,6 +270,11 @@ try{
   const sm=doc.getElementById('schModal').style;
   ok('v1.64 schModal 視口定位語法（position/left/top/width/height 屬性級檢查，棄 inset）', sm.position==='fixed' && (sm.left==='0'||sm.left==='0px') && (sm.top==='0'||sm.top==='0px') && sm.width==='100%' && sm.height==='100%');
   ok('v1.64 全站已無 inset:0（舊 WebView 相容）', !doc.documentElement.outerHTML.includes('inset:0'));
+  const folds=[...doc.querySelectorAll('#schoolsView details.fold')];
+  ok('v1.65 擇校折疊卡 12 張('+folds.length+')', folds.length===12);
+  ok('v1.65 默認展開僅 3 張核心校表', folds.filter(d=>d.open).length===3 && folds.filter(d=>d.open).every(d=>d.querySelector('#ssTable,#tpTable,#psTable')));
+  ok('v1.65 mapCard 仍是 details 且 id 保留', doc.getElementById('mapCard') && doc.getElementById('mapCard').tagName==='DETAILS');
+  ok('v1.65 summary 文本抽查（跨境要點/小學總表）', !![...doc.querySelectorAll('#schoolsView summary')].find(s=>s.textContent.includes('北區跨境要點')) && !![...doc.querySelectorAll('#schoolsView summary')].find(s=>s.textContent.includes('北區小學 30 所總表')));
   ok('v1.60 tutorView 顯示', doc.getElementById('tutorView').style.display !== 'none');
   ok('v1.60 studyView 隱藏', doc.getElementById('studyView').style.display === 'none');
   ok('v1.60 面試話題庫 10 題('+doc.querySelectorAll('#ivList details').length+')', doc.querySelectorAll('#ivList details').length===10);
