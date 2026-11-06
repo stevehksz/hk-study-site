@@ -18,7 +18,7 @@ function ok(name, cond) {
 console.log('--- 导航与子导航 ---');
 ok('主tab 5个(guide/plan/practice/progress/fun)', doc.querySelectorAll('nav button').length === 5);
 ok('guideSub 4个(cn/en/math/ft)', doc.querySelectorAll('#guideSub button').length === 4);
-ok('practiceSub 3个(cn/en/math)', doc.querySelectorAll('#practiceSub button').length === 3);
+ok('practiceSub 4个(cn/en/math/tutor)', doc.querySelectorAll('#practiceSub button').length === 4);
 
 console.log('--- 数学术语表 ---');
 const rows = doc.querySelectorAll('#mathBody tr');
@@ -262,8 +262,10 @@ try{
 
 // ============ v1.60 補習材料（35週減壓排期＋面試庫＋翻卡＋泛讀打卡） ============
 try{
-  ok('v1.60 planSub 補習材料按鈕存在', !!doc.querySelector('#planSub button[data-sub="tutor"]'));
-  doc.querySelector('#planSub button[data-sub="tutor"]').click();
+  ok('v1.63 practiceSub 補習材料按鈕存在', !!doc.querySelector('#practiceSub button[data-sub="tutor"]'));
+  doc.querySelector('nav button[data-tab="practice"]').click();
+  doc.querySelector('#practiceSub button[data-sub="tutor"]').click();
+  ok('v1.63 tutorView 在練習主目錄下顯示', doc.getElementById('tutorView').style.display !== 'none' && doc.getElementById('practiceView').style.display !== 'none');
   ok('v1.60 tutorView 顯示', doc.getElementById('tutorView').style.display !== 'none');
   ok('v1.60 studyView 隱藏', doc.getElementById('studyView').style.display === 'none');
   ok('v1.60 面試話題庫 10 題('+doc.querySelectorAll('#ivList details').length+')', doc.querySelectorAll('#ivList details').length===10);
@@ -285,8 +287,8 @@ try{
   doc.querySelector('#readGrid .rcell[data-day="1"]').click();
   ok('v1.60 打卡第1天亮起', doc.querySelector('#readGrid .rcell[data-day="1"]').classList.contains('on'));
   ok('v1.60 打卡統計連續 1 天', doc.getElementById('readStat').textContent.includes('連續 1 天'));
-  doc.querySelector('#planSub button[data-sub="timeline"]').click();
-  ok('v1.60 測後切回 timeline（不污染後續默認態斷言）', doc.getElementById('timelineView').style.display !== 'none');
+  doc.querySelector('#practiceSub button[data-sub="cn"]').click();
+  ok('v1.60 測後切回中文（不污染後續默認態斷言）', doc.getElementById('cnPracView').style.display !== 'none');
 }catch(e){ ok('v1.60 測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.61 悠閒·數獨（4×4/6×6/9×9 唯一解·衝突·提示·計時） ============
@@ -329,8 +331,8 @@ try{
 
 // ============ v1.62 補習材料·教育局官方字表（3171 字·搜字/今日認讀/分頁） ============
 try{
-  doc.querySelector('nav button[data-tab="plan"]').click();
-  doc.querySelector('#planSub button[data-sub="tutor"]').click();
+  doc.querySelector('nav button[data-tab="practice"]').click();
+  doc.querySelector('#practiceSub button[data-sub="tutor"]').click();
   const LT=doc.defaultView.__lexTest();
   ok('v1.62 官方字表 3171 字且唯一', LT.total===3171 && LT.unique===3171);
   ok('v1.62 今日認讀默認 20 格·第 1 組', LT.todayCells===20 && doc.getElementById('lexGroupN').textContent==='1');
@@ -354,8 +356,8 @@ try{
   const sel=doc.getElementById('lexPageSel');
   sel.value='52'; sel.dispatchEvent(new doc.defaultView.Event('change'));
   ok('v1.62 跳末頁 51 格（3171=53×60-9）', doc.defaultView.__lexTest().allCells===3171-52*60);
-  doc.querySelector('#planSub button[data-sub="timeline"]').click();
-  ok('v1.62 測後切回 timeline', doc.getElementById('timelineView').style.display !== 'none');
+  doc.querySelector('#practiceSub button[data-sub="cn"]').click();
+  ok('v1.62 測後切回中文', doc.getElementById('cnPracView').style.display !== 'none');
 }catch(e){ ok('v1.62 測試執行', false); console.log('   err='+e.message); }
 
 console.log('--- 速览: 繁體對照 ---');
@@ -625,7 +627,7 @@ console.log('--- 升學規劃 tab + 5 子頁 ---');
 doc.querySelector('nav button[data-tab="plan"]').click();
 ok('planView 顯示', doc.getElementById('planView').style.display !== 'none');
 ok('guideView 隱藏', doc.getElementById('guideView').style.display === 'none');
-ok('planSub 7个(timeline/schools/docs/study/tutor/policy/faq)', doc.querySelectorAll('#planSub button').length === 7);
+ok('planSub 6个(timeline/schools/docs/study/policy/faq)', doc.querySelectorAll('#planSub button').length === 6);
 ok('timelineView 顯示(默認)', doc.getElementById('timelineView').style.display !== 'none');
 ok('schoolsView 隱藏', doc.getElementById('schoolsView').style.display === 'none');
 // 切到擇校分檔
@@ -802,7 +804,7 @@ try{
 // ============ v1.40 FAQ 子页 + 关于/CTA/免责卡 ============
 try{
   ok('v1.40 faqView 存在且 10 張問答卡', doc.querySelectorAll('#faqView .gcard').length===10);
-  ok('v1.40 planSub 7 個子按鈕', doc.querySelectorAll('#planSub button').length===7);
+  ok('v1.40 planSub 6 個子按鈕', doc.querySelectorAll('#planSub button').length===6);
   ok('v1.40 faq 默認隱藏', doc.getElementById('faqView').style.display==='none');
   doc.querySelector('#planSub button[data-sub="faq"]').click();
   ok('v1.40 點 faq 後顯示', doc.getElementById('faqView').style.display==='block');

@@ -6,11 +6,12 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.63：葉工要求把補習材料挪進「練習」主目錄——①tutorView 整塊從 planView 搬進 practiceView（位於 mathPracView 之後），②planSub 刪「補習材料」按鈕（7→6 子頁），③practiceSub 加第 4 個子頁按鈕「補習材料」（中文/英文/數學/補習材料），④swPlan 數組去 tutor、practiceSub 點擊處理器加 tutorView 顯示切換。設計理由：補習材料是女兒天天用的學習件，跟古詩詞/單詞/數學卷同屬「練習」語義，之前埋在升學規劃第 7 子頁路徑太深。
 v1.62：葉工要求把教育局官方字表搬上站——補習材料新增「⑥ 教育局官方字表」（泛讀打卡順延爲⑦）：《香港小學學習字詞表》(2007) 小學用字一覽表 3,171 字（官方簡介 PDF 載明第一學習階段 2,169＋第二階段 1,002，筆畫序，異體字算一字；文本轉錄 GitHub huwan/HKCLL4PL，字數與官方一致、常見字抽查全中，2026-11-05 核實，build_data.py assert 3171 唯一）。功能：①搜字（可粘多字逐個查，在表卡顯示筆畫序號、不在表卡紅字標注）②「今日認讀」每天 20 字推進（3,171 字≈159 天，進度指針 localStorage hkk_lex_pos 跟賬號隔離，前進/回退按鈕）③全表按筆畫序分頁瀏覽（60 字/頁 53 頁，select 跳頁）④附官方電子檢索版鏈接（edbchinese.hk/lexlist_ch 含粵普發音＋筆順動畫）。verify2 加 10 項斷言（3171 唯一/首頁 60 格/今日組 20 格/前進後進度/搜字在表與否/跳頁）。
 v1.61：葉工要求悠閒 tab 加数独——新增「🔢 數獨（邏輯推理）」模塊：三檔難度 chips（4×4 入門挖 9 洞／6×6 進階挖 22／9×9 挑戰挖 48，宮形 2×2/2×3/3×3）；純本地生成＝隨機回溯填滿→隨機序挖洞，每挖一格用 MRV 啟發式計數求解器驗證**唯一解**（不唯一則回填）；點格選中＋數字面板/鍵盤數字鍵填數（⌫/0 清除，僅 fun tab 生效避免干擾）＋同行/列/宮衝突自動標紅＋💡提示一格（優先用選中格）＋✅檢查標錯＋⏱計時＋各尺寸最佳紀錄（localStorage hkk_sudoku_best_N 跟賬號隔離）；固定格（盤面給定）不可選不可改；測試鉤子 __sdkTest/__sdkFillSol。verify2 加 11 項行為斷言（默認 4×4 出盤/給定數/計時/正確填數/衝突高亮/提示/切 9×9=81 格/填滿正解→完成/切回重開）。
 v1.60：應葉工要求把女兒補習材料搬上站——升學規劃新增第 7 子頁「補習材料」（planSub data-sub="tutor"，插中一 35 週減壓版：小六英文中上、每週≤3h，設計原則「不背單詞——詞彙靠興趣泛讀自然復現」）：①35 週排期表（2026.11→2027.7.6 叩門，月份/能力線 80%/應試線 20%/驗收指標）＋每週≤3h 課表；②教材與資源清單（只買兩本 Great Writing Foundations→Level 1；牛津樹家庭學習版權注；RTHK/教育局字詞表免費資源；教材級別標坊間整理以定級三連測為準）；③面試話題庫 10 題（details 展開答題要點＋90 秒可停計時器）；④數學英文術語翻卡 60 詞 6 週（週 chips 過濾，點卡翻面看中文，全部翻開/蓋回按鈕）；⑤繁體認讀翻卡 100 字（簡→繁自建常用對照非官方字表，「干→乾」「面→麵」一字多繁附備註）；⑥泛讀打卡 21 天挑戰網格（localStorage hkk_ereg_v0，前綴規則自動跟賬號隔離，連續天數統計＋清空重來）。verify2.js 加 15 項斷言（子頁切換/面試 10 題/術語 60/繁體 100/打卡 21 格/翻卡行為/chips 過濾/打卡行為/版權與教材標注）。
 v1.59：應葉工要求小學 30 所也加同款詳情——新腳本 gen_sch_pri_profiles.py 抓取 CHSC《小學概覽 2026》（psp2026，chsc.hk 官方公開資料，學校提供及核實）30 所小學詳情頁（原始 HTML 緩存 _chsc_pri_raw/，3 所 502 重試成功），解析為 _sch_pri_profiles.json（字段 30/30 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教學語言/校車/一條龍/直屬/聯繫中學/收費平鋪欄（學費/堂費/家長會費/非標準）/教師人數與學歷年資%/小一至小六班數/宗旨/設施/地址電話官網）；與中學的字段差異：小學概覽無收生準則板塊、收費非分年級表而是平鋪欄、多「聯繫中學」等升中欄位（對插班家庭有價值）；openSchDetail 按 SCH_PRI_PROFILES 判斷學段分別渲染（基本資料多升中欄、收費改平鋪、設施改欄位卡）；injectSchBtns 三表統一（psTable 校名在第 2 列，首列是檔位）；build_data.py 合併 sch_pri_profiles（assert 30）。
-v1.58：應葉工要求（發中學詳情頁截圖「模仿這個詳細程度」）——擇校分檔兩張中學表每行新增「📄 詳情」按鈕，點開模態看該校完整檔案（仿截圖板塊：基本資料/2025-2026 收費/教師概況/班級結構/中一收生準則/辦學宗旨/學校設施/聯絡+地圖導航）；數據源：新腳本 gen_sch_profiles.py 抓取 CHSC《中學概覽 2025/2026》（chsc.hk 官方公開資料，學校提供及核實）40 所中學詳情頁（原始 HTML 緩存 _chsc_raw/，39+1 所重試成功），解析為 _sch_profiles.json（字段 40/40 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教師人數與學歷年資%/各年級學費堂費/班數/收生準則比重/宗旨/設施/地址電話官網）；解析坑：字段真實格式是「|label|\n| :\n|值|」（冒號前後有管道+換行），首版 regex 過嚴全空，改 [\s|]* 容忍；收費表/聯絡欄/長文本各用專用提取；build_data.py 合併 sch_profiles（assert 40）；模態站內標注來源與「以學校官網為準」。
+v1.58：應葉工要求（發中學詳情頁截圖「模仿這個詳細程度」）——擇校分檔兩張中學表每行新增「📄 詳情」按鈕，點開模態看該校完整檔案（仿截圖板塊：基本資料/2025-2026 收費/教師概況/班級結構/中一收生準則/辦學宗旨/學校設施/聯絡+地圖導航）；數據源：新腳本 gen_sch_profiles.py 抓取 CHSC《中學概覽 2025/2026》（chsc.hk 官方公開資料，學校提供及核實）40 所中學詳情頁（原始 HTML 緩存 _chsc_raw/，39+1 所重試成功），解析為 _sch_profiles.json（字段 40/40 全覆蓋：類型/性別/宗教/創校/校訓/辦學團體/校長/教師人數與學歷年資%/各年級學費堂費/班數/收生準則比重/宗旨/設施/地址電話官網）；解析坑：字段真實格式是「|label|\n| :\n|值|」（冒號前後有管道+換行），首版 regex 過嚴全空，改 [\\s|]* 容忍；收費表/聯絡欄/長文本各用專用提取；build_data.py 合併 sch_profiles（assert 40）；模態站內標注來源與「以學校官網為準」。
 v1.57：葉工二測校園地圖仍 0/70，錯誤可視化顯示「網絡請求失敗」——破案：SDK 源碼實錐 service 請求走 serviceHost 代理（serviceHost&&(c=...serviceHost...)），代理層只代理地圖瓦片、不轉發搜索接口，前端無解；徹底改架構：棄用運行時 POI 解析，校點坐標**內置自教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv**（官方源，每月更新，2026-11-04 下載版本截至 2026-09-30），70/70 校名全部匹配官方坐標（含别忽略全形括號差異），WGS84→GCJ-02（標準公開偏移算法）預轉換後存 _school_geo.json；build_data.py 合併 school_geo（assert 70）進 DATA；地圖 SDK 就緒即直接標點（零運行時解析、零等待），删 mapSearchPoi/mapGeocodeAll/localStorage 緩存/Service 庫引用（gljs 不再 libraries=service）；狀態行與頁面說明改標官方數據源；verify2 改真數據斷言（DATA.school_geo 70 校全有坐標且範圍合理）。
 v1.56：修 v1.55 校園地圖「已載 0/70」——葉工 workbuddy 域名實測地圖渲染成功（代理層正常）但 POI 解析全掛：破案方法名寫錯，官方正確名是 searchInBounds（來源 lbs.qq.com 官方文章 id=1262，2026-11-04 核實），原探测的 searchBoundingBox/search 均不存在導致 call=null 全部靜默失敗；同修 InfoWindow 默認展開懸空白彈窗（創建後立即 close）；解析失敗時狀態行顯示失敗數+原因（不再靜默），錯誤寫 __mapLastErr + console.warn 便診斷。
 v1.55：應葉工要求擇校分檔新增「校園地圖」（實時地圖標點中學40+小學30）——地圖服務選型經合規審查：騰訊地圖 GL JS 默認 key 代理模式（_TMapSecurityConfig 佔位符由運行時替換，前端零 key；高德/百度需自備 key 且前端明文有泄露風險，OSM/Leaflet 不在合規白名單不用）；校點數據直接從頁面三張學校表 DOM 收集（ssTable 20＋tpTable 20＋psTable 30，不重複造數據）；坐標由 TMap.service.Search POI 搜索實時解析（關鍵詞=校名，範圍框覆蓋北區+大埔，120ms 節流），localStorage 緩存（hkk_mapgeo_v1）；學段 chips 過濾（全部/中學/小學），點標點彈 InfoWindow（名/型/語言/Band/地址/電話/導航鏈接）；SDK 或代理不可用時自動降級為「在騰訊地圖打開」URI API 鏈接列表（apis.map.qq.com/uri/v1/search，免 key）；標點僅供參考以學校官網地址為準。verify2.js 加校園地圖靜態+行為斷言（DOM 收集數=70/降級列表70鏈接/chips）。
@@ -558,13 +559,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.62（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.63（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.62（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.63（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -583,6 +584,7 @@ header{position:relative}
   <button data-sub="cn" class="on">中文</button>
   <button data-sub="en">英文</button>
   <button data-sub="math">數學</button>
+  <button data-sub="tutor">補習材料</button>
 </div>
 
 <!-- ============ 速覽指南 ============ -->
@@ -1062,6 +1064,115 @@ Thank you for your time.</div>
       </div>
     </div>
   </div>
+  <!-- 補習材料（v1.60：女兒學習角——35 週減壓排期＋教材清單＋面試話題庫＋翻卡＋泛讀打卡） -->
+  <div class="wrap" id="tutorView" style="display:none">
+    <div class="gsec">
+      <h2>補習材料 · 女兒學習角（插中一 · 35 週減壓版）</h2>
+      <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
+    </div>
+
+    <div class="gsec">
+      <h2>① 35 週排期表（能力線 80% ＋ 應試線 20%）</h2>
+      <table class="mtable">
+        <thead><tr><th style="width:110px">月份</th><th>能力線（80%）</th><th>應試線（20%）</th><th>驗收指標</th></tr></thead>
+        <tbody>
+          <tr><td>2026.11</td><td>定級三連測；每日 20 分鐘興趣泛讀啟動（本頁打卡）</td><td>收集 3 所目標校收生準則與面試形式；直資報名資訊</td><td>定級表出結果；泛讀連續打卡 21 天</td></tr>
+          <tr><td>2026.12–2027.1</td><td>寫作從句子層起步（每週 2 次×30 分鐘）</td><td><b>直資報名窗口內遞表</b>（各校截止日不同，以官網當年公告為準）；面試話題庫 ≥10 題</td><td>能寫 8–10 句連貫、無重大語法錯的段落</td></tr>
+          <tr><td>2027.2–3</td><td>段落寫作（主題句＋支撐）每週 1 篇＋批改；每週 90 秒口頭分享</td><td>目標校題型摸底；數學英文術語啟動（本頁翻卡）</td><td>100–120 詞、有主題句的段落</td></tr>
+          <tr><td>2027.4–5</td><td>維持，不加新內容</td><td>模擬卷 1–2 套＋模擬面試 ×2</td><td>限時內完成模擬卷</td></tr>
+          <tr><td>2027.6–7</td><td>只做錯項弱項</td><td><b>6 月材料齊套</b>（成績單蓋章＋繁體/英文翻譯）；<b>7.6 官津放榜後叩門實戰</b></td><td>90 秒自我介紹不卡；材料 8 樣齊</td></tr>
+        </tbody>
+      </table>
+      <h3>每週課表（≤3 小時）</h3>
+      <table class="mtable">
+        <thead><tr><th>項目</th><th style="width:110px">頻率</th><th style="width:100px">時長</th><th>對應</th></tr></thead>
+        <tbody>
+          <tr><td>興趣泛讀（不查詞典、不考核）</td><td>每天</td><td>20 分鐘</td><td>本頁「泛讀打卡」</td></tr>
+          <tr><td>寫作（Great Writing 教材）</td><td>每週 2 次</td><td>各 30 分鐘</td><td>教材清單②</td></tr>
+          <tr><td>口頭分享／面試練習</td><td>每週 1 次</td><td>30 分鐘</td><td>本頁「面試話題庫」</td></tr>
+          <tr><td>數學英文術語翻卡</td><td>每週 1 次</td><td>20 分鐘</td><td>本頁（2027.2 起）</td></tr>
+          <tr><td>繁體字認讀</td><td>每天</td><td>10 分鐘</td><td>本頁「繁體翻卡」</td></tr>
+          <tr><td>粵語磨耳朵（RTHK 兒童節目）</td><td>每天</td><td>10 分鐘</td><td>只聽不跟讀</td></tr>
+        </tbody>
+      </table>
+      <div class="src">來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29）｜7.6 放榜日＝教育局中一學位分配安排（官方，適用 2027/28 學年）｜各校直資截止日以學校官網當年公告為準</div>
+    </div>
+
+    <div class="gsec">
+      <h2>② 教材與資源清單（只買兩本，其餘免費）</h2>
+      <table class="mtable">
+        <thead><tr><th style="width:110px">模塊</th><th>用什麼</th><th style="width:150px">費用</th></tr></thead>
+        <tbody>
+          <tr><td>寫作主線</td><td><b>Great Writing Foundations → Level 1</b>（NGL/Cengage 第五版）：Foundations 練「寫對句子」，句子穩了進 Level 1 學「主題句＋支撐＋結論」。35 週讀完這兩級剛好，<b>別買 Level 2</b>。若定級測出句子層已過關，跳過 Foundations 直接 Level 1。</td><td>只買這兩本</td></tr>
+          <tr><td>泛讀堆量</td><td>① 手頭已有<b>牛津閱讀樹/TreeTops</b> ② 圖書館／電商按藍思值自選：橋梁書起步，中後期進英文兒童非虛構（選她感興趣的主題）</td><td>免費（已有＋圖書館）</td></tr>
+          <tr><td>面試／口語</td><td>本頁面試話題庫＋90 秒計時器，不用買書</td><td>免費</td></tr>
+          <tr><td>數學題幹</td><td>本頁數學英文術語翻卡 60 詞（6 週）</td><td>免費</td></tr>
+          <tr><td>繁體字</td><td>教育局《香港小學學習字詞表》（官方文件）＋本頁繁體翻卡 100 字</td><td>免費</td></tr>
+          <tr><td>粵語聽力</td><td>RTHK（香港電台）兒童節目／粵語配音動畫</td><td>免費</td></tr>
+        </tbody>
+      </table>
+      <div class="gcard warn">
+        <h3>⚠️ 版權與級別提醒</h3>
+        <p>牛津樹／朗文內容<b>僅限家庭學習</b>，請勿外傳、勿打印傳閱。教材 CEFR/級別對應為<b>坊間教輔整理（非官方測評）</b>，起點以定級三連測為準；教材版本信息以出版社官網為準。</p>
+      </div>
+    </div>
+
+    <div class="gsec" id="ivCard">
+      <h2>③ 面試話題庫（10 題）＋ 90 秒計時器</h2>
+      <p class="tip">用法：每週挑 1–2 題，先按「90 秒計時」開講；講完展開看要點，對照補漏。面試語言多為粵語＋英文（坊間整理，各校不同）——英文講不出的內容可先用中文說再試英文。</p>
+      <div id="ivTimerBox" style="display:flex;align-items:center;gap:12px;margin:10px 0;flex-wrap:wrap">
+        <button id="ivStart">▶ 90 秒計時</button>
+        <span id="ivTime" style="font-size:22px;font-weight:700;letter-spacing:2px">01:30</span>
+        <span class="tip" style="margin:0">再按一次可中途停止</span>
+      </div>
+      <div id="ivList"></div>
+    </div>
+
+    <div class="gsec">
+      <h2>④ 數學英文術語翻卡（60 詞 · 6 週）</h2>
+      <p class="tip">2027.2 起每週 1 組 10 詞：先翻卡認詞，再在自己的數學練習裡找出這個詞。點卡片翻面看中文。</p>
+      <div class="subnav" id="termChips"></div>
+      <div class="fgrid" id="termGrid"></div>
+      <p style="padding:0 12px"><button id="termFlipAll">全部翻開</button> <button id="termFlipNone">全部蓋回</button></p>
+      <div class="src">自建通用數學英文術語（坊間整理非官方詞單）；正式題幹訓練 2027.2 後再啟動</div>
+    </div>
+
+    <div class="gsec">
+      <h2>⑤ 繁體認讀翻卡（100 字 · 簡→繁）</h2>
+      <p class="tip">每天 10 分鐘翻一組：看簡體想繁體，翻開對答案。全部認熟後換書本認讀（教育局《香港小學學習字詞表》）。</p>
+      <div class="fgrid" id="ftGrid"></div>
+      <p style="padding:0 12px"><button id="ftFlipAll">全部翻開</button> <button id="ftFlipNone">全部蓋回</button></p>
+      <div class="src">自建常用簡繁對照（學習用，非官方字表）；「干→乾」「面→麵」等一字多繁情形附備註</div>
+    </div>
+
+    <div class="gsec" id="lexCard">
+      <h2>⑥ 教育局官方字表（3,171 字 · 筆畫序）</h2>
+      <p class="tip">來源：教育局《香港小學學習字詞表》(2007) 小學用字一覽表——共 3,171 字（第一學習階段小一至小三 2,169 字＋第二學習階段小四至小六 1,002 字），按筆畫序，異體字算一字。三種用法：搜字驗證、今日認讀推進、全表瀏覽。</p>
+      <div style="display:flex;gap:10px;padding:0 12px;flex-wrap:wrap;align-items:center">
+        <input id="lexQ" placeholder="輸入漢字查是否在官方字表（可粘貼多個）" style="flex:1;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px">
+        <button id="lexGo">🔍 查字</button>
+      </div>
+      <div id="lexQMsg" class="tip" style="padding:6px 12px;min-height:18px"></div>
+      <div class="fgrid" id="lexQRes" style="display:none"></div>
+      <div class="gcard" style="margin:10px 12px">
+        <h3>今日認讀 · 第 <span id="lexGroupN">1</span> 組（每天 20 字，認完點下一組）</h3>
+        <div class="fgrid" id="lexToday"></div>
+        <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button></p>
+        <p class="tip" style="margin:4px 0 0">每天 20 字 × 3,171 字 ≈ 159 天（約 5 個月），剛好覆蓋 35 週路線裏的繁體認讀線；配合上方⑤的簡→繁翻卡一起用。</p>
+      </div>
+      <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）</p>
+      <div class="fgrid" id="lexAll"></div>
+      <div class="src">數據：教育局《香港小學學習字詞表》小學用字一覽表 3,171 字（文本轉錄 GitHub huwan/HKCLL4PL，字數與教育局官方簡介 PDF 一致，2026-11-05 核實）；含粵普發音＋筆順動畫的官方電子檢索版：<a href="https://www.edbchinese.hk/lexlist_ch/index.jsp" target="_blank" rel="noopener">edbchinese.hk/lexlist_ch</a>（逐字查詢）</div>
+    </div>
+
+    <div class="gsec">
+      <h2>⑦ 泛讀打卡（21 天挑戰）</h2>
+      <p class="tip">規則只有一條：每天碰英文 20 分鐘（漫畫/故事/科普視頻都算），做完點一格。不查詞典、不寫讀後感、不考核——打卡本身就是全部任務。數據保存在本設備、跟賬號走。</p>
+      <div class="rgrid" id="readGrid"></div>
+      <p style="padding:0 12px"><b id="readStat"></b> <button id="readReset">清空重來</button></p>
+    </div>
+  </div>
+
 </div>
 
 <!-- ============ 升學規劃（插班思路） ============ -->
@@ -1071,7 +1182,6 @@ Thank you for your time.</div>
     <button data-sub="schools">擇校分檔</button>
     <button data-sub="docs">材料清單</button>
     <button data-sub="study">學習路線</button>
-    <button data-sub="tutor">補習材料</button>
     <button data-sub="policy">身份政策</button>
     <button data-sub="faq">常見問題</button>
   </div>
@@ -1425,115 +1535,6 @@ Thank you for your time.</div>
         <p>① 買齊六本教材從 Foundations 一路排到 Level 5（讀不完）；② 只刷題不建能力（面試一開口就露）；③ 只建能力不做應試（沒見過題型、沒模擬面試）；④ 忽略繁體與粵語（中文卷讀不完、面試聽不懂）；⑤ 按年齡選級別（12 歲≠Level 2，按定級）；⑥ 把機構推文當官方結論。</p>
       </div>
       <div class="src">來源：學術英語能力路線（hk-placement 知識庫 v1.0，2026-10-29）＋ 插班時間線 v1.1｜80/20 框架性質＝機構軟文（非學術）｜教材 CEFR/藍思為坊間教輔整理，選級以定級測試為準｜各校英文卷寫作題型未取到（待向目標校索取）</div>
-    </div>
-  </div>
-
-  <!-- 補習材料（v1.60：女兒學習角——35 週減壓排期＋教材清單＋面試話題庫＋翻卡＋泛讀打卡） -->
-  <div class="wrap" id="tutorView" style="display:none">
-    <div class="gsec">
-      <h2>補習材料 · 女兒學習角（插中一 · 35 週減壓版）</h2>
-      <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
-    </div>
-
-    <div class="gsec">
-      <h2>① 35 週排期表（能力線 80% ＋ 應試線 20%）</h2>
-      <table class="mtable">
-        <thead><tr><th style="width:110px">月份</th><th>能力線（80%）</th><th>應試線（20%）</th><th>驗收指標</th></tr></thead>
-        <tbody>
-          <tr><td>2026.11</td><td>定級三連測；每日 20 分鐘興趣泛讀啟動（本頁打卡）</td><td>收集 3 所目標校收生準則與面試形式；直資報名資訊</td><td>定級表出結果；泛讀連續打卡 21 天</td></tr>
-          <tr><td>2026.12–2027.1</td><td>寫作從句子層起步（每週 2 次×30 分鐘）</td><td><b>直資報名窗口內遞表</b>（各校截止日不同，以官網當年公告為準）；面試話題庫 ≥10 題</td><td>能寫 8–10 句連貫、無重大語法錯的段落</td></tr>
-          <tr><td>2027.2–3</td><td>段落寫作（主題句＋支撐）每週 1 篇＋批改；每週 90 秒口頭分享</td><td>目標校題型摸底；數學英文術語啟動（本頁翻卡）</td><td>100–120 詞、有主題句的段落</td></tr>
-          <tr><td>2027.4–5</td><td>維持，不加新內容</td><td>模擬卷 1–2 套＋模擬面試 ×2</td><td>限時內完成模擬卷</td></tr>
-          <tr><td>2027.6–7</td><td>只做錯項弱項</td><td><b>6 月材料齊套</b>（成績單蓋章＋繁體/英文翻譯）；<b>7.6 官津放榜後叩門實戰</b></td><td>90 秒自我介紹不卡；材料 8 樣齊</td></tr>
-        </tbody>
-      </table>
-      <h3>每週課表（≤3 小時）</h3>
-      <table class="mtable">
-        <thead><tr><th>項目</th><th style="width:110px">頻率</th><th style="width:100px">時長</th><th>對應</th></tr></thead>
-        <tbody>
-          <tr><td>興趣泛讀（不查詞典、不考核）</td><td>每天</td><td>20 分鐘</td><td>本頁「泛讀打卡」</td></tr>
-          <tr><td>寫作（Great Writing 教材）</td><td>每週 2 次</td><td>各 30 分鐘</td><td>教材清單②</td></tr>
-          <tr><td>口頭分享／面試練習</td><td>每週 1 次</td><td>30 分鐘</td><td>本頁「面試話題庫」</td></tr>
-          <tr><td>數學英文術語翻卡</td><td>每週 1 次</td><td>20 分鐘</td><td>本頁（2027.2 起）</td></tr>
-          <tr><td>繁體字認讀</td><td>每天</td><td>10 分鐘</td><td>本頁「繁體翻卡」</td></tr>
-          <tr><td>粵語磨耳朵（RTHK 兒童節目）</td><td>每天</td><td>10 分鐘</td><td>只聽不跟讀</td></tr>
-        </tbody>
-      </table>
-      <div class="src">來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29）｜7.6 放榜日＝教育局中一學位分配安排（官方，適用 2027/28 學年）｜各校直資截止日以學校官網當年公告為準</div>
-    </div>
-
-    <div class="gsec">
-      <h2>② 教材與資源清單（只買兩本，其餘免費）</h2>
-      <table class="mtable">
-        <thead><tr><th style="width:110px">模塊</th><th>用什麼</th><th style="width:150px">費用</th></tr></thead>
-        <tbody>
-          <tr><td>寫作主線</td><td><b>Great Writing Foundations → Level 1</b>（NGL/Cengage 第五版）：Foundations 練「寫對句子」，句子穩了進 Level 1 學「主題句＋支撐＋結論」。35 週讀完這兩級剛好，<b>別買 Level 2</b>。若定級測出句子層已過關，跳過 Foundations 直接 Level 1。</td><td>只買這兩本</td></tr>
-          <tr><td>泛讀堆量</td><td>① 手頭已有<b>牛津閱讀樹/TreeTops</b> ② 圖書館／電商按藍思值自選：橋梁書起步，中後期進英文兒童非虛構（選她感興趣的主題）</td><td>免費（已有＋圖書館）</td></tr>
-          <tr><td>面試／口語</td><td>本頁面試話題庫＋90 秒計時器，不用買書</td><td>免費</td></tr>
-          <tr><td>數學題幹</td><td>本頁數學英文術語翻卡 60 詞（6 週）</td><td>免費</td></tr>
-          <tr><td>繁體字</td><td>教育局《香港小學學習字詞表》（官方文件）＋本頁繁體翻卡 100 字</td><td>免費</td></tr>
-          <tr><td>粵語聽力</td><td>RTHK（香港電台）兒童節目／粵語配音動畫</td><td>免費</td></tr>
-        </tbody>
-      </table>
-      <div class="gcard warn">
-        <h3>⚠️ 版權與級別提醒</h3>
-        <p>牛津樹／朗文內容<b>僅限家庭學習</b>，請勿外傳、勿打印傳閱。教材 CEFR/級別對應為<b>坊間教輔整理（非官方測評）</b>，起點以定級三連測為準；教材版本信息以出版社官網為準。</p>
-      </div>
-    </div>
-
-    <div class="gsec">
-      <h2>③ 面試話題庫（10 題）＋ 90 秒計時器</h2>
-      <p class="tip">用法：每週挑 1–2 題，先按「90 秒計時」開講；講完展開看要點，對照補漏。面試語言多為粵語＋英文（坊間整理，各校不同）——英文講不出的內容可先用中文說再試英文。</p>
-      <div id="ivTimerBox" style="display:flex;align-items:center;gap:12px;margin:10px 0;flex-wrap:wrap">
-        <button id="ivStart">▶ 90 秒計時</button>
-        <span id="ivTime" style="font-size:22px;font-weight:700;letter-spacing:2px">01:30</span>
-        <span class="tip" style="margin:0">再按一次可中途停止</span>
-      </div>
-      <div id="ivList"></div>
-    </div>
-
-    <div class="gsec">
-      <h2>④ 數學英文術語翻卡（60 詞 · 6 週）</h2>
-      <p class="tip">2027.2 起每週 1 組 10 詞：先翻卡認詞，再在自己的數學練習裡找出這個詞。點卡片翻面看中文。</p>
-      <div class="subnav" id="termChips"></div>
-      <div class="fgrid" id="termGrid"></div>
-      <p style="padding:0 12px"><button id="termFlipAll">全部翻開</button> <button id="termFlipNone">全部蓋回</button></p>
-      <div class="src">自建通用數學英文術語（坊間整理非官方詞單）；正式題幹訓練 2027.2 後再啟動</div>
-    </div>
-
-    <div class="gsec">
-      <h2>⑤ 繁體認讀翻卡（100 字 · 簡→繁）</h2>
-      <p class="tip">每天 10 分鐘翻一組：看簡體想繁體，翻開對答案。全部認熟後換書本認讀（教育局《香港小學學習字詞表》）。</p>
-      <div class="fgrid" id="ftGrid"></div>
-      <p style="padding:0 12px"><button id="ftFlipAll">全部翻開</button> <button id="ftFlipNone">全部蓋回</button></p>
-      <div class="src">自建常用簡繁對照（學習用，非官方字表）；「干→乾」「面→麵」等一字多繁情形附備註</div>
-    </div>
-
-    <div class="gsec">
-      <h2>⑥ 教育局官方字表（3,171 字 · 筆畫序）</h2>
-      <p class="tip">來源：教育局《香港小學學習字詞表》(2007) 小學用字一覽表——共 3,171 字（第一學習階段小一至小三 2,169 字＋第二學習階段小四至小六 1,002 字），按筆畫序，異體字算一字。三種用法：搜字驗證、今日認讀推進、全表瀏覽。</p>
-      <div style="display:flex;gap:10px;padding:0 12px;flex-wrap:wrap;align-items:center">
-        <input id="lexQ" placeholder="輸入漢字查是否在官方字表（可粘貼多個）" style="flex:1;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px">
-        <button id="lexGo">🔍 查字</button>
-      </div>
-      <div id="lexQMsg" class="tip" style="padding:6px 12px;min-height:18px"></div>
-      <div class="fgrid" id="lexQRes" style="display:none"></div>
-      <div class="gcard" style="margin:10px 12px">
-        <h3>今日認讀 · 第 <span id="lexGroupN">1</span> 組（每天 20 字，認完點下一組）</h3>
-        <div class="fgrid" id="lexToday"></div>
-        <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button></p>
-        <p class="tip" style="margin:4px 0 0">每天 20 字 × 3,171 字 ≈ 159 天（約 5 個月），剛好覆蓋 35 週路線裏的繁體認讀線；配合上方⑤的簡→繁翻卡一起用。</p>
-      </div>
-      <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）</p>
-      <div class="fgrid" id="lexAll"></div>
-      <div class="src">數據：教育局《香港小學學習字詞表》小學用字一覽表 3,171 字（文本轉錄 GitHub huwan/HKCLL4PL，字數與教育局官方簡介 PDF 一致，2026-11-05 核實）；含粵普發音＋筆順動畫的官方電子檢索版：<a href="https://www.edbchinese.hk/lexlist_ch/index.jsp" target="_blank" rel="noopener">edbchinese.hk/lexlist_ch</a>（逐字查詢）</div>
-    </div>
-
-    <div class="gsec">
-      <h2>⑦ 泛讀打卡（21 天挑戰）</h2>
-      <p class="tip">規則只有一條：每天碰英文 20 分鐘（漫畫/故事/科普視頻都算），做完點一格。不查詞典、不寫讀後感、不考核——打卡本身就是全部任務。數據保存在本設備、跟賬號走。</p>
-      <div class="rgrid" id="readGrid"></div>
-      <p style="padding:0 12px"><b id="readStat"></b> <button id="readReset">清空重來</button></p>
     </div>
   </div>
 
@@ -3018,12 +3019,13 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   document.getElementById('cnPracView').style.display = curPractice==='cn'?'block':'none';
   document.getElementById('enPracView').style.display = curPractice==='en'?'block':'none';
   document.getElementById('mathPracView').style.display = curPractice==='math'?'block':'none';
+  document.getElementById('tutorView').style.display = curPractice==='tutor'?'block':'none';
   if(curPractice==='en'){renderHk();renderVocab();}
 });
 function swPlan(s){
   curPlan=s;
   document.querySelectorAll('#planSub button').forEach(x=>x.classList.toggle('on',x.dataset.sub===s));
-  ['timeline','schools','docs','study','tutor','policy','faq'].forEach(t=>{const el=document.getElementById(t+'View'); if(el) el.style.display = t===s?'block':'none';});
+  ['timeline','schools','docs','study','policy','faq'].forEach(t=>{const el=document.getElementById(t+'View'); if(el) el.style.display = t===s?'block':'none';});
 }
 document.querySelectorAll('#planSub button').forEach(b=>b.onclick=()=>swPlan(b.dataset.sub));
 // v1.48 擇校頁小學/中學置頂切換（滾動定位＋記住上次）
@@ -4256,7 +4258,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.62',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.63',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
