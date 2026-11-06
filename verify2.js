@@ -266,6 +266,10 @@ try{
   doc.querySelector('nav button[data-tab="practice"]').click();
   doc.querySelector('#practiceSub button[data-sub="tutor"]').click();
   ok('v1.63 tutorView 在練習主目錄下顯示', doc.getElementById('tutorView').style.display !== 'none' && doc.getElementById('practiceView').style.display !== 'none');
+  ok('v1.64 schModal 掛在 body 頂層（不在任何 view 內）', doc.getElementById('schModal').parentElement === doc.body);
+  const sm=doc.getElementById('schModal').style;
+  ok('v1.64 schModal 視口定位語法（position/left/top/width/height 屬性級檢查，棄 inset）', sm.position==='fixed' && (sm.left==='0'||sm.left==='0px') && (sm.top==='0'||sm.top==='0px') && sm.width==='100%' && sm.height==='100%');
+  ok('v1.64 全站已無 inset:0（舊 WebView 相容）', !doc.documentElement.outerHTML.includes('inset:0'));
   ok('v1.60 tutorView 顯示', doc.getElementById('tutorView').style.display !== 'none');
   ok('v1.60 studyView 隱藏', doc.getElementById('studyView').style.display === 'none');
   ok('v1.60 面試話題庫 10 題('+doc.querySelectorAll('#ivList details').length+')', doc.querySelectorAll('#ivList details').length===10);
@@ -813,7 +817,7 @@ try{
   ok('v1.40 faq 含居港2年新政條目', doc.getElementById('faqView').textContent.includes('居港滿 2 年'));
   const about=doc.getElementById('aboutView');
   ok('v1.40 關於卡存在（CTA+免責）', !!about && about.textContent.includes('hkeec2023@gmail.com') && about.textContent.includes('史蒂夫HKSZ') && about.textContent.includes('免責聲明'));
-  ok('v1.40 關於卡緊鄰 footer 之前', doc.querySelector('footer').previousElementSibling===about);
+  ok('v1.40 關於卡在 footer 附近（同一父節點下、schModal 後）', doc.querySelector('footer').parentElement===about.parentElement && Array.prototype.indexOf.call(doc.body.children,about) < Array.prototype.indexOf.call(doc.body.children,doc.querySelector('footer')));
 }catch(e){ ok('v1.40 优化测试执行', false); console.log('   err='+e.message); }
 
 // ============ v1.41 北区表官網列 + Band 細分 ============

@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.64：葉工圈截圖「按詳情彈出來的窗口沒有居中，要從最下面拉回最頂端查看」——學校詳情彈窗定位 bug 修復：①#schModal 從 schoolsView 深處搬到 body 頂層（原位置祖先 .wrap 有 fadeUp both 動畫佔用合成軌道，且舊 WebView 不支援 inset 簡寫，fixed 盒子失去視口偏移就地按文檔流渲染在表格下方，人看不同）；②全站 5 處 fixed/absolute 覆蓋層的 inset 簡寫改為 left/top/width/height 老語法（schModal/authGate/.mask/header::before/mapPlaceholder，後兩者本就是裝飾品，同批修掉防舊設備）；③openSchDetail 打開時 m.scrollTop=0 從頂部看。verify2 加 3 項斷言（彈窗父節點=body/定位語法/scrollTop 歸零）。
 v1.63：葉工要求把補習材料挪進「練習」主目錄——①tutorView 整塊從 planView 搬進 practiceView（位於 mathPracView 之後），②planSub 刪「補習材料」按鈕（7→6 子頁），③practiceSub 加第 4 個子頁按鈕「補習材料」（中文/英文/數學/補習材料），④swPlan 數組去 tutor、practiceSub 點擊處理器加 tutorView 顯示切換。設計理由：補習材料是女兒天天用的學習件，跟古詩詞/單詞/數學卷同屬「練習」語義，之前埋在升學規劃第 7 子頁路徑太深。
 v1.62：葉工要求把教育局官方字表搬上站——補習材料新增「⑥ 教育局官方字表」（泛讀打卡順延爲⑦）：《香港小學學習字詞表》(2007) 小學用字一覽表 3,171 字（官方簡介 PDF 載明第一學習階段 2,169＋第二階段 1,002，筆畫序，異體字算一字；文本轉錄 GitHub huwan/HKCLL4PL，字數與官方一致、常見字抽查全中，2026-11-05 核實，build_data.py assert 3171 唯一）。功能：①搜字（可粘多字逐個查，在表卡顯示筆畫序號、不在表卡紅字標注）②「今日認讀」每天 20 字推進（3,171 字≈159 天，進度指針 localStorage hkk_lex_pos 跟賬號隔離，前進/回退按鈕）③全表按筆畫序分頁瀏覽（60 字/頁 53 頁，select 跳頁）④附官方電子檢索版鏈接（edbchinese.hk/lexlist_ch 含粵普發音＋筆順動畫）。verify2 加 10 項斷言（3171 唯一/首頁 60 格/今日組 20 格/前進後進度/搜字在表與否/跳頁）。
 v1.61：葉工要求悠閒 tab 加数独——新增「🔢 數獨（邏輯推理）」模塊：三檔難度 chips（4×4 入門挖 9 洞／6×6 進階挖 22／9×9 挑戰挖 48，宮形 2×2/2×3/3×3）；純本地生成＝隨機回溯填滿→隨機序挖洞，每挖一格用 MRV 啟發式計數求解器驗證**唯一解**（不唯一則回填）；點格選中＋數字面板/鍵盤數字鍵填數（⌫/0 清除，僅 fun tab 生效避免干擾）＋同行/列/宮衝突自動標紅＋💡提示一格（優先用選中格）＋✅檢查標錯＋⏱計時＋各尺寸最佳紀錄（localStorage hkk_sudoku_best_N 跟賬號隔離）；固定格（盤面給定）不可選不可改；測試鉤子 __sdkTest/__sdkFillSol。verify2 加 11 項行為斷言（默認 4×4 出盤/給定數/計時/正確填數/衝突高亮/提示/切 9×9=81 格/填滿正解→完成/切回重開）。
@@ -79,7 +80,7 @@ TEMPLATE = r'''<!DOCTYPE html>
   .tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:6px;background:#eef4ff;color:var(--acc);margin-left:4px}
   .tag.b{background:#fdecea;color:var(--jy)}
   /* 详情弹层 */
-  .mask{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:flex-start;justify-content:center;overflow:auto;z-index:20;padding:24px 12px}
+  .mask{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.4);display:none;align-items:flex-start;justify-content:center;overflow:auto;z-index:20;padding:24px 12px}
   .mask.show{display:flex}
   .modal{background:#fff;border-radius:14px;max-width:640px;width:100%;padding:22px;position:relative}
   .modal .x{position:absolute;top:10px;right:14px;font-size:22px;cursor:pointer;color:var(--mut)}
@@ -224,7 +225,7 @@ TEMPLATE = r'''<!DOCTYPE html>
 /* ========== v1.6 高級化介面升級（覆蓋層：不改結構與 JS） ========== */
 body{background:radial-gradient(1100px 560px at 85% -8%,rgba(79,70,229,.10),transparent 60%),radial-gradient(900px 480px at -8% 8%,rgba(13,148,136,.08),transparent 55%),#eef1f7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;color:var(--ink)}
 header{position:relative;overflow:hidden;text-align:center;background:linear-gradient(135deg,#312e81 0%,#4f46e5 50%,#4338ca 100%);color:#fff;padding:40px 24px 34px}
-header::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:radial-gradient(circle at 18% 28%,rgba(255,255,255,.14) 0 2px,transparent 3px),radial-gradient(circle at 78% 62%,rgba(255,255,255,.09) 0 2px,transparent 3px);background-size:48px 48px,62px 62px}
+header::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:.5;background-image:radial-gradient(circle at 18% 28%,rgba(255,255,255,.14) 0 2px,transparent 3px),radial-gradient(circle at 78% 62%,rgba(255,255,255,.09) 0 2px,transparent 3px);background-size:48px 48px,62px 62px}
 header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--gold)}
 header h1{margin:0;font-size:30px;font-weight:800;letter-spacing:.5px;position:relative;text-shadow:0 2px 14px rgba(0,0,0,.28)}
 header p{margin:12px auto 0;font-size:13.5px;max-width:660px;opacity:.92;position:relative;line-height:1.7}
@@ -458,7 +459,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
 .ex-ans{font-size:12.5px;line-height:1.9;margin:4px 0}
 .ex-lines{color:#bbb;letter-spacing:1px}
 /* ---- 登录注册页（v1.33，仿 PLG iPlatform 风格） ---- */
-#authGate{position:fixed;inset:0;background:#f6faf9;z-index:9999;display:none;overflow-y:auto;font-family:inherit}
+#authGate{position:fixed;left:0;top:0;width:100%;height:100%;background:#f6faf9;z-index:9999;display:none;overflow-y:auto;font-family:inherit}
 #authGate.on{display:block}
 body.authLock{overflow:hidden}
 .authHero{background:linear-gradient(135deg,#17b3a6,#2ecf9e);padding:34px 16px 26px;text-align:center;color:#fff;border-radius:0 0 42% 42%/0 0 12% 12%}
@@ -559,13 +560,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.63（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.64（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.63（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.64（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1249,7 +1250,7 @@ Thank you for your time.</div>
           <span class="chip" data-mf="pri">小學 30</span>
         </div>
         <div id="mapContainer" style="width:100%;height:60vh;min-height:420px;border-radius:8px;border:1.5px solid var(--line);position:relative;overflow:hidden">
-          <div id="mapPlaceholder" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a8aa0;font-size:14px;background:var(--card,#fff)">按「載入地圖」開始（坐標已內置教育局官方數據，點開即顯示）</div>
+          <div id="mapPlaceholder" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#8a8aa0;font-size:14px;background:var(--card,#fff)">按「載入地圖」開始（坐標已內置教育局官方數據，點開即顯示）</div>
         </div>
         <p style="margin:8px 0 0"><button class="btn" id="mapLoadBtn">🗺️ 載入地圖</button> <span id="mapStatus" style="font-size:12px;color:#8a8aa0"></span></p>
         <div id="mapFallback" style="display:none"></div>
@@ -1259,9 +1260,6 @@ Thank you for your time.</div>
         <h3>📖 學校詳情（中學）</h3>
         <p style="margin:4px 0 6px">下面兩張中學表每行有「📄 詳情」按鈕——點開看該校完整檔案：基本資料、2025/2026 收費、教師概況、班級結構、中一收生準則、辦學宗旨、聯絡資料。</p>
         <p class="src">詳情資料來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實的官方公開資料），以各校官網最新公布為準。</p>
-      </div>
-      <div id="schModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(20,20,40,.55)" onclick="if(event.target===this)this.style.display='none'">
-        <div style="max-width:680px;margin:3vh auto;background:var(--card,#fff);border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="schModalBody"></div>
       </div>
       <div class="gcard">
         <h3>北區跨境要點</h3>
@@ -1687,6 +1685,11 @@ Thank you for your time.</div>
     <!-- TODO(v1.41+): 預約表單外鏈（騰訊問卷/金數據，待葉工開通帳號後填入）；數據埋點（51la/umami，同） -->
     <p class="folk">⚠️ 免責聲明：本站內容為公開資料整理與非官方參考（Band 組別等均非教育局公布），一切以學校官網、教育局、考評局當年公布為準；本站不構成任何升學承諾；牛津樹／朗文等教材內容僅限家庭學習，勿商用或外傳。</p>
   </div>
+</div>
+
+<!-- v1.64 學校詳情彈窗：body 頂層（原埋在 schoolsView 深處，祖先 .wrap 的 fadeUp both 動畫佔用合成軌道 + 舊 WebView 不支援 inset 簡寫，致彈窗按文檔流渲染在表格下方、不在視口居中）。定位用 left/top/width/height 老語法，內層 margin:auto 水平居中、overflow-y:auto 內滾 -->
+<div id="schModal" style="display:none;position:fixed;left:0;top:0;width:100%;height:100%;z-index:9999;background:rgba(20,20,40,.55)" onclick="if(event.target===this)this.style.display='none'">
+  <div style="max-width:680px;margin:3vh auto 6vh;background:var(--card,#fff);border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="schModalBody"></div>
 </div>
 
 <footer>
@@ -3212,7 +3215,8 @@ function openSchDetail(name){
   h+='<p class="src" style="margin:10px 0 2px">資料來源：家庭與學校合作事宜委員會《'+(isPri?'小學概覽 2026':'中學概覽 2025/2026')+'》（chsc.hk，學校提供及核實），以學校官網最新公布為準。</p>';
   h+='<p style="text-align:right;margin:8px 0 0"><button class="chip" onclick="document.getElementById(\'schModal\').style.display=\'none\'">關閉</button></p>';
   document.getElementById('schModalBody').innerHTML=h;
-  document.getElementById('schModal').style.display='block';
+  const m=document.getElementById('schModal');
+  m.style.display='block';m.scrollTop=0; // v1.64 每次打開從頂部看，且彈窗已在 body 頂層=視口居中
 }
 injectSchBtns();
 // 英文練習內部分類切換（港小生字 / 詞表）
@@ -4258,7 +4262,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.63',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.64',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
