@@ -6,7 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
-v1.72：葉工貼來一份「香港插班中學英語學習資料」整理（教科書／試卷庫／官方平台／備考策略＋一串搜尋結果摘要），要求「總結一下看看可以發網站哪裡，不能侵權」——先做版權分級：可上＝機構名稱＋已核實官方入口＋本站自寫的一句話說明；改寫後可上＝題型結構與備考方向（思想／事實不受版權保護，全部重寫）；不可上＝試卷 PDF／答案／評卷參考／教材內頁／機構文章原文與搜尋摘要。硬證據：學友社 student.hk 頁面底部明示「版權所有 不得轉載」（2026-11-06 核對），RISEMARK／Band1.org 為會員點數制題庫、出版社教材受版權保護，故只列名稱不搬內容、不爬取、不存放任何檔案；原資料中「IELTS 5.5+」「某卷 100 分＝閱讀 40＋詞彙 30＋語法 30」「Band 1 必備證書」等為機構宣傳或坊間整理，明確標為非官方、不列為硬指標。落位＝升學規劃→補習材料新增第 8 個折疊塊「⑧ 中學英文 · 外部資源導航」，分 A 官方免費／B 教材題庫只列名／C 本站自寫備考方向／D 版權與使用說明；A 區只放 4 條已核實官方連結（EDB Academic_English、教育城成長錦囊 1031、考評局、教育城首頁），OQB 與學友社因需帳號／明示不得轉載而只寫名稱與取用方式，B 區零外鏈；② 加一句指向 ⑧，頭部提示 7→8 模塊；verify2 折疊計數 7→8＋新增 10 項版權與連結斷言，462→472 項。\nv1.71：葉工發來微信個人二維碼圖片並問「能不能直接識別，別人加我」——①先驗真：cv2 解出內容 https://u.wechat.com/MKpsNHQUMQl6ml4hMG2bqmw?s=4（微信個人碼短鏈格式正確），普通瀏覽器訪問 301 跳 www.wechat.com 屬正常（該鏈僅微信客戶端識別），碼本身清晰可解；②圖片處理：原 JPEG 有壓縮噪點，轉 686×686 無損 PNG 存 assets/wechat_qr.png（349KB，轉換後復檢仍可解出同一鏈）；③站內接入：加微信彈窗二維碼由 150px 放大到 200px（.cta-qr flex-basis 152→202），圖片下方文案改「點圖放大 · 長按存圖」，右側補三條分場景指引（手機長按存相冊→微信掃一掃→右上相冊選圖／電腦用手機微信掃屏幕／或複製微信號粘貼搜索）；④新增全屏放大層 #qrZoom——點二維碼彈出，圖寬 86vw／最大 520px，手機可在此層長按存原分辨率圖、另一台設備可直接掃屏幕，點背景或 × 關閉、點圖片本身不關（留長按時間）；定位用 left/top/width/height 分寫不用 inset 簡寫（沿用 v1.64 舊 WebView 教訓），放 body 頂層避免動畫祖先劫持 fixed；⑤assets/README.txt 改寫為換碼手冊；_gh_sync.py 已含該文件夾映射，缺失自動跳過、加載失敗彈窗內整塊隱藏不出破圖；⑥驗證邊界說明：OpenCV 檢測器對這種彩色漸變碼只在原分辨率穩定（縮到 1/2 即失敗），故未據此下可掃性結論——真實可掃性需微信實測；已知風險：非微信原生黑白碼，屏幕小尺寸/低光/反光下識別率可能下降，已用「放大 + 可點全屏 + 長按存原圖」三條路兜底；verify2 新增 9 項（qr 圖檔存在且 ≥100KB／兩處 img 指向同一文件／彈窗顯示 200px／碼下文案／三條分場景指引／#qrZoom 老語法定位且無 inset／qrZoom 圖寬 86vw／放大層說明含長按／點碼開放大層且點圖不關）＋453→462 項\nv1.70：葉工問「登陸界面可以用微信登陸然後獲取微信號碼嗎，還是怎麼樣吸引別人加到我的微信」——結論：微信登錄拿微信號在三條路上全堵（①微信開放平台「網站應用」掃碼登錄需企業主體＋備案域名，本站是 workbuddy 托管域＋GitHub Pages 無備案；②公眾號網頁授權需認證服務號，個人訂閱號無權限；③微信從未向第三方開放微信號字段，手機號僅小程序 getPhoneNumber 且需企業主體），故轉向「讓對方主動加」的合規引流改造：①浮動鈕文案「💬 諮詢葉工」→「💬 加微信 · 進插班群」；②ctaModal 全面重寫——標題「加微信 · 進插班家長群」、頂部二維碼位（assets/wechat_qr.png，JS 用 img.complete&&naturalWidth 偵測，圖存在才 display:flex 顯示、加載失敗整塊隱藏不出破圖，未傳圖時彈窗靠微信號＋複製仍完整可用）、右側微信號＋📋複製＋複製後操作指引、「加進來能得到什麼」三條清單（插班家長群／問題直接問不推銷／政策與名額更新）、底部郵件與公眾號兜底；③新增 .cta-strip 情境化 CTA 三處——擇校分檔底部（看完 70 所還在搖擺）、學習路線底部（路線按小六英文中上排，起點不同可對照）、補習材料底部（打卡卡在第 3 週正常），點擊統一走 window.openCta()（原 IIFE 內部改為全域函數，不複製彈窗邏輯）；④_gh_sync.py FILE_MAP 加 assets/wechat_qr.png（缺失自動跳過），新建 assets/ 含放置說明；⑤窄屏 .cta-flex 轉列、.cta-strip 堆疊且按鈕滿寬；版權說明：葉工原要求把某 share.google 短鏈的模擬卷拷進站，因短鏈本機打不開且模擬卷屬商業版權（倉庫已公開＝公開發行），未拷入，改為待其提供內容後僅提煉題型結構仿寫；verify2 新增 12 項（浮動鈕文案／彈窗標題／三條理由清單／二維碼位默認隱藏／複製鈕／三處 cta-strip 存在且 onclick 正確／openCta 全域可調用）＋434→446 項
+v1.73：葉工回貼「背詩星圖＋一首詩四步」具體建議並說「按你說的改」——一次版本做完兩塊，素材零新造（全用現成 POEMS 185 首的 title/lines/py/jy/paraphrase）。①背詩星圖：練習→中文頁頂加可視化總覽，按數據實際分 7 段（一年級 13／二年級 14／三年級 18／四年級 19／五年級 22／六年級 26／初中 73＝185，⚠️ 初中 73 首在數據裏未細分 S1–S3，如實合為一段不編造），每首一顆星，點星直接開詩；頂部總數／進度條／「今日又亮了 N 顆」；點亮存 hkk_poem_done（id→日期，hkk_ 前綴天然受 v1.33 賬號隔離），首次進入從舊 pProg[id].recite 一次性遷移；點亮三條路＝星圖上手動切換／詩裏「✨ 點亮這顆」／第 ④ 步抽查答對 2 題自動點亮；②四步流程：改造 openPoem 彈窗加 ①聽讀（粵 zh-HK／普 zh-CN Web Speech，無粵語語音包自動降級普通話並顯示提示，不承諾裝置一定有粵語）②看譯文（用既有 paraphrase＋原文）③遮字背誦（復用 clozeOn/clozeReveal 隔字挖空）④抽查（隨機挖空＋上下句接龍，皆改成 4 選 1 避免繁簡輸入法誤判，幹擾項取同詩其他字或其他詩句，答對 2 題自動點亮）；③相容性：mActs 保留「默寫練習／朗讀／顯示答案／退出默寫」舊按鈕（改為步驟切換），verify2 舊 6 項詩詞彈窗斷言不改仍全過；④導出/導入/清空進度補 poemDone，版本號 3 處同步；verify2 新增 17 項（7 段計數／星點 185／點亮讀寫與今日／四步切換與面板／兩種抽查選項與判分／自動點亮／降級提示／導出字段／點星開詩），472→489 項。\nv1.72：葉工貼來一份「香港插班中學英語學習資料」整理（教科書／試卷庫／官方平台／備考策略＋一串搜尋結果摘要），要求「總結一下看看可以發網站哪裡，不能侵權」——先做版權分級：可上＝機構名稱＋已核實官方入口＋本站自寫的一句話說明；改寫後可上＝題型結構與備考方向（思想／事實不受版權保護，全部重寫）；不可上＝試卷 PDF／答案／評卷參考／教材內頁／機構文章原文與搜尋摘要。硬證據：學友社 student.hk 頁面底部明示「版權所有 不得轉載」（2026-11-06 核對），RISEMARK／Band1.org 為會員點數制題庫、出版社教材受版權保護，故只列名稱不搬內容、不爬取、不存放任何檔案；原資料中「IELTS 5.5+」「某卷 100 分＝閱讀 40＋詞彙 30＋語法 30」「Band 1 必備證書」等為機構宣傳或坊間整理，明確標為非官方、不列為硬指標。落位＝升學規劃→補習材料新增第 8 個折疊塊「⑧ 中學英文 · 外部資源導航」，分 A 官方免費／B 教材題庫只列名／C 本站自寫備考方向／D 版權與使用說明；A 區只放 4 條已核實官方連結（EDB Academic_English、教育城成長錦囊 1031、考評局、教育城首頁），OQB 與學友社因需帳號／明示不得轉載而只寫名稱與取用方式，B 區零外鏈；② 加一句指向 ⑧，頭部提示 7→8 模塊；verify2 折疊計數 7→8＋新增 10 項版權與連結斷言，462→472 項。\nv1.71：葉工發來微信個人二維碼圖片並問「能不能直接識別，別人加我」——①先驗真：cv2 解出內容 https://u.wechat.com/MKpsNHQUMQl6ml4hMG2bqmw?s=4（微信個人碼短鏈格式正確），普通瀏覽器訪問 301 跳 www.wechat.com 屬正常（該鏈僅微信客戶端識別），碼本身清晰可解；②圖片處理：原 JPEG 有壓縮噪點，轉 686×686 無損 PNG 存 assets/wechat_qr.png（349KB，轉換後復檢仍可解出同一鏈）；③站內接入：加微信彈窗二維碼由 150px 放大到 200px（.cta-qr flex-basis 152→202），圖片下方文案改「點圖放大 · 長按存圖」，右側補三條分場景指引（手機長按存相冊→微信掃一掃→右上相冊選圖／電腦用手機微信掃屏幕／或複製微信號粘貼搜索）；④新增全屏放大層 #qrZoom——點二維碼彈出，圖寬 86vw／最大 520px，手機可在此層長按存原分辨率圖、另一台設備可直接掃屏幕，點背景或 × 關閉、點圖片本身不關（留長按時間）；定位用 left/top/width/height 分寫不用 inset 簡寫（沿用 v1.64 舊 WebView 教訓），放 body 頂層避免動畫祖先劫持 fixed；⑤assets/README.txt 改寫為換碼手冊；_gh_sync.py 已含該文件夾映射，缺失自動跳過、加載失敗彈窗內整塊隱藏不出破圖；⑥驗證邊界說明：OpenCV 檢測器對這種彩色漸變碼只在原分辨率穩定（縮到 1/2 即失敗），故未據此下可掃性結論——真實可掃性需微信實測；已知風險：非微信原生黑白碼，屏幕小尺寸/低光/反光下識別率可能下降，已用「放大 + 可點全屏 + 長按存原圖」三條路兜底；verify2 新增 9 項（qr 圖檔存在且 ≥100KB／兩處 img 指向同一文件／彈窗顯示 200px／碼下文案／三條分場景指引／#qrZoom 老語法定位且無 inset／qrZoom 圖寬 86vw／放大層說明含長按／點碼開放大層且點圖不關）＋453→462 項\nv1.70：葉工問「登陸界面可以用微信登陸然後獲取微信號碼嗎，還是怎麼樣吸引別人加到我的微信」——結論：微信登錄拿微信號在三條路上全堵（①微信開放平台「網站應用」掃碼登錄需企業主體＋備案域名，本站是 workbuddy 托管域＋GitHub Pages 無備案；②公眾號網頁授權需認證服務號，個人訂閱號無權限；③微信從未向第三方開放微信號字段，手機號僅小程序 getPhoneNumber 且需企業主體），故轉向「讓對方主動加」的合規引流改造：①浮動鈕文案「💬 諮詢葉工」→「💬 加微信 · 進插班群」；②ctaModal 全面重寫——標題「加微信 · 進插班家長群」、頂部二維碼位（assets/wechat_qr.png，JS 用 img.complete&&naturalWidth 偵測，圖存在才 display:flex 顯示、加載失敗整塊隱藏不出破圖，未傳圖時彈窗靠微信號＋複製仍完整可用）、右側微信號＋📋複製＋複製後操作指引、「加進來能得到什麼」三條清單（插班家長群／問題直接問不推銷／政策與名額更新）、底部郵件與公眾號兜底；③新增 .cta-strip 情境化 CTA 三處——擇校分檔底部（看完 70 所還在搖擺）、學習路線底部（路線按小六英文中上排，起點不同可對照）、補習材料底部（打卡卡在第 3 週正常），點擊統一走 window.openCta()（原 IIFE 內部改為全域函數，不複製彈窗邏輯）；④_gh_sync.py FILE_MAP 加 assets/wechat_qr.png（缺失自動跳過），新建 assets/ 含放置說明；⑤窄屏 .cta-flex 轉列、.cta-strip 堆疊且按鈕滿寬；版權說明：葉工原要求把某 share.google 短鏈的模擬卷拷進站，因短鏈本機打不開且模擬卷屬商業版權（倉庫已公開＝公開發行），未拷入，改為待其提供內容後僅提煉題型結構仿寫；verify2 新增 12 項（浮動鈕文案／彈窗標題／三條理由清單／二維碼位默認隱藏／複製鈕／三處 cta-strip 存在且 onclick 正確／openCta 全域可調用）＋434→446 項
 v1.69：葉工圈截圖問「詞彙路線圖是不是要放第一，子目錄的順序幫我看一下怎麼排比較合理」——練習→英文 6 個子頁按「學習動線」重排：原序 中小學單詞／詞表／升中面試／英文卷／詞彙路線圖／呈分試卷（路線圖埋在第 5，新訪客看不到總覽）→ 新序 詞彙路線圖→中小學單詞→詞表→英文卷→呈分試卷→升中面試，邏輯為 總覽（該背多少・怎麼背）→ 詞彙輸入（分級詞卡＋通用詞表）→ 筆試輸出（分級練習卷→呈分試模擬）→ 口語輸出（面試）；①路線圖升為第 1 顆按鈕並設默認 on，hkView 加 display:none、goalView 去掉；②路線圖頁頂加 4 顆動線按鈕（🎴去背單詞／📝去出練習卷／🎯模擬呈分試／🗣升中面試）＋說明「本頁是總覽」，新增 enGoSub(es) 複用既有切換邏輯（找對應 data-es 按鈕 .click()，不另寫顯隱代碼）；③順帶把「③ 本家庭落點」改中性口吻「③ 示例落點與推進路線」（原句「按六年級必背古詩詞素材推算，當前約小六水平」是第一人稱自評，公開站對訪客無意義）；④DOM 內各子頁 div 物理順序未動（切換靠 display，按鈕順序即用戶可見順序），加註釋說明；verify2 新增 5 項（首顆 goal＋on／按鈕順序數組／默認 goalView 顯示 hkView 隱藏／動線鈕 4 顆／點🎴去背單詞後 hkView 顯示）＋424→429 項；未採納：加「記住上次看的子頁」localStorage（多一次點擊成本極低，但會讓子頁狀態跨會話漂移、測試不穩，違反能不加以不加）
 v1.68：葉工圈截圖「補習材料·女兒學習角」——①刪掉站內關於女兒的介紹：頁標題「補習材料 · 女兒學習角（插中一 · 35 週減壓版）」→「補習材料（插中一 · 35 週減壓版）」；關於葉工卡「本站最初為女兒的插班學習工具」→「本站為來港插班家庭整理的實用工具站」；源碼註釋同步去「女兒學習角」表述（全站可見文本已無「女兒/女儿/涵涵」）。②補習材料頁折疊優化：7 個 gsec 塊（① 35 週排期表＋每週課表／② 教材與資源清單／③ 面試話題庫／④ 數學術語翻卡／⑤ 繁體認讀翻卡／⑥ 教育局官方字表／⑦ 泛讀打卡）轉 `details.gsec.fold`＋`summary.gsec-h`（Python 腳本 div 深度淨計數配對轉換，複用 v1.65 方法；站內本已有 .gsec/.gsec-h 折疊樣式組，直接複用不新造），默認只展開 ①（第一屏仍是整體節奏），其餘 6 塊收起——頁面從約 15 屏降到 2 屏，7 個模塊標題一眼看全；CSS 補 fold 標題條字號 15px／min-height 44px（觸控友好）／hover 變色／展開態分隔線／收起態間距緊湊；頭部加一條藍底提示說明「點標題條展開」。verify2 加 6 項斷言（7 details/1 open/標題條文本/女兒字樣已清/fcard 仍渲染 60+100/泛讀 21 格）。
 v1.67：葉工圈三張截圖要求刪改——①「原則與來源」卡：刪掉紅線標注的框架出處整句（2025-12-01 公眾號文章《13歲，雅思8分，沒刷一套題》＋該文為機構軟文說明），刪後「不能照搬其三年打底」失去指代，整理重寫為「原則」卡：能力是主線／應試是兌換分數的動作＋兩點本地化（不能照搬三年打底 6–12 個月時間窗、純英文路線會漏繁體中文卷／英文題幹數學卷／粵語面試）；②「關於葉工·諮詢與合作」卡字號過大——加 .about-card 專屬字號（h2 17px、正文 12.5px/行高 1.75、folk 11px），不動全局 .gcard 樣式；③免責聲明刪「牛津樹／朗文等教材內容僅限家庭學習，勿商用或外傳」（v1.53 已下線繪本閱讀/朗文詞庫，站內無此類內容，聲明失去對象；補習材料頁的教材版權提醒保留）。
@@ -596,6 +596,43 @@ header{position:relative}
   #qrZoom img{display:block;width:86vw;max-width:520px;height:auto;max-height:60vh;background:#fff;border-radius:12px;padding:10px}
   #qrZoom p{margin:0;color:#fff;font-size:13px;line-height:1.85;text-align:center;max-width:430px}
   #qrZoom .qr-x{position:absolute;right:14px;top:10px;color:#fff;font-size:26px;line-height:1;opacity:.75;cursor:pointer;padding:6px}
+  /* v1.73 背詩星圖 ＋ 一首詩四步 */
+  .starmap{background:linear-gradient(135deg,#f7f8ff,#eef1ff);border:1px solid #dbe1ff;border-radius:var(--radius);padding:16px 18px;margin:0 0 18px;box-shadow:var(--shadow-sm);scroll-margin-top:110px}
+  .sm-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+  .sm-count{font-size:24px;font-weight:800;color:#3730a3;line-height:1.3}
+  .sm-count em{font-style:normal;font-size:14px;font-weight:600;color:#6b6b8a}
+  .sm-today{font-size:13px;color:#1a8a4a;font-weight:700}
+  .sm-bar{height:9px;background:#dfe3f5;border-radius:6px;overflow:hidden;margin:10px 0 6px}
+  .sm-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6366f1,#f5b942);border-radius:6px;transition:width .35s}
+  .sm-seg{margin-top:12px}
+  .sm-seg-h{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#2b2b6b;margin-bottom:7px}
+  .sm-seg-h b{font-size:12px;font-weight:600;color:#7a7a9a}
+  .sm-stars{display:flex;flex-wrap:wrap;gap:5px}
+  .sm-star{width:20px;height:20px;border-radius:50%;border:1px solid #c9cee8;background:#fff;cursor:pointer;padding:0;font-size:0;line-height:1;transition:.15s}
+  .sm-star:hover{transform:scale(1.25);border-color:#6366f1}
+  .sm-star.on{background:radial-gradient(circle at 35% 30%,#ffeeb4,#f5b942 60%,#dd8f18);border-color:#e0a020;box-shadow:0 0 7px rgba(245,185,66,.75)}
+  .sm-star.today{box-shadow:0 0 0 2px rgba(26,138,74,.45),0 0 7px rgba(245,185,66,.75)}
+  .sm-note{font-size:11px;color:#8a8aa0;margin-top:12px;line-height:1.7}
+  .psteps{display:flex;gap:6px;margin:12px 0 6px;flex-wrap:wrap}
+  .psteps button{flex:1 1 90px;min-width:78px;padding:8px 6px;border:1px solid var(--line);background:#f7f8fc;border-radius:8px;font-size:12px;cursor:pointer;color:#55556f}
+  .psteps button.on{background:#4f46e5;color:#fff;border-color:#4f46e5;font-weight:700}
+  .step-hint{font-size:12px;color:#8a6d1f;background:linear-gradient(135deg,#fdf3d8,#f7e6b8);border:1px solid #ecd9a0;border-radius:8px;padding:7px 10px;margin:6px 0;line-height:1.6}
+  .quiz-q{font-size:17px;font-weight:700;line-height:1.9;margin:8px 0;color:#2b2b6b}
+  .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 16px}
+  .quiz-opts button{min-height:46px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-size:14px;text-align:left;line-height:1.6;color:var(--ink)}
+  .quiz-opts button.ok{background:#e7f7ed;border-color:#1a8a4a;color:#1a8a4a;font-weight:700}
+  .quiz-opts button.no{background:#fdecec;border-color:#d33;color:#c33}
+  .quiz-res{font-size:13px;font-weight:700;margin:8px 0}
+  .quiz-res.good{color:#1a8a4a}
+  .quiz-res.bad{color:#c33}
+  #pStepVoice{font-size:11px;color:#8a8aa0;margin:4px 0 0;line-height:1.6}
+  .acts button.sm-light{background:#fff8e1;border-color:#f0d080;color:#8a6d1f;font-weight:700}
+  @media screen and (max-width:640px){
+    .starmap{padding:12px}
+    .sm-star{width:18px;height:18px}
+    .quiz-opts{grid-template-columns:1fr}
+    .psteps button{flex:1 1 44%}
+  }
   @media print{#ctaFab{display:none!important}}
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
@@ -641,13 +678,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.72（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.73（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.72（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.73（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -769,6 +806,16 @@ header{position:relative}
 <div id="practiceView" style="display:none">
   <!-- 中文 -->
   <div class="wrap" id="cnPracView">
+    <!-- v1.73 背詩星圖：185 首按 7 段點亮，全部數據取自現成 POEMS，不新造素材 -->
+    <div class="starmap" id="starMap">
+      <div class="sm-top">
+        <div class="sm-count" id="smCount">✦ 0 <em>/ 185 顆星</em></div>
+        <div class="sm-today" id="smToday"></div>
+      </div>
+      <div class="sm-bar"><i id="smBar"></i></div>
+      <div id="smSegs"></div>
+      <div class="sm-note">每年級一段，背過一首點亮一顆：點星星直接打開那首詩，或在詩裏按「✨ 點亮這顆」／完成第 ④ 步抽查自動點亮。點亮狀態存本設備、跟賬號隔離；再點一次可取消（點錯能改）。初中 73 首在原有數據裏未細分 S1–S3，故合為一段。</div>
+    </div>
     <div class="sec-title">古詩詞 · 小學 1–6 年級必背 ＋ 初中（繁體＋拼音＋粵拼）</div>
     <div class="tools">
       <span class="chip on" data-g="all">全部</span>
@@ -1810,10 +1857,19 @@ Thank you for your time.</div>
     <span class="x" onclick="closeModal()">×</span>
     <h2 id="mTitle"></h2>
     <div class="sub" id="mSub"></div>
-    <div class="toggles">
+    <div class="toggles" id="pToggles">
       <label><input type="checkbox" id="tgPy" checked onchange="renderModal()"> 顯示拼音</label>
       <label><input type="checkbox" id="tgJy" checked onchange="renderModal()"> 顯示粵拼</label>
     </div>
+    <!-- v1.73 一首詩四步：聽讀 → 看譯文 → 遮字背誦 → 抽查 -->
+    <div class="psteps" id="pSteps">
+      <button type="button" data-ps="1" class="on" onclick="setPoemStep(1)">① 聽讀</button>
+      <button type="button" data-ps="2" onclick="setPoemStep(2)">② 看譯文</button>
+      <button type="button" data-ps="3" onclick="setPoemStep(3)">③ 遮字背誦</button>
+      <button type="button" data-ps="4" onclick="setPoemStep(4)">④ 抽查</button>
+    </div>
+    <div class="step-hint" id="pStepHint"></div>
+    <div id="pStepVoice"></div>
     <div id="mBody"></div>
     <div class="acts" id="mActs"></div>
   </div>
@@ -2761,10 +2817,20 @@ function speak(text,lang){
     window.speechSynthesis.speak(u);
   }catch(e){}
 }
-function speakPoem(){
+// v1.73 四步①聽讀：粵／普雙語。粵語語音包不是每台裝置都有，缺了就降級普通話並明說，不假裝有。
+function speakPoemLang(lang){
   if(!curPoem)return;
-  speak(curPoem.lines.map(l=>l.text).join('。'), 'zh-HK');
+  const txt=curPoem.lines.map(function(l){return l.text;}).join('。');
+  let use=lang, note='語音由瀏覽器／裝置提供，不同裝置的聲音與可用語言可能不同。';
+  if(lang==='zh-HK'){
+    const vs=('speechSynthesis' in window)?(window.speechSynthesis.getVoices()||[]):[];
+    const has=vs.some(function(v){return /^zh[-_](HK|Hant)/i.test(v.lang||'');});
+    if(!has){use='zh-CN';note='⚠️ 這台裝置沒有粵語語音包，已改為普通話朗讀；想聽粵語可在系統設定加裝粵語語音。';}
+  }
+  speak(txt,use);
+  const el=document.getElementById('pStepVoice');if(el)el.textContent=note;
 }
+function speakPoem(){speakPoemLang('zh-HK');}
 
 // ---- 補習材料（v1.60：35週減壓排期＋面試庫＋術語/繁體翻卡＋泛讀打卡）----
 function hkEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
@@ -4488,8 +4554,122 @@ function renderPoemGrid(){
     g.appendChild(d);
   });
 }
+// ---- v1.73 背詩星圖：185 首按 7 段點亮，狀態存 hkk_poem_done（hkk_ 前綴天然受 v1.33 賬號隔離）----
+const DONEKEY='hkk_poem_done';
+const SM_SEGS=[['一年級','P1'],['二年級','P2'],['三年級','P3'],['四年級','P4'],['五年級','P5'],['六年級','P6'],['初中','S1–S3']];
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function loadDone(){
+  let d={};
+  try{d=JSON.parse(localStorage.getItem(DONEKEY)||'{}')||{};}catch(e){d={};}
+  // 舊「標記背熟」一次性遷移，之後星圖與舊進度各自獨立
+  if(!localStorage.getItem(DONEKEY)){
+    Object.keys(pProg).forEach(function(id){if(pProg[id]&&pProg[id].recite)d[id]=pProg[id].date||todayStr();});
+    localStorage.setItem(DONEKEY,JSON.stringify(d));
+  }
+  return d;
+}
+let poemDone=loadDone();
+function saveDone(){localStorage.setItem(DONEKEY,JSON.stringify(poemDone));}
+function isDone(id){return !!poemDone[id];}
+function lightStar(id,on){
+  const v=(on===undefined)?!isDone(id):!!on;
+  if(v)poemDone[id]=todayStr(); else delete poemDone[id];
+  saveDone();renderStarMap();renderPoemGrid();
+  if(curTab==='progress')renderProgress();
+  return v;
+}
+function toggleStarBtn(){if(!curPoem)return;lightStar(curPoem.id);renderModal();}
+function renderStarMap(){
+  const segs=document.getElementById('smSegs'); if(!segs)return;
+  const t=todayStr(); let html='';
+  SM_SEGS.forEach(function(s){
+    const list=POEMS.filter(function(p){return p.grades[0]===s[0];});
+    const n=list.filter(function(p){return isDone(p.id);}).length;
+    html+='<div class="sm-seg"><div class="sm-seg-h"><span>✦ '+s[1]+' · '+s[0]+'</span><b>'+n+' / '+list.length+'</b></div><div class="sm-stars">';
+    list.forEach(function(p){
+      const on=isDone(p.id);
+      html+='<button type="button" class="sm-star'+(on?' on':'')+(on&&poemDone[p.id]===t?' today':'')+'" data-pid="'+p.id+'" title="'+hkEsc(p.title)+(on?'（已點亮）':'（未點亮）')+'" aria-label="'+hkEsc(p.title)+'">'+hkEsc(p.title.slice(0,1))+'</button>';
+    });
+    html+='</div></div>';
+  });
+  segs.innerHTML=html;
+  segs.querySelectorAll('.sm-star').forEach(function(b){b.onclick=function(){openPoem(Number(b.dataset.pid));};});
+  const total=POEMS.length, done=POEMS.filter(function(p){return isDone(p.id);}).length;
+  const today=POEMS.filter(function(p){return poemDone[p.id]===t;}).length;
+  document.getElementById('smCount').innerHTML='✦ '+done+' <em>/ '+total+' 顆星</em>';
+  document.getElementById('smBar').style.width=(total?Math.round(done*1000/total)/10:0)+'%';
+  document.getElementById('smToday').textContent=today?('今日又亮了 '+today+' 顆 ✨'):'今天還沒亮新星星，挑一首吧';
+}
+
+// ---- v1.73 四步④抽查：隨機挖空／上下句接龍，統一 4 選 1 避免繁簡輸入法誤判 ----
+let poemStep=1, quiz=null, quizPass=0, QPOOL=null;
+const STEP_HINT=['','① 聽讀：先聽一遍，跟著讀一遍。聲音由瀏覽器／裝置提供。','② 看譯文：先讀懂意思，再背會快很多。','③ 遮字背誦：隔字遮起來試著背，卡住才按「顯示答案」。','④ 抽查：隨機挖空＋上下句接龍，答對 2 題自動點亮這顆星。'];
+function quizPick(a){return a[Math.floor(Math.random()*a.length)];}
+function quizShuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function quizPool(){
+  if(QPOOL)return QPOOL;
+  QPOOL=[];
+  POEMS.forEach(function(p){p.lines.forEach(function(l){if(l.text.length>4)QPOOL.push(l.text);});});
+  return QPOOL;
+}
+function newQuiz(){
+  const p=curPoem;if(!p)return;
+  const type=quizPick(['blank','chain']);
+  if(type==='blank'){
+    const text=quizPick(p.lines).text, idx=[];
+    for(let i=0;i<text.length;i++)if(!" ，。、？！；：".includes(text[i]))idx.push(i);
+    const pos=quizPick(idx), ans=text[pos];
+    const pool=[];
+    p.lines.forEach(function(l){for(const c of l.text)if(!" ，。、？！；：".includes(c)&&c!==ans&&pool.indexOf(c)<0)pool.push(c);});
+    const opts=[ans];
+    while(opts.length<4&&pool.length){const c=quizPick(pool);if(opts.indexOf(c)<0)opts.push(c);pool.splice(pool.indexOf(c),1);}
+    quiz={type:'blank',shown:text.slice(0,pos)+'□'+text.slice(pos+1),full:text,ans:ans,opts:quizShuffle(opts),answered:false,ok:false};
+  }else{
+    const li=Math.floor(Math.random()*(p.lines.length-1));
+    const up=p.lines[li].text, ans=p.lines[li+1].text, pool=quizPool();
+    const opts=[ans]; let guard=0;
+    while(opts.length<4&&guard++<200){const c=quizPick(pool);if(opts.indexOf(c)<0)opts.push(c);}
+    quiz={type:'chain',up:up,ans:ans,opts:quizShuffle(opts),answered:false,ok:false};
+  }
+}
+function renderQuiz(){
+  if(!quiz)newQuiz();
+  const q=quiz;if(!q)return '';
+  let h='<div style="font-size:12px;color:#8a8aa0">已答對 '+quizPass+' / 2 題 · 答對 2 題自動點亮 ✨</div>';
+  h+=q.type==='blank'
+    ? '<div style="font-size:12px;color:#8a8aa0;margin-top:8px">補上缺字</div><div class="quiz-q">'+hkEsc(q.shown)+'</div>'
+    : '<div style="font-size:12px;color:#8a8aa0;margin-top:8px">上句 → 下句接龍</div><div class="quiz-q">'+hkEsc(q.up)+'</div>';
+  h+='<div class="quiz-opts">';
+  q.opts.forEach(function(o,i){
+    let cls='';
+    if(q.answered&&o===q.ans)cls='ok';else if(q.answered&&o===q.picked)cls='no';
+    h+='<button type="button" class="'+cls+'" '+(q.answered?'disabled':'onclick="quizPickOpt('+i+')"')+'>'+hkEsc(o)+'</button>';
+  });
+  h+='</div>';
+  if(q.answered){
+    h+='<div class="quiz-res '+(q.ok?'good':'bad')+'">'+(q.ok?'✓ 答對了！':('✗ 再記一次．正確答案：'+hkEsc(q.ans)))+'</div>';
+    if(q.type==='blank')h+='<div style="font-size:12px;color:#8a8aa0">原句：'+hkEsc(q.full)+'</div>';
+    h+='<div style="margin-top:10px"><button class="btn" type="button" onclick="quizNext()">下一題 →</button></div>';
+  }
+  if(quizPass>=2)h+='<div class="quiz-res good">✨ 這顆星已點亮，去星圖看看</div>';
+  return h;
+}
+function quizPickOpt(i){
+  if(!quiz||quiz.answered)return;
+  quiz.picked=quiz.opts[i];quiz.answered=true;quiz.ok=(quiz.picked===quiz.ans);
+  if(quiz.ok)quizPass++;
+  if(quizPass===2)lightStar(curPoem.id,true);
+  renderModal();
+}
+function quizNext(){quiz=null;newQuiz();renderModal();}
+function setPoemStep(n){
+  poemStep=n;clozeOn=(n===3);clozeReveal=false;
+  if(n!==4)quiz=null;
+  renderModal();
+}
 function openPoem(id){
   curPoem=POEMS.find(x=>x.id===id);
+  poemStep=1;quiz=null;quizPass=0;clozeOn=false;clozeReveal=false;
   document.getElementById('mask').classList.add('show');
   renderModal();
 }
@@ -4499,36 +4679,52 @@ function renderModal(){
   const p=curPoem; if(!p)return;
   document.getElementById('mTitle').textContent=p.title;
   document.getElementById('mSub').textContent=`〔${p.dynasty}〕${p.author}　${p.grades.join(' / ')}`;
-  const showPy=document.getElementById('tgPy').checked, showJy=document.getElementById('tgJy').checked;
-  let html=''; let ni=0;
-  p.lines.forEach(ln=>{
-    html+='<div class="line">';
-    for(let i=0;i<ln.text.length;i++){
-      const c=ln.text[i];
-      if(' ，。、？！；：'.includes(c)){html+=`<span class="ch"><span class="py">&nbsp;</span><span class="han">${c}</span><span class="jy">&nbsp;</span></span>`;continue;}
-      const blank = clozeOn && (ni%2===1); ni++;
-      const hanCls='han'+(blank?' blank':'')+(blank&&clozeReveal?' reveal':'');
-      html+=`<span class="ch"><span class="py">${showPy&&!blank?(ln.py[i]||''):'&nbsp;'}</span><span class="${hanCls}">${c}</span><span class="jy">${showJy&&!blank?(ln.jy[i]||''):'&nbsp;'}</span></span>`;
-    }
-    html+='</div>';
-  });
-  if(p.paraphrase && !clozeOn) html+=`<div class="para">白話釋義：${p.paraphrase}</div>`;
-  document.getElementById('mBody').innerHTML=html;
-  if(!showPy)document.getElementById('mBody').classList.add('hidepy');else document.getElementById('mBody').classList.remove('hidepy');
-  if(!showJy)document.getElementById('mBody').classList.add('hidejy');else document.getElementById('mBody').classList.remove('hidejy');
+  document.querySelectorAll('#pSteps button').forEach(function(b){b.classList.toggle('on',Number(b.dataset.ps)===poemStep);});
+  document.getElementById('pStepHint').textContent=STEP_HINT[poemStep];
+  document.getElementById('pToggles').style.display=(poemStep===1||poemStep===3)?'flex':'none';
+  const body=document.getElementById('mBody');
+  body.classList.remove('hidepy','hidejy');
+  if(poemStep===1||poemStep===3){
+    const showPy=document.getElementById('tgPy').checked, showJy=document.getElementById('tgJy').checked;
+    let html=''; let ni=0;
+    p.lines.forEach(ln=>{
+      html+='<div class="line">';
+      for(let i=0;i<ln.text.length;i++){
+        const c=ln.text[i];
+        if(' ，。、？！；：'.includes(c)){html+=`<span class="ch"><span class="py">&nbsp;</span><span class="han">${c}</span><span class="jy">&nbsp;</span></span>`;continue;}
+        const blank = clozeOn && (ni%2===1); ni++;
+        const hanCls='han'+(blank?' blank':'')+(blank&&clozeReveal?' reveal':'');
+        html+=`<span class="ch"><span class="py">${showPy&&!blank?(ln.py[i]||''):'&nbsp;'}</span><span class="${hanCls}">${c}</span><span class="jy">${showJy&&!blank?(ln.jy[i]||''):'&nbsp;'}</span></span>`;
+      }
+      html+='</div>';
+    });
+    if(p.paraphrase && poemStep===1) html+=`<div class="para">白話釋義：${p.paraphrase}</div>`;
+    body.innerHTML=html;
+    if(!showPy)body.classList.add('hidepy');
+    if(!showJy)body.classList.add('hidejy');
+  }else if(poemStep===2){
+    body.innerHTML='<div class="para" style="font-size:15px">白話釋義：'+hkEsc(p.paraphrase)+'</div>'+
+      '<div style="margin-top:12px;line-height:2;font-size:16px">'+p.lines.map(function(l){return hkEsc(l.text);}).join('<br>')+'</div>'+
+      '<div class="src" style="margin-top:12px">釋義為站內既有資料，只幫理解；背誦與默寫以課本原文為準。</div>';
+  }else{
+    body.innerHTML=renderQuiz();
+  }
   const st=pProg[p.id]||{};
-  document.getElementById('mActs').innerHTML=
-    `<button class="${st.recite?'done':''}" onclick="toggleRecite()">${st.recite?'✓ 已背熟':'標記背熟'}</button>`+
-    `<button class="${st.write?'wdone':''}" onclick="toggleWrite()">${st.write?'✓ 已默寫':'標記默寫'}</button>`+
-    `<button class="${clozeOn?'on':''}" onclick="toggleCloze()">${clozeOn?'退出默寫':'默寫練習'}</button>`+
-    (clozeOn?`<button onclick="toggleClozeReveal()">${clozeReveal?'隱藏答案':'顯示答案'}</button>`:'')+
-    `<button onclick="speakPoem()">🔊 朗讀</button>`+
-    `<button onclick="window.print()">打印${clozeOn?'默寫紙':'此首'}</button>`;
+  let acts='';
+  if(poemStep===1)acts+='<button onclick="speakPoemLang(\'zh-HK\')">🔊 粵語朗讀</button>'+
+                        '<button onclick="speakPoemLang(\'zh-CN\')">🔊 普通話朗讀</button>';
+  if(poemStep===3)acts+='<button onclick="toggleClozeReveal()">'+(clozeReveal?'隱藏答案':'顯示答案')+'</button>';
+  acts+='<button class="'+(clozeOn?'on':'')+'" onclick="'+(clozeOn?'setPoemStep(1)':'setPoemStep(3)')+'">'+(clozeOn?'退出默寫':'默寫練習')+'</button>'+
+        '<button class="'+(st.recite?'done':'')+'" onclick="toggleRecite()">'+(st.recite?'✓ 已背熟':'標記背熟')+'</button>'+
+        '<button class="'+(st.write?'wdone':'')+'" onclick="toggleWrite()">'+(st.write?'✓ 已默寫':'標記默寫')+'</button>'+
+        '<button class="'+(isDone(p.id)?'sm-light':'')+'" onclick="toggleStarBtn()">'+(isDone(p.id)?'✨ 已點亮（點此取消）':'✨ 點亮這顆')+'</button>'+
+        '<button onclick="window.print()">打印'+(clozeOn?'默寫紙':'此首')+'</button>';
+  document.getElementById('mActs').innerHTML=acts;
 }
-function toggleCloze(){clozeOn=!clozeOn;clozeReveal=false;renderModal();}
+function toggleCloze(){setPoemStep(clozeOn?1:3);}
 function toggleClozeReveal(){clozeReveal=!clozeReveal;renderModal();}
-function toggleRecite(){const id=curPoem.id;pProg[id]=pProg[id]||{};pProg[id].recite=!pProg[id].recite;pProg[id].date=new Date().toISOString().slice(0,10);saveP();renderModal();renderPoemGrid();if(curTab==='progress')renderProgress();}
-function toggleWrite(){const id=curPoem.id;pProg[id]=pProg[id]||{};pProg[id].write=!pProg[id].write;pProg[id].date=new Date().toISOString().slice(0,10);saveP();renderModal();renderPoemGrid();if(curTab==='progress')renderProgress();}
+function toggleRecite(){const id=curPoem.id;pProg[id]=pProg[id]||{};pProg[id].recite=!pProg[id].recite;pProg[id].date=todayStr();if(pProg[id].recite)poemDone[id]=todayStr();saveP();saveDone();renderModal();renderPoemGrid();renderStarMap();if(curTab==='progress')renderProgress();}
+function toggleWrite(){const id=curPoem.id;pProg[id]=pProg[id]||{};pProg[id].write=!pProg[id].write;pProg[id].date=todayStr();saveP();renderModal();renderPoemGrid();if(curTab==='progress')renderProgress();}
 function printOne(){window.print();}
 
 // ---- 词表 ----
@@ -4651,13 +4847,13 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／詞表／港小詞／數術語）？此操作不可恢復。')){
-    pProg={};vProg={};hProg={};mProg={};saveP();saveV();saveH();saveM();renderPoemGrid();renderVocab();renderHk();renderMath();renderProgress();
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語）？此操作不可恢復。')){
+    pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.72',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,ver:'hkk_v1.73',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -4667,9 +4863,9 @@ document.getElementById('importFile').onchange=e=>{
   const r=new FileReader();
   r.onload=()=>{try{
     const d=JSON.parse(r.result);
-    if(d.pProg)pProg=d.pProg; if(d.vProg)vProg=d.vProg; if(d.hProg)hProg=d.hProg; if(d.mProg)mProg=d.mProg;
-    saveP();saveV();saveH();saveM();renderPoemGrid();renderVocab();renderHk();renderMath();renderProgress();
-    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語）');
+    if(d.pProg)pProg=d.pProg; if(d.vProg)vProg=d.vProg; if(d.hProg)hProg=d.hProg; if(d.mProg)mProg=d.mProg; if(d.poemDone)poemDone=d.poemDone;
+    saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
+    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
   r.readAsText(f); e.target.value='';
 };
@@ -4704,7 +4900,7 @@ document.getElementById('flashReveal').onclick=flashReveal;
 document.getElementById('flashKnow').onclick=flashKnow;
 document.getElementById('flashUnk').onclick=flashUnk;
 document.getElementById('flashSound').onclick=function(){if(flashCur)speak(flashCur.w,'en-US');};
-renderPoemGrid();renderVocab();renderHk();renderMath();renderFt();showEnStat();
+renderStarMap();renderPoemGrid();renderVocab();renderHk();renderMath();renderFt();showEnStat();
 bumpStreak();renderMoti();renderBadges();
 (function(){const c=getAiCfg();if(!c||!c.base)return;const b=document.getElementById('aiBase');if(b&&c.base)b.value=c.base;const k=document.getElementById('aiKey');if(k&&c.key)k.value=c.key;const m=document.getElementById('aiModel');if(m&&c.model)m.value=c.model;})();
 

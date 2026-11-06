@@ -1098,6 +1098,47 @@ try{
   ok('v1.52 深讀段換官方派位攻略鏈接', /<b>派位攻略<\/b>/.test(html) && (html.match(/edb\.gov\.hk/g)||[]).length>=3 && !/schooland\.hk\/post/.test(html));
 }catch(e){ ok('v1.52 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.73 背詩星圖 ＋ 一首詩四步 ============
+try{
+  doc.querySelector('nav button[data-tab="practice"]').click();
+  doc.querySelector('#practiceSub button[data-sub="cn"]').click();
+  window.eval('poemDone={};saveDone();curPoem=null;quiz=null;quizPass=0;poemStep=1;clozeOn=false;clozeReveal=false;renderStarMap();');
+  const sm=doc.getElementById('starMap');
+  ok('v1.73 星圖在中文頁詩詞列表之前', !!sm && sm.parentElement.id==='cnPracView' && html.indexOf('id="starMap"') < html.indexOf('id="poemGrid"'));
+  const segs=[...doc.querySelectorAll('#smSegs .sm-seg')];
+  const sizes=segs.map(s=>s.querySelectorAll('.sm-star').length);
+  ok('v1.73 七段星數 13/14/18/19/22/26/73 ('+sizes.join('/')+')', sizes.join(',')==='13,14,18,19,22,26,73');
+  ok('v1.73 共 185 顆星、初始全暗', doc.querySelectorAll('#smSegs .sm-star').length===185 && doc.querySelectorAll('.sm-star.on').length===0);
+  const segTxt=segs.map(s=>s.querySelector('.sm-seg-h').textContent).join('');
+  ok('v1.73 段標含 P1–P6 與 S1–S3（初中未細分如實標注）', segTxt.includes('P1') && segTxt.includes('P6') && segTxt.includes('S1–S3'));
+  ok('v1.73 狀態鍵 hkk_poem_done 且受 hkk_ 賬號隔離', window.eval('DONEKEY')==='hkk_poem_done' && /k\.indexOf\('hkk_'\)===0/.test(html) && window.localStorage.getItem('hkk_poem_done')!==null);
+  ok('v1.73 進度條與今日提示初始正確', doc.getElementById('smBar').style.width==='0%' && doc.getElementById('smToday').textContent.includes('今天還沒亮新星星'));
+  doc.querySelector('#poemGrid .pcard').click();
+  const firstId=window.eval('curPoem.id');
+  [...doc.querySelectorAll('#mActs button')].find(b=>b.textContent.includes('點亮這顆')).click();
+  ok('v1.73 手動點亮：星圖亮 1 顆＋計數＋今日提示', doc.querySelectorAll('.sm-star.on').length===1 && doc.getElementById('smCount').textContent.includes('✦ 1') && doc.getElementById('smToday').textContent.includes('今日又亮了 1 顆'));
+  ok('v1.73 點亮寫入 localStorage 且帶日期', (()=>{const d=JSON.parse(window.localStorage.getItem('hkk_poem_done'));return d[firstId]===new Date().toISOString().slice(0,10);})());
+  [...doc.querySelectorAll('#mActs button')].find(b=>b.textContent.includes('已點亮')).click();
+  ok('v1.73 再點可取消點亮', doc.querySelectorAll('.sm-star.on').length===0 && !JSON.parse(window.localStorage.getItem('hkk_poem_done'))[firstId]);
+  ok('v1.73 四步按鈕齊、默認①聽讀', doc.querySelectorAll('#pSteps button').length===4 && doc.querySelector('#pSteps button.on').dataset.ps==='1');
+  ok('v1.73 ①聽讀有粵／普兩鈕且無語音包降級邏輯在', doc.getElementById('mActs').textContent.includes('粵語朗讀') && doc.getElementById('mActs').textContent.includes('普通話朗讀') && html.includes('沒有粵語語音包') && /use='zh-CN'/.test(html));
+  window.eval('setPoemStep(2)');
+  ok('v1.73 ②看譯文顯示釋義與原文、拼音開關收起', doc.getElementById('mBody').textContent.includes('白話釋義') && doc.getElementById('mBody').textContent.includes(window.eval('curPoem.lines[0].text')) && doc.getElementById('pToggles').style.display==='none');
+  window.eval('setPoemStep(3)');
+  ok('v1.73 ③遮字沿用既有填空引擎', doc.querySelectorAll('#mBody .han.blank').length>0 && doc.getElementById('mActs').textContent.includes('顯示答案'));
+  window.eval('setPoemStep(4)');
+  const q=window.eval('quiz');
+  ok('v1.73 ④抽查四選一、題型合法且正確答案在選項內', !!q && ['blank','chain'].includes(q.type) && q.opts.length===4 && q.opts.includes(q.ans) && doc.querySelectorAll('#mBody .quiz-opts button').length===4);
+  window.eval('quizPickOpt(quiz.opts.indexOf(quiz.ans))');
+  window.eval('quizNext()');
+  window.eval('quizPickOpt(quiz.opts.indexOf(quiz.ans))');
+  ok('v1.73 抽查答對 2 題自動點亮這顆星', doc.querySelectorAll('.sm-star.on').length===1 && !!JSON.parse(window.localStorage.getItem('hkk_poem_done'))[firstId] && doc.getElementById('mBody').textContent.includes('這顆星已點亮'));
+  ok('v1.73 匯出／匯入／清空都帶上 poemDone', /poemDone,ver:'hkk_v1\.73'/.test(html) && html.includes('if(d.poemDone)poemDone=d.poemDone') && /poemDone=\{\};/.test(html));
+  window.eval('curPoem=null;');
+  doc.querySelectorAll('#smSegs .sm-star')[0].click();
+  ok('v1.73 點星星直接打開對應那首詩', window.eval('curPoem!==null') && doc.getElementById('mask').classList.contains('show') && Number(doc.querySelectorAll('#smSegs .sm-star')[0].dataset.pid)===window.eval('curPoem.id'));
+}catch(e){ ok('v1.73 測試執行', false); console.log('   err='+e.message); }
+
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
 })();
