@@ -474,6 +474,41 @@ try{
   doc.querySelector('#practiceSub button[data-sub="cn"]').click();
 }catch(e){ ok('v1.69 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.70 微信引流（加群弹窗＋情境 CTA） ============
+try{
+  ok('v1.70 浮動鈕文案=加微信·進插班群', doc.getElementById('ctaFabBtn').textContent.trim()==='💬 加微信 · 進插班群');
+  const cm=doc.getElementById('ctaModal');
+  ok('v1.70 彈窗標題=加微信·進插班家長群', cm.querySelector('h2').textContent==='加微信 · 進插班家長群');
+  const whys=[...cm.querySelectorAll('.cta-why li')];
+  ok('v1.70 加群理由清單 3 條('+whys.length+')', whys.length===3);
+  ok('v1.70 理由覆蓋 家長群/直接問/政策更新', /插班家長群/.test(whys[0].textContent) && /免費回答/.test(whys[1].textContent) && /政策與名額/.test(whys[2].textContent));
+  ok('v1.70 承諾「不推銷課程」', cm.textContent.includes('不推銷課程'));
+  // 二維碼位：圖未上傳時默認隱藏（不出破圖），src 指向約定路徑
+  ok('v1.70 二維碼位默認隱藏', doc.getElementById('ctaQrBox').style.display==='none');
+  ok('v1.70 二維碼圖指向 assets/wechat_qr.png', doc.getElementById('ctaQrImg').getAttribute('src')==='assets/wechat_qr.png');
+  ok('v1.70 微信號與複製鈕仍在', cm.querySelector('.wechat').textContent==='SteveHKSZ' && !!doc.getElementById('ctaCopy'));
+  ok('v1.70 郵件與公眾號兜底', cm.innerHTML.includes('mailto:hkeec2023@gmail.com') && cm.textContent.includes('史蒂夫HKSZ'));
+  // 複製鈕：點擊後反饋（jsdom 無 clipboard 時走 execCommand fallback）
+  doc.getElementById('ctaCopy').click();
+  ok('v1.70 複製鈕點擊有反饋', /已複製/.test(doc.getElementById('ctaCopy').textContent));
+  // 情境 CTA 三處
+  const strips=[...doc.querySelectorAll('.cta-strip')];
+  ok('v1.70 情境 CTA 三處('+strips.length+')', strips.length===3);
+  ok('v1.70 三處 CTA 按鈕均調 openCta()', strips.every(s=>{const b=s.querySelector('.btn');return b && /openCta\(\)/.test(b.getAttribute('onclick')||'')}));
+  const stripTxt=strips.map(s=>s.querySelector('p').textContent).join('|');
+  ok('v1.70 CTA 文案場景化（擇校/路線/打卡）', /70 所/.test(stripTxt) && /小六英文中上/.test(stripTxt) && /第 3 週/.test(stripTxt));
+  // openCta 全域可調用，且能把弹窗打开
+  ok('v1.70 window.openCta 為函數', typeof window.openCta==='function');
+  window.openCta();
+  ok('v1.70 openCta() 打開彈窗', doc.getElementById('ctaMask').classList.contains('show'));
+  ok('v1.70 彈窗打開時 body 帶 cta-open（收起浮動鈕與賬號膠囊）', doc.body.classList.contains('cta-open'));
+  doc.getElementById('ctaClose').click();
+  ok('v1.70 關閉鈕生效', !doc.getElementById('ctaMask').classList.contains('show'));
+  ok('v1.70 關閉後移除 cta-open', !doc.body.classList.contains('cta-open'));
+  // 手機豎排時 flex-basis 會變成高度，必須清掉（否則 cta-right 撐 220px 空白）
+  ok('v1.70 窄屏已清 cta-right 的 flex-basis', /\.cta-right\{flex:0 0 auto;width:100%;min-width:0\}/.test(html));
+}catch(e){ ok('v1.70 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();
@@ -989,7 +1024,7 @@ try{
   ok('v1.48 默認主 tab＝升學規劃（nav on＋planView 可見＋guideView 隱藏）', doc.querySelector('nav button.on').dataset.tab==='plan' && !/id="planView" style="display:none/.test(html) && /id="guideView" style="display:none/.test(html) && /let curTab='plan'/.test(html));
   ok('v1.51 引導卡已刪除（葉工：用子目錄導航）', !html.includes('welcomeCard') && !html.includes('從這裡開始'));
   ok('v1.48 擇校頁小學/中學切換按鈕＋jmpSch 函數', /id="jmpPri"/.test(html) && /id="jmpSec"/.test(html) && /function jmpSch\(/.test(html));
-  ok('v1.48 悬浮諮詢按鈕＋彈層（SteveHKSZ＋複製＋列印隱藏）', /id="ctaFabBtn">💬 諮詢葉工</.test(html) && /<div class="wechat">SteveHKSZ<\/div>/.test(html) && /id="ctaCopy"/.test(html) && /@media print\{#ctaFab\{display:none!important\}\}/.test(html));
+  ok('v1.48/v1.70 悬浮加微信群按鈕＋彈層（SteveHKSZ＋複製＋列印隱藏）', /id="ctaFabBtn">💬 加微信 · 進插班群</.test(html) && /<div class="wechat">SteveHKSZ<\/div>/.test(html) && /id="ctaCopy"/.test(html) && /@media print\{#ctaFab\{display:none!important\}\}/.test(html));
   ok('v1.48 版本號三處一致（footer×2 同一版本＋ver）', (()=>{const m=html.match(/公開版 (v1\.\d+)（全站免費）/g)||[];const v=m[0]&&m[0].replace('公開版 ','').replace('（全站免費）','');return m.length===2 && m[0]===m[1] && v && html.includes('hkk_'+v);})());
 }catch(e){ ok('v1.48 A批測試執行', false); console.log('   err='+e.message); }
 
