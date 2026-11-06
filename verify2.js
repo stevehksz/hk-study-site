@@ -429,10 +429,10 @@ try{
   const tv=doc.getElementById('tutorView');
   doc.querySelector('#termChips button[data-wk="0"]').click(); // 復位：v1.60 測試點過「第 3 週」過濾，切回全部
   const dets=[...tv.querySelectorAll('details.gsec.fold')];
-  ok('v1.68 補習材料 7 塊折疊('+dets.length+')', dets.length===7);
+  ok('v1.68 補習材料 8 塊折疊('+dets.length+')', dets.length===8);
   ok('v1.68 默認僅展開 ①排期表', dets.filter(d=>d.open).length===1 && dets[0].open && dets[0].querySelector('summary').textContent.includes('35 週排期表'));
   const sums=[...tv.querySelectorAll('details.gsec.fold > summary.gsec-h')].map(s=>s.textContent);
-  ok('v1.68 七塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀）('+sums.length+')', sums.length===7 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡'].every(t=>sums.some(s=>s.includes(t))));
+  ok('v1.68 八塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀/中學英文）('+sums.length+')', sums.length===8 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡','中學英文'].every(t=>sums.some(s=>s.includes(t))));
   const nTerm=tv.querySelectorAll('#termGrid .fcard').length, nFt=tv.querySelectorAll('#ftGrid .fcard').length, nRead=tv.querySelectorAll('#readGrid .rcell').length;
   ok('v1.68 折疊後內容仍在 DOM（術語 '+nTerm+'／繁體 '+nFt+'／打卡 '+nRead+'）', nTerm===60 && nFt===100 && nRead===21);
   ok('v1.68 頁標題已去「女兒學習角」', tv.querySelector('h2').textContent==='補習材料（插中一 · 35 週減壓版）');
@@ -529,6 +529,27 @@ try{
   ok('v1.71 點碼開放大層、點背景關而點圖片不關',
      /qr\.onclick=\(\)=>\{[^}]*zoom\.classList\.add\('show'\)/.test(html) && /e\.target!==document\.getElementById\('qrZoomImg'\)/.test(html));
 }catch(e){ ok('v1.71 測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.72 中學英文外部資源導航（版權合規：只列入口，不轉載） ============
+try{
+  const rn=doc.getElementById('secResNav');
+  const rnTxt=rn?rn.textContent:'';
+  const rnHtml=rn?rn.outerHTML:'';
+  const tvEl=doc.getElementById('tutorView');
+  const tvDets=[...tvEl.querySelectorAll('details.gsec.fold')];
+  ok('v1.72 ⑧ 為第 8 個折疊塊且默認收起', !!rn && tvDets.length===8 && tvDets[7]===rn && !rn.open);
+  ok('v1.72 ⑧ 標題含「中學英文／不轉載內容」', !!rn && rn.querySelector('summary').textContent.includes('中學英文') && rn.querySelector('summary').textContent.includes('不轉載內容'));
+  ok('v1.72 頭部提示 7→8 模塊且標明 ⑧ 為入學後書籤', tvEl.textContent.includes('8 個模塊已折疊') && tvEl.textContent.includes('⑧ 是入學後的資源書籤'));
+  ok('v1.72 ② 教材清單有指向 ⑧ 的指引', tvDets[1].textContent.includes('⑧ 中學英文 · 外部資源導航'));
+  const off=['edb.gov.hk/Academic_English','student.edcity.hk/sec/en/guidance/1031','hkeaa.edu.hk','hkedcity.net'];
+  const links=[...rn.querySelectorAll('a[href^="http"]')];
+  ok('v1.72 A 區 4 條已核實官方連結齊且安全開新頁', off.every(u=>rnHtml.includes(u)) && links.length===4 && links.every(a=>a.getAttribute('target')==='_blank' && a.getAttribute('rel')==='noopener'));
+  ok('v1.72 付費題庫／出版社只列名稱、零外鏈', !/href="[^"]*(risemark|band1\.org|myenglishtutor|student\.hk|pearson|oup)/i.test(rnHtml) && rn.querySelectorAll('a').length===4);
+  ok('v1.72 三不聲明齊（不存放／不轉載／不爬取）', rnTxt.includes('不存放') && rnTxt.includes('不轉載') && rnTxt.includes('不爬取'));
+  ok('v1.72 學友社不得轉載＋指示性使用免責在', rnTxt.includes('版權所有 不得轉載') && rnTxt.includes('指示性使用') && rnTxt.includes('背書關係'));
+  ok('v1.72 坊間數字澄清為非官方、⑧ 內無具體分數門檻', rnTxt.includes('並非教育局或學校公佈的收生要求') && rnTxt.includes('不列為門檻') && !/5\.5|100 分|閱讀 40|FCE/.test(rnTxt));
+  ok('v1.72 原創仿編聲明＋區內無 pdf 檔案連結', rnTxt.includes('原創仿編') && !/\.pdf/i.test(rnHtml));
+}catch(e){ ok('v1.72 測試執行', false); console.log('   err='+e.message); }
 
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
