@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.66：葉工指令「爬 topschool.hket.com 看看有什麼值得學習的，複製到我的網站」——該站直連被攔（沙箱代理 502／直連 RST），改經檢索摸清功能清單後選型落地兩大招牌功能（其餘項目分析後不採納，見 v1.66 分析卡）：①⚖️ 學校對比（借鑑 TOPSchool「一鍵比較」）：三張學校表每行加 ⚖️ 按鈕（僅有 CHSC 官方檔案的 70 校），最多 3 所並排，底部浮動對比條（cmpBar，fixed bottom 老語法）顯示已選清單，點「對比」彈 cmpModal（body 頂層、老語法定位，同 v1.64 schModal 教訓）渲染並排對比表：類別/性別/宗教/創校/辦學團體/校訓/校長/教學語言（中學取表格行，檔案無此欄）/教師人數/碩士%/年資 10 年+/班級結構/全年收費（中學中一+中六、小學學費）/一條龍直屬聯繫（小學）/地址/電話/跳詳情；超 3 所提示寫進對比條文字（不用 alert，jsdom 兼容）；②❤ 我的心水（借鑑 TOPSchool「我的心水」）：三張表每行 🤍/❤️ 收藏鍵（全部行可用），schoolsView 頂部新增「❤ 我的心水」折疊卡（favCard）集中渲染收藏 chips（點名字開詳情、× 移除、上限 30 所防呆），詳情彈窗標題旁同樣加 ⚖️/❤ 按鈕；兩組狀態 localStorage hkk_schcmp_v0/hkk_schfav_v0（hkk_ 前綴自動跟賬號隔離）。verify2 更新 v1.58/59 按鈕計數（40/30→120/90）＋新增 10 項斷言（cmpModal body 頂層定位/favCard 存在/行內 3 鈕/心水 toggle 渲染/對比 2 所出表/3 所上限拒絕/清空隱藏）。
 v1.65：葉工圈截圖「擇校分檔這裡看看怎么处理，折叠目錄，不用整个子目录看起来非常的长」——擇校分檔子頁全區塊折疊化：12 張 gcard 說明/資訊卡轉原生 details.fold（Python 腳本 div 深度配對逐塊轉換：div→details 保 id 保 class、h3→summary、配對閉合 </div>→</details>；psChips+psTable 無 gcard 包裹，另整段包一張 open 卡「北區小學 30 所總表」），收起只留標題條、▸箭頭展開旋轉變色；默認展開僅 3 張核心校表（北區中學 20 所/大埔 20 所/北區小學 30 所總表），其餘 9 張（校園地圖/學校詳情說明/跨境要點/校車保姆車/叩門總邏輯/叩門衝刺/交叉勘誤/升中攻略/小學插班怎麼用）默認收起——頁面視覺長度大幅縮短，地圖收起也讓懶載入更合理（點開才載入）。CSS 新增 details.gcard>summary 樣式組。verify2 加 4 項斷言（12 details/3 open/mapCard 是 details/summary 文本抽查）。
 v1.64：葉工圈截圖「按詳情彈出來的窗口沒有居中，要從最下面拉回最頂端查看」——學校詳情彈窗定位 bug 修復：①#schModal 從 schoolsView 深處搬到 body 頂層（原位置祖先 .wrap 有 fadeUp both 動畫佔用合成軌道，且舊 WebView 不支援 inset 簡寫，fixed 盒子失去視口偏移就地按文檔流渲染在表格下方，人看不同）；②全站 5 處 fixed/absolute 覆蓋層的 inset 簡寫改為 left/top/width/height 老語法（schModal/authGate/.mask/header::before/mapPlaceholder，後兩者本就是裝飾品，同批修掉防舊設備）；③openSchDetail 打開時 m.scrollTop=0 從頂部看。verify2 加 3 項斷言（彈窗父節點=body/定位語法/scrollTop 歸零）。
 v1.63：葉工要求把補習材料挪進「練習」主目錄——①tutorView 整塊從 planView 搬進 practiceView（位於 mathPracView 之後），②planSub 刪「補習材料」按鈕（7→6 子頁），③practiceSub 加第 4 個子頁按鈕「補習材料」（中文/英文/數學/補習材料），④swPlan 數組去 tutor、practiceSub 點擊處理器加 tutorView 顯示切換。設計理由：補習材料是女兒天天用的學習件，跟古詩詞/單詞/數學卷同屬「練習」語義，之前埋在升學規劃第 7 子頁路徑太深。
@@ -570,13 +571,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.65（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.66（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.65（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.66（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1252,6 +1253,11 @@ Thank you for your time.</div>
         <button class="btn" id="jmpSec" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🎓 北區中學 20 所</button>
       </div>
       <p class="tip" style="margin:0 0 6px">按上面按鈕直達對應名單；上次看的表會被記住。</p>
+      <details class="gcard fold" id="favCard">
+        <summary>❤ 我的心水（收藏心儀學校）</summary>
+        <p style="margin:4px 0 6px">在下面三張學校表每行點 <b>🤍</b> 收藏心儀學校（存本機、跟賬號隔離），收藏後集中在這裡查看：點名字直接開該校詳情，點 × 移除。搭配每行的「⚖️」可把 2–3 所並排對比。</p>
+        <div id="favChips" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      </details>
       <details class="gcard fold" id="mapCard">
         <summary>🗺️ 校園地圖（騰訊地圖 · 實時）</summary>
         <div class="pg-chips" id="mapChips">
@@ -1703,6 +1709,20 @@ Thank you for your time.</div>
 <!-- v1.64 學校詳情彈窗：body 頂層（原埋在 schoolsView 深處，祖先 .wrap 的 fadeUp both 動畫佔用合成軌道 + 舊 WebView 不支援 inset 簡寫，致彈窗按文檔流渲染在表格下方、不在視口居中）。定位用 left/top/width/height 老語法，內層 margin:auto 水平居中、overflow-y:auto 內滾 -->
 <div id="schModal" style="display:none;position:fixed;left:0;top:0;width:100%;height:100%;z-index:9999;background:rgba(20,20,40,.55)" onclick="if(event.target===this)this.style.display='none'">
   <div style="max-width:680px;margin:3vh auto 6vh;background:var(--card,#fff);border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="schModalBody"></div>
+</div>
+
+<!-- v1.66 學校對比（借鑑 TOPSchool 一鍵比較）：底部浮動對比條 + 對比彈窗，均 body 頂層老語法定位（v1.64 教訓：不用 inset 簡寫、不埋 view 深處） -->
+<div id="cmpBar" style="display:none;position:fixed;left:0;bottom:0;width:100%;z-index:9998;background:#0f3d43;color:#fff;padding:10px 14px;box-shadow:0 -4px 16px rgba(0,0,0,.25)">
+  <div style="max-width:860px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-weight:700">⚖️ 學校對比</span>
+    <span id="cmpBarNames" style="flex:1;min-width:180px;font-size:13px;opacity:.92"></span>
+    <button class="chip" style="cursor:pointer" onclick="cmpOpen()">對比（<span id="cmpBarN">0</span>/3）</button>
+    <button class="chip" style="cursor:pointer" onclick="cmpClear()">清空</button>
+    <button class="chip" style="cursor:pointer" onclick="document.getElementById('cmpBar').style.display='none'">收起</button>
+  </div>
+</div>
+<div id="cmpModal" style="display:none;position:fixed;left:0;top:0;width:100%;height:100%;z-index:9999;background:rgba(20,20,40,.55)" onclick="if(event.target===this)this.style.display='none'">
+  <div style="max-width:860px;margin:3vh auto 6vh;background:var(--card,#fff);border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="cmpModalBody"></div>
 </div>
 
 <footer>
@@ -3158,6 +3178,7 @@ const SCH_PRI_PROFILES=DATA.sch_pri_profiles||{};
 function schEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function injectSchBtns(){
   // v1.59：psTable 校名在第 2 列（第 1 列是檔位），故三張表分開處理
+  // v1.66：每行操作格擴為 📄詳情 ＋ ⚖️對比（僅有官方檔案者）＋ 🤍心水（全部行）
   [['ssTable',0],['tpTable',0],['psTable',1]].forEach(([tid,idx])=>{
     const t=document.getElementById(tid); if(!t)return;
     const th=t.querySelector('thead tr');
@@ -3170,10 +3191,158 @@ function injectSchBtns(){
       if(SCH_PROFILES[name]||SCH_PRI_PROFILES[name]){
         const b=document.createElement('button');b.className='chip';b.textContent='📄 詳情';b.style.cursor='pointer';
         b.onclick=()=>openSchDetail(name);td.appendChild(b);
+        const c=document.createElement('button');c.className='chip';c.textContent='⚖️';c.title='加入/移出對比（最多 3 所並排）';c.style.cursor='pointer';
+        c.onclick=()=>cmpToggle(name,c);td.appendChild(c);
+        if(cmpGet().indexOf(name)>=0)c.textContent='⚖️ ✓';
       }
+      const f=document.createElement('button');f.className='chip';f.title='收藏到我的心水';f.style.cursor='pointer';
+      f.textContent=favGet().indexOf(name)>=0?'❤️':'🤍';
+      f.onclick=()=>{favToggle(name,f);};
+      td.appendChild(f);
       tr.appendChild(td);
     });
   });
+  favRender();cmpRefreshBar();
+}
+// ---- v1.66 ❤ 我的心水（借鑑 TOPSchool「我的心水」：收藏心儀學校集中查看；hkk_schfav_v0 跟賬號隔離） ----
+function favGet(){try{const a=JSON.parse(localStorage.getItem('hkk_schfav_v0')||'[]');return Array.isArray(a)?a:[];}catch(e){return [];}}
+function favSet(a){try{localStorage.setItem('hkk_schfav_v0',JSON.stringify(a));}catch(e){}}
+function favToggle(name,btn){
+  const a=favGet();const i=a.indexOf(name);
+  if(i>=0)a.splice(i,1);else a.unshift(name);
+  if(a.length>30)a.length=30; // 防呆：心水名單上限 30 所
+  favSet(a);
+  if(btn)btn.textContent=a.indexOf(name)>=0?'❤️':'🤍';
+  favRender();
+}
+function favRender(){
+  const box=document.getElementById('favChips');if(!box)return;
+  const a=favGet();
+  if(!a.length){box.innerHTML='<span style="font-size:13px;color:#8a8aa0">還沒有收藏：在下面三張學校表每行點 🤍 收藏心儀學校。</span>';return;}
+  box.innerHTML=a.map(n=>{
+    const q=String(n).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<span class="chip on" style="cursor:pointer" onclick="openSchDetail(\''+q+'\')">❤️ '+schEsc(n)
+      +' <b style="color:#e33" onclick="event.stopPropagation();favToggle(\''+q+'\')" title="移除">×</b></span>';
+  }).join('');
+}
+// ---- v1.66 ⚖️ 學校對比（借鑑 TOPSchool「一鍵比較」：最多 3 所並排，欄位取 CHSC 官方檔案；hkk_schcmp_v0 跟賬號隔離） ----
+let _cmpCache=null;
+function cmpGet(){
+  if(_cmpCache===null){
+    try{_cmpCache=JSON.parse(localStorage.getItem('hkk_schcmp_v0')||'[]');}catch(e){_cmpCache=[];}
+    if(!Array.isArray(_cmpCache))_cmpCache=[];
+    _cmpCache=_cmpCache.filter(n=>SCH_PROFILES[n]||SCH_PRI_PROFILES[n]).slice(0,3);
+  }
+  return _cmpCache;
+}
+function cmpSet(){try{localStorage.setItem('hkk_schcmp_v0',JSON.stringify(cmpGet()));}catch(e){}}
+function cmpToggle(name,btn){
+  const a=cmpGet();const i=a.indexOf(name);
+  if(i>=0)a.splice(i,1);
+  else{
+    if(a.length>=3){ // 提示寫進對比條，不用 alert（部分內嵌環境無 alert）
+      const bar=document.getElementById('cmpBar');
+      document.getElementById('cmpBarNames').textContent='⚠️ 對比最多 3 所，請先在對比欄移出一所再加「'+name+'」';
+      if(bar)bar.style.display='block';
+      return;
+    }
+    a.push(name);
+  }
+  cmpSet();
+  if(btn)btn.textContent=a.indexOf(name)>=0?'⚖️ ✓':'⚖️';
+  cmpRefreshBar();
+}
+function cmpClear(){_cmpCache=[];cmpSet();cmpRefreshBar();}
+function cmpRefreshBar(){
+  const a=cmpGet();const bar=document.getElementById('cmpBar');if(!bar)return;
+  const n=document.getElementById('cmpBarN');if(n)n.textContent=a.length;
+  const names=document.getElementById('cmpBarNames');
+  if(names)names.textContent=a.length?a.join(' · '):'';
+  if(a.length)bar.style.display='block';
+}
+function cmpRowOf(name){ // 從三張表找該校所在行（中學教學語言欄只在表格、檔案無）
+  const tables=['ssTable','tpTable','psTable'];
+  for(const tid of tables){
+    const t=document.getElementById(tid);if(!t)continue;
+    const idx=tid==='psTable'?1:0;
+    for(const tr of t.querySelectorAll('tbody tr')){
+      const tds=tr.querySelectorAll('td');
+      if(tds[idx]&&tds[idx].textContent.trim()===name)return tr;
+    }
+  }
+  return null;
+}
+function cmpOpen(){
+  const a=cmpGet();
+  if(a.length<2){ // 不足 2 所：對比條提示，不彈窗
+    document.getElementById('cmpBarNames').textContent='⚠️ 先選 2–3 所學校再對比（點表格行內 ⚖️ 加入）';
+    return;
+  }
+  const isPri=n=>!!SCH_PRI_PROFILES[n]&&!SCH_PROFILES[n];
+  const P=n=>isPri(n)?SCH_PRI_PROFILES[n]:SCH_PROFILES[n];
+  const lanOf=n=>{
+    if(isPri(n))return P(n).medium||'';
+    const tr=cmpRowOf(n);
+    if(tr){const tds=tr.querySelectorAll('td');if(tds[5])return tds[5].textContent.trim();}
+    return '';
+  };
+  const clsOf=n=>{
+    const p=P(n);const c=p.classes||{};
+    const gs=isPri(n)?['小一','小二','小三','小四','小五','小六']:['中一','中二','中三','中四','中五','中六'];
+    const s=gs.map(g=>c[g]||null).filter(Boolean).join('/');
+    if(!s)return '';
+    return s+' 班'+(isPri(n)&&p.classes_total?'（總數 '+p.classes_total+'）':'');
+  };
+  const feeOf=n=>{
+    const p=P(n);
+    if(isPri(n))return (p.fee_tuition&&p.fee_tuition!=='-'?p.fee_tuition:'免')+(p.fee_other&&p.fee_other!=='-'?'（另 '+p.fee_other+'）':'');
+    const f=p.fees&&p.fees['中一'],f6=p.fees&&p.fees['中六'];
+    const tf=v=>(!v||v==='-')?'免':v;
+    if(!f)return '';
+    return '中一 '+tf(f[0])+(f6&&f6[1]&&f6[1]!=='-'?'｜中六 '+tf(f6[1]):'');
+  };
+  const priLinkOf=n=>{
+    const p=P(n);if(!isPri(n))return '';
+    const seg=[];
+    if(p.through_train&&p.through_train!=='-')seg.push('一條龍 '+p.through_train);
+    if(p.affiliate&&p.affiliate!=='-')seg.push('直屬 '+p.affiliate);
+    if(p.linked&&p.linked!=='-')seg.push('聯繫 '+p.linked);
+    return seg.join('；');
+  };
+  const ROWS=[
+    ['類別',n=>P(n).type||''],
+    ['性別',n=>P(n).gender||''],
+    ['宗教',n=>P(n).religion||''],
+    ['創校',n=>P(n).founded||''],
+    ['辦學團體',n=>P(n).sponsoring||''],
+    ['校訓',n=>P(n).motto||''],
+    ['校長',n=>P(n).principal||''],
+    ['教學語言',lanOf],
+    ['教師人數',n=>P(n).teachers||''],
+    ['碩士／博士',n=>P(n).t_master||''],
+    ['年資 10 年+',n=>P(n).t_senior||''],
+    ['班級結構',clsOf],
+    ['全年收費',feeOf],
+    ['升中銜接',priLinkOf],
+    ['地址',n=>P(n).address||''],
+    ['電話',n=>{const t=P(n).tel;return t?'<a href="tel:'+schEsc(t)+'">'+schEsc(t)+'</a>':'';}],
+    ['檔案詳情',n=>{const q=String(n).replace(/\\/g,'\\\\').replace(/'/g,"\\'");return '<a href="javascript:void(0)" onclick="openSchDetail(\''+q+'\')">📄 詳情</a>';}]
+  ];
+  let h='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><h3 style="margin:0">⚖️ 學校對比</h3>'
+    +'<span class="chip on">最多 3 所</span>'
+    +'<button class="chip" style="cursor:pointer;margin-left:auto" onclick="cmpClear();document.getElementById(\'cmpModal\').style.display=\'none\'">🗑 清空對比</button></div>';
+  h+='<div class="scroll-x"><table class="mtable" style="min-width:480px"><thead><tr><th>項目</th>'
+    +a.map(n=>'<th>'+schEsc(n)+(isPri(n)?'<br><span style="font-weight:400;font-size:11px;color:#8a8aa0">小學</span>':'<br><span style="font-weight:400;font-size:11px;color:#8a8aa0">中學</span>')+'</th>').join('')
+    +'</tr></thead><tbody>';
+  h+=ROWS.map(([label,fn])=>{
+    const cells=a.map(n=>'<td>'+(fn(n)||'<span style="color:#c0c0cc">—</span>')+'</td>').join('');
+    return '<tr><td style="color:#8a8aa0;white-space:nowrap">'+label+'</td>'+cells+'</tr>';
+  }).join('');
+  h+='</tbody></table></div>';
+  h+='<p class="src" style="margin:10px 0 2px">對比欄位取自家庭與學校合作事宜委員會《中學概覽 2025/2026》《小學概覽 2026》（chsc.hk，學校提供及核實）；中學教學語言取自本站擇校表（英中判定以教育局名單為準）。以各校官網最新公布為準。</p>';
+  document.getElementById('cmpModalBody').innerHTML=h;
+  const m=document.getElementById('cmpModal');
+  m.style.display='block';m.scrollTop=0;
 }
 function openSchDetail(name){
   const isPri=!!SCH_PRI_PROFILES[name]&&!SCH_PROFILES[name];
@@ -3182,6 +3351,14 @@ function openSchDetail(name){
   const statCard=(v,label)=>'<div style="flex:1;min-width:100px;background:var(--bg,#f6f6fa);border-radius:8px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700">'+schEsc(v)+'</div><div style="font-size:12px;color:#8a8aa0">'+label+'</div></div>';
   let h='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><h3 style="margin:0">'+schEsc(name)+'</h3>'
     +(p.type?'<span class="chip on">'+schEsc(p.type)+'</span>':'')+(p.gender?'<span class="chip">'+schEsc(p.gender)+'</span>':'')+'</div>';
+  { // v1.66 彈窗內直達對比/心水（借鑑 TOPSchool 詳情頁做法）
+    const q=String(name).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const inCmp=cmpGet().indexOf(name)>=0, inFav=favGet().indexOf(name)>=0;
+    h+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 2px">'
+      +'<button class="chip" style="cursor:pointer" onclick="cmpToggle(\''+q+'\');this.textContent=cmpGet().indexOf(\''+q+'\')>=0?\'⚖️ 移出對比\':\'⚖️ 加入對比\'">⚖️ '+(inCmp?'移出對比':'加入對比')+'</button>'
+      +'<button class="chip" style="cursor:pointer" onclick="favToggle(\''+q+'\');favRender();this.textContent=this.textContent.indexOf(\'❤️\')>=0?\'🤍 心水\':\'❤️ 我的心水\'">'+(inFav?'❤️ 我的心水':'🤍 心水')+'</button>'
+      +'</div>';
+  }
   h+='<div style="margin:10px 0 4px;padding:8px 10px;background:var(--bg,#f6f6fa);border-radius:8px">';
   if(isPri){
     h+=row('類別',p.type)+row('性別',p.gender)+row('宗教',p.religion)+row('創校',p.founded)+row('辦學團體',p.sponsoring)+row('校訓',p.motto)+row('校長',p.principal)
@@ -4275,7 +4452,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.65',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.66',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

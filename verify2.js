@@ -233,7 +233,7 @@ try{
   ok('v1.58 模態可關閉', modal.style.display==='none');
   // 按鈕注入
   const btns=doc.querySelectorAll('#ssTable td[data-schbtn] button, #tpTable td[data-schbtn] button');
-  ok('v1.58 兩張中學表注入詳情按鈕=40('+btns.length+')', btns.length===40);
+  ok('v1.58 兩張中學表操作按鈕=120（v1.66 每行詳情+⚖️+🤍 三鈕×40 行）('+btns.length+')', btns.length===120);
   const ths=doc.querySelectorAll('#ssTable th[data-schbtn], #tpTable th[data-schbtn]');
   ok('v1.58 表頭加詳情列=2', ths.length===2);
 }catch(e){ ok('v1.58 測試執行', false); console.log('   err='+e.message); }
@@ -255,7 +255,7 @@ try{
   WV.eval('document.getElementById("schModal").style.display="none"');
   // 按鈕注入
   const pbtns=doc.querySelectorAll('#psTable td[data-schbtn] button');
-  ok('v1.59 小學表注入詳情按鈕=30('+pbtns.length+')', pbtns.length===30);
+  ok('v1.59 小學表操作按鈕=90（v1.66 每行三鈕×30 行）('+pbtns.length+')', pbtns.length===90);
   const pth=doc.querySelectorAll('#psTable th[data-schbtn]');
   ok('v1.59 小學表頭加詳情列=1', pth.length===1);
 }catch(e){ ok('v1.59 測試執行', false); console.log('   err='+e.message); }
@@ -271,7 +271,7 @@ try{
   ok('v1.64 schModal 視口定位語法（position/left/top/width/height 屬性級檢查，棄 inset）', sm.position==='fixed' && (sm.left==='0'||sm.left==='0px') && (sm.top==='0'||sm.top==='0px') && sm.width==='100%' && sm.height==='100%');
   ok('v1.64 全站已無 inset:0（舊 WebView 相容）', !doc.documentElement.outerHTML.includes('inset:0'));
   const folds=[...doc.querySelectorAll('#schoolsView details.fold')];
-  ok('v1.65 擇校折疊卡 12 張('+folds.length+')', folds.length===12);
+  ok('v1.65 擇校折疊卡 13 張（v1.66 加 favCard）('+folds.length+')', folds.length===13);
   ok('v1.65 默認展開僅 3 張核心校表', folds.filter(d=>d.open).length===3 && folds.filter(d=>d.open).every(d=>d.querySelector('#ssTable,#tpTable,#psTable')));
   ok('v1.65 mapCard 仍是 details 且 id 保留', doc.getElementById('mapCard') && doc.getElementById('mapCard').tagName==='DETAILS');
   ok('v1.65 summary 文本抽查（跨境要點/小學總表）', !![...doc.querySelectorAll('#schoolsView summary')].find(s=>s.textContent.includes('北區跨境要點')) && !![...doc.querySelectorAll('#schoolsView summary')].find(s=>s.textContent.includes('北區小學 30 所總表')));
@@ -368,6 +368,49 @@ try{
   doc.querySelector('#practiceSub button[data-sub="cn"]').click();
   ok('v1.62 測後切回中文', doc.getElementById('cnPracView').style.display !== 'none');
 }catch(e){ ok('v1.62 測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.66 學校對比 ⚖️ ＋ 我的心水 ❤（借鑑 TOPSchool 一鍵比較/我的心水） ============
+try{
+  const WV=doc.defaultView;
+  // 靜態：DOM 存在與掛載位置
+  ok('v1.66 cmpModal/cmpBar/favCard 存在', !!doc.getElementById('cmpModal') && !!doc.getElementById('cmpBar') && !!doc.getElementById('favCard') && !!doc.getElementById('favChips'));
+  ok('v1.66 cmpModal 掛在 body 頂層', doc.getElementById('cmpModal').parentElement === doc.body);
+  const cm=doc.getElementById('cmpModal').style;
+  ok('v1.66 cmpModal 視口定位老語法（棄 inset）', cm.position==='fixed' && (cm.left==='0'||cm.left==='0px') && (cm.top==='0'||cm.top==='0px') && cm.width==='100%' && cm.height==='100%');
+  const cb=doc.getElementById('cmpBar').style;
+  ok('v1.66 cmpBar 底部浮條定位（left/bottom/width，不用 inset）', cb.position==='fixed' && (cb.left==='0'||cb.left==='0px') && (cb.bottom==='0'||cb.bottom==='0px') && cb.width==='100%');
+  // 行內三鈕：有檔案行（鄧顯紀念中學）= 詳情+⚖️+🤍
+  const row1=doc.querySelector('#ssTable tbody tr');
+  const r1btns=row1.querySelectorAll('td[data-schbtn] button');
+  ok('v1.66 有檔案行三鈕（詳情/⚖️/🤍）('+r1btns.length+')', r1btns.length===3 && r1btns[0].textContent.includes('詳情') && r1btns[1].textContent.includes('⚖️') && r1btns[2].textContent.includes('🤍'));
+  // 心水：toggle → 渲染 → 再 toggle 還原
+  WV.eval('favToggle("保良局馬錦明中學")');
+  ok('v1.66 收藏後 favGet 含該校', WV.eval('favGet()').indexOf('保良局馬錦明中學')>=0);
+  ok('v1.66 favChips 渲染出收藏 chips（含 × 移除）', doc.getElementById('favChips').textContent.includes('保良局馬錦明中學') && doc.getElementById('favChips').textContent.includes('×'));
+  WV.eval('favToggle("保良局馬錦明中學")');
+  ok('v1.66 再點移除·favChips 回空態', WV.eval('favGet()').length===0 && doc.getElementById('favChips').textContent.includes('還沒有收藏'));
+  // 對比：加兩所 → 浮條 → 對比表
+  WV.eval('cmpToggle("保良局馬錦明中學");cmpToggle("粉嶺官立小學")');
+  ok('v1.66 加兩所後浮條顯示且計數=2', doc.getElementById('cmpBar').style.display==='block' && doc.getElementById('cmpBarN').textContent==='2');
+  ok('v1.66 對比狀態持久化 hkk_schcmp_v0', JSON.parse(WV.eval('localStorage.getItem("hkk_schcmp_v0")')).length===2);
+  WV.eval('cmpOpen()');
+  const cbody=doc.getElementById('cmpModalBody');
+  ok('v1.66 對比彈窗打開且含兩校名', doc.getElementById('cmpModal').style.display==='block' && cbody.textContent.includes('保良局馬錦明中學') && cbody.textContent.includes('粉嶺官立小學'));
+  ok('v1.66 對比表含關鍵欄位（教師人數/全年收費/班級結構/教學語言）', cbody.textContent.includes('教師人數') && cbody.textContent.includes('全年收費') && cbody.textContent.includes('班級結構') && cbody.textContent.includes('教學語言'));
+  ok('v1.66 小學對比列顯示教學語言（medium）', cbody.textContent.includes('中文') || cbody.textContent.includes('英文'));
+  // 上限：加滿 3 所後第 4 所被拒
+  WV.eval('cmpToggle("東華三院甲寅年總理中學")');
+  const before4=WV.eval('cmpGet().length');
+  WV.eval('cmpToggle("田家炳中學")');
+  ok('v1.66 第 4 所被拒（仍 3 所）且提示寫進對比條', before4===3 && WV.eval('cmpGet().length')===3 && doc.getElementById('cmpBarNames').textContent.includes('最多 3 所'));
+  // 詳情彈窗內的對比/心水快捷鈕
+  WV.eval('openSchDetail("保良局馬錦明中學")');
+  ok('v1.66 詳情彈窗含 ⚖️/❤ 快捷鈕（此時該校已在對比列，文案為移出對比）', doc.getElementById('schModalBody').textContent.includes('對比') && doc.getElementById('schModalBody').textContent.includes('心水') && doc.getElementById('schModalBody').textContent.includes('⚖️'));
+  WV.eval('document.getElementById("schModal").style.display="none"');
+  // 清空還原（不污染後續測試與用戶狀態）
+  WV.eval('cmpClear()');
+  ok('v1.66 清空後浮條計數歸零·localStorage 清空', doc.getElementById('cmpBarN').textContent==='0' && JSON.parse(WV.eval('localStorage.getItem("hkk_schcmp_v0")')).length===0);
+}catch(e){ ok('v1.66 測試執行', false); console.log('   err='+e.message); }
 
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
