@@ -412,6 +412,16 @@ try{
   ok('v1.66 清空後浮條計數歸零·localStorage 清空', doc.getElementById('cmpBarN').textContent==='0' && JSON.parse(WV.eval('localStorage.getItem("hkk_schcmp_v0")')).length===0);
 }catch(e){ ok('v1.66 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.67 葉工三處刪改（原則卡重寫／關於卡字號／免責聲明去教材句） ============
+try{
+  const html67=doc.documentElement.outerHTML;
+  ok('v1.67 原則卡已刪機構軟文出處整句', html67.indexOf('13歲，雅思8分')<0 && html67.indexOf('機構軟文')<0);
+  ok('v1.67 原則卡標題改「原則」且保留 80/20 與兩點本地化', !!doc.querySelector('#studyView .gcard.warn h3') && doc.querySelector('#studyView .gcard.warn h3').textContent==='原則' && doc.querySelector('#studyView .gcard.warn').textContent.includes('80% 建能力 ＋ 20% 熟悉賽道') && doc.querySelector('#studyView .gcard.warn').textContent.includes('純英文路線會漏項'));
+  ok('v1.67 關於卡專屬字號 CSS 已注入', html67.includes('.about-card h2{font-size:17px') && html67.includes('.about-card p{font-size:12.5px'));
+  const about67=doc.getElementById('aboutView');
+  ok('v1.67 免責聲明已去教材句（保留免責與升學承諾）', about67 && !about67.textContent.includes('牛津樹／朗文') && about67.textContent.includes('免責聲明') && about67.textContent.includes('不構成任何升學承諾'));
+}catch(e){ ok('v1.67 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();

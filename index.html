@@ -226,6 +226,10 @@ details.gcard>summary:hover{color:var(--acc)}
 details.gcard[open]>summary{margin-bottom:12px;border-bottom:1px dashed var(--line);padding-bottom:10px}
 details.gcard:not([open]){padding:14px 16px}
 details.gcard:not([open]):hover{border-color:var(--acc);box-shadow:var(--shadow-md)}
+/* v1.67 關於葉工卡：字號整體收小一檔（葉工：字體可以稍微小一點，不需要那麼大） */
+.about-card h2{font-size:17px;margin:0 0 10px}
+.about-card p{font-size:12.5px;line-height:1.75}
+.about-card .folk{font-size:11px;line-height:1.7;font-weight:500}
 .gcard:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 .gcard h3{margin:0 0 8px;font-size:16.5px;font-weight:800}
 .gcard p{margin:6px 0;font-size:14px;color:#475569;line-height:1.78}
@@ -526,13 +530,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.66（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.67（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.66（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.67（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -910,7 +914,7 @@ Thank you for your time.</div>
           <div class="cell"><h4>5. 遊戲化＋打卡</h4><p>貪吃蛇吃詞、🔥連續打卡火焰、🏅徽章、🎴閃卡——把背詞藏進日常，降低抗拒。見本站「悠閒」「練習→英文」。</p></div>
           <div class="cell"><h4>6. 詞根詞綴＋聯想</h4><p>-tion 名詞、-ful 形容、un- 否定；用影像／故事聯想。適合中高年級擴詞。</p></div>
         </div>
-        <p class="hint">方法學為通用學習科學與機構備考經驗整理（坊間參考），非官方教學指引；80/20 框架源自本規劃顧問方法論（見升學規劃→學習路線），機構軟文僅借框架、已重排時間與教材。</p>
+        <p class="hint">方法學為通用學習科學與備考經驗整理（坊間參考），非官方教學指引；80/20 框架為本規劃顧問方法論（見升學規劃→學習路線），時間表與教材按本家庭情況重排。</p>
       </div>
     </div>
     <div class="wrap gsec" id="paperView" style="display:none">
@@ -1467,8 +1471,8 @@ Thank you for your time.</div>
     <div class="gsec">
       <h2>學習提升路線（80% 建能力 ＋ 20% 熟悉賽道）</h2>
       <div class="gcard warn">
-        <h3>原則與來源</h3>
-        <p>「80% 建能力＋20% 熟悉賽道」框架來自 2025-12-01 公眾號文章《13歲，雅思8分，沒刷一套題》——<b>該文為機構軟文（文末導流試聽課）</b>，框架本身成立但<b>案例不可照搬</b>。香港插班不能照搬其「三年打底」：多數家庭是插班前 6–12 個月才啟動，且還要考繁體中文卷、英文題幹數學卷、粵語面試，純英文路線會漏項。</p>
+        <h3>原則</h3>
+        <p>本路線按「<b>80% 建能力 ＋ 20% 熟悉賽道</b>」排：能力是主線，應試是把能力兌換成分數的動作——只練題會虛，裸考則浪費機會。但有兩點必須本地化：① <b>不能照搬「三年打底」</b>，多數插班家庭是插班前 6–12 個月才啟動，時間窗沒那麼長；② <b>純英文路線會漏項</b>，香港這邊還要考繁體中文卷、英文題幹數學卷、粵語面試。</p>
       </div>
       <div class="gcard">
         <h3>排課前三條硬規則</h3>
@@ -1506,7 +1510,7 @@ Thank you for your time.</div>
         <h3>常見坑（按踩坑頻率）</h3>
         <p>① 買齊六本教材從 Foundations 一路排到 Level 5（讀不完）；② 只刷題不建能力（面試一開口就露）；③ 只建能力不做應試（沒見過題型、沒模擬面試）；④ 忽略繁體與粵語（中文卷讀不完、面試聽不懂）；⑤ 按年齡選級別（12 歲≠Level 2，按定級）；⑥ 把機構推文當官方結論。</p>
       </div>
-      <div class="src">來源：學術英語能力路線（hk-placement 知識庫 v1.0，2026-10-29）＋ 插班時間線 v1.1｜80/20 框架性質＝機構軟文（非學術）｜教材 CEFR/藍思為坊間教輔整理，選級以定級測試為準｜各校英文卷寫作題型未取到（待向目標校索取）</div>
+      <div class="src">來源：學術英語能力路線（hk-placement 知識庫 v1.0，2026-10-29）＋ 插班時間線 v1.1｜教材 CEFR/藍思為坊間教輔整理，選級以定級測試為準｜各校英文卷寫作題型未取到（待向目標校索取）</div>
     </div>
   </div>
 
@@ -1657,7 +1661,7 @@ Thank you for your time.</div>
     <p>葉工（公眾號「史蒂夫HKSZ」）：香港註冊專業工程師（RPE）、英國特許工程師（CEng）、香港科技大學碩士，深港雙城生活。本站最初為女兒的插班學習工具，現免費開放給同路的內地家庭。</p>
     <p>📧 <a href="mailto:hkeec2023@gmail.com">hkeec2023@gmail.com</a>（諮詢／合作／勘誤）　💬 微信號：<b>SteveHKSZ</b>（擇校諮詢直接加）　💬 公眾號搜「史蒂夫HKSZ」（插班乾貨更新）　🗓 或郵件留言（孩子年級／身份／目標），會回覆安排</p>
     <!-- TODO(v1.41+): 預約表單外鏈（騰訊問卷/金數據，待葉工開通帳號後填入）；數據埋點（51la/umami，同） -->
-    <p class="folk">⚠️ 免責聲明：本站內容為公開資料整理與非官方參考（Band 組別等均非教育局公布），一切以學校官網、教育局、考評局當年公布為準；本站不構成任何升學承諾；牛津樹／朗文等教材內容僅限家庭學習，勿商用或外傳。</p>
+    <p class="folk">⚠️ 免責聲明：本站內容為公開資料整理與非官方參考（Band 組別等均非教育局公布），一切以學校官網、教育局、考評局當年公布為準；本站不構成任何升學承諾。</p>
   </div>
 </div>
 
@@ -45045,7 +45049,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.66',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.67',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

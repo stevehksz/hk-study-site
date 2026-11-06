@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.67：葉工圈三張截圖要求刪改——①「原則與來源」卡：刪掉紅線標注的框架出處整句（2025-12-01 公眾號文章《13歲，雅思8分，沒刷一套題》＋該文為機構軟文說明），刪後「不能照搬其三年打底」失去指代，整理重寫為「原則」卡：能力是主線／應試是兌換分數的動作＋兩點本地化（不能照搬三年打底 6–12 個月時間窗、純英文路線會漏繁體中文卷／英文題幹數學卷／粵語面試）；②「關於葉工·諮詢與合作」卡字號過大——加 .about-card 專屬字號（h2 17px、正文 12.5px/行高 1.75、folk 11px），不動全局 .gcard 樣式；③免責聲明刪「牛津樹／朗文等教材內容僅限家庭學習，勿商用或外傳」（v1.53 已下線繪本閱讀/朗文詞庫，站內無此類內容，聲明失去對象；補習材料頁的教材版權提醒保留）。
 v1.66：葉工指令「爬 topschool.hket.com 看看有什麼值得學習的，複製到我的網站」——該站直連被攔（沙箱代理 502／直連 RST），改經檢索摸清功能清單後選型落地兩大招牌功能（其餘項目分析後不採納，見 v1.66 分析卡）：①⚖️ 學校對比（借鑑 TOPSchool「一鍵比較」）：三張學校表每行加 ⚖️ 按鈕（僅有 CHSC 官方檔案的 70 校），最多 3 所並排，底部浮動對比條（cmpBar，fixed bottom 老語法）顯示已選清單，點「對比」彈 cmpModal（body 頂層、老語法定位，同 v1.64 schModal 教訓）渲染並排對比表：類別/性別/宗教/創校/辦學團體/校訓/校長/教學語言（中學取表格行，檔案無此欄）/教師人數/碩士%/年資 10 年+/班級結構/全年收費（中學中一+中六、小學學費）/一條龍直屬聯繫（小學）/地址/電話/跳詳情；超 3 所提示寫進對比條文字（不用 alert，jsdom 兼容）；②❤ 我的心水（借鑑 TOPSchool「我的心水」）：三張表每行 🤍/❤️ 收藏鍵（全部行可用），schoolsView 頂部新增「❤ 我的心水」折疊卡（favCard）集中渲染收藏 chips（點名字開詳情、× 移除、上限 30 所防呆），詳情彈窗標題旁同樣加 ⚖️/❤ 按鈕；兩組狀態 localStorage hkk_schcmp_v0/hkk_schfav_v0（hkk_ 前綴自動跟賬號隔離）。verify2 更新 v1.58/59 按鈕計數（40/30→120/90）＋新增 10 項斷言（cmpModal body 頂層定位/favCard 存在/行內 3 鈕/心水 toggle 渲染/對比 2 所出表/3 所上限拒絕/清空隱藏）。
 v1.65：葉工圈截圖「擇校分檔這裡看看怎么处理，折叠目錄，不用整个子目录看起来非常的长」——擇校分檔子頁全區塊折疊化：12 張 gcard 說明/資訊卡轉原生 details.fold（Python 腳本 div 深度配對逐塊轉換：div→details 保 id 保 class、h3→summary、配對閉合 </div>→</details>；psChips+psTable 無 gcard 包裹，另整段包一張 open 卡「北區小學 30 所總表」），收起只留標題條、▸箭頭展開旋轉變色；默認展開僅 3 張核心校表（北區中學 20 所/大埔 20 所/北區小學 30 所總表），其餘 9 張（校園地圖/學校詳情說明/跨境要點/校車保姆車/叩門總邏輯/叩門衝刺/交叉勘誤/升中攻略/小學插班怎麼用）默認收起——頁面視覺長度大幅縮短，地圖收起也讓懶載入更合理（點開才載入）。CSS 新增 details.gcard>summary 樣式組。verify2 加 4 項斷言（12 details/3 open/mapCard 是 details/summary 文本抽查）。
 v1.64：葉工圈截圖「按詳情彈出來的窗口沒有居中，要從最下面拉回最頂端查看」——學校詳情彈窗定位 bug 修復：①#schModal 從 schoolsView 深處搬到 body 頂層（原位置祖先 .wrap 有 fadeUp both 動畫佔用合成軌道，且舊 WebView 不支援 inset 簡寫，fixed 盒子失去視口偏移就地按文檔流渲染在表格下方，人看不同）；②全站 5 處 fixed/absolute 覆蓋層的 inset 簡寫改為 left/top/width/height 老語法（schModal/authGate/.mask/header::before/mapPlaceholder，後兩者本就是裝飾品，同批修掉防舊設備）；③openSchDetail 打開時 m.scrollTop=0 從頂部看。verify2 加 3 項斷言（彈窗父節點=body/定位語法/scrollTop 歸零）。
@@ -271,6 +272,10 @@ details.gcard>summary:hover{color:var(--acc)}
 details.gcard[open]>summary{margin-bottom:12px;border-bottom:1px dashed var(--line);padding-bottom:10px}
 details.gcard:not([open]){padding:14px 16px}
 details.gcard:not([open]):hover{border-color:var(--acc);box-shadow:var(--shadow-md)}
+/* v1.67 關於葉工卡：字號整體收小一檔（葉工：字體可以稍微小一點，不需要那麼大） */
+.about-card h2{font-size:17px;margin:0 0 10px}
+.about-card p{font-size:12.5px;line-height:1.75}
+.about-card .folk{font-size:11px;line-height:1.7;font-weight:500}
 .gcard:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 .gcard h3{margin:0 0 8px;font-size:16.5px;font-weight:800}
 .gcard p{margin:6px 0;font-size:14px;color:#475569;line-height:1.78}
@@ -571,13 +576,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.66（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.67（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.66（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.67（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -955,7 +960,7 @@ Thank you for your time.</div>
           <div class="cell"><h4>5. 遊戲化＋打卡</h4><p>貪吃蛇吃詞、🔥連續打卡火焰、🏅徽章、🎴閃卡——把背詞藏進日常，降低抗拒。見本站「悠閒」「練習→英文」。</p></div>
           <div class="cell"><h4>6. 詞根詞綴＋聯想</h4><p>-tion 名詞、-ful 形容、un- 否定；用影像／故事聯想。適合中高年級擴詞。</p></div>
         </div>
-        <p class="hint">方法學為通用學習科學與機構備考經驗整理（坊間參考），非官方教學指引；80/20 框架源自本規劃顧問方法論（見升學規劃→學習路線），機構軟文僅借框架、已重排時間與教材。</p>
+        <p class="hint">方法學為通用學習科學與備考經驗整理（坊間參考），非官方教學指引；80/20 框架為本規劃顧問方法論（見升學規劃→學習路線），時間表與教材按本家庭情況重排。</p>
       </div>
     </div>
     <div class="wrap gsec" id="paperView" style="display:none">
@@ -1512,8 +1517,8 @@ Thank you for your time.</div>
     <div class="gsec">
       <h2>學習提升路線（80% 建能力 ＋ 20% 熟悉賽道）</h2>
       <div class="gcard warn">
-        <h3>原則與來源</h3>
-        <p>「80% 建能力＋20% 熟悉賽道」框架來自 2025-12-01 公眾號文章《13歲，雅思8分，沒刷一套題》——<b>該文為機構軟文（文末導流試聽課）</b>，框架本身成立但<b>案例不可照搬</b>。香港插班不能照搬其「三年打底」：多數家庭是插班前 6–12 個月才啟動，且還要考繁體中文卷、英文題幹數學卷、粵語面試，純英文路線會漏項。</p>
+        <h3>原則</h3>
+        <p>本路線按「<b>80% 建能力 ＋ 20% 熟悉賽道</b>」排：能力是主線，應試是把能力兌換成分數的動作——只練題會虛，裸考則浪費機會。但有兩點必須本地化：① <b>不能照搬「三年打底」</b>，多數插班家庭是插班前 6–12 個月才啟動，時間窗沒那麼長；② <b>純英文路線會漏項</b>，香港這邊還要考繁體中文卷、英文題幹數學卷、粵語面試。</p>
       </div>
       <div class="gcard">
         <h3>排課前三條硬規則</h3>
@@ -1551,7 +1556,7 @@ Thank you for your time.</div>
         <h3>常見坑（按踩坑頻率）</h3>
         <p>① 買齊六本教材從 Foundations 一路排到 Level 5（讀不完）；② 只刷題不建能力（面試一開口就露）；③ 只建能力不做應試（沒見過題型、沒模擬面試）；④ 忽略繁體與粵語（中文卷讀不完、面試聽不懂）；⑤ 按年齡選級別（12 歲≠Level 2，按定級）；⑥ 把機構推文當官方結論。</p>
       </div>
-      <div class="src">來源：學術英語能力路線（hk-placement 知識庫 v1.0，2026-10-29）＋ 插班時間線 v1.1｜80/20 框架性質＝機構軟文（非學術）｜教材 CEFR/藍思為坊間教輔整理，選級以定級測試為準｜各校英文卷寫作題型未取到（待向目標校索取）</div>
+      <div class="src">來源：學術英語能力路線（hk-placement 知識庫 v1.0，2026-10-29）＋ 插班時間線 v1.1｜教材 CEFR/藍思為坊間教輔整理，選級以定級測試為準｜各校英文卷寫作題型未取到（待向目標校索取）</div>
     </div>
   </div>
 
@@ -1702,7 +1707,7 @@ Thank you for your time.</div>
     <p>葉工（公眾號「史蒂夫HKSZ」）：香港註冊專業工程師（RPE）、英國特許工程師（CEng）、香港科技大學碩士，深港雙城生活。本站最初為女兒的插班學習工具，現免費開放給同路的內地家庭。</p>
     <p>📧 <a href="mailto:hkeec2023@gmail.com">hkeec2023@gmail.com</a>（諮詢／合作／勘誤）　💬 微信號：<b>SteveHKSZ</b>（擇校諮詢直接加）　💬 公眾號搜「史蒂夫HKSZ」（插班乾貨更新）　🗓 或郵件留言（孩子年級／身份／目標），會回覆安排</p>
     <!-- TODO(v1.41+): 預約表單外鏈（騰訊問卷/金數據，待葉工開通帳號後填入）；數據埋點（51la/umami，同） -->
-    <p class="folk">⚠️ 免責聲明：本站內容為公開資料整理與非官方參考（Band 組別等均非教育局公布），一切以學校官網、教育局、考評局當年公布為準；本站不構成任何升學承諾；牛津樹／朗文等教材內容僅限家庭學習，勿商用或外傳。</p>
+    <p class="folk">⚠️ 免責聲明：本站內容為公開資料整理與非官方參考（Band 組別等均非教育局公布），一切以學校官網、教育局、考評局當年公布為準；本站不構成任何升學承諾。</p>
   </div>
 </div>
 
@@ -4452,7 +4457,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.66',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.67',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
