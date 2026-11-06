@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.69：葉工圈截圖問「詞彙路線圖是不是要放第一，子目錄的順序幫我看一下怎麼排比較合理」——練習→英文 6 個子頁按「學習動線」重排：原序 中小學單詞／詞表／升中面試／英文卷／詞彙路線圖／呈分試卷（路線圖埋在第 5，新訪客看不到總覽）→ 新序 詞彙路線圖→中小學單詞→詞表→英文卷→呈分試卷→升中面試，邏輯為 總覽（該背多少・怎麼背）→ 詞彙輸入（分級詞卡＋通用詞表）→ 筆試輸出（分級練習卷→呈分試模擬）→ 口語輸出（面試）；①路線圖升為第 1 顆按鈕並設默認 on，hkView 加 display:none、goalView 去掉；②路線圖頁頂加 4 顆動線按鈕（🎴去背單詞／📝去出練習卷／🎯模擬呈分試／🗣升中面試）＋說明「本頁是總覽」，新增 enGoSub(es) 複用既有切換邏輯（找對應 data-es 按鈕 .click()，不另寫顯隱代碼）；③順帶把「③ 本家庭落點」改中性口吻「③ 示例落點與推進路線」（原句「按六年級必背古詩詞素材推算，當前約小六水平」是第一人稱自評，公開站對訪客無意義）；④DOM 內各子頁 div 物理順序未動（切換靠 display，按鈕順序即用戶可見順序），加註釋說明；verify2 新增 5 項（首顆 goal＋on／按鈕順序數組／默認 goalView 顯示 hkView 隱藏／動線鈕 4 顆／點🎴去背單詞後 hkView 顯示）＋424→429 項；未採納：加「記住上次看的子頁」localStorage（多一次點擊成本極低，但會讓子頁狀態跨會話漂移、測試不穩，違反能不加以不加）
 v1.68：葉工圈截圖「補習材料·女兒學習角」——①刪掉站內關於女兒的介紹：頁標題「補習材料 · 女兒學習角（插中一 · 35 週減壓版）」→「補習材料（插中一 · 35 週減壓版）」；關於葉工卡「本站最初為女兒的插班學習工具」→「本站為來港插班家庭整理的實用工具站」；源碼註釋同步去「女兒學習角」表述（全站可見文本已無「女兒/女儿/涵涵」）。②補習材料頁折疊優化：7 個 gsec 塊（① 35 週排期表＋每週課表／② 教材與資源清單／③ 面試話題庫／④ 數學術語翻卡／⑤ 繁體認讀翻卡／⑥ 教育局官方字表／⑦ 泛讀打卡）轉 `details.gsec.fold`＋`summary.gsec-h`（Python 腳本 div 深度淨計數配對轉換，複用 v1.65 方法；站內本已有 .gsec/.gsec-h 折疊樣式組，直接複用不新造），默認只展開 ①（第一屏仍是整體節奏），其餘 6 塊收起——頁面從約 15 屏降到 2 屏，7 個模塊標題一眼看全；CSS 補 fold 標題條字號 15px／min-height 44px（觸控友好）／hover 變色／展開態分隔線／收起態間距緊湊；頭部加一條藍底提示說明「點標題條展開」。verify2 加 6 項斷言（7 details/1 open/標題條文本/女兒字樣已清/fcard 仍渲染 60+100/泛讀 21 格）。
 v1.67：葉工圈三張截圖要求刪改——①「原則與來源」卡：刪掉紅線標注的框架出處整句（2025-12-01 公眾號文章《13歲，雅思8分，沒刷一套題》＋該文為機構軟文說明），刪後「不能照搬其三年打底」失去指代，整理重寫為「原則」卡：能力是主線／應試是兌換分數的動作＋兩點本地化（不能照搬三年打底 6–12 個月時間窗、純英文路線會漏繁體中文卷／英文題幹數學卷／粵語面試）；②「關於葉工·諮詢與合作」卡字號過大——加 .about-card 專屬字號（h2 17px、正文 12.5px/行高 1.75、folk 11px），不動全局 .gcard 樣式；③免責聲明刪「牛津樹／朗文等教材內容僅限家庭學習，勿商用或外傳」（v1.53 已下線繪本閱讀/朗文詞庫，站內無此類內容，聲明失去對象；補習材料頁的教材版權提醒保留）。
 v1.66：葉工指令「爬 topschool.hket.com 看看有什麼值得學習的，複製到我的網站」——該站直連被攔（沙箱代理 502／直連 RST），改經檢索摸清功能清單後選型落地兩大招牌功能（其餘項目分析後不採納，見 v1.66 分析卡）：①⚖️ 學校對比（借鑑 TOPSchool「一鍵比較」）：三張學校表每行加 ⚖️ 按鈕（僅有 CHSC 官方檔案的 70 校），最多 3 所並排，底部浮動對比條（cmpBar，fixed bottom 老語法）顯示已選清單，點「對比」彈 cmpModal（body 頂層、老語法定位，同 v1.64 schModal 教訓）渲染並排對比表：類別/性別/宗教/創校/辦學團體/校訓/校長/教學語言（中學取表格行，檔案無此欄）/教師人數/碩士%/年資 10 年+/班級結構/全年收費（中學中一+中六、小學學費）/一條龍直屬聯繫（小學）/地址/電話/跳詳情；超 3 所提示寫進對比條文字（不用 alert，jsdom 兼容）；②❤ 我的心水（借鑑 TOPSchool「我的心水」）：三張表每行 🤍/❤️ 收藏鍵（全部行可用），schoolsView 頂部新增「❤ 我的心水」折疊卡（favCard）集中渲染收藏 chips（點名字開詳情、× 移除、上限 30 所防呆），詳情彈窗標題旁同樣加 ⚖️/❤ 按鈕；兩組狀態 localStorage hkk_schcmp_v0/hkk_schfav_v0（hkk_ 前綴自動跟賬號隔離）。verify2 更新 v1.58/59 按鈕計數（40/30→120/90）＋新增 10 項斷言（cmpModal body 頂層定位/favCard 存在/行內 3 鈕/心水 toggle 渲染/對比 2 所出表/3 所上限拒絕/清空隱藏）。
@@ -342,6 +343,9 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .gtitle{font-size:18px}
   .grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
   .wrap{padding:18px 12px 36px}
+  /* v1.69 路線圖動線鈕：窄屏 2×2 網格，避免 .tools 的 column 讓四顆鈕各佔一整行 */
+  .tools.en-go{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center}
+  .tools.en-go>span{grid-column:1/-1}
 }
 @media print{
   header{background:#fff!important;color:#1b2435!important;padding:14px}
@@ -582,13 +586,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.68（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.69（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.68（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.69（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -727,14 +731,16 @@ header{position:relative}
   <!-- 英文 -->
   <div class="wrap" id="enPracView" style="display:none">
     <div class="subnav" id="enPracSub" style="position:static;top:auto;margin:0 -16px 12px">
-      <button data-es="hk" class="on">中小學單詞</button>
+      <!-- v1.69：子頁按「學習動線」重排——總覽（該背多少/怎麼背）→ 詞彙輸入（分級詞卡＋通用詞表）→ 筆試輸出（練習卷→模擬卷）→ 口語輸出（面試）。
+           DOM 內各子頁 div 的物理順序未動（切換靠 display 控制），按鈕順序即用戶可見順序。 -->
+      <button data-es="goal" class="on">詞彙路線圖</button>
+      <button data-es="hk">中小學單詞</button>
       <button data-es="vocab">詞表</button>
-      <button data-es="iv">升中面試</button>
       <button data-es="paper">英文卷</button>
-      <button data-es="goal">詞彙路線圖</button>
       <button data-es="exam">呈分試卷</button>
+      <button data-es="iv">升中面試</button>
     </div>
-    <div id="hkView">
+    <div id="hkView" style="display:none">
       <div class="tools">
         <span class="chip on" data-hs="pri" id="hkStagePri">小學 P1–P6</span>
         <span class="chip" data-hs="sec" id="hkStageSec">中學 S1–S3</span>
@@ -921,9 +927,17 @@ Thank you for your time.</div>
       </div>
     </div>
 
-    <div id="goalView" style="display:none">
+    <div id="goalView">
       <div class="gtitle">詞彙路線圖（一年級 → 中六 · 該背多少 · 怎麼背）</div>
       <span class="folk">目標詞量為坊間基準（香港教育／DSE 備考機構整理），非教育局官方分級詞表——EDB 不公布官方必背詞單</span>
+
+      <div class="tools en-go" style="margin:8px 0 2px">
+        <button class="btn" type="button" onclick="enGoSub('hk')">🎴 去背單詞</button>
+        <button class="btn" type="button" onclick="enGoSub('paper')">📝 去出練習卷</button>
+        <button class="btn" type="button" onclick="enGoSub('exam')">🎯 模擬呈分試</button>
+        <button class="btn" type="button" onclick="enGoSub('iv')">🗣 升中面試</button>
+        <span style="font-size:12px;color:#8a8aa0;align-self:center">本頁是總覽：先看清目標與方法，再用上面的按鈕直接跳到工具</span>
+      </div>
 
       <div class="gcard">
         <h3>① 本學習站目前收錄多少單詞？</h3>
@@ -952,8 +966,8 @@ Thank you for your time.</div>
       </div>
 
       <div class="gcard warn">
-        <h3>③ 本家庭落點（目標 2027/28 插班中一）</h3>
-        <p>目標校為北區 Band 1 英中。按六年級必背古詩詞素材推算，當前約小六（P6）水平，距中一門檻 3,500–4,000 詞有缺口（P6 真實 2,500–3,000）。路線：先把港小基礎詞 335 全吃透（閃卡＋貪吃蛇＋打卡），同步大量閱讀補到 <b>P6 上限 3,000</b>，再衝 <b>S1 3,500–4,000</b> 銜接入學；學術詞（數學／科學術語）單獨過一遍（見練習→數學術語表）。</p>
+        <h3>③ 示例落點與推進路線（目標 2027/28 插班中一）</h3>
+        <p>以「北區 Band 1 英中」為目標校示例：小六（P6）真實水平約 2,500–3,000 詞，距中一門檻 3,500–4,000 尚有缺口。建議推進路線：先把港小基礎詞 335 全吃透（閃卡＋打卡），同步大量閱讀補到 <b>P6 上限 3,000</b>，再衝 <b>S1 3,500–4,000</b> 銜接入學；學術詞（數學／科學術語）單獨過一遍（見練習→數學術語表）。</p>
       </div>
 
       <div class="gcard">
@@ -966,7 +980,7 @@ Thank you for your time.</div>
           <div class="cell"><h4>5. 遊戲化＋打卡</h4><p>貪吃蛇吃詞、🔥連續打卡火焰、🏅徽章、🎴閃卡——把背詞藏進日常，降低抗拒。見本站「悠閒」「練習→英文」。</p></div>
           <div class="cell"><h4>6. 詞根詞綴＋聯想</h4><p>-tion 名詞、-ful 形容、un- 否定；用影像／故事聯想。適合中高年級擴詞。</p></div>
         </div>
-        <p class="hint">方法學為通用學習科學與備考經驗整理（坊間參考），非官方教學指引；80/20 框架為本規劃顧問方法論（見升學規劃→學習路線），時間表與教材按本家庭情況重排。</p>
+        <p class="hint">方法學為通用學習科學與備考經驗整理（坊間參考），非官方教學指引；80/20 框架為本規劃顧問方法論（見升學規劃→學習路線），時間表與教材按各級實際情況重排。</p>
       </div>
     </div>
     <div class="wrap gsec" id="paperView" style="display:none">
@@ -4177,6 +4191,11 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
     if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
   }catch(e){ console.error('切換視圖失敗：',e); }
 });
+// v1.69：路線圖頁的動線按鈕——複用同一套切換邏輯，避免另寫一份顯隱代碼
+function enGoSub(es){
+  const b=document.querySelector('#enPracSub button[data-es="'+es+'"]');
+  if(b) b.click();
+}
 document.querySelectorAll('#mathPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
   const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
@@ -4464,7 +4483,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.68',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.69',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

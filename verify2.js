@@ -443,6 +443,37 @@ try{
   doc.querySelector('#practiceSub button[data-sub="cn"]').click();
 }catch(e){ ok('v1.68 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.69 英文子頁按學習動線重排（路線圖升第 1） ============
+try{
+  const esBtns=[...doc.querySelectorAll('#enPracSub button')];
+  const order=esBtns.map(b=>b.dataset.es);
+  ok('v1.69 英文子頁順序=動線(goal→hk→vocab→paper→exam→iv)('+order.join(',')+')',
+     JSON.stringify(order)===JSON.stringify(['goal','hk','vocab','paper','exam','iv']));
+  ok('v1.69 首顆=詞彙路線圖', esBtns[0].dataset.es==='goal' && esBtns[0].textContent==='詞彙路線圖');
+  ok('v1.69 源碼首顆自帶 class="on"（首次進頁默認選中）', /<button data-es="goal" class="on">詞彙路線圖<\/button>/.test(html));
+  ok('v1.69 僅一顆按鈕 on('+esBtns.filter(b=>b.classList.contains('on')).length+')', esBtns.filter(b=>b.classList.contains('on')).length===1);
+  // 靜態默認態：首次載入（未點任何英文子頁）應停在路線圖——用源碼斷言，避免長鏈測試污染
+  ok('v1.69 靜態默認: goalView 無 display:none、hkView 有',
+     !/id="goalView"\s+style="display:none"/.test(html) && /id="hkView"\s+style="display:none"/.test(html));
+  doc.querySelector('#practiceSub button[data-sub="en"]').click();
+  // 動線快捷鈕
+  const goBtns=[...doc.querySelectorAll('#goalView .btn')].filter(b=>/去背單詞|去出練習卷|模擬呈分試|升中面試/.test(b.textContent));
+  ok('v1.69 路線圖動線快捷鈕 4 顆('+goBtns.length+')', goBtns.length===4 && /去背單詞/.test(goBtns[0].textContent));
+  ok('v1.69 路線圖標明「本頁是總覽」', doc.getElementById('goalView').textContent.includes('本頁是總覽'));
+  goBtns.find(b=>/去背單詞/.test(b.textContent)).click();
+  ok('v1.69 點🎴去背單詞 → hkView 顯示且按鈕 on 跟隨',
+     doc.getElementById('hkView').style.display!=='none' && doc.getElementById('goalView').style.display==='none'
+     && doc.querySelector('#enPracSub button[data-es="hk"]').classList.contains('on'));
+  goBtns.find(b=>/模擬呈分試/.test(b.textContent)).click();
+  ok('v1.69 點🎯模擬呈分試 → examView 顯示', doc.getElementById('examView').style.display!=='none' && doc.getElementById('hkView').style.display==='none');
+  // 落點卡改中性口吻
+  ok('v1.69 落點卡改「示例落點」不含「本家庭」', doc.getElementById('goalView').textContent.includes('示例落點與推進路線')
+     && doc.getElementById('goalView').textContent.indexOf('本家庭')<0);
+  // 回到路線圖，避免污染後續測試
+  doc.querySelector('#enPracSub button[data-es="goal"]').click();
+  doc.querySelector('#practiceSub button[data-sub="cn"]').click();
+}catch(e){ ok('v1.69 測試執行', false); console.log('   err='+e.message); }
+
 console.log('--- 速览: 繁體對照 ---');
 doc.querySelector('nav button[data-tab="guide"]').click();
 doc.querySelector('#guideSub button[data-sub="ft"]').click();

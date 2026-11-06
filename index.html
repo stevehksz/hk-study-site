@@ -295,6 +295,9 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .gtitle{font-size:18px}
   .grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
   .wrap{padding:18px 12px 36px}
+  /* v1.69 路線圖動線鈕：窄屏 2×2 網格，避免 .tools 的 column 讓四顆鈕各佔一整行 */
+  .tools.en-go{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center}
+  .tools.en-go>span{grid-column:1/-1}
 }
 @media print{
   header{background:#fff!important;color:#1b2435!important;padding:14px}
@@ -535,13 +538,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.68（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.69（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.68（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.69（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -680,14 +683,16 @@ header{position:relative}
   <!-- 英文 -->
   <div class="wrap" id="enPracView" style="display:none">
     <div class="subnav" id="enPracSub" style="position:static;top:auto;margin:0 -16px 12px">
-      <button data-es="hk" class="on">中小學單詞</button>
+      <!-- v1.69：子頁按「學習動線」重排——總覽（該背多少/怎麼背）→ 詞彙輸入（分級詞卡＋通用詞表）→ 筆試輸出（練習卷→模擬卷）→ 口語輸出（面試）。
+           DOM 內各子頁 div 的物理順序未動（切換靠 display 控制），按鈕順序即用戶可見順序。 -->
+      <button data-es="goal" class="on">詞彙路線圖</button>
+      <button data-es="hk">中小學單詞</button>
       <button data-es="vocab">詞表</button>
-      <button data-es="iv">升中面試</button>
       <button data-es="paper">英文卷</button>
-      <button data-es="goal">詞彙路線圖</button>
       <button data-es="exam">呈分試卷</button>
+      <button data-es="iv">升中面試</button>
     </div>
-    <div id="hkView">
+    <div id="hkView" style="display:none">
       <div class="tools">
         <span class="chip on" data-hs="pri" id="hkStagePri">小學 P1–P6</span>
         <span class="chip" data-hs="sec" id="hkStageSec">中學 S1–S3</span>
@@ -874,9 +879,17 @@ Thank you for your time.</div>
       </div>
     </div>
 
-    <div id="goalView" style="display:none">
+    <div id="goalView">
       <div class="gtitle">詞彙路線圖（一年級 → 中六 · 該背多少 · 怎麼背）</div>
       <span class="folk">目標詞量為坊間基準（香港教育／DSE 備考機構整理），非教育局官方分級詞表——EDB 不公布官方必背詞單</span>
+
+      <div class="tools en-go" style="margin:8px 0 2px">
+        <button class="btn" type="button" onclick="enGoSub('hk')">🎴 去背單詞</button>
+        <button class="btn" type="button" onclick="enGoSub('paper')">📝 去出練習卷</button>
+        <button class="btn" type="button" onclick="enGoSub('exam')">🎯 模擬呈分試</button>
+        <button class="btn" type="button" onclick="enGoSub('iv')">🗣 升中面試</button>
+        <span style="font-size:12px;color:#8a8aa0;align-self:center">本頁是總覽：先看清目標與方法，再用上面的按鈕直接跳到工具</span>
+      </div>
 
       <div class="gcard">
         <h3>① 本學習站目前收錄多少單詞？</h3>
@@ -905,8 +918,8 @@ Thank you for your time.</div>
       </div>
 
       <div class="gcard warn">
-        <h3>③ 本家庭落點（目標 2027/28 插班中一）</h3>
-        <p>目標校為北區 Band 1 英中。按六年級必背古詩詞素材推算，當前約小六（P6）水平，距中一門檻 3,500–4,000 詞有缺口（P6 真實 2,500–3,000）。路線：先把港小基礎詞 335 全吃透（閃卡＋貪吃蛇＋打卡），同步大量閱讀補到 <b>P6 上限 3,000</b>，再衝 <b>S1 3,500–4,000</b> 銜接入學；學術詞（數學／科學術語）單獨過一遍（見練習→數學術語表）。</p>
+        <h3>③ 示例落點與推進路線（目標 2027/28 插班中一）</h3>
+        <p>以「北區 Band 1 英中」為目標校示例：小六（P6）真實水平約 2,500–3,000 詞，距中一門檻 3,500–4,000 尚有缺口。建議推進路線：先把港小基礎詞 335 全吃透（閃卡＋打卡），同步大量閱讀補到 <b>P6 上限 3,000</b>，再衝 <b>S1 3,500–4,000</b> 銜接入學；學術詞（數學／科學術語）單獨過一遍（見練習→數學術語表）。</p>
       </div>
 
       <div class="gcard">
@@ -919,7 +932,7 @@ Thank you for your time.</div>
           <div class="cell"><h4>5. 遊戲化＋打卡</h4><p>貪吃蛇吃詞、🔥連續打卡火焰、🏅徽章、🎴閃卡——把背詞藏進日常，降低抗拒。見本站「悠閒」「練習→英文」。</p></div>
           <div class="cell"><h4>6. 詞根詞綴＋聯想</h4><p>-tion 名詞、-ful 形容、un- 否定；用影像／故事聯想。適合中高年級擴詞。</p></div>
         </div>
-        <p class="hint">方法學為通用學習科學與備考經驗整理（坊間參考），非官方教學指引；80/20 框架為本規劃顧問方法論（見升學規劃→學習路線），時間表與教材按本家庭情況重排。</p>
+        <p class="hint">方法學為通用學習科學與備考經驗整理（坊間參考），非官方教學指引；80/20 框架為本規劃顧問方法論（見升學規劃→學習路線），時間表與教材按各級實際情況重排。</p>
       </div>
     </div>
     <div class="wrap gsec" id="paperView" style="display:none">
@@ -44768,6 +44781,11 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
     if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
   }catch(e){ console.error('切換視圖失敗：',e); }
 });
+// v1.69：路線圖頁的動線按鈕——複用同一套切換邏輯，避免另寫一份顯隱代碼
+function enGoSub(es){
+  const b=document.querySelector('#enPracSub button[data-es="'+es+'"]');
+  if(b) b.click();
+}
 document.querySelectorAll('#mathPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
   const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
@@ -45055,7 +45073,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.68',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,ver:'hkk_v1.69',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
