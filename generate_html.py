@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.80：葉工要「英語那裡加一個自己的單詞本模塊，可以從網站裡面加入單詞本，也可以自己輸入加入單詞本，然後儲存本地，也可以導出導入」。先判定這不是 Agent／LLM 需求，就是純前端本地 CRUD，直接做。落位＝「練習 → 英文」`enPracSub` 第 7 顆子標籤「我的單詞本」（插在詞表之後、英文卷之前，詞彙輸入動線上），新增 `#myWordsView` 子頁，**不加頂層導航、不改 tutorView 折疊塊**。①站內加入：`renderHk()`（中小學單詞）與 `renderVocab()`（詞表）每張 vcard 補一顆 `.mwadd`「＋ 單詞本」，點擊共用 `__mwAddClick()` → `window.__myWordsTest.addFrom(kind,w)`，帶入詞／中文義／音標／來源（站內·中小學單詞 / 站內·詞表）／年級主題或主題備註；按鈕 `stopPropagation()` 避免誤觸原卡片的「標記掌握」與「隱中文」，成功後按鈕就地變「✓ 已加入」並停用、**不重繪整張詞表**（重繪會清掉摺疊態與搜尋位置）。②自行輸入：`#mwW / #mwZh / #mwNote` 三欄＋Enter 提交，單詞必填、中文義與備註可稍後在詞卡上直接改（`change` 事件即存）。③本地儲存：`hkk_mywords_v0`（hkk_ 前綴天然受 v1.33 賬號作用域隔離），詞條含 id/w/zh/ph/note/src/ts/done；`normalize()` 對所有匯入資料做長度截斷、大小寫去重、上限 2000 詞，渲染一律 `esc()` 轉義防注入。④導出導入：單詞本自帶「導出單詞本 (JSON)」／「匯入單詞本」／「清空單詞本」，導出 `{ver:'hkk_mywords_v1',exported,words[]}`，`URL.createObjectURL` 失效時降級 data URI；**匯入一律合併去重、不覆蓋**，回報新增／跳過／總數，格式錯誤給明確提示不靜默吞掉；同時把 `myWords` 補進全站「導出進度／匯入進度／清空全部進度」（沿用 v1.73/75/78/79 做法）。⑤詞卡操作：發音（複用全域 `speak()`，失敗降級提示）、標為已掌握、移除；工具列搜尋（詞／中文義／備註）＋篩選（全部／未掌握／已掌握／站內加入／自行輸入）＋排序（最新／A–Z／Z–A）＋統計。⚠️ **版權紅線**：公開 HTML 只有空結構與欄位名，**零預置詞條**、零出版社詞表、零第三方原文、零外鏈、零圖片、零雲端請求；`myWordsView` 在 `enPracView` 內而 ai_kb.py 只抽 faqView／timelineView／policyView＋學校名冊，故天然不進 AI 白名單（kb 仍 95 條，加斷言鎖死）。`__hkkGo('p:en:mywords')` 由既有解析器天然支援，不用改導航代碼。CSS 新增 .mwform/.mwcard/.mwtools/.mwadd 等複用既有色票，表單與底部按鈕 min-height:44px、窄屏轉單列；按鈕全用純文字（沿用 v1.79 豆腐塊教訓）。版本號 3 處 v1.79→v1.80。verify2 新增 40 項（子頁結構／零預置詞條／零外鏈／第 7 子標籤與 __hkkGo 實跑／自行輸入／空值與大小寫去重／站內兩處加入且不誤觸原卡片／編輯即存／掌握／篩選排序搜尋／導出結構／合併去重匯入／非法檔拋錯／2000 上限／XSS 轉義／清空空態／全站導出導入清空接線／AI 白名單未污染／窄屏／版本一致），**640→680 全過**；舊斷言只動 3 處：v1.53「6 tab」改「原有 6 未刪、共 7」、v1.69 動線順序改「過濾 mywords 後仍等於原動線」、v1.79 版本號斷言改為「四頁簽未回歸」並把版本一致移到 v1.80。一條初版失敗揭示口徑問題：匯入回報的 skipped 原本按清洗後條數算，檔案 3 條含 1 重複卻顯示「跳過 0」，改以檔案原始條數為分母（added 2 / skipped 1），讓「導了 3 條只加 2 條」看得懂。
 v1.79：葉工貼「⑦ 泛讀打卡（21 天挑戰）」展開後的截圖，要「泛讀打開這裏幫我弄一個子目錄，要給小孩重點學習」。先問清形態（AskUserQuestion 三選一），他選「塊內子目錄＋重點清單」——不加主導航入口、不改 ⑦ 層級、21 格打卡原位保留。落位＝⑦ details（補 id=readHub）內、原規則說明之下、打卡格之上新增 #readSubNav 四頁簽（⭐ 今日重點／📅 21 天怎麼讀／📚 讀什麼／✅ 家長自查）＋ #readFocusBox 四面板，默認只顯示「今日重點」；頁簽只在 ⑦ 內部切 display，**不新增 details 折疊塊**（全站仍 11 塊，v1.68/75/77/78 的位次斷言全不動），不加主導航、不加子頁、不改 ⑦ 標題條文字（舊斷言靠「泛讀打卡」字樣識別）。①今日重點：給小孩的一頁三件事（自己挑英文／看完點格／想講開 90 秒），「第 N 天」由 readLoad() 算第一個未打卡日，renderRead() 末尾加 hook 讓打卡後自動往後推，不另存一份狀態；四顆 data-go 按鈕（t:5 今日認讀／p:en:goal 詞彙路線圖／p:en:paper 英文卷／t:2 90 秒計時）一律走 v1.75 暴露的 window.__hkkGo，不抄顯隱邏輯。②21 天怎麼讀：只把 21 格按週分三段做進度導航，明確「不是課程表、沒有官方進度要求」，不加時數不加考核，窄屏表格 overflow-x:auto 且橫滑提示放在表格上方（沿用 v1.75/78 可見性教訓）。③讀什麼：逐條重組本頁 ② 教材清單既有口徑（家中牛津樹／TreeTops、圖書館橋梁書→兒童非虛構、藍思值屬坊間整理、漫畫故事科普視頻都算），warn 卡沿用「僅限家庭學習、勿外傳、不存放第三方內頁」紅線；兩顆按鈕去 ②／⑧。④家長自查：五條「不要做」checkbox（hkk_readfocus_v0，hkk_ 前綴天然受 v1.33 賬號隔離）＋已做到 N/5＋清空，明確不是評分表、不影響小孩打卡格。⚠️ 素材零新造、零外鏈、零圖片、零第三方原文、零雲端請求；新內容在 tutorView 而 ai_kb.py 只抽 faqView／timelineView／policyView＋學校名冊，故**天然不進 AI 白名單**，加斷言鎖死（kb 仍 95 條）。CSS 新增 .rdnav/.rdcard/.rdgo/.rdtable/.rdchk 等複用既有色票，頁簽與跳轉鈕 min-height:44px、窄屏 flex 換行；CDP 桌面截圖發現六顆跳轉鈕的 emoji 在缺字形環境下變空心方框（沿用 v1.78 豆腐塊教訓），故跳轉鈕與打卡格標題改純文字，只保留頁簽四顆實測顯示正常的 emoji。進度匯出／匯入／清空補 readFocus 字段（沿用 v1.73/75/78 做法），清空確認文案補「泛讀自查」，版本號 3 處 v1.78→v1.79。verify2 新增 26 項（結構／四頁簽切換與 aria／今日天數與打卡聯動／六顆跳轉復用 __hkkGo 並實跑 t:5／自查讀寫與清空／導出導入清空／零外鏈零圖片／版權口徑／AI 白名單未污染／窄屏／版本一致），**614→640 全過**。三條初版失敗全是探針問題：①today 面板無 inline display 被誤判未顯示 → 補 style="display:block"；②v1.33 測試 localStorage.clear() 後未 reload 致打卡格 DOM 過期 → 斷言先跑 renderRead() 同步，真賬號切換本就 location.reload()；③橫滑提示寫在表格下方違反站內規矩 → 移到表格上方並改「下面的表格」。
 v1.78：葉工貼 Obsidian 檔案樹截圖，要「把朗文 1–6 年級課本裡的單詞整理出來，開一個朗文單詞本」。先定位資料：截圖屬**第二個 Obsidian 庫**「G:\\00 咨询&公自媒体\\22 香港插班」（主庫 200 ObsidianVault 沒有 88 涵涵），路徑 88 涵涵/01英語/10 香港朗文，內有 B5135-Longman English World、LWTEGOLD 1A-6B 全套資源、教師用書合併版、白板軟件四組。12 冊各有「19/06/07 單詞庫 Word Bank」的 OLE2 `.doc`（3–20MB），`olefile` 走 WordDocument＋Table stream 的 CLX→Plcfpcd→piece text 可取出乾淨文字層；雙欄排版把編號讀成 1,6,2,7… 故段內按編號重排、編號回到 1 視為新主題（連續兩個只有 1 條詞的小主題也要切，v1.77 首次解析踩過），並截斷頁腳的 `Longman Welcome to English Gold… © Pearson Education Asia Limited 2018/2019` 與版權鳴謝段、修連字符斷行、用站內人工校過的舊 5A/5B 詞表補 2 條 Word 自動編號丟失的詞。交叉校驗：5A 70/70、5B 70/70 全命中，零噪聲；共 **12 冊／127 主題／1024 詞條**，既有中文自譯 140 條。⚠️ **版權分叉先問再做**：來源 `.doc` 頁腳明載 © Pearson，而葉工定的硬規則是「牛津樹／朗文內容僅限家庭學習、勿外傳」，GitHub 倉庫已公開、站內 ⑧ 明寫「不掃描、不摘錄、不提供下載」。故用 AskUserQuestion 讓葉工拍板，他選「①本機/Obsidian 私有 ＋ ②站內進度本」兩條都做、中文只保留既有 140 條自譯。①私有：`_build_lwte_notebook.py` 生成單檔 `_lwte_notebook.html`（38KB，零外鏈／零網路請求，12 冊 1024 詞、搜索、掌握勾選、自填中文、隨機 10 詞自測、匯出進度，localStorage `hkk_lwte_nb`），以及私人庫「22 香港插班/88 涵涵/01英語/10 香港朗文/朗文單詞本.md」（24KB，checkbox 清單）；兩者頂部皆標 © Pearson 與「僅供家庭學習、勿外傳」。`_verify_lwte_nb.js` 19 項 jsdom 回歸全過、`_shot_lwte_nb.py` 桌面 1280／手機 390（CDP 顯式 `Emulation.setDeviceMetricsOverride`，headless 最小窗寬會量成 484）實渲染 1024 詞無溢出；修掉 emoji 豆腐塊與窄屏搜尋框被擠。②站內：`tutorView` 新增第 ⑪ 折疊塊 `#lwteHub`「朗文單詞本 · 進度本」，**只放冊／主題名／詞數的事實性目錄**（構建期由 `_lwte_meta.json` 注入 `__LWTE_META__`，該檔 7.7KB、零詞條零釋義，已加 FILE_MAP 保可復現），一個詞條都不進公開 HTML；12 冊 chips 切換＋三態勾選（已學／已複習／已聽寫，`hkk_lwte_prog_v0` 跟賬號隔離）＋統計＋印空白聽寫紙（紙上只有主題名與橫線，家長按課本報詞）＋清空本冊；匯出／匯入／清空補 `lwteProg`。warn 卡本站重寫三條取用原則並標「不是法律意見」。⚠️ `_gh_sync.py` 加註明**永不推送** `_lwte_all.json`／`_lwte_notebook.html`／`_build_lwte_notebook.py`／`build_lwte_all.py` 等私有檔。verify2 折疊計數 10→11 五處＋新增 v1.78 紅線斷言（可選讀私有 `_lwte_all.json` 逐條比對公開 HTML 零詞條、零中文自譯、meta 結構、目錄渲染、勾選讀寫、清空、聽寫紙零詞、不進 AI 白名單、窄屏）。
 v1.77：葉工貼來第三方試卷網首頁，問「這裡很多試卷，看能不能拷貝過來」——先實測再下結論：公開渲染可見首頁是一整屏按「年級（小一–小六／中一–中四）× 科目（中／英／數／常識／中史／物理／生物／地理等）」排列的試卷條目，每條指向 /paper/?id= 的圖片；本機 curl 直連首頁、robots.txt、單份試卷連結三者一律 403（robots 回的是 WAF 攔截頁而非 robots 指令），條款／版權頁未能取得，故不對其授權狀態作任何猜測，也不宜再寫爬蟲硬撞。結論：**不搬**。這類卷子的版權多半屬出卷學校／出版社／製作者，彙整不等於取得再授權；本站 GitHub 倉庫已公開，放上去等於公開發行。沿用 v1.72 版權三級分類與 v1.75「只借組織架構、不借原文」——站內 ⑧ 早已寫明這類試卷庫「不入庫、不爬取、不代理」，本版不改這條紅線。真正值得借的是「年級 × 科目一屏找卷」的組織方式：站內本來就有三個原創出卷引擎（英文卷 P1–P6／數學卷 P1–P6 雙語／呈分試卷 P5–P6 含一次出 10 套），卻散在練習各子頁，訪客看不到「很多卷子」。故新增第 ⑩ 個折疊塊 `#paperHub`「本站原創試卷 · 按年級找」（默認收起）：6 個年級 × 3 卷種表格共 **14 顆按鈕**（呈分試只給 P5／P6，另 4 格明確標不適用），點下去由單一 `paperGo()` 解析 `data-paper`，先複用 v1.75 暴露的 `window.__hkkGo`（不另抄顯隱邏輯），再 `.click()` 既有 `#pgChips`／`#mpgChips`／`#examChips` 的年級 chip（chip 本身已綁定 genEnPaper／genMathPaper／genExamPaper，點完即出卷），最後用顯式 `document.documentElement.scrollTop=rect.top+pageYOffset-110` 捲到卷子（沿用 v1.75 教訓，不用 scrollIntoView）。⚠️ 零新題目、零第三方檔案、零外鏈、零圖片、零新增 localStorage、零雲端請求；`#paperHub` 在 `tutorView` 內，而 `ai_kb.py` 只抽 faqView／timelineView／policyView＋學校名冊，故**天然不進 AI 白名單**，並加斷言鎖死。區內 warn 卡本站重寫三條取用原則（彙整≠再授權／公開倉庫＝公開發行／只提煉題型結構再用站內引擎重出原創題），標明「不是法律意見」與「教育局不公佈官方 Banding」。頭部提示 9→10 並點名 ⑩；CSS 新增 `.phub-wrap`（overflow-x:auto）／`.phub-tbl`（min-width:600px）／`.pgo`，沿用 `.mapgo` 色票，窄屏補可橫滑文字提示。verify2 舊計數 9→10 五處＋新增 20 項（結構／14 鈕合法性／零外鏈零圖片／合規文案／導航復用／顯式捲動／AI 白名單未污染／窄屏／三分支實跑／非法參數拒絕），**569→589 全過**；初版兩條失敗皆為探針問題非產品問題：新 summary 漏 `class="gsec-h"` 致標題條只數到 9、切片探針誤命中 CSS 註釋把整頁後半段算進去（改精確切 `function paperGo(spec)` → `window.__paperHubTest`）。
@@ -349,6 +350,45 @@ table.rdtable td:first-child{font-weight:800;color:#334155;white-space:nowrap}
   .rdbig{font-size:19px}
   table.rdtable{min-width:460px}
   table.rdtable th,table.rdtable td{padding:6px 7px}
+}
+/* v1.80 我的單詞本：表單／詞卡／工具列，按鈕 44px 可點，窄屏轉單列 */
+.mwform{display:flex;flex-wrap:wrap;gap:9px;align-items:flex-end;background:#fff;border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:10px;padding:13px 14px;margin:0 0 10px}
+.mwform label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:700;color:#475569;flex:1 1 190px}
+.mwform input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:9px;font-size:14px;color:var(--ink);background:#fff}
+.mwform .mwaddbtn{min-height:44px;padding:9px 18px;background:var(--acc);color:#fff;border-color:var(--acc);flex:0 0 auto}
+.mwmsg{min-height:19px;font-size:12.5px;font-weight:700;color:#0b7a68;margin:0 2px 8px}
+.mwmsg.bad{color:#b45309}
+.mwtools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
+.mwtools input[type=search]{flex:1 1 180px}
+.mwstat{font-size:12.5px;font-weight:700;color:#0f766e}
+.mwcard{background:#fff;border:1px solid var(--line);border-left:4px solid var(--math);border-radius:10px;padding:11px 13px;margin:0 0 9px}
+.mwcard.done{border-left-color:#94a3b8;background:#f8fafc}
+.mwtop{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+.mwtop .mww{font-size:18px;font-weight:800;color:#1e293b}
+.mwtop .mwph{font-size:12.5px;color:#64748b}
+.mwtop .mwsrc{font-size:11px;color:#0b7a68;background:#e8f6f2;border-radius:10px;padding:2px 8px}
+.mwtop .mwdate{font-size:11px;color:#94a3b8;margin-left:auto}
+.mwfields{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.mwfields label{display:flex;flex-direction:column;gap:4px;font-size:11.5px;font-weight:700;color:#64748b;flex:1 1 180px}
+.mwfields input{padding:7px 9px;border:1px solid var(--line);border-radius:8px;font-size:13px;color:var(--ink);background:#fff;width:100%}
+.mwacts{display:flex;flex-wrap:wrap;gap:7px}
+.mwacts button{min-height:38px;padding:7px 12px;border:1px solid var(--line);background:#f8fafc;border-radius:9px;font-size:12.5px;font-weight:700;color:#475569;cursor:pointer}
+.mwacts button:hover{border-color:var(--math);color:#0b7a68}
+.mwacts button.on{background:var(--math);color:#fff;border-color:var(--math)}
+.mwacts button.mwdel{color:#b91c1c}
+.mwfoot{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.mwfoot .btn{min-height:44px}
+.mwfoot .mwdanger{color:#b91c1c}
+.mwempty{padding:18px 12px;text-align:center;color:#64748b;font-size:13.5px;background:#fff;border:1px dashed var(--line);border-radius:10px}
+.mwadd{min-height:30px;padding:4px 9px;border:1px solid var(--line);background:#f8fafc;border-radius:8px;font-size:11.5px;font-weight:700;color:#0b7a68;cursor:pointer;margin-left:8px;vertical-align:middle}
+.mwadd:hover{border-color:var(--math);background:#e6fbf5}
+.mwadd.in{color:#64748b;background:#eef2f7;cursor:default}
+@media screen and (max-width:640px){
+  .mwform label{flex:1 1 100%}
+  .mwform .mwaddbtn{width:100%}
+  .mwfields label{flex:1 1 100%}
+  .mwfoot .btn{flex:1 1 44%}
+  .mwtop .mwdate{margin-left:0}
 }
 /* 跳轉後 scrollIntoView 會把標題推到吸頂導航底下，留足偏移（沿用 v1.73 詩詞彈窗的 110px） */
 #tutorView details.gsec.fold{scroll-margin-top:110px}
@@ -791,13 +831,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.79（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.80（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.79（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.80（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -951,6 +991,7 @@ header{position:relative}
       <button data-es="goal" class="on">詞彙路線圖</button>
       <button data-es="hk">中小學單詞</button>
       <button data-es="vocab">詞表</button>
+      <button data-es="mywords">我的單詞本</button>
       <button data-es="paper">英文卷</button>
       <button data-es="exam">呈分試卷</button>
       <button data-es="iv">升中面試</button>
@@ -991,6 +1032,32 @@ header{position:relative}
         <select id="vocabTopic"><option value="">全部主題</option></select>
       </div>
       <div id="vocabList"></div>
+    </div>
+    <!-- v1.80 我的單詞本：純本地增刪改查。公開 HTML 只有空結構，零預置第三方詞條 -->
+    <div id="myWordsView" style="display:none">
+      <div class="gtitle">我的單詞本（自己收 · 只存這台設備）</div>
+      <p class="tip">在「中小學單詞」或「詞表」看到想重點記的詞，點該詞卡上的「＋ 單詞本」即可收進來；也可以在下面自己輸入。中文義與備註可稍後補，改完自動保存。<b>資料只存本瀏覽器、跟賬號走，不會上傳</b>；清快取或換設備前請先「導出單詞本」。</p>
+      <div class="mwform">
+        <label>單詞（必填）<input id="mwW" maxlength="80" placeholder="例：library"></label>
+        <label>中文義（選填）<input id="mwZh" maxlength="200" placeholder="例：圖書館"></label>
+        <label>備註／例句（選填）<input id="mwNote" maxlength="300" placeholder="例：I borrow books from the library."></label>
+        <button type="button" class="btn mwaddbtn" id="mwAdd">加入單詞本</button>
+      </div>
+      <div class="mwmsg" id="mwMsg" role="status" aria-live="polite"></div>
+      <div class="mwtools">
+        <input type="search" id="mwSearch" placeholder="搜單詞 / 中文義 / 備註">
+        <select id="mwFilter"><option value="all">全部</option><option value="todo">未掌握</option><option value="done">已掌握</option><option value="site">站內加入</option><option value="own">自行輸入</option></select>
+        <select id="mwSort"><option value="new">最新加入</option><option value="az">字母 A–Z</option><option value="za">字母 Z–A</option></select>
+        <span class="mwstat" id="mwStat"></span>
+      </div>
+      <div id="mwList"></div>
+      <div class="mwfoot">
+        <button type="button" class="btn" id="mwExport">導出單詞本 (JSON)</button>
+        <button type="button" class="btn" id="mwImport">匯入單詞本</button>
+        <input type="file" id="mwFile" accept="application/json" style="display:none">
+        <button type="button" class="btn mwdanger" id="mwClear">清空單詞本</button>
+      </div>
+      <p class="src">本站不預置任何出版社詞表或第三方題庫；單詞本內容由使用者自行輸入或從本站公開詞卡加入，只保存在本設備。導出檔為純文字 JSON，換設備時用「匯入單詞本」合併（同名詞自動跳過，不會覆蓋既有內容）。全站「導出進度／匯入進度」亦包含單詞本。</p>
     </div>
     <div id="ivView" style="display:none">
       <div class="gtitle">升中面試攻略（坊間整理 · 2026 更新）</div>
@@ -4851,7 +4918,8 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
     document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
     sw('hkView',es==='hk'); sw('vocabView',es==='vocab'); sw('ivView',es==='iv');
     sw('paperView',es==='paper'); sw('goalView',es==='goal'); sw('examView',es==='exam');
-    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
+    sw('myWordsView',es==='mywords');
+    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
   }catch(e){ console.error('切換視圖失敗：',e); }
 });
 // v1.69：路線圖頁的動線按鈕——複用同一套切換邏輯，避免另寫一份顯隱代碼
@@ -5150,6 +5218,17 @@ function toggleRecite(){const id=curPoem.id;pProg[id]=pProg[id]||{};pProg[id].re
 function toggleWrite(){const id=curPoem.id;pProg[id]=pProg[id]||{};pProg[id].write=!pProg[id].write;pProg[id].date=todayStr();saveP();renderModal();renderPoemGrid();if(curTab==='progress')renderProgress();}
 function printOne(){window.print();}
 
+/* v1.80：站內詞卡「＋ 單詞本」共用一個點擊處理，只改按鈕外觀，不重繪整張詞表
+   （重繪會清掉摺疊態與搜尋位置，沿用 v1.79 不另存狀態的原則）。 */
+function __mwAddClick(btn,kind,w){
+  var r=window.__myWordsTest?window.__myWordsTest.addFrom(kind,w):{ok:false,msg:'模組未載入'};
+  if(r.ok||/已在單詞本/.test(r.msg)){
+    btn.textContent='✓ 已加入';btn.classList.add('in');btn.disabled=true;
+  }else{
+    btn.textContent='加入失敗';btn.title=r.msg;
+  }
+  return r;
+}
 // ---- 词表 ----
 function renderVocab(){
   const q=document.getElementById('vocabSearch').value.trim().toLowerCase();
@@ -5161,10 +5240,16 @@ function renderVocab(){
     return true;
   }).forEach(v=>{
     const known=!!vProg[v.w];
+    const inBook=window.__myWordsTest?window.__myWordsTest.has(v.w):false;
     const d=document.createElement('div'); d.className='vcard';
-    d.innerHTML=`<div><span class="w">${v.w}</span><span class="ph">${v.ph}</span>${known?' <span style="color:#1a8a4a">✓</span>':''}</div><div class="zh">${v.zh}</div><div class="tp">主題：${v.topic}</div>`;
+    d.innerHTML=`<div><span class="w">${v.w}</span><span class="ph">${v.ph}</span>${known?' <span style="color:#1a8a4a">✓</span>':''}<button type="button" class="mwadd${inBook?' in':''}"${inBook?' disabled':''}>${inBook?'✓ 已加入':'＋ 單詞本'}</button></div><div class="zh">${v.zh}</div><div class="tp">主題：${v.topic}</div>`;
     d.onclick=()=>{d.classList.toggle('hidezh');};
     d.ondblclick=()=>{vProg[v.w]=!vProg[v.w];saveV();renderVocab();if(curTab==='progress')renderProgress();};
+    const mwb=d.querySelector('.mwadd');
+    if(mwb){
+      mwb.onclick=e=>{e.stopPropagation();__mwAddClick(mwb,'vocab',v);};
+      mwb.ondblclick=e=>{e.stopPropagation();};
+    }
     list.appendChild(d);
   });
 }
@@ -5206,10 +5291,13 @@ function renderHk(){
     const body=document.createElement('div'); body.className='gsec-body';
     words.forEach(w=>{
       const known=!!hProg[w.id];
+      const inBook=window.__myWordsTest?window.__myWordsTest.has(w.w):false;
       const d=document.createElement('div'); d.className='vcard'+(hide?' hidezh':'');
-      d.innerHTML=`<div><span class="w">${w.w}</span> <span class="ph">${w.ipa||''}</span> <span class="mini" data-sp="${w.w}">🔊</span>${known?' <span class="ok">✓</span>':''}<span class="tp"> · ${w.grade} · ${w.theme}</span></div><div class="zh">${w.zh}</div>`;
+      d.innerHTML=`<div><span class="w">${w.w}</span> <span class="ph">${w.ipa||''}</span> <span class="mini" data-sp="${w.w}">🔊</span>${known?' <span class="ok">✓</span>':''}<span class="tp"> · ${w.grade} · ${w.theme}</span><button type="button" class="mwadd${inBook?' in':''}"${inBook?' disabled':''}>${inBook?'✓ 已加入':'＋ 單詞本'}</button></div><div class="zh">${w.zh}</div>`;
       d.onclick=()=>{hProg[w.id]=!hProg[w.id];saveH();renderHk();document.getElementById('stHk').textContent=Object.keys(hProg).filter(k=>hProg[k]).length;renderBadges();};
       d.querySelector('.mini[data-sp]').onclick=e=>{e.stopPropagation();speak(w.w,'en-US');};
+      const mwb=d.querySelector('.mwadd');
+      if(mwb)mwb.onclick=e=>{e.stopPropagation();__mwAddClick(mwb,'hk',w);};
       body.appendChild(d);
     });
     sec.appendChild(body);
@@ -5250,6 +5338,187 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
   renderFt();
 });
 
+/* ============ v1.80 我的單詞本：localStorage 增刪改查 ＋ JSON 導出／匯入 ============
+   取捨：①公開 HTML 不預置任何詞條（版權紅線），內容全由使用者輸入或從本站公開詞卡加入；
+   ②站內「加入」統一走 addFrom，不在每張詞卡各寫一份儲存邏輯；
+   ③匯入一律「合併去重」，不覆蓋既有內容，避免誤操作清掉小孩已積累的詞；
+   ④KEY 以 hkk_ 開頭，v1.33 賬號作用域切換時會自動搬遷；
+   ⑤所有外部資料（匯入檔）先 normalize 清洗＋轉義再進 DOM，防止惡意 HTML 注入。 */
+(function(){
+  var KEY='hkk_mywords_v0', MAX=2000, list=[];
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+  function todayFor(){var d=new Date();var z=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate());}
+  function clean(o,idx){
+    if(!o||typeof o!=='object')return null;
+    var w=String(o.w==null?'':o.w).trim().slice(0,80);
+    if(!w)return null;
+    return {id:String(o.id==null?'mw'+Date.now().toString(36)+'_'+idx:o.id).slice(0,60),w:w,
+      zh:String(o.zh==null?'':o.zh).trim().slice(0,200),
+      ph:String(o.ph==null?'':o.ph).trim().slice(0,80),
+      note:String(o.note==null?'':o.note).trim().slice(0,300),
+      src:(String(o.src==null?'自行輸入':o.src).trim().slice(0,40)||'自行輸入'),
+      ts:String(o.ts==null?todayFor():o.ts).slice(0,10),done:!!o.done};
+  }
+  function normalize(a){
+    var seen={},out=[];
+    (Array.isArray(a)?a:[]).forEach(function(x,i){
+      var c=clean(x,i);if(!c)return;
+      var k=c.w.toLowerCase();if(seen[k])return;seen[k]=1;out.push(c);
+    });
+    return out.slice(0,MAX);
+  }
+  function load(){try{return normalize(JSON.parse(localStorage.getItem(KEY)||'[]'));}catch(e){return [];}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(list));return true;}catch(e){return false;}}
+  function msg(t,bad){var m=document.getElementById('mwMsg');if(m){m.textContent=t||'';m.className='mwmsg'+(bad?' bad':'');}}
+  function has(w){var k=String(w||'').trim().toLowerCase();return list.some(function(x){return x.w.toLowerCase()===k;});}
+  function add(o){
+    var c=clean(o,list.length);
+    if(!c)return {ok:false,msg:'請先填單詞'};
+    if(list.length>=MAX)return {ok:false,msg:'單詞本已達 '+MAX+' 詞上限，請先導出並清理'};
+    if(has(c.w))return {ok:false,msg:'「'+c.w+'」已在單詞本'};
+    c.ts=todayFor();
+    list.unshift(c);
+    if(!save()){list.shift();return {ok:false,msg:'儲存失敗（瀏覽器儲存空間不足或已停用）'};}
+    render();
+    return {ok:true,msg:'已加入「'+c.w+'」'};
+  }
+  function addFrom(kind,o){
+    if(!o)return {ok:false,msg:'找不到這張詞卡'};
+    var d=kind==='hk'
+      ? {w:o.w,zh:o.zh,ph:o.ipa||'',src:'站內·中小學單詞',note:[o.grade,o.theme].filter(Boolean).join(' · ')}
+      : {w:o.w,zh:o.zh,ph:o.ph||'',src:'站內·詞表',note:o.topic?('主題：'+o.topic):''};
+    return add(d);
+  }
+  function render(){
+    var box=document.getElementById('mwList');if(!box)return;
+    var q=(document.getElementById('mwSearch')||{value:''}).value.trim().toLowerCase();
+    var f=(document.getElementById('mwFilter')||{value:'all'}).value;
+    var s=(document.getElementById('mwSort')||{value:'new'}).value;
+    var items=list.filter(function(x){
+      if(f==='todo'&&x.done)return false;
+      if(f==='done'&&!x.done)return false;
+      if(f==='site'&&x.src.indexOf('站內')!==0)return false;
+      if(f==='own'&&x.src.indexOf('站內')===0)return false;
+      if(q&&!(x.w.toLowerCase().indexOf(q)>=0||x.zh.toLowerCase().indexOf(q)>=0||x.note.toLowerCase().indexOf(q)>=0))return false;
+      return true;
+    });
+    if(s==='az')items.sort(function(a,b){return a.w.localeCompare(b.w,'en');});
+    else if(s==='za')items.sort(function(a,b){return b.w.localeCompare(a.w,'en');});
+    var known=list.filter(function(x){return x.done;}).length;
+    var st=document.getElementById('mwStat');
+    if(st)st.textContent='共 '+list.length+' 詞 · 已掌握 '+known+' · 顯示 '+items.length;
+    if(!items.length){
+      box.innerHTML='<div class="mwempty">'+(list.length?'沒有符合篩選的詞，換個條件試試。':'單詞本還是空的：在「中小學單詞／詞表」點「＋ 單詞本」，或直接在上面輸入。')+'</div>';
+      return;
+    }
+    box.innerHTML=items.map(function(x){
+      return '<div class="mwcard'+(x.done?' done':'')+'" data-mwid="'+esc(x.id)+'">'+
+        '<div class="mwtop"><span class="mww">'+esc(x.w)+'</span>'+
+        (x.ph?'<span class="mwph">'+esc(x.ph)+'</span>':'')+
+        '<span class="mwsrc">'+esc(x.src)+'</span><span class="mwdate">'+esc(x.ts)+'</span></div>'+
+        '<div class="mwfields">'+
+          '<label>中文義<input data-mwf="zh" maxlength="200" value="'+esc(x.zh)+'" placeholder="可稍後補"></label>'+
+          '<label>備註／例句<input data-mwf="note" maxlength="300" value="'+esc(x.note)+'" placeholder="選填"></label>'+
+        '</div><div class="mwacts">'+
+          '<button type="button" data-mwact="speak">發音</button>'+
+          '<button type="button" data-mwact="done" class="'+(x.done?'on':'')+'">'+(x.done?'✓ 已掌握':'標為已掌握')+'</button>'+
+          '<button type="button" data-mwact="del" class="mwdel">移除</button>'+
+        '</div></div>';
+    }).join('');
+  }
+  var box=document.getElementById('mwList');
+  if(box){
+    box.addEventListener('click',function(e){
+      var b=e.target.closest?e.target.closest('[data-mwact]'):null;if(!b)return;
+      var card=b.closest('.mwcard');if(!card)return;
+      var id=card.getAttribute('data-mwid');
+      var x=list.filter(function(o){return o.id===id;})[0];if(!x)return;
+      var act=b.getAttribute('data-mwact');
+      if(act==='speak'){try{if(typeof speak==='function')speak(x.w,'en-US');}catch(err){msg('這台設備不支援發音',true);}}
+      else if(act==='done'){x.done=!x.done;save();render();}
+      else if(act==='del'){list=list.filter(function(o){return o.id!==id;});save();render();msg('已移除「'+x.w+'」');}
+    });
+    box.addEventListener('change',function(e){
+      var fld=e.target&&e.target.getAttribute?e.target.getAttribute('data-mwf'):null;
+      if(fld!=='zh'&&fld!=='note')return;
+      var card=e.target.closest('.mwcard');if(!card)return;
+      var id=card.getAttribute('data-mwid');
+      var x=list.filter(function(o){return o.id===id;})[0];if(!x)return;
+      x[fld]=String(e.target.value||'').trim().slice(0,fld==='zh'?200:300);
+      save();msg('已保存「'+x.w+'」的'+(fld==='zh'?'中文義':'備註'));
+    });
+  }
+  var addBtn=document.getElementById('mwAdd');
+  if(addBtn)addBtn.onclick=function(){
+    var w=document.getElementById('mwW'),zh=document.getElementById('mwZh'),note=document.getElementById('mwNote');
+    var r=add({w:w.value,zh:zh.value,note:note.value,src:'自行輸入'});
+    msg(r.msg,!r.ok);
+    if(r.ok){w.value='';zh.value='';note.value='';w.focus();}
+  };
+  var wIn=document.getElementById('mwW');
+  if(wIn)wIn.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();if(addBtn)addBtn.click();}});
+  ['mwSearch','mwFilter','mwSort'].forEach(function(id){
+    var el=document.getElementById(id);if(!el)return;
+    el.addEventListener(id==='mwSearch'?'input':'change',render);
+  });
+  function exportData(){return {ver:'hkk_mywords_v1',exported:todayFor(),words:list.map(function(x){
+    return {w:x.w,zh:x.zh,ph:x.ph,note:x.note,src:x.src,ts:x.ts,done:x.done};})};}
+  var exBtn=document.getElementById('mwExport');
+  if(exBtn)exBtn.onclick=function(){
+    var txt=JSON.stringify(exportData(),null,2),a=document.createElement('a');
+    a.download='hkk_mywords.json';
+    try{
+      var blob=new Blob([txt],{type:'application/json'});
+      a.href=URL.createObjectURL(blob);a.click();URL.revokeObjectURL(a.href);
+    }catch(e){
+      // 降級：無 createObjectURL 的環境改用 data URI，仍可下載純文字
+      a.href='data:application/json;charset=utf-8,'+encodeURIComponent(txt);a.click();
+    }
+    msg('已導出 '+list.length+' 詞（hkk_mywords.json）');
+  };
+  function importData(d){
+    var arr0=Array.isArray(d)?d:(d&&Array.isArray(d.words)?d.words:null);
+    if(!arr0)throw new Error('不是本站導出的單詞本檔案');
+    var arr=normalize(arr0),have={},n=0;
+    list.forEach(function(x){have[x.w.toLowerCase()]=1;});
+    arr.forEach(function(x){
+      if(have[x.w.toLowerCase()]||list.length>=MAX)return;
+      have[x.w.toLowerCase()]=1;list.push(x);n++;
+    });
+    save();render();
+    // 回報以「檔案原始條數」為分母，使用者才看得懂「導了 3 條只加 2 條」差在哪
+    return {added:n,skipped:arr0.length-n,total:list.length};
+  }
+  var imBtn=document.getElementById('mwImport'),fi=document.getElementById('mwFile');
+  if(imBtn&&fi)imBtn.onclick=function(){fi.click();};
+  if(fi)fi.onchange=function(e){
+    var f=e.target.files&&e.target.files[0];if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var out=importData(JSON.parse(r.result));
+        msg('已匯入 '+out.added+' 詞，跳過重複／超限 '+out.skipped+' 詞，現共 '+out.total+' 詞');
+      }catch(err){msg('匯入失敗：'+((err&&err.message)||'檔案格式錯誤')+'。請選本站導出的 JSON。',true);}
+    };
+    r.onerror=function(){msg('讀取檔案失敗，請重試。',true);};
+    r.readAsText(f);e.target.value='';
+  };
+  var clBtn=document.getElementById('mwClear');
+  if(clBtn)clBtn.onclick=function(){
+    if(window.confirm('確定清空我的單詞本（'+list.length+' 詞）？此操作不可恢復，建議先導出。')){
+      list=[];save();render();msg('單詞本已清空');
+    }
+  };
+  window.__myWordsTest={
+    key:KEY,max:MAX,get:function(){return list.map(function(x){return Object.assign({},x);});},
+    set:function(a){list=normalize(a);save();render();},
+    clear:function(){list=[];save();render();},
+    add:add,addFrom:addFrom,has:has,render:render,normalize:normalize,
+    exportData:exportData,importData:importData,count:function(){return list.length;}
+  };
+  list=load();render();
+})();
+
 // ---- 进度 ----
 function renderProgress(){
   const recite=Object.values(pProg).filter(x=>x.recite).length;
@@ -5270,17 +5539,18 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／朗文進度／泛讀自查）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／朗文進度／泛讀自查／我的單詞本）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
     if(window.__readFocusTest){window.__readFocusTest.set({});window.__readFocusTest.render();}
+    if(window.__myWordsTest){window.__myWordsTest.clear();}
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},ver:'hkk_v1.79',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.80',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -5294,8 +5564,9 @@ document.getElementById('importFile').onchange=e=>{
     if(d.mapChk&&window.__mapTest){window.__mapTest.set(d.mapChk);window.__mapTest.render();}
     if(d.lwteProg&&window.__lwteTest){window.__lwteTest.set(d.lwteProg);window.__lwteTest.render();}
     if(d.readFocus&&window.__readFocusTest){window.__readFocusTest.set(d.readFocus);window.__readFocusTest.render();}
+    if(Array.isArray(d.myWords)&&window.__myWordsTest){window.__myWordsTest.importData(d.myWords);}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
-    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查）');
+    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查 / '+(window.__myWordsTest?window.__myWordsTest.count():0)+' 個自收詞）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
   r.readAsText(f); e.target.value='';
 };

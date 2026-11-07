@@ -447,8 +447,8 @@ try{
 try{
   const esBtns=[...doc.querySelectorAll('#enPracSub button')];
   const order=esBtns.map(b=>b.dataset.es);
-  ok('v1.69 英文子頁順序=動線(goal→hk→vocab→paper→exam→iv)('+order.join(',')+')',
-     JSON.stringify(order)===JSON.stringify(['goal','hk','vocab','paper','exam','iv']));
+  ok('v1.69 英文子頁動線不變，v1.80 只插入 mywords('+order.join(',')+')',
+     JSON.stringify(order.filter(x=>x!=='mywords'))===JSON.stringify(['goal','hk','vocab','paper','exam','iv']));
   ok('v1.69 首顆=詞彙路線圖', esBtns[0].dataset.es==='goal' && esBtns[0].textContent==='詞彙路線圖');
   ok('v1.69 源碼首顆自帶 class="on"（首次進頁默認選中）', /<button data-es="goal" class="on">詞彙路線圖<\/button>/.test(html));
   ok('v1.69 僅一顆按鈕 on('+esBtns.filter(b=>b.classList.contains('on')).length+')', esBtns.filter(b=>b.classList.contains('on')).length===1);
@@ -1088,7 +1088,7 @@ try{
   ok('v1.53 兩 tab 按鈕已刪（繪本閱讀/朗文詞庫）', !/data-es="ort"/.test(html) && !/data-es="lwte"/.test(html) && !html.includes('繪本閱讀') && !html.includes('朗文詞庫'));
   ok('v1.53 ortView/lwteView DOM 與 JS 全清', !/id="ortView"|id="lwteView"|ortView|lwteView/.test(html));
   ok('v1.53 數據鏈已斷（無 ort_books/lwte_banks）', !/ort_books|lwte_banks/.test(html));
-  ok('v1.53 enPracSub 剩 6 tab', doc.querySelectorAll('#enPracSub button').length===6);
+  ok('v1.53 enPracSub 原有 6 tab 未刪（v1.80 起共 7）', doc.querySelectorAll('#enPracSub button').length===7);
 }catch(e){ ok('v1.53 測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.52 時間線加回小學線 + 全站無 schooland ============
@@ -1478,8 +1478,99 @@ try{
   ok('v1.79 版權紅線保留（家庭學習／勿外傳／不存放內頁）', rdTxt.includes('僅限家庭學習') && rdTxt.includes('勿外傳') && rdTxt.includes('不存放第三方教材內頁'));
   ok('v1.79 不進 AI 白名單知識庫', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/泛讀重點|家長自查|今日重點|hkk_readfocus/.test(x.t+x.s)));
   ok('v1.79 窄屏表格可橫滑、提示在表格上方', /\.rdtable-wrap\{overflow-x:auto/.test(html) && /min-width:520px/.test(html) && rdTxt.includes('手機窄屏可左右滑動下面的表格') && rdNew.indexOf('手機窄屏可左右滑動') < rdNew.indexOf('rdtable-wrap'));
-  ok('v1.79 版本號三處一致 v1.79', (html.match(/公開版 v1\.79/g)||[]).length===2 && html.includes("ver:'hkk_v1.79'") && !html.includes('公開版 v1.78'));
+  ok('v1.79 泛讀四頁簽未被 v1.80 回歸', !!doc.getElementById('readSubNav') && doc.querySelectorAll('#readSubNav button[data-rd]').length===4);
 }catch(e){ ok('v1.79 測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.80 我的單詞本（純本地 CRUD ＋ 導出導入） ============
+try{
+  const mw=window.__myWordsTest;
+  const vw=(()=>{const a=html.indexOf('<div id="myWordsView"');const b=html.indexOf('<div id="ivView"',a);return a>=0&&b>a?html.slice(a,b):'';})();
+  ok('v1.80 模組鉤子存在、key 受賬號隔離、上限 2000', !!mw && mw.key==='hkk_mywords_v0' && mw.max===2000);
+  ok('v1.80 子頁 DOM 存在且默認隱藏', /id="myWordsView" style="display:none"/.test(html) && !!doc.getElementById('myWordsView'));
+  ok('v1.80 三欄輸入＋加入鈕齊', ['mwW','mwZh','mwNote','mwAdd'].every(id=>!!doc.getElementById(id)) && /id="mwW" maxlength="80"/.test(html));
+  ok('v1.80 工具列搜尋／篩選／排序／統計齊', ['mwSearch','mwFilter','mwSort','mwStat'].every(id=>!!doc.getElementById(id)) && doc.querySelectorAll('#mwFilter option').length===5 && doc.querySelectorAll('#mwSort option').length===3);
+  ok('v1.80 導出／匯入／清空三鈕齊', ['mwExport','mwImport','mwFile','mwClear'].every(id=>!!doc.getElementById(id)));
+  ok('v1.80 公開 HTML 零預置詞條', vw.length>500 && !/data-mwid=/.test(vw) && !/class="mwcard/.test(vw));
+  ok('v1.80 子頁零外鏈零圖片零腳本零第三方字眼', !/<img|<script|href="http|src="http|Longman|Pearson|牛津樹/.test(vw));
+  ok('v1.80 按鈕純文字無 emoji', !/[\u{1F300}-\u{1FAFF}]/u.test(vw));
+  ok('v1.80 窄屏轉單列 CSS', /\.mwform label\{flex:1 1 100%\}/.test(html) && /\.mwfoot \.btn\{flex:1 1 44%\}/.test(html));
+  const es=[...doc.querySelectorAll('#enPracSub button')].map(b=>b.dataset.es);
+  ok('v1.80 第 7 顆子標籤插在詞表之後', es.length===7 && es[3]==='mywords' && es.filter(x=>x!=='mywords').join(',')==='goal,hk,vocab,paper,exam,iv');
+  doc.querySelector('#practiceSub button[data-sub="en"]').click();
+  const mwTab=doc.querySelector('#enPracSub button[data-es="mywords"]');
+  mwTab.click();
+  ok('v1.80 點子標籤→單詞本顯示且其它子頁隱', doc.getElementById('myWordsView').style.display!=='none' && doc.getElementById('vocabView').style.display==='none' && mwTab.classList.contains('on'));
+  ok('v1.80 __hkkGo 天然支援 p:en:mywords', (()=>{
+    doc.querySelector('#enPracSub button[data-es="goal"]').click();
+    const r=window.__hkkGo('p:en:mywords');
+    return r===true && doc.getElementById('myWordsView').style.display!=='none';
+  })());
+  mw.clear();
+  const wIn=doc.getElementById('mwW'),zhIn=doc.getElementById('mwZh'),noteIn=doc.getElementById('mwNote');
+  wIn.value='library';zhIn.value='圖書館';noteIn.value='I borrow books here.';
+  doc.getElementById('mwAdd').click();
+  ok('v1.80 自行輸入加入並清空表單', mw.count()===1 && mw.get()[0].w==='library' && mw.get()[0].zh==='圖書館' && mw.get()[0].src==='自行輸入' && wIn.value==='');
+  ok('v1.80 空單詞拒絕、大小寫重複去重', mw.add({w:'   '}).ok===false && mw.add({w:'LIBRARY'}).ok===false && mw.count()===1);
+  ok('v1.80 詞卡已渲染且統計正確', doc.querySelectorAll('#mwList .mwcard').length===1 && /共 1 詞/.test(doc.getElementById('mwStat').textContent));
+  doc.querySelector('#enPracSub button[data-es="vocab"]').click();
+  const vb=doc.querySelector('#vocabList .vcard');
+  const wasHide=vb.classList.contains('hidezh'),vword=vb.querySelector('.w').textContent.trim(),addBtn=vb.querySelector('.mwadd');
+  addBtn.click();
+  ok('v1.80 詞表「＋ 單詞本」加入且不誤觸 hidezh', mw.count()===2 && mw.has(vword) && vb.classList.contains('hidezh')===wasHide && /已加入/.test(addBtn.textContent));
+  const site=mw.get().filter(x=>x.src.indexOf('站內')===0)[0];
+  ok('v1.80 站內詞帶來源與中文義', !!site && site.src==='站內·詞表' && !!site.zh);
+  doc.querySelector('#enPracSub button[data-es="hk"]').click();
+  const hb=doc.querySelector('#hkList .vcard'),hword=hb.querySelector('.w').textContent.trim(),hAdd=hb.querySelector('.mwadd');
+  const hkKnownBefore=hb.querySelector('.ok')!==null;
+  hAdd.click();
+  ok('v1.80 中小學單詞加入且不誤觸掌握', mw.count()===3 && mw.has(hword) && (hb.querySelector('.ok')!==null)===hkKnownBefore);
+  ok('v1.80 站內·中小學單詞來源正確', mw.get().some(x=>x.src==='站內·中小學單詞'));
+  doc.querySelector('#enPracSub button[data-es="mywords"]').click();
+  const card=doc.querySelector('#mwList .mwcard');
+  ok('v1.80 詞卡含兩個可編輯欄與三顆操作鈕', card.querySelectorAll('input[data-mwf]').length===2 && card.querySelectorAll('[data-mwact]').length===3);
+  const zi=card.querySelector('input[data-mwf="zh"]'),cardWord=card.querySelector('.mww').textContent;
+  zi.value='改過的中文義';zi.dispatchEvent(new window.Event('change',{bubbles:true}));
+  ok('v1.80 詞卡改中文義即存', mw.get().some(x=>x.w===cardWord&&x.zh==='改過的中文義'));
+  card.querySelector('[data-mwact="done"]').click();
+  ok('v1.80 標為已掌握寫入本地', mw.get().some(x=>x.done) && /已掌握 1/.test(doc.getElementById('mwStat').textContent));
+  const f=doc.getElementById('mwFilter');
+  f.value='done';f.dispatchEvent(new window.Event('change',{bubbles:true}));
+  ok('v1.80 篩選「已掌握」只顯示 1 張', doc.querySelectorAll('#mwList .mwcard').length===1);
+  f.value='site';f.dispatchEvent(new window.Event('change',{bubbles:true}));
+  ok('v1.80 篩選「站內加入」顯示 2 張', doc.querySelectorAll('#mwList .mwcard').length===2);
+  f.value='all';f.dispatchEvent(new window.Event('change',{bubbles:true}));
+  const s=doc.getElementById('mwSort');
+  s.value='az';s.dispatchEvent(new window.Event('change',{bubbles:true}));
+  const ws=[...doc.querySelectorAll('#mwList .mww')].map(x=>x.textContent.toLowerCase());
+  ok('v1.80 排序 A–Z 生效', JSON.stringify(ws)===JSON.stringify(ws.slice().sort()));
+  s.value='new';s.dispatchEvent(new window.Event('change',{bubbles:true}));
+  const q=doc.getElementById('mwSearch');
+  q.value='圖書館';q.dispatchEvent(new window.Event('input',{bubbles:true}));
+  ok('v1.80 搜尋命中中文義', doc.querySelectorAll('#mwList .mwcard').length===1);
+  q.value='zzzz_no_such_word';q.dispatchEvent(new window.Event('input',{bubbles:true}));
+  ok('v1.80 搜尋無結果給空態', doc.querySelectorAll('#mwList .mwempty').length===1);
+  q.value='';q.dispatchEvent(new window.Event('input',{bubbles:true}));
+  const ex=mw.exportData();
+  ok('v1.80 導出結構含 ver/exported/words', ex.ver==='hkk_mywords_v1' && /^\d{4}-\d{2}-\d{2}$/.test(ex.exported) && Array.isArray(ex.words) && ex.words.length===3 && !('id' in ex.words[0]));
+  const r1=mw.importData(ex);
+  ok('v1.80 匯入同名詞全跳過（不覆蓋）', r1.added===0 && r1.skipped===3 && mw.count()===3);
+  const r2=mw.importData({ver:'hkk_mywords_v1',words:[{w:'zebra',zh:'斑馬'},{w:' ZEBRA ',zh:'重複'},{w:'apple',zh:'蘋果'}]});
+  ok('v1.80 匯入合併去重＋補新詞', r2.added===2 && r2.skipped===1 && mw.count()===5);
+  let threw=false;try{mw.importData({foo:1});}catch(e){threw=true;}
+  ok('v1.80 非法匯入檔明確拋錯', threw && mw.count()===5);
+  ok('v1.80 容量上限 2000 生效', (()=>{mw.clear();const big=[];for(let i=0;i<2005;i++)big.push({w:'w'+i});const r=mw.importData(big);return r.added===2000&&mw.count()===2000;})());
+  mw.clear();
+  mw.set([{w:'<img src=x onerror=alert(1)>',zh:'<script>bad()</script>',note:'"quoted"'}]);
+  ok('v1.80 惡意內容轉義不進 DOM 標籤', doc.querySelectorAll('#mwList img').length===0 && doc.querySelectorAll('#mwList script').length===0 && doc.getElementById('mwList').textContent.includes('<img src=x'));
+  mw.clear();
+  ok('v1.80 清空後空態提示', mw.count()===0 && doc.querySelectorAll('#mwList .mwempty').length===1);
+  ok('v1.80 全站導出含 myWords 字段', /myWords:window\.__myWordsTest\?window\.__myWordsTest\.exportData\(\)\.words:\[\]/.test(html));
+  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.80'/.test(html));
+  ok('v1.80 清空確認文案補「我的單詞本」', /泛讀自查／我的單詞本/.test(html));
+  ok('v1.80 不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/我的單詞本|hkk_mywords/.test(x.t+x.s)));
+  ok('v1.80 版權文案在子頁', doc.getElementById('myWordsView').textContent.includes('不預置任何出版社詞表'));
+  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.80/g)||[]).length===2 && html.includes("ver:'hkk_v1.80'") && !html.includes('公開版 v1.79'));
+}catch(e){ ok('v1.80 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
