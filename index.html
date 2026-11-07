@@ -155,6 +155,18 @@
   .qtot{font-size:16px;font-weight:700;margin:12px 0 6px}
   .qbar{height:10px;background:#eef4ff;border-radius:6px;overflow:hidden;margin:6px 0 2px}
   .qbar > i{display:block;height:100%;background:var(--acc)}
+  /* v1.89 時態與題型：動詞表「遮中文／遮英文」自測、詞庫橫幅、窄屏橫滑 */
+  .drbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 8px}
+  .drbar .btn{padding:7px 14px;font-size:13.5px}
+  .drstat{font-size:13px;color:var(--mut);margin-left:auto}
+  .drvt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .drvt{font-size:13.5px;min-width:420px}
+  .drvt td{height:31px}
+  .drvt.hidezh .zh{color:transparent}
+  .drvt.hideen .en,.drvt.hideen .past{color:transparent}
+  .drvt .env{font-weight:600}
+  .drbank{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+  .drbank span{border:1px solid #c2d0e0;background:#f7fafd;border-radius:5px;padding:3px 9px;font-size:13px}
   .listen-btn{cursor:pointer;border:none;background:none;font-size:15px;padding:0 4px}
   .scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px 0}
   .scroll-x .mtable{min-width:780px}
@@ -496,7 +508,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   header::before,header::after{display:none!important}
   nav,.subnav{display:none!important}
   body.printing-paper nav,body.printing-paper .subnav,body.printing-paper header,body.printing-paper #guideView,body.printing-paper #practiceView,body.printing-paper #progressView,body.printing-paper #funView,body.printing-paper #mask,body.printing-paper footer,body.printing-paper .folk{display:none!important}
-  body.printing-paper #enPrintSheet,body.printing-paper #mathPrintSheet,body.printing-paper #examPrintSheet{display:block!important;position:static;width:100%}
+  body.printing-paper #enPrintSheet,body.printing-paper #mathPrintSheet,body.printing-paper #examPrintSheet,body.printing-paper #drillPrintSheet{display:block!important;position:static;width:100%}
   /* v1.86：打印時限 A4 版心（210mm − 左右各 15mm = 180mm），答題線才會跟紙同寬 */
   body.printing-paper{max-width:180mm;margin:0 auto;padding:0}
   @page{size:A4 portrait;margin:15mm}
@@ -927,13 +939,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.88（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.89（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.88（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.89（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1180,6 +1192,8 @@ header{position:relative}
       <button data-es="wb">某文單詞本</button>
       <button data-es="paper">英文卷</button>
       <button data-es="exam">呈分試卷</button>
+      <!-- v1.89：時態與題型——補「過去式反覆練＋香港常見題型首次見面」，插在筆試輸出（卷）之後、口語輸出（面試）之前 -->
+      <button data-es="drill">時態與題型</button>
       <button data-es="iv">升中面試</button>
     </div>
     <div id="hkView" style="display:none">
@@ -1562,6 +1576,32 @@ Thank you for your time.</div>
       <div id="examPaperBox"></div>
       <div id="examPaperResult"></div>
       <div class="en-src-note"><b>說明：</b>題型版式取自家長提供的坊間呈分試模擬卷樣式（2026-10-31 兩批樣張，僅取版式與分值結構，不取內容）：第二批樣張的海報閱讀、since/therefore、電影職業、習語等題型已對應併入 (I)(J)(D)(B)；題目內容全部原創仿編。「🤖 AI 出新卷」需先在「練習→英文→智能練習卷」底部「⚙ AI 設置」填好接口（僅存本瀏覽器），AI 生成的整卷經結構校驗後才替換當前卷，卷頭標 AI 生成。年級難度以 P5–P6 呈分試常見水平估算，以學校課本為準。</div>
+    </div>
+
+    <!-- v1.89 時態與題型：葉工女兒做站內打印卷時暴露兩個缺口——①一般過去式同一知識點連錯 6 題；②習語／since 句／短語動詞／開放題整題空白（不是不會，是沒見過）。
+         本頁補的就是這兩件：動詞表（可遮中文/遮英文自測）＋五組可判分小練習（過去式・明喻・習語・since・短語動詞），全部本站原創題，零第三方內容。 -->
+    <div class="wrap gsec" id="drillView" style="display:none">
+      <div class="gtitle">時態與題型 · 過去式 30 詞 ＋ 四類常見題型（P5）</div>
+      <span class="folk">這一頁解決兩件事：①一般過去式（規則／不規則）反覆練到條件反射；②香港卷常見、內地少見的題型先見一面（明喻 as…as／習語 idioms／since 句／短語動詞）。題目與答案全部本站原創編寫，非任何學校、補習社或評估局真卷；勾選與成績只存本瀏覽器、跟賬號走。</span>
+      <div class="pg-chips" id="drChips">
+        <span class="chip on" data-dr="verb">① 動詞表 30 詞</span>
+        <span class="chip" data-dr="past">② 過去式 20 題</span>
+        <span class="chip" data-dr="simile">③ 明喻</span>
+        <span class="chip" data-dr="idiom">④ 習語 12 條</span>
+        <span class="chip" data-dr="since">⑤ since 句</span>
+        <span class="chip" data-dr="pv">⑥ 短語動詞</span>
+      </div>
+      <div class="enpaper-actions" id="drActs" style="display:none">
+        <button class="btn" id="drSubmit" onclick="gradeDrill()">✅ 交卷批改</button>
+        <button class="btn" id="drReset" onclick="resetDrill()">↺ 清空作答</button>
+        <button class="btn" id="drPrint" onclick="printDrill()">🖨 打印這一組</button>
+        <label class="print-ans-toggle"><input type="checkbox" id="drPrintAns"> 含答案版</label>
+        <span class="enpaper-stat" id="drStat">本組最佳：—</span>
+      </div>
+      <div id="drVerbBox"></div>
+      <div id="drBody"></div>
+      <div id="drResult"></div>
+      <div class="src">來源：題型結構參考香港小學英文科常見卷別（坊間整理，2026-11-07）；題目與答案為本站原創編寫，未複製任何教材、補習社、學校或評估局試卷。不規則動詞表屬通用英語事實性內容。列印建議 A4、紙張橫向以外的一般設定即可。</div>
     </div>
   </div>
   <!-- 數學 -->
@@ -2510,6 +2550,7 @@ Thank you for your time.</div>
 </div>
 
 <div id="enPrintSheet" class="en-print"></div>
+<div id="drillPrintSheet" class="en-print"></div>
 <div id="mathPrintSheet" class="en-print"></div>
 <div id="examPrintSheet" class="en-print"></div>
 
@@ -45494,6 +45535,243 @@ function printEnPaper(){
   if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
 }
 
+// ================= v1.89 時態與題型引擎（動詞表＋五組可判分小練習） =================
+/* 取捨：不新造 UI——複用英文卷的 .pg-chips／.qcard／.qfill／.qopt／.qtot／.qbar 與 .ansline 打印樣式，
+   只新增「動詞表遮蔽」這一類確實沒有的樣式。判分亦沿用 gradeEnPaper 的口徑（fill 比對 normalize＋alt，pick 比對索引）。
+   版權紅線：題目與例句全部本站原創，零第三方教材／試卷內容；詞表只放通用英語事實（原形／過去式／中文義）。 */
+var DRILL_VERB_KEY='hkk_drill_prog_v0', DRILL_BEST_KEY='hkk_drill_best_v0';
+var DRILL_VERBS=[
+  ['go','went','去'],['see','saw','看見'],['eat','ate','吃'],['buy','bought','買'],['take','took','拿、乘'],
+  ['sleep','slept','睡'],['find','found','找到'],['drink','drank','喝'],['tell','told','告訴'],['do','did','做'],
+  ['make','made','做、製造'],['write','wrote','寫'],['bring','brought','帶來'],['fly','flew','飛、放（風箏）'],['blow','blew','吹'],
+  ['teach','taught','教'],['catch','caught','抓住'],['think','thought','想'],['run','ran','跑'],['come','came','來'],
+  ['give','gave','給'],['know','knew','知道'],['say','said','說'],['get','got','得到'],['put','put','放'],
+  ['read','read','讀（音變 red）'],['swim','swam','游泳'],['sing','sang','唱'],['sit','sat','坐'],['stand','stood','站']
+];
+var DRILL_GROUPS={
+  past:{title:'過去式 20 題',hint:'每題先圈出時間詞（yesterday / last ___ / ___ ago / this morning），再動筆——看見時間詞就先想「這是過去」。不確定變法時寧可寫 -ed，也不要照抄原形。',bank:null,items:[
+    {t:'fill',q:'Yesterday Mary ___ (write) a letter to her aunt.',a:'wrote',w:'write',zh:'寫'},
+    {t:'fill',q:'Last Sunday we ___ (go) to the beach.',a:'went',w:'go',zh:'去'},
+    {t:'fill',q:'My brother ___ (bring) his kite to the park last week.',a:'brought',w:'bring',zh:'帶來'},
+    {t:'fill',q:'The children ___ (fly) kites on the grass yesterday.',a:'flew',w:'fly',zh:'飛、放（風箏）'},
+    {t:'fill',q:'Mum ___ (make) a cake last night.',a:'made',w:'make',zh:'做、製造'},
+    {t:'fill',q:'I ___ (share) my sandwiches with Amy at lunchtime.',a:'shared',w:'share',zh:'分享'},
+    {t:'fill',q:'A strong wind ___ (blow) my hat away.',a:'blew',w:'blow',zh:'吹'},
+    {t:'fill',q:'The ball ___ (land) in the garden two minutes ago.',a:'landed',w:'land',zh:'降落'},
+    {t:'fill',q:'A kind uncle ___ (help) us last Saturday.',a:'helped',w:'help',zh:'幫助'},
+    {t:'fill',q:'Miss Chan ___ (teach) us how to make kites last month.',a:'taught',w:'teach',zh:'教'},
+    {t:'fill',q:'We ___ (see) a big dinosaur at the museum last Friday.',a:'saw',w:'see',zh:'看見'},
+    {t:'fill',q:'He ___ (eat) two bowls of rice yesterday.',a:'ate',w:'eat',zh:'吃'},
+    {t:'fill',q:'She ___ (buy) a new pencil case last week.',a:'bought',w:'buy',zh:'買'},
+    {t:'fill',q:'They ___ (take) the train to Tai Po last Sunday.',a:'took',w:'take',zh:'拿、乘'},
+    {t:'fill',q:'The baby ___ (sleep) for three hours last night.',a:'slept',w:'sleep',zh:'睡'},
+    {t:'fill',q:'I ___ (find) a wallet on the floor this morning.',a:'found',w:'find',zh:'找到'},
+    {t:'fill',q:'We ___ (drink) all the juice at the picnic.',a:'drank',w:'drink',zh:'喝'},
+    {t:'fill',q:'The teacher ___ (tell) us a story about Yu Gong.',a:'told',w:'tell',zh:'告訴'},
+    {t:'fill',q:'My sister ___ (do) her homework before dinner.',a:'did',w:'do',zh:'做'},
+    {t:'fill',q:'The wind ___ (stop) in the afternoon.',a:'stopped',w:'stop',zh:'停止'}
+  ]},
+  simile:{title:'明喻 as…as（6 題）',hint:'公式＝as ＋ 形容詞 ＋ as ＋ 一個「具體東西」。形容詞用平常那個（hard / light / brave），後面接的東西要一眼看出特徵（rock / feather / lion）。',bank:['a rock','a feather','a lion','snow','a snail','a mouse'],items:[
+    {t:'pick',q:'The ice on the road was as hard as ___.',opts:['a pillow','a rock','cotton','a feather'],a:1},
+    {t:'pick',q:'This school bag is as light as ___.',opts:['a stone','a wall','a feather','a rock'],a:2},
+    {t:'pick',q:'The firefighter was as brave as ___.',opts:['a mouse','a rabbit','a lion','a sheep'],a:2},
+    {t:'pick',q:'Her dress is as white as ___.',opts:['snow','coal','night','mud'],a:0},
+    {t:'pick',q:'The old bus moves as slow as ___.',opts:['a horse','a snail','a bird','a tiger'],a:1},
+    {t:'pick',q:'He walked into the room as quiet as ___.',opts:['a lion','a drum','a mouse','a train'],a:2}
+  ]},
+  idiom:{title:'習語 12 條',hint:'習語不能逐字翻。做題時先看整句要表達什麼（高興／傷心／幫忙／決定），再挑對應那一條。',bank:['once in a blue moon','give someone a hand','feel blue','keep a secret','in a nutshell','make up one\'s mind','a piece of cake','look forward to','get along with','take part in','in the end','by heart'],items:[
+    {t:'pick',q:'We only eat at that expensive restaurant ___.',opts:['once in a blue moon','every day','by heart','in a nutshell'],a:0},
+    {t:'pick',q:'Can you ___ with these heavy bags, please?',opts:['take part in','give me a hand','feel blue','come back'],a:1},
+    {t:'pick',q:'Tim has ___ since his best friend moved away.',opts:['felt blue','felt sleepy','felt hungry','felt cold'],a:0},
+    {t:'pick',q:'A true friend knows how to ___.',opts:['give back','keep a secret','turn off','pick up'],a:1},
+    {t:'pick',q:'___, we won the game but lost the trophy.',opts:['In the end','At first','By heart','In a rush'],a:0},
+    {t:'pick',q:'Kitty could not ___ about which dress to wear.',opts:['make up her mind','give her a hand','take part in','look forward to'],a:0},
+    {t:'pick',q:'The test was ___ — I finished it in ten minutes.',opts:['a piece of cake','a blue moon','a hard rock','a big secret'],a:0},
+    {t:'pick',q:'I am ___ the school picnic next week.',opts:['looking for','looking after','looking forward to','looking at'],a:2},
+    {t:'pick',q:'Amy ___ her new classmates very well.',opts:['gets along with','gets up early','gets on the bus','gets back home'],a:0},
+    {t:'pick',q:'More than fifty students ___ the singing contest.',opts:['took care of','took off','took part in','took photos'],a:2},
+    {t:'pick',q:'___, the plan is simple: we practise a little every day.',opts:['In the end','In a nutshell','By heart','Once in a blue moon'],a:1},
+    {t:'pick',q:'She learnt the poem ___, so she can say it without the book.',opts:['by mistake','by heart','by hand','by bus'],a:1}
+  ]},
+  since:{title:'since 句（4 題）',hint:'這種題不用想語法：先讀 Since 後面那半句（原因），再問「所以會怎樣？」——把因果配上就對。',bank:['people should stay indoors','plants may die','we must save electricity','the streets get busy'],items:[
+    {t:'pick',q:'Since it is a public holiday today, ___.',opts:['plants may die','we must save electricity','the streets get busy','people should stay indoors'],a:2},
+    {t:'pick',q:'Since global energy is becoming more and more precious, ___.',opts:['the streets get busy','we must save electricity','plants may die','people should stay indoors'],a:1},
+    {t:'pick',q:'Since there has been no rain for weeks, ___.',opts:['the streets get busy','people should stay indoors','plants may die','we must save electricity'],a:2},
+    {t:'pick',q:'Since the air pollution index is very high today, ___.',opts:['the streets get busy','people should stay indoors','we must save electricity','plants may die'],a:1}
+  ]},
+  pv:{title:'短語動詞（10 題）',hint:'短語動詞＝動詞＋小詞，意思要看整體（look for 找／look after 照顧）。填完讀一遍整句，確認意思通。',bank:['sit down','write down','look for','pick up','give back','come back','tidy up','put on','turn off','wake up'],items:[
+    {t:'fill',q:'Please ___ and open your books.',a:'sit down'},
+    {t:'fill',q:'___ the new words in your notebook.',a:'write down'},
+    {t:'fill',q:'I am ___ my lost keys.',a:'looking for'},
+    {t:'fill',q:'She ___ the litter and put it in the bin.',a:'picked up'},
+    {t:'fill',q:'You must ___ the storybook to the library.',a:'give back'},
+    {t:'fill',q:'My uncle will ___ from Canada next month.',a:'come back'},
+    {t:'fill',q:'Let us ___ the classroom before the party.',a:'tidy up'},
+    {t:'fill',q:'It is cold outside. ___ your coat.',a:'put on'},
+    {t:'fill',q:'Please ___ the lights when you leave.',a:'turn off'},
+    {t:'fill',q:'I ___ at seven o\'clock this morning.',a:'woke up'}
+  ]}
+};
+var drTap='verb', drHideZh=false, drHideEn=false;
+
+function drProg(){ try{return JSON.parse(localStorage.getItem(DRILL_VERB_KEY)||'{}');}catch(e){return {};} }
+function drSaveProg(o){ try{localStorage.setItem(DRILL_VERB_KEY,JSON.stringify(o));}catch(e){} }
+function drBest(){ try{return JSON.parse(localStorage.getItem(DRILL_BEST_KEY)||'{}');}catch(e){return {};} }
+
+function drTapTo(k){
+  drTap=k;
+  document.querySelectorAll('#drChips .chip').forEach(function(c){c.classList.toggle('on',c.dataset.dr===k);});
+  var acts=document.getElementById('drActs');
+  if(acts)acts.style.display=(k==='verb')?'none':'flex';
+  var box=document.getElementById('drVerbBox');
+  if(box)box.innerHTML=(k==='verb')?drVerbHtml():'';
+  if(k==='verb')drBindVerbs(); else drRenderGroup();
+  document.getElementById('drResult').innerHTML='';
+  drShowStat();
+}
+function drVerbHtml(){
+  var p=drProg(), done=DRILL_VERBS.filter(function(v){return p[v[0]];}).length;
+  var h='<div class="drbar">'
+    +'<button class="btn" type="button" onclick="drMask(\'zh\')">'+(drHideZh?'顯示中文':'遮住中文（看英文想中文）')+'</button>'
+    +'<button class="btn" type="button" onclick="drMask(\'en\')">'+(drHideEn?'顯示英文':'遮住英文（看中文寫過去式）')+'</button>'
+    +'<span class="drstat">已掌握 <b id="drDoneNum">'+done+'</b> / '+DRILL_VERBS.length+'</span></div>'
+    +'<div class="drvt-wrap"><table class="mtable drvt'+(drHideZh?' hidezh':'')+(drHideEn?' hideen':'')+'" id="drVerbTable">'
+    +'<thead><tr><th style="width:66px">已掌握</th><th>原形</th><th>過去式</th><th>中文</th></tr></thead><tbody>';
+  DRILL_VERBS.forEach(function(v){
+    h+='<tr><td><input type="checkbox" class="drchk" data-w="'+v[0]+'" aria-label="已掌握 '+v[0]+'"'+(p[v[0]]?' checked':'')+'></td>'
+      +'<td class="en env">'+v[0]+'</td><td class="past">'+v[1]+'</td><td class="zh">'+v[2]+'</td></tr>';
+  });
+  h+='</tbody></table></div>'
+    +'<div class="tip">遮中文＝看英文想中文義；遮英文＝看中文寫出原形與過去式（最接近家長報中文的聽寫）。勾「已掌握」會存下來、跟賬號走，換設備前記得「導出進度」。不確定變法時先寫 -ed（share→shared、land→landed），不要照抄原形。</div>';
+  return h;
+}
+function drBindVerbs(){
+  document.querySelectorAll('#drVerbBox .drchk').forEach(function(c){
+    c.onchange=function(){
+      var o=drProg(); if(c.checked)o[c.dataset.w]=1; else delete o[c.dataset.w]; drSaveProg(o);
+      var n=DRILL_VERBS.filter(function(v){return o[v[0]];}).length;
+      var e=document.getElementById('drDoneNum'); if(e)e.textContent=n;
+    };
+  });
+}
+function drMask(k){
+  if(k==='zh')drHideZh=!drHideZh; else drHideEn=!drHideEn;
+  var box=document.getElementById('drVerbBox'); if(!box)return;
+  box.innerHTML=drVerbHtml(); drBindVerbs();
+}
+function drRenderGroup(){
+  var g=DRILL_GROUPS[drTap], box=document.getElementById('drBody'); if(!g||!box)return;
+  var h='';
+  if(g.bank)h+='<div class="drbank">'+g.bank.map(function(x){return '<span>'+x+'</span>';}).join('')+'</div>';
+  if(g.hint)h+='<div class="tip">'+g.hint+'</div>';
+  g.items.forEach(function(it,i){
+    h+='<div class="qcard" data-di="'+i+'"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span><span class="qtype">'+(it.t==='pick'?'選擇':'填空')+'</span></div>'
+      +'<div class="qtext">'+it.q+'</div>';
+    if(it.t==='pick'){
+      h+='<div class="qopts">'+it.opts.map(function(o,k){return '<label class="qopt"><input type="radio" name="dr'+i+'" value="'+k+'"> '+o+'</label>';}).join('')+'</div>';
+    }else{
+      h+='<input class="qfill" id="drf'+i+'" placeholder="填英文">';
+    }
+    h+='</div>';
+  });
+  box.innerHTML=h;
+  // Enter 跳到下一題，最後一題 Enter＝交卷（孩子自己練時不用摸滑鼠）
+  var fills=Array.prototype.slice.call(box.querySelectorAll('.qfill'));
+  fills.forEach(function(inp,k){
+    inp.addEventListener('keydown',function(e){
+      if(e.key!=='Enter')return;
+      e.preventDefault();
+      if(fills[k+1])fills[k+1].focus(); else gradeDrill();
+    });
+  });
+}
+function drShowStat(){
+  var e=document.getElementById('drStat'); if(!e)return;
+  if(drTap==='verb'){e.textContent='動詞表不需交卷';return;}
+  var b=drBest(), v=b[drTap];
+  e.textContent='本組最佳：'+(v!==undefined?v+'%':'—');
+}
+function gradeDrill(){
+  if(drTap==='verb'){alert('動詞表不用交卷：切到 ②–⑥ 的練習再按交卷。');return;}
+  var g=DRILL_GROUPS[drTap]; if(!g)return;
+  var correct=0;
+  g.items.forEach(function(it,i){
+    var card=document.querySelector('#drBody .qcard[data-di="'+i+'"]'); if(!card)return;
+    if(it.t==='pick'){
+      var sel=card.querySelector('input[name="dr'+i+'"]:checked');
+      var ok=!!sel&&+sel.value===it.a; if(ok)correct++;
+      card.querySelectorAll('.qopt').forEach(function(op,k){
+        if(k===it.a)op.classList.add('correct'); else if(sel&&+sel.value===k)op.classList.add('wrong');
+      });
+      card.insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>'
+        :'<div class="qans"><span class="no">✗ 正確答案：'+it.opts[it.a]+'</span></div>');
+    }else{
+      var inp=document.getElementById('drf'+i), v=norm(inp.value);
+      var ok2=v!==''&&(v===norm(it.a)||(it.alt&&it.alt.some(function(x){return norm(x)===v;})));
+      if(ok2)correct++;
+      inp.classList.add(ok2?'correct':'wrong');
+      var extra='';
+      if(!ok2&&it.w&&it.zh)extra=' <button class="mini mwadd" type="button" data-w="'+it.w+'" data-zh="'+it.zh+'">＋單詞本</button>';
+      card.insertAdjacentHTML('beforeend', ok2?'<div class="qans"><span class="ok">✓ 正確</span></div>'
+        :'<div class="qans"><span class="no">✗ 正確答案：'+it.a+'</span>'+extra+'</div>');
+    }
+  });
+  var n=g.items.length, pct=n?Math.round(correct/n*100):0;
+  document.getElementById('drResult').innerHTML='<div class="qtot">'+g.title+'：'+correct+' / '+n+' 題正確（'+pct+'%）</div>'
+    +'<div class="qbar"><i style="width:'+pct+'%"></i></div>'+nsWrongLine('en');
+  var b=drBest(); if(!(drTap in b)||pct>b[drTap]){b[drTap]=pct; try{localStorage.setItem(DRILL_BEST_KEY,JSON.stringify(b));}catch(e){}}
+  drShowStat();
+  // 錯詞一鍵進「我的單詞本」（沿用 v1.80 的 addFrom，不另寫儲存邏輯）
+  document.querySelectorAll('#drBody .mwadd[data-w]').forEach(function(btn){
+    btn.onclick=function(e){
+      e.stopPropagation();
+      var r=window.__myWordsTest?window.__myWordsTest.addFrom('vocab',{w:btn.dataset.w,zh:btn.dataset.zh||'',topic:'時態與題型'}):{ok:false,msg:'模組未載入'};
+      btn.textContent=r.ok?'✓ 已加入':(r.msg||'已加入'); btn.disabled=true;
+    };
+  });
+}
+function resetDrill(){
+  if(drTap==='verb'){ drMask('zh'); return; }
+  drRenderGroup();
+  document.getElementById('drResult').innerHTML='';
+}
+var _drPrintBound=false;
+function printDrill(){
+  var withAns=!!(document.getElementById('drPrintAns')&&document.getElementById('drPrintAns').checked);
+  var h='';
+  if(drTap==='verb'){
+    h+='<div class="eps-head"><div class="eps-title">英文不規則動詞表（過去式）'+(withAns?' · 教師版':' · 練習版')+'</div>'
+      +'<div class="eps-meta">姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span>　　共 '+DRILL_VERBS.length+' 詞</div></div>';
+    h+='<table class="mtable drvt"><thead><tr><th>原形</th><th>過去式</th><th>中文</th></tr></thead><tbody>';
+    DRILL_VERBS.forEach(function(v){
+      h+='<tr><td>'+v[0]+'</td><td>'+(withAns?v[1]:'')+'</td><td>'+v[2]+'</td></tr>';
+    });
+    h+='</tbody></table>';
+  }else{
+    var g=DRILL_GROUPS[drTap];
+    h+='<div class="eps-head"><div class="eps-title">'+g.title+(withAns?'（答案版）':'')+'</div>'
+      +'<div class="eps-meta">姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span>　　共 '+g.items.length+' 題</div></div>';
+    if(g.bank)h+='<div class="drbank">'+g.bank.map(function(x){return '<span>'+x+'</span>';}).join('')+'</div>';
+    g.items.forEach(function(it,i){
+      h+='<div class="epq"><div class="eps-text">'+(i+1)+'. '+it.q+'</div>';
+      if(it.t==='pick')h+='<div class="eps-opts">'+it.opts.map(function(o,k){return String.fromCharCode(65+k)+'. '+o;}).join('　　')+'</div>';
+      else h+='<div class="ansline"></div>';
+      if(withAns)h+='<div class="eps-ans">答：'+(it.t==='pick'?it.opts[it.a]:it.a)+'</div>';
+      h+='</div>';
+    });
+  }
+  h+='<div class="eps-meta" style="margin-top:14px;font-size:12px;color:#666">本站自編練習 · 題目與答案原創 · 非任何學校、補習社或評估局真卷</div>';
+  var sheet=document.getElementById('drillPrintSheet'); if(!sheet)return;
+  sheet.innerHTML=h;
+  if(!_drPrintBound){_drPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
+  document.body.classList.add('printing-paper');
+  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+}
+document.querySelectorAll('#drChips .chip').forEach(function(c){ c.onclick=function(){ drTapTo(c.dataset.dr); }; });
+drTapTo('verb');
+// 測試鉤子：直接暴露資料源與指標（沿用 v1.85 教訓——斷言不靠隨機集合求交集，改查穩定資料源）
+window.__drillTest={groups:DRILL_GROUPS,verbs:DRILL_VERBS,tap:function(){return drTap;},go:drTapTo,gradeIt:gradeDrill,resetIt:resetDrill,prog:drProg,best:drBest};
+
 // ---- 英文卷：換一題（本地）＋ AI 換題（OpenAI 兼容） ----
 function getAiCfg(){ try{return JSON.parse(localStorage.getItem('hkk_ai_cfg')||'{}');}catch(e){return {};} }
 function saveAiCfg(){ const cfg={base:(document.getElementById('aiBase').value||'').trim(),key:(document.getElementById('aiKey').value||'').trim(),model:(document.getElementById('aiModel').value||'').trim()}; localStorage.setItem('hkk_ai_cfg',JSON.stringify(cfg)); const m=document.getElementById('aiCfgMsg'); if(m)m.textContent='已保存（本瀏覽器）'; }
@@ -47512,8 +47790,8 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
     document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
     sw('hkView',es==='hk'); sw('vocabView',es==='vocab'); sw('ivView',es==='iv');
     sw('paperView',es==='paper'); sw('goalView',es==='goal'); sw('examView',es==='exam');
-    sw('myWordsView',es==='mywords'); sw('wbView',es==='wb');
-    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
+    sw('myWordsView',es==='mywords'); sw('wbView',es==='wb'); sw('drillView',es==='drill');
+    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(es==='drill')drTapTo(drTap); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
   }catch(e){ console.error('切換視圖失敗：',e); }
 });
 // v1.69：路線圖頁的動線按鈕——複用同一套切換邏輯，避免另寫一份顯隱代碼
@@ -48133,19 +48411,20 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／已匯入詞庫）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／已匯入詞庫／時態題型勾選與成績）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
     if(window.__readFocusTest){window.__readFocusTest.set({});window.__readFocusTest.render();}
     if(window.__myWordsTest){window.__myWordsTest.clear();}
     if(window.__lwtePackTest){window.__lwtePackTest.clear();}
+    if(typeof drSaveProg==='function'){drSaveProg({});try{localStorage.removeItem(DRILL_BEST_KEY);}catch(e){}if(typeof drTapTo==='function')drTapTo('verb');}
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},ver:'hkk_v1.88',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),ver:'hkk_v1.89',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -48161,6 +48440,9 @@ document.getElementById('importFile').onchange=e=>{
     if(d.readFocus&&window.__readFocusTest){window.__readFocusTest.set(d.readFocus);window.__readFocusTest.render();}
     if(Array.isArray(d.myWords)&&window.__myWordsTest){window.__myWordsTest.importData(d.myWords);}
     if(d.lwteWordProg&&window.__lwtePackTest){window.__lwtePackTest.setProg(d.lwteWordProg);}
+    if(d.drillProg&&typeof drSaveProg==='function'){drSaveProg(d.drillProg);}
+    if(d.drillBest&&typeof drBest==='function'){try{localStorage.setItem(DRILL_BEST_KEY,JSON.stringify(d.drillBest));}catch(e){}}
+    if(typeof drTapTo==='function'){drTapTo(drTap);}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
     alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查 / '+(window.__myWordsTest?window.__myWordsTest.count():0)+' 個自收詞）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
