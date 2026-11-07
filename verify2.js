@@ -1104,7 +1104,7 @@ try{
   doc.querySelector('#practiceSub button[data-sub="cn"]').click();
   window.eval('poemDone={};saveDone();curPoem=null;quiz=null;quizPass=0;poemStep=1;clozeOn=false;clozeReveal=false;renderStarMap();');
   const sm=doc.getElementById('starMap');
-  ok('v1.73 星圖在中文頁詩詞列表之前', !!sm && sm.parentElement.id==='cnPracView' && html.indexOf('id="starMap"') < html.indexOf('id="poemGrid"'));
+  ok('v1.73 星圖在中文頁詩詞列表之前（v1.82 起星圖包在 cnStarView 內）', !!sm && sm.parentElement.id==='cnStarView' && html.indexOf('id="starMap"') < html.indexOf('id="poemGrid"'));
   const segs=[...doc.querySelectorAll('#smSegs .sm-seg')];
   const sizes=segs.map(s=>s.querySelectorAll('.sm-star').length);
   ok('v1.73 七段星數 13/14/18/19/22/26/73 ('+sizes.join('/')+')', sizes.join(',')==='13,14,18,19,22,26,73');
@@ -1568,11 +1568,11 @@ try{
   mw.clear();
   ok('v1.80 清空後空態提示', mw.count()===0 && doc.querySelectorAll('#mwList .mwempty').length===1);
   ok('v1.80 全站導出含 myWords 字段', /myWords:window\.__myWordsTest\?window\.__myWordsTest\.exportData\(\)\.words:\[\]/.test(html));
-  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.81'/.test(html));
+  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.82'/.test(html));
   ok('v1.80 清空確認文案補「我的單詞本」', /泛讀自查／我的單詞本/.test(html));
   ok('v1.80 不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/我的單詞本|hkk_mywords/.test(x.t+x.s)));
   ok('v1.80 版權文案在子頁', doc.getElementById('myWordsView').textContent.includes('不預置任何出版社詞表'));
-  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.81/g)||[]).length===2 && html.includes("ver:'hkk_v1.81'") && !html.includes('公開版 v1.79'));
+  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.82/g)||[]).length===2 && html.includes("ver:'hkk_v1.82'") && !html.includes('公開版 v1.79'));
 }catch(e){ ok('v1.80 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.81 反饋牆 ＋ 貪吃蛇單詞背景 ＋ 某文單詞本搬位 ============
@@ -1642,8 +1642,120 @@ try{
   ok('v1.81 錯誤碼映射覆蓋網絡／權限／表不存在／重複', ['network_error','42501','42P01','23505'].every(c=>fbT.errText(c)&&fbT.errText(c).length>4));
   ok('v1.81 時間顯示相對時間', fbT.when(new Date(Date.now()-3600000).toISOString()).indexOf('小時前')>=0);
 
-  ok('v1.81 版本號三處一致', (html.match(/公開版 v1\.81/g)||[]).length===2 && html.includes("ver:'hkk_v1.81'") && !html.includes('公開版 v1.80'));
+  ok('v1.81 版本號三處一致', (html.match(/公開版 v1\.82/g)||[]).length===2 && html.includes("ver:'hkk_v1.82'") && !html.includes('公開版 v1.80'));
 }catch(e){ ok('v1.81 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
+
+// ============ v1.82 中文卷（本站原創仿題型） ============
+try{
+  const fs=require('fs');
+  const qb=JSON.parse(fs.readFileSync('_cn_qbank.json','utf8'));
+  const cpt=window.__cnPaperTest;
+
+  // ── A. 題庫結構：三級齊、題型齊、答案合法 ──
+  ok('v1.82 題庫覆蓋 P2／P5／P6 三級', !!qb && Object.keys(qb).sort().join(',')==='P2,P5,P6');
+  ok('v1.82 每級都有 mc/fill/read/write 四類', ['P2','P5','P6'].every(g=>{
+    const b=qb[g]; return b&&b.mc.length>0&&b.fill.length>0&&b.read.length>0&&b.write.length===2;
+  }));
+  ok('v1.82 選擇題全部 4 選 1 且答案索引合法', ['P2','P5','P6'].every(g=>qb[g].mc.every(q=>Array.isArray(q.opts)&&q.opts.length===4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4)));
+  ok('v1.82 選擇題答案不重複（每題只有一個正確答案）', ['P2','P5','P6'].every(g=>{
+    return qb[g].mc.every(q=>{
+      const opts=q.opts.map(o=>String(o).trim());
+      return new Set(opts).size===opts.length;
+    });
+  }));
+  ok('v1.82 填充／短答／填表題都有答案', ['P2','P5','P6'].every(g=>{
+    const b=qb[g];
+    const fl=b.fill.every(q=>q.a&&String(q.a).trim().length>0);
+    const rq=b.read.every(r=>(r.qs||[]).every(q=>q.a!==undefined&&q.a!==null&&String(q.a).length>0));
+    return fl&&rq;
+  }));
+  ok('v1.82 閱讀篇章含記敘／說明文與實用文兩類', ['P2','P5','P6'].every(g=>{
+    const kinds=qb[g].read.map(r=>r.kind);
+    return kinds.includes('實用文')&&kinds.some(k=>k==='記敘文'||k==='說明文');
+  }));
+  ok('v1.82 實用文有可填欄位（填表題）', ['P2','P5','P6'].every(g=>{
+    return qb[g].read.some(r=>(r.qs||[]).some(q=>q.t==='filltbl'&&Array.isArray(q.table)&&q.table.length>0));
+  }));
+  ok('v1.82 寫作題含實用文與短文各一', ['P2','P5','P6'].every(g=>{
+    const k=qb[g].write.map(w=>w.kind);
+    return k.includes('實用文')&&k.includes('短文');
+  }));
+
+  // ── B. 版權紅線：零第三方原文、零外鏈、零真卷聲稱 ──
+  ok('v1.82 題庫零外鏈零圖片', !/<a\s|<img\b|https?:\/\//i.test(fs.readFileSync('_cn_qbank.json','utf8')));
+  ok('v1.82 公開 HTML 明寫「原創」與「非真卷」', html.includes('全部題目、篇章、選項與答案均為本站原創')&&html.includes('非任何機構真卷')&&html.includes('未取用任何考卷、課本、題庫或第三方網站的內容'));
+  ok('v1.82 站內仍聲明 band1 一律不搬（⑧ 紅線未破）', html.includes('不入庫、不爬取、不代理'));
+  ok('v1.82 中文卷不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95&&(window.__aiTest.kb||[]).every(x=>!/中文卷|site_feedback|反饋牆/.test(x.t+x.s)));
+
+  // ── C. 落位與互動 ──
+  ok('v1.82 中文區有子標籤（背詩星圖／中文卷）', !!doc.getElementById('cnPracSub')&&doc.querySelectorAll('#cnPracSub button').length===2
+     &&doc.querySelector('#cnPracSub button[data-cs="star"]')&&doc.querySelector('#cnPracSub button[data-cs="cnpaper"]'));
+  ok('v1.82 中文卷頁在練習區中文頁內', !!doc.getElementById('cnPaperView')&&doc.getElementById('cnPracView').contains(doc.getElementById('cnPaperView')));
+  ok('v1.82 中文卷頁 ID 不重複', doc.querySelectorAll('#cnPaperView').length===1&&doc.querySelectorAll('#cnPracView').length===1&&doc.querySelectorAll('#cnStarView').length===1);
+  // v1.82 踩坑：cnPaperView 一度被塞進 cnStarView 內，隱藏星圖時把中文卷一起藏掉（畫面仍見星圖），
+  // 故加斷言鎖死「cnStarView 與 cnPaperView 必須是 cnPracView 的兩個**兄弟**節點，互不嵌套」
+  ok('v1.82 星圖與中文卷是並列兄弟節點（互不嵌套）', (()=>{
+    const pv=doc.getElementById('cnPracView');
+    const sv=doc.getElementById('cnStarView'), cv=doc.getElementById('cnPaperView');
+    if(!pv||!sv||!cv)return false;
+    return sv.parentElement===pv && cv.parentElement===pv && !sv.contains(cv) && !cv.contains(sv);
+  })());
+  ok('v1.82 星圖內容完整在 cnStarView 內（4 個子塊）', (()=>{
+    const sv=doc.getElementById('cnStarView');
+    if(!sv)return false;
+    const ids=[...sv.children].map(c=>c.id||c.className);
+    return ids.includes('starMap')&&ids.includes('poemGrid')&&ids.length===4;
+  })());
+  ok('v1.82 練習區 div 標籤配平（enPracView 仍屬 practiceView）', (()=>{
+    const ep=doc.getElementById('enPracView'), pv=doc.getElementById('practiceView');
+    return !!ep&&!!pv&&ep.parentElement===pv;
+  })());
+  ok('v1.82 三顆年級 chip（小二／小五／小六）', doc.querySelectorAll('#cngChips .chip').length===3
+     &&[...doc.querySelectorAll('#cngChips .chip')].map(c=>c.dataset.pg).join(',')==='P2,P5,P6');
+
+  // ── D. 出卷 ──
+  doc.querySelector('#practiceSub button[data-sub="cn"]').click();
+  doc.querySelector('#cnPracSub button[data-cs="cnpaper"]').click();
+  ok('v1.82 切到中文卷子頁可見', doc.getElementById('cnPaperView').style.display!=='none'&&doc.getElementById('cnStarView').style.display==='none');
+  ok('v1.82 出卷後有題目卡', doc.querySelectorAll('#cnPaperBox .qcard').length>0);
+  ok('v1.82 出卷含閱讀篇章與寫作題', doc.querySelectorAll('#cnPaperBox .cnread').length>0&&doc.querySelectorAll('#cnPaperBox .cnwrite').length===2);
+  ok('v1.82 篇章卡有標題與段落', [...doc.querySelectorAll('#cnPaperBox .cnread')].every(r=>r.querySelector('.cnread-h')&&r.querySelectorAll('.cnread-p').length>0));
+  ok('v1.82 測試鉤子可用且 P2 預設', !!cpt&&cpt.grade==='P2');
+
+  // ── E. 批改閉環 ──
+  const mcCard=doc.querySelector('#cnPaperBox .qcard .qopt input');
+  ok('v1.82 選擇題有 radio 選項', !!mcCard);
+  if(mcCard){
+    mcCard.checked=true;
+    mcCard.dispatchEvent(new window.Event('change',{bubbles:true}));
+    cpt.gradePaper();
+    const res=doc.getElementById('cnPaperResult').textContent;
+    ok('v1.82 交卷批改有得分結果', /得分：\d+ \/ \d+ 題正確/.test(res));
+    ok('v1.82 批改後標示正確答案', doc.querySelectorAll('#cnPaperBox .qans').length>0);
+  }
+  // 判分純邏輯：答案索引 0 也算對（v1.82 踩過 a=0 被當缺失）
+  ok('v1.82 判分：索引 0 視為合法答案', cpt.correct({t:'mc',opts:['甲','乙','丙','丁'],a:0},0)===true&&cpt.correct({t:'mc',opts:['甲','乙','丙','丁'],a:0},1)===false);
+  ok('v1.82 判分：填充題忽略標點與空格', cpt.correct({t:'fill',a:'小桌'},'小桌。')===true&&cpt.correct({t:'fill',a:'小桌'},'小 桌')===true);
+  ok('v1.82 判分：多解以 | 分隔', cpt.correct({t:'fill',a:'滂沱大雨|大雨滂沱'},'大雨滂沱')===true&&cpt.correct({t:'fill',a:'滂沱大雨|大雨滂沱'},'狂風暴雨')===false);
+  ok('v1.82 判分：短答題關鍵詞命中', cpt.correct({t:'short',a:'珍惜|愛惜'},'要珍惜舊物')===true);
+  ok('v1.82 判分：空答案不算對', cpt.correct({t:'fill',a:'小桌'},'')===false&&cpt.correct({t:'short',a:'珍惜'},'  ')===false);
+
+  // ── F. 切年級重出卷 ──
+  const before=doc.querySelectorAll('#cnPaperBox .qcard').length;
+  doc.querySelector('#cngChips .chip[data-pg="P6"]').click();
+  ok('v1.82 切小六重新出卷', cpt.grade==='P6'&&doc.querySelectorAll('#cnPaperBox .qcard').length>0&&doc.querySelectorAll('#cnPaperBox .cnread').length>=2);
+  doc.querySelector('#cngChips .chip[data-pg="P2"]').click();
+  ok('v1.82 切回小二仍可出卷', cpt.grade==='P2'&&doc.querySelectorAll('#cnPaperBox .qcard').length>0);
+
+  // ── G. 打印（含答案版）──
+  ok('v1.82 打印函式存在且產出答案卷', /function printCnPaper/.test(html)&&html.includes('答案卷 · ')&&html.includes('eps-aksheet'));
+  ok('v1.82 打印頁明寫原創非真卷', html.includes('本卷為香港插班學習站原創練習卷，只仿題型結構，非任何機構／學校真卷'));
+  ok('v1.82 打印含姓名日期欄', html.includes('姓名：________________')&&html.includes('日期：______________'));
+  ok('v1.82 含答案版勾選存在', !!doc.getElementById('cnPrintAns'));
+  ok('v1.82 本級最佳存 hkk_cnpaper_v0', html.includes("'hkk_cnpaper_v0'"));
+  ok('v1.82 CSS：篇章卡與寫作區樣式齊', /\.cnread\{/.test(html)&&/\.cnwrite-hint\{/.test(html)&&/\.cnsec\{/.test(html));
+  ok('v1.82 版本號三處一致', (html.match(/公開版 v1\.82/g)||[]).length===2&&html.includes("ver:'hkk_v1.82'")&&!html.includes('公開版 v1.81'));
+}catch(e){ ok('v1.82 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);

@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.82：葉工再要求「https://www.band1.org/ 這裏很多試卷，把中英數的 2 年級還有 5 6 年級的試卷拷貝過來，可以適當修改」。⚠️ **本版先實測再定案，不憑記憶下結論**（v1.77 當時因 403 未取到條款，只說「授權狀態未取到」；這次網站恢復 200，終於取到《Terms of Service》全文）：第 6 條 USE OF MATERIALS 明文「All of the contents of this website are protected from copying under international copyright laws... **Any unauthorized copying, alteration, distribution, transmission, display or other use of this material is prohibited.**」「materials downloaded are for **personal use only**」；第 1 條另禁自動化抓取（robots/spiders/offline readers），robots.txt 內 `Disallow: /*.pdf` 正是針對試卷檔；首頁 198 條「小二 中文 / 小五 中文…」經查為**整頁掃描圖**（`/examjpg/29167.jpg`，1240×877），屬其 Content。站內 GitHub 倉庫已公開＝公開發行，遠超 personal use only，故**「拷貝＋適當修改」兩件事都不可行**（改寫掃描圖仍是其作品）。**但落點改到真正缺的地方**：盤點站內原創出卷引擎——英文卷 P1–P6（P2/P5/P6 各 19–20 題）、數學卷 P1–P6（各 10 題）、呈分試卷 P5–P6（各 5 套、可一次出 10 套）**葉工要的 2/5/6 年級中英數全部已有**，唯一真的缺的是**中文卷**（站內從來沒有中文出卷引擎）。故經 AskUserQuestion 拍板「做原創中文卷引擎」。題型框架取自**官方公開資料**（考評局 HKEAA《2025 年全港性系統評估小學六年級中文科成績》與 P3 卷面說明）：閱讀＝第一部分記敘文／說明文（選擇、填充、短答）＋第二部分實用文如書信／周記／日記／海報／說明書（選擇、短答）；寫作＝實用文（書信／日記格式）＋短文，字數不限——**只仿題型結構與篇章類型，不取用任何考卷內容**。`build_cn_qbank.py` 生成 `_cn_qbank.json`（34KB）：P2（mc 15／fill 6／篇章 2 共 7 題／寫作 2）、P5（mc 11／fill 4／篇章 2 共 8 題／寫作 2）、P6（mc 12／fill 4／篇章 3 共 13 題／寫作 2），**全部題目、短文、實用文、選項與答案均為本站原創**，素材只用站內既有免費／公有領域來源（build_data.json 古詩詞 185 首、官方字表、簡繁對照），構建期 assert 逐級校驗結構。落位＝**「練習 → 中文」區內新增子標籤**（`#cnPracSub`：背詩星圖／中文卷），不改主結構、星圖原位不動；新增 `#cnPaperView`（年級 chip 小二／小五／小六 → 🎲出新卷 → ✅交卷批改 → 🖨打印含答案版 → 本級最佳 `hkk_cnpaper_v0`）。引擎 `genCnPaper/gradeCnPaper/printCnPaper` 沿用英文卷交互規格，五種題型判分：mc 比索引、fill 比答案（`|` 分隔多解、忽略標點空格）、filltbl 逐欄比、short 關鍵詞命中、**write 不計分**（只印題目與寫作提示由家長自評）。閱讀篇章卡與寫作區樣式走既有色票，窄屏可橫滑。⚠️ 坑：①`cnPracView` ID 與既有「練習→中文」重名，先建了一塊同名新區導致重複 ID，撤掉重複塊改為在原 `cnPracView` 內加子標籤，並補 `cnStarView` 閉合標籤；②`build_cn_qbank.py` 自檢一開始寫 `assert q.get('a')`，把**合法的答案索引 0 當成缺失**而誤報，改 `is not None`；③自檢還真抓到一條 P2 海報選擇題漏寫 `a`（靜態缺答案），補上。⚠️ 結論留檔：**band1.org 的卷子本站一律不搬**（條款明文＋公開倉庫＝公开发行）；需要同類試卷時用站內原創引擎（英文卷／數學卷／呈分試卷／中文卷），或到原站按其條款自行取用。
 v1.81：葉工連下三個需求——①「網站還可以加一個反饋窗口，一直累計，可以讓大家看到要改進的地方」；②貼貪吃蛇截圖要「把單詞作為背景，吃到蛇就換一個單詞」；③貼 ⑪ 模塊截圖要「把這個 11 這個模塊放到英語背單詞那個模塊，別寫朗文，寫某文單詞本就好了，不會有版權問題」。⚠️ ①反饋牆**不是純前端能做的**：「一直累計、讓大家看到」意味著跨訪客跨裝置共享，純靜態站只有本機 localStorage，故走 WorkBuddy 雲資料庫新建 `site_feedback` 表（GRANT SELECT,INSERT TO authenticated,anon ＋ RLS：公開可讀、僅可插入且 WITH CHECK status='open'、不可改刪他人行，訪客只能提建議不能改别人的）。前端用既有 `WorkBuddyCloud.createWorkBuddyCloud` 資料庫模組（不新建第二個客戶端）讀寫。⚠️ **域限制先實測再定案**：v1.74 已知 publishableKey 服務端強制精確 Origin 匹配，故先寫 `_probe_fb_origin.py` 用 CDP 真瀏覽器實測——workbuddy 域讀寫皆通（insert id=1），GitHub Pages 域 `Failed to fetch` 與 AI 同命。故反饋牆**只在 workbuddy 域可用**，Pages 域按 v1.76 `aiFallback` 的既有降級模式顯示引導卡（靜態 <a> 帶 sharecode 跳專用連結），不靜默假失敗。落位＝全局浮動鈕（左下 `#fbFab`，與右下加微信鈕分開不打架）＋彈窗（表單三欄：類型／內容 300 字上限／暱稱選填 ＋「提交反饋」＋「大家的反饋」列表），列表依 created_at 倒序取 60 條、三態樣式（待處理／已排期／已完成）。⚠️ 安全：訪客內容一律 `textContent` 渲染（絕不 innerHTML，防 XSS）、插入只帶 category/content/nickname/page 不帶 owner_id（DEFAULT auth.uid() 服務端填）、錯誤按 gateway/42501/42P01/23505 分類給人話不吞錯。⚠️ ②貪吃蛇：畫布背景由純色改為**每格鋪一個港小生字**（16×16=256 格，低透明度不搶視線），目標格改為黃底＋寫出該詞本身，蛇頭吃到即 `nextFood()` 換一個**不同的**新詞（去重保護 guard 12 次）；面板與 folk 文案同步改「背景全是港小生字／黃色格子是目標詞」，計分與「標為已掌握」連動不變。③⑪ 朗文單詞本：整塊從 `tutorView` 第 ⑪ 個折疊塊搬進**「練習 → 英文 → 某文單詞本」第 8 顆子標籤**（新 `#wbView`），公開文案全面去品牌（標題改「某文單詞本」；warn 卡「版權屬原出版社」不點名；兩處教材版權聲明改泛稱；聽寫紙標題改「聽寫紙」；`_lwte_meta.json` note 同步去 Pearson）；**內部 ID（lwteChips/lwteBody/lwteStat）與進度 key（hkk_lwte_prog_v0）刻意不動**，避免既有使用者進度作廢。頭部提示 11→10 塊並改指向英文區。verify2 舊斷因位置/命名變更改 10 處（11→10 塊、⑪ 斷言改英文區子頁、品牌斷言改「零朗文」＋「版權屬原出版社」、動線過濾加 wb、子標籤 7→8），新增 v1.81 專項 38 項（三塊全覆：落位與去品牌／背景鋪詞來自真實詞池且目標格同步／吃到換詞／反饋表單與雲表接線與不帶 owner_id／XSS 防護實測／降級連結／錯誤碼映射／渲染純邏輯），**680→719 全過**。
 v1.80：葉工要「英語那裡加一個自己的單詞本模塊，可以從網站裡面加入單詞本，也可以自己輸入加入單詞本，然後儲存本地，也可以導出導入」。先判定這不是 Agent／LLM 需求，就是純前端本地 CRUD，直接做。落位＝「練習 → 英文」`enPracSub` 第 7 顆子標籤「我的單詞本」（插在詞表之後、英文卷之前，詞彙輸入動線上），新增 `#myWordsView` 子頁，**不加頂層導航、不改 tutorView 折疊塊**。①站內加入：`renderHk()`（中小學單詞）與 `renderVocab()`（詞表）每張 vcard 補一顆 `.mwadd`「＋ 單詞本」，點擊共用 `__mwAddClick()` → `window.__myWordsTest.addFrom(kind,w)`，帶入詞／中文義／音標／來源（站內·中小學單詞 / 站內·詞表）／年級主題或主題備註；按鈕 `stopPropagation()` 避免誤觸原卡片的「標記掌握」與「隱中文」，成功後按鈕就地變「✓ 已加入」並停用、**不重繪整張詞表**（重繪會清掉摺疊態與搜尋位置）。②自行輸入：`#mwW / #mwZh / #mwNote` 三欄＋Enter 提交，單詞必填、中文義與備註可稍後在詞卡上直接改（`change` 事件即存）。③本地儲存：`hkk_mywords_v0`（hkk_ 前綴天然受 v1.33 賬號作用域隔離），詞條含 id/w/zh/ph/note/src/ts/done；`normalize()` 對所有匯入資料做長度截斷、大小寫去重、上限 2000 詞，渲染一律 `esc()` 轉義防注入。④導出導入：單詞本自帶「導出單詞本 (JSON)」／「匯入單詞本」／「清空單詞本」，導出 `{ver:'hkk_mywords_v1',exported,words[]}`，`URL.createObjectURL` 失效時降級 data URI；**匯入一律合併去重、不覆蓋**，回報新增／跳過／總數，格式錯誤給明確提示不靜默吞掉；同時把 `myWords` 補進全站「導出進度／匯入進度／清空全部進度」（沿用 v1.73/75/78/79 做法）。⑤詞卡操作：發音（複用全域 `speak()`，失敗降級提示）、標為已掌握、移除；工具列搜尋（詞／中文義／備註）＋篩選（全部／未掌握／已掌握／站內加入／自行輸入）＋排序（最新／A–Z／Z–A）＋統計。⚠️ **版權紅線**：公開 HTML 只有空結構與欄位名，**零預置詞條**、零出版社詞表、零第三方原文、零外鏈、零圖片、零雲端請求；`myWordsView` 在 `enPracView` 內而 ai_kb.py 只抽 faqView／timelineView／policyView＋學校名冊，故天然不進 AI 白名單（kb 仍 95 條，加斷言鎖死）。`__hkkGo('p:en:mywords')` 由既有解析器天然支援，不用改導航代碼。CSS 新增 .mwform/.mwcard/.mwtools/.mwadd 等複用既有色票，表單與底部按鈕 min-height:44px、窄屏轉單列；按鈕全用純文字（沿用 v1.79 豆腐塊教訓）。版本號 3 處 v1.79→v1.80。verify2 新增 40 項（子頁結構／零預置詞條／零外鏈／第 7 子標籤與 __hkkGo 實跑／自行輸入／空值與大小寫去重／站內兩處加入且不誤觸原卡片／編輯即存／掌握／篩選排序搜尋／導出結構／合併去重匯入／非法檔拋錯／2000 上限／XSS 轉義／清空空態／全站導出導入清空接線／AI 白名單未污染／窄屏／版本一致），**640→680 全過**；舊斷言只動 3 處：v1.53「6 tab」改「原有 6 未刪、共 7」、v1.69 動線順序改「過濾 mywords 後仍等於原動線」、v1.79 版本號斷言改為「四頁簽未回歸」並把版本一致移到 v1.80。一條初版失敗揭示口徑問題：匯入回報的 skipped 原本按清洗後條數算，檔案 3 條含 1 重複卻顯示「跳過 0」，改以檔案原始條數為分母（added 2 / skipped 1），讓「導了 3 條只加 2 條」看得懂。
 v1.79：葉工貼「⑦ 泛讀打卡（21 天挑戰）」展開後的截圖，要「泛讀打開這裏幫我弄一個子目錄，要給小孩重點學習」。先問清形態（AskUserQuestion 三選一），他選「塊內子目錄＋重點清單」——不加主導航入口、不改 ⑦ 層級、21 格打卡原位保留。落位＝⑦ details（補 id=readHub）內、原規則說明之下、打卡格之上新增 #readSubNav 四頁簽（⭐ 今日重點／📅 21 天怎麼讀／📚 讀什麼／✅ 家長自查）＋ #readFocusBox 四面板，默認只顯示「今日重點」；頁簽只在 ⑦ 內部切 display，**不新增 details 折疊塊**（全站仍 11 塊，v1.68/75/77/78 的位次斷言全不動），不加主導航、不加子頁、不改 ⑦ 標題條文字（舊斷言靠「泛讀打卡」字樣識別）。①今日重點：給小孩的一頁三件事（自己挑英文／看完點格／想講開 90 秒），「第 N 天」由 readLoad() 算第一個未打卡日，renderRead() 末尾加 hook 讓打卡後自動往後推，不另存一份狀態；四顆 data-go 按鈕（t:5 今日認讀／p:en:goal 詞彙路線圖／p:en:paper 英文卷／t:2 90 秒計時）一律走 v1.75 暴露的 window.__hkkGo，不抄顯隱邏輯。②21 天怎麼讀：只把 21 格按週分三段做進度導航，明確「不是課程表、沒有官方進度要求」，不加時數不加考核，窄屏表格 overflow-x:auto 且橫滑提示放在表格上方（沿用 v1.75/78 可見性教訓）。③讀什麼：逐條重組本頁 ② 教材清單既有口徑（家中牛津樹／TreeTops、圖書館橋梁書→兒童非虛構、藍思值屬坊間整理、漫畫故事科普視頻都算），warn 卡沿用「僅限家庭學習、勿外傳、不存放第三方內頁」紅線；兩顆按鈕去 ②／⑧。④家長自查：五條「不要做」checkbox（hkk_readfocus_v0，hkk_ 前綴天然受 v1.33 賬號隔離）＋已做到 N/5＋清空，明確不是評分表、不影響小孩打卡格。⚠️ 素材零新造、零外鏈、零圖片、零第三方原文、零雲端請求；新內容在 tutorView 而 ai_kb.py 只抽 faqView／timelineView／policyView＋學校名冊，故**天然不進 AI 白名單**，加斷言鎖死（kb 仍 95 條）。CSS 新增 .rdnav/.rdcard/.rdgo/.rdtable/.rdchk 等複用既有色票，頁簽與跳轉鈕 min-height:44px、窄屏 flex 換行；CDP 桌面截圖發現六顆跳轉鈕的 emoji 在缺字形環境下變空心方框（沿用 v1.78 豆腐塊教訓），故跳轉鈕與打卡格標題改純文字，只保留頁簽四顆實測顯示正常的 emoji。進度匯出／匯入／清空補 readFocus 字段（沿用 v1.73/75/78 做法），清空確認文案補「泛讀自查」，版本號 3 處 v1.78→v1.79。verify2 新增 26 項（結構／四頁簽切換與 aria／今日天數與打卡聯動／六顆跳轉復用 __hkkGo 並實跑 t:5／自查讀寫與清空／導出導入清空／零外鏈零圖片／版權口徑／AI 白名單未污染／窄屏／版本一致），**614→640 全過**。三條初版失敗全是探針問題：①today 面板無 inline display 被誤判未顯示 → 補 style="display:block"；②v1.33 測試 localStorage.clear() 後未 reload 致打卡格 DOM 過期 → 斷言先跑 renderRead() 同步，真賬號切換本就 location.reload()；③橫滑提示寫在表格下方違反站內規矩 → 移到表格上方並改「下面的表格」。
@@ -667,8 +668,25 @@ header{position:relative}
 .ort-bk .ort-n{font-size:11px;opacity:.75;margin-left:3px}
   /* v1.48 悬浮咨询按钮 */
   #ctaFab{position:fixed;right:14px;bottom:18px;z-index:15}
-  /* v1.81 反饋牆：左下角浮動入口（與右下角加微信分開，兩者不打架） */
-  #fbFab{position:fixed;left:14px;bottom:18px;z-index:15}
+  /* v1.82 中文卷：章節標、篇章卡、填表題、寫作區 */
+  .cnsec{font-size:15px;font-weight:800;margin:18px 0 10px;padding:6px 11px;background:#f1fbf8;border-left:4px solid #0f8a74;border-radius:0 8px 8px 0;color:#0b6d5c}
+  .cnread{border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin:0 0 14px;background:#fcfdfd}
+  .cnread-h{font-size:14.5px;font-weight:800;margin:0 0 7px;color:#0b6d5c}
+  .cnread-p{font-size:13.5px;line-height:1.95;margin:0 0 7px;color:#334155}
+  .cnfill,.cnshort,.cntbl{width:100%;box-sizing:border-box;padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;line-height:1.7;background:#fff;color:#1f2937}
+  .cnshort{resize:vertical;min-height:52px}
+  .cntblrow{display:flex;align-items:center;gap:9px;margin:0 0 8px;flex-wrap:wrap}
+  .cntblcol{flex:0 0 auto;min-width:88px;font-size:13px;font-weight:700;color:#475569}
+  .cntbl{flex:1 1 160px;min-width:140px}
+  .cnwrite-hint{font-size:12.5px;line-height:1.8;color:#64748b;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:0 7px 7px 0;padding:7px 10px;margin:7px 0}
+  .cntextarea{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-family:inherit;font-size:14px;line-height:1.95;background:#fff;resize:vertical;color:#1f2937}
+  .qans-note{font-size:12.5px;line-height:1.8;color:#64748b;margin-top:4px}
+  @media screen and (max-width:640px){
+    .cnread{padding:10px 12px}
+    .cnread-p{font-size:13px;line-height:1.9}
+    .cntblcol{min-width:72px;font-size:12.5px}
+  }
+  /* v1.81 反饋牆：左下角浮動入口（與右下角加微信分開，兩者不打架） */  #fbFab{position:fixed;left:14px;bottom:18px;z-index:15}
   #fbFabBtn{padding:11px 16px;border:none;border-radius:26px;background:linear-gradient(135deg,#0f8a74,#0b6d5c);color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px -4px rgba(11,109,92,.5)}
   #fbFabBtn:active{transform:scale(.96)}
   .fb-form{display:flex;flex-direction:column;gap:9px;margin:12px 0 4px}
@@ -863,13 +881,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.81（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.82（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.81（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.82（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -991,6 +1009,12 @@ header{position:relative}
 <div id="practiceView" style="display:none">
   <!-- 中文 -->
   <div class="wrap" id="cnPracView">
+    <!-- v1.82 中文練習區子標籤：背詩星圖 ／ 中文卷 -->
+    <div class="subnav" id="cnPracSub" style="position:static;top:auto;margin:0 -16px 12px">
+      <button data-cs="star" class="on">背詩星圖</button>
+      <button data-cs="cnpaper">中文卷</button>
+    </div>
+    <div id="cnStarView">
     <!-- v1.73 背詩星圖：185 首按 7 段點亮，全部數據取自現成 POEMS，不新造素材 -->
     <div class="starmap" id="starMap">
       <div class="sm-top">
@@ -1014,8 +1038,33 @@ header{position:relative}
       <input type="search" id="poemSearch" placeholder="搜詩題 / 作者">
     </div>
     <div class="grid" id="poemGrid"></div>
+    </div>
+    <!-- v1.82 中文卷：題型結構仿評考局公開框架，題目全部本站原創 -->
+    <div id="cnPaperView" style="display:none">
+      <div class="gtitle">中文卷 · 小二／小五／小六（本站原創仿題型）</div>
+      <span class="folk">題型結構參考香港考評局公開的評估框架（閱讀＝記敘／說明文＋實用文；寫作＝實用文＋短文）；<b>全部題目、篇章、選項與答案均為本站原創</b>，非任何機構、學校或出版社真卷。</span>
+      <div class="pg-chips" id="cngChips">
+        <span class="chip on" data-pg="P2">小二 P2</span>
+        <span class="chip" data-pg="P5">小五 P5</span>
+        <span class="chip" data-pg="P6">小六 P6</span>
+      </div>
+      <div class="enpaper-actions">
+        <button class="btn" id="cnNewPaper" onclick="genCnPaper()">🎲 出新卷</button>
+        <button class="btn" id="cnSubmit" onclick="gradeCnPaper()">✅ 交卷批改</button>
+        <button class="btn" id="cnPrint" onclick="printCnPaper()">🖨 打印一套卷子</button>
+        <label class="print-ans-toggle"><input type="checkbox" id="cnPrintAns"> 含答案版</label>
+        <span class="enpaper-stat" id="cnStat">本級最佳：—</span>
+      </div>
+      <div id="cnPaperBox"></div>
+      <div id="cnPaperResult"></div>
+      <div class="en-src-note">
+        <b>題型與素材說明：</b>
+        題型結構參考香港考評局《全港性系統評估／基本能力評估》中文科公開的評估框架（閱讀分「記敘文與說明文」及「實用文如書信／日記／海報／說明書」兩部分；寫作分「實用文」與「短文」兩部分）。
+        ⚠️ 本卷<b>全部題目、短文、實用文、選項與答案均為本站原創</b>，只仿題型結構與篇章類型，<b>未取用任何考卷、課本、題庫或第三方網站的內容</b>，亦非任何機構真卷。
+        年級難度為依香港小學中文科教學進度的一般估算，<b>非官方分級</b>，實際以學校進度為準。
+      </div>
+    </div>
   </div>
-  <!-- 英文 -->
   <div class="wrap" id="enPracView" style="display:none">
     <div class="subnav" id="enPracSub" style="position:static;top:auto;margin:0 -16px 12px">
       <!-- v1.69：子頁按「學習動線」重排——總覽（該背多少/怎麼背）→ 詞彙輸入（分級詞卡＋通用詞表）→ 筆試輸出（練習卷→模擬卷）→ 口語輸出（面試）。
@@ -2705,6 +2754,15 @@ const EN_EDB = {
   ]
 };
 
+/* ===== v1.82 中文卷題庫（本站原創仿題型·分 P2／P5／P6） =====
+   ⚠️ 版權與性質（本站硬紅線）：
+     1. 全部題目、短文、實用文、選項與答案均為**本站原創**，由 build_cn_qbank.py 生成；
+     2. 只仿香港考評局公開的「題型結構與篇章類型」，**未取用任何考卷／課本／題庫／第三方網站內容**；
+     3. 構建期由 `_cn_qbank.json` 注入，該檔只含原創題目，零第三方原文。
+   題型框架依據（官方公開資料）：閱讀＝記敘／說明文＋實用文（選擇、填充、填表、短答）；
+   寫作＝實用文（書信／日記格式）＋短文。 */
+const CN_QBANK = __CN_QBANK__;
+
 /* ===== 數學卷題庫（雙語對照·本地仿編原創·按 P1–P6 常見教學進度分級） ===== */
 /* 版權與性質：非評估局（HKEAA）或學校真卷；題目為仿編原創練習題，年級難度為常見教學進度估算。 */
 const MATH_QBANK = {
@@ -2881,6 +2939,277 @@ function printMathPaper(){
   document.body.classList.add('printing-paper');
   if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
 }
+
+/* ================= v1.82 中文卷引擎（出卷／批改／打印） =================
+   取捨：完全沿用英文卷的交互規格（年級 chip → 出卷 → 交卷批改 → 打印含答案版 → 本級最佳），
+   不另造一套 UI；判分規則按題型分：
+     mc      選 A–D，比對索引
+     fill    填充題，比對答案（多個可接受答案以 | 分隔；忽略標點與空格差異）
+     filltbl 填表題，逐欄比對
+     short   短答題，比對關鍵詞（命中任一關鍵詞即算對；答案不唯一）
+     write   寫作題，**不計分**，只印出題目與寫作提示，由家長自評 */
+let curCnGrade='P2', curCnPaper=[], curCnRead=[], curCnWrite=[];
+function cnNorm(s){
+  return String(s==null?'':s)
+    .replace(/[\s\u3000]/g,'')          // 去掉空格與全形空格
+    .replace(/[，。！？；：、「」『』（）]/g,'')   // 去掉常見標點（中文卷標點寬鬆）
+    .toLowerCase();
+}
+function cnPick(arr,n){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}
+  return a.slice(0,n);
+}
+function cnBank(g){ return (CN_QBANK&&CN_QBANK[g])||{mc:[],fill:[],read:[],write:[]}; }
+function genCnPaper(){
+  const b=cnBank(curCnGrade);
+  if(!b.mc.length&&!b.read.length){alert('該年級題庫暫空。');return;}
+  // 每級：基礎題（mc+fill）＋ 篇章閱讀 ＋ 寫作題
+  const mcN=Math.min(b.mc.length, curCnGrade==='P2'?8:(curCnGrade==='P5'?8:8));
+  const flN=Math.min(b.fill.length, curCnGrade==='P2'?4:(curCnGrade==='P5'?4:4));
+  const picked=[];
+  cnPick(b.mc,mcN).forEach(function(q){picked.push(Object.assign({},q,{t:q.t||'mc'}));});
+  cnPick(b.fill,flN).forEach(function(q){picked.push(Object.assign({},q,{t:'fill'}));});
+  curCnPaper=picked;
+  curCnRead=(b.read||[]).map(function(r){return Object.assign({},r,{qs:(r.qs||[]).map(function(q){return Object.assign({},q);})});});
+  curCnWrite=(b.write||[]).map(function(w){return Object.assign({},w);});
+  document.getElementById('cnPaperResult').innerHTML='';
+  renderCnPaper();
+  showCnStat();
+}
+function cnQCard(q,i){
+  let h='<div class="qcard" data-qi="'+i+'"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span>'
+    +'<span class="qtype">'+(q.sec||'中文')+'</span></div>';
+  h+='<div class="qtext">'+q.q+'</div>';
+  if(q.t==='mc'){
+    h+='<div class="qopts">';
+    q.opts.forEach(function(o,k){h+='<label class="qopt"><input type="radio" name="cnq'+i+'" value="'+k+'"><span>'+String.fromCharCode(65+k)+'. '+o+'</span></label>';});
+    h+='</div>';
+  }else if(q.t==='fill'){
+    h+='<div class="qans"><input type="text" id="cnf'+i+'" class="cnfill" placeholder="填答案"></div>';
+  }else if(q.t==='short'){
+    h+='<div class="qans"><textarea id="cns'+i+'" class="cnshort" rows="2" placeholder="寫下你的答案"></textarea></div>';
+  }else if(q.t==='filltbl'){
+    h+='<div class="qopts">';
+    (q.table||[]).forEach(function(col,k){
+      h+='<div class="cntblrow"><span class="cntblcol">'+col+'</span><input type="text" id="cnt'+i+'_'+k+'" class="cntbl" placeholder=""></div>';
+    });
+    h+='</div>';
+  }
+  h+='</div>';
+  return h;
+}
+function renderCnPaper(){
+  const box=document.getElementById('cnPaperBox');
+  if(!box)return;
+  if(!curCnPaper.length&&!curCnRead.length){
+    box.innerHTML='<div class="qtip">選年級後按「🎲 出新卷」生成中文練習卷。</div>';
+    return;
+  }
+  let h='';
+  h+='<div class="eps-head"><div class="eps-title">香港小學中文練習卷 · '+curCnGrade+'</div>'
+    +'<div class="eps-meta">姓名：________________　　日期：______________　　共 '+cnTotalQ()+' 題（其中 '+curCnWrite.length+' 題寫作不計分）</div></div>';
+  h+='<div class="cnsec">一、字詞與句子</div>';
+  curCnPaper.forEach(function(q,i){ h+=cnQCard(q,i); });
+  if(curCnRead.length){
+    h+='<div class="cnsec">二、閱讀理解</div>';
+    curCnRead.forEach(function(r,ri){
+      h+='<div class="cnread"><div class="cnread-h">'+r.kind+'：'+r.title+'</div>';
+      r.text.forEach(function(p){h+='<p class="cnread-p">'+p+'</p>';});
+      h+='</div>';
+      r.qs.forEach(function(q,qi){
+        const idx=curCnPaper.length+ri*100+qi;
+        const qq=Object.assign({},q,{_gi:idx});
+        h+=cnQCard(qq,idx);
+      });
+    });
+  }
+  if(curCnWrite.length){
+    h+='<div class="cnsec">三、寫作</div>';
+    curCnWrite.forEach(function(w,wi){
+      h+='<div class="qcard cnwrite"><div class="qhead"><span class="qn">寫作'+(wi+1)+'</span><span class="qtype">'+w.kind+'</span></div>'
+        +'<div class="qtext">'+w.prompt+'</div>'
+        +'<div class="cnwrite-hint">寫作提示：'+w.hint+'</div>'
+        +'<textarea class="cntextarea" id="cnw'+wi+'" rows="8" placeholder="在這裏寫（打印後請在紙上寫）"></textarea></div>';
+    });
+  }
+  box.innerHTML=h;
+}
+function cnTotalQ(){
+  let n=curCnPaper.length;
+  curCnRead.forEach(function(r){n+=(r.qs||[]).length;});
+  return n;
+}
+function cnAllQs(){
+  const list=curCnPaper.slice();
+  curCnRead.forEach(function(r,ri){
+    (r.qs||[]).forEach(function(q,qi){list.push(Object.assign({},q,{_gi:list.length}));});
+  });
+  return list;
+}
+function cnCorrect(q,val){
+  const norm=cnNorm(val);
+  if(!norm)return false;
+  if(q.t==='mc')return +val===q.a;
+  if(q.t==='fill'){
+    // 填充題：完全相等（多解以 | 分隔）
+    const alts=String(q.a||'').split('|').map(function(x){return cnNorm(x);}).filter(Boolean);
+    return alts.indexOf(norm)>=0;
+  }
+  if(q.t==='short'){
+    // 短答題：答案是關鍵詞，答句「包含」任一關鍵詞即算對（| 分隔多個關鍵詞）
+    const keys=String(q.a||'').split('|').map(function(x){return cnNorm(x);}).filter(Boolean);
+    if(!keys.length)return false;
+    return keys.some(function(k){return norm.indexOf(k)>=0;});
+  }
+  if(q.t==='filltbl'){
+    const ans=String(q.a||'').split('|').map(function(x){return cnNorm(x);});
+    const got=(q.table||[]).map(function(_,k){
+      const el=document.getElementById('cnt'+q._gi+'_'+k);
+      return el?cnNorm(el.value):'';
+    });
+    if(!got.length)return false;
+    return got.every(function(g,k){return g&&g===ans[k];});
+  }
+  return false;
+}
+function gradeCnPaper(){
+  const all=cnAllQs();
+  if(!all.length){alert('請先按「🎲 出新卷」生成中文卷。');return;}
+  let correct=0,scored=0;
+  all.forEach(function(q){
+    const card=document.querySelector('.qcard[data-qi="'+q._gi+'"]');
+    if(!card)return;
+    let val=null,ok=false;
+    if(q.t==='mc'){
+      const sel=card.querySelector('input[type="radio"]:checked');
+      if(!sel)return;
+      val=+sel.value; scored++; ok=cnCorrect(q,val);
+      card.querySelectorAll('.qopt').forEach(function(op,k){
+        if(k===q.a)op.classList.add('correct');
+        else if(+sel.value===k)op.classList.add('wrong');
+      });
+    }else if(q.t==='fill'){
+      const inp=document.getElementById('cnf'+q._gi); if(!inp)return;
+      val=inp.value; scored++; ok=cnCorrect(q,val);
+      inp.classList.add(ok?'correct':'wrong');
+    }else if(q.t==='short'){
+      const ta=document.getElementById('cns'+q._gi); if(!ta)return;
+      val=ta.value; scored++; ok=cnCorrect(q,val);
+      ta.classList.add(ok?'correct':'wrong');
+    }else if(q.t==='filltbl'){
+      scored++; ok=cnCorrect(q,null);
+      (q.table||[]).forEach(function(_,k){
+        const el=document.getElementById('cnt'+q._gi+'_'+k);
+        if(el)el.classList.add(ok?'correct':'wrong');
+      });
+    }
+    if(ok)correct++;
+    const ex=q.ex?'<div class="qans-note">'+q.ex+'</div>':'';
+    card.insertAdjacentHTML('beforeend',
+      '<div class="qans"><span class="'+(ok?'ok':'no')+'">'+(ok?'✓ 正確':'✗ 正確答案：'+(q.t==='mc'?String.fromCharCode(65+q.a)+'. '+q.opts[q.a]:(q.t==='filltbl'?String(q.a).split('|').join('／'):String(q.a).split('|')[0])))+'</span></div>'+ex);
+  });
+  const pct=scored?Math.round(correct/scored*100):0;
+  document.getElementById('cnPaperResult').innerHTML='<div class="qtot">得分：'+correct+' / '+scored+' 題正確（'+pct+'%）'
+    +'<span class="qzh">（寫作題不計分，請家長對照提示自評）</span></div><div class="qbar"><i style="width:'+pct+'%"></i></div>';
+  const BK='hkk_cnpaper_v0'; let best={};
+  try{best=JSON.parse(localStorage.getItem(BK)||'{}');}catch(e){}
+  if(!best[curCnGrade]||pct>best[curCnGrade]){best[curCnGrade]=pct;localStorage.setItem(BK,JSON.stringify(best));}
+  showCnStat();
+}
+function showCnStat(){
+  let best={};
+  try{best=JSON.parse(localStorage.getItem('hkk_cnpaper_v0')||'{}');}catch(e){}
+  const v=best[curCnGrade];
+  const el=document.getElementById('cnStat');
+  if(el)el.textContent='本級最佳：'+(v!==undefined?v+'%':'—');
+}
+function printCnPaper(){
+  if(!curCnPaper.length&&!curCnRead.length) genCnPaper();
+  if(!curCnPaper.length&&!curCnRead.length){alert('題庫暫時無法出卷。');return;}
+  const withAns=document.getElementById('cnPrintAns').checked;
+  const LAB=['A','B','C','D','E','F'];
+  const all=cnAllQs();
+  let h='<div class="eps-head"><div class="eps-title">香港小學中文練習卷 · '+curCnGrade+(withAns?'（答案版）':'')+'</div>'
+    +'<div class="eps-meta">姓名：________________　　日期：______________　　共 '+cnTotalQ()+' 題</div></div>';
+  h+='<div class="cnsec">一、字詞與句子</div>';
+  curCnPaper.forEach(function(q,i){
+    h+='<div class="eps-q"><div class="eps-qh">Q'+(i+1)+'. （'+(q.sec||'中文')+'）</div><div class="eps-text">'+q.q+'</div>';
+    if(q.t==='mc'){
+      h+='<div class="eps-opts">'+q.opts.map(function(o,k){return LAB[k]+'. '+o;}).join('　　')+'</div><div class="eps-ans">答：____</div>';
+    }else if(q.t==='fill'){
+      h+='<div class="eps-ans">答：________________________</div>';
+    }else if(q.t==='short'){
+      h+='<div class="eps-ans"><br>______________________________<br>______________________________</div>';
+    }
+    h+='</div>';
+  });
+  if(curCnRead.length){
+    h+='<div class="cnsec">二、閱讀理解</div>';
+    curCnRead.forEach(function(r,ri){
+      h+='<div class="cnread"><div class="cnread-h">'+r.kind+'：'+r.title+'</div>';
+      r.text.forEach(function(p){h+='<p class="cnread-p">'+p+'</p>';});
+      h+='</div>';
+      r.qs.forEach(function(q,qi){
+        const idx=curCnPaper.length+ri*100+qi;
+        h+='<div class="eps-q"><div class="eps-qh">讀'+ri+'-'+(qi+1)+'. （'+(q.sec||'閱讀')+'）</div><div class="eps-text">'+q.q+'</div>';
+        if(q.t==='mc'){
+          h+='<div class="eps-opts">'+q.opts.map(function(o,k){return LAB[k]+'. '+o;}).join('　　')+'</div><div class="eps-ans">答：____</div>';
+        }else if(q.t==='fill'){
+          h+='<div class="eps-ans">答：________________________</div>';
+        }else if(q.t==='short'){
+          h+='<div class="eps-ans"><br>______________________________<br>______________________________</div>';
+        }else if(q.t==='filltbl'){
+          h+='<div class="cnprint-tbl">'+q.table.map(function(c){return c+'：______________';}).join('　　')+'</div>';
+        }
+        h+='</div>';
+      });
+    });
+  }
+  if(curCnWrite.length){
+    h+='<div class="cnsec">三、寫作</div>';
+    curCnWrite.forEach(function(w,wi){
+      h+='<div class="eps-q"><div class="eps-qh">寫作'+(wi+1)+'（'+w.kind+'）</div><div class="eps-text">'+w.prompt+'</div>'
+        +'<div class="qzh">寫作提示：'+w.hint+'</div>'
+        +'<div class="eps-ans"><br><br>______________________________<br>______________________________<br>______________________________<br>______________________________<br>______________________________<br>______________________________</div></div>';
+    });
+  }
+  if(withAns){
+    h+='<div class="eps-aksheet"><div class="eps-ak-title">答案卷 · '+curCnGrade+'（共 '+cnTotalQ()+' 題）</div>';
+    all.forEach(function(q,i){
+      h+='<div class="eps-ak-row"><b>Q'+(i+1)+'.</b> ';
+      if(q.t==='mc')h+=LAB[q.a]+'. '+q.opts[q.a];
+      else if(q.t==='filltbl')h+=(q.table||[]).map(function(_,k){return q.a.split('|')[k];}).join('／');
+      else h+=String(q.a).split('|')[0];
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+  h+='<div class="eps-foot">本卷為香港插班學習站原創練習卷，只仿題型結構，非任何機構／學校真卷；如需以學校或評估局試卷為準，請向原機構索取。</div>';
+  const w=window.open('','_blank');
+  if(!w){alert('瀏覽器攔住了彈出視窗，請允許彈窗後再試。');return;}
+  w.document.write('<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>中文練習卷 '+curCnGrade+'</title><style>'
+    +'body{font-family:"PingFang HK","Microsoft JhengHei",sans-serif;padding:24px;line-height:1.9;color:#222;max-width:860px;margin:0 auto}'
+    +'.eps-head{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px}'
+    +'.eps-title{font-size:20px;font-weight:800}.eps-meta{font-size:13px;color:#555;margin-top:6px}'
+    +'.cnsec{font-size:15px;font-weight:800;margin:18px 0 10px;padding:5px 10px;background:#f1fbf8;border-left:4px solid #0f8a74}'
+    +'.eps-q{margin:0 0 14px;page-break-inside:avoid}.eps-qh{font-size:12.5px;color:#666;margin-bottom:4px}'
+    +'.eps-text{font-size:14px}.eps-opts{font-size:13.5px;margin:6px 0}.eps-ans{font-size:13.5px;color:#333;margin-top:4px}'
+    +'.qzh{font-size:12.5px;color:#666;margin-top:3px}'
+    +'.cnread{border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin:0 0 14px;background:#fcfcfc;page-break-inside:avoid}'
+    +'.cnread-h{font-size:14.5px;font-weight:800;margin-bottom:6px}.cnread-p{font-size:13.5px;margin:0 0 6px}'
+    +'.cnprint-tbl{font-size:13.5px;margin-top:4px}'
+    +'.eps-aksheet{border:2px dashed #888;padding:12px;margin-top:22px;page-break-before:always}'
+    +'.eps-ak-title{font-size:15px;font-weight:800;margin-bottom:8px}.eps-ak-row{font-size:13px;margin:0 0 4px}'
+    +'.eps-foot{font-size:11.5px;color:#888;margin-top:20px;border-top:1px solid #ddd;padding-top:8px}'
+    +'@media print{.eps-aksheet{page-break-before:always}}'
+    +'</style></head><body>'+h+'</body></html>');
+  w.document.close();
+}
+window.__cnPaperTest={gen:genCnPaper,render:renderCnPaper,gradePaper:gradeCnPaper,print:printCnPaper,
+  norm:cnNorm,correct:cnCorrect,totalQ:cnTotalQ,allQs:cnAllQs,
+  // 注意：grade 這個名字給「當前年級」getter 用，批改函式叫 gradePaper，兩者不可同名
+  get grade(){return curCnGrade;},get paper(){return curCnPaper;},get read(){return curCnRead;},get write(){return curCnWrite;}};
 
 let curEnGrade='P1', curEnPaper=[];
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
@@ -3932,6 +4261,21 @@ document.querySelectorAll('#pgChips .chip').forEach(c=>c.onclick=()=>{
   curEnGrade=c.dataset.pg;
   document.querySelectorAll('#pgChips .chip').forEach(x=>x.classList.toggle('on',x===c));
   genEnPaper();
+});
+/* v1.82 中文練習區子標籤：背詩星圖 ／ 中文卷（沿用英文區 enPracSub 的切換模式） */
+document.querySelectorAll('#cnPracSub button').forEach(b=>b.onclick=()=>{
+  const cs=b.dataset.cs;
+  const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
+  try{
+    document.querySelectorAll('#cnPracSub button').forEach(x=>x.classList.toggle('on',x===b));
+    sw('cnStarView',cs==='star'); sw('cnPaperView',cs==='cnpaper');
+    if(cs==='cnpaper' && !window.__cnPaperTest.paper.length && !window.__cnPaperTest.read.length) genCnPaper();
+  }catch(e){ console.error('中文區切換失敗：',e); }
+});
+document.querySelectorAll('#cngChips .chip').forEach(c=>c.onclick=()=>{
+  curCnGrade=c.dataset.pg;
+  document.querySelectorAll('#cngChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  genCnPaper();
 });
 document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   curPractice=b.dataset.sub;
@@ -5678,7 +6022,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.81',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.82',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -6355,6 +6699,17 @@ assert all(set(c.keys()) == {'t', 'n'} for b in _lwte_obj['books'] for c in b['c
 assert '"items"' not in _lwte_meta and '"w":' not in _lwte_meta and '"zh"' not in _lwte_meta, '朗文目錄疑似混入詞條'
 html = html.replace('__LWTE_META__', _lwte_meta)
 assert '__LWTE_META__' not in html, '朗文目錄注入失敗'
+# ---- v1.82 構建期注入：中文卷原創題庫（零第三方原文） ----
+_cn_qbank = open(os.path.join(WS, '_cn_qbank.json'), encoding='utf-8').read().strip()
+_cn_obj = json.loads(_cn_qbank)
+assert set(_cn_obj.keys()) == {'P2', 'P5', 'P6'}, '中文卷應覆蓋 P2/P5/P6 三級'
+for _g in ('P2', 'P5', 'P6'):
+    _b = _cn_obj[_g]
+    assert _b['mc'] and _b['fill'] and _b['read'] and _b['write'], '中文卷 %s 級題目不全' % _g
+    for _q in _b['mc']:
+        assert len(_q['opts']) == 4 and 0 <= _q['a'] < 4, '中文卷選擇題結構錯'
+html = html.replace('__CN_QBANK__', _cn_qbank)
+assert '__CN_QBANK__' not in html, '中文卷題庫注入失敗'
 # 版本號從副標題單一真相源提取（公開版 vX.Y），輸出帶版本號文件名
 _m = re.search(r'公開版\s+(v\d+\.\d+)', TEMPLATE)
 VER = _m.group(1) if _m else 'v1.15'
