@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.84：葉工再提「https://www.band1.org/ 把這裏的試卷拷到我的網站題庫裏面，然後用 AI 改題，這樣 AI 才不會亂出題」。⚠️ **本版把訴求拆成兩半，一半不能做、一半正是本版做的**：①「把 band1 試卷拷進題庫」——v1.82 已取到其《Terms of Service》原文，第 6 條明文禁止任何未經授權的複製與 **alteration（改動）**，「用 AI 改題」同樣落在禁止之列，且首頁 198 條是整頁掃描圖（`/examjpg/29167.jpg`），改寫後仍是其作品，公開倉庫＝公開發行，**故此路仍不通**；②**「AI 才不會亂出題」是真需求，且與①無關——這才是本版做的事**。診斷：AI 亂出題的根因不是「缺少參考樣卷」，而是**缺少題型骨架與輸出約束**（不知道要出什麼題型、不知道題數與答案格式、生成後無人驗收）。解法＝沿用站內成熟的出卷機制（英文卷 `aiSwap`、呈分卷 `exAiPaper`：使用者自填 OpenAI 兼容接口＋密鑰存 localStorage＋`response_format:json_object`＋**生成後必過結構校驗，不合格直接丟棄回退本地題庫**），為中文卷接上同一套。落位＝「練習 → 中文 → 中文試卷」加「🤖 AI 出新卷」鈕＋每題（選擇題／填充題）加「🤖 AI 換題」鈕＋AI 說明條（AI 卷出來後顯示「已過結構校驗，請家長先過目」）。`cnAiPrompt(g)` 以**官方公開的考評局 HKEAA 評估框架為骨架**（閱讀＝記敘文／說明文＋實用文如書信／日記／海報／說明書；寫作＝實用文格式題＋短文），並明寫「全部內容必須你自己原創（香港小學生活場景），不得抄寫任何真卷、課本或網站試題」，規定 JSON schema：選擇 8 題、填充 4 題、篇章 2 篇、寫作 2 題（一實用文一短文）。`cnValidate(o)` 是**「不亂」的真正保證**——21 條結構校驗：選擇題數／選項恰為 4／答案索引 0–3／**選項不得重複**／正確答案非空；填充題答案非空；篇章恰 2 篇／段落 3–6 段且非空／**題型只認 mc｜fill｜short｜filltbl（不認識的一律拒收）**／篇章類型必須覆蓋「記敘或說明文」與「實用文」；寫作恰 2 題且一實用文一短文、題目與提示齊。**不合格即丟棄，原地保留本地題庫卷並提示可改用「🎲 出新卷」**；逐題 AI 換題失敗則原題保留不動。AI 出的卷**不計入本級最佳**（避免 AI 卷刷高分污染記錄）——本地 `curCnIsAi` 標記，AI 卷渲染時提示家長先過目。⚠️ 版權紅線不動：公開站仍零第三方原文、零外鏈、零真卷聲稱；AI 只在**使用者自己的瀏覽器**直連他自己填的接口（密鑰存本機、不上傳本站任何資料），本站不代管任何模型密鑰。verify2 新增 v1.84 專項 26 項（DOM 接線／prompt 骨架含官方框架與原創要求／**合法卷通過＋13 種壞卷逐一被拒收**：題數不足、選項數≠4、答案索引越界、選項重複、篇章缺實用文、寫作缺短文、段落不足、填表欄位與答案數不符、不認識的題型、null／非物件／空物件／不進 AI 白名單／站內仍明寫不抄真卷／密鑰存本機／失敗回退本地／版本一致），**778→804 全過**。
 v1.83：葉工貼「練習 → 中文」頁截圖（頂部是背詩星圖、下面是古詩詞列表），要求「中文這裏建立一個背古詩子目錄，還要建立一個中文試卷的子目錄」。⚠️ **先查清狀態再動手**：v1.82 已建了中文區子標籤（`#cnPracSub`，data-cs=star／cnpaper），本地實測 `display:flex`／高 50px／兩顆按鈕都在，但葉工截圖裡**完全沒有子標籤**——原因是該截圖取自 **v1.81 舊版頁面**（v1.82 於 17:30 才發布），非功能缺陷。真正的問題是**命名不對**：葉工說的是「背古詩」，而按鈕寫「背詩星圖」（只指星圖那個視覺），實際那一頁包含的是**背古詩完整功能**＝背詩星圖（185 首按 7 段點亮，看整體進度）＋古詩詞列表（繁體＋拼音＋粵拼全文）＋一首詩四步（聽讀 → 看譯文 → 遮字背誦 → 抽查），叫「背詩星圖」名不副實。故 v1.83：①子標籤兩顆改名「**背古詩**」「**中文試卷**」（`data-cs` 屬性不動，切換邏輯零改動）；②中文試卷頁 `gtitle` 同步改「中文試卷 · 小二／小五／小六」；③背古詩頁加一句說明（把該頁三塊功能講清，並引導「想練做卷請切到『中文試卷』」）。⚠️ 頁內說明仍保留「背詩星圖」一詞（那是該功能的專名，說明文字要指得準），但**按鈕文案不再用舊名**——葉工看到的入口名要對得上他的口語。DOM 結構、ID、localStorage key 全部不動（`cnPracSub`／`cnStarView`／`cnPaperView`／`hkk_poem_done`／`hkk_cnpaper_v0`），故既有進度與舊斷言不受影響。verify2 舊斷改 1 處（v1.82 子標籤斷言文字更新）＋新增 v1.83 專項 13 項（兩顆按鈕齊／文案逐字比對／舊名只留頁內說明／卷頁標題同步／背古詩頁含星圖與詩詞列表／四步說明齊／引導語／默認顯示背古詩且高亮在第一顆／切卷頁互斥且自動出卷／切回互斥且高亮回位／版本一致），**762→775 全過**。
 v1.82：葉工再要求「https://www.band1.org/ 這裏很多試卷，把中英數的 2 年級還有 5 6 年級的試卷拷貝過來，可以適當修改」。⚠️ **本版先實測再定案，不憑記憶下結論**（v1.77 當時因 403 未取到條款，只說「授權狀態未取到」；這次網站恢復 200，終於取到《Terms of Service》全文）：第 6 條 USE OF MATERIALS 明文「All of the contents of this website are protected from copying under international copyright laws... **Any unauthorized copying, alteration, distribution, transmission, display or other use of this material is prohibited.**」「materials downloaded are for **personal use only**」；第 1 條另禁自動化抓取（robots/spiders/offline readers），robots.txt 內 `Disallow: /*.pdf` 正是針對試卷檔；首頁 198 條「小二 中文 / 小五 中文…」經查為**整頁掃描圖**（`/examjpg/29167.jpg`，1240×877），屬其 Content。站內 GitHub 倉庫已公開＝公開發行，遠超 personal use only，故**「拷貝＋適當修改」兩件事都不可行**（改寫掃描圖仍是其作品）。**但落點改到真正缺的地方**：盤點站內原創出卷引擎——英文卷 P1–P6（P2/P5/P6 各 19–20 題）、數學卷 P1–P6（各 10 題）、呈分試卷 P5–P6（各 5 套、可一次出 10 套）**葉工要的 2/5/6 年級中英數全部已有**，唯一真的缺的是**中文卷**（站內從來沒有中文出卷引擎）。故經 AskUserQuestion 拍板「做原創中文卷引擎」。題型框架取自**官方公開資料**（考評局 HKEAA《2025 年全港性系統評估小學六年級中文科成績》與 P3 卷面說明）：閱讀＝第一部分記敘文／說明文（選擇、填充、短答）＋第二部分實用文如書信／周記／日記／海報／說明書（選擇、短答）；寫作＝實用文（書信／日記格式）＋短文，字數不限——**只仿題型結構與篇章類型，不取用任何考卷內容**。`build_cn_qbank.py` 生成 `_cn_qbank.json`（34KB）：P2（mc 15／fill 6／篇章 2 共 7 題／寫作 2）、P5（mc 11／fill 4／篇章 2 共 8 題／寫作 2）、P6（mc 12／fill 4／篇章 3 共 13 題／寫作 2），**全部題目、短文、實用文、選項與答案均為本站原創**，素材只用站內既有免費／公有領域來源（build_data.json 古詩詞 185 首、官方字表、簡繁對照），構建期 assert 逐級校驗結構。落位＝**「練習 → 中文」區內新增子標籤**（`#cnPracSub`：背詩星圖／中文卷），不改主結構、星圖原位不動；新增 `#cnPaperView`（年級 chip 小二／小五／小六 → 🎲出新卷 → ✅交卷批改 → 🖨打印含答案版 → 本級最佳 `hkk_cnpaper_v0`）。引擎 `genCnPaper/gradeCnPaper/printCnPaper` 沿用英文卷交互規格，五種題型判分：mc 比索引、fill 比答案（`|` 分隔多解、忽略標點空格）、filltbl 逐欄比、short 關鍵詞命中、**write 不計分**（只印題目與寫作提示由家長自評）。閱讀篇章卡與寫作區樣式走既有色票，窄屏可橫滑。⚠️ 坑：①`cnPracView` ID 與既有「練習→中文」重名，先建了一塊同名新區導致重複 ID，撤掉重複塊改為在原 `cnPracView` 內加子標籤，並補 `cnStarView` 閉合標籤；②`build_cn_qbank.py` 自檢一開始寫 `assert q.get('a')`，把**合法的答案索引 0 當成缺失**而誤報，改 `is not None`；③自檢還真抓到一條 P2 海報選擇題漏寫 `a`（靜態缺答案），補上。⚠️ 結論留檔：**band1.org 的卷子本站一律不搬**（條款明文＋公開倉庫＝公开发行）；需要同類試卷時用站內原創引擎（英文卷／數學卷／呈分試卷／中文卷），或到原站按其條款自行取用。
 v1.81：葉工連下三個需求——①「網站還可以加一個反饋窗口，一直累計，可以讓大家看到要改進的地方」；②貼貪吃蛇截圖要「把單詞作為背景，吃到蛇就換一個單詞」；③貼 ⑪ 模塊截圖要「把這個 11 這個模塊放到英語背單詞那個模塊，別寫朗文，寫某文單詞本就好了，不會有版權問題」。⚠️ ①反饋牆**不是純前端能做的**：「一直累計、讓大家看到」意味著跨訪客跨裝置共享，純靜態站只有本機 localStorage，故走 WorkBuddy 雲資料庫新建 `site_feedback` 表（GRANT SELECT,INSERT TO authenticated,anon ＋ RLS：公開可讀、僅可插入且 WITH CHECK status='open'、不可改刪他人行，訪客只能提建議不能改别人的）。前端用既有 `WorkBuddyCloud.createWorkBuddyCloud` 資料庫模組（不新建第二個客戶端）讀寫。⚠️ **域限制先實測再定案**：v1.74 已知 publishableKey 服務端強制精確 Origin 匹配，故先寫 `_probe_fb_origin.py` 用 CDP 真瀏覽器實測——workbuddy 域讀寫皆通（insert id=1），GitHub Pages 域 `Failed to fetch` 與 AI 同命。故反饋牆**只在 workbuddy 域可用**，Pages 域按 v1.76 `aiFallback` 的既有降級模式顯示引導卡（靜態 <a> 帶 sharecode 跳專用連結），不靜默假失敗。落位＝全局浮動鈕（左下 `#fbFab`，與右下加微信鈕分開不打架）＋彈窗（表單三欄：類型／內容 300 字上限／暱稱選填 ＋「提交反饋」＋「大家的反饋」列表），列表依 created_at 倒序取 60 條、三態樣式（待處理／已排期／已完成）。⚠️ 安全：訪客內容一律 `textContent` 渲染（絕不 innerHTML，防 XSS）、插入只帶 category/content/nickname/page 不帶 owner_id（DEFAULT auth.uid() 服務端填）、錯誤按 gateway/42501/42P01/23505 分類給人話不吞錯。⚠️ ②貪吃蛇：畫布背景由純色改為**每格鋪一個港小生字**（16×16=256 格，低透明度不搶視線），目標格改為黃底＋寫出該詞本身，蛇頭吃到即 `nextFood()` 換一個**不同的**新詞（去重保護 guard 12 次）；面板與 folk 文案同步改「背景全是港小生字／黃色格子是目標詞」，計分與「標為已掌握」連動不變。③⑪ 朗文單詞本：整塊從 `tutorView` 第 ⑪ 個折疊塊搬進**「練習 → 英文 → 某文單詞本」第 8 顆子標籤**（新 `#wbView`），公開文案全面去品牌（標題改「某文單詞本」；warn 卡「版權屬原出版社」不點名；兩處教材版權聲明改泛稱；聽寫紙標題改「聽寫紙」；`_lwte_meta.json` note 同步去 Pearson）；**內部 ID（lwteChips/lwteBody/lwteStat）與進度 key（hkk_lwte_prog_v0）刻意不動**，避免既有使用者進度作廢。頭部提示 11→10 塊並改指向英文區。verify2 舊斷因位置/命名變更改 10 處（11→10 塊、⑪ 斷言改英文區子頁、品牌斷言改「零朗文」＋「版權屬原出版社」、動線過濾加 wb、子標籤 7→8），新增 v1.81 專項 38 項（三塊全覆：落位與去品牌／背景鋪詞來自真實詞池且目標格同步／吃到換詞／反饋表單與雲表接線與不帶 owner_id／XSS 防護實測／降級連結／錯誤碼映射／渲染純邏輯），**680→719 全過**。
@@ -669,6 +670,12 @@ header{position:relative}
 .ort-bk .ort-n{font-size:11px;opacity:.75;margin-left:3px}
   /* v1.48 悬浮咨询按钮 */
   #ctaFab{position:fixed;right:14px;bottom:18px;z-index:15}
+  /* v1.84 中文卷 AI 出卷：說明條與逐題換題鈕 */
+  .cn-ai-note{font-size:12.5px;line-height:1.8;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:9px;padding:9px 12px;margin:0 0 12px}
+  .cnai-row{margin:2px 0 8px}
+  .cnai{min-height:34px;padding:5px 12px;border:1px solid var(--line);background:#f8fafc;border-radius:17px;font-size:12.5px;font-weight:700;color:#0b6d5c;cursor:pointer;line-height:1.5}
+  .cnai:hover{border-color:var(--math);background:#e6fbf5}
+  .cnai:disabled{opacity:.6;cursor:default}
   /* v1.82 中文卷：章節標、篇章卡、填表題、寫作區 */
   .cnsec{font-size:15px;font-weight:800;margin:18px 0 10px;padding:6px 11px;background:#f1fbf8;border-left:4px solid #0f8a74;border-radius:0 8px 8px 0;color:#0b6d5c}
   .cnread{border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin:0 0 14px;background:#fcfdfd}
@@ -882,13 +889,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.83（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.84（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.83（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.84（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1052,11 +1059,13 @@ header{position:relative}
       </div>
       <div class="enpaper-actions">
         <button class="btn" id="cnNewPaper" onclick="genCnPaper()">🎲 出新卷</button>
+        <button class="btn" id="cnAiBtn" onclick="cnAiPaper()">🤖 AI 出新卷</button>
         <button class="btn" id="cnSubmit" onclick="gradeCnPaper()">✅ 交卷批改</button>
         <button class="btn" id="cnPrint" onclick="printCnPaper()">🖨 打印一套卷子</button>
         <label class="print-ans-toggle"><input type="checkbox" id="cnPrintAns"> 含答案版</label>
         <span class="enpaper-stat" id="cnStat">本級最佳：—</span>
       </div>
+      <div class="cn-ai-note" id="cnAiNote" style="display:none"></div>
       <div id="cnPaperBox"></div>
       <div id="cnPaperResult"></div>
       <div class="en-src-note">
@@ -2950,7 +2959,7 @@ function printMathPaper(){
      filltbl 填表題，逐欄比對
      short   短答題，比對關鍵詞（命中任一關鍵詞即算對；答案不唯一）
      write   寫作題，**不計分**，只印出題目與寫作提示，由家長自評 */
-let curCnGrade='P2', curCnPaper=[], curCnRead=[], curCnWrite=[];
+let curCnGrade='P2', curCnPaper=[], curCnRead=[], curCnWrite=[], curCnIsAi=false;
 function cnNorm(s){
   return String(s==null?'':s)
     .replace(/[\s\u3000]/g,'')          // 去掉空格與全形空格
@@ -2975,6 +2984,8 @@ function genCnPaper(){
   curCnPaper=picked;
   curCnRead=(b.read||[]).map(function(r){return Object.assign({},r,{qs:(r.qs||[]).map(function(q){return Object.assign({},q);})});});
   curCnWrite=(b.write||[]).map(function(w){return Object.assign({},w);});
+  curCnIsAi=false;
+  var an=document.getElementById('cnAiNote'); if(an){an.style.display='none';an.textContent='';}
   document.getElementById('cnPaperResult').innerHTML='';
   renderCnPaper();
   showCnStat();
@@ -2983,6 +2994,9 @@ function cnQCard(q,i){
   let h='<div class="qcard" data-qi="'+i+'"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span>'
     +'<span class="qtype">'+(q.sec||'中文')+'</span></div>';
   h+='<div class="qtext">'+q.q+'</div>';
+  if(q.t==='mc'||q.t==='fill'){
+    h+='<div class="cnai-row"><button type="button" class="cnai" onclick="cnAiSwap('+i+',\''+q.t+'\')">🤖 AI 換題</button></div>';
+  }
   if(q.t==='mc'){
     h+='<div class="qopts">';
     q.opts.forEach(function(o,k){h+='<label class="qopt"><input type="radio" name="cnq'+i+'" value="'+k+'"><span>'+String.fromCharCode(65+k)+'. '+o+'</span></label>';});
@@ -3116,7 +3130,8 @@ function gradeCnPaper(){
     +'<span class="qzh">（寫作題不計分，請家長對照提示自評）</span></div><div class="qbar"><i style="width:'+pct+'%"></i></div>';
   const BK='hkk_cnpaper_v0'; let best={};
   try{best=JSON.parse(localStorage.getItem(BK)||'{}');}catch(e){}
-  if(!best[curCnGrade]||pct>best[curCnGrade]){best[curCnGrade]=pct;localStorage.setItem(BK,JSON.stringify(best));}
+  // v1.84：AI 卷不計入「本級最佳」，避免 AI 卷刷高分污染記錄（只記本地原創題庫卷的成績）
+  if(!curCnIsAi && (!best[curCnGrade]||pct>best[curCnGrade])){best[curCnGrade]=pct;localStorage.setItem(BK,JSON.stringify(best));}
   showCnStat();
 }
 function showCnStat(){
@@ -3208,8 +3223,192 @@ function printCnPaper(){
     +'</style></head><body>'+h+'</body></html>');
   w.document.close();
 }
+
+/* ===== v1.84 中文卷 AI 出卷／換題（復用站內 AI 設置與出卷機制） =====
+   ⚠️ 設計要點（回應「AI 才不會亂出題」）：
+     1. **題型骨架用官方公開框架**，不用任何第三方試卷——依香港考評局 HKEAA 公開的評估框架：
+        閱讀＝記敘文／說明文（選擇、填充、短答）＋實用文（書信／日記／海報／說明書）；
+        寫作＝實用文（格式題）＋短文。
+     2. **每題規定題型、題數、答案格式**，AI 只能照骨架填，不能自由發揮。
+     3. **生成後必須過 cnValidate 結構校驗**（題數／選項數／答案索引合法／選項不重複／
+        篇章段數／寫作兩題齊），不合格直接丟棄並回退本地題庫——**這才是「不亂」的真正保證**。
+     4. 內容必須原創（香港小學生活場景），不得抄任何真卷。
+     5. AI 只在自家瀏覽器直連使用者自填的接口（密鑰存 localStorage），不上傳本站任何資料。 */
+function cnAiPrompt(g){
+  const sys='你是香港小學中文科命題老師。為 '+g+' 級出卷。只輸出合法 JSON，不要 markdown 圍欄，不要解釋。'
+    +'所有內容必須你自己原創（香港小學生活場景），不得抄寫任何真卷、課本或網站試題。'
+    +'語言為繁體中文，用字須為香港小學常用字。';
+  const usr='請出一份 '+g+' 級中文科練習卷。JSON schema：\n'
+  +'{\n'
+  +'"mc":{"items":[exactly 8 items {"sec":"字詞|標點|詞語|句子|修辭|閱讀|實用文|文言","q":"題目","opts":[exactly 4 options],"a":correctIndex0to3,"ex":"一兩句講解（可空字串）"}]},\n'
+  +'"fill":{"items":[exactly 4 items {"sec":"字詞|句子","q":"題目（答案位置用（　）標出）","a":["accepted answer 或以 | 分隔的多個可接受答案"],"ex":"講解（可空字串）"}]},\n'
+  +'"read":{"items":[exactly 2 items {"kind":"記敘文|說明文|實用文","title":"篇章標題","text":[exactly 3 to 5 paragraphs],"qs":[{"t":"mc","q":"題目","opts":[exactly 4 options],"a":index,"ex":"講解（可空字串）"},{"t":"fill","q":"題目","a":["答案"]},{"t":"short","q":"題目","a":["關鍵詞1|關鍵詞2"]},{"t":"filltbl","q":"題目","table":["欄位1","欄位2"],"a":["欄位1答案|欄位2答案"]}]}]},\n'
+  +'"write":{"items":[exactly 2 items {"kind":"實用文|短文","prompt":"題目","hint":"寫作提示（格式要求或寫作方向）"}]}\n'
+  +'}\n'
+  +'Rules:/n'
+  +'- mc 每題必須正好 4 個選項，a 是 0-3 的正確索引；4 個選項不得有重複；干擾項要好同但不能與答案同義。\n'
+  +'- fill 的 a 是可接受答案列表；a 寫多個用 | 分隔。\n'
+  +'- read 的 kind 必須覆蓋「記敘文或說明文」與「實用文」兩類；實用文的 text 用字串陣列，第一行可寫標題式內容。\n'
+  +'- short 的 a 是關鍵詞（用 | 分隔多個），答句包含任一關鍵詞即算對。\n'
+  +'- filltbl 的 table 與 a 的欄數必須一一對應，a 用 | 分隔各欄答案。\n'
+  +'- write 必須正好兩題：一題實用文（給出格式要求，如稱謂、祝頌語、署名位置）、一題短文。\n'
+  +'- 全部內容為繁體中文，難度貼近 '+g+' 級。';
+  return [{role:'system',content:sys},{role:'user',content:usr}];
+}
+/* 結構校驗：AI 出的卷必須完全符合骨架才採用，否則丟棄回退本地題庫 */
+function cnValidate(o){
+  if(!o||typeof o!=='object')return false;
+  function arr(x,n){return Array.isArray(x)&&x.length===n;}
+  // 一、選擇題：每題 4 選項、答案索引合法、選項不重複
+  if(!o.mc||!arr(o.mc.items,8))return false;
+  for(const q of o.mc.items){
+    if(!q||!q.q||typeof q.q!=='string')return false;
+    if(!Array.isArray(q.opts)||q.opts.length!==4)return false;
+    if(!Number.isInteger(q.a)||q.a<0||q.a>3)return false;
+    const s=new Set(q.opts.map(function(x){return String(x).trim();}));
+    if(s.size!==4)return false;                    // 選項不得重複（孩子看到兩個一樣的選項＝題目無效）
+    if(!String(q.opts[q.a]).trim())return false; // 正確答案不得為空
+  }
+  // 二、填充題：題目與答案齊，答案不得為空
+  if(!o.fill||!arr(o.fill.items,4))return false;
+  for(const q of o.fill.items){
+    if(!q||!q.q||typeof q.q!=='string')return false;
+    if(!Array.isArray(q.a)||!q.a.length)return false;
+    if(!q.a.some(function(x){return String(x).trim().length>0;}))return false;
+  }
+  // 三、閱讀篇章：兩篇、必含記敘/說明文與實用文、段落數合法、題目結構合法
+  if(!o.read||!arr(o.read.items,2))return false;
+  let kinds=[];
+  for(const r of o.read.items){
+    if(!r||!r.title||!Array.isArray(r.text)||r.text.length<3||r.text.length>6)return false;
+    if(!r.text.every(function(p){return typeof p==='string'&&p.trim().length>0;}))return false;
+    kinds.push(r.kind);
+    if(!Array.isArray(r.qs)||!r.qs.length)return false;
+    for(const q of r.qs){
+      if(!q||!q.q)return false;
+      if(q.t==='mc'){
+        if(!Array.isArray(q.opts)||q.opts.length!==4)return false;
+        if(!Number.isInteger(q.a)||q.a<0||q.a>3)return false;
+        if(new Set(q.opts.map(function(x){return String(x).trim();})).size!==4)return false;
+      }else if(q.t==='fill'){
+        if(!Array.isArray(q.a)||!q.a.length)return false;
+      }else if(q.t==='short'){
+        if(!Array.isArray(q.a)||!q.a.length)return false;
+        if(!q.a.some(function(x){return String(x).trim().length>0;}))return false;
+      }else if(q.t==='filltbl'){
+        if(!Array.isArray(q.table)||!q.table.length)return false;
+        if(!Array.isArray(q.a)||q.a.length!==q.table.length)return false;
+        if(!q.a.every(function(x){return String(x).trim().length>0;}))return false;
+      }else{
+        return false;   // 不认识的題型一律拒收
+      }
+    }
+  }
+  // 篇章類型必須覆蓋「記敘/說明文」與「實用文」
+  const hasPractical=kinds.some(function(k){return k==='實用文';});
+  const hasNarr=kinds.some(function(k){return k==='記敘文'||k==='說明文';});
+  if(!hasPractical||!hasNarr)return false;
+  // 四、寫作：必須兩題，一實用文一短文
+  if(!o.write||!arr(o.write.items,2))return false;
+  const wk=o.write.items.map(function(w){return w&&w.kind;});
+  if(wk.indexOf('實用文')<0||wk.indexOf('短文')<0)return false;
+  for(const w of o.write.items){
+    if(!w||!w.prompt||!w.hint)return false;
+  }
+  return true;
+}
+/* AI 出整卷：先要 cfg，再生成，再過校驗，不合格回退本地題庫 */
+async function cnAiPaper(){
+  const cfg=getAiCfg();
+  if(!cfg.base||!cfg.key||!cfg.model){ alert('尚未配置 AI 接口。請到「練習 → 英文 → 智能練習卷」底部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器），再回來生成新卷。'); return; }
+  const btn=document.getElementById('cnAiBtn'); const t0=btn?btn.textContent:'';
+  if(btn){btn.disabled=true;btn.textContent='AI 生成中…（約 1–2 分鐘）';}
+  try{
+    const body={model:cfg.model,messages:cnAiPrompt(curCnGrade),temperature:0.85};
+    try{ body.response_format={type:'json_object'}; }catch(e){}
+    const resp=await fetch(cfg.base.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},body:JSON.stringify(body)});
+    if(!resp||!resp.ok)throw new Error('HTTP '+(resp?resp.status:'無回應'));
+    let data; try{ data=await resp.json(); }catch(e){ throw new Error('回應不是 JSON'); }
+    let content=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
+    if(!content)throw new Error('回應為空');
+    content=content.trim().replace(/^```(?:json)?/i,'').replace(/```$/i,'').trim();
+    let obj; try{ obj=JSON.parse(content); }catch(e){ throw new Error('內容不是合法 JSON（模型未按要求返回）'); }
+    if(!cnValidate(obj))throw new Error('結構不合規（題數／選項／答案或篇章類型不符要求）');
+    // 轉成站内題目結構
+    const paper=obj.mc.items.map(function(q){return {t:'mc',sec:q.sec,q:q.q,opts:q.opts,a:q.a,ex:q.ex||''};});
+    const fill=obj.fill.items.map(function(q){return {t:'fill',sec:q.sec,q:q.q,a:q.a.join('|'),ex:q.ex||''};});
+    const reads=obj.read.items.map(function(r){
+      return {id:r.kind+'-'+r.title,kind:r.kind,title:r.title,text:r.text,
+        qs:(r.qs||[]).map(function(q){return Object.assign({},q,{ex:q.ex||''});})};
+    });
+    const writes=obj.write.items.map(function(w){return {t:'write',sec:'寫作',kind:w.kind,prompt:w.prompt,hint:w.hint};});
+    curCnPaper=paper.concat(fill);
+    curCnRead=reads;
+    curCnWrite=writes;
+    curCnIsAi=true;
+    document.getElementById('cnPaperResult').innerHTML='';
+    renderCnPaper();
+    showCnStat();
+    const note=document.getElementById('cnAiNote');
+    if(note){note.style.display='block';note.textContent='本卷由 AI 依官方題型框架即場生成（已過結構校驗），請家長先過目再讓孩子做。';}
+  }catch(e){
+    alert('AI 出卷失敗：'+(e&&e.message?e.message:e)+'。已保留原本地題庫卷，可直接用「🎲 出新卷」。常見原因：CORS 限制／密鑰無效／模型未按 JSON 返回。');
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent=t0;}
+  }
+}
+/* 單題 AI 換題：只替換指定題型的題目，失敗不動原題 */
+async function cnAiSwap(i,kind){
+  const cfg=getAiCfg();
+  if(!cfg.base||!cfg.key||!cfg.model){ alert('尚未配置 AI 接口。請到「練習 → 英文 → 智能練習卷」底部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器）。'); return; }
+  const t=kind||'mc';
+  const btn=document.querySelector('.qcard[data-qi="'+i+'"] .cnai');
+  const oldTxt=btn?btn.textContent:'';
+  if(btn){btn.disabled=true;btn.textContent='生成中…';}
+  try{
+    const body={model:cfg.model,temperature:0.9,
+      messages:[{role:'system',content:'你是香港小學中文科命題老師。只輸出合法 JSON。內容必須原創，不得抄任何真卷。'},
+                {role:'user',content:'出 '+curCnGrade+' 級一題中文題，JSON：'
+                 +'{"t":"'+t+'","sec":"字詞|標點|詞語|句子|修辭|閱讀|文言","q":"題目",'
+                 +(t==='mc'?'"opts":[exactly 4 options],"a":correctIndex0to3,':'')
+                 +'"ex":"一兩句講解"}。'
+                 +(t==='mc'?'四個選項不得重複，a 為 0-3 索引。':'')
+                 +'繁體中文。'}]};
+    try{ body.response_format={type:'json_object'}; }catch(e){}
+    const resp=await fetch(cfg.base.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},body:JSON.stringify(body)});
+    if(!resp||!resp.ok)throw new Error('HTTP '+(resp?resp.status:'無回應'));
+    const data=await resp.json();
+    let content=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
+    if(!content)throw new Error('回應為空');
+    content=content.trim().replace(/^```(?:json)?/i,'').replace(/```$/i,'').trim();
+    const o=JSON.parse(content);
+    if(!o||o.t!==t||!o.q)throw new Error('內容不合規');
+    if(t==='mc'){
+      if(!Array.isArray(o.opts)||o.opts.length!==4)throw new Error('選項數不符');
+      if(!Number.isInteger(o.a)||o.a<0||o.a>3)throw new Error('答案索引不合法');
+      if(new Set(o.opts.map(function(x){return String(x).trim();})).size!==4)throw new Error('選項有重複');
+    }
+    // 套回原位
+    if(i<curCnPaper.length){
+      const old=curCnPaper[i];
+      curCnPaper[i]=Object.assign({},old,{t:t,q:o.q,opts:o.opts,a:o.a,ex:o.ex||''});
+    }else{
+      // 閱讀篇章題：在對應篇章裡就地替換
+      for(const r of curCnRead){
+        const idx=(r.qs||[]).findIndex(function(q){return q._gi===i;});
+        if(idx>=0){ r.qs[idx]=Object.assign({},r.qs[idx],{t:t,q:o.q,opts:o.opts,a:o.a,ex:o.ex||''}); break; }
+      }
+    }
+    renderCnPaper();
+    if(btn){btn.disabled=false;btn.textContent=oldTxt;}
+  }catch(e){
+    if(btn){btn.disabled=false;btn.textContent=oldTxt;}
+    alert('AI 換題失敗：'+(e&&e.message?e.message:e)+'（原題保留未改）。');
+  }
+}
 window.__cnPaperTest={gen:genCnPaper,render:renderCnPaper,gradePaper:gradeCnPaper,print:printCnPaper,
   norm:cnNorm,correct:cnCorrect,totalQ:cnTotalQ,allQs:cnAllQs,
+  validate:cnValidate,prompt:cnAiPrompt,aiPaper:cnAiPaper,aiSwap:cnAiSwap,
   // 注意：grade 這個名字給「當前年級」getter 用，批改函式叫 gradePaper，兩者不可同名
   get grade(){return curCnGrade;},get paper(){return curCnPaper;},get read(){return curCnRead;},get write(){return curCnWrite;}};
 
@@ -6024,7 +6223,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.83',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.84',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

@@ -1568,11 +1568,11 @@ try{
   mw.clear();
   ok('v1.80 清空後空態提示', mw.count()===0 && doc.querySelectorAll('#mwList .mwempty').length===1);
   ok('v1.80 全站導出含 myWords 字段', /myWords:window\.__myWordsTest\?window\.__myWordsTest\.exportData\(\)\.words:\[\]/.test(html));
-  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.83'/.test(html));
+  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.84'/.test(html));
   ok('v1.80 清空確認文案補「我的單詞本」', /泛讀自查／我的單詞本/.test(html));
   ok('v1.80 不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/我的單詞本|hkk_mywords/.test(x.t+x.s)));
   ok('v1.80 版權文案在子頁', doc.getElementById('myWordsView').textContent.includes('不預置任何出版社詞表'));
-  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.83/g)||[]).length===2 && html.includes("ver:'hkk_v1.83'") && !html.includes('公開版 v1.79'));
+  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.84/g)||[]).length===2 && html.includes("ver:'hkk_v1.84'") && !html.includes('公開版 v1.79'));
 }catch(e){ ok('v1.80 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.81 反饋牆 ＋ 貪吃蛇單詞背景 ＋ 某文單詞本搬位 ============
@@ -1642,7 +1642,7 @@ try{
   ok('v1.81 錯誤碼映射覆蓋網絡／權限／表不存在／重複', ['network_error','42501','42P01','23505'].every(c=>fbT.errText(c)&&fbT.errText(c).length>4));
   ok('v1.81 時間顯示相對時間', fbT.when(new Date(Date.now()-3600000).toISOString()).indexOf('小時前')>=0);
 
-  ok('v1.81 版本號三處一致', (html.match(/公開版 v1\.83/g)||[]).length===2 && html.includes("ver:'hkk_v1.83'") && !html.includes('公開版 v1.80'));
+  ok('v1.81 版本號三處一致', (html.match(/公開版 v1\.84/g)||[]).length===2 && html.includes("ver:'hkk_v1.84'") && !html.includes('公開版 v1.80'));
 }catch(e){ ok('v1.81 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.82 中文卷（本站原創仿題型） ============
@@ -1754,7 +1754,7 @@ try{
   ok('v1.82 含答案版勾選存在', !!doc.getElementById('cnPrintAns'));
   ok('v1.82 本級最佳存 hkk_cnpaper_v0', html.includes("'hkk_cnpaper_v0'"));
   ok('v1.82 CSS：篇章卡與寫作區樣式齊', /\.cnread\{/.test(html)&&/\.cnwrite-hint\{/.test(html)&&/\.cnsec\{/.test(html));
-  ok('v1.82 版本號三處一致', (html.match(/公開版 v1\.83/g)||[]).length===2&&html.includes("ver:'hkk_v1.83'")&&!html.includes('公開版 v1.81'));
+  ok('v1.82 版本號三處一致', (html.match(/公開版 v1\.84/g)||[]).length===2&&html.includes("ver:'hkk_v1.84'")&&!html.includes('公開版 v1.81'));
 }catch(e){ ok('v1.82 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.83 中文區兩個子目錄：背古詩 ／ 中文試卷 ============
@@ -1789,8 +1789,89 @@ try{
   ok('v1.83 切回背古詩：星圖可見、卷隱藏', sv.style.display!=='none'&&cv.style.display==='none');
   ok('v1.83 切回後高亮回到第一顆', bStar.classList.contains('on')&&!bPaper.classList.contains('on'));
 
-  ok('v1.83 版本號三處一致', (html.match(/公開版 v1\.83/g)||[]).length===2&&html.includes("ver:'hkk_v1.83'")&&!html.includes('公開版 v1.82'));
+  ok('v1.83 版本號三處一致', (html.match(/公開版 v1\.84/g)||[]).length===2&&html.includes("ver:'hkk_v1.84'")&&!html.includes('公開版 v1.82'));
 }catch(e){ ok('v1.83 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
+
+// ============ v1.84 中文卷 AI 出卷（官方題型骨架＋結構校驗） ============
+try{
+  const cpt=window.__cnPaperTest;
+  const V=cpt.validate;
+
+  // ── A. DOM 接線 ──
+  ok('v1.84 中文卷有「🤖 AI 出新卷」鈕', !!doc.getElementById('cnAiBtn')&&doc.getElementById('cnAiBtn').textContent.includes('AI 出新卷'));
+  ok('v1.84 AI 說明條存在且默認隱藏', !!doc.getElementById('cnAiNote')&&doc.getElementById('cnAiNote').style.display==='none');
+  ok('v1.84 測試鉤子掛上 validate/prompt/aiPaper/aiSwap', !!cpt.validate&&!!cpt.prompt&&!!cpt.aiPaper&&!!cpt.aiSwap);
+
+  // ── B. Prompt 以官方題型框架為骨架，且要求原創 ──
+  const msg=cpt.prompt('P6');
+  const um=msg.map(function(m){return m.content;}).join('\n');
+  ok('v1.84 prompt 是 system+user 兩段', Array.isArray(msg)&&msg.length===2&&msg[0].role==='system'&&msg[1].role==='user');
+  ok('v1.84 prompt 含官方閱讀框架（記敘文／說明文＋實用文）', um.includes('記敘文')&&um.includes('說明文')&&um.includes('實用文'));
+  ok('v1.84 prompt 含官方寫作框架（實用文＋短文）', um.includes('實用文')&&um.includes('短文'));
+  ok('v1.84 prompt 明寫「原創／不得抄任何真卷」', um.includes('原創')&&um.includes('不得抄'));
+  ok('v1.84 prompt 規定 JSON schema 與題數（8 選擇／4 填充／2 篇章／2 寫作）', um.includes('exactly 8 items')&&um.includes('exactly 4 items')&&um.includes('exactly 2 items'));
+  ok('v1.84 prompt 帶年級參數（P6）', um.includes('P6'));
+
+  // ── C. cnValidate：合法卷通過 ──
+  function mkMc(n){const a=[];for(let i=0;i<n;i++)a.push({sec:'字詞',q:'Q'+i,opts:['甲','乙','丙','丁'],a:0,ex:''});return a;}
+  function mkFill(n){const a=[];for(let i=0;i<n;i++)a.push({sec:'字詞',q:'F'+i,a:['答案'],ex:''});return a;}
+  const goodMc=mkMc(8), goodFill=mkFill(4);
+  const goodRead=[{kind:'記敘文',title:'甲',text:['段落一內容。','段落二內容。','段落三內容。'],
+                    qs:[{t:'mc',q:'R1',opts:['甲','乙','丙','丁'],a:1},{t:'short',q:'R2',a:['珍惜|愛惜']},{t:'filltbl',q:'R3',table:['日期','地點'],a:['本月12日','圖書館']}]},
+                   {kind:'實用文',title:'乙',text:['海報標題行。','內容第一行。','內容第二行。'],
+                    qs:[{t:'mc',q:'R4',opts:['甲','乙','丙','丁'],a:0},{t:'fill',q:'R5',a:['圖書館服務台']}]}];
+  const goodWrite=[{kind:'實用文',prompt:'寫一封邀請卡。',hint:'稱謂＋正文＋祝頌語＋署名。'},{kind:'短文',prompt:'寫一篇短文。',hint:'寫你幫忙做家務的經過。'}];
+  const goodObj={mc:{items:goodMc},fill:{items:goodFill},read:{items:goodRead},write:{items:goodWrite}};
+  ok('v1.84 合法卷通過結構校驗', V(goodObj)===true);
+
+  // ── D. cnValidate：逐一拒收壞卷（這是「AI 不亂」的真正保證）──
+  ok('v1.84 拒收：選擇題數不足 8', V({mc:{items:mkMc(7)},fill:{items:goodFill},read:{items:goodRead},write:{items:goodWrite}})===false);
+  ok('v1.84 拒收：填充題數不足 4', V({mc:{items:goodMc},fill:{items:mkFill(3)},read:{items:goodRead},write:{items:goodWrite}})===false);
+  ok('v1.84 拒收：篇章數不足 2', V({mc:{items:goodMc},fill:{items:goodFill},read:{items:[goodRead[0]]},write:{items:goodWrite}})===false);
+  ok('v1.84 拒收：寫作不是 2 題', V({mc:{items:goodMc},fill:{items:goodFill},read:{items:goodRead},write:{items:[goodWrite[0]]}})===false);
+  // 選項數不是 4
+  const badOpts=JSON.parse(JSON.stringify(goodObj));
+  badOpts.mc.items[0].opts=['甲','乙','丙'];
+  ok('v1.84 拒收：選項只有 3 個', V(badOpts)===false);
+  // 答案索引越界
+  const badIdx=JSON.parse(JSON.stringify(goodObj));
+  badIdx.mc.items[0].a=4;
+  ok('v1.84 拒收：答案索引越界（a=4）', V(badIdx)===false);
+  // 選項重複（孩子看到兩個一樣的選項）
+  const badDup=JSON.parse(JSON.stringify(goodObj));
+  badDup.mc.items[0].opts=['甲','甲','丙','丁'];
+  ok('v1.84 拒收：選項重複', V(badDup)===false);
+  // 篇章類型缺實用文
+  const badKind=JSON.parse(JSON.stringify(goodObj));
+  badKind.read.items[1].kind='記敘文';
+  ok('v1.84 拒收：篇章缺「實用文」類型', V(badKind)===false);
+  // 寫作缺短文
+  const badW=JSON.parse(JSON.stringify(goodObj));
+  badW.write.items[1].kind='實用文';
+  ok('v1.84 拒收：寫作缺「短文」', V(badW)===false);
+  // 段落數太少
+  const badPara=JSON.parse(JSON.stringify(goodObj));
+  badPara.read.items[0].text=['只有一段。'];
+  ok('v1.84 拒收：篇章段落數不足', V(badPara)===false);
+  // 填表題欄位與答案數不符
+  const badTbl=JSON.parse(JSON.stringify(goodObj));
+  badTbl.read.items[0].qs[2].a=['只有一個答案'];
+  ok('v1.84 拒收：填表題欄位與答案數不符', V(badTbl)===false);
+  // 不認識的題型一律拒收
+  const badType=JSON.parse(JSON.stringify(goodObj));
+  badType.read.items[0].qs[0].t='essay';
+  ok('v1.84 拒收：不認識的題型', V(badType)===false);
+  // 空物件／null
+  ok('v1.84 拒收：null／非物件', V(null)===false&&V('x')===false&&V({})===false);
+
+  // ── E. 不進 AI 白名單、版權文案 ──
+  ok('v1.84 中文卷 AI 不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95&&(window.__aiTest.kb||[]).every(x=>!/中文卷|AI 出新卷|site_feedback/.test(x.t+x.s)));
+  ok('v1.84 站內仍明寫不抄任何真卷', html.includes('未取用任何考卷、課本、題庫或第三方網站的內容'));
+  ok('v1.84 AI 出卷沿用使用者自填接口（密鑰存本機不上傳）', html.includes("getAiCfg()")&&html.includes("localStorage.getItem('hkk_ai_cfg')"));
+  ok('v1.84 AI 卷不計入本級最佳（避免 AI 卷刷高分污染記錄）', html.includes('if(!curCnIsAi && (!best[curCnGrade]'));
+  ok('v1.84 AI 失敗時回退本地題庫', /AI 出卷失敗[\s\S]{0,200}可改用|已保留原本地題庫卷/.test(html));
+  ok('v1.84 版本號三處一致', (html.match(/公開版 v1\.84/g)||[]).length===2&&html.includes("ver:'hkk_v1.84'")&&!html.includes('公開版 v1.83'));
+}catch(e){ ok('v1.84 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
