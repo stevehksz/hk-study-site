@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.78：葉工貼 Obsidian 檔案樹截圖，要「把朗文 1–6 年級課本裡的單詞整理出來，開一個朗文單詞本」。先定位資料：截圖屬**第二個 Obsidian 庫**「G:\\00 咨询&公自媒体\\22 香港插班」（主庫 200 ObsidianVault 沒有 88 涵涵），路徑 88 涵涵/01英語/10 香港朗文，內有 B5135-Longman English World、LWTEGOLD 1A-6B 全套資源、教師用書合併版、白板軟件四組。12 冊各有「19/06/07 單詞庫 Word Bank」的 OLE2 `.doc`（3–20MB），`olefile` 走 WordDocument＋Table stream 的 CLX→Plcfpcd→piece text 可取出乾淨文字層；雙欄排版把編號讀成 1,6,2,7… 故段內按編號重排、編號回到 1 視為新主題（連續兩個只有 1 條詞的小主題也要切，v1.77 首次解析踩過），並截斷頁腳的 `Longman Welcome to English Gold… © Pearson Education Asia Limited 2018/2019` 與版權鳴謝段、修連字符斷行、用站內人工校過的舊 5A/5B 詞表補 2 條 Word 自動編號丟失的詞。交叉校驗：5A 70/70、5B 70/70 全命中，零噪聲；共 **12 冊／127 主題／1024 詞條**，既有中文自譯 140 條。⚠️ **版權分叉先問再做**：來源 `.doc` 頁腳明載 © Pearson，而葉工定的硬規則是「牛津樹／朗文內容僅限家庭學習、勿外傳」，GitHub 倉庫已公開、站內 ⑧ 明寫「不掃描、不摘錄、不提供下載」。故用 AskUserQuestion 讓葉工拍板，他選「①本機/Obsidian 私有 ＋ ②站內進度本」兩條都做、中文只保留既有 140 條自譯。①私有：`_build_lwte_notebook.py` 生成單檔 `_lwte_notebook.html`（38KB，零外鏈／零網路請求，12 冊 1024 詞、搜索、掌握勾選、自填中文、隨機 10 詞自測、匯出進度，localStorage `hkk_lwte_nb`），以及私人庫「22 香港插班/88 涵涵/01英語/10 香港朗文/朗文單詞本.md」（24KB，checkbox 清單）；兩者頂部皆標 © Pearson 與「僅供家庭學習、勿外傳」。`_verify_lwte_nb.js` 19 項 jsdom 回歸全過、`_shot_lwte_nb.py` 桌面 1280／手機 390（CDP 顯式 `Emulation.setDeviceMetricsOverride`，headless 最小窗寬會量成 484）實渲染 1024 詞無溢出；修掉 emoji 豆腐塊與窄屏搜尋框被擠。②站內：`tutorView` 新增第 ⑪ 折疊塊 `#lwteHub`「朗文單詞本 · 進度本」，**只放冊／主題名／詞數的事實性目錄**（構建期由 `_lwte_meta.json` 注入 `__LWTE_META__`，該檔 7.7KB、零詞條零釋義，已加 FILE_MAP 保可復現），一個詞條都不進公開 HTML；12 冊 chips 切換＋三態勾選（已學／已複習／已聽寫，`hkk_lwte_prog_v0` 跟賬號隔離）＋統計＋印空白聽寫紙（紙上只有主題名與橫線，家長按課本報詞）＋清空本冊；匯出／匯入／清空補 `lwteProg`。warn 卡本站重寫三條取用原則並標「不是法律意見」。⚠️ `_gh_sync.py` 加註明**永不推送** `_lwte_all.json`／`_lwte_notebook.html`／`_build_lwte_notebook.py`／`build_lwte_all.py` 等私有檔。verify2 折疊計數 10→11 五處＋新增 v1.78 紅線斷言（可選讀私有 `_lwte_all.json` 逐條比對公開 HTML 零詞條、零中文自譯、meta 結構、目錄渲染、勾選讀寫、清空、聽寫紙零詞、不進 AI 白名單、窄屏）。
 v1.77：葉工貼來第三方試卷網首頁，問「這裡很多試卷，看能不能拷貝過來」——先實測再下結論：公開渲染可見首頁是一整屏按「年級（小一–小六／中一–中四）× 科目（中／英／數／常識／中史／物理／生物／地理等）」排列的試卷條目，每條指向 /paper/?id= 的圖片；本機 curl 直連首頁、robots.txt、單份試卷連結三者一律 403（robots 回的是 WAF 攔截頁而非 robots 指令），條款／版權頁未能取得，故不對其授權狀態作任何猜測，也不宜再寫爬蟲硬撞。結論：**不搬**。這類卷子的版權多半屬出卷學校／出版社／製作者，彙整不等於取得再授權；本站 GitHub 倉庫已公開，放上去等於公開發行。沿用 v1.72 版權三級分類與 v1.75「只借組織架構、不借原文」——站內 ⑧ 早已寫明這類試卷庫「不入庫、不爬取、不代理」，本版不改這條紅線。真正值得借的是「年級 × 科目一屏找卷」的組織方式：站內本來就有三個原創出卷引擎（英文卷 P1–P6／數學卷 P1–P6 雙語／呈分試卷 P5–P6 含一次出 10 套），卻散在練習各子頁，訪客看不到「很多卷子」。故新增第 ⑩ 個折疊塊 `#paperHub`「本站原創試卷 · 按年級找」（默認收起）：6 個年級 × 3 卷種表格共 **14 顆按鈕**（呈分試只給 P5／P6，另 4 格明確標不適用），點下去由單一 `paperGo()` 解析 `data-paper`，先複用 v1.75 暴露的 `window.__hkkGo`（不另抄顯隱邏輯），再 `.click()` 既有 `#pgChips`／`#mpgChips`／`#examChips` 的年級 chip（chip 本身已綁定 genEnPaper／genMathPaper／genExamPaper，點完即出卷），最後用顯式 `document.documentElement.scrollTop=rect.top+pageYOffset-110` 捲到卷子（沿用 v1.75 教訓，不用 scrollIntoView）。⚠️ 零新題目、零第三方檔案、零外鏈、零圖片、零新增 localStorage、零雲端請求；`#paperHub` 在 `tutorView` 內，而 `ai_kb.py` 只抽 faqView／timelineView／policyView＋學校名冊，故**天然不進 AI 白名單**，並加斷言鎖死。區內 warn 卡本站重寫三條取用原則（彙整≠再授權／公開倉庫＝公開發行／只提煉題型結構再用站內引擎重出原創題），標明「不是法律意見」與「教育局不公佈官方 Banding」。頭部提示 9→10 並點名 ⑩；CSS 新增 `.phub-wrap`（overflow-x:auto）／`.phub-tbl`（min-width:600px）／`.pgo`，沿用 `.mapgo` 色票，窄屏補可橫滑文字提示。verify2 舊計數 9→10 五處＋新增 20 項（結構／14 鈕合法性／零外鏈零圖片／合規文案／導航復用／顯式捲動／AI 白名單未污染／窄屏／三分支實跑／非法參數拒絕），**569→589 全過**；初版兩條失敗皆為探針問題非產品問題：新 summary 漏 `class="gsec-h"` 致標題條只數到 9、切片探針誤命中 CSS 註釋把整頁後半段算進去（改精確切 `function paperGo(spec)` → `window.__paperHubTest`）。
 v1.76：葉工實測 workbuddy 連結「手機可以問 AI」後要求「也同步發布到 github 那個網址」——先量雙域：curl 得兩邊 HTTP 200／1,365,002 B／md5 完全一致（9acaa828…）／皆 v1.75，證實 GitHub Pages 早就是同一份檔案，「再推一次」不會改變任何東西；真正原因是 v1.74 已確診的 publishableKey 精確 Origin 匹配＋瀏覽器 CORS，靜態站前端無解。故不改域判定、不給 Pages 綁第二個雲應用（會破壞純靜態／免密鑰前提），改做「一條過去的路」：在非綁定域的加微信彈窗內、原 AI 卡片位置新增 #aiFallback 引導卡（默認 display:none），由既有 originOK 分支在 !originOK 時置為 block 並 return，不初始化 SDK；卡內只有標題＋一句為何要跳轉的說明＋一顆醒目按鈕 #aiFallbackGo（href 指向 workbuddy 域帶 sharecode，靜態 href 無 JS 也能點）＋一句「不想跳轉就掃下面二維碼」。CSS 複用 #aiBox 的 .ai-h／.ai-sub 色票，新增 .ai-fb-btn（min-height:46px、滿寬、窄屏一样好點）與 .ai-fb-note。⚠️ 硬約束：全站仍零 UserAgent／設備分支（沿用 v1.74 診斷結論）；二維碼／微信號／複製／三條指引／加群理由一個不少；workbuddy 域行為零變化；#aiFallback 只有文字與連結，不進 ai_kb.py 白名單、不新增 localStorage、不新增外部請求。verify2 把 v1.74 的 `if(!originOK)return;` 斷言改成語義化比對，新增 v1.76 斷言（引導卡只在非白名單域出現／href 帶 sharecode／按鈕可點尺寸／加微信元素零損失／零 UA 分支／第二個 JSDOM 實例以 Pages 域 URL 實跑驗證）。版本號 3 處同步 v1.76。
 v1.75：葉工貼來 5 張「香港插班 25 年規劃表」短影音截圖（10 條避坑建議＋2 個月衝刺＋語文／英數／英文／面試四科戰術），要求「總結裡面的知識架構，把好的想法融入網站」。先拆出六層架構：L0 戰略避坑 → L1 時間盒（20 夯基／25 突破／15 屠龍）→ L2 四科分治 → L3 每科「輸入／輸出／複盤」三段式 → L4 香港本地化題型錨點（英數術語、雙語圖表、理由書寫、小組面試、校訓題）→ L5 可交付物（詞表／模板／錯題本／人設稿）→ L6 評論區引流鉤子。判斷真正值得借的不是內容而是「把散件按科目 × 動作壓成一張可執行地圖」，以及「特色題型自查」「答題結構 checklist」；站內恰好散件多、地圖少（v1.69 已修過一次子頁動線）。合規分級沿用 v1.72：只借組織架構，所有文字本站重寫，不複製任何原文／規劃表／截圖／詞表／模板句式／影片畫面。明確不採納五類：①極端量化（每日 6–8 小時／兩個月極限衝刺／每天 80 詞／每週 3 篇）與本站 ①排期表「每週 ≤3h 減壓版」直接衝突，且屬個別家庭安排不宜當公開站標準；②Band 相關「分檔生存詞表／分檔隱形考題庫」——教育局不公佈官方 Banding，且 v1.74 AI 知識庫刻意不餵 Band；③未核實坊間經驗當結論（秋季學位比春季多／派位無好校／內地生首選直資／化學較難／最遲初三前轉學），只在不照搬聲明裡點名並標「未核實、不作結論、不進 AI 知識庫」；④第三方具名素材（報章社論／政府統計數據／防疫廣播／出版社詞表）只提類型、不搬內容、不設外鏈；⑤「評論區領完整版」引流鉤子（站內已有三處情境 CTA＋AI 客服，不重複加）。落位＝練習→補習材料新增第 9 個折疊塊 `⑨ 備考地圖`（`#examMap`，默認收起），頭部提示 8→9 並加「🗺 打開備考地圖」直達鈕：A 區 4 科 × 3 段矩陣共 21 顆跳轉鈕全部指向站內既有模塊，`data-go` 用 `p:`／`t:`／`plan:` 三段編碼由單一 `hkkGo` 解析，只複用既有 nav／subnav 的 `click()`，不抄顯隱邏輯（沿用 v1.69 `enGoSub` 原則）；B 區 8 條香港特色題型自查清單（checkbox＋`hkk_mapcheck_v0`，hkk_ 前綴天然受 v1.33 賬號隔離，含「已確認 N/8」與清空）；C 區面試答題結構 4 條（一手資料優先／具體經歷代替形容詞／小組協作不搶主持／別假定面試語言，全部重寫不抄話術）；D 區 warn 卡列明五類不照搬與版權口徑。相容性：進度匯出／匯入／清空補 `mapChk` 字段（沿用 v1.73 補 poemDone 的做法），窄屏表格 `overflow-x:auto`，CSS 新增 `.mapgo/.mapchk/.mapbar` 複用既有色票。⚠️ 關鍵工程決策：⑨ 在 `tutorView` 內，而 `ai_kb.py` 只抽 `faqView`／`timelineView`／`policyView`＋學校名冊，故新模塊**天然不進 AI 白名單知識庫**，保住 v1.74「只餵站內已核實內容」硬前提，並加斷言鎖死，避免把坊間經驗餵給模型。`_shot75.py` 真瀏覽器桌面 1280／手機 390 截圖再修兩處可見性：①吸頂導航蓋住 ⑨ 標題——先補 `#tutorView details.gsec.fold{scroll-margin-top:110px}`，CDP 量化發現 `getComputedStyle` 已返回 110px 但 `scrollIntoView` 後 `getBoundingClientRect().top` 仍是 0／-1（CSS 偏移不可靠），故 `fold()` 改為顯式算絕對位置寫 `document.documentElement.scrollTop=getBoundingClientRect().top+pageYOffset-110`，複測 top=101／100，標題條完整可見，CSS 保留作雙保險；②窄屏表格需橫滑卻無提示，表格下補「手機窄屏可左右滑動表格」。verify2 舊斷言 8→9 兩處＋版本號改通用比對（不再寫死 v1.74，避免 v1.74 踩過的升版本誤報）＋新增 28 項（結構／21 顆矩陣跳轉／自查讀寫與清空／導出欄位／合規紅線／AI 知識庫未污染／可見性），529→557 項。
@@ -283,6 +284,31 @@ table.phub-tbl th{background:#f1fbf8;color:#0b7a68;font-weight:700;white-space:n
 table.phub-tbl td:first-child{font-weight:800;color:#334155;white-space:nowrap}
 .phub-na{color:#94a3b8;font-size:12px}
 .pgo{min-height:44px;padding:10px 14px;font-size:13px}
+/* v1.78 朗文進度本：只有冊／主題目錄與勾選框，零詞條、零中文釋義、零外鏈 */
+.lhub-stat{background:#e8f6f2;color:#0b7a68;border-radius:9px;padding:9px 12px;font-size:13px;font-weight:700;margin:8px 0 10px;line-height:1.7}
+.lhub-chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.lhub-chips .chip{padding:5px 12px;font-size:12.5px;min-height:32px}
+.lhub-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:6px 0 4px}
+table.lhub-tbl{min-width:520px;width:100%;border-collapse:collapse;font-size:13px}
+table.lhub-tbl th,table.lhub-tbl td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:middle;line-height:1.6}
+table.lhub-tbl th{background:#f1fbf8;color:#0b7a68;font-weight:700;white-space:nowrap}
+table.lhub-tbl td:first-child{min-width:190px}
+table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--acc);cursor:pointer}
+.lhub-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+#lwtePrintArea{display:none}
+.lhub-line{border-bottom:1px solid #475569;height:25px;margin:0 0 7px}
+@media screen and (max-width:640px){
+  /* 390 寬下讓三個勾選列盡量露出，並在表格上方明示可橫滑（v1.78 截圖實測） */
+  table.lhub-tbl{min-width:430px;font-size:12px}
+  table.lhub-tbl th,table.lhub-tbl td{padding:6px 5px}
+  table.lhub-tbl td:first-child{min-width:118px;white-space:normal}
+  .lhub-tbl input[type=checkbox]{width:18px;height:18px}
+}
+@media print{
+  body.lwte-printing > *:not(#lwtePrintArea){display:none!important}
+  body.lwte-printing #lwtePrintArea{display:block!important;padding:0;font-size:13px}
+  body.lwte-printing .lhub-line{height:24px}
+}
 /* 跳轉後 scrollIntoView 會把標題推到吸頂導航底下，留足偏移（沿用 v1.73 詩詞彈窗的 110px） */
 #tutorView details.gsec.fold{scroll-margin-top:110px}
 .gcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:.2s;border-left:4px solid var(--math)}
@@ -724,13 +750,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.77（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.78（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.77（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.78（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1254,7 +1280,7 @@ Thank you for your time.</div>
     <div class="gsec">
       <h2>補習材料（插中一 · 35 週減壓版）</h2>
       <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
-      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 10 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>，<b>⑩ 按年級找本站原創卷</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
+      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 11 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>，<b>⑩ 按年級找本站原創卷</b>，<b>⑪ 朗文單詞本打卡</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
     </div>
 
     <details class="gsec fold" open>
@@ -1505,6 +1531,35 @@ Thank you for your time.</div>
         <p><b>本站提供的是練習，不是真卷。</b>英文卷／數學卷覆蓋 P1–P6，呈分試卷覆蓋 P5–P6，題目全部原創仿編；坊間分檔、名校真卷、官方評分標準一概不提供，教育局亦不公佈官方 Banding。</p>
       </div>
       <div class="src">整理依據：站內既有「練習 → 英文卷／呈分試卷／數學卷」三個原創出卷引擎（2026-11-07 盤點）｜本區全部文字為本站重寫，未引用任何第三方試卷、答案或原文</div>
+    </details>
+
+    <!-- v1.78 朗文單詞本 · 進度本：只放冊／主題目錄與勾選框，一個詞條都不放 -->
+    <details class="gsec fold" id="lwteHub">
+      <summary class="gsec-h">⑪ 朗文單詞本 · 進度本（對照紙本課本用）</summary>
+      <div class="gcard">
+        <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">這裡是<b>打卡本，不是詞表</b>。只列出家中課本的冊與主題目錄，讓孩子按「已學／已複習／已聽寫」三格自己勾；<b>本站不收錄任何單詞、中文釋義或教材頁面</b>，請對照紙本課本使用。完整詞表留在家裡本機的單檔單詞本，不上傳、不下載。</p>
+        <div class="lhub-stat" id="lwteStat">載入中…</div>
+        <div class="lhub-chips" id="lwteChips"></div>
+        <p class="tip" style="margin:0 0 7px;background:#fff8e6;color:#8a6d1f;border:1px solid #f0dfae">手機窄屏：向右滑動下面的表格，就能勾選「已學／已複習／已聽寫」三格。</p>
+        <div class="lhub-wrap">
+          <table class="mtable lhub-tbl">
+            <thead><tr><th>主題（課本目錄）</th><th>詞數</th><th>已學</th><th>已複習</th><th>已聽寫</th></tr></thead>
+            <tbody id="lwteBody"></tbody>
+          </table>
+        </div>
+        <p class="tip" style="margin-top:4px">手機窄屏可左右滑動表格。勾選即存本機（跟賬號隔離）；切冊不影響其他冊的進度。「印空白聽寫紙」會印出本冊主題與空白橫線，由家長按課本報詞，紙上不會出現任何單詞。</p>
+        <div class="lhub-act">
+          <button class="btn" type="button" id="lwtePrint">印空白聽寫紙（本冊）</button>
+          <button class="btn" type="button" id="lwteClear">清空本冊進度</button>
+        </div>
+      </div>
+      <div class="gcard warn">
+        <h3>⚠️ 為什麼這裡看不到單詞</h3>
+        <p><b>詞表版權屬出版社。</b>家中《Longman Welcome to English Gold》1A–6B 的 Word Bank 檔頁腳載明 © Pearson Education Asia Limited；本站是<b>公開倉庫</b>，把整份詞表放上來等於公開發行。因此線上只保留「冊／主題名稱／詞數」這類事實性目錄，<b>零詞條、零中文釋義、零教材頁面、零下載連結、零外鏈</b>。</p>
+        <p><b>家庭學習用的完整版在本機。</b>已另整理成一份單檔 HTML 與一篇 Obsidian 筆記，放在家裡電腦與私人庫，全部文字、詞數與分冊只作家庭學習，請勿外傳、勿轉貼到網站或公众号。以上為本站自寫的取用原則，<b>不是法律意見</b>；授權範圍請向原權利人確認。</p>
+        <p><b>進度是本地資料。</b>勾選存在這台裝置的瀏覽器，換設備不跟隨；可用「學習進度 → 匯出」備份，亦受清空進度影響。</p>
+      </div>
+      <div class="src">整理依據：家中「LWTEGOLD 1A-6B 全套資源」各冊 Word Bank 之冊／主題目錄與詞數（2026-11-07 盤點，共 12 冊 127 主題）｜本區文字全部本站重寫，未引用任何詞條、釋義或教材原文</div>
     </details>
 
     <!-- v1.70 情境化加群 CTA -->
@@ -5025,15 +5080,16 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／朗文進度）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
+    if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},ver:'hkk_v1.77',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},ver:'hkk_v1.78',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -5045,6 +5101,7 @@ document.getElementById('importFile').onchange=e=>{
     const d=JSON.parse(r.result);
     if(d.pProg)pProg=d.pProg; if(d.vProg)vProg=d.vProg; if(d.hProg)hProg=d.hProg; if(d.mProg)mProg=d.mProg; if(d.poemDone)poemDone=d.poemDone;
     if(d.mapChk&&window.__mapTest){window.__mapTest.set(d.mapChk);window.__mapTest.render();}
+    if(d.lwteProg&&window.__lwteTest){window.__lwteTest.set(d.lwteProg);window.__lwteTest.render();}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
     alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
@@ -5468,7 +5525,79 @@ authBoot();
   });
   window.__paperHubTest={go:paperGo};
 })();
+// ---- v1.78 朗文單詞本 · 進度本 ----
+// 只載入「冊／主題名／詞數」目錄，任何詞條都不進這份公開 HTML。
+(function(){
+  var META=__LWTE_META__;
+  var KEY='hkk_lwte_prog_v0';
+  var P={};
+  try{P=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){P={};}
+  if(typeof P!=='object'||Array.isArray(P))P={};
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(P));}catch(e){}}
+  function get(){return P;}
+  function set(v){P=(v&&typeof v==='object'&&!Array.isArray(v))?v:{};save();}
+  function clear(){P={};save();}
+  function k(bk,i,f){return bk+'|'+i+'|'+f;}
+  var cur=META.books[0].bk;
+  function book(){for(var i=0;i<META.books.length;i++){if(META.books[i].bk===cur)return META.books[i];}return META.books[0];}
+  function render(){
+    var chips=document.getElementById('lwteChips');if(!chips)return;
+    chips.innerHTML='';
+    META.books.forEach(function(b){
+      var c=document.createElement('button');c.type='button';
+      c.className='chip'+(cur===b.bk?' on':'');c.textContent=b.bk;
+      c.onclick=function(){cur=b.bk;render();};
+      chips.appendChild(c);
+    });
+    var b=book(),tb=document.getElementById('lwteBody');tb.innerHTML='';
+    b.cats.forEach(function(cat,i){
+      var tr=document.createElement('tr');
+      var t1=document.createElement('td');t1.textContent=cat.t;tr.appendChild(t1);
+      var t2=document.createElement('td');t2.textContent=String(cat.n);tr.appendChild(t2);
+      ['learn','review','dict'].forEach(function(f){
+        var td=document.createElement('td'),cb=document.createElement('input');
+        cb.type='checkbox';cb.setAttribute('data-lwte',k(b.bk,i,f));
+        cb.checked=!!P[k(b.bk,i,f)];cb.setAttribute('aria-label',cat.t+' '+f);
+        td.appendChild(cb);tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    var total=0,learn=0,review=0,dict=0,covered=0;
+    META.books.forEach(function(bb){
+      var hit=false;
+      bb.cats.forEach(function(c,i){total++;if(P[k(bb.bk,i,'learn')]){learn++;hit=true;}if(P[k(bb.bk,i,'review')])review++;if(P[k(bb.bk,i,'dict')])dict++;});
+      if(hit)covered++;
+    });
+    document.getElementById('lwteStat').textContent='已學 '+learn+' / '+total+' 主題 · 已複習 '+review+' · 已聽寫 '+dict+' · 已開始 '+covered+' / '+META.books.length+' 冊（目前：'+b.bk+' · P'+b.grade+' · '+b.n+' 詞 / '+b.cats.length+' 主題）';
+  }
+  document.getElementById('lwteBody').addEventListener('change',function(e){
+    var t=e.target;if(!t||!t.getAttribute)return;
+    var key=t.getAttribute('data-lwte');if(!key)return;
+    if(t.checked)P[key]=true;else delete P[key];
+    save();render();
+  });
+  document.getElementById('lwteClear').onclick=function(){
+    if(!confirm('確定清空 '+cur+' 的打卡進度？其他冊不受影響。'))return;
+    Object.keys(P).forEach(function(x){if(x.indexOf(cur+'|')===0)delete P[x];});
+    save();render();
+  };
+  document.getElementById('lwtePrint').onclick=function(){
+    var b=book(),area=document.getElementById('lwtePrintArea');if(!area)return;
+    var h='<h2>朗文聽寫紙 · '+b.bk+'（P'+b.grade+'）</h2><p>家長按課本報詞，孩子寫在橫線上。本站不提供詞條。</p>';
+    b.cats.forEach(function(c){
+      h+='<h3>'+c.t+'（'+c.n+' 詞）</h3>';
+      for(var i=0;i<c.n;i++)h+='<div class="lhub-line"></div>';
+    });
+    area.innerHTML=h;
+    document.body.classList.add('lwte-printing');
+    try{window.print();}catch(e){}
+    window.setTimeout(function(){document.body.classList.remove('lwte-printing');area.innerHTML='';},1500);
+  };
+  window.__lwteTest={get:get,set:set,clear:clear,render:render,key:KEY,meta:META};
+  render();
+})();
 </script>
+<div id="lwtePrintArea"></div>
 </body>
 </html>'''
 html = TEMPLATE.replace('__DATA__', DATA)
@@ -5487,6 +5616,14 @@ assert 'Band 1A' not in _kb_json and 'Band 1B' not in _kb_json, '知識庫混入
 html = html.replace('__CLOUD_SDK__', _cloud_sdk)
 html = html.replace('__CLOUD_CFG__', _cloud_cfg)
 html = html.replace('__AI_KB__', _kb_json)
+# ---- v1.78 構建期注入：只含「冊／主題名／詞數」的公開元數據（零詞條、零中文釋義） ----
+_lwte_meta = open(os.path.join(WS, '_lwte_meta.json'), encoding='utf-8').read().strip()
+_lwte_obj = json.loads(_lwte_meta)
+assert len(_lwte_obj['books']) == 12, '朗文目錄應為 12 冊'
+assert all(set(c.keys()) == {'t', 'n'} for b in _lwte_obj['books'] for c in b['cats']), '朗文目錄混入非目錄欄位'
+assert '"items"' not in _lwte_meta and '"w":' not in _lwte_meta and '"zh"' not in _lwte_meta, '朗文目錄疑似混入詞條'
+html = html.replace('__LWTE_META__', _lwte_meta)
+assert '__LWTE_META__' not in html, '朗文目錄注入失敗'
 # 版本號從副標題單一真相源提取（公開版 vX.Y），輸出帶版本號文件名
 _m = re.search(r'公開版\s+(v\d+\.\d+)', TEMPLATE)
 VER = _m.group(1) if _m else 'v1.15'

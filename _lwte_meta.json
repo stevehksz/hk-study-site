@@ -1,0 +1,597 @@
+{
+ "note": "僅冊／主題目錄與詞數（事實性元數據），不含任何詞條或中文釋義；詞表版權屬 Pearson Education Asia Limited，本站不收錄。",
+ "books": [
+  {
+   "bk": "1A",
+   "grade": 1,
+   "n": 105,
+   "cats": [
+    {
+     "t": "People around us",
+     "n": 9
+    },
+    {
+     "t": "Toys",
+     "n": 8
+    },
+    {
+     "t": "Numbers (1–10)",
+     "n": 10
+    },
+    {
+     "t": "Colours",
+     "n": 9
+    },
+    {
+     "t": "About school Things I bring to school",
+     "n": 7
+    },
+    {
+     "t": "Things at school",
+     "n": 7
+    },
+    {
+     "t": "Body parts",
+     "n": 13
+    },
+    {
+     "t": "Adjectives",
+     "n": 13
+    },
+    {
+     "t": "Feelings",
+     "n": 3
+    },
+    {
+     "t": "Actions",
+     "n": 10
+    },
+    {
+     "t": "Gifts",
+     "n": 4
+    },
+    {
+     "t": "Classroom language",
+     "n": 12
+    }
+   ]
+  },
+  {
+   "bk": "1B",
+   "grade": 1,
+   "n": 110,
+   "cats": [
+    {
+     "t": "Pets",
+     "n": 6
+    },
+    {
+     "t": "Animals",
+     "n": 11
+    },
+    {
+     "t": "Numbers (1–20)",
+     "n": 20
+    },
+    {
+     "t": "Actions",
+     "n": 15
+    },
+    {
+     "t": "Feelings",
+     "n": 2
+    },
+    {
+     "t": "Things at home",
+     "n": 10
+    },
+    {
+     "t": "Places and positions",
+     "n": 14
+    },
+    {
+     "t": "Things we wear",
+     "n": 13
+    },
+    {
+     "t": "Food and drink",
+     "n": 7
+    },
+    {
+     "t": "Classroom language",
+     "n": 12
+    }
+   ]
+  },
+  {
+   "bk": "2A",
+   "grade": 2,
+   "n": 60,
+   "cats": [
+    {
+     "t": "Getting around",
+     "n": 10
+    },
+    {
+     "t": "Positions",
+     "n": 3
+    },
+    {
+     "t": "Jobs",
+     "n": 15
+    },
+    {
+     "t": "School subjects",
+     "n": 5
+    },
+    {
+     "t": "Adjectives",
+     "n": 10
+    },
+    {
+     "t": "Feelings",
+     "n": 2
+    },
+    {
+     "t": "Actions related to rules",
+     "n": 6
+    },
+    {
+     "t": "In the park",
+     "n": 9
+    }
+   ]
+  },
+  {
+   "bk": "2B",
+   "grade": 2,
+   "n": 102,
+   "cats": [
+    {
+     "t": "Telling the time",
+     "n": 12
+    },
+    {
+     "t": "Actions Daily actions",
+     "n": 9
+    },
+    {
+     "t": "Housework",
+     "n": 11
+    },
+    {
+     "t": "Weekly activities go",
+     "n": 19
+    },
+    {
+     "t": "Days of the week",
+     "n": 7
+    },
+    {
+     "t": "Tastes",
+     "n": 4
+    },
+    {
+     "t": "Food and drink Snacks",
+     "n": 13
+    },
+    {
+     "t": "Drinks",
+     "n": 4
+    },
+    {
+     "t": "Fast food",
+     "n": 6
+    },
+    {
+     "t": "Meat",
+     "n": 3
+    },
+    {
+     "t": "Vegetables",
+     "n": 3
+    },
+    {
+     "t": "Fruit",
+     "n": 5
+    },
+    {
+     "t": "Others",
+     "n": 6
+    }
+   ]
+  },
+  {
+   "bk": "3A",
+   "grade": 3,
+   "n": 176,
+   "cats": [
+    {
+     "t": "Seasons and activities spring",
+     "n": 2
+    },
+    {
+     "t": "summer",
+     "n": 3
+    },
+    {
+     "t": "autumn",
+     "n": 2
+    },
+    {
+     "t": "winter",
+     "n": 2
+    },
+    {
+     "t": "Weather",
+     "n": 9
+    },
+    {
+     "t": "Festivals and activities Easter",
+     "n": 1
+    },
+    {
+     "t": "Dragon Boat Festival",
+     "n": 1
+    },
+    {
+     "t": "Mid-Autumn Festival",
+     "n": 1
+    },
+    {
+     "t": "Christmas",
+     "n": 3
+    },
+    {
+     "t": "Chinese New Year",
+     "n": 4
+    },
+    {
+     "t": "My things",
+     "n": 16
+    },
+    {
+     "t": "School events",
+     "n": 9
+    },
+    {
+     "t": "Months",
+     "n": 12
+    },
+    {
+     "t": "Actions",
+     "n": 7
+    },
+    {
+     "t": "Textures",
+     "n": 4
+    },
+    {
+     "t": "Numbers (1–100)",
+     "n": 100
+    }
+   ]
+  },
+  {
+   "bk": "3B",
+   "grade": 3,
+   "n": 49,
+   "cats": [
+    {
+     "t": "Positions",
+     "n": 3
+    },
+    {
+     "t": "Places at school",
+     "n": 12
+    },
+    {
+     "t": "Feelings",
+     "n": 6
+    },
+    {
+     "t": "Adjectives",
+     "n": 4
+    },
+    {
+     "t": "Things around us",
+     "n": 6
+    },
+    {
+     "t": "Actions and activities Holiday activities",
+     "n": 12
+    },
+    {
+     "t": "Abilities",
+     "n": 6
+    }
+   ]
+  },
+  {
+   "bk": "4A",
+   "grade": 4,
+   "n": 97,
+   "cats": [
+    {
+     "t": "Activities going",
+     "n": 2
+    },
+    {
+     "t": "playing",
+     "n": 8
+    },
+    {
+     "t": "Others",
+     "n": 6
+    },
+    {
+     "t": "Habits",
+     "n": 6
+    },
+    {
+     "t": "Actions",
+     "n": 9
+    },
+    {
+     "t": "Things around us",
+     "n": 15
+    },
+    {
+     "t": "Places",
+     "n": 8
+    },
+    {
+     "t": "Adjectives",
+     "n": 4
+    },
+    {
+     "t": "Adverbs",
+     "n": 7
+    },
+    {
+     "t": "Animals and insects Birds",
+     "n": 5
+    },
+    {
+     "t": "Animals",
+     "n": 13
+    },
+    {
+     "t": "Insects",
+     "n": 8
+    },
+    {
+     "t": "Food and drink",
+     "n": 4
+    },
+    {
+     "t": "Transport",
+     "n": 2
+    }
+   ]
+  },
+  {
+   "bk": "4B",
+   "grade": 4,
+   "n": 69,
+   "cats": [
+    {
+     "t": "Clubs",
+     "n": 6
+    },
+    {
+     "t": "Travel activities",
+     "n": 14
+    },
+    {
+     "t": "Actions",
+     "n": 13
+    },
+    {
+     "t": "Food and drink Dishes",
+     "n": 18
+    },
+    {
+     "t": "Sweet things",
+     "n": 7
+    },
+    {
+     "t": "Drink",
+     "n": 8
+    },
+    {
+     "t": "Ingredients",
+     "n": 3
+    }
+   ]
+  },
+  {
+   "bk": "5A",
+   "grade": 5,
+   "n": 70,
+   "cats": [
+    {
+     "t": "Actions",
+     "n": 8
+    },
+    {
+     "t": "Plans",
+     "n": 7
+    },
+    {
+     "t": "Activities",
+     "n": 5
+    },
+    {
+     "t": "Illnesses",
+     "n": 8
+    },
+    {
+     "t": "Things to do when you are ill",
+     "n": 5
+    },
+    {
+     "t": "Weather",
+     "n": 3
+    },
+    {
+     "t": "Things around us",
+     "n": 20
+    },
+    {
+     "t": "Festivals and activities Chinese New Year",
+     "n": 2
+    },
+    {
+     "t": "Dragon Boat Festival",
+     "n": 2
+    },
+    {
+     "t": "Mid-Autumn Festival",
+     "n": 2
+    },
+    {
+     "t": "Lantern Festival",
+     "n": 2
+    },
+    {
+     "t": "Double Ninth Festival",
+     "n": 1
+    },
+    {
+     "t": "Christmas",
+     "n": 3
+    },
+    {
+     "t": "Halloween",
+     "n": 1
+    },
+    {
+     "t": "Mother’s Day",
+     "n": 1
+    }
+   ]
+  },
+  {
+   "bk": "5B",
+   "grade": 5,
+   "n": 71,
+   "cats": [
+    {
+     "t": "Actions (1)",
+     "n": 29
+    },
+    {
+     "t": "Animals",
+     "n": 5
+    },
+    {
+     "t": "Feelings",
+     "n": 4
+    },
+    {
+     "t": "Food and drink Meat",
+     "n": 5
+    },
+    {
+     "t": "Vegetables",
+     "n": 4
+    },
+    {
+     "t": "Fruit",
+     "n": 1
+    },
+    {
+     "t": "Snacks",
+     "n": 7
+    },
+    {
+     "t": "Drink",
+     "n": 3
+    },
+    {
+     "t": "Seafood",
+     "n": 1
+    },
+    {
+     "t": "Others",
+     "n": 10
+    },
+    {
+     "t": "補遺（站內舊人工詞表）",
+     "n": 2
+    }
+   ]
+  },
+  {
+   "bk": "6A",
+   "grade": 6,
+   "n": 73,
+   "cats": [
+    {
+     "t": "Jobs",
+     "n": 9
+    },
+    {
+     "t": "Things people do",
+     "n": 9
+    },
+    {
+     "t": "Hobbies",
+     "n": 8
+    },
+    {
+     "t": "Materials",
+     "n": 10
+    },
+    {
+     "t": "Things around us",
+     "n": 10
+    },
+    {
+     "t": "Environmental protection Things we should do",
+     "n": 9
+    },
+    {
+     "t": "Things we shouldn’t do",
+     "n": 9
+    },
+    {
+     "t": "About pollution Types of pollution",
+     "n": 4
+    },
+    {
+     "t": "Causes of pollution and their effects",
+     "n": 5
+    }
+   ]
+  },
+  {
+   "bk": "6B",
+   "grade": 6,
+   "n": 42,
+   "cats": [
+    {
+     "t": "Actions and activities Leisure activities",
+     "n": 10
+    },
+    {
+     "t": "Places",
+     "n": 10
+    },
+    {
+     "t": "Directions and positions",
+     "n": 5
+    },
+    {
+     "t": "Things that make me upset",
+     "n": 5
+    },
+    {
+     "t": "About people",
+     "n": 12
+    }
+   ]
+  }
+ ]
+}

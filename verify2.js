@@ -429,10 +429,10 @@ try{
   const tv=doc.getElementById('tutorView');
   doc.querySelector('#termChips button[data-wk="0"]').click(); // 復位：v1.60 測試點過「第 3 週」過濾，切回全部
   const dets=[...tv.querySelectorAll('details.gsec.fold')];
-  ok('v1.68 補習材料 10 塊折疊('+dets.length+')', dets.length===10);
+  ok('v1.68 補習材料 11 塊折疊('+dets.length+')', dets.length===11);
   ok('v1.68 默認僅展開 ①排期表', dets.filter(d=>d.open).length===1 && dets[0].open && dets[0].querySelector('summary').textContent.includes('35 週排期表'));
   const sums=[...tv.querySelectorAll('details.gsec.fold > summary.gsec-h')].map(s=>s.textContent);
-  ok('v1.68 十塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀/中學英文/備考地圖/原創試卷）('+sums.length+')', sums.length===10 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡','中學英文','備考地圖','本站原創試卷'].every(t=>sums.some(s=>s.includes(t))));
+  ok('v1.68 十一塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀/中學英文/備考地圖/原創試卷/朗文單詞本）('+sums.length+')', sums.length===11 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡','中學英文','備考地圖','本站原創試卷','朗文單詞本'].every(t=>sums.some(s=>s.includes(t))));
   const nTerm=tv.querySelectorAll('#termGrid .fcard').length, nFt=tv.querySelectorAll('#ftGrid .fcard').length, nRead=tv.querySelectorAll('#readGrid .rcell').length;
   ok('v1.68 折疊後內容仍在 DOM（術語 '+nTerm+'／繁體 '+nFt+'／打卡 '+nRead+'）', nTerm===60 && nFt===100 && nRead===21);
   ok('v1.68 頁標題已去「女兒學習角」', tv.querySelector('h2').textContent==='補習材料（插中一 · 35 週減壓版）');
@@ -537,9 +537,9 @@ try{
   const rnHtml=rn?rn.outerHTML:'';
   const tvEl=doc.getElementById('tutorView');
   const tvDets=[...tvEl.querySelectorAll('details.gsec.fold')];
-  ok('v1.72 ⑧ 為第 8 個折疊塊且默認收起（v1.77 後共 10 塊）', !!rn && tvDets.length===10 && tvDets[7]===rn && tvDets[8].id==='examMap' && tvDets[9].id==='paperHub' && !rn.open);
+  ok('v1.72 ⑧ 為第 8 個折疊塊且默認收起（v1.78 後共 11 塊）', !!rn && tvDets.length===11 && tvDets[7]===rn && tvDets[8].id==='examMap' && tvDets[9].id==='paperHub' && tvDets[10].id==='lwteHub' && !rn.open);
   ok('v1.72 ⑧ 標題含「中學英文／不轉載內容」', !!rn && rn.querySelector('summary').textContent.includes('中學英文') && rn.querySelector('summary').textContent.includes('不轉載內容'));
-  ok('v1.72 頭部提示 10 模塊且標明 ⑧ 為入學後書籤、⑨ 先看、⑩ 找卷', tvEl.textContent.includes('10 個模塊已折疊') && tvEl.textContent.includes('⑧ 是入學後的資源書籤') && tvEl.textContent.includes('⑨ 不知道從哪開始先看它') && tvEl.textContent.includes('⑩ 按年級找本站原創卷'));
+  ok('v1.72 頭部提示 11 模塊且標明 ⑧ 書籤、⑨ 先看、⑩ 找卷、⑪ 打卡', tvEl.textContent.includes('11 個模塊已折疊') && tvEl.textContent.includes('⑧ 是入學後的資源書籤') && tvEl.textContent.includes('⑨ 不知道從哪開始先看它') && tvEl.textContent.includes('⑩ 按年級找本站原創卷') && tvEl.textContent.includes('⑪ 朗文單詞本打卡'));
   ok('v1.72 ② 教材清單有指向 ⑧ 的指引', tvDets[1].textContent.includes('⑧ 中學英文 · 外部資源導航'));
   const off=['edb.gov.hk/Academic_English','student.edcity.hk/sec/en/guidance/1031','hkeaa.edu.hk','hkedcity.net'];
   const links=[...rn.querySelectorAll('a[href^="http"]')];
@@ -1133,7 +1133,7 @@ try{
   window.eval('quizNext()');
   window.eval('quizPickOpt(quiz.opts.indexOf(quiz.ans))');
   ok('v1.73 抽查答對 2 題自動點亮這顆星', doc.querySelectorAll('.sm-star.on').length===1 && !!JSON.parse(window.localStorage.getItem('hkk_poem_done'))[firstId] && doc.getElementById('mBody').textContent.includes('這顆星已點亮'));
-  ok('v1.73 匯出／匯入／清空都帶上 poemDone', /poemDone,mapChk:[\s\S]{0,80}ver:'hkk_v\d+\.\d+'/.test(html) && html.includes('if(d.poemDone)poemDone=d.poemDone') && /poemDone=\{\};/.test(html));
+  ok('v1.73 匯出／匯入／清空都帶上 poemDone', /poemDone,mapChk:[\s\S]{0,240}ver:'hkk_v\d+\.\d+'/.test(html) && html.includes('if(d.poemDone)poemDone=d.poemDone') && /poemDone=\{\};/.test(html));
   ok('v1.75 匯出／匯入／清空都帶上 mapChk', html.includes('mapChk:window.__mapTest') && html.includes('if(d.mapChk&&window.__mapTest)') && html.includes('window.__mapTest.set({});window.__mapTest.render();'));
   window.eval('curPoem=null;');
   doc.querySelectorAll('#smSegs .sm-star')[0].click();
@@ -1252,7 +1252,7 @@ try{
   const d9=[...tv9.querySelectorAll('details.gsec.fold')];
   const emTxt=em?em.textContent:'';
   const emHtml=em?em.outerHTML:'';
-  ok('v1.75 ⑨ 為第 9 個折疊塊、默認收起、在 ⑧ 之後（v1.77 後共 10 塊）', !!em && d9.length===10 && d9[8]===em && d9[9].id==='paperHub' && !em.open && d9[7].id==='secResNav');
+  ok('v1.75 ⑨ 為第 9 個折疊塊、默認收起、在 ⑧ 之後（v1.78 後共 11 塊）', !!em && d9.length===11 && d9[8]===em && d9[9].id==='paperHub' && d9[10].id==='lwteHub' && !em.open && d9[7].id==='secResNav');
   ok('v1.75 ⑨ 標題含「備考地圖／不知道從哪開始」', !!em && em.querySelector('summary.gsec-h').textContent.includes('備考地圖') && em.querySelector('summary.gsec-h').textContent.includes('不知道從哪開始先看這張'));
   ok('v1.75 頭部「🗺 打開備考地圖」直達鈕在', !!doc.getElementById('mapOpenBtn') && doc.getElementById('mapOpenBtn').textContent.includes('打開備考地圖'));
   ok('v1.75 A 區矩陣 4 科 × 3 段表頭齊', !!em && em.querySelectorAll('table.mtable tbody tr').length===4 && ['中文','英文','數學','面試'].every(k=>em.querySelector('table.mtable').textContent.includes(k)) && ['輸入','輸出','複盤'].every(k=>em.querySelector('table.mtable thead').textContent.includes(k)));
@@ -1333,7 +1333,7 @@ try{
   const pBtns=ph?[...ph.querySelectorAll('button.pgo')]:[];
   const specs=pBtns.map(b=>b.getAttribute('data-paper')||'');
   const d10=[...doc.getElementById('tutorView').querySelectorAll('details.gsec.fold')];
-  ok('v1.77 ⑩ 為第 10 個折疊塊、默認收起、排在 ⑨ 之後', !!ph && d10.length===10 && d10[9]===ph && d10[8].id==='examMap' && !ph.open);
+  ok('v1.77 ⑩ 為第 10 個折疊塊、默認收起、排在 ⑨ 之後（v1.78 後共 11 塊）', !!ph && d10.length===11 && d10[9]===ph && d10[10].id==='lwteHub' && d10[8].id==='examMap' && !ph.open);
   ok('v1.77 標題含「本站原創試卷／按年級找」', !!ph && ph.querySelector('summary').textContent.includes('本站原創試卷') && ph.querySelector('summary').textContent.includes('按年級找'));
   ok('v1.77 表格 6 個年級 × 3 卷種表頭齊', !!ph && ph.querySelectorAll('table.phub-tbl tbody tr').length===6 && ['英文卷','數學卷','呈分試卷'].every(k=>ph.querySelector('table.phub-tbl thead').textContent.includes(k)));
   ok('v1.77 14 顆按鈕且 data-paper 全部合法 ('+pBtns.length+')', pBtns.length===14 && specs.every(s=>/^(en|math):P[1-6]$|^exam:P[56]$/.test(s)) && new Set(specs).size===14);
@@ -1349,7 +1349,7 @@ try{
   ok('v1.77 不新增 localStorage 鍵／不新增雲端請求', typeof window.__paperHubTest==='object' && phJs.length>200 && !/localStorage|fetch\(|XMLHttpRequest/.test(phJs));
   ok('v1.77 新模塊未污染 AI 白名單知識庫', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/本站原創試卷|不爬取|公開發行|題型結構/.test(x.t+x.s)));
   ok('v1.77 窄屏可橫滑且有文字提示', /\.phub-wrap\{overflow-x:auto/.test(html) && /min-width:600px/.test(html) && phTxt.includes('手機窄屏可左右滑動表格'));
-  ok('v1.77 頭部提示 10 模塊且點名 ⑩', doc.getElementById('tutorView').textContent.includes('10 個模塊已折疊') && doc.getElementById('tutorView').textContent.includes('⑩ 按年級找本站原創卷'));
+  ok('v1.77 頭部提示 11 模塊且點名 ⑩', doc.getElementById('tutorView').textContent.includes('11 個模塊已折疊') && doc.getElementById('tutorView').textContent.includes('⑩ 按年級找本站原創卷'));
   function tap(spec){
     const b=pBtns.find(x=>x.getAttribute('data-paper')===spec);
     if(!b)return false;
@@ -1364,6 +1364,67 @@ try{
   ok('v1.77 點 P5 呈分試卷：切頁＋選中年級', doc.getElementById('examView').style.display!=='none' && doc.querySelector('#examChips .chip[data-pg="P5"]').classList.contains('on'));
   ok('v1.77 非法年級／卷種被拒（exam:P3、xx:P1）', window.__paperHubTest.go('exam:P3')===false && window.__paperHubTest.go('xx:P1')===false && window.__paperHubTest.go('en:P9')===false);
 }catch(e){ ok('v1.77 測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.78 朗文單詞本 · 進度本（版權紅線優先） ============
+try{
+  const fs=require('fs');
+  const lh=doc.getElementById('lwteHub');
+  const lhTxt=lh?lh.textContent:'';
+  const lhHtml=lh?lh.outerHTML:'';
+  const d11=[...doc.getElementById('tutorView').querySelectorAll('details.gsec.fold')];
+  ok('v1.78 ⑪ 為第 11 個折疊塊、默認收起、排在 ⑩ 之後', !!lh && d11.length===11 && d11[10]===lh && d11[9].id==='paperHub' && !lh.open);
+  ok('v1.78 標題條帶 gsec-h 類（v1.77 踩過漏類）', !!lh && !!lh.querySelector('summary.gsec-h'));
+  ok('v1.78 標題含「朗文單詞本／進度本」', lhTxt.includes('朗文單詞本') && lhTxt.includes('進度本'));
+
+  // ── 版權紅線：拿本機私有詞表逐條反查公開 HTML ──
+  let priv=null, zhPriv=null;
+  try{priv=JSON.parse(fs.readFileSync('_lwte_all.json','utf8'));}catch(e){}
+  try{zhPriv=JSON.parse(fs.readFileSync('_lwte_vocab.json','utf8'));}catch(e){}
+  const allW=priv?[].concat(...priv.books.map(b=>[].concat(...b.cats.map(c=>c.items)))):[];
+  // 只比對長詞組：短詞（one/red/fish）本來就是通用英文，出現在別處不代表外洩
+  const longW=allW.filter(w=>w.length>=20);
+  const leak=longW.filter(w=>html.includes(w));
+  if(leak.length)console.log('   leaked=',leak.slice(0,5));
+  ok('v1.78 公開 HTML 零朗文詞條（'+longW.length+' 條長詞組逐條比對）', !!priv && longW.length>30 && leak.length===0);
+  const zhAll=zhPriv?[].concat(...zhPriv.map(e=>e.items.map(i=>i.zh))):[];
+  const zhs=zhAll.filter(z=>z.length>=4);
+  const leakZh=zhs.filter(z=>html.includes(z));
+  if(leakZh.length)console.log('   leakedZh=',leakZh.slice(0,5));
+  ok('v1.78 公開 HTML 零朗文中文自譯（'+zhs.length+' 條）', !!zhPriv && zhs.length>40 && leakZh.length===0);
+  const metaSrc=fs.readFileSync('_lwte_meta.json','utf8').trim();
+  ok('v1.78 注入內容＝公開目錄檔本身、無詞表結構／無私有檔名外洩', html.includes(metaSrc) && !/"w"\s*:\s*"/.test(metaSrc) && !/"items"\s*:\s*\[/.test(metaSrc) && !html.includes('_lwte_all.json') && !html.includes('_lwte_notebook'));
+  ok('v1.78 ⑪ 區塊零外鏈／零圖片／零檔案連結', !/<a\s|<img\b|\.pdf|\.jpe?g|\.png|https?:\/\//i.test(lhHtml));
+  ok('v1.78 warn 卡標 © Pearson 與「不是法律意見」', lhTxt.includes('Pearson Education Asia Limited') && lhTxt.includes('不是法律意見'));
+  ok('v1.78 明確「不收錄任何單詞」與「完整版在本機」', lhTxt.includes('不收錄任何單詞') && lhTxt.includes('家庭學習用的完整版在本機'));
+
+  // ── 目錄元數據：只有冊／主題名／詞數 ──
+  const meta=window.__lwteTest?window.__lwteTest.meta:null;
+  ok('v1.78 構建期注入 12 冊／127 主題／1024 詞數', !!meta && meta.books.length===12 && meta.books.reduce((n,b)=>n+b.cats.length,0)===127 && meta.books.reduce((n,b)=>n+b.n,0)===1024);
+  ok('v1.78 meta 每主題只有 t/n 兩欄', !!meta && meta.books.every(b=>b.cats.every(c=>Object.keys(c).length===2 && typeof c.t==='string' && typeof c.n==='number')));
+  ok('v1.78 佔位符已替換', !html.includes('__LWTE_META__'));
+
+  // ── DOM 渲染與交互 ──
+  ok('v1.78 12 顆冊 chips 且預設 1A', doc.querySelectorAll('#lwteChips .chip').length===12 && doc.querySelector('#lwteChips .chip.on').textContent==='1A');
+  ok('v1.78 1A 渲染 12 列主題 × 3 勾選框', doc.querySelectorAll('#lwteBody tr').length===12 && doc.querySelectorAll('#lwteBody input[data-lwte]').length===36);
+  ok('v1.78 每列只有主題名＋詞數＋三個勾選框', [...doc.querySelectorAll('#lwteBody tr')].every(tr=>tr.children.length===5 && /^\d+$/.test(tr.children[1].textContent.trim())));
+  ok('v1.78 統計列顯示 127 主題', doc.getElementById('lwteStat').textContent.includes('/ 127 主題'));
+  const first=doc.querySelector('#lwteBody input[data-lwte]'), firstKey=first.getAttribute('data-lwte');
+  first.checked=true; first.dispatchEvent(new window.Event('change',{bubbles:true}));
+  ok('v1.78 勾選寫入 hkk_lwte_prog_v0 並更新統計', window.__lwteTest.key==='hkk_lwte_prog_v0' && window.__lwteTest.get()[firstKey]===true && doc.getElementById('lwteStat').textContent.includes('已學 1 /'));
+  doc.querySelectorAll('#lwteChips .chip')[4].click();
+  ok('v1.78 切到 3A：16 列、其他冊進度保留', doc.getElementById('lwteStat').textContent.includes('3A') && doc.querySelectorAll('#lwteBody tr').length===16 && window.__lwteTest.get()[firstKey]===true);
+  ok('v1.78 清空本冊只刪該冊前綴（靜態檢查）', html.includes("x.indexOf(cur+'|')===0"));
+  window.__lwteTest.clear();window.__lwteTest.render();
+  ok('v1.78 全清後統計歸零', doc.getElementById('lwteStat').textContent.includes('已學 0 /'));
+
+  // ── 聽寫紙、集成、白名單、推送紅線 ──
+  ok('v1.78 聽寫紙只印主題名＋詞數＋橫線', html.includes('lhub-line') && html.includes('for(var i=0;i<c.n;i++)') && lhTxt.includes('紙上不會出現任何單詞'));
+  ok('v1.78 匯出／匯入／清空都帶 lwteProg', html.includes('lwteProg:window.__lwteTest') && html.includes('if(d.lwteProg&&window.__lwteTest)') && html.includes('window.__lwteTest.clear()'));
+  ok('v1.78 不進 AI 白名單知識庫', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/朗文單詞本|hkk_lwte|聽寫紙/.test(x.t+x.s)));
+  ok('v1.78 窄屏可橫滑、表格壓窄、提示在表格上方', /\.lhub-wrap\{overflow-x:auto/.test(html) && /min-width:520px/.test(html) && /max-width:640px\)\{[\s\S]{0,220}min-width:430px/.test(html) && lhTxt.includes('手機窄屏可左右滑動表格') && lhHtml.indexOf('向右滑動下面的表格') < lhHtml.indexOf('lhub-wrap'));
+  const syncSrc=fs.readFileSync('_gh_sync.py','utf8');
+  ok('v1.78 私有詞表檔永不進 FILE_MAP、目錄檔已納入', !/'_lwte_all\.json'\s*:/.test(syncSrc) && !/'_lwte_notebook\.html'\s*:/.test(syncSrc) && /'_lwte_meta\.json'\s*:/.test(syncSrc));
+}catch(e){ ok('v1.78 測試執行', false); console.log('   err='+e.message); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);

@@ -231,6 +231,31 @@ table.phub-tbl th{background:#f1fbf8;color:#0b7a68;font-weight:700;white-space:n
 table.phub-tbl td:first-child{font-weight:800;color:#334155;white-space:nowrap}
 .phub-na{color:#94a3b8;font-size:12px}
 .pgo{min-height:44px;padding:10px 14px;font-size:13px}
+/* v1.78 朗文進度本：只有冊／主題目錄與勾選框，零詞條、零中文釋義、零外鏈 */
+.lhub-stat{background:#e8f6f2;color:#0b7a68;border-radius:9px;padding:9px 12px;font-size:13px;font-weight:700;margin:8px 0 10px;line-height:1.7}
+.lhub-chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.lhub-chips .chip{padding:5px 12px;font-size:12.5px;min-height:32px}
+.lhub-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:6px 0 4px}
+table.lhub-tbl{min-width:520px;width:100%;border-collapse:collapse;font-size:13px}
+table.lhub-tbl th,table.lhub-tbl td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:middle;line-height:1.6}
+table.lhub-tbl th{background:#f1fbf8;color:#0b7a68;font-weight:700;white-space:nowrap}
+table.lhub-tbl td:first-child{min-width:190px}
+table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--acc);cursor:pointer}
+.lhub-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+#lwtePrintArea{display:none}
+.lhub-line{border-bottom:1px solid #475569;height:25px;margin:0 0 7px}
+@media screen and (max-width:640px){
+  /* 390 寬下讓三個勾選列盡量露出，並在表格上方明示可橫滑（v1.78 截圖實測） */
+  table.lhub-tbl{min-width:430px;font-size:12px}
+  table.lhub-tbl th,table.lhub-tbl td{padding:6px 5px}
+  table.lhub-tbl td:first-child{min-width:118px;white-space:normal}
+  .lhub-tbl input[type=checkbox]{width:18px;height:18px}
+}
+@media print{
+  body.lwte-printing > *:not(#lwtePrintArea){display:none!important}
+  body.lwte-printing #lwtePrintArea{display:block!important;padding:0;font-size:13px}
+  body.lwte-printing .lhub-line{height:24px}
+}
 /* 跳轉後 scrollIntoView 會把標題推到吸頂導航底下，留足偏移（沿用 v1.73 詩詞彈窗的 110px） */
 #tutorView details.gsec.fold{scroll-margin-top:110px}
 .gcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:.2s;border-left:4px solid var(--math)}
@@ -672,13 +697,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.77（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.78（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.77（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.78（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1202,7 +1227,7 @@ Thank you for your time.</div>
     <div class="gsec">
       <h2>補習材料（插中一 · 35 週減壓版）</h2>
       <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
-      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 10 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>，<b>⑩ 按年級找本站原創卷</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
+      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 11 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>，<b>⑩ 按年級找本站原創卷</b>，<b>⑪ 朗文單詞本打卡</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
     </div>
 
     <details class="gsec fold" open>
@@ -1453,6 +1478,35 @@ Thank you for your time.</div>
         <p><b>本站提供的是練習，不是真卷。</b>英文卷／數學卷覆蓋 P1–P6，呈分試卷覆蓋 P5–P6，題目全部原創仿編；坊間分檔、名校真卷、官方評分標準一概不提供，教育局亦不公佈官方 Banding。</p>
       </div>
       <div class="src">整理依據：站內既有「練習 → 英文卷／呈分試卷／數學卷」三個原創出卷引擎（2026-11-07 盤點）｜本區全部文字為本站重寫，未引用任何第三方試卷、答案或原文</div>
+    </details>
+
+    <!-- v1.78 朗文單詞本 · 進度本：只放冊／主題目錄與勾選框，一個詞條都不放 -->
+    <details class="gsec fold" id="lwteHub">
+      <summary class="gsec-h">⑪ 朗文單詞本 · 進度本（對照紙本課本用）</summary>
+      <div class="gcard">
+        <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">這裡是<b>打卡本，不是詞表</b>。只列出家中課本的冊與主題目錄，讓孩子按「已學／已複習／已聽寫」三格自己勾；<b>本站不收錄任何單詞、中文釋義或教材頁面</b>，請對照紙本課本使用。完整詞表留在家裡本機的單檔單詞本，不上傳、不下載。</p>
+        <div class="lhub-stat" id="lwteStat">載入中…</div>
+        <div class="lhub-chips" id="lwteChips"></div>
+        <p class="tip" style="margin:0 0 7px;background:#fff8e6;color:#8a6d1f;border:1px solid #f0dfae">手機窄屏：向右滑動下面的表格，就能勾選「已學／已複習／已聽寫」三格。</p>
+        <div class="lhub-wrap">
+          <table class="mtable lhub-tbl">
+            <thead><tr><th>主題（課本目錄）</th><th>詞數</th><th>已學</th><th>已複習</th><th>已聽寫</th></tr></thead>
+            <tbody id="lwteBody"></tbody>
+          </table>
+        </div>
+        <p class="tip" style="margin-top:4px">手機窄屏可左右滑動表格。勾選即存本機（跟賬號隔離）；切冊不影響其他冊的進度。「印空白聽寫紙」會印出本冊主題與空白橫線，由家長按課本報詞，紙上不會出現任何單詞。</p>
+        <div class="lhub-act">
+          <button class="btn" type="button" id="lwtePrint">印空白聽寫紙（本冊）</button>
+          <button class="btn" type="button" id="lwteClear">清空本冊進度</button>
+        </div>
+      </div>
+      <div class="gcard warn">
+        <h3>⚠️ 為什麼這裡看不到單詞</h3>
+        <p><b>詞表版權屬出版社。</b>家中《Longman Welcome to English Gold》1A–6B 的 Word Bank 檔頁腳載明 © Pearson Education Asia Limited；本站是<b>公開倉庫</b>，把整份詞表放上來等於公開發行。因此線上只保留「冊／主題名稱／詞數」這類事實性目錄，<b>零詞條、零中文釋義、零教材頁面、零下載連結、零外鏈</b>。</p>
+        <p><b>家庭學習用的完整版在本機。</b>已另整理成一份單檔 HTML 與一篇 Obsidian 筆記，放在家裡電腦與私人庫，全部文字、詞數與分冊只作家庭學習，請勿外傳、勿轉貼到網站或公众号。以上為本站自寫的取用原則，<b>不是法律意見</b>；授權範圍請向原權利人確認。</p>
+        <p><b>進度是本地資料。</b>勾選存在這台裝置的瀏覽器，換設備不跟隨；可用「學習進度 → 匯出」備份，亦受清空進度影響。</p>
+      </div>
+      <div class="src">整理依據：家中「LWTEGOLD 1A-6B 全套資源」各冊 Word Bank 之冊／主題目錄與詞數（2026-11-07 盤點，共 12 冊 127 主題）｜本區文字全部本站重寫，未引用任何詞條、釋義或教材原文</div>
     </details>
 
     <!-- v1.70 情境化加群 CTA -->
@@ -45621,15 +45675,16 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／朗文進度）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
+    if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},ver:'hkk_v1.77',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},ver:'hkk_v1.78',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -45641,6 +45696,7 @@ document.getElementById('importFile').onchange=e=>{
     const d=JSON.parse(r.result);
     if(d.pProg)pProg=d.pProg; if(d.vProg)vProg=d.vProg; if(d.hProg)hProg=d.hProg; if(d.mProg)mProg=d.mProg; if(d.poemDone)poemDone=d.poemDone;
     if(d.mapChk&&window.__mapTest){window.__mapTest.set(d.mapChk);window.__mapTest.render();}
+    if(d.lwteProg&&window.__lwteTest){window.__lwteTest.set(d.lwteProg);window.__lwteTest.render();}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
     alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
@@ -46064,6 +46120,674 @@ authBoot();
   });
   window.__paperHubTest={go:paperGo};
 })();
+// ---- v1.78 朗文單詞本 · 進度本 ----
+// 只載入「冊／主題名／詞數」目錄，任何詞條都不進這份公開 HTML。
+(function(){
+  var META={
+ "note": "僅冊／主題目錄與詞數（事實性元數據），不含任何詞條或中文釋義；詞表版權屬 Pearson Education Asia Limited，本站不收錄。",
+ "books": [
+  {
+   "bk": "1A",
+   "grade": 1,
+   "n": 105,
+   "cats": [
+    {
+     "t": "People around us",
+     "n": 9
+    },
+    {
+     "t": "Toys",
+     "n": 8
+    },
+    {
+     "t": "Numbers (1–10)",
+     "n": 10
+    },
+    {
+     "t": "Colours",
+     "n": 9
+    },
+    {
+     "t": "About school Things I bring to school",
+     "n": 7
+    },
+    {
+     "t": "Things at school",
+     "n": 7
+    },
+    {
+     "t": "Body parts",
+     "n": 13
+    },
+    {
+     "t": "Adjectives",
+     "n": 13
+    },
+    {
+     "t": "Feelings",
+     "n": 3
+    },
+    {
+     "t": "Actions",
+     "n": 10
+    },
+    {
+     "t": "Gifts",
+     "n": 4
+    },
+    {
+     "t": "Classroom language",
+     "n": 12
+    }
+   ]
+  },
+  {
+   "bk": "1B",
+   "grade": 1,
+   "n": 110,
+   "cats": [
+    {
+     "t": "Pets",
+     "n": 6
+    },
+    {
+     "t": "Animals",
+     "n": 11
+    },
+    {
+     "t": "Numbers (1–20)",
+     "n": 20
+    },
+    {
+     "t": "Actions",
+     "n": 15
+    },
+    {
+     "t": "Feelings",
+     "n": 2
+    },
+    {
+     "t": "Things at home",
+     "n": 10
+    },
+    {
+     "t": "Places and positions",
+     "n": 14
+    },
+    {
+     "t": "Things we wear",
+     "n": 13
+    },
+    {
+     "t": "Food and drink",
+     "n": 7
+    },
+    {
+     "t": "Classroom language",
+     "n": 12
+    }
+   ]
+  },
+  {
+   "bk": "2A",
+   "grade": 2,
+   "n": 60,
+   "cats": [
+    {
+     "t": "Getting around",
+     "n": 10
+    },
+    {
+     "t": "Positions",
+     "n": 3
+    },
+    {
+     "t": "Jobs",
+     "n": 15
+    },
+    {
+     "t": "School subjects",
+     "n": 5
+    },
+    {
+     "t": "Adjectives",
+     "n": 10
+    },
+    {
+     "t": "Feelings",
+     "n": 2
+    },
+    {
+     "t": "Actions related to rules",
+     "n": 6
+    },
+    {
+     "t": "In the park",
+     "n": 9
+    }
+   ]
+  },
+  {
+   "bk": "2B",
+   "grade": 2,
+   "n": 102,
+   "cats": [
+    {
+     "t": "Telling the time",
+     "n": 12
+    },
+    {
+     "t": "Actions Daily actions",
+     "n": 9
+    },
+    {
+     "t": "Housework",
+     "n": 11
+    },
+    {
+     "t": "Weekly activities go",
+     "n": 19
+    },
+    {
+     "t": "Days of the week",
+     "n": 7
+    },
+    {
+     "t": "Tastes",
+     "n": 4
+    },
+    {
+     "t": "Food and drink Snacks",
+     "n": 13
+    },
+    {
+     "t": "Drinks",
+     "n": 4
+    },
+    {
+     "t": "Fast food",
+     "n": 6
+    },
+    {
+     "t": "Meat",
+     "n": 3
+    },
+    {
+     "t": "Vegetables",
+     "n": 3
+    },
+    {
+     "t": "Fruit",
+     "n": 5
+    },
+    {
+     "t": "Others",
+     "n": 6
+    }
+   ]
+  },
+  {
+   "bk": "3A",
+   "grade": 3,
+   "n": 176,
+   "cats": [
+    {
+     "t": "Seasons and activities spring",
+     "n": 2
+    },
+    {
+     "t": "summer",
+     "n": 3
+    },
+    {
+     "t": "autumn",
+     "n": 2
+    },
+    {
+     "t": "winter",
+     "n": 2
+    },
+    {
+     "t": "Weather",
+     "n": 9
+    },
+    {
+     "t": "Festivals and activities Easter",
+     "n": 1
+    },
+    {
+     "t": "Dragon Boat Festival",
+     "n": 1
+    },
+    {
+     "t": "Mid-Autumn Festival",
+     "n": 1
+    },
+    {
+     "t": "Christmas",
+     "n": 3
+    },
+    {
+     "t": "Chinese New Year",
+     "n": 4
+    },
+    {
+     "t": "My things",
+     "n": 16
+    },
+    {
+     "t": "School events",
+     "n": 9
+    },
+    {
+     "t": "Months",
+     "n": 12
+    },
+    {
+     "t": "Actions",
+     "n": 7
+    },
+    {
+     "t": "Textures",
+     "n": 4
+    },
+    {
+     "t": "Numbers (1–100)",
+     "n": 100
+    }
+   ]
+  },
+  {
+   "bk": "3B",
+   "grade": 3,
+   "n": 49,
+   "cats": [
+    {
+     "t": "Positions",
+     "n": 3
+    },
+    {
+     "t": "Places at school",
+     "n": 12
+    },
+    {
+     "t": "Feelings",
+     "n": 6
+    },
+    {
+     "t": "Adjectives",
+     "n": 4
+    },
+    {
+     "t": "Things around us",
+     "n": 6
+    },
+    {
+     "t": "Actions and activities Holiday activities",
+     "n": 12
+    },
+    {
+     "t": "Abilities",
+     "n": 6
+    }
+   ]
+  },
+  {
+   "bk": "4A",
+   "grade": 4,
+   "n": 97,
+   "cats": [
+    {
+     "t": "Activities going",
+     "n": 2
+    },
+    {
+     "t": "playing",
+     "n": 8
+    },
+    {
+     "t": "Others",
+     "n": 6
+    },
+    {
+     "t": "Habits",
+     "n": 6
+    },
+    {
+     "t": "Actions",
+     "n": 9
+    },
+    {
+     "t": "Things around us",
+     "n": 15
+    },
+    {
+     "t": "Places",
+     "n": 8
+    },
+    {
+     "t": "Adjectives",
+     "n": 4
+    },
+    {
+     "t": "Adverbs",
+     "n": 7
+    },
+    {
+     "t": "Animals and insects Birds",
+     "n": 5
+    },
+    {
+     "t": "Animals",
+     "n": 13
+    },
+    {
+     "t": "Insects",
+     "n": 8
+    },
+    {
+     "t": "Food and drink",
+     "n": 4
+    },
+    {
+     "t": "Transport",
+     "n": 2
+    }
+   ]
+  },
+  {
+   "bk": "4B",
+   "grade": 4,
+   "n": 69,
+   "cats": [
+    {
+     "t": "Clubs",
+     "n": 6
+    },
+    {
+     "t": "Travel activities",
+     "n": 14
+    },
+    {
+     "t": "Actions",
+     "n": 13
+    },
+    {
+     "t": "Food and drink Dishes",
+     "n": 18
+    },
+    {
+     "t": "Sweet things",
+     "n": 7
+    },
+    {
+     "t": "Drink",
+     "n": 8
+    },
+    {
+     "t": "Ingredients",
+     "n": 3
+    }
+   ]
+  },
+  {
+   "bk": "5A",
+   "grade": 5,
+   "n": 70,
+   "cats": [
+    {
+     "t": "Actions",
+     "n": 8
+    },
+    {
+     "t": "Plans",
+     "n": 7
+    },
+    {
+     "t": "Activities",
+     "n": 5
+    },
+    {
+     "t": "Illnesses",
+     "n": 8
+    },
+    {
+     "t": "Things to do when you are ill",
+     "n": 5
+    },
+    {
+     "t": "Weather",
+     "n": 3
+    },
+    {
+     "t": "Things around us",
+     "n": 20
+    },
+    {
+     "t": "Festivals and activities Chinese New Year",
+     "n": 2
+    },
+    {
+     "t": "Dragon Boat Festival",
+     "n": 2
+    },
+    {
+     "t": "Mid-Autumn Festival",
+     "n": 2
+    },
+    {
+     "t": "Lantern Festival",
+     "n": 2
+    },
+    {
+     "t": "Double Ninth Festival",
+     "n": 1
+    },
+    {
+     "t": "Christmas",
+     "n": 3
+    },
+    {
+     "t": "Halloween",
+     "n": 1
+    },
+    {
+     "t": "Mother’s Day",
+     "n": 1
+    }
+   ]
+  },
+  {
+   "bk": "5B",
+   "grade": 5,
+   "n": 71,
+   "cats": [
+    {
+     "t": "Actions (1)",
+     "n": 29
+    },
+    {
+     "t": "Animals",
+     "n": 5
+    },
+    {
+     "t": "Feelings",
+     "n": 4
+    },
+    {
+     "t": "Food and drink Meat",
+     "n": 5
+    },
+    {
+     "t": "Vegetables",
+     "n": 4
+    },
+    {
+     "t": "Fruit",
+     "n": 1
+    },
+    {
+     "t": "Snacks",
+     "n": 7
+    },
+    {
+     "t": "Drink",
+     "n": 3
+    },
+    {
+     "t": "Seafood",
+     "n": 1
+    },
+    {
+     "t": "Others",
+     "n": 10
+    },
+    {
+     "t": "補遺（站內舊人工詞表）",
+     "n": 2
+    }
+   ]
+  },
+  {
+   "bk": "6A",
+   "grade": 6,
+   "n": 73,
+   "cats": [
+    {
+     "t": "Jobs",
+     "n": 9
+    },
+    {
+     "t": "Things people do",
+     "n": 9
+    },
+    {
+     "t": "Hobbies",
+     "n": 8
+    },
+    {
+     "t": "Materials",
+     "n": 10
+    },
+    {
+     "t": "Things around us",
+     "n": 10
+    },
+    {
+     "t": "Environmental protection Things we should do",
+     "n": 9
+    },
+    {
+     "t": "Things we shouldn’t do",
+     "n": 9
+    },
+    {
+     "t": "About pollution Types of pollution",
+     "n": 4
+    },
+    {
+     "t": "Causes of pollution and their effects",
+     "n": 5
+    }
+   ]
+  },
+  {
+   "bk": "6B",
+   "grade": 6,
+   "n": 42,
+   "cats": [
+    {
+     "t": "Actions and activities Leisure activities",
+     "n": 10
+    },
+    {
+     "t": "Places",
+     "n": 10
+    },
+    {
+     "t": "Directions and positions",
+     "n": 5
+    },
+    {
+     "t": "Things that make me upset",
+     "n": 5
+    },
+    {
+     "t": "About people",
+     "n": 12
+    }
+   ]
+  }
+ ]
+};
+  var KEY='hkk_lwte_prog_v0';
+  var P={};
+  try{P=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){P={};}
+  if(typeof P!=='object'||Array.isArray(P))P={};
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(P));}catch(e){}}
+  function get(){return P;}
+  function set(v){P=(v&&typeof v==='object'&&!Array.isArray(v))?v:{};save();}
+  function clear(){P={};save();}
+  function k(bk,i,f){return bk+'|'+i+'|'+f;}
+  var cur=META.books[0].bk;
+  function book(){for(var i=0;i<META.books.length;i++){if(META.books[i].bk===cur)return META.books[i];}return META.books[0];}
+  function render(){
+    var chips=document.getElementById('lwteChips');if(!chips)return;
+    chips.innerHTML='';
+    META.books.forEach(function(b){
+      var c=document.createElement('button');c.type='button';
+      c.className='chip'+(cur===b.bk?' on':'');c.textContent=b.bk;
+      c.onclick=function(){cur=b.bk;render();};
+      chips.appendChild(c);
+    });
+    var b=book(),tb=document.getElementById('lwteBody');tb.innerHTML='';
+    b.cats.forEach(function(cat,i){
+      var tr=document.createElement('tr');
+      var t1=document.createElement('td');t1.textContent=cat.t;tr.appendChild(t1);
+      var t2=document.createElement('td');t2.textContent=String(cat.n);tr.appendChild(t2);
+      ['learn','review','dict'].forEach(function(f){
+        var td=document.createElement('td'),cb=document.createElement('input');
+        cb.type='checkbox';cb.setAttribute('data-lwte',k(b.bk,i,f));
+        cb.checked=!!P[k(b.bk,i,f)];cb.setAttribute('aria-label',cat.t+' '+f);
+        td.appendChild(cb);tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    var total=0,learn=0,review=0,dict=0,covered=0;
+    META.books.forEach(function(bb){
+      var hit=false;
+      bb.cats.forEach(function(c,i){total++;if(P[k(bb.bk,i,'learn')]){learn++;hit=true;}if(P[k(bb.bk,i,'review')])review++;if(P[k(bb.bk,i,'dict')])dict++;});
+      if(hit)covered++;
+    });
+    document.getElementById('lwteStat').textContent='已學 '+learn+' / '+total+' 主題 · 已複習 '+review+' · 已聽寫 '+dict+' · 已開始 '+covered+' / '+META.books.length+' 冊（目前：'+b.bk+' · P'+b.grade+' · '+b.n+' 詞 / '+b.cats.length+' 主題）';
+  }
+  document.getElementById('lwteBody').addEventListener('change',function(e){
+    var t=e.target;if(!t||!t.getAttribute)return;
+    var key=t.getAttribute('data-lwte');if(!key)return;
+    if(t.checked)P[key]=true;else delete P[key];
+    save();render();
+  });
+  document.getElementById('lwteClear').onclick=function(){
+    if(!confirm('確定清空 '+cur+' 的打卡進度？其他冊不受影響。'))return;
+    Object.keys(P).forEach(function(x){if(x.indexOf(cur+'|')===0)delete P[x];});
+    save();render();
+  };
+  document.getElementById('lwtePrint').onclick=function(){
+    var b=book(),area=document.getElementById('lwtePrintArea');if(!area)return;
+    var h='<h2>朗文聽寫紙 · '+b.bk+'（P'+b.grade+'）</h2><p>家長按課本報詞，孩子寫在橫線上。本站不提供詞條。</p>';
+    b.cats.forEach(function(c){
+      h+='<h3>'+c.t+'（'+c.n+' 詞）</h3>';
+      for(var i=0;i<c.n;i++)h+='<div class="lhub-line"></div>';
+    });
+    area.innerHTML=h;
+    document.body.classList.add('lwte-printing');
+    try{window.print();}catch(e){}
+    window.setTimeout(function(){document.body.classList.remove('lwte-printing');area.innerHTML='';},1500);
+  };
+  window.__lwteTest={get:get,set:set,clear:clear,render:render,key:KEY,meta:META};
+  render();
+})();
 </script>
+<div id="lwtePrintArea"></div>
 </body>
 </html>
