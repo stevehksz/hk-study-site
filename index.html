@@ -256,6 +256,46 @@ table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac
   body.lwte-printing #lwtePrintArea{display:block!important;padding:0;font-size:13px}
   body.lwte-printing .lhub-line{height:24px}
 }
+/* v1.79 泛讀重點子目錄：塊內頁簽，按鈕 44px 可點、表格可橫滑 */
+.rdnav{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 10px}
+.rdnav button{min-height:44px;padding:9px 15px;border:1px solid var(--line);background:#fff;border-radius:20px;font-size:13px;font-weight:600;color:#475069;cursor:pointer;line-height:1.4}
+.rdnav button:hover{border-color:var(--math);color:#0b7a68}
+.rdnav button.on{background:var(--math);color:#fff;border-color:var(--math);box-shadow:0 6px 14px -4px rgba(13,148,136,.5)}
+#readFocusBox{padding:0 12px}
+.rdpane{margin:0}
+.rdcard{background:#fff;border:1px solid var(--line);border-left:4px solid var(--math);border-radius:10px;padding:13px 15px;margin:0 0 10px;font-size:13.5px;line-height:1.85;color:#475569}
+.rdcard h3{font-size:15px;margin:0 0 7px;color:#0f766e;font-weight:800}
+.rdcard.warn{border-left-color:#d97706;background:#fffbeb}
+.rdcard.warn h3{color:#92400e}
+.rdhero{background:linear-gradient(135deg,#f0fdfa,#fff);border-left-color:var(--acc)}
+.rdkicker{font-size:11.5px;font-weight:700;color:#0b7a68;letter-spacing:.4px}
+.rdbig{font-size:21px;font-weight:800;color:#0f766e;margin:3px 0 9px;line-height:1.5}
+.rdsteps{margin:0 0 9px;padding-left:20px}
+.rdsteps li{margin:3px 0}
+.rdnote{font-size:12.5px;color:#64748b;line-height:1.8;margin:5px 0 0}
+.rdhero .rdnote{background:#e8f6f2;color:#0b7a68;border-radius:8px;padding:7px 10px;font-weight:600}
+.rdlist{margin:4px 0 10px;padding-left:20px}
+.rdlist li{margin:5px 0}
+.rdgo-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.rdgo{min-height:44px;padding:9px 13px;border:1px solid var(--line);background:#f8fafc;border-radius:9px;font-size:12.5px;font-weight:700;color:#0b7a68;cursor:pointer;line-height:1.5}
+.rdgo:hover{border-color:var(--math);background:#e6fbf5}
+.rdtable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0 6px}
+table.rdtable{min-width:520px;width:100%;border-collapse:collapse;font-size:12.5px}
+table.rdtable th,table.rdtable td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;line-height:1.7}
+table.rdtable th{background:#f1fbf8;color:#0b7a68;white-space:nowrap}
+table.rdtable td:first-child{font-weight:800;color:#334155;white-space:nowrap}
+.rdchk{display:flex;align-items:flex-start;gap:9px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;margin:6px 0;font-size:13px;line-height:1.7;cursor:pointer}
+.rdchk input{width:18px;height:18px;flex:0 0 18px;margin:2px 0 0;accent-color:var(--math)}
+.rdchk.done{background:#f1fbf8;border-color:#a7e3d4}
+.rdbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:#0b7a68}
+.rdcap{font-size:14px;padding:2px 12px 8px;margin:6px 0 0;color:#0f766e}
+@media screen and (max-width:640px){
+  .rdnav{padding:0 10px 10px}
+  .rdnav button{flex:1 1 44%;padding:9px 8px;font-size:12.5px}
+  .rdbig{font-size:19px}
+  table.rdtable{min-width:460px}
+  table.rdtable th,table.rdtable td{padding:6px 7px}
+}
 /* 跳轉後 scrollIntoView 會把標題推到吸頂導航底下，留足偏移（沿用 v1.73 詩詞彈窗的 110px） */
 #tutorView details.gsec.fold{scroll-margin-top:110px}
 .gcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:.2s;border-left:4px solid var(--math)}
@@ -697,13 +737,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.78（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.79（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.78（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.79（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1325,9 +1365,95 @@ Thank you for your time.</div>
       <div class="src">數據：教育局《香港小學學習字詞表》小學用字一覽表 3,171 字（文本轉錄 GitHub huwan/HKCLL4PL，字數與教育局官方簡介 PDF 一致，2026-11-05 核實）；含粵普發音＋筆順動畫的官方電子檢索版：<a href="https://www.edbchinese.hk/lexlist_ch/index.jsp" target="_blank" rel="noopener">edbchinese.hk/lexlist_ch</a>（逐字查詢）</div>
     </details>
 
-    <details class="gsec fold">
+    <details class="gsec fold" id="readHub">
       <summary class="gsec-h">⑦ 泛讀打卡（21 天挑戰）</summary>
       <p class="tip">規則只有一條：每天碰英文 20 分鐘（漫畫/故事/科普視頻都算），做完點一格。不查詞典、不寫讀後感、不考核——打卡本身就是全部任務。數據保存在本設備、跟賬號走。</p>
+
+      <!-- v1.79 泛讀重點子目錄：只在 ⑦ 內部切換，不新增折疊塊、不改主導航、不新造學習素材 -->
+      <div class="rdnav" id="readSubNav" role="tablist" aria-label="泛讀重點子目錄">
+        <button type="button" class="on" data-rd="today" role="tab" aria-selected="true">⭐ 今日重點</button>
+        <button type="button" data-rd="plan" role="tab" aria-selected="false">📅 21 天怎麼讀</button>
+        <button type="button" data-rd="pick" role="tab" aria-selected="false">📚 讀什麼</button>
+        <button type="button" data-rd="check" role="tab" aria-selected="false">✅ 家長自查</button>
+      </div>
+      <div id="readFocusBox">
+        <div class="rdpane" data-rd-pane="today" style="display:block">
+          <div class="rdcard rdhero">
+            <div class="rdkicker">給小孩的一頁 · 今天只做三件事</div>
+            <div class="rdbig">第 <span id="rdDayN">1</span> 天 · 碰英文 20 分鐘</div>
+            <ol class="rdsteps">
+              <li><b>自己挑一份想看的英文</b>：漫畫、故事、科普視頻都算，挑感興趣的就好。</li>
+              <li><b>看完回來點下面那一格</b>：不查詞典、不寫讀後感、不考核，打卡就是全部任務。</li>
+              <li><b>想講就開 90 秒計時</b>：用本頁 ③ 的計時器，講不出也沒關係，明天再來。</li>
+            </ol>
+            <div class="rdnote" id="rdDayTip">今天還沒打卡，讀完記得回來點格。</div>
+          </div>
+          <div class="rdcard">
+            <h3>想多學一點才點 · 本站重點學習件</h3>
+            <p class="rdnote">按「先認字 → 再看該背多少 → 想練才出卷 → 想講才計時」排，全部是站內既有練習。泛讀 20 分鐘做完就夠，下面只是自選；點了會跳去該模塊，回來按上方 ⑦ 標題條。</p>
+            <div class="rdgo-row">
+              <button type="button" class="rdgo" data-go="t:5">今日認讀 20 字</button>
+              <button type="button" class="rdgo" data-go="p:en:goal">詞彙路線圖</button>
+              <button type="button" class="rdgo" data-go="p:en:paper">出一份英文卷</button>
+              <button type="button" class="rdgo" data-go="t:2">90 秒計時</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rdpane" data-rd-pane="plan" style="display:none">
+          <div class="rdcard">
+            <h3>21 格，分三段看進度就好</h3>
+            <p class="rdnote">下面只是把 21 格按週分段、方便看進度，<b>不是課程表，也沒有官方進度要求</b>；三段做的事情其實都一樣——每天碰英文 20 分鐘。</p>
+            <p class="rdnote">手機窄屏可左右滑動下面的表格。</p>
+            <div class="rdtable-wrap"><table class="rdtable">
+              <thead><tr><th>進度</th><th>做什麼</th><th>不要做</th></tr></thead>
+              <tbody>
+                <tr><td>第 1–7 格</td><td>先把「每天碰 20 分鐘」變成習慣，材料讓小孩自己挑，看完自己點格。</td><td>不查詞典、不寫讀後感、不考核。</td></tr>
+                <tr><td>第 8–14 格</td><td>照舊 20 分鐘，換成想追下去的主題；想換書就換，不必讀完一本才換。</td><td>不加時數、不加測驗、不追問讀懂多少。</td></tr>
+                <tr><td>第 15–21 格</td><td>讓小孩自己選、自己點格；家長只負責把書放到手邊。</td><td>不代打卡、不把泛讀改成精讀。</td></tr>
+              </tbody>
+            </table></div>
+            <p class="rdnote">每段結束看下方打卡格的連續天數即可；斷了不用補，明天接著讀就好。</p>
+          </div>
+        </div>
+
+        <div class="rdpane" data-rd-pane="pick" style="display:none">
+          <div class="rdcard">
+            <h3>讀什麼 · 沿用本頁 ② 教材清單的既有口徑</h3>
+            <ul class="rdlist">
+              <li><b>手頭已有</b>：牛津閱讀樹／TreeTops（家裡的書，僅限家庭學習）。</li>
+              <li><b>圖書館／電商自選</b>：橋梁書起步，中後期進英文兒童非虛構，挑感興趣的主題；按藍思值選書是坊間整理，非官方分級。</li>
+              <li><b>漫畫／故事／科普視頻都算</b>：本頁規則已寫明，形式不限，不必湊「正經書」。</li>
+              <li><b>不用另外買練習冊、不用刷卷</b>：① 排期表把泛讀（能力線）和應試線分開，泛讀這一段不加考核。</li>
+            </ul>
+            <div class="rdgo-row">
+              <button type="button" class="rdgo" data-go="t:1">去 ② 教材與資源清單</button>
+              <button type="button" class="rdgo" data-go="t:7">去 ⑧ 中學英文導航</button>
+            </div>
+          </div>
+          <div class="rdcard warn">
+            <h3>⚠️ 版權與使用提醒</h3>
+            <p class="rdnote">牛津樹／朗文內容僅限家庭學習，請勿外傳、勿打印傳閱；本站不存放第三方教材內頁、書單原文或試卷，只列類型與取用原則。教材級別對應為坊間整理（非官方測評），起點以定級三連測為準。</p>
+          </div>
+        </div>
+
+        <div class="rdpane" data-rd-pane="check" style="display:none">
+          <div class="rdcard">
+            <h3>家長自查 · 五條「不要做」比「多做」重要</h3>
+            <p class="rdnote">這不是評分表，只是提醒大人別把泛讀變成功課。勾選只存在本設備、跟賬號走，不影響小孩的打卡格。</p>
+            <div id="rdChkList">
+              <label class="rdchk"><input type="checkbox" data-rdchk="a"><span>今天碰了 20 分鐘英文（看什麼都算）</span></label>
+              <label class="rdchk"><input type="checkbox" data-rdchk="b"><span>沒有中途叫她查詞典、查單詞中文</span></label>
+              <label class="rdchk"><input type="checkbox" data-rdchk="c"><span>沒有要求寫讀後感或複述內容</span></label>
+              <label class="rdchk"><input type="checkbox" data-rdchk="d"><span>沒有用小測、分數或打卡以外的考核</span></label>
+              <label class="rdchk"><input type="checkbox" data-rdchk="e"><span>讓她自己點格子，沒有代打卡</span></label>
+            </div>
+            <div class="rdbar"><b id="rdChkStat">已做到 0 / 5</b> <button type="button" id="rdChkReset">清空勾選</button></div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="rdcap">打卡格（讀完點一格，規則不變）</h3>
       <div class="rgrid" id="readGrid"></div>
       <p style="padding:0 12px"><b id="readStat"></b> <button id="readReset">清空重來</button></p>
     </details>
@@ -43808,6 +43934,8 @@ function renderRead(){
   for(i=1;i<=21;i++){if(d['d'+i])streak++;else break;}
   const st=document.getElementById('readStat');
   if(st)st.textContent='已打卡 '+total+'／21 天 · 從第 1 天連續 '+streak+' 天'+(total>=21?' · 🎉 挑戰完成！':(streak===0?' · 今天開始第 1 天吧':''));
+  // v1.79：打卡後同步刷新「今日重點」的第 N 天，不另存一份打卡狀態
+  if(window.__readFocusTest)window.__readFocusTest.renderDay();
 }
 (function(){
   const fa=document.getElementById('termFlipAll'),fn=document.getElementById('termFlipNone');
@@ -43831,6 +43959,67 @@ function renderRead(){
   }
 })();
 renderTermChips();renderTutorTerms();renderTutorFt();renderTutorIv();renderRead();
+
+/* ============ v1.79 泛讀重點子目錄：只切換 ⑦ 內部面板，零新造學習內容 ============
+   取捨：跳轉一律走 v1.75 暴露的 __hkkGo，不在這裏再抄一份 nav／fold 顯隱邏輯；
+   今日天數復用 readLoad() 與 renderRead() 的 hook，不另存一份打卡狀態。 */
+(function(){
+  var KEY='hkk_readfocus_v0';
+  function get(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){return {}}}
+  function set(o){try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+  function renderDay(){
+    var d=readLoad(),done=0,i,n=21;
+    for(i=1;i<=21;i++)if(d['d'+i])done++;
+    for(i=1;i<=21;i++){if(!d['d'+i]){n=i;break;}}
+    var a=document.getElementById('rdDayN'),b=document.getElementById('rdDayTip');
+    if(a)a.textContent=done>=21?'21 ✓':String(n);
+    if(b)b.textContent=done>=21?'🎉 21 天挑戰完成！想再來一輪就按「清空重來」。':'今天讀完回來點第 '+n+' 格；已打卡 '+done+' / 21 天。';
+  }
+  function show(k){
+    document.querySelectorAll('#readSubNav button[data-rd]').forEach(function(b){
+      var on=b.getAttribute('data-rd')===k;
+      b.classList.toggle('on',on);
+      b.setAttribute('aria-selected',on?'true':'false');
+    });
+    document.querySelectorAll('#readFocusBox .rdpane').forEach(function(p){
+      p.style.display=p.getAttribute('data-rd-pane')===k?'block':'none';
+    });
+    return k;
+  }
+  function renderChk(){
+    var o=get(),n=0;
+    document.querySelectorAll('#rdChkList input[data-rdchk]').forEach(function(c){
+      var on=!!o[c.getAttribute('data-rdchk')];
+      c.checked=on;
+      var row=c.closest('.rdchk'); if(row)row.classList.toggle('done',on);
+      if(on)n++;
+    });
+    var s=document.getElementById('rdChkStat');
+    if(s)s.textContent='已做到 '+n+' / 5';
+    return n;
+  }
+  function render(){renderDay();renderChk();}
+  document.querySelectorAll('#readSubNav button[data-rd]').forEach(function(b){
+    b.onclick=function(){show(b.getAttribute('data-rd'));};
+  });
+  document.querySelectorAll('#readFocusBox .rdgo').forEach(function(b){
+    b.onclick=function(){
+      var g=b.getAttribute('data-go');
+      if(window.__hkkGo)window.__hkkGo(g);
+    };
+  });
+  document.querySelectorAll('#rdChkList input[data-rdchk]').forEach(function(c){
+    c.addEventListener('change',function(){
+      var o=get(),k=c.getAttribute('data-rdchk');
+      if(c.checked)o[k]=1;else delete o[k];
+      set(o);renderChk();
+    });
+  });
+  var rst=document.getElementById('rdChkReset');
+  if(rst)rst.onclick=function(){set({});renderChk();};
+  render();
+  window.__readFocusTest={key:KEY,get:get,set:set,show:show,render:render,renderDay:renderDay,renderChk:renderChk};
+})();
 
 // ---- 數獨（v1.61：4×4/6×6/9×9 唯一解生成·衝突高亮·提示·計時最佳） ----
 const SDK_CONF={4:{rb:2,cb:2,holes:9,fs:'22px',w:'240px'},6:{rb:2,cb:3,holes:22,fs:'18px',w:'310px'},9:{rb:3,cb:3,holes:48,fs:'15px',w:'420px'}};
@@ -45675,16 +45864,17 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／朗文進度）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／朗文進度／泛讀自查）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
+    if(window.__readFocusTest){window.__readFocusTest.set({});window.__readFocusTest.render();}
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},ver:'hkk_v1.78',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},ver:'hkk_v1.79',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -45697,6 +45887,7 @@ document.getElementById('importFile').onchange=e=>{
     if(d.pProg)pProg=d.pProg; if(d.vProg)vProg=d.vProg; if(d.hProg)hProg=d.hProg; if(d.mProg)mProg=d.mProg; if(d.poemDone)poemDone=d.poemDone;
     if(d.mapChk&&window.__mapTest){window.__mapTest.set(d.mapChk);window.__mapTest.render();}
     if(d.lwteProg&&window.__lwteTest){window.__lwteTest.set(d.lwteProg);window.__lwteTest.render();}
+    if(d.readFocus&&window.__readFocusTest){window.__readFocusTest.set(d.readFocus);window.__readFocusTest.render();}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
     alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};

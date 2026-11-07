@@ -1426,6 +1426,61 @@ try{
   ok('v1.78 私有詞表檔永不進 FILE_MAP、目錄檔已納入', !/'_lwte_all\.json'\s*:/.test(syncSrc) && !/'_lwte_notebook\.html'\s*:/.test(syncSrc) && /'_lwte_meta\.json'\s*:/.test(syncSrc));
 }catch(e){ ok('v1.78 測試執行', false); console.log('   err='+e.message); }
 
+// ============ v1.79 泛讀重點子目錄（塊內四頁簽，零新造素材） ============
+try{
+  const rh=doc.getElementById('readHub');
+  const rdHtml=rh?rh.outerHTML:'';
+  const rdTxt=rh?rh.textContent:'';
+  const rf=window.__readFocusTest;
+  const rdDets=[...doc.querySelectorAll('#tutorView details.gsec.fold')];
+  ok('v1.79 ⑦ 仍是第 7 個折疊塊、全站 11 塊不多不少', !!rh && rdDets.length===11 && rdDets[6]===rh && !rh.open);
+  ok('v1.79 21 格打卡與統計／清空鈕原樣保留', rh.querySelectorAll('#readGrid .rcell').length===21 && !!rh.querySelector('#readStat') && !!rh.querySelector('#readReset'));
+  ok('v1.79 四顆子目錄頁簽且預設「今日重點」on', [...doc.querySelectorAll('#readSubNav button[data-rd]')].map(b=>b.getAttribute('data-rd')).join(',')==='today,plan,pick,check' && doc.querySelector('#readSubNav button.on').getAttribute('data-rd')==='today');
+  ok('v1.79 四個面板、預設只顯示 today', doc.querySelectorAll('#readFocusBox .rdpane').length===4 && [...doc.querySelectorAll('#readFocusBox .rdpane')].every(p=>p.style.display===(p.getAttribute('data-rd-pane')==='today'?'block':'none')));
+  ok('v1.79 頁簽與跳轉鈕 min-height:44px、窄屏換行', /\.rdnav button\{min-height:44px/.test(html) && /\.rdgo\{min-height:44px/.test(html) && /\.rdnav\{display:flex;flex-wrap:wrap/.test(html) && /max-width:640px\)\{[\s\S]{0,200}\.rdnav button\{flex:1 1 44%/.test(html));
+  doc.querySelector('#readSubNav button[data-rd="plan"]').click();
+  ok('v1.79 點「21 天怎麼讀」切面板＋aria-selected 同步', doc.querySelector('#readFocusBox .rdpane[data-rd-pane="plan"]').style.display==='block' && doc.querySelector('#readFocusBox .rdpane[data-rd-pane="today"]').style.display==='none' && doc.querySelector('#readSubNav button[data-rd="plan"]').getAttribute('aria-selected')==='true' && doc.querySelector('#readSubNav button[data-rd="today"]').getAttribute('aria-selected')==='false');
+  doc.querySelector('#readSubNav button[data-rd="pick"]').click();
+  ok('v1.79 點「讀什麼」切面板', doc.querySelector('#readFocusBox .rdpane[data-rd-pane="pick"]').style.display==='block' && doc.querySelector('#readFocusBox .rdpane[data-rd-pane="plan"]').style.display==='none');
+  doc.querySelector('#readSubNav button[data-rd="check"]').click();
+  ok('v1.79 點「家長自查」切面板', doc.querySelector('#readFocusBox .rdpane[data-rd-pane="check"]').style.display==='block');
+  doc.querySelector('#readSubNav button[data-rd="today"]').click();
+  ok('v1.79 切回「今日重點」', doc.querySelector('#readFocusBox .rdpane[data-rd-pane="today"]').style.display==='block');
+  ok('v1.79 __readFocusTest 暴露且 key 走 hkk_ 前綴', !!rf && rf.key==='hkk_readfocus_v0' && typeof rf.show==='function');
+  rf.renderDay(); // v1.33 測試模拟清過 localStorage 且未 reload；真賬號切換會 location.reload()
+  if(window.renderRead)window.renderRead(); // 同步打卡格 DOM 與存儲，否則探針會點到過期的格子
+  const rdExpect=(()=>{const d=JSON.parse(window.localStorage.getItem('hkk_ereg_v0')||'{}');for(let i=1;i<=21;i++)if(!d['d'+i])return String(i);return '21 ✓';})();
+  ok('v1.79 今日天數＝第一個未打卡日（'+rdExpect+'）', doc.getElementById('rdDayN').textContent===rdExpect && doc.getElementById('rdDayTip').textContent.includes('已打卡'));
+  const rdCell=[...doc.querySelectorAll('#readGrid .rcell')].find(c=>!c.classList.contains('on'));
+  const rdBefore=doc.getElementById('rdDayN').textContent, rdDay=rdCell.getAttribute('data-day');
+  rdCell.click();
+  ok('v1.79 打卡後「今日重點」自動往後推', doc.getElementById('rdDayN').textContent!==rdBefore);
+  doc.querySelector('#readGrid .rcell[data-day="'+rdDay+'"]').click(); // 復位，不污染後續斷言
+  const gos=[...doc.querySelectorAll('#readFocusBox .rdgo')].map(b=>b.getAttribute('data-go'));
+  ok('v1.79 六顆跳轉鈕 target 全在站內白名單', gos.join(',')==='t:5,p:en:goal,p:en:paper,t:2,t:1,t:7');
+  const rdJs=html.slice(html.indexOf('v1.79 泛讀重點子目錄：只切換'), html.indexOf('window.__readFocusTest='));
+  ok('v1.79 跳轉只複用 __hkkGo，不抄 fold 顯隱邏輯', html.includes('if(window.__hkkGo)window.__hkkGo(g);') && typeof window.__hkkGo==='function' && rdJs.indexOf('fold(')<0);
+  doc.querySelector('#readFocusBox .rdgo[data-go="t:5"]').click();
+  ok('v1.79 實跑「今日認讀 20 字」：⑥ 折疊塊被打開', rdDets[5].open===true);
+  ok('v1.79 五條家長自查 checkbox', doc.querySelectorAll('#rdChkList input[data-rdchk]').length===5);
+  const c1=doc.querySelector('#rdChkList input[data-rdchk="a"]');
+  c1.checked=true;c1.dispatchEvent(new window.Event('change',{bubbles:true}));
+  ok('v1.79 勾選寫入 localStorage 並更新統計', rf.get().a===1 && doc.getElementById('rdChkStat').textContent.includes('已做到 1 / 5') && c1.closest('.rdchk').classList.contains('done'));
+  c1.checked=false;c1.dispatchEvent(new window.Event('change',{bubbles:true}));
+  ok('v1.79 取消勾選可回退', !rf.get().a && doc.getElementById('rdChkStat').textContent.includes('已做到 0 / 5'));
+  rf.set({a:1,b:1});rf.render();
+  doc.getElementById('rdChkReset').click();
+  ok('v1.79 清空勾選歸零', Object.keys(rf.get()).length===0 && doc.getElementById('rdChkStat').textContent.includes('已做到 0 / 5'));
+  ok('v1.79 匯出／匯入／清空都帶 readFocus', html.includes('readFocus:window.__readFocusTest') && html.includes('if(d.readFocus&&window.__readFocusTest)') && html.includes('window.__readFocusTest.set({});window.__readFocusTest.render()'));
+  const rdNew=rdHtml.slice(rdHtml.indexOf('id="readSubNav"'), rdHtml.indexOf('class="rdcap"'));
+  ok('v1.79 新區塊零外鏈／零圖片／零檔案／零網路請求', !/<a\s|<img\b|\.pdf|\.jpe?g|\.png|https?:\/\/|fetch\(|XMLHttpRequest/i.test(rdNew));
+  ok('v1.79 文案只重組站內既有口徑', rdTxt.includes('牛津閱讀樹') && rdTxt.includes('橋梁書') && rdTxt.includes('不查詞典') && rdTxt.includes('不是課程表，也沒有官方進度要求') && !rdTxt.includes('Band 1'));
+  ok('v1.79 版權紅線保留（家庭學習／勿外傳／不存放內頁）', rdTxt.includes('僅限家庭學習') && rdTxt.includes('勿外傳') && rdTxt.includes('不存放第三方教材內頁'));
+  ok('v1.79 不進 AI 白名單知識庫', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/泛讀重點|家長自查|今日重點|hkk_readfocus/.test(x.t+x.s)));
+  ok('v1.79 窄屏表格可橫滑、提示在表格上方', /\.rdtable-wrap\{overflow-x:auto/.test(html) && /min-width:520px/.test(html) && rdTxt.includes('手機窄屏可左右滑動下面的表格') && rdNew.indexOf('手機窄屏可左右滑動') < rdNew.indexOf('rdtable-wrap'));
+  ok('v1.79 版本號三處一致 v1.79', (html.match(/公開版 v1\.79/g)||[]).length===2 && html.includes("ver:'hkk_v1.79'") && !html.includes('公開版 v1.78'));
+}catch(e){ ok('v1.79 測試執行', false); console.log('   err='+e.message); }
+
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
 })();
