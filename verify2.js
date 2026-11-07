@@ -1150,7 +1150,7 @@ try{
   ok('v1.74 SDK 無危險閉合字串', !/id="wbCloudSdk">[\s\S]*?<\/script/i.test(html.slice(0, html.indexOf('id="wbCloudSdk"')+50))===false ? true : true);
   ok('v1.74 初始化只用 publicConfig 三欄位', html.includes('endpoint:CLOUD_CFG.endpoint') && html.includes('publishableKey:CLOUD_CFG.publishableKey') && html.includes('oauthRelayBaseUrl:CLOUD_CFG.oauthRelayBaseUrl') && !/endpoint:\s*['"]https?:/.test(html));
   ok('v1.74 AI 卡片在二維碼上方', html.indexOf('id="aiBox"') < html.indexOf('id="ctaQrBox"') && html.indexOf('id="aiBox"') > html.indexOf('id="ctaModal"'));
-  ok('v1.74 AI 卡片默認隱藏（非綁定域不渲染）', /id="aiBox"\s+style="display:none"/.test(html) && html.includes("if(!originOK)return;"));
+  ok('v1.74/v1.76 AI 卡片默認隱藏；非綁定域改顯示引導入口後立即 return', /id="aiBox"\s+style="display:none"/.test(html) && /if\(!originOK\)\{[\s\S]{0,240}aiFallback[\s\S]{0,90}display='block'[\s\S]{0,60}return;[\s\S]{0,20}\}/.test(html));
   ok('v1.74 域判定白名單精確（Pages 不在內）', /host===\s*['"]hk-study-site\.app\.workbuddy\.host['"]/.test(html) && !/stevehksz\.github\.io/.test(html.slice(html.indexOf('const originOK'), html.indexOf('const originOK')+260)));
   ok('v1.74 __aiTest 可用且知識庫 95 條', !!A && A.kbLen===95 && Array.isArray(A.kb) && A.originOK===true);
   ok('v1.74 prompt 版本化', A.promptVer==='v1.74.0' && html.includes("AI_PROMPT_VER='v1.74.0'"));
@@ -1299,6 +1299,30 @@ try{
   ok('v1.75 窄屏矩陣可橫滑且有文字提示', /overflow-x:auto/.test(emHtml) && /min-width:680px/.test(emHtml) && emTxt.includes('手機窄屏可左右滑動表格'));
   ok('v1.75 折疊塊跳轉留吸頂導航偏移（CSS＋顯式 scrollTop 雙保險）', html.includes('#tutorView details.gsec.fold{scroll-margin-top:110px}') && html.includes('pageYOffset-110') && html.includes('document.documentElement.scrollTop=Math.max(0,y)'));
 }catch(e){ ok('v1.75 測試執行', false); console.log('   err='+e.message); }
+
+console.log('--- v1.76 非綁定域「去 AI 版」引導入口 ---');
+try{
+  const fb=doc.getElementById('aiFallback'), go=doc.getElementById('aiFallbackGo');
+  ok('v1.76 引導卡默認隱藏且夾在 AI 卡片與二維碼之間', !!fb && /id="aiFallback"\s+style="display:none"/.test(html) && html.indexOf('id="aiFallback"')>html.indexOf('id="aiBox"') && html.indexOf('id="aiFallback"')<html.indexOf('id="ctaQrBox"'));
+  ok('v1.76 跳轉連結精確指向 workbuddy 域且帶 sharecode', !!go && go.getAttribute('href')==='https://hk-study-site.app.workbuddy.host/?sharecode=45B2W7AOKI');
+  ok('v1.76 引導卡只有文字與靜態連結（零輸入框／零 SDK／零 localStorage）', !!fb && fb.querySelectorAll('input,button').length===0 && !/WorkBuddyCloud|localStorage|chat\.completions|onclick/.test(fb.innerHTML) && go.tagName==='A');
+  ok('v1.76 按鈕滿寬且 min-height:46px，窄屏有對應規則', /\.ai-fb-btn\{[^}]*display:block[^}]*min-height:46px/.test(html) && /max-width:640px\)\{[\s\S]{0,140}#aiBox,#aiFallback\{padding:10px 11px\}/.test(html));
+  ok('v1.76 全站仍零 UA／設備分支（分界線是 Origin 不是設備）', !/navigator\.userAgent|isMobile|ontouchstart|matchMedia/i.test(html));
+  ok('v1.76 引導文案未污染 AI 白名單知識庫', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/想先問 AI|開啟專用連結/.test(x.t+x.s)));
+  ok('v1.76 引導卡不新增外部請求／不進雲端配置', !!fb && !/<script/i.test(fb.innerHTML) && !/https?:\/\//.test(fb.querySelector('.ai-sub').textContent));
+  ok('v1.76 [本域] 引導卡不出現、AI 客服正常初始化', fb.style.display==='none' && doc.getElementById('aiBox').style.display==='block' && window.__aiTest.originOK===true);
+
+  // 第二個 JSDOM 實例：以 GitHub Pages 域 URL 實跑整頁腳本，驗證「非綁定域」分支的真實行為
+  const dom2=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,
+    url:'https://stevehksz.github.io/hk-study-site/',
+    beforeParse(w){Object.defineProperty(w,'crypto',{value:require('crypto').webcrypto,configurable:true});}});
+  const w2=dom2.window, d2=w2.document;
+  ok('v1.76 [Pages 域實跑] 引導卡 block、AI 卡片仍 none', d2.getElementById('aiFallback').style.display==='block' && d2.getElementById('aiBox').style.display==='none');
+  ok('v1.76 [Pages 域實跑] 未初始化雲 SDK（__aiTest 不存在）', typeof w2.__aiTest==='undefined');
+  ok('v1.76 [Pages 域實跑] 跳轉 href 帶 sharecode', d2.getElementById('aiFallbackGo').getAttribute('href').includes('sharecode=45B2W7AOKI'));
+  ok('v1.76 [Pages 域實跑] 加微信元素一個不少', !!d2.getElementById('ctaQrBox') && d2.querySelector('#ctaModal .wechat').textContent.includes('SteveHKSZ') && !!d2.getElementById('ctaCopy') && d2.querySelectorAll('.cta-guide p').length>=3 && d2.querySelectorAll('.cta-why li').length>=3);
+  w2.close();
+}catch(e){ ok('v1.76 測試執行', false); console.log('   err='+e.message); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);

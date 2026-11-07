@@ -550,11 +550,15 @@ header{position:relative}
   /* 彈窗打開時收起浮動鈕與右上賬號膠囊，避免壓在彈窗上 */
   body.cta-open #ctaFab,body.cta-open #userChip{display:none!important}
   .cta-alt a{color:#1a5fc4;font-weight:600}
-  /* v1.74 AI 客服：加微信弹窗内、二维码上方。默认不渲染，非绑定域整块 display:none，弹窗退回原形态 */
-  #aiBox{background:linear-gradient(135deg,#f2f5ff,#f8faff);border:1px solid #d7def8;border-radius:12px;padding:12px 13px;margin:12px 0 4px;scroll-margin-top:110px}
-  #aiBox .ai-h{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:#3730a3;margin:0 0 5px}
+  /* v1.74 AI 客服：加微信弹窗内、二维码上方。默认不渲染；v1.76 非绑定域改显示引导入口 */
+  #aiBox,#aiFallback{background:linear-gradient(135deg,#f2f5ff,#f8faff);border:1px solid #d7def8;border-radius:12px;padding:12px 13px;margin:12px 0 4px;scroll-margin-top:110px}
+  #aiBox .ai-h,#aiFallback .ai-h{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:#3730a3;margin:0 0 5px}
   #aiBox .ai-h small{font-size:11px;font-weight:600;color:#8a8aa0}
-  #aiBox .ai-sub{font-size:11.5px;color:#6b6b8a;line-height:1.7;margin:0 0 9px}
+  #aiBox .ai-sub,#aiFallback .ai-sub{font-size:11.5px;color:#6b6b8a;line-height:1.7;margin:0 0 9px}
+  /* v1.76 非綁定域引導：只給一條去 AI 專用連結的路，不在本域嘗試調 SDK（CORS 無解） */
+  .ai-fb-btn{display:block;text-align:center;text-decoration:none;background:#4f46e5;color:#fff;border:1px solid #4f46e5;border-radius:9px;padding:12px 10px;font-size:15px;font-weight:800;line-height:1.5;min-height:46px;box-sizing:border-box}
+  .ai-fb-btn:active{background:#4338ca}
+  .ai-fb-note{font-size:11.5px;color:#6b6b8a;line-height:1.7;margin:9px 0 0}
   .ai-row{display:flex;gap:7px;align-items:stretch}
   .ai-row input{flex:1 1 auto;min-width:0;border:1px solid #cdd5f0;border-radius:9px;padding:10px 11px;font-size:14px;font-family:inherit;background:#fff;color:var(--ink);-webkit-appearance:none}
   .ai-row input:focus{outline:2px solid #a5b4fc;outline-offset:0}
@@ -567,9 +571,10 @@ header{position:relative}
   #aiAns .ai-hook{display:block;margin-top:5px;font-size:12px;color:#1a5fc4;font-weight:700;cursor:pointer;min-height:26px;padding:2px 0}
   #aiQuota{font-size:11.5px;color:#8a8aa0;margin:7px 0 0;line-height:1.6}
   @media screen and (max-width:640px){
-    #aiBox{padding:10px 11px}
+    #aiBox,#aiFallback{padding:10px 11px}
     .ai-row{flex-direction:column}
     .ai-row button{width:100%}
+    .ai-fb-btn{font-size:15px}
   }
   /* v1.71 二維碼放大查看：手機長按存原圖 / 另一台設備掃屏幕大圖。定位用 left/top/width/height 分寫，不用 inset 簡寫（舊 WebView 不認） */
   #qrZoom{display:none;position:fixed;left:0;top:0;width:100%;height:100%;z-index:10001;background:rgba(12,12,22,.93);align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:18px;box-sizing:border-box}
@@ -659,13 +664,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.75（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.76（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.75（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.76（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1950,6 +1955,14 @@ Thank you for your time.</div>
       </div>
       <div id="aiAns" role="status" aria-live="polite"></div>
       <p id="aiQuota"></p>
+    </div>
+    <!-- v1.76 非綁定域（GitHub Pages 等）才顯示：AI 問答要連雲端，瀏覽器只允許綁定域名連線，
+         靜態站改不了響應頭，故這裏只做一條去 AI 專用連結的路，加微信元素一個不少。 -->
+    <div id="aiFallback" style="display:none">
+      <div class="ai-h">🤖 想先問 AI？</div>
+      <p class="ai-sub">AI 客服只在專用連結提供（問答要連雲端，瀏覽器只允許綁定域名連線）。點下面按鈕過去，手機微信裏直接可以問，不用登入、不用裝東西。</p>
+      <a id="aiFallbackGo" class="ai-fb-btn" href="https://hk-study-site.app.workbuddy.host/?sharecode=45B2W7AOKI">點這裏問 AI · 開啟專用連結</a>
+      <p class="ai-fb-note">不想跳轉？直接用下面二維碼加葉工微信，一樣有人答。</p>
     </div>
     <div class="cta-flex">
       <div class="cta-qr" id="ctaQrBox" style="display:none">
@@ -45578,7 +45591,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},ver:'hkk_v1.75',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},ver:'hkk_v1.76',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -45741,7 +45754,11 @@ authBoot();
   if(!box)return;
   const host=location.hostname, proto=location.protocol;
   const originOK=(host==='hk-study-site.app.workbuddy.host')||host==='localhost'||host==='127.0.0.1'||proto==='file:';
-  if(!originOK)return;                       // GitHub Pages：整塊保持 display:none
+  if(!originOK){                             // v1.76：非綁定域不初始化 SDK，只顯示去 AI 專用連結的引導入口
+    const fb=document.getElementById('aiFallback');
+    if(fb)fb.style.display='block';
+    return;
+  }
   if(typeof WorkBuddyCloud==='undefined'||typeof CLOUD_CFG==='undefined'||typeof AI_KB==='undefined')return;
   if(!CLOUD_CFG.endpoint||!CLOUD_CFG.publishableKey)return;   // 配置缺失時靜默降級，不報錯不破圖
 
