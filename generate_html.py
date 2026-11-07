@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.90：葉工圈「補習材料①每週課表（≤3 小時）」截圖問「這個能做一個主目錄嗎，然後再細化優化」。AskUserQuestion 拍板＝**練習區新子頁「今日課表」＋全套**（打卡＋直達＋排入新模塊＋週日驗收；否決「獨立主導航按鈕」「留在原位強化」）。落位＝`practiceSub` 第 1 顆 `data-sub="sched"`（**練習默認子頁改為 sched**——女兒打開練習就看到今天做什麼），新增 `#schedView`。①數據：`SCH_ITEMS` 七項（泛讀 t:6／繁體認讀 t:5／粵語無按鈕只聽不跟讀／寫作 t:1／口語面試 t:2／數學術語 t:3／**時態與題型 p:en:drill 為 v1.89 新增項每週 2 次×15 分鐘**）＋`SCH_WEEK` 週一→週日排開（頻率與總表一致，只按天分派；寫作週二週六、口語週三、數學週四、時態週一週五）。②打卡：`hkk_sched_v0` 按日期存勾選（`{"YYYY-MM-DD":[ids]}`，只留最近 28 天），**跨天自動重置**（按今天日期讀）；今日 N/M＋已做約 N/M 分鐘；本週一覽七格（今天高亮、未來置灰、過去天顯示完成數）。③週日驗收卡：只在週日顯示——對照 35 週排期表當月驗收指標，不達標下週補該項、不趕進度（按鈕 t:0）。④直達一律走既有 `__hkkGo`（`p:sched` 由 go() 通用分支天然支援，未改解析器）。⑤原總表保留，表下加提示行＋`p:sched` 跳轉（兩處不失聯）。⑥接線：practiceSub 切換分支＋默認 `curPractice='sched'`（cnPracView 改默認隱藏）＋開頁即 `schRender()`；進度匯出/匯入/清空補 `sched` 字段，清空確認文案補「今日課表打卡」。⚠️ **AI 知識庫不入庫**：schedView 在 practiceView 內，KB 恆 100 條。⚠️ 版權：課表行項與頻率全部重組自站內既有總表，零新事實、零外鏈、零圖片。驗證：舊斷言改 2 處（practiceSub 4→5、默認子頁）＋新增 v1.90 專項（七日排程完整/每日任務數/打卡寫入與跨天重置/直達按鈕實跑 t:6 與 p:en:drill/週日卡只在週日顯示/本週七格/匯出含 sched/清空/零外鏈/KB 不變）。P1/P2 六處引導仍留待辦。
 v1.89：葉工貼來女兒做的 5 張打印卷照片（站內 v1.77 出的 P5 英文練習卷＋呈分試模擬卷），說「題型不熟悉，單詞不知道」；診斷後追問「怎麼在網站裡面加資源」，拍板＝**練習→英文新增第 9 子標籤「時態與題型」、可判分、只做 P5 一套**（另兩個選項「只做打印資料」「按錯題自動組卷生成器」未採納：前者孩子仍要家長對答案、後者要記錄錯題知識點、工程風險高）。⚠️ **診斷結論決定模塊形態**：卷面最重的不是「不會」而是「空白」——(B) 習語、(E) since 句、(F) 短語動詞、(H)(3)(4) 開放題整題沒動筆，屬「題型沒見過」；另有同一知識點連錯 6 題（written→wrote、fly→flew、bring→brought、share→shared、land→landed、blow→blew，全是一般過去式）。故模塊＝**動詞表（反覆練條件反射）＋五組題型（先見一面）**，不是再造一套綜合卷。①結構：`enPracSub` 加 `data-es="drill"`（插在「呈分試卷」後、「升中面試」前，即筆試輸出→題型專訓→口語輸出的動線），新增 `#drillView` 子頁與 `body` 頂層 `#drillPrintSheet`；`__hkkGo('p:en:drill')` 由既有解析器天然支援，未改導航代碼。②動詞表：`DRILL_VERBS` 30 條（原形／過去式／中文義，通用英語事實），可切「遮中文」「遮英文」自測（`.drvt.hidezh/.hideen` 用 `color:transparent` 遮蔽，不重繪整表以外的狀態），逐詞勾選存 `hkk_drill_prog_v0`，即時更新「已掌握 N/30」。③五組練習 `DRILL_GROUPS`：`past` 20 題（fill）、`simile` 6 題、`idiom` 12 題、`since` 4 題、`pv` 10 題（後四組 pick，附詞庫橫幅）。**答案索引刻意分散**（不是全 0），避免孩子摸出「永遠選 A」。④判分沿用 `gradeEnPaper` 口徑：fill 用 `norm()` 比對＋`alt` 容錯、pick 比對索引，結果用 `.qtot/.qbar` 並接 v1.88 的 `nsWrongLine('en')`；本組最佳存 `hkk_drill_best_v0`。⑤錯詞一鍵進「我的單詞本」：直接調 `__myWordsTest.addFrom('vocab',{w,zh,topic:'時態與題型'})`，**不另寫儲存邏輯**（沿用 v1.80 原則）。⑥打印：`printDrill()` 生成 A4 題卷（fill 用 `.ansline` 整寬橫線、pick 印選項、可勾「含答案版」），動詞表也可印（可選教師版）；打印白名單加 `#drillPrintSheet`，並沿用 v1.86 的 `EPS_SHARED_CSS`＋`printing-paper` 隔離。⑦接線：子標籤切換補 `sw('drillView',…)` 與 `drTapTo(drTap)`；進度匯出／匯入／清空補 `drillProg`／`drillBest`（清空確認文案同步加「時態題型勾選與成績」）。⑧測試鉤子 `window.__drillTest` 直接暴露 `groups/verbs/prog/best`——記 v1.85 教訓，斷言查穩定資料源、不靠隨機集合求交集。⚠️ **版權紅線**：題目與例句全部本站原創編寫，零第三方教材／補習社／學校／評估局內容、零外鏈、零圖片；動詞表只放通用英語事實（原形／過去式／中文義）。⚠️ **AI 知識庫不入庫**：`drillView` 在 `enPracView` 內，而 `ai_kb.py` 只抽 `faqView`／`timelineView`／`policyView`＋學校名冊，KB 恆 100 條（加斷言鎖死）。驗證：舊斷言改 3 處（子標籤 8→9 且 `drill` 插在 `exam` 與 `iv` 之間、匯出 JSON 版本號、v1.88「零新增 localStorage 鍵」改為只鎖 v1.88 那三個前綴）＋新增 v1.89 專項 18 項（子標籤與 `__hkkGo` 實跑／六組 chip 齊／30 詞表／五組題數與答案索引合法／fill 判分含大小寫與空白容錯／pick 判分／最佳分寫入／錯詞按鈕接單詞本／遮中文與遮英文／勾選持久化／打印含 `.ansline` 與答案版／零外鏈／KB 不污染／匯出含 drillProg）。P1/P2 六處引導仍留待下一版。
 v1.88：葉工看過「站點盤點：下一步引導與 FAQ 缺口」後拍板做 P0 三項 ＋ FAQ 重排。⚠️ **本版零新增素材**——全部把既有內容重組成出口＋補跳轉，版權紅線與數據結構都不動（不新增 localStorage 鍵、不搬任何第三方內容、不改既有 `.cta-strip`）。①下一步引導：新增共用組件 `.nextstep`（頁尾「看完這一步做什麼」＝步驟清單＋站內跳轉鈕）與 `.ns-line`（卷子批改後的「錯題回頭查」條），落三處——(a) 時間線 `#timelineView` 兩張表之後加 `#tlNext`「你站在哪一行」三步（學段→身份到手月份→本月動作）＋三顆鈕跳 `plan:docs`／`plan:study`／`plan:schools`，開頭 tip 補一句指路，解決「表格寫死 2027.9、家長不知道自己站哪一行」；(b) 速覽指南四子頁（`#cnView`／`#enView`／`#mathView`／`#ftView`）末尾各掛一條出口，把「看懂差異」接去對應練習（中文→繁體翻卡／官方字表／中文試卷、英文→定級三連測／英文卷／詞彙路線圖、數學→術語翻卡／術語表／數學卷、繁體→翻卡／字表）；(c) 四種卷批改結果區（`gradeEnPaper`／`gradeExamPaper`／`gradeMathPaper`／`gradeCnPaper`）統一插入 `nsWrongLine(kind)`，按「詞不懂／題幹不懂／字認不過來」三類錯因指向既有模塊——**抽成一個共用函數而不是抄四份**（記 v1.86 打印樣式漏改的教訓）。②FAQ 重排：原 10 問平鋪、8 條是「是什麼」的信息題，改為按家長決策順序分 5 組共 **15 問**（一 能不能做／二 時間夠不夠／三 考什麼怎麼備／四 材料與學籍／五 錢、距離與最壞情況），新增 5 問全部由站內既有內容重組——粵語繁體跟不上（學習路線 P1 平行線＋⑤翻卡＋⑥字表）、只剩半年一年（8 個月 ≈230 小時估算＋35 週減壓版）、要不要搬港（住址類＋居港 2 年新政）、跨境通勤（⑥校車＋東鐵 1–2 站）、萬一沒學校收（教育局途徑三 5–8 月＋叩門潮＋不註銷學籍）；**明確不加**「降級重讀／總開銷／某校 Band」三問（站內未取到，硬寫就是編），改為末尾一張 `gcard warn`「本站沒有收錄的三件事」把邊界講清再引導問個案。每張卡尾部加 `<p class="nx">下一步 →` 站內跳轉。③工程：`__hkkGo` 補 `p:cn:*` 分支（中文子頁是 `data-cs` 不是 `data-es`，原解析器漏了，跳中文試卷只會停在背古詩頁）；`ai_kb.py` 的 FAQ 正則改為容忍卡內 `.nx` 段（否則「下一步」文案會混進 AI 答案），知識庫 95→**100 條**（FAQ 10→15，時間線 11／政策 4／學校 70 不變），分組頭 `h3.faq-grp` 放在 gcard 外故天然不入庫（已實測 0 條混入）。驗證：舊斷言版本號 8 處 v1.87→v1.88、FAQ 卡數 10→16（15 問＋1 邊界卡）、KB 95→100、FAQ 類 10→15；新增 v1.88 專項（五組頭 5 個且不在 gcard 內／15 卡皆有 `.nx`／時間線三步條與三顆鈕／guide 四處出口／四卷結果含 `.ns-line` 且四函數都呼叫／`p:cn:cnpaper` 實跑切到中文試卷／既有 `.cta-strip` 仍為 3 條防手滑多加微信／零新增外鏈零新增 localStorage 鍵）。P1/P2 六處（材料清單尾、身份政策尾、擇校分檔插站內三步、進度頁尾、泛讀 21 天後）留待 v1.89。
 v1.87：葉工貼「某文單詞本 · 進度本」截圖，要求「把某文單詞的格式和中小學單詞本一樣，把裡面每一課的主題單詞要列出來，要有繁體中文加英標和讀音」。⚠️ **本版把訴求拆成「資料補齊」與「呈現同款」兩件事，版權紅線不動**：①**呈現**——v1.85 的詞庫包匯入功能已能列出全部詞條，但呈現是自製的 `.lhub-word` 簡版行（詞＋中文義＋三態勾選），**沒有音標、沒有 🔊 發音、也不是分課的小節**；本版把 `renderPack()` 改寫為**完全沿用「中小學單詞」的 `.vcard` 卡片**（`w` 詞＋`ph` 音標＋`mini[data-sp]` 🔊 發音＋`tp` 主題標籤＋「＋單詞本」鈕＋`zh` 中文義），分組粒度改為**每一課（主題）一個 `<details class="gsec lwb-cat">` 可展開小節**（與中小學單詞本的年級小節同構），標題條顯示「N 詞 · 已學 N」，逐詞勾選後即時更新本課計數；新增 `.lwb-chk` 三態勾選列（已學／已複習／已聽寫）、`.lwb-ipa` 打印用音標樣式；🔊 與「＋單詞本」事件接上既有 `speak()` 與 `__myWordsTest.addFrom()`（成功後就地改字不重繪，避免清掉展開態與搜尋位置）。②**資料補齊**——原詞庫包只有 405/1024 有中文義、194/1024 有音標，且中文義是**簡體**；本版補齊：**繁體中文義**（自建 `_lwte_zh_own*.py` 八張表共 660 條**本站原創撰寫**的通用詞彙釋義，港式繁體用字，**不抄任何詞典／課本／網站譯文**；站內自有詞庫命中的 229 條經 OpenCC `s2twp` 轉繁體；舊版人工自譯 173 條優先）→ **1023/1024 有中文義**（僅 1 條教材解析異常詞留空）；**音標**（站內自有 209 條英式 DJ 優先，缺口用 **CMU Pronouncing Dictionary**（`cmudict` 套件，BSD 授權，事實性發音資料）ARPAbet→IPA 轉換補 804 條）→ **1013/1024 有音標**。⚠️ **明確不採用 ECDICT**：實測其 npm 包可下（MIT），但中文釋義欄位源自商業詞典、有商用限制，與葉工「不能侵權」紅線衝突，故改走自建 + OpenCC + CMUdict 三個乾淨來源。⚠️ **讀音不內嵌音頻檔**：🔊 走瀏覽器 Web Speech API（`speak()`）即時發聲，零音頻檔、零體積。⚠️ **品質閘（寧缺勿錯）**：CMUdict 缺某個實詞時**整條留空**，不給半截音標——否則 "a sharpener" 會只拼出冠詞的 /ʌ/（v1.87 實測踩到，已修）。⚠️ **坑（全非產品壞）**：①`cmudict.dict()` 的值是**多個讀音的列表**（`d['hello']==[['HH','AH0','L','OW1'],…]`），取 `v[0][0]` 只拿到**第一個音素**（音標變成 /h/），必須取 `v[0]` 再 `arp2ipa`——這個錯一開始讓音標全變單音素；②自建釋義表原本用 `try: from … import ZH_OWN_1` + `except: pass`，**漏載 ZH_OWN_2（2A/2B 那 141 條）卻靜默無報錯**，改成顯式匯入全部八個變數並斷言條數；③IPA 合法字元白名單**手寫必漏**（先后漏了 ɔ/U+0254、ɪ/U+026A、ː/U+02D0、æ/U+00E6、θ/U+03B8、ŋ/U+014B），改成**按 Unicode 區間自動生成**；④短語音標拼接時某詞查不到會**整條作廢**，改為逐詞跳過 + 品質閘（實質詞必須全部查到）。詞庫包 `_lwte_pack.json` 升 v2（新增 `isrc` 音標來源欄、stats 記 `zhSrc`/`ipaSrc`），**仍永不進 `_gh_sync.py` FILE_MAP**（公開 HTML 零詞條紅線不動），同步更新私人 Obsidian 庫的 `某文詞庫包.json`。verify2 舊斷改 1 處（v1.85 斷言查舊的 `.lhub-cat-h`／`.lhub-word` 結構）＋新增 v1.87 專項 22 項（卡片結構與中小學單詞本一致／每課一個可展開小節／音標與 🔊 與繁體中文義齊／＋單詞本接入／逐詞勾選持久化與本課計數更新／搜尋過濾／打印含音標／**詞庫包 1023 條有中文義且為繁體**／**1013 條有音標且形式合法**／公開 HTML 零詞條紅線／FILE_MAP 紅線／不進 AI 白名單／版本一致）。\nv1.86：葉工貼中文卷打印出來的截圖，說「中文試卷打印出來的那個答題線條要跟 A4 寬度差不多」。⚠️ **診斷：不是 CSS 寬度問題，是用錯了畫線方式**——三個引擎的打印 HTML 裡，答題線寫的是**固定長度的下劃線字元**（`答：________________________`、`答：____`），所以線只有一小截，與版心寬度無關；而打印頁 `body{max-width:860px}` 又是螢幕寬度而非 A4 版心，預覽與實印不一致。改法：**①答題線全部改用 CSS `border-bottom` 畫的整寬橫線**（新類 `.ansline`，`width:100%` 自動跟版心同寬；選擇題／填充題用 `.ansline.lbl`＝「答：」標籤＋右側彈性線 `.al-l`；短答題用 `.ansbox` 兩條；寫作題用 `.writegrid` 六條；填表題欄位與卷頭姓名／日期用短線 `.al-tbl`）；**②打印頁設 A4 版心**——`@page{size:A4 portrait;margin:15mm}`、`body{max-width:180mm;padding:0}`（A4 210mm − 左右各 15mm 邊距 = 180mm 版心），並加 `@media print{body{max-width:none;margin:0;padding:0}}` 讓實印走瀏覽器預設邊距、螢幕預覽走 180mm，兩者一致。⚠️ **一次修三個引擎**：英文卷（`printEnPaper`）、數學卷（`printMathPaper`）與中文卷（`printCnPaper`）原本是同一種寫法、同樣的問題，故一併根治，不留半拉子。verify2 新增 v1.86 專項 12 項（打印 HTML 零下劃線字元答題線／`.ansline` 整寬樣式存在且 `width:100%`／三引擎皆接線／`@page{size:A4 portrait;margin:15mm}` 存在／版心 `180mm` 正確／寫作與短答題用 `ansbox`／`writegrid`／卷頭姓名日期用 `al-tbl`／版本一致），**828→840 全過**；`_shot86.py` 用 CDP 真實渲染打印頁 HTML，量 `.ansline` 的 `getBoundingClientRect().width` 與版心 `body` 寬度比值（目標 ≥0.98），並截圖比對改前（線只有約 150px）與改後（線跟版心齊寬）。
@@ -877,6 +878,20 @@ header{position:relative}
   .nextstep .ns-btns .btn:hover{background:#eaf7f4}
   .ns-line{margin:11px 0 0;padding:10px 12px;background:#f7f9fd;border:1px solid #e2eaf6;border-radius:10px;font-size:12.5px;line-height:1.95;color:#475069}
   .ns-line a{color:#1a5fc4;font-weight:700;text-decoration:none;border-bottom:1px dashed #9cc0ee;margin-right:6px;white-space:nowrap}
+  /* v1.90 今日課表 */
+  .schrow{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px dashed #e3ecf5;flex-wrap:wrap}
+  .schrow:last-of-type{border-bottom:none}
+  .schrow.on label{color:#7c8b9c;text-decoration:line-through}
+  .schrow label{flex:1;min-width:200px;cursor:pointer}
+  .schrow .schm{color:#5b7;font-weight:700;white-space:nowrap;font-size:13px}
+  .schrow .schgo{padding:7px 14px;font-size:14px}
+  .schrow .schtip{margin:0;white-space:nowrap}
+  .schsum{margin:10px 0 0;font-weight:700;color:#1a5fc4}
+  .schweek{display:flex;gap:6px;flex-wrap:wrap}
+  .schday{flex:1;min-width:64px;text-align:center;border:1px solid #e3ecf5;border-radius:10px;padding:8px 4px;background:#fff}
+  .schday span{display:block;font-weight:700;color:#1a5fc4;margin-top:3px}
+  .schday.today{border-color:#2f8f5b;background:#f0faf4;box-shadow:0 0 0 2px #cfe9db inset}
+  .schday.fut{opacity:.45}
   .ns-line .nssep{color:#b9c6dd;margin:0 6px}
   /* FAQ 分組頭與卡內「下一步」。⚠️ 用 #faqView 前綴壓過 .gsec h3，否則被既有標題樣式吃掉 */
   #faqView .faq-grp{margin:20px 0 9px;padding:8px 12px;font-size:13.5px;font-weight:800;color:#0d5a53;background:#eaf7f4;border-left:4px solid #2fa295;border-radius:0 8px 8px 0;line-height:1.6}
@@ -1002,13 +1017,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.89（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.90（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.89（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.90（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1024,7 +1039,8 @@ header{position:relative}
   <button data-sub="ft">繁體對照</button>
 </div>
 <div class="subnav" id="practiceSub" style="display:none">
-  <button data-sub="cn" class="on">中文</button>
+  <button data-sub="sched" class="on">今日課表</button>
+  <button data-sub="cn">中文</button>
   <button data-sub="en">英文</button>
   <button data-sub="math">數學</button>
   <button data-sub="tutor">補習材料</button>
@@ -1183,8 +1199,26 @@ header{position:relative}
 
 <!-- ============ 練習區（按科目歸口） ============ -->
 <div id="practiceView" style="display:none">
+  <!-- 今日課表（v1.90：補習材料①每週課表升級——按天顯示＋打勾＋直達） -->
+  <div class="wrap" id="schedView">
+    <div class="gsec">
+      <h2>今日課表</h2>
+      <p class="tip">按星期幾自動顯示今天該做的幾項：做完一項打個勾，明天自動重置。右邊按鈕直接跳到對應練習。總表與 35 週排期見「補習材料」。</p>
+      <div class="gcard" id="schCard"></div>
+      <div class="gcard" id="schWeekCard" style="display:none">
+        <h3>本週一覽</h3>
+        <div class="schweek" id="schWeek"></div>
+      </div>
+      <div class="gcard" id="schSunCard" style="display:none">
+        <h3>本週驗收（週日做）</h3>
+        <p>對照「35 週排期表」裏<b>當月那一行</b>的驗收指標：達標繼續照表走；不達標，下週把沒過關的那項加一次，<b>不往下趕進度</b>。</p>
+        <button class="btn" type="button" onclick="__hkkGo('t:0')">打開 35 週排期表對照</button>
+      </div>
+      <p class="tip">課表來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29，坊間整理）；「時態與題型」為 v1.89 新增項（每週 2 次 × 15 分鐘）。頻率與補習材料①總表一致，只按天排開。</p>
+    </div>
+  </div>
   <!-- 中文 -->
-  <div class="wrap" id="cnPracView">
+  <div class="wrap" id="cnPracView" style="display:none">
     <!-- v1.82 中文練習區子標籤：背詩星圖 ／ 中文卷 -->
     <div class="subnav" id="cnPracSub" style="position:static;top:auto;margin:0 -16px 12px">
       <button data-cs="star" class="on">背古詩</button>
@@ -1750,6 +1784,7 @@ Thank you for your time.</div>
         </tbody>
       </table>
       <div class="src">來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29）｜7.6 放榜日＝教育局中一學位分配安排（官方，適用 2027/28 學年）｜各校直資截止日以學校官網當年公告為準</div>
+      <p class="tip" style="margin-top:8px">這張總表已升級成可打卡的「<a href="javascript:void(0)" onclick="__hkkGo('p:sched')">今日課表</a>」（練習 → 第 1 子頁）：按星期幾顯示今天該做的、做完打勾、按鈕直達對應練習。</p>
     </details>
 
     <details class="gsec fold">
@@ -4808,7 +4843,7 @@ window.__sdkFillSol=function(){sdkS.cur=sdkS.sol.slice();sdkS.sel=-1;sdkRender()
 sdkNew(4);
 
 // ---- 主導航 + 子導航 ----
-let curTab='plan', curGuide='cn', curPractice='cn', curPlan='timeline';
+let curTab='plan', curGuide='cn', curPractice='sched', curPlan='timeline';
 function showMain(m){
   curTab=m;
   document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.tab===m));
@@ -5011,15 +5046,75 @@ document.querySelectorAll('#cngChips .chip').forEach(c=>c.onclick=()=>{
   document.querySelectorAll('#cngChips .chip').forEach(x=>x.classList.toggle('on',x===c));
   genCnPaper();
 });
+// ---- v1.90 今日課表：按天顯示＋打勾（hkk_sched_v0，跟賬號隔離）＋直達對應練習 ----
+var SCHED_KEY='hkk_sched_v0';
+var SCH_ITEMS={
+  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:6',btn:'去泛讀打卡'},
+  trad:{n:'繁體字認讀（官方字表）',m:10,go:'t:5',btn:'去今日認讀'},
+  yue:{n:'粵語磨耳朵（RTHK 兒童節目）',m:10,go:'',btn:'',tip:'只聽不跟讀'},
+  write:{n:'寫作（Great Writing 教材）',m:30,go:'t:1',btn:'看教材清單'},
+  oral:{n:'口頭分享／面試練習',m:30,go:'t:2',btn:'去面試話題庫'},
+  mterm:{n:'數學英文術語翻卡（2027.2 起）',m:20,go:'t:3',btn:'去翻卡'},
+  drill:{n:'時態與題型（動詞表＋五組小練習）',m:15,go:'p:en:drill',btn:'去練習'}
+};
+var SCH_WEEK=[ /* 週一 → 週日 */
+  ['read','trad','yue','drill'],
+  ['read','trad','yue','write'],
+  ['read','trad','yue','oral'],
+  ['read','trad','yue','mterm'],
+  ['read','trad','yue','drill'],
+  ['read','trad','yue','write'],
+  ['read','trad','yue']
+];
+function schGet(){ try{ return JSON.parse(localStorage.getItem(SCHED_KEY)||'{}')||{}; }catch(e){ return {}; } }
+function schKey(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function schSave(o){ try{ var ks=Object.keys(o).sort(); while(ks.length>28){ delete o[ks.shift()]; } localStorage.setItem(SCHED_KEY,JSON.stringify(o)); }catch(e){} }
+function schDayIdx(){ var d=new Date().getDay(); return (d+6)%7; } // 週一=0 … 週日=6
+function schToday(){ return SCH_WEEK[schDayIdx()]; }
+function schToggle(id){
+  var o=schGet(), k=schKey(), a=o[k]||[], i=a.indexOf(id);
+  if(i>=0)a.splice(i,1); else a.push(id);
+  o[k]=a; schSave(o); schRender();
+}
+function schRender(){
+  var o=schGet(), done=o[schKey()]||[], di=schDayIdx(), items=schToday(), total=0, doneMin=0, h='';
+  items.forEach(function(id){
+    var it=SCH_ITEMS[id]; if(!it)return;
+    var on=done.indexOf(id)>=0; total+=it.m; if(on)doneMin+=it.m;
+    h+='<div class="schrow'+(on?' on':'')+'">'
+      +'<label><input type="checkbox" class="schchk" data-sid="'+id+'"'+(on?' checked':'')+'> <b>'+it.n+'</b></label>'
+      +'<span class="schm">'+it.m+' 分鐘</span>'
+      +(it.go?'<button class="btn schgo" type="button" onclick="__hkkGo(\''+it.go+'\')">'+it.btn+'</button>'
+             :'<span class="tip schtip">'+it.tip+'</span>')
+      +'</div>';
+  });
+  h+='<p class="schsum">今日 '+done.length+' / '+items.length+' 項 · 已做約 '+doneMin+' / '+total+' 分鐘</p>';
+  document.getElementById('schCard').innerHTML=h;
+  document.querySelectorAll('#schCard .schchk').forEach(function(c){ c.onchange=function(){ schToggle(c.dataset.sid); }; });
+  var names=['一','二','三','四','五','六','日'], w='';
+  for(var i=0;i<7;i++){
+    var day=new Date(); day.setDate(day.getDate()-di+i);
+    var kk=day.getFullYear()+'-'+('0'+(day.getMonth()+1)).slice(-2)+'-'+('0'+day.getDate()).slice(-2);
+    var dd=(schGet()[kk]||[]).length;
+    w+='<div class="schday'+(i===di?' today':'')+(i>di?' fut':'')+'"><b>週'+names[i]+'</b><span>'+dd+' / '+SCH_WEEK[i].length+'</span></div>';
+  }
+  document.getElementById('schWeek').innerHTML=w;
+  document.getElementById('schWeekCard').style.display='block';
+  document.getElementById('schSunCard').style.display = di===6?'block':'none';
+}
 document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   curPractice=b.dataset.sub;
   document.querySelectorAll('#practiceSub button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('schedView').style.display = curPractice==='sched'?'block':'none';
   document.getElementById('cnPracView').style.display = curPractice==='cn'?'block':'none';
   document.getElementById('enPracView').style.display = curPractice==='en'?'block':'none';
   document.getElementById('mathPracView').style.display = curPractice==='math'?'block':'none';
   document.getElementById('tutorView').style.display = curPractice==='tutor'?'block':'none';
   if(curPractice==='en'){renderHk();renderVocab();}
+  if(curPractice==='sched')schRender();
 });
+window.__schedTest={items:SCH_ITEMS,week:SCH_WEEK,get:schGet,key:schKey,render:schRender,toggle:schToggle,dayIdx:schDayIdx};
+schRender(); // v1.90 開頁即渲染（sched 為練習默認子頁）
 function swPlan(s){
   curPlan=s;
   document.querySelectorAll('#planSub button').forEach(x=>x.classList.toggle('on',x.dataset.sub===s));
@@ -6745,7 +6840,7 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／已匯入詞庫／時態題型勾選與成績）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／已匯入詞庫／時態題型勾選與成績／今日課表打卡）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
@@ -6753,12 +6848,13 @@ document.getElementById('clearBtn').onclick=()=>{
     if(window.__myWordsTest){window.__myWordsTest.clear();}
     if(window.__lwtePackTest){window.__lwtePackTest.clear();}
     if(typeof drSaveProg==='function'){drSaveProg({});try{localStorage.removeItem(DRILL_BEST_KEY);}catch(e){}if(typeof drTapTo==='function')drTapTo('verb');}
+    if(typeof schSave==='function'){schSave({});if(typeof schRender==='function')schRender();}
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),ver:'hkk_v1.89',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.90',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -6775,6 +6871,7 @@ document.getElementById('importFile').onchange=e=>{
     if(Array.isArray(d.myWords)&&window.__myWordsTest){window.__myWordsTest.importData(d.myWords);}
     if(d.lwteWordProg&&window.__lwtePackTest){window.__lwtePackTest.setProg(d.lwteWordProg);}
     if(d.drillProg&&typeof drSaveProg==='function'){drSaveProg(d.drillProg);}
+    if(d.sched&&typeof schSave==='function'){schSave(d.sched);if(typeof schRender==='function')schRender();}
     if(d.drillBest&&typeof drBest==='function'){try{localStorage.setItem(DRILL_BEST_KEY,JSON.stringify(d.drillBest));}catch(e){}}
     if(typeof drTapTo==='function'){drTapTo(drTap);}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();

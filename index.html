@@ -814,6 +814,20 @@ header{position:relative}
   .nextstep .ns-btns .btn:hover{background:#eaf7f4}
   .ns-line{margin:11px 0 0;padding:10px 12px;background:#f7f9fd;border:1px solid #e2eaf6;border-radius:10px;font-size:12.5px;line-height:1.95;color:#475069}
   .ns-line a{color:#1a5fc4;font-weight:700;text-decoration:none;border-bottom:1px dashed #9cc0ee;margin-right:6px;white-space:nowrap}
+  /* v1.90 今日課表 */
+  .schrow{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px dashed #e3ecf5;flex-wrap:wrap}
+  .schrow:last-of-type{border-bottom:none}
+  .schrow.on label{color:#7c8b9c;text-decoration:line-through}
+  .schrow label{flex:1;min-width:200px;cursor:pointer}
+  .schrow .schm{color:#5b7;font-weight:700;white-space:nowrap;font-size:13px}
+  .schrow .schgo{padding:7px 14px;font-size:14px}
+  .schrow .schtip{margin:0;white-space:nowrap}
+  .schsum{margin:10px 0 0;font-weight:700;color:#1a5fc4}
+  .schweek{display:flex;gap:6px;flex-wrap:wrap}
+  .schday{flex:1;min-width:64px;text-align:center;border:1px solid #e3ecf5;border-radius:10px;padding:8px 4px;background:#fff}
+  .schday span{display:block;font-weight:700;color:#1a5fc4;margin-top:3px}
+  .schday.today{border-color:#2f8f5b;background:#f0faf4;box-shadow:0 0 0 2px #cfe9db inset}
+  .schday.fut{opacity:.45}
   .ns-line .nssep{color:#b9c6dd;margin:0 6px}
   /* FAQ 分組頭與卡內「下一步」。⚠️ 用 #faqView 前綴壓過 .gsec h3，否則被既有標題樣式吃掉 */
   #faqView .faq-grp{margin:20px 0 9px;padding:8px 12px;font-size:13.5px;font-weight:800;color:#0d5a53;background:#eaf7f4;border-left:4px solid #2fa295;border-radius:0 8px 8px 0;line-height:1.6}
@@ -939,13 +953,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.89（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.90（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.89（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.90（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -961,7 +975,8 @@ header{position:relative}
   <button data-sub="ft">繁體對照</button>
 </div>
 <div class="subnav" id="practiceSub" style="display:none">
-  <button data-sub="cn" class="on">中文</button>
+  <button data-sub="sched" class="on">今日課表</button>
+  <button data-sub="cn">中文</button>
   <button data-sub="en">英文</button>
   <button data-sub="math">數學</button>
   <button data-sub="tutor">補習材料</button>
@@ -1120,8 +1135,26 @@ header{position:relative}
 
 <!-- ============ 練習區（按科目歸口） ============ -->
 <div id="practiceView" style="display:none">
+  <!-- 今日課表（v1.90：補習材料①每週課表升級——按天顯示＋打勾＋直達） -->
+  <div class="wrap" id="schedView">
+    <div class="gsec">
+      <h2>今日課表</h2>
+      <p class="tip">按星期幾自動顯示今天該做的幾項：做完一項打個勾，明天自動重置。右邊按鈕直接跳到對應練習。總表與 35 週排期見「補習材料」。</p>
+      <div class="gcard" id="schCard"></div>
+      <div class="gcard" id="schWeekCard" style="display:none">
+        <h3>本週一覽</h3>
+        <div class="schweek" id="schWeek"></div>
+      </div>
+      <div class="gcard" id="schSunCard" style="display:none">
+        <h3>本週驗收（週日做）</h3>
+        <p>對照「35 週排期表」裏<b>當月那一行</b>的驗收指標：達標繼續照表走；不達標，下週把沒過關的那項加一次，<b>不往下趕進度</b>。</p>
+        <button class="btn" type="button" onclick="__hkkGo('t:0')">打開 35 週排期表對照</button>
+      </div>
+      <p class="tip">課表來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29，坊間整理）；「時態與題型」為 v1.89 新增項（每週 2 次 × 15 分鐘）。頻率與補習材料①總表一致，只按天排開。</p>
+    </div>
+  </div>
   <!-- 中文 -->
-  <div class="wrap" id="cnPracView">
+  <div class="wrap" id="cnPracView" style="display:none">
     <!-- v1.82 中文練習區子標籤：背詩星圖 ／ 中文卷 -->
     <div class="subnav" id="cnPracSub" style="position:static;top:auto;margin:0 -16px 12px">
       <button data-cs="star" class="on">背古詩</button>
@@ -1687,6 +1720,7 @@ Thank you for your time.</div>
         </tbody>
       </table>
       <div class="src">來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29）｜7.6 放榜日＝教育局中一學位分配安排（官方，適用 2027/28 學年）｜各校直資截止日以學校官網當年公告為準</div>
+      <p class="tip" style="margin-top:8px">這張總表已升級成可打卡的「<a href="javascript:void(0)" onclick="__hkkGo('p:sched')">今日課表</a>」（練習 → 第 1 子頁）：按星期幾顯示今天該做的、做完打勾、按鈕直達對應練習。</p>
     </details>
 
     <details class="gsec fold">
@@ -46474,7 +46508,7 @@ window.__sdkFillSol=function(){sdkS.cur=sdkS.sol.slice();sdkS.sel=-1;sdkRender()
 sdkNew(4);
 
 // ---- 主導航 + 子導航 ----
-let curTab='plan', curGuide='cn', curPractice='cn', curPlan='timeline';
+let curTab='plan', curGuide='cn', curPractice='sched', curPlan='timeline';
 function showMain(m){
   curTab=m;
   document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.tab===m));
@@ -46677,15 +46711,75 @@ document.querySelectorAll('#cngChips .chip').forEach(c=>c.onclick=()=>{
   document.querySelectorAll('#cngChips .chip').forEach(x=>x.classList.toggle('on',x===c));
   genCnPaper();
 });
+// ---- v1.90 今日課表：按天顯示＋打勾（hkk_sched_v0，跟賬號隔離）＋直達對應練習 ----
+var SCHED_KEY='hkk_sched_v0';
+var SCH_ITEMS={
+  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:6',btn:'去泛讀打卡'},
+  trad:{n:'繁體字認讀（官方字表）',m:10,go:'t:5',btn:'去今日認讀'},
+  yue:{n:'粵語磨耳朵（RTHK 兒童節目）',m:10,go:'',btn:'',tip:'只聽不跟讀'},
+  write:{n:'寫作（Great Writing 教材）',m:30,go:'t:1',btn:'看教材清單'},
+  oral:{n:'口頭分享／面試練習',m:30,go:'t:2',btn:'去面試話題庫'},
+  mterm:{n:'數學英文術語翻卡（2027.2 起）',m:20,go:'t:3',btn:'去翻卡'},
+  drill:{n:'時態與題型（動詞表＋五組小練習）',m:15,go:'p:en:drill',btn:'去練習'}
+};
+var SCH_WEEK=[ /* 週一 → 週日 */
+  ['read','trad','yue','drill'],
+  ['read','trad','yue','write'],
+  ['read','trad','yue','oral'],
+  ['read','trad','yue','mterm'],
+  ['read','trad','yue','drill'],
+  ['read','trad','yue','write'],
+  ['read','trad','yue']
+];
+function schGet(){ try{ return JSON.parse(localStorage.getItem(SCHED_KEY)||'{}')||{}; }catch(e){ return {}; } }
+function schKey(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function schSave(o){ try{ var ks=Object.keys(o).sort(); while(ks.length>28){ delete o[ks.shift()]; } localStorage.setItem(SCHED_KEY,JSON.stringify(o)); }catch(e){} }
+function schDayIdx(){ var d=new Date().getDay(); return (d+6)%7; } // 週一=0 … 週日=6
+function schToday(){ return SCH_WEEK[schDayIdx()]; }
+function schToggle(id){
+  var o=schGet(), k=schKey(), a=o[k]||[], i=a.indexOf(id);
+  if(i>=0)a.splice(i,1); else a.push(id);
+  o[k]=a; schSave(o); schRender();
+}
+function schRender(){
+  var o=schGet(), done=o[schKey()]||[], di=schDayIdx(), items=schToday(), total=0, doneMin=0, h='';
+  items.forEach(function(id){
+    var it=SCH_ITEMS[id]; if(!it)return;
+    var on=done.indexOf(id)>=0; total+=it.m; if(on)doneMin+=it.m;
+    h+='<div class="schrow'+(on?' on':'')+'">'
+      +'<label><input type="checkbox" class="schchk" data-sid="'+id+'"'+(on?' checked':'')+'> <b>'+it.n+'</b></label>'
+      +'<span class="schm">'+it.m+' 分鐘</span>'
+      +(it.go?'<button class="btn schgo" type="button" onclick="__hkkGo(\''+it.go+'\')">'+it.btn+'</button>'
+             :'<span class="tip schtip">'+it.tip+'</span>')
+      +'</div>';
+  });
+  h+='<p class="schsum">今日 '+done.length+' / '+items.length+' 項 · 已做約 '+doneMin+' / '+total+' 分鐘</p>';
+  document.getElementById('schCard').innerHTML=h;
+  document.querySelectorAll('#schCard .schchk').forEach(function(c){ c.onchange=function(){ schToggle(c.dataset.sid); }; });
+  var names=['一','二','三','四','五','六','日'], w='';
+  for(var i=0;i<7;i++){
+    var day=new Date(); day.setDate(day.getDate()-di+i);
+    var kk=day.getFullYear()+'-'+('0'+(day.getMonth()+1)).slice(-2)+'-'+('0'+day.getDate()).slice(-2);
+    var dd=(schGet()[kk]||[]).length;
+    w+='<div class="schday'+(i===di?' today':'')+(i>di?' fut':'')+'"><b>週'+names[i]+'</b><span>'+dd+' / '+SCH_WEEK[i].length+'</span></div>';
+  }
+  document.getElementById('schWeek').innerHTML=w;
+  document.getElementById('schWeekCard').style.display='block';
+  document.getElementById('schSunCard').style.display = di===6?'block':'none';
+}
 document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   curPractice=b.dataset.sub;
   document.querySelectorAll('#practiceSub button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('schedView').style.display = curPractice==='sched'?'block':'none';
   document.getElementById('cnPracView').style.display = curPractice==='cn'?'block':'none';
   document.getElementById('enPracView').style.display = curPractice==='en'?'block':'none';
   document.getElementById('mathPracView').style.display = curPractice==='math'?'block':'none';
   document.getElementById('tutorView').style.display = curPractice==='tutor'?'block':'none';
   if(curPractice==='en'){renderHk();renderVocab();}
+  if(curPractice==='sched')schRender();
 });
+window.__schedTest={items:SCH_ITEMS,week:SCH_WEEK,get:schGet,key:schKey,render:schRender,toggle:schToggle,dayIdx:schDayIdx};
+schRender(); // v1.90 開頁即渲染（sched 為練習默認子頁）
 function swPlan(s){
   curPlan=s;
   document.querySelectorAll('#planSub button').forEach(x=>x.classList.toggle('on',x.dataset.sub===s));
@@ -48411,7 +48505,7 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／已匯入詞庫／時態題型勾選與成績）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／已匯入詞庫／時態題型勾選與成績／今日課表打卡）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
@@ -48419,12 +48513,13 @@ document.getElementById('clearBtn').onclick=()=>{
     if(window.__myWordsTest){window.__myWordsTest.clear();}
     if(window.__lwtePackTest){window.__lwtePackTest.clear();}
     if(typeof drSaveProg==='function'){drSaveProg({});try{localStorage.removeItem(DRILL_BEST_KEY);}catch(e){}if(typeof drTapTo==='function')drTapTo('verb');}
+    if(typeof schSave==='function'){schSave({});if(typeof schRender==='function')schRender();}
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),ver:'hkk_v1.89',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.90',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -48441,6 +48536,7 @@ document.getElementById('importFile').onchange=e=>{
     if(Array.isArray(d.myWords)&&window.__myWordsTest){window.__myWordsTest.importData(d.myWords);}
     if(d.lwteWordProg&&window.__lwtePackTest){window.__lwtePackTest.setProg(d.lwteWordProg);}
     if(d.drillProg&&typeof drSaveProg==='function'){drSaveProg(d.drillProg);}
+    if(d.sched&&typeof schSave==='function'){schSave(d.sched);if(typeof schRender==='function')schRender();}
     if(d.drillBest&&typeof drBest==='function'){try{localStorage.setItem(DRILL_BEST_KEY,JSON.stringify(d.drillBest));}catch(e){}}
     if(typeof drTapTo==='function'){drTapTo(drTap);}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
