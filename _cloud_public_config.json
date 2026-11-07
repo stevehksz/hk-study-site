@@ -1,0 +1,5 @@
+{
+  "endpoint": "https://hk-study-site.app.workbuddy.host",
+  "oauthRelayBaseUrl": "https://www.workbuddy.cn/v2/as/genie-baas/oauth",
+  "publishableKey": "wbpk_LFDlJPIzEMJOz00xooC8wC_QebabGoDUpT2zRSbW1nHeP4BCwTYVzHt"
+}
