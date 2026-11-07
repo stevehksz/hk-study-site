@@ -37,9 +37,11 @@ def build_ai_kb(template_html):
         if t and b:
             items.append({'k': tag, 't': t, 's': b})
 
-    # ① FAQ 10 問（站內明示「坊間整理＋知識庫核對」，性質原樣帶上）
+    # ① FAQ 15 問（v1.88 起按「家長顧慮」分 5 組；分組頭是 <h3 class="faq-grp">，不在 gcard 內，天然不入庫）
+    # ⚠️ 每張卡尾部多了一段 <p class="nx">下一步…</p>（站內跳轉引導，非知識）。
+    #    正則只取第一段 <p> 當答案，nx 段用可選組跳過——否則下一步文案會混進 AI 答案。
     faq = _seg(template_html, 'id="faqView"', 'id="progressView"')
-    for h3, p in re.findall(r'<div class="gcard"><h3>(.*?)</h3><p>(.*?)</p></div>', faq, re.S):
+    for h3, p in re.findall(r'<div class="gcard"><h3>(.*?)</h3>\s*<p>(.*?)</p>(?:<p class="nx">.*?</p>)?\s*</div>', faq, re.S):
         add('常見問題', h3, p)
 
     # ② 申請時間線（三列表格行；日期一律保留站內「以當年公告為準」口徑）

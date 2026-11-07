@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.88：葉工看過「站點盤點：下一步引導與 FAQ 缺口」後拍板做 P0 三項 ＋ FAQ 重排。⚠️ **本版零新增素材**——全部把既有內容重組成出口＋補跳轉，版權紅線與數據結構都不動（不新增 localStorage 鍵、不搬任何第三方內容、不改既有 `.cta-strip`）。①下一步引導：新增共用組件 `.nextstep`（頁尾「看完這一步做什麼」＝步驟清單＋站內跳轉鈕）與 `.ns-line`（卷子批改後的「錯題回頭查」條），落三處——(a) 時間線 `#timelineView` 兩張表之後加 `#tlNext`「你站在哪一行」三步（學段→身份到手月份→本月動作）＋三顆鈕跳 `plan:docs`／`plan:study`／`plan:schools`，開頭 tip 補一句指路，解決「表格寫死 2027.9、家長不知道自己站哪一行」；(b) 速覽指南四子頁（`#cnView`／`#enView`／`#mathView`／`#ftView`）末尾各掛一條出口，把「看懂差異」接去對應練習（中文→繁體翻卡／官方字表／中文試卷、英文→定級三連測／英文卷／詞彙路線圖、數學→術語翻卡／術語表／數學卷、繁體→翻卡／字表）；(c) 四種卷批改結果區（`gradeEnPaper`／`gradeExamPaper`／`gradeMathPaper`／`gradeCnPaper`）統一插入 `nsWrongLine(kind)`，按「詞不懂／題幹不懂／字認不過來」三類錯因指向既有模塊——**抽成一個共用函數而不是抄四份**（記 v1.86 打印樣式漏改的教訓）。②FAQ 重排：原 10 問平鋪、8 條是「是什麼」的信息題，改為按家長決策順序分 5 組共 **15 問**（一 能不能做／二 時間夠不夠／三 考什麼怎麼備／四 材料與學籍／五 錢、距離與最壞情況），新增 5 問全部由站內既有內容重組——粵語繁體跟不上（學習路線 P1 平行線＋⑤翻卡＋⑥字表）、只剩半年一年（8 個月 ≈230 小時估算＋35 週減壓版）、要不要搬港（住址類＋居港 2 年新政）、跨境通勤（⑥校車＋東鐵 1–2 站）、萬一沒學校收（教育局途徑三 5–8 月＋叩門潮＋不註銷學籍）；**明確不加**「降級重讀／總開銷／某校 Band」三問（站內未取到，硬寫就是編），改為末尾一張 `gcard warn`「本站沒有收錄的三件事」把邊界講清再引導問個案。每張卡尾部加 `<p class="nx">下一步 →` 站內跳轉。③工程：`__hkkGo` 補 `p:cn:*` 分支（中文子頁是 `data-cs` 不是 `data-es`，原解析器漏了，跳中文試卷只會停在背古詩頁）；`ai_kb.py` 的 FAQ 正則改為容忍卡內 `.nx` 段（否則「下一步」文案會混進 AI 答案），知識庫 95→**100 條**（FAQ 10→15，時間線 11／政策 4／學校 70 不變），分組頭 `h3.faq-grp` 放在 gcard 外故天然不入庫（已實測 0 條混入）。驗證：舊斷言版本號 8 處 v1.87→v1.88、FAQ 卡數 10→16（15 問＋1 邊界卡）、KB 95→100、FAQ 類 10→15；新增 v1.88 專項（五組頭 5 個且不在 gcard 內／15 卡皆有 `.nx`／時間線三步條與三顆鈕／guide 四處出口／四卷結果含 `.ns-line` 且四函數都呼叫／`p:cn:cnpaper` 實跑切到中文試卷／既有 `.cta-strip` 仍為 3 條防手滑多加微信／零新增外鏈零新增 localStorage 鍵）。P1/P2 六處（材料清單尾、身份政策尾、擇校分檔插站內三步、進度頁尾、泛讀 21 天後）留待 v1.89。
 v1.87：葉工貼「某文單詞本 · 進度本」截圖，要求「把某文單詞的格式和中小學單詞本一樣，把裡面每一課的主題單詞要列出來，要有繁體中文加英標和讀音」。⚠️ **本版把訴求拆成「資料補齊」與「呈現同款」兩件事，版權紅線不動**：①**呈現**——v1.85 的詞庫包匯入功能已能列出全部詞條，但呈現是自製的 `.lhub-word` 簡版行（詞＋中文義＋三態勾選），**沒有音標、沒有 🔊 發音、也不是分課的小節**；本版把 `renderPack()` 改寫為**完全沿用「中小學單詞」的 `.vcard` 卡片**（`w` 詞＋`ph` 音標＋`mini[data-sp]` 🔊 發音＋`tp` 主題標籤＋「＋單詞本」鈕＋`zh` 中文義），分組粒度改為**每一課（主題）一個 `<details class="gsec lwb-cat">` 可展開小節**（與中小學單詞本的年級小節同構），標題條顯示「N 詞 · 已學 N」，逐詞勾選後即時更新本課計數；新增 `.lwb-chk` 三態勾選列（已學／已複習／已聽寫）、`.lwb-ipa` 打印用音標樣式；🔊 與「＋單詞本」事件接上既有 `speak()` 與 `__myWordsTest.addFrom()`（成功後就地改字不重繪，避免清掉展開態與搜尋位置）。②**資料補齊**——原詞庫包只有 405/1024 有中文義、194/1024 有音標，且中文義是**簡體**；本版補齊：**繁體中文義**（自建 `_lwte_zh_own*.py` 八張表共 660 條**本站原創撰寫**的通用詞彙釋義，港式繁體用字，**不抄任何詞典／課本／網站譯文**；站內自有詞庫命中的 229 條經 OpenCC `s2twp` 轉繁體；舊版人工自譯 173 條優先）→ **1023/1024 有中文義**（僅 1 條教材解析異常詞留空）；**音標**（站內自有 209 條英式 DJ 優先，缺口用 **CMU Pronouncing Dictionary**（`cmudict` 套件，BSD 授權，事實性發音資料）ARPAbet→IPA 轉換補 804 條）→ **1013/1024 有音標**。⚠️ **明確不採用 ECDICT**：實測其 npm 包可下（MIT），但中文釋義欄位源自商業詞典、有商用限制，與葉工「不能侵權」紅線衝突，故改走自建 + OpenCC + CMUdict 三個乾淨來源。⚠️ **讀音不內嵌音頻檔**：🔊 走瀏覽器 Web Speech API（`speak()`）即時發聲，零音頻檔、零體積。⚠️ **品質閘（寧缺勿錯）**：CMUdict 缺某個實詞時**整條留空**，不給半截音標——否則 "a sharpener" 會只拼出冠詞的 /ʌ/（v1.87 實測踩到，已修）。⚠️ **坑（全非產品壞）**：①`cmudict.dict()` 的值是**多個讀音的列表**（`d['hello']==[['HH','AH0','L','OW1'],…]`），取 `v[0][0]` 只拿到**第一個音素**（音標變成 /h/），必須取 `v[0]` 再 `arp2ipa`——這個錯一開始讓音標全變單音素；②自建釋義表原本用 `try: from … import ZH_OWN_1` + `except: pass`，**漏載 ZH_OWN_2（2A/2B 那 141 條）卻靜默無報錯**，改成顯式匯入全部八個變數並斷言條數；③IPA 合法字元白名單**手寫必漏**（先后漏了 ɔ/U+0254、ɪ/U+026A、ː/U+02D0、æ/U+00E6、θ/U+03B8、ŋ/U+014B），改成**按 Unicode 區間自動生成**；④短語音標拼接時某詞查不到會**整條作廢**，改為逐詞跳過 + 品質閘（實質詞必須全部查到）。詞庫包 `_lwte_pack.json` 升 v2（新增 `isrc` 音標來源欄、stats 記 `zhSrc`/`ipaSrc`），**仍永不進 `_gh_sync.py` FILE_MAP**（公開 HTML 零詞條紅線不動），同步更新私人 Obsidian 庫的 `某文詞庫包.json`。verify2 舊斷改 1 處（v1.85 斷言查舊的 `.lhub-cat-h`／`.lhub-word` 結構）＋新增 v1.87 專項 22 項（卡片結構與中小學單詞本一致／每課一個可展開小節／音標與 🔊 與繁體中文義齊／＋單詞本接入／逐詞勾選持久化與本課計數更新／搜尋過濾／打印含音標／**詞庫包 1023 條有中文義且為繁體**／**1013 條有音標且形式合法**／公開 HTML 零詞條紅線／FILE_MAP 紅線／不進 AI 白名單／版本一致）。\nv1.86：葉工貼中文卷打印出來的截圖，說「中文試卷打印出來的那個答題線條要跟 A4 寬度差不多」。⚠️ **診斷：不是 CSS 寬度問題，是用錯了畫線方式**——三個引擎的打印 HTML 裡，答題線寫的是**固定長度的下劃線字元**（`答：________________________`、`答：____`），所以線只有一小截，與版心寬度無關；而打印頁 `body{max-width:860px}` 又是螢幕寬度而非 A4 版心，預覽與實印不一致。改法：**①答題線全部改用 CSS `border-bottom` 畫的整寬橫線**（新類 `.ansline`，`width:100%` 自動跟版心同寬；選擇題／填充題用 `.ansline.lbl`＝「答：」標籤＋右側彈性線 `.al-l`；短答題用 `.ansbox` 兩條；寫作題用 `.writegrid` 六條；填表題欄位與卷頭姓名／日期用短線 `.al-tbl`）；**②打印頁設 A4 版心**——`@page{size:A4 portrait;margin:15mm}`、`body{max-width:180mm;padding:0}`（A4 210mm − 左右各 15mm 邊距 = 180mm 版心），並加 `@media print{body{max-width:none;margin:0;padding:0}}` 讓實印走瀏覽器預設邊距、螢幕預覽走 180mm，兩者一致。⚠️ **一次修三個引擎**：英文卷（`printEnPaper`）、數學卷（`printMathPaper`）與中文卷（`printCnPaper`）原本是同一種寫法、同樣的問題，故一併根治，不留半拉子。verify2 新增 v1.86 專項 12 項（打印 HTML 零下劃線字元答題線／`.ansline` 整寬樣式存在且 `width:100%`／三引擎皆接線／`@page{size:A4 portrait;margin:15mm}` 存在／版心 `180mm` 正確／寫作與短答題用 `ansbox`／`writegrid`／卷頭姓名日期用 `al-tbl`／版本一致），**828→840 全過**；`_shot86.py` 用 CDP 真實渲染打印頁 HTML，量 `.ansline` 的 `getBoundingClientRect().width` 與版心 `body` 寬度比值（目標 ≥0.98），並截圖比對改前（線只有約 150px）與改後（線跟版心齊寬）。
 v1.85：葉工給了 Obsidian 私人庫「10 香港朗文/朗文單詞本.md」的連結與截圖（該筆記含 12 冊／127 主題／**1024 個詞條**，每條一行 `- [ ] 詞`），說「把這裡的單詞放進來，沒事的」。⚠️ **本版把「要詞」與「詞怎麼進站」分開處理**：①**要詞**＝完全合理且已做到——1024 詞條按冊／主題／詞三層結構做成<b>本機詞庫包</b> `_lwte_pack.json`（`build_lwte_pack.py` 生成，124KB），家長在自己電腦上選檔匯入，站內立刻顯示<b>完整詞表</b>：按冊切換→按主題分組→每詞一行（英文＋中文義＋音標＋🔊 發音＋逐詞三態「學／複／寫」勾選），可搜尋、可印本冊詞表。②**詞怎麼進站**＝走**裝置內鏈路**而非公開頁面：詞庫包**只存在使用者自己的裝置**（`localStorage` 的 `hkk_lwte_pack_v0`，`hkk_` 前綴天然受 v1.33 賬號隔離），匯入走 `FileReader` 讀本機檔案，**不上傳、不進公開 HTML、不進公開倉庫**；`_lwte_pack.json` 與 `build_lwte_pack.py` **永不進 `_gh_sync.py` FILE_MAP**（v1.78 起的雙軌紅線不動），公開站仍只有「冊／主題／詞數」目錄與匯入按鈕。⚠️ 為何不直接放進公開頁：**來源 Word Bank 檔頁腳明載 © Pearson Education Asia Limited**，而站內 GitHub 倉庫已公開＝任何人一 clone 就拿到＝**公开发行**（與 v1.77/v1.82 對 band1 的判斷同一條邏輯）；這不是「有沒有版權」的猜測，是「公開倉庫＝公开发行」的既定事實。**但這次比 v1.78 前進了一大步**：以前只能在自家電腦的單檔 HTML 裡看，現在**手機上也能用**——把詞庫包傳到手機（微信檔案傳輸助手即可），在手機瀏覽器裡選檔匯入，詞表就常駐該裝置。中文義**不臆造、不代教材翻譯**：優先用站內人工校過的 5A/5B 自譯 140 條，其餘只取站內自有詞庫（`hk_words` 487 條＋`vocab` 1465 條）能對上的，共 405 條有中文義、194 條有音標，**其餘 619 條留空**並在頁上標「（待補中文義）」——家長可在自家裝置上自行補。verify2 新增 v1.85 專項 20 項（DOM 接線／匯入按鈕與 file input／格式校驗拒絕壞檔／匯入後詞表渲染與分組／逐詞三態勾選讀寫持久化／搜尋過濾／本冊切換連動／列印含中文義／清除／**公開 HTML 零詞條（拿本機詞庫包逐條反查）**／詞庫包與生成腳本永不進 FILE_MAP／不進 AI 白名單／全站進度匯出匯入清空接線／版本一致），**807→827 全過**。
 v1.84：葉工再提「https://www.band1.org/ 把這裏的試卷拷到我的網站題庫裏面，然後用 AI 改題，這樣 AI 才不會亂出題」。⚠️ **本版把訴求拆成兩半，一半不能做、一半正是本版做的**：①「把 band1 試卷拷進題庫」——v1.82 已取到其《Terms of Service》原文，第 6 條明文禁止任何未經授權的複製與 **alteration（改動）**，「用 AI 改題」同樣落在禁止之列，且首頁 198 條是整頁掃描圖（`/examjpg/29167.jpg`），改寫後仍是其作品，公開倉庫＝公開發行，**故此路仍不通**；②**「AI 才不會亂出題」是真需求，且與①無關——這才是本版做的事**。診斷：AI 亂出題的根因不是「缺少參考樣卷」，而是**缺少題型骨架與輸出約束**（不知道要出什麼題型、不知道題數與答案格式、生成後無人驗收）。解法＝沿用站內成熟的出卷機制（英文卷 `aiSwap`、呈分卷 `exAiPaper`：使用者自填 OpenAI 兼容接口＋密鑰存 localStorage＋`response_format:json_object`＋**生成後必過結構校驗，不合格直接丟棄回退本地題庫**），為中文卷接上同一套。落位＝「練習 → 中文 → 中文試卷」加「🤖 AI 出新卷」鈕＋每題（選擇題／填充題）加「🤖 AI 換題」鈕＋AI 說明條（AI 卷出來後顯示「已過結構校驗，請家長先過目」）。`cnAiPrompt(g)` 以**官方公開的考評局 HKEAA 評估框架為骨架**（閱讀＝記敘文／說明文＋實用文如書信／日記／海報／說明書；寫作＝實用文格式題＋短文），並明寫「全部內容必須你自己原創（香港小學生活場景），不得抄寫任何真卷、課本或網站試題」，規定 JSON schema：選擇 8 題、填充 4 題、篇章 2 篇、寫作 2 題（一實用文一短文）。`cnValidate(o)` 是**「不亂」的真正保證**——21 條結構校驗：選擇題數／選項恰為 4／答案索引 0–3／**選項不得重複**／正確答案非空；填充題答案非空；篇章恰 2 篇／段落 3–6 段且非空／**題型只認 mc｜fill｜short｜filltbl（不認識的一律拒收）**／篇章類型必須覆蓋「記敘或說明文」與「實用文」；寫作恰 2 題且一實用文一短文、題目與提示齊。**不合格即丟棄，原地保留本地題庫卷並提示可改用「🎲 出新卷」**；逐題 AI 換題失敗則原題保留不動。AI 出的卷**不計入本級最佳**（避免 AI 卷刷高分污染記錄）——本地 `curCnIsAi` 標記，AI 卷渲染時提示家長先過目。⚠️ 版權紅線不動：公開站仍零第三方原文、零外鏈、零真卷聲稱；AI 只在**使用者自己的瀏覽器**直連他自己填的接口（密鑰存本機、不上傳本站任何資料），本站不代管任何模型密鑰。verify2 新增 v1.84 專項 26 項（DOM 接線／prompt 骨架含官方框架與原創要求／**合法卷通過＋13 種壞卷逐一被拒收**：題數不足、選項數≠4、答案索引越界、選項重複、篇章缺實用文、寫作缺短文、段落不足、填表欄位與答案數不符、不認識的題型、null／非物件／空物件／不進 AI 白名單／站內仍明寫不抄真卷／密鑰存本機／失敗回退本地／版本一致），**778→804 全過**。
@@ -850,6 +851,30 @@ header{position:relative}
   /* 彈窗打開時收起浮動鈕與右上賬號膠囊，避免壓在彈窗上 */
   body.cta-open #ctaFab,body.cta-open #userChip{display:none!important}
   .cta-alt a{color:#1a5fc4;font-weight:600}
+  /* v1.88 下一步引导：不新增任何内容，只把既有模块串成出口。
+     .nextstep＝页尾「看完这一步做什么」块（步骤＋站内跳转钮）；
+     .ns-line＝卷子批改后的「错题回头查」条（四卷共用同一套样式）。 */
+  .nextstep{background:#f6fbfa;border:1px solid #d6ece8;border-radius:12px;padding:13px 15px;margin:18px 0 4px}
+  .nextstep h4{margin:0 0 8px;font-size:14px;font-weight:800;color:#0d5a53;line-height:1.6}
+  .nextstep ol{margin:0 0 11px;padding-left:20px}
+  .nextstep li{font-size:13px;line-height:1.95;color:#475069}
+  .nextstep li b{color:#0f3d43}
+  .nextstep .ns-btns{display:flex;gap:8px;flex-wrap:wrap}
+  .nextstep .ns-btns .btn{flex:0 1 auto;min-height:42px;background:#fff;border:1px solid #9ed3cb;color:#0d5a53;font-weight:700}
+  .nextstep .ns-btns .btn:hover{background:#eaf7f4}
+  .ns-line{margin:11px 0 0;padding:10px 12px;background:#f7f9fd;border:1px solid #e2eaf6;border-radius:10px;font-size:12.5px;line-height:1.95;color:#475069}
+  .ns-line a{color:#1a5fc4;font-weight:700;text-decoration:none;border-bottom:1px dashed #9cc0ee;margin-right:6px;white-space:nowrap}
+  .ns-line .nssep{color:#b9c6dd;margin:0 6px}
+  /* FAQ 分組頭與卡內「下一步」。⚠️ 用 #faqView 前綴壓過 .gsec h3，否則被既有標題樣式吃掉 */
+  #faqView .faq-grp{margin:20px 0 9px;padding:8px 12px;font-size:13.5px;font-weight:800;color:#0d5a53;background:#eaf7f4;border-left:4px solid #2fa295;border-radius:0 8px 8px 0;line-height:1.6}
+  #faqView .nx{margin:9px 0 0;font-size:12.5px;line-height:1.9;color:#6b6b8a}
+  #faqView .nx a{color:#1a5fc4;font-weight:700;text-decoration:none;border-bottom:1px dashed #9cc0ee;margin-right:12px;white-space:nowrap}
+  @media screen and (max-width:640px){
+    .nextstep{padding:11px 13px;margin:14px 0 4px}
+    .nextstep .ns-btns{flex-direction:column}
+    .nextstep .ns-btns .btn{width:100%}
+    .ns-line a{margin-right:8px}
+  }
   /* v1.74 AI 客服：加微信弹窗内、二维码上方。默认不渲染；v1.76 非绑定域改显示引导入口 */
   #aiBox,#aiFallback{background:linear-gradient(135deg,#f2f5ff,#f8faff);border:1px solid #d7def8;border-radius:12px;padding:12px 13px;margin:12px 0 4px;scroll-margin-top:110px}
   #aiBox .ai-h,#aiFallback .ai-h{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:#3730a3;margin:0 0 5px}
@@ -964,13 +989,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.87（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.88（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.87（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.88（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1021,6 +1046,20 @@ header{position:relative}
       <h3>⑤ 寫作：實用文為主</h3>
       <p>香港寫作重<strong>實用文</strong>（書信、建議書、演講辭、報告）；內地重記敘／議論文。格式錯就掉分。</p>
     </div>
+    <!-- v1.88 下一步：差異看完給出口，只指向既有模塊 -->
+    <div class="nextstep">
+      <h4>差異看完了，下一步是對著練</h4>
+      <ol>
+        <li>先挑差距最大的一項，別全上——頭半年最痛的是「認繁、寫繁」。</li>
+        <li>每天 15–20 分鐘繁體認讀：先用 100 字翻卡過常用字，再到官方字表。</li>
+        <li>讀得動之後才做卷，做卷直接切「中文試卷」。</li>
+      </ol>
+      <div class="ns-btns">
+        <button class="btn" type="button" onclick="__hkkGo('t:4')">繁體認讀翻卡（100 字）</button>
+        <button class="btn" type="button" onclick="__hkkGo('t:5')">官方字表</button>
+        <button class="btn" type="button" onclick="__hkkGo('p:cn:cnpaper')">中文試卷</button>
+      </div>
+    </div>
   </div>
   <!-- 英文 -->
   <div class="wrap gsec" id="enView" style="display:none">
@@ -1047,6 +1086,20 @@ header{position:relative}
       <h3>⑤ 寫作：重格式</h3>
       <p>香港重格式寫作（letter / email / report / story）；內地重命題作文。→ 學術英文路線見專文。</p>
     </div>
+    <!-- v1.88 下一步：差距的下一步不是多做題，是先定級 -->
+    <div class="nextstep">
+      <h4>差異看完了，下一步是定級</h4>
+      <ol>
+        <li>差距不在「會不會英文」，在「用英文學其他科」的閱讀量與聽課量。</li>
+        <li>先做定級三連測（約 40 分鐘），按閱讀／寫作／口語結果選級，<b>不按年齡選</b>。</li>
+        <li>排期用每週 ≤3 小時的減壓版；要驗進度就出英文卷。</li>
+      </ol>
+      <div class="ns-btns">
+        <button class="btn" type="button" onclick="__hkkGo('plan:study')">定級三連測</button>
+        <button class="btn" type="button" onclick="__hkkGo('p:en:paper')">英文卷</button>
+        <button class="btn" type="button" onclick="__hkkGo('p:en:goal')">詞彙路線圖</button>
+      </div>
+    </div>
   </div>
   <!-- 數學 -->
   <div class="wrap gsec" id="mathView" style="display:none">
@@ -1064,6 +1117,20 @@ header{position:relative}
       <h3>題目描述方式</h3>
       <p>符號（× ÷ ( )）與內地基本一致，但英文題目用句式描述運算，e.g. <em>"the product of a and b"</em>（a 與 b 的積）、<em>"increased by"</em>（增加）。</p>
       <div class="tip">術語表見「練習 → 數學」，可按分類篩選、搜尋、打印 A4 背诵。</div>
+    </div>
+    <!-- v1.88 下一步：數學的真正門檻是英文題幹，先把術語過一遍 -->
+    <div class="nextstep">
+      <h4>差異看完了，下一步是背術語</h4>
+      <ol>
+        <li>術語聽不懂＝題目看不懂——這條比多做十題更優先。</li>
+        <li>先用翻卡把 60 詞過一遍（分 6 週），再用雙語數學卷驗。</li>
+        <li>應用題不只要答案，步驟與理由也要寫出來（參考答案在卷底）。</li>
+      </ol>
+      <div class="ns-btns">
+        <button class="btn" type="button" onclick="__hkkGo('t:3')">術語翻卡（60 詞）</button>
+        <button class="btn" type="button" onclick="__hkkGo('p:math:mterms')">中↔英術語表</button>
+        <button class="btn" type="button" onclick="__hkkGo('p:math:mpaper')">數學卷（雙語）</button>
+      </div>
     </div>
   </div>
   <!-- 繁體對照 -->
@@ -1084,6 +1151,19 @@ header{position:relative}
       <span class="mini" id="ftCount"></span>
     </div>
     <div id="ftList"></div>
+    <!-- v1.88 下一步：對照表是查閱用的，要「認得快」得靠翻卡 -->
+    <div class="nextstep">
+      <h4>這張表用來查，不用來背</h4>
+      <ol>
+        <li>一簡對多繁（发→發/髮、里→裡/裏）按詞義選；查不到就看課本原文怎麼寫。</li>
+        <li>練「認得快」用翻卡；練「寫得對」用格紙抄寫。</li>
+        <li>正式字表在「補習材料 → ⑥ 官方字表」（筆畫序），以教育局公布為準。</li>
+      </ol>
+      <div class="ns-btns">
+        <button class="btn" type="button" onclick="__hkkGo('t:4')">繁體認讀翻卡（100 字）</button>
+        <button class="btn" type="button" onclick="__hkkGo('t:5')">官方字表</button>
+      </div>
+    </div>
   </div>
   <!-- 英文卷 -->
 </div>
@@ -1964,7 +2044,7 @@ Thank you for your time.</div>
   <div class="wrap" id="timelineView">
     <div class="gsec">
       <h2>申請時間線（以 2027.9 入中一為例）</h2>
-      <p class="tip">適用以 9 月入學為主批、1 月春季為備選。具體日期以教育局及各校官網當年公告為準。</p>
+      <p class="tip">適用以 9 月入學為主批、1 月春季為備選。具體日期以教育局及各校官網當年公告為準。<b>兩張表看完後，最下面有「三步定位」</b>——按孩子學段與身份到手時間，找到你這個月該做的那一行。</p>
 
       <h3>🎓 中學插班（以 2027.9 入中一為例）</h3>
       <table class="mtable">
@@ -2003,6 +2083,22 @@ Thank you for your time.</div>
         <p class="src">來源：教育局區域教育服務處插班安排（官方途徑）＋各校插班慣例（坊間整理）｜以各校官網當年公告為準</p>
       </div>
     <div class="src">來源：教育局區域教育服務處插班安排（官方途徑）｜插班窗口為坊間通行整理｜以各校官網當年公告為準</div>
+
+    <!-- v1.88 下一步引導：上面兩張表是按固定學年排的，家長看完常不知道自己站哪一行。
+         這裡只做「定位方法＋指向既有的三個頁」，不新增任何日期或規則。 -->
+    <div class="nextstep" id="tlNext">
+      <h4>看完兩張表：你站在哪一行</h4>
+      <ol>
+        <li>孩子是<b>中學還是小學</b>插班 → 對應上面哪一張表。</li>
+        <li>對照<b>身份到手的月份</b> → 找到那一行（身份未到手＝1 月自行分配窗口一定錯過，只能走放榜後叩門＋教育局途徑三）。</li>
+        <li>那一行的「動作」就是<b>本月待辦</b>；本月做不完的往後挪，但截止日是硬的。</li>
+      </ol>
+      <div class="ns-btns">
+        <button class="btn" type="button" onclick="__hkkGo('plan:docs')">材料還沒齊 → 材料清單</button>
+        <button class="btn" type="button" onclick="__hkkGo('plan:study')">英文沒定級 → 學習路線</button>
+        <button class="btn" type="button" onclick="__hkkGo('plan:schools')">還沒選校 → 擇校分檔</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2354,19 +2450,37 @@ Thank you for your time.</div>
   <!-- 常見問題 FAQ（v1.40） -->
   <div class="wrap" id="faqView" style="display:none">
     <div class="gsec">
-      <h2>家長最常問的 10 個問題</h2>
-      <p class="tip">答案為坊間整理＋hk-placement 知識庫（2026-10 至 11 核對），一切以教育局、學校官網當年公告為準。</p>
-      <div class="gcard"><h3>① 幾年級插班最合適？</h3><p>通行說法「最遲中三前」——中四起課程落差與 DSE 壓力大增；小學階段越早越從容（坊間整理）。P5–P6 有呈分試，插進去就直項考試，更要提前備。</p></div>
-      <div class="gcard"><h3>② 需要什麼身份？</h3><p><b>受養人簽證是硬門檻</b>（須有在港工作/就讀的監護人），單程證/永居亦可。辦理以入境事務處官方為準。</p></div>
-      <div class="gcard"><h3>③ 插班考什麼？怎麼準備？</h3><p>筆試（中英數，英文最關鍵）＋面試（可能粵語/英語作答）。直資校自主命題，各校題型不同；官津多看成績表＋隨機測。考前 8–10 週切題型與面試模擬，別裸考。</p></div>
-      <div class="gcard"><h3>④ 英文要到什麼水平？</h3><p>英文決定你能進<b>英中還是中中</b>，是最重的一項。先做定級（閱讀/寫作/口語），再按「80% 建能力 + 20% 熟題型」排計劃（見「學習路線」子頁）。</p></div>
-      <div class="gcard"><h3>⑤ 呈分試和 Banding 是什麼？</h3><p>呈分試＝小五下學期起的三次校內考，成績直接影響升中派位組別；Band 1–3 組別由派位結果反推，<b>教育局不公布官方 Banding</b>，坊間版本僅作參考。</p></div>
-      <div class="gcard"><h3>⑥ 有校車嗎？</h3><p>校巴/保姆車由私營營辦商按線路經營（一般 5–6 月申請），中學線路遠少於小學；北區中學跨境生主流是<b>自行搭東鐵</b>（1–2 站）。有沒有線路逐校電話校務處問（擇校表內有電話）。</p></div>
-      <div class="gcard"><h3>⑦ 官津和直資學費差多少？</h3><p>官立/資助中學免學費；直資校收學費，幾千到數萬一年不等（各校官網當年公布為準，站內擇校表已標注已知直資）。</p></div>
-      <div class="gcard"><h3>⑧ 內地學籍要註銷嗎？</h3><p>拿到港校 Offer 前<b>不要註銷</b>。先拿 Offer 再轉出，保留退路。</p></div>
-      <div class="gcard"><h3>⑨ 大學學額有什麼新政？</h3><p>⚠️ 2028/29 學年起，人才計劃子女申請政府資助大專學額須<b>居港滿 2 年</b>。目標 DSE 讀本地資助大學的話，要提前倒推搬港時間線（見「身份政策」子頁）。</p></div>
-      <div class="gcard"><h3>⑩ 材料清單在哪看？</h3><p>本站「材料清單」子頁有完整版：身份類/學業類（蓋章+翻譯）/健康類/住址類/加分類。建議提前一個學期開始備，翻譯公證有周期。</p></div>
-      <div class="src">來源：hk-placement 知識庫 v0.2＋通行插班實務（坊間整理，2026-11-02 歸納）；居港 2 年政策為官方公報內容，個案以官方為準</div>
+      <h2>家長最常問的 15 個問題（按顧慮分 5 組）</h2>
+      <p class="tip">排序跟著家長的決策順序走：<b>能不能做 → 時間夠不夠 → 考什麼怎麼備 → 材料與學籍 → 錢、距離與最壞情況</b>。答案為坊間整理＋hk-placement 知識庫（2026-10 至 11 核對），一切以教育局、學校官網當年公告為準。每題下面有一行「下一步」，直接跳到站內對應的地方。</p>
+
+      <h3 class="faq-grp">一、先確認「我能不能做」</h3>
+      <div class="gcard"><h3>1 · 需要什麼身份？</h3><p><b>受養人簽證是硬門檻</b>（須有在港工作/就讀的監護人），單程證/永居亦可。辦理以入境事務處官方為準。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:policy')">身份政策（含三條替代路徑）</a></p></div>
+      <div class="gcard"><h3>2 · 大學學額新政跟我們有什麼關係？</h3><p>⚠️ 2028/29 學年起，人才計劃子女申請政府資助大專學額須<b>居港滿 2 年</b>。目標 DSE 讀本地資助大學的話，要提前倒推搬港時間線（見「身份政策」子頁）。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:policy')">身份政策</a><a href="javascript:void(0)" onclick="__hkkGo('plan:timeline')">申請時間線</a></p></div>
+      <div class="gcard"><h3>3 · 要不要現在就搬去香港住？</h3><p>兩個理由都要算：① 官津派位與校網、叩門優先序都看住址——材料清單的「住址類」（租約／水電單）就是為這條準備的；② 上面那條居港 2 年新政是長線倒推。至於「提前多久搬才穩」，各校與教育局沒有統一說法，<b>本站未取到</b>，以當年公告為準。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:docs')">材料清單（住址類）</a><a href="javascript:void(0)" onclick="__hkkGo('plan:schools')">擇校分檔（看校網）</a></p></div>
+
+      <h3 class="faq-grp">二、再確認「時間夠不夠」</h3>
+      <div class="gcard"><h3>4 · 幾年級插班最合適？</h3><p>通行說法「最遲中三前」——中四起課程落差與 DSE 壓力大增；小學階段越早越從容（坊間整理）。P5–P6 有呈分試，插進去就直項考試，更要提前備。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:timeline')">申請時間線（對號入座）</a></p></div>
+      <div class="gcard"><h3>5 · 只剩半年到一年，還來得及嗎？</h3><p>站內兩份排期就是按 6–12 個月窗口設計的：學習路線有「8 個月壓縮排期」，總預算約 36 週 × 6.5 小時 ≈ <b>230 小時</b>（估算）；補習材料是 35 週減壓版、每週 ≤3 小時。前提是<b>真的排得進去</b>，不是排一張讀不完的表。時間更短就先砍能力線的廣度，保住應試線——考前 8–10 週一定要切題型與面試。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:study')">學習路線（8 個月排期）</a><a href="javascript:void(0)" onclick="__hkkGo('t:0')">35 週減壓版</a></p></div>
+
+      <h3 class="faq-grp">三、考什麼、怎麼備</h3>
+      <div class="gcard"><h3>6 · 插班考什麼？怎麼準備？</h3><p>筆試（中英數，英文最關鍵）＋面試（可能粵語/英語作答）。直資校自主命題，各校題型不同；官津多看成績表＋隨機測。考前 8–10 週切題型與面試模擬，別裸考。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('p:en:paper')">英文卷</a><a href="javascript:void(0)" onclick="__hkkGo('p:en:iv')">升中面試</a><a href="javascript:void(0)" onclick="__hkkGo('t:9')">按年級找卷</a></p></div>
+      <div class="gcard"><h3>7 · 英文要到什麼水平？</h3><p>英文決定你能進<b>英中還是中中</b>，是最重的一項。先做定級（閱讀/寫作/口語），再按「80% 建能力 + 20% 熟題型」排計劃（見「學習路線」子頁）。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:study')">學習路線（定級三連測）</a><a href="javascript:void(0)" onclick="__hkkGo('p:en:goal')">詞彙路線圖</a></p></div>
+      <div class="gcard"><h3>8 · 孩子聽不懂粵語、繁體也看不慣，會不會跟不上？</h3><p>站內排期把「繁體字＋粵語聽力」放在 <b>P1 平行線</b>：每天額外 15–20 分鐘，不佔英文預算。順序是「先讀得完卷，再求說得好」——繁體認讀用 100 字翻卡過常用字，再到官方字表；粵語靠日常聽與面試練習。不必等學好才插，插進去才是真環境；面試語言各校不同，先問校務處。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('t:4')">繁體認讀翻卡</a><a href="javascript:void(0)" onclick="__hkkGo('t:5')">官方字表</a><a href="javascript:void(0)" onclick="__hkkGo('t:2')">面試話題庫（粵語練）</a></p></div>
+      <div class="gcard"><h3>9 · 孩子內向、面試一開口就卡怎麼辦？</h3><p>把「形容詞」換成「一件事」：講一次做過的事、卡在哪、怎麼解決，比說「我很用功」有效。站內兩處可練：補習材料 ③ 話題庫 10 題配 90 秒計時器；練習 → 英文 → 升中面試有答題結構與小組討論練習（不必搶當主持也能貢獻）。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('t:2')">話題庫＋90 秒計時</a><a href="javascript:void(0)" onclick="__hkkGo('p:en:iv')">升中面試</a></p></div>
+      <div class="gcard"><h3>10 · 呈分試和 Banding 是什麼？</h3><p>呈分試＝小五下學期起的三次校內考，成績直接影響升中派位組別；Band 1–3 組別由派位結果反推，<b>教育局不公布官方 Banding</b>，坊間版本僅作參考。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:schools')">擇校分檔（Band 均標非官方）</a></p></div>
+
+      <h3 class="faq-grp">四、材料與學籍</h3>
+      <div class="gcard"><h3>11 · 材料清單在哪看？</h3><p>本站「材料清單」子頁有完整版：身份類/學業類（蓋章+翻譯）/健康類/住址類/加分類。建議提前一個學期開始備，翻譯公證有周期。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:docs')">材料清單</a></p></div>
+      <div class="gcard"><h3>12 · 內地學籍要註銷嗎？</h3><p>拿到港校 Offer 前<b>不要註銷</b>。先拿 Offer 再轉出，保留退路。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:timeline')">時間線（入學階段才辦轉出）</a></p></div>
+
+      <h3 class="faq-grp">五、錢、距離與最壞情況</h3>
+      <div class="gcard"><h3>13 · 官津和直資學費差多少？</h3><p>官立/資助中學免學費；直資校收學費，幾千到數萬一年不等（各校官網當年公布為準，站內擇校表已標注已知直資）。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:schools')">擇校分檔（按類型篩）</a></p></div>
+      <div class="gcard"><h3>14 · 有校車嗎？每天跨境通勤撐得住嗎？</h3><p>校巴／保姆車由私營營辦商按線路經營，正期申請一般 5–6 月，中學線路遠少於小學；北區中學跨境生主流是<b>自行搭東鐵</b>（1–2 站）。有沒有線路、幾點開，逐校打校務處最準——擇校表內有電話。<b>站內沒有各線路實際時長</b>，別按網上說的算。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:schools')">擇校分檔（通勤欄）</a><a href="javascript:void(0)" onclick="__hkkGo('plan:timeline')">時間線（5–6 月申請校巴）</a></p></div>
+      <div class="gcard"><h3>15 · 萬一沒有學校收，會不會兩頭空？</h3><p>站內寫了三條兜底：① <b>教育局途徑三</b>——區域教育服務處登記學位需求（5–8 月），兜底不會沒書讀；② <b>放榜後叩門潮</b>——7 月中下旬棄位空缺最多，帶全套材料即場筆面試；③ <b>拿到 Offer 前不註銷內地學籍</b>，永遠留退路。叩門當天要帶的 8 樣，材料清單頁有清單。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:timeline')">時間線（途徑三／叩門）</a><a href="javascript:void(0)" onclick="__hkkGo('plan:docs')">叩門 8 樣</a></p></div>
+
+      <div class="gcard warn"><h3>⚠️ 本站沒有收錄的三件事（先說清楚，免得你等不到答案）</h3><p>① <b>插班會不會降級／重讀</b>——各校做法不一，站內未取到統一規則，只能問目標校校務處；② <b>一年總開銷</b>——站內只有學費口徑，補習、校車、通勤費用未核實，不給數字；③ <b>某校 Band 幾、能不能考上</b>——教育局不公布官方 Banding，本站不提供分檔資料，也不承諾錄取。這三條要問個案，直接加微信說孩子年級／身份／目標區。</p></div>
+
+      <div class="src">來源：hk-placement 知識庫 v0.2＋通行插班實務（坊間整理，2026-11-02 歸納）；居港 2 年政策為官方公報內容，個案以官方為準｜v1.88 按「家長顧慮」重排 5 組 15 問，新增 5 問全部由站內既有內容重組，未引入新事實</div>
     </div>
   </div>
 </div>
@@ -2977,6 +3091,27 @@ function renderMathPaper(){
   if(!curMathPaper.length){box.innerHTML='<div class="qtip">選年級後按「🎲 出新卷」生成練習卷。</div>';return;}
   box.innerHTML=curMathPaper.map(mathCardHtml).join('');
 }
+/* v1.88：四種卷批改後的「錯題回頭查」共用一份文案與跳轉表。
+   為什麼抽出來：四個 grade 函數各寫一份，改文案時必然漏一處（v1.86 打印樣式漏改的教訓）。
+   全部指向站內既有模塊，不新增題目、不新增素材、不新增儲存。 */
+function nsWrongLine(kind){
+  var msg={
+    en:'錯的詞先收進「我的單詞本」，明天回頭抽查；整句看不懂，回「詞彙路線圖」確認是不是級別選高了。',
+    exam:'錯的詞同上收進「我的單詞本」；開放題失分多是沒把理由寫出來，回「升中面試」看答題結構。',
+    math:'題幹讀不懂先去「數學術語表」；算錯就再出一套，只回看錯的那幾題。',
+    cn:'字認不過來去「繁體翻卡」；正式字表在「補習材料 → ⑥ 官方字表」。'
+  };
+  var to={
+    en:[['p:en:mywords','我的單詞本'],['p:en:goal','詞彙路線圖']],
+    exam:[['p:en:mywords','我的單詞本'],['p:en:iv','升中面試']],
+    math:[['p:math:mterms','數學術語表'],['p:math:mpaper','再出一套']],
+    cn:[['t:4','繁體翻卡'],['t:5','官方字表']]
+  };
+  var links=(to[kind]||[]).map(function(x){
+    return '<a href="javascript:void(0)" onclick="__hkkGo(\''+x[0]+'\')">'+x[1]+'</a>';
+  }).join('<span class="nssep">·</span>');
+  return '<p class="ns-line">'+msg[kind]+'<br>去哪補：'+links+'</p>';
+}
 function gradeMathPaper(){
   if(!curMathPaper.length){alert('請先按「🎲 出新卷」生成練習卷。');return;}
   let correct=0, scored=0;
@@ -2997,7 +3132,7 @@ function gradeMathPaper(){
     }
   });
   const pct=scored?Math.round(correct/scored*100):0;
-  document.getElementById('mathPaperResult').innerHTML='<div class="qtot">得分：'+correct+' / '+scored+' 題正確（'+pct+'%）</div><div class="qbar"><i style="width:'+pct+'%"></i></div>';
+  document.getElementById('mathPaperResult').innerHTML='<div class="qtot">得分：'+correct+' / '+scored+' 題正確（'+pct+'%）</div><div class="qbar"><i style="width:'+pct+'%"></i></div>'+nsWrongLine('math');
   const BK='hkk_mathpaper_v0'; let best=JSON.parse(localStorage.getItem(BK)||'{}');
   if(!(curMathGrade in best)||pct>best[curMathGrade]){best[curMathGrade]=pct;localStorage.setItem(BK,JSON.stringify(best));}
   showMathStat();
@@ -3242,7 +3377,7 @@ function gradeCnPaper(){
   });
   const pct=scored?Math.round(correct/scored*100):0;
   document.getElementById('cnPaperResult').innerHTML='<div class="qtot">得分：'+correct+' / '+scored+' 題正確（'+pct+'%）'
-    +'<span class="qzh">（寫作題不計分，請家長對照提示自評）</span></div><div class="qbar"><i style="width:'+pct+'%"></i></div>';
+    +'<span class="qzh">（寫作題不計分，請家長對照提示自評）</span></div><div class="qbar"><i style="width:'+pct+'%"></i></div>'+nsWrongLine('cn');
   const BK='hkk_cnpaper_v0'; let best={};
   try{best=JSON.parse(localStorage.getItem(BK)||'{}');}catch(e){}
   // v1.84：AI 卷不計入「本級最佳」，避免 AI 卷刷高分污染記錄（只記本地原創題庫卷的成績）
@@ -3619,7 +3754,7 @@ function gradeEnPaper(){
     }
   });
   const pct=scored?Math.round(correct/scored*100):0;
-  document.getElementById('enPaperResult').innerHTML='<div class="qtot">得分：'+correct+' / '+scored+' 題正確（'+pct+'%）</div><div class="qbar"><i style="width:'+pct+'%"></i></div>';
+  document.getElementById('enPaperResult').innerHTML='<div class="qtot">得分：'+correct+' / '+scored+' 題正確（'+pct+'%）</div><div class="qbar"><i style="width:'+pct+'%"></i></div>'+nsWrongLine('en');
   const BK='hkk_enpaper_v0';let best=JSON.parse(localStorage.getItem(BK)||'{}');
   if(!(curEnGrade in best)||pct>best[curEnGrade]){best[curEnGrade]=pct;localStorage.setItem(BK,JSON.stringify(best));}
   showEnStat();
@@ -5519,7 +5654,7 @@ function gradeExamPaper(noSave){
   let rh='<div class="ex-result"><b>SCORE: '+got+' / '+total+'</b>';
   if(wrongs.length){rh+='<ol class="ex-wrongs">'+wrongs.map(w=>'<li>'+w.label+' → '+w.ans+'</li>').join('')+'</ol>';}
   else rh+='<p>全對！繼續保持！</p>';
-  rh+='<p class="ex-tip">開放題按要點批改（意思對即可）；再練一套按「🎲 出新卷」。</p></div>';
+  rh+='<p class="ex-tip">開放題按要點批改（意思對即可）；再練一套按「🎲 出新卷」。</p>'+nsWrongLine('exam')+'</div>';
   document.getElementById('examPaperResult').innerHTML=rh;
   showExamStat();
 }
@@ -6343,7 +6478,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},ver:'hkk_v1.87',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},ver:'hkk_v1.88',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -6835,6 +6970,9 @@ authBoot();
         click('#practiceSub button[data-sub="'+a[1]+'"]');
         if(a[1]==='en'&&a[2])click('#enPracSub button[data-es="'+a[2]+'"]');
         if(a[1]==='math'&&a[2])click('#mathPracSub button[data-es="'+a[2]+'"]');
+        // v1.88：中文子頁用的是 data-cs（不是 data-es），原解析器漏了這條，
+        // 導致「跳到中文試卷」只能停在背古詩頁。補上後 p:cn:star / p:cn:cnpaper 皆可直達。
+        if(a[1]==='cn'&&a[2])click('#cnPracSub button[data-cs="'+a[2]+'"]');
       }else if(a[0]==='t'){
         click('nav button[data-tab="practice"]');
         click('#practiceSub button[data-sub="tutor"]');
