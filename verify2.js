@@ -429,10 +429,10 @@ try{
   const tv=doc.getElementById('tutorView');
   doc.querySelector('#termChips button[data-wk="0"]').click(); // 復位：v1.60 測試點過「第 3 週」過濾，切回全部
   const dets=[...tv.querySelectorAll('details.gsec.fold')];
-  ok('v1.68 補習材料 9 塊折疊('+dets.length+')', dets.length===9);
+  ok('v1.68 補習材料 10 塊折疊('+dets.length+')', dets.length===10);
   ok('v1.68 默認僅展開 ①排期表', dets.filter(d=>d.open).length===1 && dets[0].open && dets[0].querySelector('summary').textContent.includes('35 週排期表'));
   const sums=[...tv.querySelectorAll('details.gsec.fold > summary.gsec-h')].map(s=>s.textContent);
-  ok('v1.68 九塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀/中學英文/備考地圖）('+sums.length+')', sums.length===9 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡','中學英文','備考地圖'].every(t=>sums.some(s=>s.includes(t))));
+  ok('v1.68 十塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀/中學英文/備考地圖/原創試卷）('+sums.length+')', sums.length===10 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡','中學英文','備考地圖','本站原創試卷'].every(t=>sums.some(s=>s.includes(t))));
   const nTerm=tv.querySelectorAll('#termGrid .fcard').length, nFt=tv.querySelectorAll('#ftGrid .fcard').length, nRead=tv.querySelectorAll('#readGrid .rcell').length;
   ok('v1.68 折疊後內容仍在 DOM（術語 '+nTerm+'／繁體 '+nFt+'／打卡 '+nRead+'）', nTerm===60 && nFt===100 && nRead===21);
   ok('v1.68 頁標題已去「女兒學習角」', tv.querySelector('h2').textContent==='補習材料（插中一 · 35 週減壓版）');
@@ -537,9 +537,9 @@ try{
   const rnHtml=rn?rn.outerHTML:'';
   const tvEl=doc.getElementById('tutorView');
   const tvDets=[...tvEl.querySelectorAll('details.gsec.fold')];
-  ok('v1.72 ⑧ 為第 8 個折疊塊且默認收起（v1.75 後共 9 塊）', !!rn && tvDets.length===9 && tvDets[7]===rn && tvDets[8].id==='examMap' && !rn.open);
+  ok('v1.72 ⑧ 為第 8 個折疊塊且默認收起（v1.77 後共 10 塊）', !!rn && tvDets.length===10 && tvDets[7]===rn && tvDets[8].id==='examMap' && tvDets[9].id==='paperHub' && !rn.open);
   ok('v1.72 ⑧ 標題含「中學英文／不轉載內容」', !!rn && rn.querySelector('summary').textContent.includes('中學英文') && rn.querySelector('summary').textContent.includes('不轉載內容'));
-  ok('v1.72 頭部提示 9 模塊且標明 ⑧ 為入學後書籤、⑨ 先看', tvEl.textContent.includes('9 個模塊已折疊') && tvEl.textContent.includes('⑧ 是入學後的資源書籤') && tvEl.textContent.includes('⑨ 不知道從哪開始先看它'));
+  ok('v1.72 頭部提示 10 模塊且標明 ⑧ 為入學後書籤、⑨ 先看、⑩ 找卷', tvEl.textContent.includes('10 個模塊已折疊') && tvEl.textContent.includes('⑧ 是入學後的資源書籤') && tvEl.textContent.includes('⑨ 不知道從哪開始先看它') && tvEl.textContent.includes('⑩ 按年級找本站原創卷'));
   ok('v1.72 ② 教材清單有指向 ⑧ 的指引', tvDets[1].textContent.includes('⑧ 中學英文 · 外部資源導航'));
   const off=['edb.gov.hk/Academic_English','student.edcity.hk/sec/en/guidance/1031','hkeaa.edu.hk','hkedcity.net'];
   const links=[...rn.querySelectorAll('a[href^="http"]')];
@@ -1252,7 +1252,7 @@ try{
   const d9=[...tv9.querySelectorAll('details.gsec.fold')];
   const emTxt=em?em.textContent:'';
   const emHtml=em?em.outerHTML:'';
-  ok('v1.75 ⑨ 為第 9 個折疊塊、默認收起、在 ⑧ 之後', !!em && d9.length===9 && d9[8]===em && !em.open && d9[7].id==='secResNav');
+  ok('v1.75 ⑨ 為第 9 個折疊塊、默認收起、在 ⑧ 之後（v1.77 後共 10 塊）', !!em && d9.length===10 && d9[8]===em && d9[9].id==='paperHub' && !em.open && d9[7].id==='secResNav');
   ok('v1.75 ⑨ 標題含「備考地圖／不知道從哪開始」', !!em && em.querySelector('summary.gsec-h').textContent.includes('備考地圖') && em.querySelector('summary.gsec-h').textContent.includes('不知道從哪開始先看這張'));
   ok('v1.75 頭部「🗺 打開備考地圖」直達鈕在', !!doc.getElementById('mapOpenBtn') && doc.getElementById('mapOpenBtn').textContent.includes('打開備考地圖'));
   ok('v1.75 A 區矩陣 4 科 × 3 段表頭齊', !!em && em.querySelectorAll('table.mtable tbody tr').length===4 && ['中文','英文','數學','面試'].every(k=>em.querySelector('table.mtable').textContent.includes(k)) && ['輸入','輸出','複盤'].every(k=>em.querySelector('table.mtable thead').textContent.includes(k)));
@@ -1323,6 +1323,47 @@ try{
   ok('v1.76 [Pages 域實跑] 加微信元素一個不少', !!d2.getElementById('ctaQrBox') && d2.querySelector('#ctaModal .wechat').textContent.includes('SteveHKSZ') && !!d2.getElementById('ctaCopy') && d2.querySelectorAll('.cta-guide p').length>=3 && d2.querySelectorAll('.cta-why li').length>=3);
   w2.close();
 }catch(e){ ok('v1.76 測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.77 本站原創試卷總覽：合規紅線／導航復用／零新造內容 ============
+console.log('\n--- v1.77 本站原創試卷總覽 ---');
+try{
+  const ph=doc.getElementById('paperHub');
+  const phTxt=ph?ph.textContent:'';
+  const phHtml=ph?ph.outerHTML:'';
+  const pBtns=ph?[...ph.querySelectorAll('button.pgo')]:[];
+  const specs=pBtns.map(b=>b.getAttribute('data-paper')||'');
+  const d10=[...doc.getElementById('tutorView').querySelectorAll('details.gsec.fold')];
+  ok('v1.77 ⑩ 為第 10 個折疊塊、默認收起、排在 ⑨ 之後', !!ph && d10.length===10 && d10[9]===ph && d10[8].id==='examMap' && !ph.open);
+  ok('v1.77 標題含「本站原創試卷／按年級找」', !!ph && ph.querySelector('summary').textContent.includes('本站原創試卷') && ph.querySelector('summary').textContent.includes('按年級找'));
+  ok('v1.77 表格 6 個年級 × 3 卷種表頭齊', !!ph && ph.querySelectorAll('table.phub-tbl tbody tr').length===6 && ['英文卷','數學卷','呈分試卷'].every(k=>ph.querySelector('table.phub-tbl thead').textContent.includes(k)));
+  ok('v1.77 14 顆按鈕且 data-paper 全部合法 ('+pBtns.length+')', pBtns.length===14 && specs.every(s=>/^(en|math):P[1-6]$|^exam:P[56]$/.test(s)) && new Set(specs).size===14);
+  ok('v1.77 呈分試卷只給 P5／P6，其餘年級明確標不適用', ph.querySelectorAll('.phub-na').length===4 && specs.filter(s=>s.indexOf('exam:')===0).length===2);
+  ok('v1.77 零第三方外鏈／零圖片／零試卷檔案連結', !/<a\s|<img\b|\.pdf|\.jpe?g|\.png|https?:\/\//i.test(phHtml));
+  ok('v1.77 明確不存放／不爬取／不代理第三方試卷', phTxt.includes('不存放、不爬取、不代理') && phTxt.includes('公開倉庫') && phTxt.includes('公開發行'));
+  ok('v1.77 只借組織方式，全部文字本站重寫', phTxt.includes('只借組織方式，不借內容') && phTxt.includes('題型結構') && phTxt.includes('本站重寫'));
+  ok('v1.77 原創仿編聲明＋Banding 澄清＋非法律意見', phTxt.includes('原創仿編') && phTxt.includes('教育局亦不公佈官方 Banding') && phTxt.includes('不是法律意見'));
+  ok('v1.77 導航只複用 __hkkGo，未另抄顯隱邏輯', html.includes('window.__hkkGo=go') && html.includes("window.__hkkGo)window.__hkkGo") && !/function paperGo[\s\S]{0,900}style\.display=/.test(html));
+  ok('v1.77 三分支復用既有年級 chip 的 click()', html.includes("click('#pgChips .chip[data-pg=\"'+g+'\"]')") && html.includes("click('#mpgChips .chip[data-pg=\"'+g+'\"]')") && html.includes("click('#examChips .chip[data-pg=\"'+g+'\"]')"));
+  ok('v1.77 捲動用顯式 scrollTop＋110px 偏移（沿用 v1.75 教訓）', /function toEl\(el\)[\s\S]{0,320}document\.documentElement\.scrollTop=Math\.max\(0,y\)/.test(html) && html.includes('getBoundingClientRect().top+window.pageYOffset-110'));
+  const phJs=html.slice(html.indexOf('function paperGo(spec)'), html.indexOf('window.__paperHubTest={go:paperGo}'));
+  ok('v1.77 不新增 localStorage 鍵／不新增雲端請求', typeof window.__paperHubTest==='object' && phJs.length>200 && !/localStorage|fetch\(|XMLHttpRequest/.test(phJs));
+  ok('v1.77 新模塊未污染 AI 白名單知識庫', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/本站原創試卷|不爬取|公開發行|題型結構/.test(x.t+x.s)));
+  ok('v1.77 窄屏可橫滑且有文字提示', /\.phub-wrap\{overflow-x:auto/.test(html) && /min-width:600px/.test(html) && phTxt.includes('手機窄屏可左右滑動表格'));
+  ok('v1.77 頭部提示 10 模塊且點名 ⑩', doc.getElementById('tutorView').textContent.includes('10 個模塊已折疊') && doc.getElementById('tutorView').textContent.includes('⑩ 按年級找本站原創卷'));
+  function tap(spec){
+    const b=pBtns.find(x=>x.getAttribute('data-paper')===spec);
+    if(!b)return false;
+    try{b.click()}catch(e){}
+    return true;
+  }
+  tap('en:P3');
+  ok('v1.77 點 P3 英文卷：切頁＋選中年級', doc.getElementById('paperView').style.display!=='none' && doc.querySelector('#pgChips .chip[data-pg="P3"]').classList.contains('on'));
+  tap('math:P2');
+  ok('v1.77 點 P2 數學卷：切頁＋選中年級', doc.getElementById('mathPaperView').style.display!=='none' && doc.querySelector('#mpgChips .chip[data-pg="P2"]').classList.contains('on'));
+  tap('exam:P5');
+  ok('v1.77 點 P5 呈分試卷：切頁＋選中年級', doc.getElementById('examView').style.display!=='none' && doc.querySelector('#examChips .chip[data-pg="P5"]').classList.contains('on'));
+  ok('v1.77 非法年級／卷種被拒（exam:P3、xx:P1）', window.__paperHubTest.go('exam:P3')===false && window.__paperHubTest.go('xx:P1')===false && window.__paperHubTest.go('en:P9')===false);
+}catch(e){ ok('v1.77 測試執行', false); console.log('   err='+e.message); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);

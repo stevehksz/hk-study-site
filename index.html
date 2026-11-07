@@ -223,6 +223,14 @@ input[type=search],select{padding:9px 12px;border:1px solid var(--line);border-r
 .mapchk input{width:17px;height:17px;flex:0 0 17px;margin:2px 0 0;accent-color:var(--math)}
 .mapchk.done{background:#f1fbf8;border-color:#a7e3d4}
 .mapbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 12px;font-size:13px;font-weight:700;color:#0b7a68}
+/* v1.77 本站原創試卷總覽：只做「年級 × 卷種」索引，零新題目、零第三方檔案 */
+.phub-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0 4px}
+table.phub-tbl{min-width:600px;width:100%;border-collapse:collapse;font-size:13px}
+table.phub-tbl th,table.phub-tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:middle;line-height:1.6}
+table.phub-tbl th{background:#f1fbf8;color:#0b7a68;font-weight:700;white-space:nowrap}
+table.phub-tbl td:first-child{font-weight:800;color:#334155;white-space:nowrap}
+.phub-na{color:#94a3b8;font-size:12px}
+.pgo{min-height:44px;padding:10px 14px;font-size:13px}
 /* 跳轉後 scrollIntoView 會把標題推到吸頂導航底下，留足偏移（沿用 v1.73 詩詞彈窗的 110px） */
 #tutorView details.gsec.fold{scroll-margin-top:110px}
 .gcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:.2s;border-left:4px solid var(--math)}
@@ -664,13 +672,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.76（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.77（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.76（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.77（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1194,7 +1202,7 @@ Thank you for your time.</div>
     <div class="gsec">
       <h2>補習材料（插中一 · 35 週減壓版）</h2>
       <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
-      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 9 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
+      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 10 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>，<b>⑩ 按年級找本站原創卷</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
     </div>
 
     <details class="gsec fold" open>
@@ -1415,6 +1423,36 @@ Thank you for your time.</div>
         <p><b>第三方具名素材只提類型。</b>報章社論、政府統計數據、廣播錄音、出版社詞表等，本站不搬內容、不設外鏈；需要請回原站按其條款取用。</p>
       </div>
       <div class="src">整理依據：站內既有模塊 ①–⑧ 與練習／升學規劃各子頁（2026-11-07 盤點）｜本區全部文字為本站重寫，未引用任何第三方原文；自查清單為學習提示，非官方考核項目</div>
+    </details>
+
+    <!-- v1.77 本站原創試卷總覽：只借第三方試卷庫「年級 × 科目」的組織方式，不搬任何一份卷 -->
+    <details class="gsec fold" id="paperHub">
+      <summary class="gsec-h">⑩ 本站原創試卷 · 按年級找（英文／數學／呈分試）</summary>
+      <div class="gcard">
+        <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">這裡每一份卷都由<b>站內引擎即時原創仿編</b>：按一次出一份，可反覆出卷、交卷批改、列印。不是任何學校／評估局／補習社的真卷，本站也不存放任何第三方試卷檔案。</p>
+        <div class="phub-wrap">
+          <table class="mtable phub-tbl">
+            <thead><tr><th>年級</th><th>英文卷</th><th>數學卷（雙語）</th><th>呈分試卷（英文）</th></tr></thead>
+            <tbody>
+              <tr><td>P1</td><td><button class="mapgo pgo" type="button" data-paper="en:P1">出一份</button></td><td><button class="mapgo pgo" type="button" data-paper="math:P1">出一份</button></td><td class="phub-na">此卷種只做 P5–P6</td></tr>
+              <tr><td>P2</td><td><button class="mapgo pgo" type="button" data-paper="en:P2">出一份</button></td><td><button class="mapgo pgo" type="button" data-paper="math:P2">出一份</button></td><td class="phub-na">此卷種只做 P5–P6</td></tr>
+              <tr><td>P3</td><td><button class="mapgo pgo" type="button" data-paper="en:P3">出一份</button></td><td><button class="mapgo pgo" type="button" data-paper="math:P3">出一份</button></td><td class="phub-na">此卷種只做 P5–P6</td></tr>
+              <tr><td>P4</td><td><button class="mapgo pgo" type="button" data-paper="en:P4">出一份</button></td><td><button class="mapgo pgo" type="button" data-paper="math:P4">出一份</button></td><td class="phub-na">此卷種只做 P5–P6</td></tr>
+              <tr><td>P5</td><td><button class="mapgo pgo" type="button" data-paper="en:P5">出一份</button></td><td><button class="mapgo pgo" type="button" data-paper="math:P5">出一份</button></td><td><button class="mapgo pgo" type="button" data-paper="exam:P5">出一份</button></td></tr>
+              <tr><td>P6</td><td><button class="mapgo pgo" type="button" data-paper="en:P6">出一份</button></td><td><button class="mapgo pgo" type="button" data-paper="math:P6">出一份</button></td><td><button class="mapgo pgo" type="button" data-paper="exam:P6">出一份</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tip" style="margin-top:4px">手機窄屏可左右滑動表格。點按鈕會自動切到對應練習頁、選好年級並出一份卷；想再來一份按該頁的「🎲 出新卷」，呈分試卷另有「📋 一次出 10 套」。年級難度是常見教學進度估算，以學校課本為準。</p>
+      </div>
+
+      <div class="gcard warn">
+        <h3>⚠️ 為什麼本站不搬外面的試卷</h3>
+        <p><b>彙整不等於取得再授權。</b>第三方試卷網收錄的卷子，版權多半屬於出卷學校、出版社或製作者；本站是公開倉庫，放上去等於公開發行。因此本站<b>不存放、不爬取、不代理</b>任何第三方試卷、答案或評卷參考，也不設這類下載連結。</p>
+        <p><b>只借組織方式，不借內容。</b>想練外面的題，請到原站按其條款取用；手上若已有一份卷，只提煉<b>題型結構</b>（例如有沒有海報閱讀、要不要寫理由），再用站內引擎重出一道原創題，別把原題貼上公開站。版權歸屬與授權範圍請向原權利人確認；以上是本站自寫的取用原則，不是法律意見。</p>
+        <p><b>本站提供的是練習，不是真卷。</b>英文卷／數學卷覆蓋 P1–P6，呈分試卷覆蓋 P5–P6，題目全部原創仿編；坊間分檔、名校真卷、官方評分標準一概不提供，教育局亦不公佈官方 Banding。</p>
+      </div>
+      <div class="src">整理依據：站內既有「練習 → 英文卷／呈分試卷／數學卷」三個原創出卷引擎（2026-11-07 盤點）｜本區全部文字為本站重寫，未引用任何第三方試卷、答案或原文</div>
     </details>
 
     <!-- v1.70 情境化加群 CTA -->
@@ -45591,7 +45629,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},ver:'hkk_v1.76',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},ver:'hkk_v1.77',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -45983,6 +46021,48 @@ authBoot();
   };
   render();
   window.__mapTest={go:go,get:get,set:set,render:render,fold:fold,key:CHK};
+  // v1.77：把導航解析器暴露給試卷總覽複用，不在別處再抄一份顯隱邏輯
+  window.__hkkGo=go;
+})();
+/* ============ v1.77 本站原創試卷總覽：只做「年級 × 卷種」導航，零新題目 ============
+   取捨：不新增出卷引擎、不複製顯隱邏輯；複用 __hkkGo 與既有年級 chip 的 click()，
+   chip 本身已綁定 genEnPaper / genMathPaper / genExamPaper，點下去就出卷。 */
+(function(){
+  function click(sel){var b=document.querySelector(sel);if(b)b.click();return !!b;}
+  function toEl(el){
+    if(!el)return;
+    // 沿用 v1.75 教訓：scrollIntoView + scroll-margin-top 在真瀏覽器仍會被吸頂導航蓋住
+    try{
+      var y=el.getBoundingClientRect().top+window.pageYOffset-110;
+      document.documentElement.scrollTop=Math.max(0,y);
+    }catch(e){}
+  }
+  function paperGo(spec){
+    var a=String(spec||'').split(':'),k=a[0],g=a[1];
+    if(!/^P[1-6]$/.test(g))return false;
+    if(k!=='en'&&k!=='math'&&k!=='exam')return false;
+    if(k==='exam'&&g!=='P5'&&g!=='P6')return false;
+    try{
+      if(k==='en'){
+        if(window.__hkkGo)window.__hkkGo('p:en:paper');
+        click('#pgChips .chip[data-pg="'+g+'"]');
+        toEl(document.getElementById('paperView'));
+      }else if(k==='math'){
+        if(window.__hkkGo)window.__hkkGo('p:math:mpaper');
+        click('#mpgChips .chip[data-pg="'+g+'"]');
+        toEl(document.getElementById('mathPaperView'));
+      }else{
+        if(window.__hkkGo)window.__hkkGo('p:en:exam');
+        click('#examChips .chip[data-pg="'+g+'"]');
+        toEl(document.getElementById('examView'));
+      }
+      return true;
+    }catch(e){console.error('試卷總覽跳轉失敗：',e);return false;}
+  }
+  document.querySelectorAll('#paperHub .pgo').forEach(function(b){
+    b.onclick=function(){paperGo(b.dataset.paper)};
+  });
+  window.__paperHubTest={go:paperGo};
 })();
 </script>
 </body>
