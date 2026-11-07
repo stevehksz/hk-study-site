@@ -241,6 +241,31 @@ table.lhub-tbl th,table.lhub-tbl td{border:1px solid var(--line);padding:7px 9px
 table.lhub-tbl th{background:#f1fbf8;color:#0b7a68;font-weight:700;white-space:nowrap}
 table.lhub-tbl td:first-child{min-width:190px}
 table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--acc);cursor:pointer}
+.lhub-pack{border:1px solid #dbe1ff;background:#f7f9ff;border-radius:11px;padding:13px 14px;margin:10px 0}
+.lhub-pack-h{font-size:14px;font-weight:800;color:#3730a3;margin:0 0 6px}
+.lhub-pack code{background:#eef2ff;border-radius:4px;padding:1px 5px;font-size:12px;color:#3730a3}
+.lhub-pack-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+.lhub-pack-act .btn{min-height:44px}
+.lhub-pack-msg{font-size:12.5px;line-height:1.7;color:#475069;margin:8px 0 0}
+.lhub-pack-msg.bad{color:#b91c1c}
+.lhub-pack-msg.ok{color:#0b7a68}
+.lhub-pack-view{margin:10px 0}
+.lhub-pack-bar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:0 0 9px}
+.lhub-pack-search{flex:1 1 190px;min-width:130px;min-height:40px;padding:8px 11px;border:1px solid var(--line);border-radius:9px;font-size:13px;background:#fff;color:#334155}
+.lhub-pack-count{font-size:12.5px;font-weight:700;color:#0b7a68}
+.lhub-cat{margin:0 0 12px}
+.lhub-cat-h{font-size:13.5px;font-weight:800;color:#0f766e;margin:0 0 7px;padding:6px 10px;background:#f1fbf8;border-left:4px solid var(--math);border-radius:7px}
+.lhub-word{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;margin:0 0 6px;font-size:13.5px;line-height:1.6}
+.lhub-word.done{background:#f1fbf8;border-color:#a7e3d4}
+.lhub-word .w{font-weight:700;color:#1e293b;min-width:120px;flex:0 0 auto}
+.lhub-word .zh{color:#475569;flex:1 1 130px;min-width:0;word-break:break-word}
+.lhub-word .zh.none{color:#94a3b8;font-style:italic}
+.lhub-word .ipa{color:#94a3b8;font-size:11.5px;flex:0 0 auto}
+.lhub-word .spk{flex:0 0 auto;border:1px solid var(--line);background:#f8fafc;border-radius:14px;min-width:34px;min-height:30px;font-size:12px;cursor:pointer;color:#0b7a68;padding:3px 9px}
+.lhub-word .spk:hover{border-color:var(--math);background:#e6fbf5}
+.lhub-word .wchk{display:flex;gap:4px;flex:0 0 auto}
+.lhub-word .wchk label{display:inline-flex;align-items:center;gap:3px;font-size:11.5px;color:#64748b;cursor:pointer}
+.lhub-word .wchk input{width:18px;height:18px;accent-color:var(--acc);cursor:pointer}
 .lhub-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 #lwtePrintArea{display:none}
 .lhub-line{border-bottom:1px solid #475569;height:25px;margin:0 0 7px}
@@ -250,6 +275,11 @@ table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac
   table.lhub-tbl th,table.lhub-tbl td{padding:6px 5px}
   table.lhub-tbl td:first-child{min-width:118px;white-space:normal}
   .lhub-tbl input[type=checkbox]{width:18px;height:18px}
+  .lhub-pack{padding:11px 11px}
+  .lhub-pack-act .btn{flex:1 1 100%}
+  .lhub-word{padding:7px 9px;gap:7px}
+  .lhub-word .w{min-width:0;flex:1 1 100%}
+  .lhub-word .zh{flex:1 1 100%}
 }
 @media print{
   body.lwte-printing > *:not(#lwtePrintArea){display:none!important}
@@ -830,13 +860,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.84（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.85（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.84（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.85（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1099,6 +1129,25 @@ header{position:relative}
       <p class="tip">這是<b>打卡本，不是詞表</b>。只列出家中課本的冊與主題目錄，讓孩子按「已學／已複習／已聽寫」三格自己勾；<b>本站不收錄任何單詞、中文釋義或教材頁面</b>，請對照紙本課本使用。完整詞表留在家裡本機的單檔單詞本，不上傳、不下載。</p>
       <div class="lhub-stat" id="lwteStat">載入中…</div>
       <div class="lhub-chips" id="lwteChips"></div>
+      <!-- v1.85：匯入本機詞庫包（完整詞條只存在使用者自己的裝置裡，公開站仍零詞條） -->
+      <div class="lhub-pack" id="lwtePackBox">
+        <h3 class="lhub-pack-h">想看完整詞表？匯入家裡的詞庫包</h3>
+        <p class="tip" style="margin:0 0 8px">詞庫包（<code>_lwte_pack.json</code>）放在<b>你自己電腦</b>與 Obsidian 私人庫裡。把它傳到手機後，在本站點下面的按鈕選檔匯入，<b>1024 個詞條就會留在這台裝置的瀏覽器</b>，可逐詞打勾、可搜索、可打印。<b>網站本身沒有、也不會有這些詞</b>——匯入的檔案不會上傳，只存本機。</p>
+        <div class="lhub-pack-act">
+          <button class="btn" type="button" id="lwtePackBtn">選擇詞庫包檔案（.json）</button>
+          <input type="file" id="lwtePackFile" accept="application/json,.json" style="display:none">
+          <button class="btn" type="button" id="lwtePackPrint">印本冊詞表（含中文義）</button>
+          <button class="btn mwdanger" type="button" id="lwtePackClear">清除已匯入詞庫</button>
+        </div>
+        <p class="lhub-pack-msg" id="lwtePackMsg" role="status" aria-live="polite"></p>
+      </div>
+      <div class="lhub-pack-view" id="lwtePackView" style="display:none">
+        <div class="lhub-pack-bar">
+          <input type="search" id="lwteWordSearch" placeholder="搜單詞 / 中文義" class="lhub-pack-search">
+          <span class="lhub-pack-count" id="lwteWordCount"></span>
+        </div>
+        <div class="lhub-pack-list" id="lwteWordList"></div>
+      </div>
       <p class="tip" style="margin:0 0 7px;background:#fff8e6;color:#8a6d1f;border:1px solid #f0dfae">手機窄屏：向右滑動下面的表格，就能勾選「已學／已複習／已聽寫」三格。</p>
       <div class="lhub-wrap">
         <table class="mtable lhub-tbl">
@@ -47882,18 +47931,19 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／已匯入詞庫）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
     if(window.__readFocusTest){window.__readFocusTest.set({});window.__readFocusTest.render();}
     if(window.__myWordsTest){window.__myWordsTest.clear();}
+    if(window.__lwtePackTest){window.__lwtePackTest.clear();}
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.84',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},ver:'hkk_v1.85',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -47908,6 +47958,7 @@ document.getElementById('importFile').onchange=e=>{
     if(d.lwteProg&&window.__lwteTest){window.__lwteTest.set(d.lwteProg);window.__lwteTest.render();}
     if(d.readFocus&&window.__readFocusTest){window.__readFocusTest.set(d.readFocus);window.__readFocusTest.render();}
     if(Array.isArray(d.myWords)&&window.__myWordsTest){window.__myWordsTest.importData(d.myWords);}
+    if(d.lwteWordProg&&window.__lwtePackTest){window.__lwtePackTest.setProg(d.lwteWordProg);}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
     alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查 / '+(window.__myWordsTest?window.__myWordsTest.count():0)+' 個自收詞）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
@@ -49088,7 +49139,7 @@ authBoot();
     META.books.forEach(function(b){
       var c=document.createElement('button');c.type='button';
       c.className='chip'+(cur===b.bk?' on':'');c.textContent=b.bk;
-      c.onclick=function(){cur=b.bk;render();};
+      c.onclick=function(){cur=b.bk;render();if(typeof renderPack==='function')renderPack();};
       chips.appendChild(c);
     });
     var b=book(),tb=document.getElementById('lwteBody');tb.innerHTML='';
@@ -49135,8 +49186,181 @@ authBoot();
     try{window.print();}catch(e){}
     window.setTimeout(function(){document.body.classList.remove('lwte-printing');area.innerHTML='';},1500);
   };
-  window.__lwteTest={get:get,set:set,clear:clear,render:render,key:KEY,meta:META};
   render();
+  // ---- v1.85：匯入本機詞庫包 → 完整詞表（只存使用者自己的裝置，公開 HTML 零詞條） ----
+  // ⚠️ 版權紅線：這裡只提供「讀取使用者自己檔案」的通道，網站不內建、不托管、不上傳任何詞條。
+  //    匯入的內容一律留在本機 localStorage（hkk_ 前綴 → 受 v1.33 賬號隔離）。
+  var PACK_KEY='hkk_lwte_pack_v0';     // 匯入的詞庫包本體
+  var WORD_KEY='hkk_lwte_wordprog_v0'; // 逐詞三態進度：{ 'bk|cat|word': {learn:1,review:1,dict:1} }
+  var PACK=null,WP={};
+  function esc2(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+  function packLoad(){try{var v=localStorage.getItem(PACK_KEY);return v?JSON.parse(v):null;}catch(e){return null;}}
+  function packSave(p){try{localStorage.setItem(PACK_KEY,JSON.stringify(p));return true;}catch(e){return false;}}
+  function wpLoad(){try{var v=localStorage.getItem(WORD_KEY);return v?(JSON.parse(v)||{}):{};}catch(e){return {}}}
+  function wpSave(){try{localStorage.setItem(WORD_KEY,JSON.stringify(WP));}catch(e){}}
+  function pkMsg(t,cls){var m=document.getElementById('lwtePackMsg');if(m){m.textContent=t||'';m.className='lhub-pack-msg'+(cls?' '+cls:'');}}
+  // 匯入檔案格式檢查：必須有 books[]，每冊有 cats[]，每個主題有 items[] 且每條有 w
+  function packValid(o){
+    if(!o||typeof o!=='object'||!Array.isArray(o.books)||!o.books.length)return false;
+    var n=0;
+    for(var i=0;i<o.books.length;i++){
+      var b=o.books[i];
+      if(!b||typeof b.bk!=='string'||!Array.isArray(b.cats))return false;
+      for(var j=0;j<b.cats.length;j++){
+        var c=b.cats[j];
+        if(!c||typeof c.cat!=='string'||!Array.isArray(c.items))return false;
+        for(var k=0;k<c.items.length;k++){
+          var it=c.items[k];
+          if(!it||typeof it!=='object'||typeof it.w!=='string'||!it.w.trim())return false;
+          n++;
+        }
+      }
+    }
+    return n>0&&n<=5000;
+  }
+  function packCount(p){
+    var n=0;if(p&&p.books)for(var i=0;i<p.books.length;i++)for(var j=0;j<p.books[i].cats.length;j++)n+=p.books[i].cats[j].items.length;
+    return n;
+  }
+  // ⚠️ 詞表冊要從 PACK 裡取（book() 回的是 meta 目錄冊，只有 t/n 沒有 items）
+  function packBook(){
+    if(!PACK||!PACK.books)return null;
+    for(var i=0;i<PACK.books.length;i++){if(PACK.books[i].bk===cur)return PACK.books[i];}
+    return PACK.books[0];
+  }
+  function wkey(bk,cat,w){return bk+'|'+cat+'|'+w;}
+  function wstat(bk,cat,w){
+    var o=WP[wkey(bk,cat,w)];
+    return {learn:!!(o&&o.learn),review:!!(o&&o.review),dict:!!(o&&o.dict)};
+  }
+  function renderPack(){
+    var view=document.getElementById('lwtePackView'),list=document.getElementById('lwteWordList');
+    var cnt=document.getElementById('lwteWordCount');
+    if(!view||!list)return;
+    if(!PACK){view.style.display='none';list.innerHTML='';if(cnt)cnt.textContent='';return;}
+    var q=String((document.getElementById('lwteWordSearch')||{}).value||'').trim().toLowerCase();
+    var b=packBook();   // 詞表冊來自詞庫包本身（與上面的冊切換一致）
+    if(!b||!Array.isArray(b.cats))return;
+    var html='',shown=0,total=0,learned=0;
+    b.cats.forEach(function(c){
+      if(!c||!Array.isArray(c.items))return;
+      var rows='';
+      c.items.forEach(function(it){
+        total++;
+        var st=wstat(b.bk,c.cat,it.w);
+        if(st.learn)learned++;
+        if(q&&it.w.toLowerCase().indexOf(q)<0&&String(it.zh||'').toLowerCase().indexOf(q)<0)return;
+        shown++;
+        var k=wkey(b.bk,c.cat,it.w);
+        rows+='<div class="lhub-word'+(st.learn?' done':'')+'" data-wk="'+esc2(k)+'">'
+          +'<span class="w">'+esc2(it.w)+'</span>'
+          +'<span class="zh'+(it.zh?'':' none')+'">'+(it.zh?esc2(it.zh):'（待補中文義）')+'</span>'
+          +(it.ipa?'<span class="ipa">'+esc2(it.ipa)+'</span>':'')
+          +'<button type="button" class="spk" data-spk="'+esc2(it.w)+'">🔊</button>'
+          +'<span class="wchk">'
+          +'<label><input type="checkbox" data-wf="learn" '+(st.learn?'checked':'')+'>學</label>'
+          +'<label><input type="checkbox" data-wf="review" '+(st.review?'checked':'')+'>複</label>'
+          +'<label><input type="checkbox" data-wf="dict" '+(st.dict?'checked':'')+'>寫</label>'
+          +'</span></div>';
+      });
+      if(!rows)return;
+      var cn=0;c.items.forEach(function(it){if(wstat(b.bk,c.cat,it.w).learn)cn++;});
+      html+='<div class="lhub-cat" data-cat="'+esc2(c.cat)+'"><div class="lhub-cat-h">'+esc2(c.cat)+'（'+c.items.length+' 詞 · 已學 '+cn+'）</div>'+rows+'</div>';
+    });
+    list.innerHTML=html;
+    view.style.display='block';
+    if(cnt)cnt.textContent='本冊 '+b.bk+'：'+total+' 詞 · 已學 '+learned+' 詞'+(q?'（搜尋命中 '+shown+'）':'');
+  }
+  // 匯入
+  var pb=document.getElementById('lwtePackBtn'),pf=document.getElementById('lwtePackFile');
+  if(pb&&pf)pb.onclick=function(){pf.click();};
+  if(pf)pf.onchange=function(e){
+    var f=e.target.files&&e.target.files[0];if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var o=JSON.parse(r.result);
+        if(!packValid(o))throw new Error('檔案格式不符（需要 books→cats→items 結構）');
+        PACK=o;WP=wpLoad();
+        if(!packSave(PACK))throw new Error('瀏覽器儲存空間不足，請先清除其他資料再試');
+        pkMsg('已匯入 '+packCount(PACK)+' 個詞條（'+PACK.books.length+' 冊）。只存在這台裝置，不會上傳。','ok');
+        renderPack();
+      }catch(err){pkMsg('匯入失敗：'+((err&&err.message)||'檔案格式錯誤'),'bad');}
+    };
+    r.onerror=function(){pkMsg('讀取檔案失敗，請重試。','bad');};
+    r.readAsText(f);e.target.value='';
+  };
+  // 搜索
+  var ws=document.getElementById('lwteWordSearch');
+  if(ws)ws.oninput=function(){renderPack();};
+  // 逐詞勾選 + 發音
+  document.getElementById('lwteWordList').addEventListener('change',function(e){
+    var t=e.target;if(!t||!t.getAttribute)return;
+    var f=t.getAttribute('data-wf');if(!f)return;
+    var row=t.closest('.lhub-word');if(!row)return;
+    var k=row.getAttribute('data-wk');if(!k)return;
+    if(!WP[k])WP[k]={};
+    if(t.checked)WP[k][f]=true;else delete WP[k][f];
+    if(!Object.keys(WP[k]).length)delete WP[k];
+    wpSave();
+    var st=wstat.apply(null,k.split('|'));
+    row.classList.toggle('done',st.learn);
+    // 同步更新主題標題的已學計數
+    var h=row.parentElement?row.parentElement.querySelector('.lhub-cat-h'):null;
+    if(h){
+      var cat=(row.parentElement&&row.parentElement.getAttribute('data-cat'))||'';
+      var b=packBook(),catObj=null;
+      if(b&&b.cats)b.cats.forEach(function(c){if(c.cat===cat)catObj=c;});
+      if(catObj){
+        var cn=0;catObj.items.forEach(function(it){if(wstat(b.bk,catObj.cat,it.w).learn)cn++;});
+        h.textContent=catObj.cat+'（'+catObj.items.length+' 詞 · 已學 '+cn+'）';
+      }
+    }
+  });
+  document.getElementById('lwteWordList').addEventListener('click',function(e){
+    var t=e.target;if(!t||!t.closest)return;
+    var sp=t.closest('[data-spk]');
+    if(sp){e.stopPropagation();if(typeof speak==='function')speak(sp.getAttribute('data-spk'),'en-US');}
+  });
+  // 印本冊詞表（含中文義）——只印使用者自己匯入的內容
+  var pp=document.getElementById('lwtePackPrint');
+  if(pp)pp.onclick=function(){
+    if(!PACK){pkMsg('尚未匯入詞庫包，先按上面的按鈕選檔匯入。','bad');return;}
+    var b=packBook(),area=document.getElementById('lwtePrintArea');if(!area)return;
+    if(!b){pkMsg('詞庫包裡找不到對應的冊。','bad');return;}
+    var h='<h2>詞表 · '+b.bk+'（P'+b.grade+'）</h2><p>家長按課本報詞，孩子在橫線上寫中文義。本頁由使用者自己的詞庫包產生，僅供家庭學習。</p>';
+    b.cats.forEach(function(c){
+      h+='<h3>'+esc2(c.cat)+'（'+c.items.length+' 詞）</h3>';
+      c.items.forEach(function(it){
+        h+='<div class="lhub-line"><b>'+esc2(it.w)+'</b>'+(it.zh?'　'+esc2(it.zh):'')+'</div>';
+      });
+    });
+    area.innerHTML=h;
+    document.body.classList.add('lwte-printing');
+    try{window.print();}catch(e){}
+    window.setTimeout(function(){document.body.classList.remove('lwte-printing');area.innerHTML='';},1500);
+  };
+  // 清除已匯入詞庫
+  var pc=document.getElementById('lwtePackClear');
+  if(pc)pc.onclick=function(){
+    if(!PACK){pkMsg('目前沒有匯入任何詞庫。');return;}
+    if(!confirm('確定清除這台裝置上的詞庫包與逐詞進度？詞庫檔本身在你的電腦／Obsidian 庫裡，之後可再匯入。'))return;
+    PACK=null;WP={};
+    try{localStorage.removeItem(PACK_KEY);localStorage.removeItem(WORD_KEY);}catch(e){}
+    renderPack();
+    pkMsg('已清除。重新匯入詞庫包即可再看到完整詞表。');
+  };
+  window.__lwtePackTest={
+    key:PACK_KEY,wordKey:WORD_KEY,
+    get pack(){return PACK;},get prog(){return WP;},
+    setPack:function(p){PACK=p;packSave(p);renderPack();},
+    setProg:function(o){WP=o||{};wpSave();renderPack();},
+    valid:packValid,count:packCount,render:renderPack,stat:wstat,
+    clear:function(){PACK=null;WP={};try{localStorage.removeItem(PACK_KEY);localStorage.removeItem(WORD_KEY);}catch(e){}renderPack();}
+  };
+  PACK=packLoad();WP=wpLoad();
+  renderPack();
+  window.__lwteTest={get:get,set:set,clear:clear,render:render,key:KEY,meta:META,renderPack:renderPack};
 })();
 </script>
 <div id="lwtePrintArea"></div>
