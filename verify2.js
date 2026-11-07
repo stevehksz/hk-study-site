@@ -429,10 +429,10 @@ try{
   const tv=doc.getElementById('tutorView');
   doc.querySelector('#termChips button[data-wk="0"]').click(); // 復位：v1.60 測試點過「第 3 週」過濾，切回全部
   const dets=[...tv.querySelectorAll('details.gsec.fold')];
-  ok('v1.68 補習材料 8 塊折疊('+dets.length+')', dets.length===8);
+  ok('v1.68 補習材料 9 塊折疊('+dets.length+')', dets.length===9);
   ok('v1.68 默認僅展開 ①排期表', dets.filter(d=>d.open).length===1 && dets[0].open && dets[0].querySelector('summary').textContent.includes('35 週排期表'));
   const sums=[...tv.querySelectorAll('details.gsec.fold > summary.gsec-h')].map(s=>s.textContent);
-  ok('v1.68 八塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀/中學英文）('+sums.length+')', sums.length===8 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡','中學英文'].every(t=>sums.some(s=>s.includes(t))));
+  ok('v1.68 九塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀/中學英文/備考地圖）('+sums.length+')', sums.length===9 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡','中學英文','備考地圖'].every(t=>sums.some(s=>s.includes(t))));
   const nTerm=tv.querySelectorAll('#termGrid .fcard').length, nFt=tv.querySelectorAll('#ftGrid .fcard').length, nRead=tv.querySelectorAll('#readGrid .rcell').length;
   ok('v1.68 折疊後內容仍在 DOM（術語 '+nTerm+'／繁體 '+nFt+'／打卡 '+nRead+'）', nTerm===60 && nFt===100 && nRead===21);
   ok('v1.68 頁標題已去「女兒學習角」', tv.querySelector('h2').textContent==='補習材料（插中一 · 35 週減壓版）');
@@ -537,9 +537,9 @@ try{
   const rnHtml=rn?rn.outerHTML:'';
   const tvEl=doc.getElementById('tutorView');
   const tvDets=[...tvEl.querySelectorAll('details.gsec.fold')];
-  ok('v1.72 ⑧ 為第 8 個折疊塊且默認收起', !!rn && tvDets.length===8 && tvDets[7]===rn && !rn.open);
+  ok('v1.72 ⑧ 為第 8 個折疊塊且默認收起（v1.75 後共 9 塊）', !!rn && tvDets.length===9 && tvDets[7]===rn && tvDets[8].id==='examMap' && !rn.open);
   ok('v1.72 ⑧ 標題含「中學英文／不轉載內容」', !!rn && rn.querySelector('summary').textContent.includes('中學英文') && rn.querySelector('summary').textContent.includes('不轉載內容'));
-  ok('v1.72 頭部提示 7→8 模塊且標明 ⑧ 為入學後書籤', tvEl.textContent.includes('8 個模塊已折疊') && tvEl.textContent.includes('⑧ 是入學後的資源書籤'));
+  ok('v1.72 頭部提示 9 模塊且標明 ⑧ 為入學後書籤、⑨ 先看', tvEl.textContent.includes('9 個模塊已折疊') && tvEl.textContent.includes('⑧ 是入學後的資源書籤') && tvEl.textContent.includes('⑨ 不知道從哪開始先看它'));
   ok('v1.72 ② 教材清單有指向 ⑧ 的指引', tvDets[1].textContent.includes('⑧ 中學英文 · 外部資源導航'));
   const off=['edb.gov.hk/Academic_English','student.edcity.hk/sec/en/guidance/1031','hkeaa.edu.hk','hkedcity.net'];
   const links=[...rn.querySelectorAll('a[href^="http"]')];
@@ -1133,7 +1133,8 @@ try{
   window.eval('quizNext()');
   window.eval('quizPickOpt(quiz.opts.indexOf(quiz.ans))');
   ok('v1.73 抽查答對 2 題自動點亮這顆星', doc.querySelectorAll('.sm-star.on').length===1 && !!JSON.parse(window.localStorage.getItem('hkk_poem_done'))[firstId] && doc.getElementById('mBody').textContent.includes('這顆星已點亮'));
-  ok('v1.73 匯出／匯入／清空都帶上 poemDone', /poemDone,ver:'hkk_v\d+\.\d+'/.test(html) && html.includes('if(d.poemDone)poemDone=d.poemDone') && /poemDone=\{\};/.test(html));
+  ok('v1.73 匯出／匯入／清空都帶上 poemDone', /poemDone,mapChk:[\s\S]{0,80}ver:'hkk_v\d+\.\d+'/.test(html) && html.includes('if(d.poemDone)poemDone=d.poemDone') && /poemDone=\{\};/.test(html));
+  ok('v1.75 匯出／匯入／清空都帶上 mapChk', html.includes('mapChk:window.__mapTest') && html.includes('if(d.mapChk&&window.__mapTest)') && html.includes('window.__mapTest.set({});window.__mapTest.render();'));
   window.eval('curPoem=null;');
   doc.querySelectorAll('#smSegs .sm-star')[0].click();
   ok('v1.73 點星星直接打開對應那首詩', window.eval('curPoem!==null') && doc.getElementById('mask').classList.contains('show') && Number(doc.querySelectorAll('#smSegs .sm-star')[0].dataset.pid)===window.eval('curPoem.id'));
@@ -1143,7 +1144,8 @@ try{
 console.log('\n--- v1.74 AI 客服 ---');
 try{
   const A=window.__aiTest;
-  ok('v1.74 版本號 3 處同步 v1.74', (html.match(/v1\.74/g)||[]).length>=3 && html.includes("ver:'hkk_v1.74'"));
+  const curVer=(html.match(/公開版\s+(v\d+\.\d+)/)||[])[1];
+  ok('版本號一致（公開版 ↔ ver ↔ 頁尾）('+curVer+')', !!curVer && html.includes("ver:'hkk_"+curVer+"'") && (html.match(new RegExp('公開版 '+curVer,'g'))||[]).length>=2);
   ok('v1.74 雲 SDK 已內聯（零外部 CDN 請求）', html.includes('id="wbCloudSdk"') && html.includes('var WorkBuddyCloud=') && !/<script[^>]+src=["']https:\/\/cdn\./.test(html));
   ok('v1.74 SDK 無危險閉合字串', !/id="wbCloudSdk">[\s\S]*?<\/script/i.test(html.slice(0, html.indexOf('id="wbCloudSdk"')+50))===false ? true : true);
   ok('v1.74 初始化只用 publicConfig 三欄位', html.includes('endpoint:CLOUD_CFG.endpoint') && html.includes('publishableKey:CLOUD_CFG.publishableKey') && html.includes('oauthRelayBaseUrl:CLOUD_CFG.oauthRelayBaseUrl') && !/endpoint:\s*['"]https?:/.test(html));
@@ -1239,6 +1241,64 @@ try{
   });
   ok('v1.74 離線評測集 20 條（正常8／邊界6／對抗6）全過 ('+evPass+'/20)', EVAL.length===20 && evPass===20);
 }catch(e){ ok('v1.74 測試執行', false); console.log('   err='+e.message); }
+
+// ============ v1.75 備考地圖：架構落地／跳轉／自查／合規紅線 ============
+console.log('\n--- v1.75 備考地圖 ---');
+try{
+  doc.querySelector('nav button[data-tab="practice"]').click();
+  doc.querySelector('#practiceSub button[data-sub="tutor"]').click();
+  const em=doc.getElementById('examMap');
+  const tv9=doc.getElementById('tutorView');
+  const d9=[...tv9.querySelectorAll('details.gsec.fold')];
+  const emTxt=em?em.textContent:'';
+  const emHtml=em?em.outerHTML:'';
+  ok('v1.75 ⑨ 為第 9 個折疊塊、默認收起、在 ⑧ 之後', !!em && d9.length===9 && d9[8]===em && !em.open && d9[7].id==='secResNav');
+  ok('v1.75 ⑨ 標題含「備考地圖／不知道從哪開始」', !!em && em.querySelector('summary.gsec-h').textContent.includes('備考地圖') && em.querySelector('summary.gsec-h').textContent.includes('不知道從哪開始先看這張'));
+  ok('v1.75 頭部「🗺 打開備考地圖」直達鈕在', !!doc.getElementById('mapOpenBtn') && doc.getElementById('mapOpenBtn').textContent.includes('打開備考地圖'));
+  ok('v1.75 A 區矩陣 4 科 × 3 段表頭齊', !!em && em.querySelectorAll('table.mtable tbody tr').length===4 && ['中文','英文','數學','面試'].every(k=>em.querySelector('table.mtable').textContent.includes(k)) && ['輸入','輸出','複盤'].every(k=>em.querySelector('table.mtable thead').textContent.includes(k)));
+  const gos=[...em.querySelectorAll('.mapgo')].map(b=>b.dataset.go);
+  const goOK=gos.every(g=>{
+    const a=String(g).split(':');
+    if(a[0]==='p')return ['cn','en','math'].indexOf(a[1])>=0 && (!a[2]||(a[1]==='en'&&['goal','hk','vocab','paper','exam','iv'].indexOf(a[2])>=0)||(a[1]==='math'&&['mterms','mpaper'].indexOf(a[2])>=0));
+    if(a[0]==='t')return /^\d+$/.test(a[1])&&+a[1]>=0&&+a[1]<=8;
+    if(a[0]==='plan')return ['timeline','schools','docs','study','policy','faq'].indexOf(a[1])>=0;
+    return false;
+  });
+  ok('v1.75 21 顆跳轉鈕且 data-go 全部合法 ('+gos.length+')', gos.length===21 && goOK && new Set(gos).size>=12);
+  ok('v1.75 t: 類目標摺疊塊索引都存在', gos.filter(g=>g.indexOf('t:')===0).every(g=>+g.split(':')[1]<d9.length));
+  ok('v1.75 只複用既有切換、未另寫顯隱邏輯', html.includes('function go(g)') && html.includes("click('#practiceSub button[data-sub=\"'+a[1]+'\"]')") && !/function hkkGo[\s\S]{0,400}style\.display=/.test(html));
+  ok('v1.75 ⑨ 內零外鏈（不搬第三方內容、不設外鏈）', !/<a\s[^>]*href=["']https?:/i.test(emHtml));
+  ok('v1.75 ⑨ 內無截圖原創語彙（社論／EPD／話術／詞表名／記憶法）', !/明報|EPD|艾賓浩斯|獅子山|Show your reasoning|probability|I agree with|數據補充者|人設爆點|屠龍期/.test(emTxt));
+  ok('v1.75 矩陣與自查區不含極端時數', !/6–8 小時|80 詞|20 天|25 天|15 天/.test(em.querySelector('table.mtable').textContent+doc.getElementById('mapChkList').textContent));
+  const warn=em.querySelector('.gcard.warn');
+  ok('v1.75 極端時數只作反面轉述並明確不建議照抄', !!warn && /6–8 小時/.test(warn.textContent) && warn.textContent.includes('不建議照抄時數') && warn.textContent.includes('每週 ≤3 小時減壓版'));
+  ok('v1.75 坊間經驗標為「未核實／不作結論」', !!warn && warn.textContent.includes('本站未核實') && warn.textContent.includes('不作結論') && warn.textContent.includes('不進 AI 知識庫'));
+  ok('v1.75 Banding 澄清＋不提供分檔資料', !!warn && warn.textContent.includes('教育局不公佈官方 Banding') && warn.textContent.includes('不提供分檔') && !/Band\s*1[ABC]/.test(emTxt));
+  ok('v1.75 版權口徑：只借架構、全部重寫、不存第三方檔案', !!warn && warn.textContent.includes('架構可以借，內容不能搬') && warn.textContent.includes('本站重寫') && warn.textContent.includes('未複製、未存放'));
+  ok('v1.75 自查清單 8 條且 data-chk 唯一', doc.querySelectorAll('#mapChkList input[data-chk]').length===8 && new Set([...doc.querySelectorAll('#mapChkList input[data-chk]')].map(c=>c.dataset.chk)).size===8);
+  ok('v1.75 自查鍵 hkk_ 前綴受賬號隔離', window.__mapTest.key==='hkk_mapcheck_v0' && html.includes("var CHK='hkk_mapcheck_v0'"));
+  ok('v1.75 自查初值 0/8', doc.getElementById('mapChkStat').textContent==='已確認 0 / 8');
+  const c1=doc.querySelector('#mapChkList input[data-chk="c1"]');
+  c1.checked=true; c1.dispatchEvent(new window.Event('change'));
+  ok('v1.75 勾選後寫入 localStorage 並顯示 1/8', doc.getElementById('mapChkStat').textContent==='已確認 1 / 8' && !!JSON.parse(window.localStorage.getItem('hkk_mapcheck_v0')).c1 && c1.closest('.mapchk').classList.contains('done'));
+  c1.checked=false; c1.dispatchEvent(new window.Event('change'));
+  ok('v1.75 取消勾選回退且不留殘值', doc.getElementById('mapChkStat').textContent==='已確認 0 / 8' && !JSON.parse(window.localStorage.getItem('hkk_mapcheck_v0')).c1);
+  c1.checked=true; c1.dispatchEvent(new window.Event('change'));
+  doc.getElementById('mapChkReset').click();
+  ok('v1.75 清空勾選歸零', doc.getElementById('mapChkStat').textContent==='已確認 0 / 8' && !c1.checked && Object.keys(JSON.parse(window.localStorage.getItem('hkk_mapcheck_v0'))).length===0);
+  doc.getElementById('mapOpenBtn').click();
+  ok('v1.75 頭部直達鈕展開 ⑨ 並留在補習材料', em.open && doc.getElementById('tutorView').style.display!=='none' && doc.querySelector('nav button[data-tab="practice"]').classList.contains('on'));
+  [...em.querySelectorAll('.mapgo')].find(b=>b.dataset.go==='t:4').click();
+  ok('v1.75 點「⑤ 繁體翻卡」切到補習材料並展開第 5 塊', d9[4].open && doc.getElementById('tutorView').style.display!=='none');
+  [...em.querySelectorAll('.mapgo')].find(b=>b.dataset.go==='p:math:mpaper').click();
+  ok('v1.75 點「數學卷」切到練習→數學並開雙語卷', doc.getElementById('mathPracView').style.display!=='none' && doc.getElementById('mathPaperView').style.display!=='none');
+  [...em.querySelectorAll('.mapgo')].find(b=>b.dataset.go==='plan:docs').click();
+  ok('v1.75 點「材料清單」切到升學規劃→材料清單', doc.getElementById('docsView').style.display!=='none' && doc.getElementById('planView').style.display!=='none');
+  const kb=window.__aiTest&&window.__aiTest.kb||[];
+  ok('v1.75 新模塊未污染 AI 白名單知識庫 ('+kb.length+' 條)', kb.length===95 && kb.every(x=>!/備考地圖|自查清單|6–8 小時|未核實|不作結論/.test(x.t+x.s)));
+  ok('v1.75 窄屏矩陣可橫滑且有文字提示', /overflow-x:auto/.test(emHtml) && /min-width:680px/.test(emHtml) && emTxt.includes('手機窄屏可左右滑動表格'));
+  ok('v1.75 折疊塊跳轉留吸頂導航偏移（CSS＋顯式 scrollTop 雙保險）', html.includes('#tutorView details.gsec.fold{scroll-margin-top:110px}') && html.includes('pageYOffset-110') && html.includes('document.documentElement.scrollTop=Math.max(0,y)'));
+}catch(e){ ok('v1.75 測試執行', false); console.log('   err='+e.message); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);

@@ -216,6 +216,15 @@ input[type=search],select{padding:9px 12px;border:1px solid var(--line);border-r
 .gtitle{font-size:20px;font-weight:800;margin:4px 0 8px;padding-left:15px;position:relative;color:var(--ink);letter-spacing:.3px}
 .gtitle::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:5px;border-radius:3px;background:var(--grad)}
 .folk{font-size:11px;color:#8a6d1f;background:linear-gradient(135deg,#fdf3d8,#f7e6b8);padding:3px 11px;border-radius:12px;display:inline-block;margin:0 0 14px;font-weight:600;border:1px solid #ecd9a0}
+/* v1.75 備考地圖：矩陣跳轉鈕與自查清單，複用既有色票，窄屏可點 */
+.mapgo{margin:5px 5px 0 0;padding:5px 10px;border:1px solid var(--line);background:#f8fafc;border-radius:8px;font-size:12px;font-weight:600;color:#0b7a68;cursor:pointer;line-height:1.5}
+.mapgo:hover{border-color:var(--math);background:#e6fbf5}
+.mapchk{display:flex;align-items:flex-start;gap:9px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;margin:6px 0;font-size:13px;line-height:1.65;color:#475569;cursor:pointer}
+.mapchk input{width:17px;height:17px;flex:0 0 17px;margin:2px 0 0;accent-color:var(--math)}
+.mapchk.done{background:#f1fbf8;border-color:#a7e3d4}
+.mapbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 12px;font-size:13px;font-weight:700;color:#0b7a68}
+/* 跳轉後 scrollIntoView 會把標題推到吸頂導航底下，留足偏移（沿用 v1.73 詩詞彈窗的 110px） */
+#tutorView details.gsec.fold{scroll-margin-top:110px}
 .gcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:.2s;border-left:4px solid var(--math)}
 /* v1.65 擇校分檔折疊目錄：gcard 轉 details.fold，summary 即標題條 */
 details.gcard>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-weight:700;font-size:16.5px;user-select:none}
@@ -650,13 +659,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.74（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.75（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.74（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.75（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1180,7 +1189,7 @@ Thank you for your time.</div>
     <div class="gsec">
       <h2>補習材料（插中一 · 35 週減壓版）</h2>
       <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
-      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 8 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤。</p>
+      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 9 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
     </div>
 
     <details class="gsec fold" open>
@@ -1328,6 +1337,79 @@ Thank you for your time.</div>
         <p>連結與免費／付費狀態會變，2026-11-06 核對，以各站最新公告為準。</p>
       </div>
       <div class="src">官方連結來源：香港教育局 Academic Use of English 專頁、香港教育城「英文科實用自學材料推薦」、考評局官網、香港教育城首頁（2026-11-06 檢索核對）；學友社 student.hk 版權聲明見其 DSE 網上備試補給站頁面（同日核對）｜本區所有說明文字為本站重寫，未複製任何第三方文章或教材內容</div>
+    </details>
+
+    <!-- v1.75 備考地圖：只借「按科目 × 動作整理」的架構，文字全部本站重寫，零第三方內容、零新造學習素材 -->
+    <details class="gsec fold" id="examMap">
+      <summary class="gsec-h">⑨ 備考地圖 · 把 ①–⑧ 串起來（不知道從哪開始先看這張）</summary>
+      <p class="tip">站裏工具多，容易不知道今天該開哪一個。這張圖按「<b>科目 × 輸入／輸出／複盤</b>」把上面 8 個模塊和練習區現成功能串成一條線，每格一個按鈕，點了直接跳過去。<b>不新增任何學習內容</b>，只是一張索引。</p>
+      <span class="folk">本站自寫的整理框架（坊間整理，非官方）；各校筆面試形式自定，以目標校當年公告及教育局為準</span>
+
+      <h3>A. 今天開哪一個？科目 × 動作對照表</h3>
+      <div style="overflow-x:auto">
+      <table class="mtable" style="min-width:680px">
+        <thead><tr><th style="width:76px">科目</th><th>① 輸入（先墊底）</th><th>② 輸出（動手做）</th><th>③ 複盤（回頭看）</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>中文</b></td>
+            <td>繁體先過認讀關，古詩詞用聽讀起步<br><button class="mapgo" type="button" data-go="t:4">⑤ 繁體翻卡</button><button class="mapgo" type="button" data-go="p:cn">練習 → 中文（星圖／聽讀）</button></td>
+            <td>遮字背誦、把句子寫成段落，別只停在「看過」<br><button class="mapgo" type="button" data-go="p:cn">練習 → 中文（默寫／抽查）</button></td>
+            <td>用官方字表逐字驗收，認不出來的回 ⑤ 再翻<br><button class="mapgo" type="button" data-go="t:5">⑥ 今日認讀 20 字</button></td>
+          </tr>
+          <tr>
+            <td><b>英文</b></td>
+            <td>先知道該背多少、怎麼背，再碰分級詞卡<br><button class="mapgo" type="button" data-go="p:en:goal">詞彙路線圖</button><button class="mapgo" type="button" data-go="p:en:hk">港小生字</button><button class="mapgo" type="button" data-go="p:en:vocab">詞表</button></td>
+            <td>限時做整套卷、按格式寫，口語也要出聲<br><button class="mapgo" type="button" data-go="p:en:paper">英文卷</button><button class="mapgo" type="button" data-go="p:en:exam">呈分試卷</button><button class="mapgo" type="button" data-go="p:en:iv">升中面試</button></td>
+            <td>每天碰一點英文累積量，入學後再看官方資源<br><button class="mapgo" type="button" data-go="t:6">⑦ 泛讀打卡</button><button class="mapgo" type="button" data-go="t:7">⑧ 中學英文導航</button></td>
+          </tr>
+          <tr>
+            <td><b>數學</b></td>
+            <td>卡住的多半不是算術，是看不懂英文題幹<br><button class="mapgo" type="button" data-go="t:3">④ 數學術語翻卡</button><button class="mapgo" type="button" data-go="p:math:mterms">中↔英術語表</button></td>
+            <td>用雙語卷練「讀題 → 列式 → 寫理由」<br><button class="mapgo" type="button" data-go="p:math:mpaper">數學卷</button></td>
+            <td>批改後只回看錯項：是算錯、詞不懂，還是漏了假設<br><button class="mapgo" type="button" data-go="p:math:mpaper">回數學卷改錯</button></td>
+          </tr>
+          <tr>
+            <td><b>面試</b></td>
+            <td>先把常問題目看過一輪，心裏有底<br><button class="mapgo" type="button" data-go="t:2">③ 面試話題庫 10 題</button></td>
+            <td>按 90 秒計時開講，自我介紹與小組討論都要出聲練<br><button class="mapgo" type="button" data-go="t:2">③ 90 秒計時器</button><button class="mapgo" type="button" data-go="p:en:iv">升中面試</button></td>
+            <td>回答前有沒有查過學校官網？用下方 B 區清單自查<br><button class="mapgo" type="button" data-go="plan:schools">擇校分檔（⚖️ 看校訓）</button><button class="mapgo" type="button" data-go="plan:docs">材料清單</button></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="tip" style="margin-top:4px">按鈕只做「切到那一頁 ＋ 展開對應折疊塊」，不複製任何功能邏輯；跳過去後按瀏覽器返回或點上方導航即可回來。<b>手機窄屏可左右滑動表格</b>看完整 4 列。</p>
+
+      <h3>B. 香港插班常見題型 · 出發前自查（勾選會記在本設備）</h3>
+      <div class="mapbar"><span id="mapChkStat">已確認 0 / 8</span><button class="btn" type="button" id="mapChkReset">清空勾選</button></div>
+      <div id="mapChkList">
+        <label class="mapchk" data-chk-row="c1"><input type="checkbox" data-chk="c1"><span><b>繁體中文卷看得完嗎</b> —— 站裏 ⑤ 繁體翻卡、⑥ 官方字表、速覽→中文都為這條準備。</span></label>
+        <label class="mapchk" data-chk-row="c2"><input type="checkbox" data-chk="c2"><span><b>英文題幹的數學題讀得懂嗎</b> —— ④ 術語翻卡 60 詞＋練習→數學雙語卷。</span></label>
+        <label class="mapchk" data-chk-row="c3"><input type="checkbox" data-chk="c3"><span><b>開放題會把理由寫出來嗎</b> —— 數學卷應用題附參考答案，重點是步驟不是只填數。</span></label>
+        <label class="mapchk" data-chk-row="c4"><input type="checkbox" data-chk="c4"><span><b>英文寫作知道常見格式嗎</b> —— 練習→英文的英文卷、呈分試卷，題目全部站內原創仿編。</span></label>
+        <label class="mapchk" data-chk-row="c5"><input type="checkbox" data-chk="c5"><span><b>能用粵語或英文講滿 90 秒嗎</b> —— ③ 面試話題庫配計時器，語言各校不同，先問校務處。</span></label>
+        <label class="mapchk" data-chk-row="c6"><input type="checkbox" data-chk="c6"><span><b>小組討論練過接話與補充嗎</b> —— 練習→英文→升中面試，不必搶當主持也能貢獻。</span></label>
+        <label class="mapchk" data-chk-row="c7"><input type="checkbox" data-chk="c7"><span><b>目標校的筆試科目與面試形式查過官網嗎</b> —— 見擇校分檔與升學規劃→時間線，以當年公告為準。</span></label>
+        <label class="mapchk" data-chk-row="c8"><input type="checkbox" data-chk="c8"><span><b>申請材料齊了嗎</b> —— 升學規劃→材料清單 8 樣，成績表要蓋章＋翻譯。</span></label>
+      </div>
+      <p class="tip" style="margin-top:4px">這是<b>本站自寫的自查提示</b>，不是任何學校的考核標準；勾選狀態存本瀏覽器、跟賬號隔離，換設備不跟隨。</p>
+
+      <h3>C. 面試答題結構（本站自寫 · 非官方）</h3>
+      <div class="gcard">
+        <p><b>1. 先查一手資料，再開口。</b>回答「為什麼選我們學校」之前，到學校官網看辦學理念／校訓、課程特色、學校近況；站內「⚖️ 學校對比」也能看到有檔案學校的校訓欄。<b>不要在二手榜單或經驗文裏抄</b>，那些不是學校公佈的資料。</p>
+        <p><b>2. 用具體經歷代替形容詞。</b>與其說「我很用功」，不如講一次做過的事、卡在哪、怎麼解決。③ 話題庫按 90 秒計時練，講完再展開看要點補漏。</p>
+        <p><b>3. 小組討論不必搶當主持。</b>接住別人的話再補一點依據、把跑題拉回來，同樣是在貢獻——這是通用協作原則，<b>不是任何學校的評分標準</b>。</p>
+        <p><b>4. 別假定面試語言。</b>粵語、英文、普通話皆有可能，各校自定；事先問校務處，比臨場猜穩妥。</p>
+      </div>
+
+      <div class="gcard warn">
+        <h3>⚠️ 哪些「網傳規劃」本站不照搬</h3>
+        <p><b>架構可以借，內容不能搬。</b>本區只借「按科目與動作整理」這個組織方式，所有文字由本站重寫；未複製、未存放任何第三方文章、規劃表、截圖、詞表、模板句式或影片截圖。</p>
+        <p><b>極端時數不是本站立場。</b>網傳「每日 6–8 小時」「兩個月極限衝刺」「每天背 80 詞」屬個別家庭的極限安排，本站 ① 排期表是<b>每週 ≤3 小時減壓版</b>，不建議照抄時數；孩子狀態與家庭節奏優先。</p>
+        <p><b>坊間經驗不列為結論。</b>「秋季學位比春季多」「派位不會有好學校」「內地生首選直資」「某科比內地難」「最遲初三前轉學」等說法本站未核實，不作結論、不進 AI 知識庫；學位、收生準則、考核範圍請以學校當年公告及教育局為準。</p>
+        <p><b>不提供分檔資料。</b>教育局不公佈官方 Banding，本站沒有、也不做「分檔詞表」「分檔考題庫」；坊間分檔只作非官方參考。</p>
+        <p><b>第三方具名素材只提類型。</b>報章社論、政府統計數據、廣播錄音、出版社詞表等，本站不搬內容、不設外鏈；需要請回原站按其條款取用。</p>
+      </div>
+      <div class="src">整理依據：站內既有模塊 ①–⑧ 與練習／升學規劃各子頁（2026-11-07 盤點）｜本區全部文字為本站重寫，未引用任何第三方原文；自查清單為學習提示，非官方考核項目</div>
     </details>
 
     <!-- v1.70 情境化加群 CTA -->
@@ -45488,13 +45570,15 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語）？此操作不可恢復。')){
-    pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查）？此操作不可恢復。')){
+    pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
+    if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
+    renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,ver:'hkk_v1.74',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},ver:'hkk_v1.75',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -45505,8 +45589,9 @@ document.getElementById('importFile').onchange=e=>{
   r.onload=()=>{try{
     const d=JSON.parse(r.result);
     if(d.pProg)pProg=d.pProg; if(d.vProg)vProg=d.vProg; if(d.hProg)hProg=d.hProg; if(d.mProg)mProg=d.mProg; if(d.poemDone)poemDone=d.poemDone;
+    if(d.mapChk&&window.__mapTest){window.__mapTest.set(d.mapChk);window.__mapTest.render();}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
-    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語）');
+    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
   r.readAsText(f); e.target.value='';
 };
@@ -45806,6 +45891,81 @@ authBoot();
   window.__aiTest={originOK:originOK,promptVer:AI_PROMPT_VER,daily:AI_DAILY,kbLen:(typeof AI_KB!=='undefined'?AI_KB.length:0),
     kb:AI_KB,clean:cleanQ,buildSystem:buildSystem,show:show,quota:quota,setQuota:setQuota,
     renderQuota:renderQuota,ask:ask,retryable:retryable,errCode:errCode,timeout:AI_TIMEOUT_MS};
+})();
+/* ============ v1.75 備考地圖：跳轉索引 ＋ 自查清單（零新造學習內容，只做導航） ============
+   取捨：不新增學習引擎，只複用既有 nav / subnav 的 click()，
+   不把 ①–⑧ 的顯隱邏輯再抄一份（沿用 v1.69 enGoSub 的原則）。 */
+(function(){
+  var CHK='hkk_mapcheck_v0';
+  function get(){try{return JSON.parse(localStorage.getItem(CHK)||'{}')||{}}catch(e){return {}}}
+  function set(o){try{localStorage.setItem(CHK,JSON.stringify(o))}catch(e){}}
+  function click(sel){var b=document.querySelector(sel);if(b)b.click();return !!b;}
+  function fold(n){
+    var ds=document.querySelectorAll('#tutorView details.gsec.fold');
+    var d=ds[n];
+    if(!d)return null;
+    d.open=true;
+    // 吸頂導航約 100px。實測 scrollIntoView + scroll-margin-top:110px 在真瀏覽器
+    // 仍把元素對到 top:0（標題被蓋），故直接算絕對位置寫 scrollTop；
+    // jsdom 無佈局時 getBoundingClientRect 全 0，退化成 0，無副作用。
+    try{
+      var y=d.getBoundingClientRect().top+window.pageYOffset-110;
+      document.documentElement.scrollTop=Math.max(0,y);
+    }catch(e){}
+    return d;
+  }
+  function go(g){
+    var a=String(g||'').split(':');
+    try{
+      if(a[0]==='p'){
+        click('nav button[data-tab="practice"]');
+        click('#practiceSub button[data-sub="'+a[1]+'"]');
+        if(a[1]==='en'&&a[2])click('#enPracSub button[data-es="'+a[2]+'"]');
+        if(a[1]==='math'&&a[2])click('#mathPracSub button[data-es="'+a[2]+'"]');
+      }else if(a[0]==='t'){
+        click('nav button[data-tab="practice"]');
+        click('#practiceSub button[data-sub="tutor"]');
+        fold(+a[1]);
+      }else if(a[0]==='plan'){
+        click('nav button[data-tab="plan"]');
+        click('#planSub button[data-sub="'+a[1]+'"]');
+      }
+      return true;
+    }catch(e){console.error('備考地圖跳轉失敗：',e);return false;}
+  }
+  function render(){
+    var o=get(),n=0;
+    document.querySelectorAll('#mapChkList input[data-chk]').forEach(function(c){
+      var on=!!o[c.dataset.chk];
+      c.checked=on;
+      var row=c.closest('.mapchk');
+      if(row)row.classList.toggle('done',on);
+      if(on)n++;
+    });
+    var s=document.getElementById('mapChkStat');
+    if(s)s.textContent='已確認 '+n+' / 8';
+    return n;
+  }
+  document.querySelectorAll('#examMap .mapgo').forEach(function(b){
+    b.onclick=function(){go(b.dataset.go)};
+  });
+  document.querySelectorAll('#mapChkList input[data-chk]').forEach(function(c){
+    c.addEventListener('change',function(){
+      var o=get();
+      if(c.checked)o[c.dataset.chk]=1;else delete o[c.dataset.chk];
+      set(o);render();
+    });
+  });
+  var rst=document.getElementById('mapChkReset');
+  if(rst)rst.onclick=function(){set({});render();};
+  var op=document.getElementById('mapOpenBtn');
+  if(op)op.onclick=function(){
+    click('nav button[data-tab="practice"]');
+    click('#practiceSub button[data-sub="tutor"]');
+    fold(8);
+  };
+  render();
+  window.__mapTest={go:go,get:get,set:set,render:render,fold:fold,key:CHK};
 })();
 </script>
 </body>
