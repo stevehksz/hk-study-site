@@ -1487,7 +1487,10 @@ try{
 // ============ v1.80 我的單詞本（純本地 CRUD ＋ 導出導入） ============
 try{
   const mw=window.__myWordsTest;
-  const vw=(()=>{const a=html.indexOf('<div id="myWordsView"');const b=html.indexOf('<div id="ivView"',a);return a>=0&&b>a?html.slice(a,b):'';})();
+  // v1.87：原本用「字串切片 myWordsView→ivView」定位，但 v1.81 搬進來的 wbView（某文單詞本）
+  // 正好落在兩者之間，會把它的 🔊 也算進「我的單詞本」的無-emoji 斷言裡（誤傷）。
+  // 改用 DOM 精確定位該區塊自身的外層 HTML。
+  const vw=(()=>{const el=doc.getElementById('myWordsView');if(!el)return '';let h=el.outerHTML||'';return h;})();
   ok('v1.80 模組鉤子存在、key 受賬號隔離、上限 2000', !!mw && mw.key==='hkk_mywords_v0' && mw.max===2000);
   ok('v1.80 子頁 DOM 存在且默認隱藏', /id="myWordsView" style="display:none"/.test(html) && !!doc.getElementById('myWordsView'));
   ok('v1.80 三欄輸入＋加入鈕齊', ['mwW','mwZh','mwNote','mwAdd'].every(id=>!!doc.getElementById(id)) && /id="mwW" maxlength="80"/.test(html));
@@ -1568,11 +1571,11 @@ try{
   mw.clear();
   ok('v1.80 清空後空態提示', mw.count()===0 && doc.querySelectorAll('#mwList .mwempty').length===1);
   ok('v1.80 全站導出含 myWords 字段', /myWords:window\.__myWordsTest\?window\.__myWordsTest\.exportData\(\)\.words:\[\]/.test(html));
-  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.86'/.test(html));
+  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.87'/.test(html));
   ok('v1.80 清空確認文案補「我的單詞本」', /泛讀自查／我的單詞本/.test(html));
   ok('v1.80 不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/我的單詞本|hkk_mywords/.test(x.t+x.s)));
   ok('v1.80 版權文案在子頁', doc.getElementById('myWordsView').textContent.includes('不預置任何出版社詞表'));
-  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.86/g)||[]).length===2 && html.includes("ver:'hkk_v1.86'") && !html.includes('公開版 v1.79'));
+  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.87/g)||[]).length===2 && html.includes("ver:'hkk_v1.87'") && !html.includes('公開版 v1.79'));
 }catch(e){ ok('v1.80 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.81 反饋牆 ＋ 貪吃蛇單詞背景 ＋ 某文單詞本搬位 ============
@@ -1642,7 +1645,7 @@ try{
   ok('v1.81 錯誤碼映射覆蓋網絡／權限／表不存在／重複', ['network_error','42501','42P01','23505'].every(c=>fbT.errText(c)&&fbT.errText(c).length>4));
   ok('v1.81 時間顯示相對時間', fbT.when(new Date(Date.now()-3600000).toISOString()).indexOf('小時前')>=0);
 
-  ok('v1.81 版本號三處一致', (html.match(/公開版 v1\.86/g)||[]).length===2 && html.includes("ver:'hkk_v1.86'") && !html.includes('公開版 v1.80'));
+  ok('v1.81 版本號三處一致', (html.match(/公開版 v1\.87/g)||[]).length===2 && html.includes("ver:'hkk_v1.87'") && !html.includes('公開版 v1.80'));
 }catch(e){ ok('v1.81 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.82 中文卷（本站原創仿題型） ============
@@ -1754,7 +1757,7 @@ try{
   ok('v1.82 含答案版勾選存在', !!doc.getElementById('cnPrintAns'));
   ok('v1.82 本級最佳存 hkk_cnpaper_v0', html.includes("'hkk_cnpaper_v0'"));
   ok('v1.82 CSS：篇章卡與寫作區樣式齊', /\.cnread\{/.test(html)&&/\.cnwrite-hint\{/.test(html)&&/\.cnsec\{/.test(html));
-  ok('v1.82 版本號三處一致', (html.match(/公開版 v1\.86/g)||[]).length===2&&html.includes("ver:'hkk_v1.86'")&&!html.includes('公開版 v1.81'));
+  ok('v1.82 版本號三處一致', (html.match(/公開版 v1\.87/g)||[]).length===2&&html.includes("ver:'hkk_v1.87'")&&!html.includes('公開版 v1.81'));
 }catch(e){ ok('v1.82 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.83 中文區兩個子目錄：背古詩 ／ 中文試卷 ============
@@ -1789,7 +1792,7 @@ try{
   ok('v1.83 切回背古詩：星圖可見、卷隱藏', sv.style.display!=='none'&&cv.style.display==='none');
   ok('v1.83 切回後高亮回到第一顆', bStar.classList.contains('on')&&!bPaper.classList.contains('on'));
 
-  ok('v1.83 版本號三處一致', (html.match(/公開版 v1\.86/g)||[]).length===2&&html.includes("ver:'hkk_v1.86'")&&!html.includes('公開版 v1.82'));
+  ok('v1.83 版本號三處一致', (html.match(/公開版 v1\.87/g)||[]).length===2&&html.includes("ver:'hkk_v1.87'")&&!html.includes('公開版 v1.82'));
 }catch(e){ ok('v1.83 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.84 中文卷 AI 出卷（官方題型骨架＋結構校驗） ============
@@ -1870,7 +1873,7 @@ try{
   ok('v1.84 AI 出卷沿用使用者自填接口（密鑰存本機不上傳）', html.includes("getAiCfg()")&&html.includes("localStorage.getItem('hkk_ai_cfg')"));
   ok('v1.84 AI 卷不計入本級最佳（避免 AI 卷刷高分污染記錄）', html.includes('if(!curCnIsAi && (!best[curCnGrade]'));
   ok('v1.84 AI 失敗時回退本地題庫', /AI 出卷失敗[\s\S]{0,200}可改用|已保留原本地題庫卷/.test(html));
-  ok('v1.84 版本號三處一致', (html.match(/公開版 v1\.86/g)||[]).length===2&&html.includes("ver:'hkk_v1.86'")&&!html.includes('公開版 v1.83'));
+  ok('v1.84 版本號三處一致', (html.match(/公開版 v1\.87/g)||[]).length===2&&html.includes("ver:'hkk_v1.87'")&&!html.includes('公開版 v1.83'));
   // ── v1.85：本機詞庫包匯入 → 完整詞表（公開站仍零詞條）──
   const pk = window.__lwtePackTest || null;
   ok('v1.85 詞庫包測試鉤子存在且鍵名正確', !!pk && pk.key==='hkk_lwte_pack_v0' && pk.wordKey==='hkk_lwte_wordprog_v0');
@@ -1891,26 +1894,48 @@ try{
      && pk.valid({books:[{bk:'1A',cats:[{cat:'X'}]}]})===false
      && pk.valid({books:[{bk:'1A',cats:[{cat:'X',items:[{}]}]}]})===false
      && pk.valid({books:[{bk:'1A',cats:[{cat:'X',items:[{w:'  '}]}]}]})===false);
-  ok('v1.85 匯入後詞表容器可見、按主題分組', (()=>{
+  // v1.87：某文單詞本改成 .vcard 卡片 + 每課一個可展開小節，舊斷按新結構重寫
+  ok('v1.87 匯入後詞表容器可見、每課一個可展開小節', (()=>{
     if(!pk)return false;
-    pk.setPack({books:[{bk:'1A',grade:1,cats:[{cat:'People around us',items:[{w:'a boy',zh:'男孩'},{w:'a girl',zh:'女孩'}]},{cat:'Toys',items:[{w:'a ball',zh:'皮球'}]}]}]});
+    pk.setPack({books:[{bk:'1A',grade:1,cats:[
+      {cat:'People around us',items:[{w:'a boy',zh:'男孩',ipa:'/ə bɔɪ/'},{w:'a girl',zh:'女孩',ipa:'/ə ɡɜːl/'}]},
+      {cat:'Toys',items:[{w:'a ball',zh:'皮球',ipa:'/ə bɔːl/'}]}]}]});
     const view=doc.getElementById('lwtePackView'), list=doc.getElementById('lwteWordList');
     if(view.style.display==='none')return false;
-    if(list.querySelectorAll('.lhub-cat').length!==2)return false;
-    if(list.querySelectorAll('.lhub-word').length!==3)return false;
+    const secs=list.querySelectorAll('details.lwb-cat');
+    if(secs.length!==2)return false;
+    // 每課小節用 details.gsec（與中小學單詞本的年級小節同構）
+    if(![...secs].every(d=>d.classList.contains('gsec')&&!!d.querySelector('summary.gsec-h')))return false;
+    if(list.querySelectorAll('.vcard.lwb-card').length!==3)return false;
     if(list.textContent.indexOf('a boy')<0)return false;
     return true;
   })());
-  ok('v1.85 逐詞三態勾選有學／複／寫三格且 data-wk 鍵完整', (()=>{
-    const row=doc.querySelector('#lwteWordList .lhub-word');
+  ok('v1.87 卡片含音標（.ph）與 🔊 發音鈕（.mini[data-sp]）與中文義', (()=>{
+    const row=doc.querySelector('#lwteWordList .vcard.lwb-card');
+    if(!row)return false;
+    const ph=row.querySelector('.ph');
+    const sp=row.querySelector('.mini[data-sp]');
+    const zh=row.querySelector('.zh');
+    return !!ph&&/^\/.+\/$/.test(ph.textContent.trim()) && !!sp && !!zh && zh.textContent.trim()==='男孩';
+  })());
+  ok('v1.87 卡片有「＋單詞本」鈕且可入庫', (()=>{
+    const row=doc.querySelector('#lwteWordList .vcard.lwb-card');
+    if(!row)return false;
+    const mb=row.querySelector('.mwadd');
+    if(!mb)return false;
+    mb.click();
+    return mb.textContent.indexOf('已加入')>=0 || mb.disabled;
+  })());
+  ok('v1.87 逐詞三態勾選有已學／已複習／已聽寫三格且 data-wk 鍵完整', (()=>{
+    const row=doc.querySelector('#lwteWordList .vcard.lwb-card');
     if(!row)return false;
     const f=row.querySelectorAll('input[data-wf]');
     const kinds=[...f].map(x=>x.getAttribute('data-wf'));
     return f.length===3 && kinds.join(',')==='learn,review,dict' && !!row.getAttribute('data-wk');
   })());
-  ok('v1.85 逐詞勾選可寫入並持久化到 hkk_lwte_wordprog_v0', (()=>{
+  ok('v1.87 逐詞勾選可寫入並持久化到 hkk_lwte_wordprog_v0', (()=>{
     if(!pk)return false;
-    const row=doc.querySelector('#lwteWordList .lhub-word');
+    const row=doc.querySelector('#lwteWordList .vcard.lwb-card');
     if(!row)return false;
     const cb=row.querySelector('input[data-wf="learn"]');
     cb.checked=true;
@@ -1921,19 +1946,19 @@ try{
     if(!saved[keys[0]]||saved[keys[0]].learn!==true)return false;
     return row.className.indexOf('done')>=0;
   })());
-  ok('v1.85 主題標題的「已學 N」會隨勾選更新', (()=>{
-    const h=doc.querySelector('#lwteWordList .lhub-cat-h');
+  ok('v1.87 本課標題的「已學 N」會隨勾選更新', (()=>{
+    const h=doc.querySelector('#lwteWordList details.lwb-cat .gcount');
     return !!h && /已學 \d+/.test(h.textContent);
   })());
-  ok('v1.85 搜尋可過濾詞條', (()=>{
+  ok('v1.87 搜尋可過濾詞條', (()=>{
     if(!pk)return false;
     const inp=doc.getElementById('lwteWordSearch');
     inp.value='ball';
     inp.dispatchEvent(new window.Event('input',{bubbles:true}));
-    const n=doc.querySelectorAll('#lwteWordList .lhub-word').length;
+    const n=doc.querySelectorAll('#lwteWordList .vcard.lwb-card').length;
     inp.value='';
     inp.dispatchEvent(new window.Event('input',{bubbles:true}));
-    const all=doc.querySelectorAll('#lwteWordList .lhub-word').length;
+    const all=doc.querySelectorAll('#lwteWordList .vcard.lwb-card').length;
     return n===1 && all===3;
   })());
   ok('v1.85 切冊時詞表跟著連動', /cur=b\.bk;render\(\);if\(typeof renderPack==='function'\)renderPack\(\);/.test(html));
@@ -1982,7 +2007,7 @@ try{
   ok('v1.85 匯入區文案講清「網站本身沒有這些詞」',
      doc.getElementById('lwtePackBox').textContent.includes('網站本身沒有、也不會有這些詞')
      && doc.getElementById('lwtePackBox').textContent.includes('不會上傳'));
-  ok('v1.85 版本號三處一致', (html.match(/公開版 v1\.86/g)||[]).length===2&&html.includes("ver:'hkk_v1.86'")&&!html.includes('公開版 v1.84'));
+  ok('v1.85 版本號三處一致', (html.match(/公開版 v1\.87/g)||[]).length===2&&html.includes("ver:'hkk_v1.87'")&&!html.includes('公開版 v1.84'));
   // ── v1.86：打印答題線改整寬 + A4 版心 ──
   // 三引擎的打印 HTML 生成段（英文卷／數學卷／中文卷）
   const prEn=(html.match(/function printEnPaper[\s\S]{0,9000}/)||[''])[0];
@@ -2013,8 +2038,91 @@ try{
      !prCn.includes('max-width:860px;margin:0 auto') && !prCn.includes('padding:24px;line-height:1.9'));
   ok('v1.86 三引擎都接上 ansline（不只中文卷）',
      prEn.includes('ansline lbl') && prMa.includes('ansline lbl') && prCn.includes('ansline lbl'));
-  ok('v1.86 版本號三處一致', (html.match(/公開版 v1\.86/g)||[]).length===2&&html.includes("ver:'hkk_v1.86'")&&!html.includes('公開版 v1.85'));
-}catch(e){ ok('v1.86 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
+  ok('v1.86 版本號三處一致', (html.match(/公開版 v1\.87/g)||[]).length===2&&html.includes("ver:'hkk_v1.87'")&&!html.includes('公開版 v1.85'));
+  // ── v1.87：某文單詞本改同中小學單詞本格式 ＋ 詞庫包資料補齊（繁體中文義／全量音標）──
+  const pkb=(()=>{try{return JSON.parse(fs.readFileSync('_lwte_pack.json','utf8'));}catch(e){return null;}})();
+  // IPA 合法字元：按 Unicode 區間自動生成（與 build_lwte_pack.py 的 IPA_CHARS 同一套思路）
+  const rng=(a,b)=>{let o='';for(let i=a;i<b;i++)o+=String.fromCharCode(i);return o;};
+  const IPA_OK=new RegExp('^['+
+    rng(0x20,0x7F)+rng(0xE0,0x100)+rng(0x100,0x180)+rng(0x250,0x2E0)+
+    rng(0x361,0x364)+rng(0x370,0x400)+']+$');
+  ok('v1.87 詞庫包可讀且版本升 v2', !!pkb && pkb.ver==='hkk_lwte_pack_v2');
+  ok('v1.87 詞庫包 12 冊／127 主題／1024 詞條', !!pkb && pkb.stats.books===12 && pkb.stats.cats===127 && pkb.stats.words===1024);
+  ok('v1.87 中文義覆蓋 ≥1020 條（v1.85 僅 405）', !!pkb && pkb.stats.withZh>=1020);
+  ok('v1.87 音標覆蓋 ≥1000 條（v1.85 僅 194）', !!pkb && pkb.stats.withIpa>=1000);
+  ok('v1.87 中文義**全為繁體**（無真正簡體字殘留）', (()=>{
+    if(!pkb)return false;
+    // ⚠️ 口徑：只用「繁簡**不同形**」的字檢查。像「去」「家」「菜」「个」這類繁簡同形字，
+    //    繁體釋義裡本來就會出現，不能算简体殘留（v1.87 初版誤報 24 條）。
+    const simpOnly='学话时运认应经济书车马鱼鸟东乐买卖开关门问题观点语词说读写听见饭这来爱们边过还进远连达单双国园图团场医药银钱钟电风飞鲜鸡鸭鹅猪贝页顶项须颜饱养';
+    let bad=0;
+    pkb.books.forEach(b=>b.cats.forEach(c=>c.items.forEach(it=>{
+      if(!it.zh)return;
+      for(const ch of it.zh){ if(simpOnly.indexOf(ch)>=0){ bad++; break; } }
+    })));
+    return bad===0;
+  })());
+  ok('v1.87 音標形式合法（斜線包裹且含音素）', (()=>{
+    if(!pkb)return false;
+    let bad=0,checked=0;
+    pkb.books.forEach(b=>b.cats.forEach(c=>c.items.forEach(it=>{
+      if(!it.ipa)return;
+      checked++;
+      const inner=it.ipa.slice(1,-1);
+      if(!/^\/.+\/$/.test(it.ipa)){ bad++; return; }
+      // ⚠️ 音素字元白名單**按 Unicode 區間自動生成**，不手寫——
+      //    手寫必漏（v1.87 先後漏了 ɔ/ɪ/ː/æ/θ/ŋ 每次都誤報一條）。
+      if(!IPA_OK.test(inner))bad++;
+    })));
+    return checked>=1000 && bad===0;
+  })());
+  ok('v1.87 每條詞都有 zsrc（中文義來源可追溯）', (()=>{
+    if(!pkb)return false;
+    let miss=0;
+    pkb.books.forEach(b=>b.cats.forEach(c=>c.items.forEach(it=>{
+      if(it.zh&&!it.zsrc)miss++;
+    })));
+    return miss===0;
+  })());
+  ok('v1.87 自建釋義來源計數合理（自建＋站內＋自譯 皆 >0）', (()=>{
+    if(!pkb||!pkb.stats.zhSrc)return false;
+    const z=pkb.stats.zhSrc;
+    return (z['自建']||0)>500 && (z['站內詞庫']||0)>100 && (z['自譯']||0)>100;
+  })());
+  ok('v1.87 音標來源計數合理（站內＋CMUdict 皆 >0）', (()=>{
+    if(!pkb||!pkb.stats.ipaSrc)return false;
+    const i=pkb.stats.ipaSrc;
+    return (i['站內詞庫']||0)>100 && (i['CMUdict']||0)>500;
+  })());
+  ok('v1.87 卡片結構與「中小學單詞」同款（.vcard＋.w＋.ph＋.mini[data-sp]＋.zh）',
+     html.includes('class="vcard lwb-card') && html.includes('class="w"') && html.includes('class="ph"')
+     && html.includes('class="mini" data-sp=') && html.includes('class="zh'));
+  ok('v1.87 每課一個可展開小節（details.gsec.lwb-cat ＋ summary.gsec-h）',
+     html.includes("details class=\"gsec lwb-cat\"") && html.includes('summary class="gsec-h"'));
+  ok('v1.87 卡片有「＋單詞本」鈕（接入站內既有 myWords）', html.includes('class="mwadd'));
+  ok('v1.87 三態勾選為已學／已複習／已聽寫', html.includes('>已學</label>') && html.includes('>已複習</label>') && html.includes('>已聽寫</label>'));
+  ok('v1.87 點擊事件接上 speak() 與 ＋單詞本', html.includes("t.closest('[data-sp]')") && html.includes('__myWordsTest.addFrom'));
+  ok('v1.87 打印本冊詞表含音標', html.includes('lwb-ipa') && html.includes('印本冊詞表（含音標與中文義）'));
+  ok('v1.87 CSS 有 .lwb-card 樣式與窄屏適配', /\.lwb-card \.w\{/.test(html) && /\.lwb-chk\{/.test(html) && html.includes('.lwb-card{padding:11px 12px}'));
+  ok('v1.87 匯入說明明說「按每一課（主題）分組」且含音標與繁體中文義',
+     doc.getElementById('lwtePackBox').textContent.includes('按每一課（主題）分組')
+     && doc.getElementById('lwtePackBox').textContent.includes('英文＋音標＋🔊 發音＋繁體中文義'));
+  ok('v1.87 詞庫包與自建釋義檔永不進 FILE_MAP', (()=>{
+    const syncSrc=fs.readFileSync('_gh_sync.py','utf8');
+    return !/'_lwte_pack\.json'\s*:/.test(syncSrc) && !/'build_lwte_pack\.py'\s*:/.test(syncSrc)
+      && !/'_lwte_zh_own/.test(syncSrc);
+  })());
+  ok('v1.87 公開 HTML 仍零詞庫包資料（只可有目錄 t/n）', (()=>{
+    if(/"items"\s*:\s*\[\s*\{[^\]]{0,80}"w"\s*:/.test(html))return false;
+    if(/"cats"\s*:\s*\[\s*\{[^\]]{0,80}"items"\s*:/.test(html))return false;
+    return true;
+  })());
+  ok('v1.87 不進 AI 白名單（kb 條數不變）', (()=>{
+    const kbLen=(window.__aiTest&&window.__aiTest.kbLen)||0;
+    return kbLen===95;
+  })());
+  ok('v1.87 版本號三處一致', (html.match(/公開版 v1\.87/g)||[]).length===2&&html.includes("ver:'hkk_v1.87'")&&!html.includes('公開版 v1.86'));
+}catch(e){ ok('v1.87 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);

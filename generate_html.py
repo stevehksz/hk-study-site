@@ -6,7 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
-v1.86：葉工貼中文卷打印出來的截圖，說「中文試卷打印出來的那個答題線條要跟 A4 寬度差不多」。⚠️ **診斷：不是 CSS 寬度問題，是用錯了畫線方式**——三個引擎的打印 HTML 裡，答題線寫的是**固定長度的下劃線字元**（`答：________________________`、`答：____`），所以線只有一小截，與版心寬度無關；而打印頁 `body{max-width:860px}` 又是螢幕寬度而非 A4 版心，預覽與實印不一致。改法：**①答題線全部改用 CSS `border-bottom` 畫的整寬橫線**（新類 `.ansline`，`width:100%` 自動跟版心同寬；選擇題／填充題用 `.ansline.lbl`＝「答：」標籤＋右側彈性線 `.al-l`；短答題用 `.ansbox` 兩條；寫作題用 `.writegrid` 六條；填表題欄位與卷頭姓名／日期用短線 `.al-tbl`）；**②打印頁設 A4 版心**——`@page{size:A4 portrait;margin:15mm}`、`body{max-width:180mm;padding:0}`（A4 210mm − 左右各 15mm 邊距 = 180mm 版心），並加 `@media print{body{max-width:none;margin:0;padding:0}}` 讓實印走瀏覽器預設邊距、螢幕預覽走 180mm，兩者一致。⚠️ **一次修三個引擎**：英文卷（`printEnPaper`）、數學卷（`printMathPaper`）與中文卷（`printCnPaper`）原本是同一種寫法、同樣的問題，故一併根治，不留半拉子。verify2 新增 v1.86 專項 12 項（打印 HTML 零下劃線字元答題線／`.ansline` 整寬樣式存在且 `width:100%`／三引擎皆接線／`@page{size:A4 portrait;margin:15mm}` 存在／版心 `180mm` 正確／寫作與短答題用 `ansbox`／`writegrid`／卷頭姓名日期用 `al-tbl`／版本一致），**828→840 全過**；`_shot86.py` 用 CDP 真實渲染打印頁 HTML，量 `.ansline` 的 `getBoundingClientRect().width` 與版心 `body` 寬度比值（目標 ≥0.98），並截圖比對改前（線只有約 150px）與改後（線跟版心齊寬）。
+v1.87：葉工貼「某文單詞本 · 進度本」截圖，要求「把某文單詞的格式和中小學單詞本一樣，把裡面每一課的主題單詞要列出來，要有繁體中文加英標和讀音」。⚠️ **本版把訴求拆成「資料補齊」與「呈現同款」兩件事，版權紅線不動**：①**呈現**——v1.85 的詞庫包匯入功能已能列出全部詞條，但呈現是自製的 `.lhub-word` 簡版行（詞＋中文義＋三態勾選），**沒有音標、沒有 🔊 發音、也不是分課的小節**；本版把 `renderPack()` 改寫為**完全沿用「中小學單詞」的 `.vcard` 卡片**（`w` 詞＋`ph` 音標＋`mini[data-sp]` 🔊 發音＋`tp` 主題標籤＋「＋單詞本」鈕＋`zh` 中文義），分組粒度改為**每一課（主題）一個 `<details class="gsec lwb-cat">` 可展開小節**（與中小學單詞本的年級小節同構），標題條顯示「N 詞 · 已學 N」，逐詞勾選後即時更新本課計數；新增 `.lwb-chk` 三態勾選列（已學／已複習／已聽寫）、`.lwb-ipa` 打印用音標樣式；🔊 與「＋單詞本」事件接上既有 `speak()` 與 `__myWordsTest.addFrom()`（成功後就地改字不重繪，避免清掉展開態與搜尋位置）。②**資料補齊**——原詞庫包只有 405/1024 有中文義、194/1024 有音標，且中文義是**簡體**；本版補齊：**繁體中文義**（自建 `_lwte_zh_own*.py` 八張表共 660 條**本站原創撰寫**的通用詞彙釋義，港式繁體用字，**不抄任何詞典／課本／網站譯文**；站內自有詞庫命中的 229 條經 OpenCC `s2twp` 轉繁體；舊版人工自譯 173 條優先）→ **1023/1024 有中文義**（僅 1 條教材解析異常詞留空）；**音標**（站內自有 209 條英式 DJ 優先，缺口用 **CMU Pronouncing Dictionary**（`cmudict` 套件，BSD 授權，事實性發音資料）ARPAbet→IPA 轉換補 804 條）→ **1013/1024 有音標**。⚠️ **明確不採用 ECDICT**：實測其 npm 包可下（MIT），但中文釋義欄位源自商業詞典、有商用限制，與葉工「不能侵權」紅線衝突，故改走自建 + OpenCC + CMUdict 三個乾淨來源。⚠️ **讀音不內嵌音頻檔**：🔊 走瀏覽器 Web Speech API（`speak()`）即時發聲，零音頻檔、零體積。⚠️ **品質閘（寧缺勿錯）**：CMUdict 缺某個實詞時**整條留空**，不給半截音標——否則 "a sharpener" 會只拼出冠詞的 /ʌ/（v1.87 實測踩到，已修）。⚠️ **坑（全非產品壞）**：①`cmudict.dict()` 的值是**多個讀音的列表**（`d['hello']==[['HH','AH0','L','OW1'],…]`），取 `v[0][0]` 只拿到**第一個音素**（音標變成 /h/），必須取 `v[0]` 再 `arp2ipa`——這個錯一開始讓音標全變單音素；②自建釋義表原本用 `try: from … import ZH_OWN_1` + `except: pass`，**漏載 ZH_OWN_2（2A/2B 那 141 條）卻靜默無報錯**，改成顯式匯入全部八個變數並斷言條數；③IPA 合法字元白名單**手寫必漏**（先后漏了 ɔ/U+0254、ɪ/U+026A、ː/U+02D0、æ/U+00E6、θ/U+03B8、ŋ/U+014B），改成**按 Unicode 區間自動生成**；④短語音標拼接時某詞查不到會**整條作廢**，改為逐詞跳過 + 品質閘（實質詞必須全部查到）。詞庫包 `_lwte_pack.json` 升 v2（新增 `isrc` 音標來源欄、stats 記 `zhSrc`/`ipaSrc`），**仍永不進 `_gh_sync.py` FILE_MAP**（公開 HTML 零詞條紅線不動），同步更新私人 Obsidian 庫的 `某文詞庫包.json`。verify2 舊斷改 1 處（v1.85 斷言查舊的 `.lhub-cat-h`／`.lhub-word` 結構）＋新增 v1.87 專項 22 項（卡片結構與中小學單詞本一致／每課一個可展開小節／音標與 🔊 與繁體中文義齊／＋單詞本接入／逐詞勾選持久化與本課計數更新／搜尋過濾／打印含音標／**詞庫包 1023 條有中文義且為繁體**／**1013 條有音標且形式合法**／公開 HTML 零詞條紅線／FILE_MAP 紅線／不進 AI 白名單／版本一致）。\nv1.86：葉工貼中文卷打印出來的截圖，說「中文試卷打印出來的那個答題線條要跟 A4 寬度差不多」。⚠️ **診斷：不是 CSS 寬度問題，是用錯了畫線方式**——三個引擎的打印 HTML 裡，答題線寫的是**固定長度的下劃線字元**（`答：________________________`、`答：____`），所以線只有一小截，與版心寬度無關；而打印頁 `body{max-width:860px}` 又是螢幕寬度而非 A4 版心，預覽與實印不一致。改法：**①答題線全部改用 CSS `border-bottom` 畫的整寬橫線**（新類 `.ansline`，`width:100%` 自動跟版心同寬；選擇題／填充題用 `.ansline.lbl`＝「答：」標籤＋右側彈性線 `.al-l`；短答題用 `.ansbox` 兩條；寫作題用 `.writegrid` 六條；填表題欄位與卷頭姓名／日期用短線 `.al-tbl`）；**②打印頁設 A4 版心**——`@page{size:A4 portrait;margin:15mm}`、`body{max-width:180mm;padding:0}`（A4 210mm − 左右各 15mm 邊距 = 180mm 版心），並加 `@media print{body{max-width:none;margin:0;padding:0}}` 讓實印走瀏覽器預設邊距、螢幕預覽走 180mm，兩者一致。⚠️ **一次修三個引擎**：英文卷（`printEnPaper`）、數學卷（`printMathPaper`）與中文卷（`printCnPaper`）原本是同一種寫法、同樣的問題，故一併根治，不留半拉子。verify2 新增 v1.86 專項 12 項（打印 HTML 零下劃線字元答題線／`.ansline` 整寬樣式存在且 `width:100%`／三引擎皆接線／`@page{size:A4 portrait;margin:15mm}` 存在／版心 `180mm` 正確／寫作與短答題用 `ansbox`／`writegrid`／卷頭姓名日期用 `al-tbl`／版本一致），**828→840 全過**；`_shot86.py` 用 CDP 真實渲染打印頁 HTML，量 `.ansline` 的 `getBoundingClientRect().width` 與版心 `body` 寬度比值（目標 ≥0.98），並截圖比對改前（線只有約 150px）與改後（線跟版心齊寬）。
 v1.85：葉工給了 Obsidian 私人庫「10 香港朗文/朗文單詞本.md」的連結與截圖（該筆記含 12 冊／127 主題／**1024 個詞條**，每條一行 `- [ ] 詞`），說「把這裡的單詞放進來，沒事的」。⚠️ **本版把「要詞」與「詞怎麼進站」分開處理**：①**要詞**＝完全合理且已做到——1024 詞條按冊／主題／詞三層結構做成<b>本機詞庫包</b> `_lwte_pack.json`（`build_lwte_pack.py` 生成，124KB），家長在自己電腦上選檔匯入，站內立刻顯示<b>完整詞表</b>：按冊切換→按主題分組→每詞一行（英文＋中文義＋音標＋🔊 發音＋逐詞三態「學／複／寫」勾選），可搜尋、可印本冊詞表。②**詞怎麼進站**＝走**裝置內鏈路**而非公開頁面：詞庫包**只存在使用者自己的裝置**（`localStorage` 的 `hkk_lwte_pack_v0`，`hkk_` 前綴天然受 v1.33 賬號隔離），匯入走 `FileReader` 讀本機檔案，**不上傳、不進公開 HTML、不進公開倉庫**；`_lwte_pack.json` 與 `build_lwte_pack.py` **永不進 `_gh_sync.py` FILE_MAP**（v1.78 起的雙軌紅線不動），公開站仍只有「冊／主題／詞數」目錄與匯入按鈕。⚠️ 為何不直接放進公開頁：**來源 Word Bank 檔頁腳明載 © Pearson Education Asia Limited**，而站內 GitHub 倉庫已公開＝任何人一 clone 就拿到＝**公开发行**（與 v1.77/v1.82 對 band1 的判斷同一條邏輯）；這不是「有沒有版權」的猜測，是「公開倉庫＝公开发行」的既定事實。**但這次比 v1.78 前進了一大步**：以前只能在自家電腦的單檔 HTML 裡看，現在**手機上也能用**——把詞庫包傳到手機（微信檔案傳輸助手即可），在手機瀏覽器裡選檔匯入，詞表就常駐該裝置。中文義**不臆造、不代教材翻譯**：優先用站內人工校過的 5A/5B 自譯 140 條，其餘只取站內自有詞庫（`hk_words` 487 條＋`vocab` 1465 條）能對上的，共 405 條有中文義、194 條有音標，**其餘 619 條留空**並在頁上標「（待補中文義）」——家長可在自家裝置上自行補。verify2 新增 v1.85 專項 20 項（DOM 接線／匯入按鈕與 file input／格式校驗拒絕壞檔／匯入後詞表渲染與分組／逐詞三態勾選讀寫持久化／搜尋過濾／本冊切換連動／列印含中文義／清除／**公開 HTML 零詞條（拿本機詞庫包逐條反查）**／詞庫包與生成腳本永不進 FILE_MAP／不進 AI 白名單／全站進度匯出匯入清空接線／版本一致），**807→827 全過**。
 v1.84：葉工再提「https://www.band1.org/ 把這裏的試卷拷到我的網站題庫裏面，然後用 AI 改題，這樣 AI 才不會亂出題」。⚠️ **本版把訴求拆成兩半，一半不能做、一半正是本版做的**：①「把 band1 試卷拷進題庫」——v1.82 已取到其《Terms of Service》原文，第 6 條明文禁止任何未經授權的複製與 **alteration（改動）**，「用 AI 改題」同樣落在禁止之列，且首頁 198 條是整頁掃描圖（`/examjpg/29167.jpg`），改寫後仍是其作品，公開倉庫＝公開發行，**故此路仍不通**；②**「AI 才不會亂出題」是真需求，且與①無關——這才是本版做的事**。診斷：AI 亂出題的根因不是「缺少參考樣卷」，而是**缺少題型骨架與輸出約束**（不知道要出什麼題型、不知道題數與答案格式、生成後無人驗收）。解法＝沿用站內成熟的出卷機制（英文卷 `aiSwap`、呈分卷 `exAiPaper`：使用者自填 OpenAI 兼容接口＋密鑰存 localStorage＋`response_format:json_object`＋**生成後必過結構校驗，不合格直接丟棄回退本地題庫**），為中文卷接上同一套。落位＝「練習 → 中文 → 中文試卷」加「🤖 AI 出新卷」鈕＋每題（選擇題／填充題）加「🤖 AI 換題」鈕＋AI 說明條（AI 卷出來後顯示「已過結構校驗，請家長先過目」）。`cnAiPrompt(g)` 以**官方公開的考評局 HKEAA 評估框架為骨架**（閱讀＝記敘文／說明文＋實用文如書信／日記／海報／說明書；寫作＝實用文格式題＋短文），並明寫「全部內容必須你自己原創（香港小學生活場景），不得抄寫任何真卷、課本或網站試題」，規定 JSON schema：選擇 8 題、填充 4 題、篇章 2 篇、寫作 2 題（一實用文一短文）。`cnValidate(o)` 是**「不亂」的真正保證**——21 條結構校驗：選擇題數／選項恰為 4／答案索引 0–3／**選項不得重複**／正確答案非空；填充題答案非空；篇章恰 2 篇／段落 3–6 段且非空／**題型只認 mc｜fill｜short｜filltbl（不認識的一律拒收）**／篇章類型必須覆蓋「記敘或說明文」與「實用文」；寫作恰 2 題且一實用文一短文、題目與提示齊。**不合格即丟棄，原地保留本地題庫卷並提示可改用「🎲 出新卷」**；逐題 AI 換題失敗則原題保留不動。AI 出的卷**不計入本級最佳**（避免 AI 卷刷高分污染記錄）——本地 `curCnIsAi` 標記，AI 卷渲染時提示家長先過目。⚠️ 版權紅線不動：公開站仍零第三方原文、零外鏈、零真卷聲稱；AI 只在**使用者自己的瀏覽器**直連他自己填的接口（密鑰存本機、不上傳本站任何資料），本站不代管任何模型密鑰。verify2 新增 v1.84 專項 26 項（DOM 接線／prompt 骨架含官方框架與原創要求／**合法卷通過＋13 種壞卷逐一被拒收**：題數不足、選項數≠4、答案索引越界、選項重複、篇章缺實用文、寫作缺短文、段落不足、填表欄位與答案數不符、不認識的題型、null／非物件／空物件／不進 AI 白名單／站內仍明寫不抄真卷／密鑰存本機／失敗回退本地／版本一致），**778→804 全過**。
 v1.83：葉工貼「練習 → 中文」頁截圖（頂部是背詩星圖、下面是古詩詞列表），要求「中文這裏建立一個背古詩子目錄，還要建立一個中文試卷的子目錄」。⚠️ **先查清狀態再動手**：v1.82 已建了中文區子標籤（`#cnPracSub`，data-cs=star／cnpaper），本地實測 `display:flex`／高 50px／兩顆按鈕都在，但葉工截圖裡**完全沒有子標籤**——原因是該截圖取自 **v1.81 舊版頁面**（v1.82 於 17:30 才發布），非功能缺陷。真正的問題是**命名不對**：葉工說的是「背古詩」，而按鈕寫「背詩星圖」（只指星圖那個視覺），實際那一頁包含的是**背古詩完整功能**＝背詩星圖（185 首按 7 段點亮，看整體進度）＋古詩詞列表（繁體＋拼音＋粵拼全文）＋一首詩四步（聽讀 → 看譯文 → 遮字背誦 → 抽查），叫「背詩星圖」名不副實。故 v1.83：①子標籤兩顆改名「**背古詩**」「**中文試卷**」（`data-cs` 屬性不動，切換邏輯零改動）；②中文試卷頁 `gtitle` 同步改「中文試卷 · 小二／小五／小六」；③背古詩頁加一句說明（把該頁三塊功能講清，並引導「想練做卷請切到『中文試卷』」）。⚠️ 頁內說明仍保留「背詩星圖」一詞（那是該功能的專名，說明文字要指得準），但**按鈕文案不再用舊名**——葉工看到的入口名要對得上他的口語。DOM 結構、ID、localStorage key 全部不動（`cnPracSub`／`cnStarView`／`cnPaperView`／`hkk_poem_done`／`hkk_cnpaper_v0`），故既有進度與舊斷言不受影響。verify2 舊斷改 1 處（v1.82 子標籤斷言文字更新）＋新增 v1.83 專項 13 項（兩顆按鈕齊／文案逐字比對／舊名只留頁內說明／卷頁標題同步／背古詩頁含星圖與詩詞列表／四步說明齊／引導語／默認顯示背古詩且高亮在第一顆／切卷頁互斥且自動出卷／切回互斥且高亮回位／版本一致），**762→775 全過**。
@@ -327,6 +327,27 @@ table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac
 .lhub-word .wchk{display:flex;gap:4px;flex:0 0 auto}
 .lhub-word .wchk label{display:inline-flex;align-items:center;gap:3px;font-size:11.5px;color:#64748b;cursor:pointer}
 .lhub-word .wchk input{width:18px;height:18px;accent-color:var(--acc);cursor:pointer}
+/* v1.87：某文單詞本沿用「中小學單詞」的 .vcard 卡片（詞＋音標＋🔊＋繁體中文義＋主題標籤） */
+.lwb-card .w{font-size:17px;font-weight:800;color:#1e293b}
+.lwb-card .ph{font-size:12.5px;color:#64748b;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.lwb-card .mini{cursor:pointer;font-size:13px;margin-left:2px}
+.lwb-card .lwb-spk{display:inline-block;border:1px solid var(--line);background:#f8fafc;border-radius:12px;min-width:34px;height:22px;line-height:20px;text-align:center;font-size:11.5px;color:#0b7a68;cursor:pointer;padding:0 7px}
+.lwb-card .lwb-spk:hover{border-color:var(--math);background:#e6fbf5}
+.lwb-l1{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;line-height:1.6}
+.lwb-l2{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:5px}
+.lwb-l2 .zh{flex:1 1 auto;min-width:0}
+.lwb-l2 .mwadd{flex:0 0 auto;min-height:30px;font-size:11.5px;padding:3px 10px;border-radius:14px}
+.lwb-card .tp{font-size:11px;color:var(--acc);font-weight:600}
+.lwb-card .zh{font-size:14px;margin-top:4px;color:#475569}
+.lwb-card .zh.none{color:#94a3b8;font-style:italic}
+.lwb-card.done{background:#f1fbf8;border-color:#a7e3d4}
+.lwb-chk{display:flex;gap:12px;flex-wrap:wrap;margin-top:7px;padding-top:6px;border-top:1px dashed var(--line)}
+.lwb-chk label{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#64748b;cursor:pointer}
+.lwb-chk input{width:17px;height:17px;accent-color:var(--acc);cursor:pointer}
+.lwb-cat{margin:0 0 8px}
+.lwb-cat>.gsec-h{font-size:14px}
+.lwb-cat>.gsec-body{padding:8px 2px 2px}
+.lwb-ipa{font-size:11.5px;color:#64748b;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-left:6px}
 .lhub-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 #lwtePrintArea{display:none}
 .lhub-line{border-bottom:1px solid #475569;height:25px;margin:0 0 7px}
@@ -341,6 +362,13 @@ table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac
   .lhub-word{padding:7px 9px;gap:7px}
   .lhub-word .w{min-width:0;flex:1 1 100%}
   .lhub-word .zh{flex:1 1 100%}
+  .lwb-card{padding:11px 12px}
+  .lwb-card .w{font-size:16px}
+  .lwb-card .tp{display:block;margin-top:3px}
+  .lwb-chk{gap:9px}
+  .lwb-l1{gap:6px}
+  .lwb-l2{flex-wrap:wrap}
+  .lwb-l2 .mwadd{min-height:32px}
 }
 @media print{
   body.lwte-printing > *:not(#lwtePrintArea){display:none!important}
@@ -936,13 +964,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.86（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.87（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.86（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.87（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1208,11 +1236,11 @@ header{position:relative}
       <!-- v1.85：匯入本機詞庫包（完整詞條只存在使用者自己的裝置裡，公開站仍零詞條） -->
       <div class="lhub-pack" id="lwtePackBox">
         <h3 class="lhub-pack-h">想看完整詞表？匯入家裡的詞庫包</h3>
-        <p class="tip" style="margin:0 0 8px">詞庫包（<code>_lwte_pack.json</code>）放在<b>你自己電腦</b>與 Obsidian 私人庫裡。把它傳到手機後，在本站點下面的按鈕選檔匯入，<b>1024 個詞條就會留在這台裝置的瀏覽器</b>，可逐詞打勾、可搜索、可打印。<b>網站本身沒有、也不會有這些詞</b>——匯入的檔案不會上傳，只存本機。</p>
+        <p class="tip" style="margin:0 0 8px">詞庫包（<code>_lwte_pack.json</code>）放在<b>你自己電腦</b>與 Obsidian 私人庫裡。把它傳到手機後，在本站點下面的按鈕選檔匯入，<b>1024 個詞條就會留在這台裝置的瀏覽器</b>：<b>按每一課（主題）分組</b>，每個詞一張卡片，格式跟「中小學單詞」一樣——<b>英文＋音標＋🔊 發音＋繁體中文義</b>，可逐詞打勾、可加入「我的單詞本」、可搜索、可打印。<b>網站本身沒有、也不會有這些詞</b>——匯入的檔案不會上傳，只存本機。</p>
         <div class="lhub-pack-act">
           <button class="btn" type="button" id="lwtePackBtn">選擇詞庫包檔案（.json）</button>
           <input type="file" id="lwtePackFile" accept="application/json,.json" style="display:none">
-          <button class="btn" type="button" id="lwtePackPrint">印本冊詞表（含中文義）</button>
+          <button class="btn" type="button" id="lwtePackPrint">印本冊詞表（含音標與中文義）</button>
           <button class="btn mwdanger" type="button" id="lwtePackClear">清除已匯入詞庫</button>
         </div>
         <p class="lhub-pack-msg" id="lwtePackMsg" role="status" aria-live="polite"></p>
@@ -6315,7 +6343,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},ver:'hkk_v1.86',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},ver:'hkk_v1.87',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -7009,6 +7037,9 @@ authBoot();
     var o=WP[wkey(bk,cat,w)];
     return {learn:!!(o&&o.learn),review:!!(o&&o.review),dict:!!(o&&o.dict)};
   }
+  // v1.87：把某文單詞本改成**與「中小學單詞」同款**的 .vcard 卡片格式——
+  //   詞 ＋ 音標 ＋ 🔊 發音 ＋ 繁體中文義 ＋ 主題標籤 ＋「＋單詞本」鈕 ＋ 三態勾選。
+  //   分組粒度＝「每課（主題）」，每個主題一個可展開的小節，詞按課內順序列出。
   function renderPack(){
     var view=document.getElementById('lwtePackView'),list=document.getElementById('lwteWordList');
     var cnt=document.getElementById('lwteWordCount');
@@ -7020,28 +7051,41 @@ authBoot();
     var html='',shown=0,total=0,learned=0;
     b.cats.forEach(function(c){
       if(!c||!Array.isArray(c.items))return;
-      var rows='';
+      var rows='',catHit=0,catTotal=0,catLearned=0;
       c.items.forEach(function(it){
-        total++;
+        total++; catTotal++;
         var st=wstat(b.bk,c.cat,it.w);
-        if(st.learn)learned++;
+        if(st.learn){learned++;catLearned++;}
         if(q&&it.w.toLowerCase().indexOf(q)<0&&String(it.zh||'').toLowerCase().indexOf(q)<0)return;
-        shown++;
+        shown++; catHit++;
         var k=wkey(b.bk,c.cat,it.w);
-        rows+='<div class="lhub-word'+(st.learn?' done':'')+'" data-wk="'+esc2(k)+'">'
+        var inBook=window.__myWordsTest?window.__myWordsTest.has(it.w):false;
+        // 同中小學單詞本的卡片結構：w / ph / mini(🔊) / tp(年級·主題) / ＋單詞本
+        rows+='<div class="vcard lwb-card'+(st.learn?' done':'')+'" data-wk="'+esc2(k)+'">'
+          +'<div class="lwb-l1">'
           +'<span class="w">'+esc2(it.w)+'</span>'
-          +'<span class="zh'+(it.zh?'':' none')+'">'+(it.zh?esc2(it.zh):'（待補中文義）')+'</span>'
-          +(it.ipa?'<span class="ipa">'+esc2(it.ipa)+'</span>':'')
-          +'<button type="button" class="spk" data-spk="'+esc2(it.w)+'">🔊</button>'
-          +'<span class="wchk">'
-          +'<label><input type="checkbox" data-wf="learn" '+(st.learn?'checked':'')+'>學</label>'
-          +'<label><input type="checkbox" data-wf="review" '+(st.review?'checked':'')+'>複</label>'
-          +'<label><input type="checkbox" data-wf="dict" '+(st.dict?'checked':'')+'>寫</label>'
-          +'</span></div>';
+          +(it.ipa?'<span class="ph">'+esc2(it.ipa)+'</span>':'')
+          +'<button type="button" class="mini lwb-spk" data-sp="'+esc2(it.w)+'">讀音</button>'
+          +(st.learn?' <span class="ok">✓</span>':'')
+          +'<span class="tp"> · '+esc2(b.bk)+' · '+esc2(c.cat)+'</span>'
+          +'</div>'
+          +'<div class="lwb-l2"><span class="zh'+(it.zh?'':' none')+'">'+(it.zh?esc2(it.zh):'（待補中文義）')+'</span>'
+          +'<button type="button" class="mwadd'+(inBook?' in':'')+'"'+(inBook?' disabled':'')+'>'+(inBook?'✓ 已加入':'＋ 單詞本')+'</button>'
+          +'</div>'
+          +'<div class="lwb-chk">'
+          +'<label><input type="checkbox" data-wf="learn" '+(st.learn?'checked':'')+'>已學</label>'
+          +'<label><input type="checkbox" data-wf="review" '+(st.review?'checked':'')+'>已複習</label>'
+          +'<label><input type="checkbox" data-wf="dict" '+(st.dict?'checked':'')+'>已聽寫</label>'
+          +'</div>'
+          +'</div>';
       });
       if(!rows)return;
-      var cn=0;c.items.forEach(function(it){if(wstat(b.bk,c.cat,it.w).learn)cn++;});
-      html+='<div class="lhub-cat" data-cat="'+esc2(c.cat)+'"><div class="lhub-cat-h">'+esc2(c.cat)+'（'+c.items.length+' 詞 · 已學 '+cn+'）</div>'+rows+'</div>';
+      // 每課一個可展開小節（與中小學單詞本的年級小節同構）
+      html+='<details class="gsec lwb-cat" data-cat="'+esc2(c.cat)+'"'+(q?' open':'')+'>'
+        +'<summary class="gsec-h"><span class="glabel">'+esc2(c.cat)+'</span>'
+        +'<span class="gcount">'+catTotal+' 詞'+(catHit!==catTotal?' · 命中 '+catHit:'')+' · 已學 '+catLearned+'</span></summary>'
+        +'<div class="gsec-body">'+rows+'</div>'
+        +'</details>';
     });
     list.innerHTML=html;
     view.style.display='block';
@@ -7073,7 +7117,9 @@ authBoot();
   document.getElementById('lwteWordList').addEventListener('change',function(e){
     var t=e.target;if(!t||!t.getAttribute)return;
     var f=t.getAttribute('data-wf');if(!f)return;
-    var row=t.closest('.lhub-word');if(!row)return;
+    // v1.87：卡片 class 已從 .lhub-word 改為 .vcard.lwb-card，這裡要跟著改，
+    //    否則 change 事件找不到 row → 勾選完全不生效（v1.87 實測抓到）。
+    var row=t.closest('.lwb-card');if(!row)return;
     var k=row.getAttribute('data-wk');if(!k)return;
     if(!WP[k])WP[k]={};
     if(t.checked)WP[k][f]=true;else delete WP[k][f];
@@ -7081,22 +7127,49 @@ authBoot();
     wpSave();
     var st=wstat.apply(null,k.split('|'));
     row.classList.toggle('done',st.learn);
-    // 同步更新主題標題的已學計數
-    var h=row.parentElement?row.parentElement.querySelector('.lhub-cat-h'):null;
-    if(h){
-      var cat=(row.parentElement&&row.parentElement.getAttribute('data-cat'))||'';
+    // v1.87：同步更新「本課」標題的已學計數（.gsec-h 內的 .gcount）
+    var catEl=row.parentElement&&row.parentElement.closest?row.parentElement.closest('.lwb-cat'):null;
+    if(catEl){
+      var cat=catEl.getAttribute('data-cat')||'';
       var b=packBook(),catObj=null;
       if(b&&b.cats)b.cats.forEach(function(c){if(c.cat===cat)catObj=c;});
       if(catObj){
         var cn=0;catObj.items.forEach(function(it){if(wstat(b.bk,catObj.cat,it.w).learn)cn++;});
-        h.textContent=catObj.cat+'（'+catObj.items.length+' 詞 · 已學 '+cn+'）';
+        var gc=catEl.querySelector('.gcount');
+        if(gc){
+          var hitTxt='';
+          var q=String((document.getElementById('lwteWordSearch')||{}).value||'').trim();
+          if(q){
+            var h2=0;catObj.items.forEach(function(it){
+              if(it.w.toLowerCase().indexOf(q.toLowerCase())>=0||String(it.zh||'').toLowerCase().indexOf(q.toLowerCase())>=0)h2++;
+            });
+            hitTxt=(h2!==catObj.items.length?' · 命中 '+h2:'');
+          }
+          gc.textContent=catObj.items.length+' 詞'+hitTxt+' · 已學 '+cn;
+        }
       }
     }
   });
   document.getElementById('lwteWordList').addEventListener('click',function(e){
     var t=e.target;if(!t||!t.closest)return;
-    var sp=t.closest('[data-spk]');
-    if(sp){e.stopPropagation();if(typeof speak==='function')speak(sp.getAttribute('data-spk'),'en-US');}
+    // v1.87：🔊 發音按鈕（與中小學單詞本同款 class .mini[data-sp]）
+    var sp=t.closest('[data-sp]');
+    if(sp){e.stopPropagation();if(typeof speak==='function')speak(sp.getAttribute('data-sp'),'en-US');return;}
+    // v1.87：「＋單詞本」按鈕（沿用站內既有 __mwAddClick，成功後就地改字不重繪）
+    var mb=t.closest('.mwadd');
+    if(mb){
+      e.stopPropagation();
+      var row=mb.closest('.vcard');
+      var word=row?(row.querySelector('.w')||{}).textContent:'';
+      var zhel=row?(row.querySelector('.zh')||{}).textContent:'';
+      if(word){
+        var r=window.__myWordsTest?window.__myWordsTest.addFrom('manual',{w:word,zh:zhel&&zhel!=='（待補中文義）'?zhel:'',note:'某文單詞本'}):{ok:false};
+        if(r.ok||/已在單詞本/.test(r.msg||'')){
+          mb.textContent='✓ 已加入';mb.classList.add('in');mb.disabled=true;
+        }
+      }
+      return;
+    }
   });
   // 印本冊詞表（含中文義）——只印使用者自己匯入的內容
   var pp=document.getElementById('lwtePackPrint');
@@ -7108,7 +7181,10 @@ authBoot();
     b.cats.forEach(function(c){
       h+='<h3>'+esc2(c.cat)+'（'+c.items.length+' 詞）</h3>';
       c.items.forEach(function(it){
-        h+='<div class="lhub-line"><b>'+esc2(it.w)+'</b>'+(it.zh?'　'+esc2(it.zh):'')+'</div>';
+        // v1.87：打印也帶音標，與站上卡片同資訊量
+        h+='<div class="lhub-line"><b>'+esc2(it.w)+'</b>'
+          +(it.ipa?'<span class="lwb-ipa">'+esc2(it.ipa)+'</span>':'')
+          +(it.zh?'　'+esc2(it.zh):'')+'</div>';
       });
     });
     area.innerHTML=h;

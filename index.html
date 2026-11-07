@@ -266,6 +266,27 @@ table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac
 .lhub-word .wchk{display:flex;gap:4px;flex:0 0 auto}
 .lhub-word .wchk label{display:inline-flex;align-items:center;gap:3px;font-size:11.5px;color:#64748b;cursor:pointer}
 .lhub-word .wchk input{width:18px;height:18px;accent-color:var(--acc);cursor:pointer}
+/* v1.87：某文單詞本沿用「中小學單詞」的 .vcard 卡片（詞＋音標＋🔊＋繁體中文義＋主題標籤） */
+.lwb-card .w{font-size:17px;font-weight:800;color:#1e293b}
+.lwb-card .ph{font-size:12.5px;color:#64748b;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.lwb-card .mini{cursor:pointer;font-size:13px;margin-left:2px}
+.lwb-card .lwb-spk{display:inline-block;border:1px solid var(--line);background:#f8fafc;border-radius:12px;min-width:34px;height:22px;line-height:20px;text-align:center;font-size:11.5px;color:#0b7a68;cursor:pointer;padding:0 7px}
+.lwb-card .lwb-spk:hover{border-color:var(--math);background:#e6fbf5}
+.lwb-l1{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;line-height:1.6}
+.lwb-l2{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:5px}
+.lwb-l2 .zh{flex:1 1 auto;min-width:0}
+.lwb-l2 .mwadd{flex:0 0 auto;min-height:30px;font-size:11.5px;padding:3px 10px;border-radius:14px}
+.lwb-card .tp{font-size:11px;color:var(--acc);font-weight:600}
+.lwb-card .zh{font-size:14px;margin-top:4px;color:#475569}
+.lwb-card .zh.none{color:#94a3b8;font-style:italic}
+.lwb-card.done{background:#f1fbf8;border-color:#a7e3d4}
+.lwb-chk{display:flex;gap:12px;flex-wrap:wrap;margin-top:7px;padding-top:6px;border-top:1px dashed var(--line)}
+.lwb-chk label{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#64748b;cursor:pointer}
+.lwb-chk input{width:17px;height:17px;accent-color:var(--acc);cursor:pointer}
+.lwb-cat{margin:0 0 8px}
+.lwb-cat>.gsec-h{font-size:14px}
+.lwb-cat>.gsec-body{padding:8px 2px 2px}
+.lwb-ipa{font-size:11.5px;color:#64748b;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-left:6px}
 .lhub-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 #lwtePrintArea{display:none}
 .lhub-line{border-bottom:1px solid #475569;height:25px;margin:0 0 7px}
@@ -280,6 +301,13 @@ table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac
   .lhub-word{padding:7px 9px;gap:7px}
   .lhub-word .w{min-width:0;flex:1 1 100%}
   .lhub-word .zh{flex:1 1 100%}
+  .lwb-card{padding:11px 12px}
+  .lwb-card .w{font-size:16px}
+  .lwb-card .tp{display:block;margin-top:3px}
+  .lwb-chk{gap:9px}
+  .lwb-l1{gap:6px}
+  .lwb-l2{flex-wrap:wrap}
+  .lwb-l2 .mwadd{min-height:32px}
 }
 @media print{
   body.lwte-printing > *:not(#lwtePrintArea){display:none!important}
@@ -875,13 +903,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.86（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.87（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.86（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.87（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1147,11 +1175,11 @@ header{position:relative}
       <!-- v1.85：匯入本機詞庫包（完整詞條只存在使用者自己的裝置裡，公開站仍零詞條） -->
       <div class="lhub-pack" id="lwtePackBox">
         <h3 class="lhub-pack-h">想看完整詞表？匯入家裡的詞庫包</h3>
-        <p class="tip" style="margin:0 0 8px">詞庫包（<code>_lwte_pack.json</code>）放在<b>你自己電腦</b>與 Obsidian 私人庫裡。把它傳到手機後，在本站點下面的按鈕選檔匯入，<b>1024 個詞條就會留在這台裝置的瀏覽器</b>，可逐詞打勾、可搜索、可打印。<b>網站本身沒有、也不會有這些詞</b>——匯入的檔案不會上傳，只存本機。</p>
+        <p class="tip" style="margin:0 0 8px">詞庫包（<code>_lwte_pack.json</code>）放在<b>你自己電腦</b>與 Obsidian 私人庫裡。把它傳到手機後，在本站點下面的按鈕選檔匯入，<b>1024 個詞條就會留在這台裝置的瀏覽器</b>：<b>按每一課（主題）分組</b>，每個詞一張卡片，格式跟「中小學單詞」一樣——<b>英文＋音標＋🔊 發音＋繁體中文義</b>，可逐詞打勾、可加入「我的單詞本」、可搜索、可打印。<b>網站本身沒有、也不會有這些詞</b>——匯入的檔案不會上傳，只存本機。</p>
         <div class="lhub-pack-act">
           <button class="btn" type="button" id="lwtePackBtn">選擇詞庫包檔案（.json）</button>
           <input type="file" id="lwtePackFile" accept="application/json,.json" style="display:none">
-          <button class="btn" type="button" id="lwtePackPrint">印本冊詞表（含中文義）</button>
+          <button class="btn" type="button" id="lwtePackPrint">印本冊詞表（含音標與中文義）</button>
           <button class="btn mwdanger" type="button" id="lwtePackClear">清除已匯入詞庫</button>
         </div>
         <p class="lhub-pack-msg" id="lwtePackMsg" role="status" aria-live="polite"></p>
@@ -47983,7 +48011,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},ver:'hkk_v1.86',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},ver:'hkk_v1.87',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -49273,6 +49301,9 @@ authBoot();
     var o=WP[wkey(bk,cat,w)];
     return {learn:!!(o&&o.learn),review:!!(o&&o.review),dict:!!(o&&o.dict)};
   }
+  // v1.87：把某文單詞本改成**與「中小學單詞」同款**的 .vcard 卡片格式——
+  //   詞 ＋ 音標 ＋ 🔊 發音 ＋ 繁體中文義 ＋ 主題標籤 ＋「＋單詞本」鈕 ＋ 三態勾選。
+  //   分組粒度＝「每課（主題）」，每個主題一個可展開的小節，詞按課內順序列出。
   function renderPack(){
     var view=document.getElementById('lwtePackView'),list=document.getElementById('lwteWordList');
     var cnt=document.getElementById('lwteWordCount');
@@ -49284,28 +49315,41 @@ authBoot();
     var html='',shown=0,total=0,learned=0;
     b.cats.forEach(function(c){
       if(!c||!Array.isArray(c.items))return;
-      var rows='';
+      var rows='',catHit=0,catTotal=0,catLearned=0;
       c.items.forEach(function(it){
-        total++;
+        total++; catTotal++;
         var st=wstat(b.bk,c.cat,it.w);
-        if(st.learn)learned++;
+        if(st.learn){learned++;catLearned++;}
         if(q&&it.w.toLowerCase().indexOf(q)<0&&String(it.zh||'').toLowerCase().indexOf(q)<0)return;
-        shown++;
+        shown++; catHit++;
         var k=wkey(b.bk,c.cat,it.w);
-        rows+='<div class="lhub-word'+(st.learn?' done':'')+'" data-wk="'+esc2(k)+'">'
+        var inBook=window.__myWordsTest?window.__myWordsTest.has(it.w):false;
+        // 同中小學單詞本的卡片結構：w / ph / mini(🔊) / tp(年級·主題) / ＋單詞本
+        rows+='<div class="vcard lwb-card'+(st.learn?' done':'')+'" data-wk="'+esc2(k)+'">'
+          +'<div class="lwb-l1">'
           +'<span class="w">'+esc2(it.w)+'</span>'
-          +'<span class="zh'+(it.zh?'':' none')+'">'+(it.zh?esc2(it.zh):'（待補中文義）')+'</span>'
-          +(it.ipa?'<span class="ipa">'+esc2(it.ipa)+'</span>':'')
-          +'<button type="button" class="spk" data-spk="'+esc2(it.w)+'">🔊</button>'
-          +'<span class="wchk">'
-          +'<label><input type="checkbox" data-wf="learn" '+(st.learn?'checked':'')+'>學</label>'
-          +'<label><input type="checkbox" data-wf="review" '+(st.review?'checked':'')+'>複</label>'
-          +'<label><input type="checkbox" data-wf="dict" '+(st.dict?'checked':'')+'>寫</label>'
-          +'</span></div>';
+          +(it.ipa?'<span class="ph">'+esc2(it.ipa)+'</span>':'')
+          +'<button type="button" class="mini lwb-spk" data-sp="'+esc2(it.w)+'">讀音</button>'
+          +(st.learn?' <span class="ok">✓</span>':'')
+          +'<span class="tp"> · '+esc2(b.bk)+' · '+esc2(c.cat)+'</span>'
+          +'</div>'
+          +'<div class="lwb-l2"><span class="zh'+(it.zh?'':' none')+'">'+(it.zh?esc2(it.zh):'（待補中文義）')+'</span>'
+          +'<button type="button" class="mwadd'+(inBook?' in':'')+'"'+(inBook?' disabled':'')+'>'+(inBook?'✓ 已加入':'＋ 單詞本')+'</button>'
+          +'</div>'
+          +'<div class="lwb-chk">'
+          +'<label><input type="checkbox" data-wf="learn" '+(st.learn?'checked':'')+'>已學</label>'
+          +'<label><input type="checkbox" data-wf="review" '+(st.review?'checked':'')+'>已複習</label>'
+          +'<label><input type="checkbox" data-wf="dict" '+(st.dict?'checked':'')+'>已聽寫</label>'
+          +'</div>'
+          +'</div>';
       });
       if(!rows)return;
-      var cn=0;c.items.forEach(function(it){if(wstat(b.bk,c.cat,it.w).learn)cn++;});
-      html+='<div class="lhub-cat" data-cat="'+esc2(c.cat)+'"><div class="lhub-cat-h">'+esc2(c.cat)+'（'+c.items.length+' 詞 · 已學 '+cn+'）</div>'+rows+'</div>';
+      // 每課一個可展開小節（與中小學單詞本的年級小節同構）
+      html+='<details class="gsec lwb-cat" data-cat="'+esc2(c.cat)+'"'+(q?' open':'')+'>'
+        +'<summary class="gsec-h"><span class="glabel">'+esc2(c.cat)+'</span>'
+        +'<span class="gcount">'+catTotal+' 詞'+(catHit!==catTotal?' · 命中 '+catHit:'')+' · 已學 '+catLearned+'</span></summary>'
+        +'<div class="gsec-body">'+rows+'</div>'
+        +'</details>';
     });
     list.innerHTML=html;
     view.style.display='block';
@@ -49337,7 +49381,9 @@ authBoot();
   document.getElementById('lwteWordList').addEventListener('change',function(e){
     var t=e.target;if(!t||!t.getAttribute)return;
     var f=t.getAttribute('data-wf');if(!f)return;
-    var row=t.closest('.lhub-word');if(!row)return;
+    // v1.87：卡片 class 已從 .lhub-word 改為 .vcard.lwb-card，這裡要跟著改，
+    //    否則 change 事件找不到 row → 勾選完全不生效（v1.87 實測抓到）。
+    var row=t.closest('.lwb-card');if(!row)return;
     var k=row.getAttribute('data-wk');if(!k)return;
     if(!WP[k])WP[k]={};
     if(t.checked)WP[k][f]=true;else delete WP[k][f];
@@ -49345,22 +49391,49 @@ authBoot();
     wpSave();
     var st=wstat.apply(null,k.split('|'));
     row.classList.toggle('done',st.learn);
-    // 同步更新主題標題的已學計數
-    var h=row.parentElement?row.parentElement.querySelector('.lhub-cat-h'):null;
-    if(h){
-      var cat=(row.parentElement&&row.parentElement.getAttribute('data-cat'))||'';
+    // v1.87：同步更新「本課」標題的已學計數（.gsec-h 內的 .gcount）
+    var catEl=row.parentElement&&row.parentElement.closest?row.parentElement.closest('.lwb-cat'):null;
+    if(catEl){
+      var cat=catEl.getAttribute('data-cat')||'';
       var b=packBook(),catObj=null;
       if(b&&b.cats)b.cats.forEach(function(c){if(c.cat===cat)catObj=c;});
       if(catObj){
         var cn=0;catObj.items.forEach(function(it){if(wstat(b.bk,catObj.cat,it.w).learn)cn++;});
-        h.textContent=catObj.cat+'（'+catObj.items.length+' 詞 · 已學 '+cn+'）';
+        var gc=catEl.querySelector('.gcount');
+        if(gc){
+          var hitTxt='';
+          var q=String((document.getElementById('lwteWordSearch')||{}).value||'').trim();
+          if(q){
+            var h2=0;catObj.items.forEach(function(it){
+              if(it.w.toLowerCase().indexOf(q.toLowerCase())>=0||String(it.zh||'').toLowerCase().indexOf(q.toLowerCase())>=0)h2++;
+            });
+            hitTxt=(h2!==catObj.items.length?' · 命中 '+h2:'');
+          }
+          gc.textContent=catObj.items.length+' 詞'+hitTxt+' · 已學 '+cn;
+        }
       }
     }
   });
   document.getElementById('lwteWordList').addEventListener('click',function(e){
     var t=e.target;if(!t||!t.closest)return;
-    var sp=t.closest('[data-spk]');
-    if(sp){e.stopPropagation();if(typeof speak==='function')speak(sp.getAttribute('data-spk'),'en-US');}
+    // v1.87：🔊 發音按鈕（與中小學單詞本同款 class .mini[data-sp]）
+    var sp=t.closest('[data-sp]');
+    if(sp){e.stopPropagation();if(typeof speak==='function')speak(sp.getAttribute('data-sp'),'en-US');return;}
+    // v1.87：「＋單詞本」按鈕（沿用站內既有 __mwAddClick，成功後就地改字不重繪）
+    var mb=t.closest('.mwadd');
+    if(mb){
+      e.stopPropagation();
+      var row=mb.closest('.vcard');
+      var word=row?(row.querySelector('.w')||{}).textContent:'';
+      var zhel=row?(row.querySelector('.zh')||{}).textContent:'';
+      if(word){
+        var r=window.__myWordsTest?window.__myWordsTest.addFrom('manual',{w:word,zh:zhel&&zhel!=='（待補中文義）'?zhel:'',note:'某文單詞本'}):{ok:false};
+        if(r.ok||/已在單詞本/.test(r.msg||'')){
+          mb.textContent='✓ 已加入';mb.classList.add('in');mb.disabled=true;
+        }
+      }
+      return;
+    }
   });
   // 印本冊詞表（含中文義）——只印使用者自己匯入的內容
   var pp=document.getElementById('lwtePackPrint');
@@ -49372,7 +49445,10 @@ authBoot();
     b.cats.forEach(function(c){
       h+='<h3>'+esc2(c.cat)+'（'+c.items.length+' 詞）</h3>';
       c.items.forEach(function(it){
-        h+='<div class="lhub-line"><b>'+esc2(it.w)+'</b>'+(it.zh?'　'+esc2(it.zh):'')+'</div>';
+        // v1.87：打印也帶音標，與站上卡片同資訊量
+        h+='<div class="lhub-line"><b>'+esc2(it.w)+'</b>'
+          +(it.ipa?'<span class="lwb-ipa">'+esc2(it.ipa)+'</span>':'')
+          +(it.zh?'　'+esc2(it.zh):'')+'</div>';
       });
     });
     area.innerHTML=h;
