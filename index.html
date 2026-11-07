@@ -824,13 +824,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.82（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.83（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.82（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.83（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -954,9 +954,10 @@ header{position:relative}
   <div class="wrap" id="cnPracView">
     <!-- v1.82 中文練習區子標籤：背詩星圖 ／ 中文卷 -->
     <div class="subnav" id="cnPracSub" style="position:static;top:auto;margin:0 -16px 12px">
-      <button data-cs="star" class="on">背詩星圖</button>
-      <button data-cs="cnpaper">中文卷</button>
+      <button data-cs="star" class="on">背古詩</button>
+      <button data-cs="cnpaper">中文試卷</button>
     </div>
+    <p class="tip" style="margin:0 0 10px">「背古詩」＝<b>背詩星圖</b>（185 首按年級分 7 段點亮，看整體進度）＋<b>古詩詞列表</b>（繁體＋拼音＋粵拼全文）＋<b>一首詩四步</b>（聽讀 → 看譯文 → 遮字背誦 → 抽查）。想練做卷請切到「中文試卷」。</p>
     <div id="cnStarView">
     <!-- v1.73 背詩星圖：185 首按 7 段點亮，全部數據取自現成 POEMS，不新造素材 -->
     <div class="starmap" id="starMap">
@@ -984,7 +985,7 @@ header{position:relative}
     </div>
     <!-- v1.82 中文卷：題型結構仿評考局公開框架，題目全部本站原創 -->
     <div id="cnPaperView" style="display:none">
-      <div class="gtitle">中文卷 · 小二／小五／小六（本站原創仿題型）</div>
+      <div class="gtitle">中文試卷 · 小二／小五／小六（本站原創仿題型）</div>
       <span class="folk">題型結構參考香港考評局公開的評估框架（閱讀＝記敘／說明文＋實用文；寫作＝實用文＋短文）；<b>全部題目、篇章、選項與答案均為本站原創</b>，非任何機構、學校或出版社真卷。</span>
       <div class="pg-chips" id="cngChips">
         <span class="chip on" data-pg="P2">小二 P2</span>
@@ -47694,7 +47695,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.82',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.83',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

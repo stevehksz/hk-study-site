@@ -1568,11 +1568,11 @@ try{
   mw.clear();
   ok('v1.80 清空後空態提示', mw.count()===0 && doc.querySelectorAll('#mwList .mwempty').length===1);
   ok('v1.80 全站導出含 myWords 字段', /myWords:window\.__myWordsTest\?window\.__myWordsTest\.exportData\(\)\.words:\[\]/.test(html));
-  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.82'/.test(html));
+  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.83'/.test(html));
   ok('v1.80 清空確認文案補「我的單詞本」', /泛讀自查／我的單詞本/.test(html));
   ok('v1.80 不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/我的單詞本|hkk_mywords/.test(x.t+x.s)));
   ok('v1.80 版權文案在子頁', doc.getElementById('myWordsView').textContent.includes('不預置任何出版社詞表'));
-  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.82/g)||[]).length===2 && html.includes("ver:'hkk_v1.82'") && !html.includes('公開版 v1.79'));
+  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.83/g)||[]).length===2 && html.includes("ver:'hkk_v1.83'") && !html.includes('公開版 v1.79'));
 }catch(e){ ok('v1.80 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.81 反饋牆 ＋ 貪吃蛇單詞背景 ＋ 某文單詞本搬位 ============
@@ -1642,7 +1642,7 @@ try{
   ok('v1.81 錯誤碼映射覆蓋網絡／權限／表不存在／重複', ['network_error','42501','42P01','23505'].every(c=>fbT.errText(c)&&fbT.errText(c).length>4));
   ok('v1.81 時間顯示相對時間', fbT.when(new Date(Date.now()-3600000).toISOString()).indexOf('小時前')>=0);
 
-  ok('v1.81 版本號三處一致', (html.match(/公開版 v1\.82/g)||[]).length===2 && html.includes("ver:'hkk_v1.82'") && !html.includes('公開版 v1.80'));
+  ok('v1.81 版本號三處一致', (html.match(/公開版 v1\.83/g)||[]).length===2 && html.includes("ver:'hkk_v1.83'") && !html.includes('公開版 v1.80'));
 }catch(e){ ok('v1.81 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.82 中文卷（本站原創仿題型） ============
@@ -1688,7 +1688,7 @@ try{
   ok('v1.82 中文卷不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95&&(window.__aiTest.kb||[]).every(x=>!/中文卷|site_feedback|反饋牆/.test(x.t+x.s)));
 
   // ── C. 落位與互動 ──
-  ok('v1.82 中文區有子標籤（背詩星圖／中文卷）', !!doc.getElementById('cnPracSub')&&doc.querySelectorAll('#cnPracSub button').length===2
+  ok('v1.82 中文區有子標籤（v1.83 起改名「背古詩／中文試卷」）', !!doc.getElementById('cnPracSub')&&doc.querySelectorAll('#cnPracSub button').length===2
      &&doc.querySelector('#cnPracSub button[data-cs="star"]')&&doc.querySelector('#cnPracSub button[data-cs="cnpaper"]'));
   ok('v1.82 中文卷頁在練習區中文頁內', !!doc.getElementById('cnPaperView')&&doc.getElementById('cnPracView').contains(doc.getElementById('cnPaperView')));
   ok('v1.82 中文卷頁 ID 不重複', doc.querySelectorAll('#cnPaperView').length===1&&doc.querySelectorAll('#cnPracView').length===1&&doc.querySelectorAll('#cnStarView').length===1);
@@ -1754,8 +1754,43 @@ try{
   ok('v1.82 含答案版勾選存在', !!doc.getElementById('cnPrintAns'));
   ok('v1.82 本級最佳存 hkk_cnpaper_v0', html.includes("'hkk_cnpaper_v0'"));
   ok('v1.82 CSS：篇章卡與寫作區樣式齊', /\.cnread\{/.test(html)&&/\.cnwrite-hint\{/.test(html)&&/\.cnsec\{/.test(html));
-  ok('v1.82 版本號三處一致', (html.match(/公開版 v1\.82/g)||[]).length===2&&html.includes("ver:'hkk_v1.82'")&&!html.includes('公開版 v1.81'));
+  ok('v1.82 版本號三處一致', (html.match(/公開版 v1\.83/g)||[]).length===2&&html.includes("ver:'hkk_v1.83'")&&!html.includes('公開版 v1.81'));
 }catch(e){ ok('v1.82 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
+
+// ============ v1.83 中文區兩個子目錄：背古詩 ／ 中文試卷 ============
+try{
+  const sub=doc.getElementById('cnPracSub');
+  const bStar=doc.querySelector('#cnPracSub button[data-cs="star"]');
+  const bPaper=doc.querySelector('#cnPracSub button[data-cs="cnpaper"]');
+  ok('v1.83 中文區兩個子目錄按鈕齊', !!sub&&!!bStar&&!!bPaper&&doc.querySelectorAll('#cnPracSub button').length===2);
+  ok('v1.83 第一顆叫「背古詩」', !!bStar&&bStar.textContent==='背古詩');
+  ok('v1.83 第二顆叫「中文試卷」', !!bPaper&&bPaper.textContent==='中文試卷');
+  ok('v1.83 舊名「背詩星圖」不再是按鈕文案（但頁內說明仍保留該詞）', !bStar.textContent.includes('背詩星圖')&&doc.getElementById('cnPracView').textContent.includes('背詩星圖'));
+  ok('v1.83 中文試卷頁標題同步改名', doc.getElementById('cnPaperView').querySelector('.gtitle').textContent.includes('中文試卷'));
+
+  // 背古詩頁 = 星圖 + 詩詞列表；中文試卷頁 = 卷子，兩者互斥
+  const sv=doc.getElementById('cnStarView'), cv=doc.getElementById('cnPaperView');
+  ok('v1.83 背古詩頁含星圖與詩詞列表', !!sv&&!!sv.querySelector('#starMap')&&!!sv.querySelector('#poemGrid'));
+  ok('v1.83 背古詩頁含四步背詩說明', doc.getElementById('cnPracView').textContent.includes('聽讀')&&doc.getElementById('cnPracView').textContent.includes('遮字背誦')&&doc.getElementById('cnPracView').textContent.includes('抽查'));
+  ok('v1.83 背古詩頁有一句引導去中文試卷', doc.getElementById('cnPracView').textContent.includes('想練做卷請切到「中文試卷」'));
+
+  doc.querySelector('#practiceSub button[data-sub="cn"]').click();
+  // 先切回背古詩再驗默認態（前面的 v1.82 斷言已把中文卷切出來，這裡要复位）
+  bStar.click();
+  ok('v1.83 默認顯示背古詩（星圖可見）', sv.style.display!=='none'&&cv.style.display==='none');
+  ok('v1.83 默認按鈕高亮是背古詩', bStar.classList.contains('on')&&!bPaper.classList.contains('on'));
+  // 切到中文試卷
+  bPaper.click();
+  ok('v1.83 切中文試卷：卷可見、星圖隱藏', cv.style.display!=='none'&&sv.style.display==='none');
+  ok('v1.83 切中文試卷：高亮跟到第二顆', bPaper.classList.contains('on')&&!bStar.classList.contains('on'));
+  ok('v1.83 中文試卷頁自動出卷（不空白）', doc.querySelectorAll('#cnPaperBox .qcard').length>0);
+  // 切回背古詩
+  bStar.click();
+  ok('v1.83 切回背古詩：星圖可見、卷隱藏', sv.style.display!=='none'&&cv.style.display==='none');
+  ok('v1.83 切回後高亮回到第一顆', bStar.classList.contains('on')&&!bPaper.classList.contains('on'));
+
+  ok('v1.83 版本號三處一致', (html.match(/公開版 v1\.83/g)||[]).length===2&&html.includes("ver:'hkk_v1.83'")&&!html.includes('公開版 v1.82'));
+}catch(e){ ok('v1.83 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);

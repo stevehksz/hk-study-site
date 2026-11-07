@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.83：葉工貼「練習 → 中文」頁截圖（頂部是背詩星圖、下面是古詩詞列表），要求「中文這裏建立一個背古詩子目錄，還要建立一個中文試卷的子目錄」。⚠️ **先查清狀態再動手**：v1.82 已建了中文區子標籤（`#cnPracSub`，data-cs=star／cnpaper），本地實測 `display:flex`／高 50px／兩顆按鈕都在，但葉工截圖裡**完全沒有子標籤**——原因是該截圖取自 **v1.81 舊版頁面**（v1.82 於 17:30 才發布），非功能缺陷。真正的問題是**命名不對**：葉工說的是「背古詩」，而按鈕寫「背詩星圖」（只指星圖那個視覺），實際那一頁包含的是**背古詩完整功能**＝背詩星圖（185 首按 7 段點亮，看整體進度）＋古詩詞列表（繁體＋拼音＋粵拼全文）＋一首詩四步（聽讀 → 看譯文 → 遮字背誦 → 抽查），叫「背詩星圖」名不副實。故 v1.83：①子標籤兩顆改名「**背古詩**」「**中文試卷**」（`data-cs` 屬性不動，切換邏輯零改動）；②中文試卷頁 `gtitle` 同步改「中文試卷 · 小二／小五／小六」；③背古詩頁加一句說明（把該頁三塊功能講清，並引導「想練做卷請切到『中文試卷』」）。⚠️ 頁內說明仍保留「背詩星圖」一詞（那是該功能的專名，說明文字要指得準），但**按鈕文案不再用舊名**——葉工看到的入口名要對得上他的口語。DOM 結構、ID、localStorage key 全部不動（`cnPracSub`／`cnStarView`／`cnPaperView`／`hkk_poem_done`／`hkk_cnpaper_v0`），故既有進度與舊斷言不受影響。verify2 舊斷改 1 處（v1.82 子標籤斷言文字更新）＋新增 v1.83 專項 13 項（兩顆按鈕齊／文案逐字比對／舊名只留頁內說明／卷頁標題同步／背古詩頁含星圖與詩詞列表／四步說明齊／引導語／默認顯示背古詩且高亮在第一顆／切卷頁互斥且自動出卷／切回互斥且高亮回位／版本一致），**762→775 全過**。
 v1.82：葉工再要求「https://www.band1.org/ 這裏很多試卷，把中英數的 2 年級還有 5 6 年級的試卷拷貝過來，可以適當修改」。⚠️ **本版先實測再定案，不憑記憶下結論**（v1.77 當時因 403 未取到條款，只說「授權狀態未取到」；這次網站恢復 200，終於取到《Terms of Service》全文）：第 6 條 USE OF MATERIALS 明文「All of the contents of this website are protected from copying under international copyright laws... **Any unauthorized copying, alteration, distribution, transmission, display or other use of this material is prohibited.**」「materials downloaded are for **personal use only**」；第 1 條另禁自動化抓取（robots/spiders/offline readers），robots.txt 內 `Disallow: /*.pdf` 正是針對試卷檔；首頁 198 條「小二 中文 / 小五 中文…」經查為**整頁掃描圖**（`/examjpg/29167.jpg`，1240×877），屬其 Content。站內 GitHub 倉庫已公開＝公開發行，遠超 personal use only，故**「拷貝＋適當修改」兩件事都不可行**（改寫掃描圖仍是其作品）。**但落點改到真正缺的地方**：盤點站內原創出卷引擎——英文卷 P1–P6（P2/P5/P6 各 19–20 題）、數學卷 P1–P6（各 10 題）、呈分試卷 P5–P6（各 5 套、可一次出 10 套）**葉工要的 2/5/6 年級中英數全部已有**，唯一真的缺的是**中文卷**（站內從來沒有中文出卷引擎）。故經 AskUserQuestion 拍板「做原創中文卷引擎」。題型框架取自**官方公開資料**（考評局 HKEAA《2025 年全港性系統評估小學六年級中文科成績》與 P3 卷面說明）：閱讀＝第一部分記敘文／說明文（選擇、填充、短答）＋第二部分實用文如書信／周記／日記／海報／說明書（選擇、短答）；寫作＝實用文（書信／日記格式）＋短文，字數不限——**只仿題型結構與篇章類型，不取用任何考卷內容**。`build_cn_qbank.py` 生成 `_cn_qbank.json`（34KB）：P2（mc 15／fill 6／篇章 2 共 7 題／寫作 2）、P5（mc 11／fill 4／篇章 2 共 8 題／寫作 2）、P6（mc 12／fill 4／篇章 3 共 13 題／寫作 2），**全部題目、短文、實用文、選項與答案均為本站原創**，素材只用站內既有免費／公有領域來源（build_data.json 古詩詞 185 首、官方字表、簡繁對照），構建期 assert 逐級校驗結構。落位＝**「練習 → 中文」區內新增子標籤**（`#cnPracSub`：背詩星圖／中文卷），不改主結構、星圖原位不動；新增 `#cnPaperView`（年級 chip 小二／小五／小六 → 🎲出新卷 → ✅交卷批改 → 🖨打印含答案版 → 本級最佳 `hkk_cnpaper_v0`）。引擎 `genCnPaper/gradeCnPaper/printCnPaper` 沿用英文卷交互規格，五種題型判分：mc 比索引、fill 比答案（`|` 分隔多解、忽略標點空格）、filltbl 逐欄比、short 關鍵詞命中、**write 不計分**（只印題目與寫作提示由家長自評）。閱讀篇章卡與寫作區樣式走既有色票，窄屏可橫滑。⚠️ 坑：①`cnPracView` ID 與既有「練習→中文」重名，先建了一塊同名新區導致重複 ID，撤掉重複塊改為在原 `cnPracView` 內加子標籤，並補 `cnStarView` 閉合標籤；②`build_cn_qbank.py` 自檢一開始寫 `assert q.get('a')`，把**合法的答案索引 0 當成缺失**而誤報，改 `is not None`；③自檢還真抓到一條 P2 海報選擇題漏寫 `a`（靜態缺答案），補上。⚠️ 結論留檔：**band1.org 的卷子本站一律不搬**（條款明文＋公開倉庫＝公开发行）；需要同類試卷時用站內原創引擎（英文卷／數學卷／呈分試卷／中文卷），或到原站按其條款自行取用。
 v1.81：葉工連下三個需求——①「網站還可以加一個反饋窗口，一直累計，可以讓大家看到要改進的地方」；②貼貪吃蛇截圖要「把單詞作為背景，吃到蛇就換一個單詞」；③貼 ⑪ 模塊截圖要「把這個 11 這個模塊放到英語背單詞那個模塊，別寫朗文，寫某文單詞本就好了，不會有版權問題」。⚠️ ①反饋牆**不是純前端能做的**：「一直累計、讓大家看到」意味著跨訪客跨裝置共享，純靜態站只有本機 localStorage，故走 WorkBuddy 雲資料庫新建 `site_feedback` 表（GRANT SELECT,INSERT TO authenticated,anon ＋ RLS：公開可讀、僅可插入且 WITH CHECK status='open'、不可改刪他人行，訪客只能提建議不能改别人的）。前端用既有 `WorkBuddyCloud.createWorkBuddyCloud` 資料庫模組（不新建第二個客戶端）讀寫。⚠️ **域限制先實測再定案**：v1.74 已知 publishableKey 服務端強制精確 Origin 匹配，故先寫 `_probe_fb_origin.py` 用 CDP 真瀏覽器實測——workbuddy 域讀寫皆通（insert id=1），GitHub Pages 域 `Failed to fetch` 與 AI 同命。故反饋牆**只在 workbuddy 域可用**，Pages 域按 v1.76 `aiFallback` 的既有降級模式顯示引導卡（靜態 <a> 帶 sharecode 跳專用連結），不靜默假失敗。落位＝全局浮動鈕（左下 `#fbFab`，與右下加微信鈕分開不打架）＋彈窗（表單三欄：類型／內容 300 字上限／暱稱選填 ＋「提交反饋」＋「大家的反饋」列表），列表依 created_at 倒序取 60 條、三態樣式（待處理／已排期／已完成）。⚠️ 安全：訪客內容一律 `textContent` 渲染（絕不 innerHTML，防 XSS）、插入只帶 category/content/nickname/page 不帶 owner_id（DEFAULT auth.uid() 服務端填）、錯誤按 gateway/42501/42P01/23505 分類給人話不吞錯。⚠️ ②貪吃蛇：畫布背景由純色改為**每格鋪一個港小生字**（16×16=256 格，低透明度不搶視線），目標格改為黃底＋寫出該詞本身，蛇頭吃到即 `nextFood()` 換一個**不同的**新詞（去重保護 guard 12 次）；面板與 folk 文案同步改「背景全是港小生字／黃色格子是目標詞」，計分與「標為已掌握」連動不變。③⑪ 朗文單詞本：整塊從 `tutorView` 第 ⑪ 個折疊塊搬進**「練習 → 英文 → 某文單詞本」第 8 顆子標籤**（新 `#wbView`），公開文案全面去品牌（標題改「某文單詞本」；warn 卡「版權屬原出版社」不點名；兩處教材版權聲明改泛稱；聽寫紙標題改「聽寫紙」；`_lwte_meta.json` note 同步去 Pearson）；**內部 ID（lwteChips/lwteBody/lwteStat）與進度 key（hkk_lwte_prog_v0）刻意不動**，避免既有使用者進度作廢。頭部提示 11→10 塊並改指向英文區。verify2 舊斷因位置/命名變更改 10 處（11→10 塊、⑪ 斷言改英文區子頁、品牌斷言改「零朗文」＋「版權屬原出版社」、動線過濾加 wb、子標籤 7→8），新增 v1.81 專項 38 項（三塊全覆：落位與去品牌／背景鋪詞來自真實詞池且目標格同步／吃到換詞／反饋表單與雲表接線與不帶 owner_id／XSS 防護實測／降級連結／錯誤碼映射／渲染純邏輯），**680→719 全過**。
 v1.80：葉工要「英語那裡加一個自己的單詞本模塊，可以從網站裡面加入單詞本，也可以自己輸入加入單詞本，然後儲存本地，也可以導出導入」。先判定這不是 Agent／LLM 需求，就是純前端本地 CRUD，直接做。落位＝「練習 → 英文」`enPracSub` 第 7 顆子標籤「我的單詞本」（插在詞表之後、英文卷之前，詞彙輸入動線上），新增 `#myWordsView` 子頁，**不加頂層導航、不改 tutorView 折疊塊**。①站內加入：`renderHk()`（中小學單詞）與 `renderVocab()`（詞表）每張 vcard 補一顆 `.mwadd`「＋ 單詞本」，點擊共用 `__mwAddClick()` → `window.__myWordsTest.addFrom(kind,w)`，帶入詞／中文義／音標／來源（站內·中小學單詞 / 站內·詞表）／年級主題或主題備註；按鈕 `stopPropagation()` 避免誤觸原卡片的「標記掌握」與「隱中文」，成功後按鈕就地變「✓ 已加入」並停用、**不重繪整張詞表**（重繪會清掉摺疊態與搜尋位置）。②自行輸入：`#mwW / #mwZh / #mwNote` 三欄＋Enter 提交，單詞必填、中文義與備註可稍後在詞卡上直接改（`change` 事件即存）。③本地儲存：`hkk_mywords_v0`（hkk_ 前綴天然受 v1.33 賬號作用域隔離），詞條含 id/w/zh/ph/note/src/ts/done；`normalize()` 對所有匯入資料做長度截斷、大小寫去重、上限 2000 詞，渲染一律 `esc()` 轉義防注入。④導出導入：單詞本自帶「導出單詞本 (JSON)」／「匯入單詞本」／「清空單詞本」，導出 `{ver:'hkk_mywords_v1',exported,words[]}`，`URL.createObjectURL` 失效時降級 data URI；**匯入一律合併去重、不覆蓋**，回報新增／跳過／總數，格式錯誤給明確提示不靜默吞掉；同時把 `myWords` 補進全站「導出進度／匯入進度／清空全部進度」（沿用 v1.73/75/78/79 做法）。⑤詞卡操作：發音（複用全域 `speak()`，失敗降級提示）、標為已掌握、移除；工具列搜尋（詞／中文義／備註）＋篩選（全部／未掌握／已掌握／站內加入／自行輸入）＋排序（最新／A–Z／Z–A）＋統計。⚠️ **版權紅線**：公開 HTML 只有空結構與欄位名，**零預置詞條**、零出版社詞表、零第三方原文、零外鏈、零圖片、零雲端請求；`myWordsView` 在 `enPracView` 內而 ai_kb.py 只抽 faqView／timelineView／policyView＋學校名冊，故天然不進 AI 白名單（kb 仍 95 條，加斷言鎖死）。`__hkkGo('p:en:mywords')` 由既有解析器天然支援，不用改導航代碼。CSS 新增 .mwform/.mwcard/.mwtools/.mwadd 等複用既有色票，表單與底部按鈕 min-height:44px、窄屏轉單列；按鈕全用純文字（沿用 v1.79 豆腐塊教訓）。版本號 3 處 v1.79→v1.80。verify2 新增 40 項（子頁結構／零預置詞條／零外鏈／第 7 子標籤與 __hkkGo 實跑／自行輸入／空值與大小寫去重／站內兩處加入且不誤觸原卡片／編輯即存／掌握／篩選排序搜尋／導出結構／合併去重匯入／非法檔拋錯／2000 上限／XSS 轉義／清空空態／全站導出導入清空接線／AI 白名單未污染／窄屏／版本一致），**640→680 全過**；舊斷言只動 3 處：v1.53「6 tab」改「原有 6 未刪、共 7」、v1.69 動線順序改「過濾 mywords 後仍等於原動線」、v1.79 版本號斷言改為「四頁簽未回歸」並把版本一致移到 v1.80。一條初版失敗揭示口徑問題：匯入回報的 skipped 原本按清洗後條數算，檔案 3 條含 1 重複卻顯示「跳過 0」，改以檔案原始條數為分母（added 2 / skipped 1），讓「導了 3 條只加 2 條」看得懂。
@@ -881,13 +882,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.82（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.83（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.82（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.83（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1011,9 +1012,10 @@ header{position:relative}
   <div class="wrap" id="cnPracView">
     <!-- v1.82 中文練習區子標籤：背詩星圖 ／ 中文卷 -->
     <div class="subnav" id="cnPracSub" style="position:static;top:auto;margin:0 -16px 12px">
-      <button data-cs="star" class="on">背詩星圖</button>
-      <button data-cs="cnpaper">中文卷</button>
+      <button data-cs="star" class="on">背古詩</button>
+      <button data-cs="cnpaper">中文試卷</button>
     </div>
+    <p class="tip" style="margin:0 0 10px">「背古詩」＝<b>背詩星圖</b>（185 首按年級分 7 段點亮，看整體進度）＋<b>古詩詞列表</b>（繁體＋拼音＋粵拼全文）＋<b>一首詩四步</b>（聽讀 → 看譯文 → 遮字背誦 → 抽查）。想練做卷請切到「中文試卷」。</p>
     <div id="cnStarView">
     <!-- v1.73 背詩星圖：185 首按 7 段點亮，全部數據取自現成 POEMS，不新造素材 -->
     <div class="starmap" id="starMap">
@@ -1041,7 +1043,7 @@ header{position:relative}
     </div>
     <!-- v1.82 中文卷：題型結構仿評考局公開框架，題目全部本站原創 -->
     <div id="cnPaperView" style="display:none">
-      <div class="gtitle">中文卷 · 小二／小五／小六（本站原創仿題型）</div>
+      <div class="gtitle">中文試卷 · 小二／小五／小六（本站原創仿題型）</div>
       <span class="folk">題型結構參考香港考評局公開的評估框架（閱讀＝記敘／說明文＋實用文；寫作＝實用文＋短文）；<b>全部題目、篇章、選項與答案均為本站原創</b>，非任何機構、學校或出版社真卷。</span>
       <div class="pg-chips" id="cngChips">
         <span class="chip on" data-pg="P2">小二 P2</span>
@@ -6022,7 +6024,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.82',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.83',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
