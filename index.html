@@ -953,13 +953,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.90（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.91（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.90（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.91（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1800,6 +1800,7 @@ Thank you for your time.</div>
         <button type="button" class="on" data-rd="today" role="tab" aria-selected="true">⭐ 今日重點</button>
         <button type="button" data-rd="plan" role="tab" aria-selected="false">📅 21 天怎麼讀</button>
         <button type="button" data-rd="pick" role="tab" aria-selected="false">📚 讀什麼</button>
+        <button type="button" data-rd="res" role="tab" aria-selected="false">🌐 免費電子書</button>
         <button type="button" data-rd="check" role="tab" aria-selected="false">✅ 家長自查</button>
       </div>
       <div id="readFocusBox">
@@ -1861,6 +1862,32 @@ Thank you for your time.</div>
             <h3>⚠️ 版權與使用提醒</h3>
             <p class="rdnote">教材內容僅限家庭學習，請勿外傳、勿打印傳閱；本站不存放第三方教材內頁、書單原文或試卷，只列類型與取用原則。教材級別對應為坊間整理（非官方測評），起點以定級三連測為準。</p>
           </div>
+        </div>
+
+        <!-- v1.91 免費電子書：只列官方／開放授權平臺入口，不存放不轉載任何第三方內容（沿用⑧口徑） -->
+        <div class="rdpane" data-rd-pane="res" style="display:none">
+          <div class="rdcard">
+            <h3>免費電子書 · 官方平臺 5 個入口</h3>
+            <p class="rdnote">泛讀 20 分鐘讀什麼？下面都是<b>官方或開放授權</b>的免費平臺，本站只給入口與一句話說明，內容版權歸原站。前兩個不用圖書證，註冊就能用；有香港圖書證的再加圖書館電子書。</p>
+            <p class="rdnote">手機窄屏可左右滑動下面的表格。</p>
+            <div class="rdtable-wrap"><table class="rdtable">
+              <thead><tr><th>平臺</th><th>有什麼（本站自寫）</th><th>入口</th></tr></thead>
+              <tbody>
+                <tr><td>Oxford Owl 免費電子書庫</td><td>牛津大學出版社官方，3–11 歲分級電子書；免費註冊家長帳號即可讀，可按級別選書。</td><td><a href="https://www.oxfordowl.co.uk/for-home/find-a-book/library-page/" target="_blank" rel="noopener">oxfordowl.co.uk</a></td></tr>
+                <tr><td>Storyline Online</td><td>明星朗讀繪本影片 100+ 條，免費無廣告；先聽後讀，適合起步。</td><td><a href="https://storylineonline.net/" target="_blank" rel="noopener">storylineonline.net</a></td></tr>
+                <tr><td>香港公共圖書館 · 電子書</td><td>OverDrive／HyRead／SUEP 等中英文電子書與有聲書，需圖書證登入（以圖書館官方為準）。</td><td><a href="https://www.hkpl.gov.hk/tc/e-resources/e-books/home" target="_blank" rel="noopener">hkpl.gov.hk</a></td></tr>
+                <tr><td>香港閱讀城（教育城）</td><td>官方書架免費試閱中英文電子書；完整書庫走「e悅讀學校計劃」，看學校有沒有訂。</td><td><a href="https://www.hkreadingcity.net/zh-hant/" target="_blank" rel="noopener">hkreadingcity.net</a></td></tr>
+                <tr><td>香港故事書</td><td>開放授權的香港故事，可播粵語讀聲、按閱讀級別選；兼練粵語耳朵。</td><td><a href="https://global-asp.github.io/storybooks-hongkong/stories/yue/" target="_blank" rel="noopener">storybooks-hongkong</a></td></tr>
+              </tbody>
+            </table></div>
+            <p class="rdnote"><b>選書五指法則</b>：隨便翻一頁，不認識的詞有幾個就數幾根手指——超過 5 個太深、0 個太淺，1–3 個剛剛好。實體書同理：圖畫多、句子短、成套的橋梁書最容易讀進去。</p>
+            <p class="rdnote">規則不變：不查詞典、不考核、讀完喜歡就算數。</p>
+            <div class="rdgo-row">
+              <button type="button" class="rdgo" data-go="t:6">去 21 天打卡格</button>
+              <button type="button" class="rdgo" data-go="t:1">去 ② 教材與資源清單</button>
+            </div>
+          </div>
+          <span class="folk">依公開資料整理，連結 2026-11-07 核對；外鏈版權歸原站，本站與之無合作或背書關係，以各站最新公告為準</span>
         </div>
 
         <div class="rdpane" data-rd-pane="check" style="display:none">
@@ -46714,7 +46741,7 @@ document.querySelectorAll('#cngChips .chip').forEach(c=>c.onclick=()=>{
 // ---- v1.90 今日課表：按天顯示＋打勾（hkk_sched_v0，跟賬號隔離）＋直達對應練習 ----
 var SCHED_KEY='hkk_sched_v0';
 var SCH_ITEMS={
-  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:6',btn:'去泛讀打卡'},
+  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:6:res',btn:'免費電子書清單'},
   trad:{n:'繁體字認讀（官方字表）',m:10,go:'t:5',btn:'去今日認讀'},
   yue:{n:'粵語磨耳朵（RTHK 兒童節目）',m:10,go:'',btn:'',tip:'只聽不跟讀'},
   write:{n:'寫作（Great Writing 教材）',m:30,go:'t:1',btn:'看教材清單'},
@@ -48519,7 +48546,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.90',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.91',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -49022,6 +49049,9 @@ authBoot();
         click('nav button[data-tab="practice"]');
         click('#practiceSub button[data-sub="tutor"]');
         fold(+a[1]);
+        // v1.91：t:N 可帶可選第 3 段＝泛讀塊內頁簽（如 t:6:res 直達「免費電子書」）；
+        // 只在有第三段時才點，找不到該頁簽也只是跳過，不炸路由。
+        if(a[2])click('#readSubNav button[data-rd="'+a[2]+'"]');
       }else if(a[0]==='plan'){
         click('nav button[data-tab="plan"]');
         click('#planSub button[data-sub="'+a[1]+'"]');

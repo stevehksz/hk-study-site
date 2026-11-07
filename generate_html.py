@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.91：葉工圈「今日課表」裏「興趣泛讀（不查詞典、不考核）」那一項問「給材料清單，或者網址」。AskUserQuestion 拍板＝**泛讀打卡塊內加「免費電子書」頁簽＋外鏈卡**（否決「只進 Obsidian」「暫不處理」）。落位＝`readSubNav` 加第 5 顆頁簽 `data-rd="res"`（插在「讀什麼」後），新增 `.rdpane[data-rd-pane="res"]`：只列**官方／開放授權**平臺入口＋本站自寫一句話說明（沿用⑧「只列入口，不轉載內容」口徑）——Oxford Owl 免費電子書庫（牛津大學出版社官方，3–11 歲分級，免費註冊家長帳號）、Storyline Online（SAG-AFTRA 基金會，明星朗讀繪本 105 條免費無廣告）、香港公共圖書館電子書（OverDrive／HyRead／SUEP，需圖書證）、香港閱讀城（教育城，官方書架免費試閱；完整書庫看學校有沒有訂「e悅讀」）、香港故事書（開放授權粵語有聲，兼練粵語耳）；另給**五指法則**選書法＋泛讀三不。卡尾 `rdgo` 回打卡格（t:6）與教材清單（t:1）。⚠️ **版權口徑**：只鏈官方平臺首頁，零第三方內容存放；`folk` 標注「連結 2026-11-07 核對；外鏈版權歸原站」。①路由：`go()` 的 `t:` 分支補可選第 3 段——`t:6:res` 打開泛讀塊後再 `click('#readSubNav button[data-rd="res"]')`（try 內，找不到不炸）。②課表接線：`SCH_ITEMS.read` 改 `go:'t:6:res',btn:'免費電子書清單'`（打卡格就在同塊下方，res 頁簽也有「去打卡」鈕，兩頭不失聯）。⚠️ **AI 知識庫不入庫**：res 頁簽在 `tutorView` 折疊塊內，KB 恆 100 條。驗證：舊斷言改 3 處（v1.79 頁簽 4→5 與序列、v1.79 面板 4→5、v1.90 錨點白名單放寬 `t:數字(:頁簽名)`）＋新增 v1.91 專項（頁簽序列/實跑 t:6:res 切到 res/外鏈恰 5 條且域名白名單/folk 核對日期/零圖片/KB 不變/零新增 localStorage 鍵/課表 read 項直達）。
 v1.90：葉工圈「補習材料①每週課表（≤3 小時）」截圖問「這個能做一個主目錄嗎，然後再細化優化」。AskUserQuestion 拍板＝**練習區新子頁「今日課表」＋全套**（打卡＋直達＋排入新模塊＋週日驗收；否決「獨立主導航按鈕」「留在原位強化」）。落位＝`practiceSub` 第 1 顆 `data-sub="sched"`（**練習默認子頁改為 sched**——女兒打開練習就看到今天做什麼），新增 `#schedView`。①數據：`SCH_ITEMS` 七項（泛讀 t:6／繁體認讀 t:5／粵語無按鈕只聽不跟讀／寫作 t:1／口語面試 t:2／數學術語 t:3／**時態與題型 p:en:drill 為 v1.89 新增項每週 2 次×15 分鐘**）＋`SCH_WEEK` 週一→週日排開（頻率與總表一致，只按天分派；寫作週二週六、口語週三、數學週四、時態週一週五）。②打卡：`hkk_sched_v0` 按日期存勾選（`{"YYYY-MM-DD":[ids]}`，只留最近 28 天），**跨天自動重置**（按今天日期讀）；今日 N/M＋已做約 N/M 分鐘；本週一覽七格（今天高亮、未來置灰、過去天顯示完成數）。③週日驗收卡：只在週日顯示——對照 35 週排期表當月驗收指標，不達標下週補該項、不趕進度（按鈕 t:0）。④直達一律走既有 `__hkkGo`（`p:sched` 由 go() 通用分支天然支援，未改解析器）。⑤原總表保留，表下加提示行＋`p:sched` 跳轉（兩處不失聯）。⑥接線：practiceSub 切換分支＋默認 `curPractice='sched'`（cnPracView 改默認隱藏）＋開頁即 `schRender()`；進度匯出/匯入/清空補 `sched` 字段，清空確認文案補「今日課表打卡」。⚠️ **AI 知識庫不入庫**：schedView 在 practiceView 內，KB 恆 100 條。⚠️ 版權：課表行項與頻率全部重組自站內既有總表，零新事實、零外鏈、零圖片。驗證：舊斷言改 2 處（practiceSub 4→5、默認子頁）＋新增 v1.90 專項（七日排程完整/每日任務數/打卡寫入與跨天重置/直達按鈕實跑 t:6 與 p:en:drill/週日卡只在週日顯示/本週七格/匯出含 sched/清空/零外鏈/KB 不變）。P1/P2 六處引導仍留待辦。
 v1.89：葉工貼來女兒做的 5 張打印卷照片（站內 v1.77 出的 P5 英文練習卷＋呈分試模擬卷），說「題型不熟悉，單詞不知道」；診斷後追問「怎麼在網站裡面加資源」，拍板＝**練習→英文新增第 9 子標籤「時態與題型」、可判分、只做 P5 一套**（另兩個選項「只做打印資料」「按錯題自動組卷生成器」未採納：前者孩子仍要家長對答案、後者要記錄錯題知識點、工程風險高）。⚠️ **診斷結論決定模塊形態**：卷面最重的不是「不會」而是「空白」——(B) 習語、(E) since 句、(F) 短語動詞、(H)(3)(4) 開放題整題沒動筆，屬「題型沒見過」；另有同一知識點連錯 6 題（written→wrote、fly→flew、bring→brought、share→shared、land→landed、blow→blew，全是一般過去式）。故模塊＝**動詞表（反覆練條件反射）＋五組題型（先見一面）**，不是再造一套綜合卷。①結構：`enPracSub` 加 `data-es="drill"`（插在「呈分試卷」後、「升中面試」前，即筆試輸出→題型專訓→口語輸出的動線），新增 `#drillView` 子頁與 `body` 頂層 `#drillPrintSheet`；`__hkkGo('p:en:drill')` 由既有解析器天然支援，未改導航代碼。②動詞表：`DRILL_VERBS` 30 條（原形／過去式／中文義，通用英語事實），可切「遮中文」「遮英文」自測（`.drvt.hidezh/.hideen` 用 `color:transparent` 遮蔽，不重繪整表以外的狀態），逐詞勾選存 `hkk_drill_prog_v0`，即時更新「已掌握 N/30」。③五組練習 `DRILL_GROUPS`：`past` 20 題（fill）、`simile` 6 題、`idiom` 12 題、`since` 4 題、`pv` 10 題（後四組 pick，附詞庫橫幅）。**答案索引刻意分散**（不是全 0），避免孩子摸出「永遠選 A」。④判分沿用 `gradeEnPaper` 口徑：fill 用 `norm()` 比對＋`alt` 容錯、pick 比對索引，結果用 `.qtot/.qbar` 並接 v1.88 的 `nsWrongLine('en')`；本組最佳存 `hkk_drill_best_v0`。⑤錯詞一鍵進「我的單詞本」：直接調 `__myWordsTest.addFrom('vocab',{w,zh,topic:'時態與題型'})`，**不另寫儲存邏輯**（沿用 v1.80 原則）。⑥打印：`printDrill()` 生成 A4 題卷（fill 用 `.ansline` 整寬橫線、pick 印選項、可勾「含答案版」），動詞表也可印（可選教師版）；打印白名單加 `#drillPrintSheet`，並沿用 v1.86 的 `EPS_SHARED_CSS`＋`printing-paper` 隔離。⑦接線：子標籤切換補 `sw('drillView',…)` 與 `drTapTo(drTap)`；進度匯出／匯入／清空補 `drillProg`／`drillBest`（清空確認文案同步加「時態題型勾選與成績」）。⑧測試鉤子 `window.__drillTest` 直接暴露 `groups/verbs/prog/best`——記 v1.85 教訓，斷言查穩定資料源、不靠隨機集合求交集。⚠️ **版權紅線**：題目與例句全部本站原創編寫，零第三方教材／補習社／學校／評估局內容、零外鏈、零圖片；動詞表只放通用英語事實（原形／過去式／中文義）。⚠️ **AI 知識庫不入庫**：`drillView` 在 `enPracView` 內，而 `ai_kb.py` 只抽 `faqView`／`timelineView`／`policyView`＋學校名冊，KB 恆 100 條（加斷言鎖死）。驗證：舊斷言改 3 處（子標籤 8→9 且 `drill` 插在 `exam` 與 `iv` 之間、匯出 JSON 版本號、v1.88「零新增 localStorage 鍵」改為只鎖 v1.88 那三個前綴）＋新增 v1.89 專項 18 項（子標籤與 `__hkkGo` 實跑／六組 chip 齊／30 詞表／五組題數與答案索引合法／fill 判分含大小寫與空白容錯／pick 判分／最佳分寫入／錯詞按鈕接單詞本／遮中文與遮英文／勾選持久化／打印含 `.ansline` 與答案版／零外鏈／KB 不污染／匯出含 drillProg）。P1/P2 六處引導仍留待下一版。
 v1.88：葉工看過「站點盤點：下一步引導與 FAQ 缺口」後拍板做 P0 三項 ＋ FAQ 重排。⚠️ **本版零新增素材**——全部把既有內容重組成出口＋補跳轉，版權紅線與數據結構都不動（不新增 localStorage 鍵、不搬任何第三方內容、不改既有 `.cta-strip`）。①下一步引導：新增共用組件 `.nextstep`（頁尾「看完這一步做什麼」＝步驟清單＋站內跳轉鈕）與 `.ns-line`（卷子批改後的「錯題回頭查」條），落三處——(a) 時間線 `#timelineView` 兩張表之後加 `#tlNext`「你站在哪一行」三步（學段→身份到手月份→本月動作）＋三顆鈕跳 `plan:docs`／`plan:study`／`plan:schools`，開頭 tip 補一句指路，解決「表格寫死 2027.9、家長不知道自己站哪一行」；(b) 速覽指南四子頁（`#cnView`／`#enView`／`#mathView`／`#ftView`）末尾各掛一條出口，把「看懂差異」接去對應練習（中文→繁體翻卡／官方字表／中文試卷、英文→定級三連測／英文卷／詞彙路線圖、數學→術語翻卡／術語表／數學卷、繁體→翻卡／字表）；(c) 四種卷批改結果區（`gradeEnPaper`／`gradeExamPaper`／`gradeMathPaper`／`gradeCnPaper`）統一插入 `nsWrongLine(kind)`，按「詞不懂／題幹不懂／字認不過來」三類錯因指向既有模塊——**抽成一個共用函數而不是抄四份**（記 v1.86 打印樣式漏改的教訓）。②FAQ 重排：原 10 問平鋪、8 條是「是什麼」的信息題，改為按家長決策順序分 5 組共 **15 問**（一 能不能做／二 時間夠不夠／三 考什麼怎麼備／四 材料與學籍／五 錢、距離與最壞情況），新增 5 問全部由站內既有內容重組——粵語繁體跟不上（學習路線 P1 平行線＋⑤翻卡＋⑥字表）、只剩半年一年（8 個月 ≈230 小時估算＋35 週減壓版）、要不要搬港（住址類＋居港 2 年新政）、跨境通勤（⑥校車＋東鐵 1–2 站）、萬一沒學校收（教育局途徑三 5–8 月＋叩門潮＋不註銷學籍）；**明確不加**「降級重讀／總開銷／某校 Band」三問（站內未取到，硬寫就是編），改為末尾一張 `gcard warn`「本站沒有收錄的三件事」把邊界講清再引導問個案。每張卡尾部加 `<p class="nx">下一步 →` 站內跳轉。③工程：`__hkkGo` 補 `p:cn:*` 分支（中文子頁是 `data-cs` 不是 `data-es`，原解析器漏了，跳中文試卷只會停在背古詩頁）；`ai_kb.py` 的 FAQ 正則改為容忍卡內 `.nx` 段（否則「下一步」文案會混進 AI 答案），知識庫 95→**100 條**（FAQ 10→15，時間線 11／政策 4／學校 70 不變），分組頭 `h3.faq-grp` 放在 gcard 外故天然不入庫（已實測 0 條混入）。驗證：舊斷言版本號 8 處 v1.87→v1.88、FAQ 卡數 10→16（15 問＋1 邊界卡）、KB 95→100、FAQ 類 10→15；新增 v1.88 專項（五組頭 5 個且不在 gcard 內／15 卡皆有 `.nx`／時間線三步條與三顆鈕／guide 四處出口／四卷結果含 `.ns-line` 且四函數都呼叫／`p:cn:cnpaper` 實跑切到中文試卷／既有 `.cta-strip` 仍為 3 條防手滑多加微信／零新增外鏈零新增 localStorage 鍵）。P1/P2 六處（材料清單尾、身份政策尾、擇校分檔插站內三步、進度頁尾、泛讀 21 天後）留待 v1.89。
@@ -1017,13 +1018,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.90（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.91（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.90（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.91（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1864,6 +1865,7 @@ Thank you for your time.</div>
         <button type="button" class="on" data-rd="today" role="tab" aria-selected="true">⭐ 今日重點</button>
         <button type="button" data-rd="plan" role="tab" aria-selected="false">📅 21 天怎麼讀</button>
         <button type="button" data-rd="pick" role="tab" aria-selected="false">📚 讀什麼</button>
+        <button type="button" data-rd="res" role="tab" aria-selected="false">🌐 免費電子書</button>
         <button type="button" data-rd="check" role="tab" aria-selected="false">✅ 家長自查</button>
       </div>
       <div id="readFocusBox">
@@ -1925,6 +1927,32 @@ Thank you for your time.</div>
             <h3>⚠️ 版權與使用提醒</h3>
             <p class="rdnote">教材內容僅限家庭學習，請勿外傳、勿打印傳閱；本站不存放第三方教材內頁、書單原文或試卷，只列類型與取用原則。教材級別對應為坊間整理（非官方測評），起點以定級三連測為準。</p>
           </div>
+        </div>
+
+        <!-- v1.91 免費電子書：只列官方／開放授權平臺入口，不存放不轉載任何第三方內容（沿用⑧口徑） -->
+        <div class="rdpane" data-rd-pane="res" style="display:none">
+          <div class="rdcard">
+            <h3>免費電子書 · 官方平臺 5 個入口</h3>
+            <p class="rdnote">泛讀 20 分鐘讀什麼？下面都是<b>官方或開放授權</b>的免費平臺，本站只給入口與一句話說明，內容版權歸原站。前兩個不用圖書證，註冊就能用；有香港圖書證的再加圖書館電子書。</p>
+            <p class="rdnote">手機窄屏可左右滑動下面的表格。</p>
+            <div class="rdtable-wrap"><table class="rdtable">
+              <thead><tr><th>平臺</th><th>有什麼（本站自寫）</th><th>入口</th></tr></thead>
+              <tbody>
+                <tr><td>Oxford Owl 免費電子書庫</td><td>牛津大學出版社官方，3–11 歲分級電子書；免費註冊家長帳號即可讀，可按級別選書。</td><td><a href="https://www.oxfordowl.co.uk/for-home/find-a-book/library-page/" target="_blank" rel="noopener">oxfordowl.co.uk</a></td></tr>
+                <tr><td>Storyline Online</td><td>明星朗讀繪本影片 100+ 條，免費無廣告；先聽後讀，適合起步。</td><td><a href="https://storylineonline.net/" target="_blank" rel="noopener">storylineonline.net</a></td></tr>
+                <tr><td>香港公共圖書館 · 電子書</td><td>OverDrive／HyRead／SUEP 等中英文電子書與有聲書，需圖書證登入（以圖書館官方為準）。</td><td><a href="https://www.hkpl.gov.hk/tc/e-resources/e-books/home" target="_blank" rel="noopener">hkpl.gov.hk</a></td></tr>
+                <tr><td>香港閱讀城（教育城）</td><td>官方書架免費試閱中英文電子書；完整書庫走「e悅讀學校計劃」，看學校有沒有訂。</td><td><a href="https://www.hkreadingcity.net/zh-hant/" target="_blank" rel="noopener">hkreadingcity.net</a></td></tr>
+                <tr><td>香港故事書</td><td>開放授權的香港故事，可播粵語讀聲、按閱讀級別選；兼練粵語耳朵。</td><td><a href="https://global-asp.github.io/storybooks-hongkong/stories/yue/" target="_blank" rel="noopener">storybooks-hongkong</a></td></tr>
+              </tbody>
+            </table></div>
+            <p class="rdnote"><b>選書五指法則</b>：隨便翻一頁，不認識的詞有幾個就數幾根手指——超過 5 個太深、0 個太淺，1–3 個剛剛好。實體書同理：圖畫多、句子短、成套的橋梁書最容易讀進去。</p>
+            <p class="rdnote">規則不變：不查詞典、不考核、讀完喜歡就算數。</p>
+            <div class="rdgo-row">
+              <button type="button" class="rdgo" data-go="t:6">去 21 天打卡格</button>
+              <button type="button" class="rdgo" data-go="t:1">去 ② 教材與資源清單</button>
+            </div>
+          </div>
+          <span class="folk">依公開資料整理，連結 2026-11-07 核對；外鏈版權歸原站，本站與之無合作或背書關係，以各站最新公告為準</span>
         </div>
 
         <div class="rdpane" data-rd-pane="check" style="display:none">
@@ -5049,7 +5077,7 @@ document.querySelectorAll('#cngChips .chip').forEach(c=>c.onclick=()=>{
 // ---- v1.90 今日課表：按天顯示＋打勾（hkk_sched_v0，跟賬號隔離）＋直達對應練習 ----
 var SCHED_KEY='hkk_sched_v0';
 var SCH_ITEMS={
-  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:6',btn:'去泛讀打卡'},
+  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:6:res',btn:'免費電子書清單'},
   trad:{n:'繁體字認讀（官方字表）',m:10,go:'t:5',btn:'去今日認讀'},
   yue:{n:'粵語磨耳朵（RTHK 兒童節目）',m:10,go:'',btn:'',tip:'只聽不跟讀'},
   write:{n:'寫作（Great Writing 教材）',m:30,go:'t:1',btn:'看教材清單'},
@@ -6854,7 +6882,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.90',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.91',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -7357,6 +7385,9 @@ authBoot();
         click('nav button[data-tab="practice"]');
         click('#practiceSub button[data-sub="tutor"]');
         fold(+a[1]);
+        // v1.91：t:N 可帶可選第 3 段＝泛讀塊內頁簽（如 t:6:res 直達「免費電子書」）；
+        // 只在有第三段時才點，找不到該頁簽也只是跳過，不炸路由。
+        if(a[2])click('#readSubNav button[data-rd="'+a[2]+'"]');
       }else if(a[0]==='plan'){
         click('nav button[data-tab="plan"]');
         click('#planSub button[data-sub="'+a[1]+'"]');
