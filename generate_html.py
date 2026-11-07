@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.81：葉工連下三個需求——①「網站還可以加一個反饋窗口，一直累計，可以讓大家看到要改進的地方」；②貼貪吃蛇截圖要「把單詞作為背景，吃到蛇就換一個單詞」；③貼 ⑪ 模塊截圖要「把這個 11 這個模塊放到英語背單詞那個模塊，別寫朗文，寫某文單詞本就好了，不會有版權問題」。⚠️ ①反饋牆**不是純前端能做的**：「一直累計、讓大家看到」意味著跨訪客跨裝置共享，純靜態站只有本機 localStorage，故走 WorkBuddy 雲資料庫新建 `site_feedback` 表（GRANT SELECT,INSERT TO authenticated,anon ＋ RLS：公開可讀、僅可插入且 WITH CHECK status='open'、不可改刪他人行，訪客只能提建議不能改别人的）。前端用既有 `WorkBuddyCloud.createWorkBuddyCloud` 資料庫模組（不新建第二個客戶端）讀寫。⚠️ **域限制先實測再定案**：v1.74 已知 publishableKey 服務端強制精確 Origin 匹配，故先寫 `_probe_fb_origin.py` 用 CDP 真瀏覽器實測——workbuddy 域讀寫皆通（insert id=1），GitHub Pages 域 `Failed to fetch` 與 AI 同命。故反饋牆**只在 workbuddy 域可用**，Pages 域按 v1.76 `aiFallback` 的既有降級模式顯示引導卡（靜態 <a> 帶 sharecode 跳專用連結），不靜默假失敗。落位＝全局浮動鈕（左下 `#fbFab`，與右下加微信鈕分開不打架）＋彈窗（表單三欄：類型／內容 300 字上限／暱稱選填 ＋「提交反饋」＋「大家的反饋」列表），列表依 created_at 倒序取 60 條、三態樣式（待處理／已排期／已完成）。⚠️ 安全：訪客內容一律 `textContent` 渲染（絕不 innerHTML，防 XSS）、插入只帶 category/content/nickname/page 不帶 owner_id（DEFAULT auth.uid() 服務端填）、錯誤按 gateway/42501/42P01/23505 分類給人話不吞錯。⚠️ ②貪吃蛇：畫布背景由純色改為**每格鋪一個港小生字**（16×16=256 格，低透明度不搶視線），目標格改為黃底＋寫出該詞本身，蛇頭吃到即 `nextFood()` 換一個**不同的**新詞（去重保護 guard 12 次）；面板與 folk 文案同步改「背景全是港小生字／黃色格子是目標詞」，計分與「標為已掌握」連動不變。③⑪ 朗文單詞本：整塊從 `tutorView` 第 ⑪ 個折疊塊搬進**「練習 → 英文 → 某文單詞本」第 8 顆子標籤**（新 `#wbView`），公開文案全面去品牌（標題改「某文單詞本」；warn 卡「版權屬原出版社」不點名；兩處教材版權聲明改泛稱；聽寫紙標題改「聽寫紙」；`_lwte_meta.json` note 同步去 Pearson）；**內部 ID（lwteChips/lwteBody/lwteStat）與進度 key（hkk_lwte_prog_v0）刻意不動**，避免既有使用者進度作廢。頭部提示 11→10 塊並改指向英文區。verify2 舊斷因位置/命名變更改 10 處（11→10 塊、⑪ 斷言改英文區子頁、品牌斷言改「零朗文」＋「版權屬原出版社」、動線過濾加 wb、子標籤 7→8），新增 v1.81 專項 38 項（三塊全覆：落位與去品牌／背景鋪詞來自真實詞池且目標格同步／吃到換詞／反饋表單與雲表接線與不帶 owner_id／XSS 防護實測／降級連結／錯誤碼映射／渲染純邏輯），**680→719 全過**。
 v1.80：葉工要「英語那裡加一個自己的單詞本模塊，可以從網站裡面加入單詞本，也可以自己輸入加入單詞本，然後儲存本地，也可以導出導入」。先判定這不是 Agent／LLM 需求，就是純前端本地 CRUD，直接做。落位＝「練習 → 英文」`enPracSub` 第 7 顆子標籤「我的單詞本」（插在詞表之後、英文卷之前，詞彙輸入動線上），新增 `#myWordsView` 子頁，**不加頂層導航、不改 tutorView 折疊塊**。①站內加入：`renderHk()`（中小學單詞）與 `renderVocab()`（詞表）每張 vcard 補一顆 `.mwadd`「＋ 單詞本」，點擊共用 `__mwAddClick()` → `window.__myWordsTest.addFrom(kind,w)`，帶入詞／中文義／音標／來源（站內·中小學單詞 / 站內·詞表）／年級主題或主題備註；按鈕 `stopPropagation()` 避免誤觸原卡片的「標記掌握」與「隱中文」，成功後按鈕就地變「✓ 已加入」並停用、**不重繪整張詞表**（重繪會清掉摺疊態與搜尋位置）。②自行輸入：`#mwW / #mwZh / #mwNote` 三欄＋Enter 提交，單詞必填、中文義與備註可稍後在詞卡上直接改（`change` 事件即存）。③本地儲存：`hkk_mywords_v0`（hkk_ 前綴天然受 v1.33 賬號作用域隔離），詞條含 id/w/zh/ph/note/src/ts/done；`normalize()` 對所有匯入資料做長度截斷、大小寫去重、上限 2000 詞，渲染一律 `esc()` 轉義防注入。④導出導入：單詞本自帶「導出單詞本 (JSON)」／「匯入單詞本」／「清空單詞本」，導出 `{ver:'hkk_mywords_v1',exported,words[]}`，`URL.createObjectURL` 失效時降級 data URI；**匯入一律合併去重、不覆蓋**，回報新增／跳過／總數，格式錯誤給明確提示不靜默吞掉；同時把 `myWords` 補進全站「導出進度／匯入進度／清空全部進度」（沿用 v1.73/75/78/79 做法）。⑤詞卡操作：發音（複用全域 `speak()`，失敗降級提示）、標為已掌握、移除；工具列搜尋（詞／中文義／備註）＋篩選（全部／未掌握／已掌握／站內加入／自行輸入）＋排序（最新／A–Z／Z–A）＋統計。⚠️ **版權紅線**：公開 HTML 只有空結構與欄位名，**零預置詞條**、零出版社詞表、零第三方原文、零外鏈、零圖片、零雲端請求；`myWordsView` 在 `enPracView` 內而 ai_kb.py 只抽 faqView／timelineView／policyView＋學校名冊，故天然不進 AI 白名單（kb 仍 95 條，加斷言鎖死）。`__hkkGo('p:en:mywords')` 由既有解析器天然支援，不用改導航代碼。CSS 新增 .mwform/.mwcard/.mwtools/.mwadd 等複用既有色票，表單與底部按鈕 min-height:44px、窄屏轉單列；按鈕全用純文字（沿用 v1.79 豆腐塊教訓）。版本號 3 處 v1.79→v1.80。verify2 新增 40 項（子頁結構／零預置詞條／零外鏈／第 7 子標籤與 __hkkGo 實跑／自行輸入／空值與大小寫去重／站內兩處加入且不誤觸原卡片／編輯即存／掌握／篩選排序搜尋／導出結構／合併去重匯入／非法檔拋錯／2000 上限／XSS 轉義／清空空態／全站導出導入清空接線／AI 白名單未污染／窄屏／版本一致），**640→680 全過**；舊斷言只動 3 處：v1.53「6 tab」改「原有 6 未刪、共 7」、v1.69 動線順序改「過濾 mywords 後仍等於原動線」、v1.79 版本號斷言改為「四頁簽未回歸」並把版本一致移到 v1.80。一條初版失敗揭示口徑問題：匯入回報的 skipped 原本按清洗後條數算，檔案 3 條含 1 重複卻顯示「跳過 0」，改以檔案原始條數為分母（added 2 / skipped 1），讓「導了 3 條只加 2 條」看得懂。
 v1.79：葉工貼「⑦ 泛讀打卡（21 天挑戰）」展開後的截圖，要「泛讀打開這裏幫我弄一個子目錄，要給小孩重點學習」。先問清形態（AskUserQuestion 三選一），他選「塊內子目錄＋重點清單」——不加主導航入口、不改 ⑦ 層級、21 格打卡原位保留。落位＝⑦ details（補 id=readHub）內、原規則說明之下、打卡格之上新增 #readSubNav 四頁簽（⭐ 今日重點／📅 21 天怎麼讀／📚 讀什麼／✅ 家長自查）＋ #readFocusBox 四面板，默認只顯示「今日重點」；頁簽只在 ⑦ 內部切 display，**不新增 details 折疊塊**（全站仍 11 塊，v1.68/75/77/78 的位次斷言全不動），不加主導航、不加子頁、不改 ⑦ 標題條文字（舊斷言靠「泛讀打卡」字樣識別）。①今日重點：給小孩的一頁三件事（自己挑英文／看完點格／想講開 90 秒），「第 N 天」由 readLoad() 算第一個未打卡日，renderRead() 末尾加 hook 讓打卡後自動往後推，不另存一份狀態；四顆 data-go 按鈕（t:5 今日認讀／p:en:goal 詞彙路線圖／p:en:paper 英文卷／t:2 90 秒計時）一律走 v1.75 暴露的 window.__hkkGo，不抄顯隱邏輯。②21 天怎麼讀：只把 21 格按週分三段做進度導航，明確「不是課程表、沒有官方進度要求」，不加時數不加考核，窄屏表格 overflow-x:auto 且橫滑提示放在表格上方（沿用 v1.75/78 可見性教訓）。③讀什麼：逐條重組本頁 ② 教材清單既有口徑（家中牛津樹／TreeTops、圖書館橋梁書→兒童非虛構、藍思值屬坊間整理、漫畫故事科普視頻都算），warn 卡沿用「僅限家庭學習、勿外傳、不存放第三方內頁」紅線；兩顆按鈕去 ②／⑧。④家長自查：五條「不要做」checkbox（hkk_readfocus_v0，hkk_ 前綴天然受 v1.33 賬號隔離）＋已做到 N/5＋清空，明確不是評分表、不影響小孩打卡格。⚠️ 素材零新造、零外鏈、零圖片、零第三方原文、零雲端請求；新內容在 tutorView 而 ai_kb.py 只抽 faqView／timelineView／policyView＋學校名冊，故**天然不進 AI 白名單**，加斷言鎖死（kb 仍 95 條）。CSS 新增 .rdnav/.rdcard/.rdgo/.rdtable/.rdchk 等複用既有色票，頁簽與跳轉鈕 min-height:44px、窄屏 flex 換行；CDP 桌面截圖發現六顆跳轉鈕的 emoji 在缺字形環境下變空心方框（沿用 v1.78 豆腐塊教訓），故跳轉鈕與打卡格標題改純文字，只保留頁簽四顆實測顯示正常的 emoji。進度匯出／匯入／清空補 readFocus 字段（沿用 v1.73/75/78 做法），清空確認文案補「泛讀自查」，版本號 3 處 v1.78→v1.79。verify2 新增 26 項（結構／四頁簽切換與 aria／今日天數與打卡聯動／六顆跳轉復用 __hkkGo 並實跑 t:5／自查讀寫與清空／導出導入清空／零外鏈零圖片／版權口徑／AI 白名單未污染／窄屏／版本一致），**614→640 全過**。三條初版失敗全是探針問題：①today 面板無 inline display 被誤判未顯示 → 補 style="display:block"；②v1.33 測試 localStorage.clear() 後未 reload 致打卡格 DOM 過期 → 斷言先跑 renderRead() 同步，真賬號切換本就 location.reload()；③橫滑提示寫在表格下方違反站內規矩 → 移到表格上方並改「下面的表格」。
 v1.78：葉工貼 Obsidian 檔案樹截圖，要「把朗文 1–6 年級課本裡的單詞整理出來，開一個朗文單詞本」。先定位資料：截圖屬**第二個 Obsidian 庫**「G:\\00 咨询&公自媒体\\22 香港插班」（主庫 200 ObsidianVault 沒有 88 涵涵），路徑 88 涵涵/01英語/10 香港朗文，內有 B5135-Longman English World、LWTEGOLD 1A-6B 全套資源、教師用書合併版、白板軟件四組。12 冊各有「19/06/07 單詞庫 Word Bank」的 OLE2 `.doc`（3–20MB），`olefile` 走 WordDocument＋Table stream 的 CLX→Plcfpcd→piece text 可取出乾淨文字層；雙欄排版把編號讀成 1,6,2,7… 故段內按編號重排、編號回到 1 視為新主題（連續兩個只有 1 條詞的小主題也要切，v1.77 首次解析踩過），並截斷頁腳的 `Longman Welcome to English Gold… © Pearson Education Asia Limited 2018/2019` 與版權鳴謝段、修連字符斷行、用站內人工校過的舊 5A/5B 詞表補 2 條 Word 自動編號丟失的詞。交叉校驗：5A 70/70、5B 70/70 全命中，零噪聲；共 **12 冊／127 主題／1024 詞條**，既有中文自譯 140 條。⚠️ **版權分叉先問再做**：來源 `.doc` 頁腳明載 © Pearson，而葉工定的硬規則是「牛津樹／朗文內容僅限家庭學習、勿外傳」，GitHub 倉庫已公開、站內 ⑧ 明寫「不掃描、不摘錄、不提供下載」。故用 AskUserQuestion 讓葉工拍板，他選「①本機/Obsidian 私有 ＋ ②站內進度本」兩條都做、中文只保留既有 140 條自譯。①私有：`_build_lwte_notebook.py` 生成單檔 `_lwte_notebook.html`（38KB，零外鏈／零網路請求，12 冊 1024 詞、搜索、掌握勾選、自填中文、隨機 10 詞自測、匯出進度，localStorage `hkk_lwte_nb`），以及私人庫「22 香港插班/88 涵涵/01英語/10 香港朗文/朗文單詞本.md」（24KB，checkbox 清單）；兩者頂部皆標 © Pearson 與「僅供家庭學習、勿外傳」。`_verify_lwte_nb.js` 19 項 jsdom 回歸全過、`_shot_lwte_nb.py` 桌面 1280／手機 390（CDP 顯式 `Emulation.setDeviceMetricsOverride`，headless 最小窗寬會量成 484）實渲染 1024 詞無溢出；修掉 emoji 豆腐塊與窄屏搜尋框被擠。②站內：`tutorView` 新增第 ⑪ 折疊塊 `#lwteHub`「朗文單詞本 · 進度本」，**只放冊／主題名／詞數的事實性目錄**（構建期由 `_lwte_meta.json` 注入 `__LWTE_META__`，該檔 7.7KB、零詞條零釋義，已加 FILE_MAP 保可復現），一個詞條都不進公開 HTML；12 冊 chips 切換＋三態勾選（已學／已複習／已聽寫，`hkk_lwte_prog_v0` 跟賬號隔離）＋統計＋印空白聽寫紙（紙上只有主題名與橫線，家長按課本報詞）＋清空本冊；匯出／匯入／清空補 `lwteProg`。warn 卡本站重寫三條取用原則並標「不是法律意見」。⚠️ `_gh_sync.py` 加註明**永不推送** `_lwte_all.json`／`_lwte_notebook.html`／`_build_lwte_notebook.py`／`build_lwte_all.py` 等私有檔。verify2 折疊計數 10→11 五處＋新增 v1.78 紅線斷言（可選讀私有 `_lwte_all.json` 逐條比對公開 HTML 零詞條、零中文自譯、meta 結構、目錄渲染、勾選讀寫、清空、聽寫紙零詞、不進 AI 白名單、窄屏）。
@@ -286,7 +287,7 @@ table.phub-tbl th{background:#f1fbf8;color:#0b7a68;font-weight:700;white-space:n
 table.phub-tbl td:first-child{font-weight:800;color:#334155;white-space:nowrap}
 .phub-na{color:#94a3b8;font-size:12px}
 .pgo{min-height:44px;padding:10px 14px;font-size:13px}
-/* v1.78 朗文進度本：只有冊／主題目錄與勾選框，零詞條、零中文釋義、零外鏈 */
+/* v1.78 課本詞彙進度本：只有冊／主題目錄與勾選框，零詞條、零中文釋義、零外鏈 */
 .lhub-stat{background:#e8f6f2;color:#0b7a68;border-radius:9px;padding:9px 12px;font-size:13px;font-weight:700;margin:8px 0 10px;line-height:1.7}
 .lhub-chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
 .lhub-chips .chip{padding:5px 12px;font-size:12.5px;min-height:32px}
@@ -666,6 +667,37 @@ header{position:relative}
 .ort-bk .ort-n{font-size:11px;opacity:.75;margin-left:3px}
   /* v1.48 悬浮咨询按钮 */
   #ctaFab{position:fixed;right:14px;bottom:18px;z-index:15}
+  /* v1.81 反饋牆：左下角浮動入口（與右下角加微信分開，兩者不打架） */
+  #fbFab{position:fixed;left:14px;bottom:18px;z-index:15}
+  #fbFabBtn{padding:11px 16px;border:none;border-radius:26px;background:linear-gradient(135deg,#0f8a74,#0b6d5c);color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px -4px rgba(11,109,92,.5)}
+  #fbFabBtn:active{transform:scale(.96)}
+  .fb-form{display:flex;flex-direction:column;gap:9px;margin:12px 0 4px}
+  .fb-form label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;font-weight:700;color:#475569}
+  .fb-form input,.fb-form select,.fb-form textarea{width:100%;box-sizing:border-box;padding:9px 11px;border:1px solid #d5dbe6;border-radius:9px;font-family:inherit;font-size:13.5px;line-height:1.6;background:#fff;color:#1f2937}
+  .fb-form textarea{resize:vertical;min-height:74px}
+  .fb-form button{align-self:flex-start;min-height:44px;padding:10px 20px;border:none;border-radius:22px;background:linear-gradient(135deg,#0f8a74,#0b6d5c);color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+  .fb-form button:disabled{opacity:.6;cursor:default}
+  .fb-msg{font-size:12.5px;line-height:1.75;margin:6px 0 0;color:#0b6d5c;min-height:0}
+  .fb-msg.err{color:#b91c1c}
+  .fb-list-wrap{margin-top:16px;border-top:1px solid #e5e7eb;padding-top:12px}
+  .fb-list-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13.5px;color:#334155;margin-bottom:8px}
+  .fb-list-head span{color:#64748b;font-size:12.5px}
+  .fb-list-head button{margin-left:auto;min-height:34px;padding:6px 12px;font-size:12.5px}
+  .fb-item{border:1px solid #e5e7eb;border-left:4px solid #0f8a74;border-radius:9px;padding:9px 12px;margin:0 0 8px;background:#fff;font-size:13px;line-height:1.7;color:#334155}
+  .fb-item .fb-meta{font-size:11.5px;color:#94a3b8;margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .fb-item .fb-cat{display:inline-block;background:#e6fbf5;color:#0b6d5c;border-radius:11px;padding:1px 9px;font-size:11.5px;font-weight:700}
+  .fb-item.done{border-left-color:#16a34a;background:#f6fdf8}
+  .fb-item.done .fb-cat{background:#dcfce7;color:#15803d}
+  .fb-item.planned{border-left-color:#d97706;background:#fffdf5}
+  .fb-item.planned .fb-cat{background:#fef3c7;color:#92400e}
+  .fb-empty{font-size:12.5px;color:#94a3b8;padding:10px 2px}
+  @media screen and (max-width:640px){
+    /* v1.81 窄屏：右下角已有「加微信」鈕，反饋鈕疊到它上面會互相壓住，
+       故窄屏改為反饋鈕在上、加微信鈕在下，兩者不重疊。 */
+    #fbFab{left:10px;bottom:66px}
+    #fbFabBtn{padding:10px 13px;font-size:13px}
+    #ctaFab{right:10px;bottom:14px}
+  }
   #ctaFabBtn{padding:11px 16px;border:none;border-radius:26px;background:linear-gradient(135deg,#2c7be5,#1a5fc4);color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px -4px rgba(28,90,180,.5)}
   #ctaFabBtn:active{transform:scale(.96)}
   #ctaModal .wechat{font-size:22px;font-weight:800;letter-spacing:.5px;color:#1a5fc4;background:#f0f6ff;border:1px dashed #9cc0ee;border-radius:8px;padding:10px 14px;text-align:center;margin:10px 0}
@@ -831,13 +863,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.80（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.81（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.80（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.81（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -992,6 +1024,7 @@ header{position:relative}
       <button data-es="hk">中小學單詞</button>
       <button data-es="vocab">詞表</button>
       <button data-es="mywords">我的單詞本</button>
+      <button data-es="wb">某文單詞本</button>
       <button data-es="paper">英文卷</button>
       <button data-es="exam">呈分試卷</button>
       <button data-es="iv">升中面試</button>
@@ -1058,6 +1091,32 @@ header{position:relative}
         <button type="button" class="btn mwdanger" id="mwClear">清空單詞本</button>
       </div>
       <p class="src">本站不預置任何出版社詞表或第三方題庫；單詞本內容由使用者自行輸入或從本站公開詞卡加入，只保存在本設備。導出檔為純文字 JSON，換設備時用「匯入單詞本」合併（同名詞自動跳過，不會覆蓋既有內容）。全站「導出進度／匯入進度」亦包含單詞本。</p>
+    </div>
+    <!-- v1.81：某文單詞本 · 進度本（v1.78 原 ⑪ 折疊塊整塊搬入英文練習區） -->
+    <div id="wbView" style="display:none">
+      <div class="gtitle">某文單詞本 · 進度本（對照紙本課本用）</div>
+      <p class="tip">這是<b>打卡本，不是詞表</b>。只列出家中課本的冊與主題目錄，讓孩子按「已學／已複習／已聽寫」三格自己勾；<b>本站不收錄任何單詞、中文釋義或教材頁面</b>，請對照紙本課本使用。完整詞表留在家裡本機的單檔單詞本，不上傳、不下載。</p>
+      <div class="lhub-stat" id="lwteStat">載入中…</div>
+      <div class="lhub-chips" id="lwteChips"></div>
+      <p class="tip" style="margin:0 0 7px;background:#fff8e6;color:#8a6d1f;border:1px solid #f0dfae">手機窄屏：向右滑動下面的表格，就能勾選「已學／已複習／已聽寫」三格。</p>
+      <div class="lhub-wrap">
+        <table class="mtable lhub-tbl">
+          <thead><tr><th>主題（課本目錄）</th><th>詞數</th><th>已學</th><th>已複習</th><th>已聽寫</th></tr></thead>
+          <tbody id="lwteBody"></tbody>
+        </table>
+      </div>
+      <p class="tip" style="margin-top:4px">手機窄屏可左右滑動表格。勾選即存本機（跟賬號隔離）；切冊不影響其他冊的進度。「印空白聽寫紙」會印出本冊主題與空白橫線，由家長按課本報詞，紙上不會出現任何單詞。</p>
+      <div class="lhub-act">
+        <button class="btn" type="button" id="lwtePrint">印空白聽寫紙（本冊）</button>
+        <button class="btn" type="button" id="lwteClear">清空本冊進度</button>
+      </div>
+      <div class="gcard warn" style="margin-top:12px">
+        <h3>⚠️ 為什麼這裡看不到單詞</h3>
+        <p><b>詞表版權屬原出版社。</b>家中課本的 Word Bank 檔頁腳載有版權聲明；本站是<b>公開倉庫</b>，把整份詞表放上來等於公開發行。因此線上只保留「冊／主題名稱／詞數」這類事實性目錄，<b>零詞條、零中文釋義、零教材頁面、零下載連結、零外鏈</b>。</p>
+        <p><b>家庭學習用的完整版在本機。</b>已另整理成一份單檔 HTML 與一篇私人筆記，放在家裡電腦與私人庫，全部文字、詞數與分冊只作家庭學習，請勿外傳、勿轉貼到網站或公众号。以上為本站自寫的取用原則，<b>不是法律意見</b>；授權範圍請向原權利人確認。</p>
+        <p><b>進度是本地資料。</b>勾選存在這台裝置的瀏覽器，換設備不跟隨；可用「學習進度 → 匯出」備份，亦受清空進度影響。</p>
+      </div>
+      <p class="src">整理依據：家中 1A–6B 十二冊英語課本各冊 Word Bank 之冊／主題目錄與詞數（2026-11-07 盤點，共 12 冊 127 主題）｜本區文字全部本站重寫，未引用任何詞條、釋義或教材原文</p>
     </div>
     <div id="ivView" style="display:none">
       <div class="gtitle">升中面試攻略（坊間整理 · 2026 更新）</div>
@@ -1388,7 +1447,7 @@ Thank you for your time.</div>
     <div class="gsec">
       <h2>補習材料（插中一 · 35 週減壓版）</h2>
       <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
-      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 11 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>，<b>⑩ 按年級找本站原創卷</b>，<b>⑪ 朗文單詞本打卡</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
+      <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">👇 下面 10 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>，<b>⑩ 按年級找本站原創卷</b>；課本詞彙打卡在<b>「練習 → 英文 → 某文單詞本」</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
     </div>
 
     <details class="gsec fold" open>
@@ -1433,7 +1492,7 @@ Thank you for your time.</div>
       </table>
       <div class="gcard warn">
         <h3>⚠️ 版權與級別提醒</h3>
-        <p>牛津樹／朗文內容<b>僅限家庭學習</b>，請勿外傳、勿打印傳閱。教材 CEFR/級別對應為<b>坊間教輔整理（非官方測評）</b>，起點以定級三連測為準；教材版本信息以出版社官網為準。</p>
+        <p>教材內容<b>僅限家庭學習</b>，請勿外傳、勿打印傳閱。教材 CEFR/級別對應為<b>坊間教輔整理（非官方測評）</b>，起點以定級三連測為準；教材版本信息以出版社官網為準。</p>
         <p>中學階段的英文教材、試卷庫與官方自學平台，見本頁 <b>⑧ 中學英文 · 外部資源導航</b>（只列入口，不轉載內容）。</p>
       </div>
     </details>
@@ -1554,7 +1613,7 @@ Thank you for your time.</div>
           </div>
           <div class="rdcard warn">
             <h3>⚠️ 版權與使用提醒</h3>
-            <p class="rdnote">牛津樹／朗文內容僅限家庭學習，請勿外傳、勿打印傳閱；本站不存放第三方教材內頁、書單原文或試卷，只列類型與取用原則。教材級別對應為坊間整理（非官方測評），起點以定級三連測為準。</p>
+            <p class="rdnote">教材內容僅限家庭學習，請勿外傳、勿打印傳閱；本站不存放第三方教材內頁、書單原文或試卷，只列類型與取用原則。教材級別對應為坊間整理（非官方測評），起點以定級三連測為準。</p>
           </div>
         </div>
 
@@ -1725,35 +1784,6 @@ Thank you for your time.</div>
         <p><b>本站提供的是練習，不是真卷。</b>英文卷／數學卷覆蓋 P1–P6，呈分試卷覆蓋 P5–P6，題目全部原創仿編；坊間分檔、名校真卷、官方評分標準一概不提供，教育局亦不公佈官方 Banding。</p>
       </div>
       <div class="src">整理依據：站內既有「練習 → 英文卷／呈分試卷／數學卷」三個原創出卷引擎（2026-11-07 盤點）｜本區全部文字為本站重寫，未引用任何第三方試卷、答案或原文</div>
-    </details>
-
-    <!-- v1.78 朗文單詞本 · 進度本：只放冊／主題目錄與勾選框，一個詞條都不放 -->
-    <details class="gsec fold" id="lwteHub">
-      <summary class="gsec-h">⑪ 朗文單詞本 · 進度本（對照紙本課本用）</summary>
-      <div class="gcard">
-        <p class="tip" style="background:#eef2ff;color:#3730a3;border:1px solid #dbe1ff">這裡是<b>打卡本，不是詞表</b>。只列出家中課本的冊與主題目錄，讓孩子按「已學／已複習／已聽寫」三格自己勾；<b>本站不收錄任何單詞、中文釋義或教材頁面</b>，請對照紙本課本使用。完整詞表留在家裡本機的單檔單詞本，不上傳、不下載。</p>
-        <div class="lhub-stat" id="lwteStat">載入中…</div>
-        <div class="lhub-chips" id="lwteChips"></div>
-        <p class="tip" style="margin:0 0 7px;background:#fff8e6;color:#8a6d1f;border:1px solid #f0dfae">手機窄屏：向右滑動下面的表格，就能勾選「已學／已複習／已聽寫」三格。</p>
-        <div class="lhub-wrap">
-          <table class="mtable lhub-tbl">
-            <thead><tr><th>主題（課本目錄）</th><th>詞數</th><th>已學</th><th>已複習</th><th>已聽寫</th></tr></thead>
-            <tbody id="lwteBody"></tbody>
-          </table>
-        </div>
-        <p class="tip" style="margin-top:4px">手機窄屏可左右滑動表格。勾選即存本機（跟賬號隔離）；切冊不影響其他冊的進度。「印空白聽寫紙」會印出本冊主題與空白橫線，由家長按課本報詞，紙上不會出現任何單詞。</p>
-        <div class="lhub-act">
-          <button class="btn" type="button" id="lwtePrint">印空白聽寫紙（本冊）</button>
-          <button class="btn" type="button" id="lwteClear">清空本冊進度</button>
-        </div>
-      </div>
-      <div class="gcard warn">
-        <h3>⚠️ 為什麼這裡看不到單詞</h3>
-        <p><b>詞表版權屬出版社。</b>家中《Longman Welcome to English Gold》1A–6B 的 Word Bank 檔頁腳載明 © Pearson Education Asia Limited；本站是<b>公開倉庫</b>，把整份詞表放上來等於公開發行。因此線上只保留「冊／主題名稱／詞數」這類事實性目錄，<b>零詞條、零中文釋義、零教材頁面、零下載連結、零外鏈</b>。</p>
-        <p><b>家庭學習用的完整版在本機。</b>已另整理成一份單檔 HTML 與一篇 Obsidian 筆記，放在家裡電腦與私人庫，全部文字、詞數與分冊只作家庭學習，請勿外傳、勿轉貼到網站或公众号。以上為本站自寫的取用原則，<b>不是法律意見</b>；授權範圍請向原權利人確認。</p>
-        <p><b>進度是本地資料。</b>勾選存在這台裝置的瀏覽器，換設備不跟隨；可用「學習進度 → 匯出」備份，亦受清空進度影響。</p>
-      </div>
-      <div class="src">整理依據：家中「LWTEGOLD 1A-6B 全套資源」各冊 Word Bank 之冊／主題目錄與詞數（2026-11-07 盤點，共 12 冊 127 主題）｜本區文字全部本站重寫，未引用任何詞條、釋義或教材原文</div>
     </details>
 
     <!-- v1.70 情境化加群 CTA -->
@@ -2211,7 +2241,7 @@ Thank you for your time.</div>
 
 <div class="wrap" id="funView" style="display:none">
   <div class="gtitle">單詞貪吃蛇（悠閒 · 邊玩邊記）</div>
-  <span class="folk">食物＝隨機港小生字；吃到看中文義，死亡後可一鍵標「已掌握」。純本地，不計分排名。</span>
+  <span class="folk">背景全是港小生字；<b>黃色格子是目標詞</b>，蛇頭吃到就換一個新詞。純本地，不計分排名。</span>
   <div class="snake-wrap">
     <canvas id="snakeCanvas" width="320" height="320"></canvas>
     <div class="snake-side">
@@ -2279,6 +2309,50 @@ Thank you for your time.</div>
 
 <!-- v1.48 悬浮咨询 -->
 <div id="ctaFab"><button id="ctaFabBtn">💬 加微信 · 進插班群</button></div>
+<!-- v1.81 反饋牆：全局浮動入口 + 彈窗。數據存雲資料庫（公開可讀、僅可插入），
+     所以「大家看到」是跨裝置跨訪客的；不可用域降級為引導加微信。 -->
+<div id="fbFab"><button id="fbFabBtn">📝 意見反饋</button></div>
+<div class="mask" id="fbMask">
+  <div class="modal" id="fbModal">
+    <span class="x" id="fbClose">×</span>
+    <h2>意見反饋 · 一起把站做得更好</h2>
+    <p class="sub">想到要改的地方、哪塊不好用、想要什麼功能，寫在下面。提交後<b>所有訪客都能看到</b>，我會按這份清單逐項改。寫完可以看一下別人提過什麼，別重複提。</p>
+    <div class="fb-form">
+      <label>類型
+        <select id="fbCat">
+          <option value="建議">建議</option>
+          <option value="問題">用不了／出錯</option>
+          <option value="內容">內容要改</option>
+          <option value="想要">想要的新功能</option>
+          <option value="其他">其他</option>
+        </select>
+      </label>
+      <label>想說的（最多 300 字）
+        <textarea id="fbText" maxlength="300" rows="3" placeholder="例：⑦ 泛讀打卡的手機表格滑不動，或想要一個「今日一句」功能"></textarea>
+      </label>
+      <label>暱稱（選填，方便我回覆時稱呼你）
+        <input id="fbName" maxlength="20" placeholder="例：K3 家長">
+      </label>
+      <button type="button" class="btn" id="fbSend">提交反饋</button>
+    </div>
+    <p class="fb-msg" id="fbMsg" role="status" aria-live="polite"></p>
+    <!-- v1.81：非綁定域（GitHub Pages 等）才顯示——反饋要寫進雲端，
+         瀏覽器只允許綁定域名連線，靜態站改不了響應頭，故引導去專用連結。 -->
+    <div id="fbFallback" style="display:none">
+      <div class="ai-h">📝 反饋要連雲端才能提交</div>
+      <p class="ai-sub">這個網域的瀏覽器只允許綁定域名連線，所以在這裡提交不了。點下面按鈕到專用連結提交（手機微信裏直接可以填），或者直接加葉工微信說一句也行。</p>
+      <a id="fbFallbackGo" class="ai-fb-btn" href="https://hk-study-site.app.workbuddy.host/?sharecode=45B2W7AOKI">點這裏提交反饋 · 開啟專用連結</a>
+    </div>
+    <div class="fb-list-wrap">
+      <div class="fb-list-head">
+        <b>大家的反饋</b>
+        <span id="fbCount"></span>
+        <button type="button" class="btn" id="fbRefresh">重新載入</button>
+      </div>
+      <div id="fbList"></div>
+    </div>
+  </div>
+</div>
 <div class="mask" id="ctaMask">
   <div class="modal" id="ctaModal">
     <span class="x" id="ctaClose">×</span>
@@ -3738,29 +3812,71 @@ function showMain(m){
   const cv=document.getElementById('snakeCanvas'), ctx=cv.getContext('2d');
   const hasCtx=!!ctx;
   const G=16, C=cv.width/G;
-  let snake, dir, food, timer, running=false, score=0, roundWords=[];
+  let snake, dir, food, timer, running=false, score=0, roundWords=[], bgWords=[];
   const bestKey='hkk_snake_best';
   let best=+localStorage.getItem(bestKey)||0;
   document.getElementById('snakeBest').textContent=best;
   function rndWord(){ const pool=HK.filter(w=>w.grade && w.grade.indexOf('中')!==0); return pool[Math.floor(Math.random()*pool.length)]; } // 貪吃蛇只用小學詞（不引 HK_PRI_GRADES，避免 TDZ）
+  // v1.81：每格鋪一個港小生字當背景，讓整個畫面都是可讀的詞；目標詞格另外高亮
+  function buildBg(){
+    bgWords=[];
+    for(let i=0;i<G*G;i++){
+      const w=rndWord();
+      bgWords.push(w.w);
+    }
+  }
   function placeFood(){
     const w=rndWord(); let x,y,tries=0;
     do{ x=Math.floor(Math.random()*G); y=Math.floor(Math.random()*G); tries++; }
     while(snake && snake.some(s=>s.x===x&&s.y===y) && tries<50);
     food={w:w.w, zh:w.zh, id:w.id, x, y};
+    // 目標詞格在背景上換成本局的目標詞，讓玩家一眼看到「要吃哪個」
+    bgWords[y*G+x]=w.w;
     document.getElementById('snakeWord').innerHTML='去吃：<b>'+food.w+'</b> ＝ '+food.zh;
+  }
+  // v1.81：吃到之後一定要換成「另一個」詞，否則玩家會覺得沒換
+  function nextFood(){
+    const prev=food?food.w:'';
+    let guard=0;
+    do{ placeFood(); guard++; } while(food.w===prev && guard<12);
+    return food;
   }
   function reset(){
     snake=[{x:8,y:8},{x:7,y:8},{x:6,y:8}]; dir={x:1,y:0}; score=0; roundWords=[];
     document.getElementById('snakeScore').textContent=0;
     document.getElementById('snakeMaster').disabled=true;
     document.getElementById('snakeMasterN').textContent=0;
+    buildBg();
     placeFood(); draw();
   }
   function draw(){
     if(!hasCtx)return;
     ctx.fillStyle='#0f2a22'; ctx.fillRect(0,0,cv.width,cv.height);
-    if(food){ ctx.fillStyle='#f2c14e'; ctx.fillRect(food.x*C, food.y*C, C-2, C-2); }
+    // 背景層：每格寫一個生字，低透明度不搶蛇與目標格的視線
+    ctx.save();
+    ctx.globalAlpha=0.42;
+    ctx.fillStyle='#a8ecd0';
+    ctx.font=(C-10)+'px system-ui,-apple-system,sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    for(let i=0;i<G*G;i++){
+      const t=bgWords[i]||'';
+      if(!t)continue;
+      const gx=i%G, gy=Math.floor(i/G);
+      if(food && food.x===gx && food.y===gy)continue;   // 目標格留給高亮
+      if(snake.some(s=>s.x===gx&&s.y===gy))continue;   // 蛇身格不壓字
+      ctx.fillText(t, gx*C+C/2, gy*C+C/2, C-2);
+    }
+    ctx.restore();
+    if(food){
+      ctx.fillStyle='#f2c14e'; ctx.fillRect(food.x*C, food.y*C, C-2, C-2);
+      // 目標格寫出這個詞本身，蛇頭吃到才算記住；字號按格寬自适应，長詞縮一點但要看得清
+      ctx.save();
+      ctx.fillStyle='#3b2a05'; ctx.textAlign='center'; ctx.textBaseline='middle';
+      var fw=food.w.length;
+      ctx.font='bold '+Math.max(8,Math.min(13,C-6-(fw>5?2:0)))+'px system-ui,-apple-system,sans-serif';
+      ctx.fillText(food.w, food.x*C+C/2, food.y*C+C/2, C-4);
+      ctx.restore();
+    }
     snake.forEach((s,i)=>{ ctx.fillStyle=i===0?'#5ad6a0':'#2f9e74'; ctx.fillRect(s.x*C, s.y*C, C-2, C-2); });
   }
   function die(){
@@ -3778,7 +3894,7 @@ function showMain(m){
       roundWords.push(food.id);
       document.getElementById('snakeMaster').disabled=false;
       document.getElementById('snakeMasterN').textContent=roundWords.length;
-      placeFood();
+      nextFood();          // v1.81：吃到即換一個新詞
     } else { snake.pop(); }
     draw();
   }
@@ -3793,6 +3909,18 @@ function showMain(m){
     document.getElementById('snakeMaster').disabled=true;
   };
   reset();
+  // v1.81：測試鉤子，驗證背景鋪詞、目標格顯示詞、吃到換詞
+  window.__snakeTest={
+    get food(){return food;},
+    get bg(){return bgWords.slice();},
+    get score(){return score;},
+    get roundWords(){return roundWords.slice();},
+    // 暴露小學詞池：斷言可直接比對背景詞來源，不靠隨機集合求交集（否則 flaky）
+    pool:HK.filter(function(w){return w.grade && w.grade.indexOf('中')!==0;}).map(function(w){return w.w;}),
+    buildBg:buildBg,
+    nextFood:nextFood,
+    G:G
+  };
 })();
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showMain(b.dataset.tab));
 document.querySelectorAll('#guideSub button').forEach(b=>b.onclick=()=>{
@@ -4918,8 +5046,8 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
     document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
     sw('hkView',es==='hk'); sw('vocabView',es==='vocab'); sw('ivView',es==='iv');
     sw('paperView',es==='paper'); sw('goalView',es==='goal'); sw('examView',es==='exam');
-    sw('myWordsView',es==='mywords');
-    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
+    sw('myWordsView',es==='mywords'); sw('wbView',es==='wb');
+    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
   }catch(e){ console.error('切換視圖失敗：',e); }
 });
 // v1.69：路線圖頁的動線按鈕——複用同一套切換邏輯，避免另寫一份顯隱代碼
@@ -5539,7 +5667,7 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／朗文進度／泛讀自查／我的單詞本）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
@@ -5550,7 +5678,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.80',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ver:'hkk_v1.81',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -5871,6 +5999,146 @@ authBoot();
     kb:AI_KB,clean:cleanQ,buildSystem:buildSystem,show:show,quota:quota,setQuota:setQuota,
     renderQuota:renderQuota,ask:ask,retryable:retryable,errCode:errCode,timeout:AI_TIMEOUT_MS};
 })();
+
+/* ================= v1.81 反饋牆（雲端共享，人人可見） =================
+   需求：「一直累計，可以讓大家看到要改進的地方」——純靜態站存不了共享資料，
+   故走 WorkBuddy 雲資料庫 site_feedback 表（RLS：公開可讀、僅可插入、不可改刪他人）。
+   ⚠️ 域判定沿用 v1.74 結論：publishableKey 服務端強制精確 Origin 匹配，
+   GitHub Pages 域跨域被 CORS 攔死（實測 Failed to fetch），故非綁定域
+   顯示降級引導（去專用連結提交），不做靜默假失敗。
+   取捨：反饋內容來自訪客，一律 textContent 渲染，絕不 innerHTML，防 XSS；
+   提交失敗按錯誤碼分類給人話，不吞錯。 */
+(function(){
+  var TBL='site_feedback', MAXLEN=300, LIST_LIMIT=60;
+  var fbCloud=null, fbBusy=false;
+  function getCloud(){
+    if(fbCloud)return fbCloud;
+    if(typeof WorkBuddyCloud==='undefined'||typeof CLOUD_CFG==='undefined')return null;
+    if(!CLOUD_CFG.endpoint||!CLOUD_CFG.publishableKey)return null;
+    fbCloud=WorkBuddyCloud.createWorkBuddyCloud({
+      endpoint:CLOUD_CFG.endpoint,
+      oauthRelayBaseUrl:CLOUD_CFG.oauthRelayBaseUrl,
+      publishableKey:CLOUD_CFG.publishableKey
+    });
+    return fbCloud;
+  }
+  function originOK(){
+    var h=location.hostname, p=location.protocol;
+    return (h==='hk-study-site.app.workbuddy.host')||h==='localhost'||h==='127.0.0.1'||p==='file:';
+  }
+  function msg(text,isErr){
+    var el=document.getElementById('fbMsg');if(!el)return;
+    el.textContent=text;
+    el.classList.toggle('err',!!isErr);
+  }
+  function esc(s){return String(s==null?'':s);}
+  function when(iso){
+    if(!iso)return '';
+    var d=new Date(iso);
+    if(isNaN(d.getTime()))return '';
+    var diff=Date.now()-d.getTime();
+    if(diff<60000)return '剛剛';
+    if(diff<3600000)return Math.floor(diff/60000)+' 分鐘前';
+    if(diff<86400000)return Math.floor(diff/3600000)+' 小時前';
+    if(diff<86400000*7)return Math.floor(diff/86400000)+' 天前';
+    return (d.getMonth()+1)+' 月 '+d.getDate()+' 日';
+  }
+  var STATUS_TXT={open:'待處理',planned:'已排期',done:'已完成'};
+  function renderList(rows){
+    var box=document.getElementById('fbList');if(!box)return;
+    box.textContent='';
+    var cnt=document.getElementById('fbCount');
+    if(cnt)cnt.textContent='共 '+rows.length+' 條（最新在前）';
+    if(!rows.length){
+      var e=document.createElement('div');e.className='fb-empty';
+      e.textContent='還沒有反饋，成為第一個提出建議的人 👇';
+      box.appendChild(e);return;
+    }
+    rows.forEach(function(r){
+      var d=document.createElement('div');
+      d.className='fb-item '+(r.status||'open');
+      var cat=document.createElement('span');cat.className='fb-cat';
+      cat.textContent=esc(r.category||'其他');
+      var body=document.createElement('div');body.textContent=esc(r.content);   // 訪客內容：textContent，防 XSS
+      var meta=document.createElement('div');meta.className='fb-meta';
+      var st=document.createElement('span');st.textContent=STATUS_TXT[r.status]||'待處理';
+      var tm=document.createElement('span');tm.textContent=when(r.created_at);
+      meta.appendChild(st);meta.appendChild(tm);
+      if(r.nickname){var nm=document.createElement('span');nm.textContent=esc(r.nickname);meta.appendChild(nm);}
+      d.appendChild(cat);d.appendChild(body);d.appendChild(meta);
+      box.appendChild(d);
+    });
+  }
+  function code(e){
+    var c=(e&&e.error&&e.error.code)||'';
+    if(c)return c;
+    if(e&&e.code)return e.code;
+    return 'network_error';
+  }
+  function errText(c){
+    if(c==='network_error'||c==='gateway_network_error')return '網絡連不上，請檢查網絡後再試一次。';
+    if(c==='42501')return '這個操作暫時沒有權限，請加葉工微信直接說。';
+    if(c==='42P01')return '反饋功能正在維護，請加葉工微信直接說。';
+    if(c==='23505')return '這條反饋重複了，不用再提一次。';
+    if(c==='request_'+c.slice(8))return '提交太快或內容有問題，請稍後再試。';
+    return '提交失敗（'+c+'），請加葉工微信直接說。';
+  }
+  async function load(){
+    var cl=getCloud();
+    if(!cl){msg('反饋功能暫不可用，請加葉工微信直接說。',true);return;}
+    var r=await cl.database.from(TBL).select('id,category,content,nickname,status,created_at').order('created_at',{ascending:false}).limit(LIST_LIMIT);
+    if(r.error){msg('讀不到反饋列表（'+code(r.error)+'），請加葉工微信直接說。',true);return;}
+    renderList(r.data||[]);
+  }
+  async function send(){
+    if(fbBusy)return;
+    var txt=document.getElementById('fbText');
+    var cat=document.getElementById('fbCat');
+    var name=document.getElementById('fbName');
+    var btn=document.getElementById('fbSend');
+    var v=String(txt&&txt.value||'').replace(/\s+/g,' ').trim();
+    if(!v){msg('先寫一句要說的吧（至少一個字）。',true);return;}
+    if(v.length>MAXLEN)v=v.slice(0,MAXLEN);
+    var cl=getCloud();
+    if(!cl){msg('反饋功能暫不可用，請加葉工微信直接說。',true);return;}
+    fbBusy=true;btn.disabled=true;btn.textContent='提交中…';
+    try{
+      var r=await cl.database.from(TBL).insert({
+        category:String(cat&&cat.value||'其他').slice(0,10),
+        content:v,
+        nickname:String(name&&name.value||'').trim().slice(0,20)||null,
+        page:'web'
+      }).select();
+      if(r.error){msg(errText(code(r.error)),true);return;}
+      txt.value='';
+      msg('收到了，謝謝你！下面就是大家的反饋。');
+      await load();
+    }catch(e){
+      msg(errText(code(e)),true);
+    }finally{
+      fbBusy=false;btn.disabled=false;btn.textContent='提交反饋';
+    }
+  }
+  // 彈窗開關
+  var fab=document.getElementById('fbFabBtn'),mask=document.getElementById('fbMask'),x=document.getElementById('fbClose');
+  function openFb(){
+    if(mask)mask.style.display='flex';
+    var fb=document.getElementById('fbFallback');
+    if(fb)fb.style.display=originOK()?'none':'block';
+    if(originOK())load();
+    else msg('這個網域提交不了反饋（瀏覽器只允許綁定域名連線），點上面按鈕到專用連結提交即可。',true);
+  }
+  function closeFb(){if(mask)mask.style.display='none';}
+  if(fab)fab.onclick=openFb;
+  if(x)x.onclick=closeFb;
+  if(mask)mask.addEventListener('click',function(e){if(e.target===mask)closeFb();});
+  var rf=document.getElementById('fbRefresh');if(rf)rf.onclick=load;
+  var sb=document.getElementById('fbSend');if(sb)sb.onclick=send;
+  var ft=document.getElementById('fbText');
+  if(ft)ft.addEventListener('keydown',function(e){if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))send();});
+  window.__fbTest={originOK:originOK,renderList:renderList,errText:errText,when:when,load:load,send:send,
+    get busy(){return fbBusy;},tbl:TBL,maxLen:MAXLEN,limit:LIST_LIMIT};
+})();
 /* ============ v1.75 備考地圖：跳轉索引 ＋ 自查清單（零新造學習內容，只做導航） ============
    取捨：不新增學習引擎，只複用既有 nav / subnav 的 click()，
    不把 ①–⑧ 的顯隱邏輯再抄一份（沿用 v1.69 enGoSub 的原則）。 */
@@ -5988,7 +6256,7 @@ authBoot();
   });
   window.__paperHubTest={go:paperGo};
 })();
-// ---- v1.78 朗文單詞本 · 進度本 ----
+// ---- v1.78 課本詞彙進度本（v1.81 起對外名「某文單詞本」） ----
 // 只載入「冊／主題名／詞數」目錄，任何詞條都不進這份公開 HTML。
 (function(){
   var META=__LWTE_META__;
@@ -6046,7 +6314,7 @@ authBoot();
   };
   document.getElementById('lwtePrint').onclick=function(){
     var b=book(),area=document.getElementById('lwtePrintArea');if(!area)return;
-    var h='<h2>朗文聽寫紙 · '+b.bk+'（P'+b.grade+'）</h2><p>家長按課本報詞，孩子寫在橫線上。本站不提供詞條。</p>';
+    var h='<h2>聽寫紙 · '+b.bk+'（P'+b.grade+'）</h2><p>家長按課本報詞，孩子寫在橫線上。本站不提供詞條。</p>';
     b.cats.forEach(function(c){
       h+='<h3>'+c.t+'（'+c.n+' 詞）</h3>';
       for(var i=0;i<c.n;i++)h+='<div class="lhub-line"></div>';

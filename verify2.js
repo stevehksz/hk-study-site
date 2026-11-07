@@ -429,10 +429,10 @@ try{
   const tv=doc.getElementById('tutorView');
   doc.querySelector('#termChips button[data-wk="0"]').click(); // 復位：v1.60 測試點過「第 3 週」過濾，切回全部
   const dets=[...tv.querySelectorAll('details.gsec.fold')];
-  ok('v1.68 補習材料 11 塊折疊('+dets.length+')', dets.length===11);
+  ok('v1.68 補習材料 10 塊折疊（v1.81 ⑪ 搬進英文區）('+dets.length+')', dets.length===10);
   ok('v1.68 默認僅展開 ①排期表', dets.filter(d=>d.open).length===1 && dets[0].open && dets[0].querySelector('summary').textContent.includes('35 週排期表'));
   const sums=[...tv.querySelectorAll('details.gsec.fold > summary.gsec-h')].map(s=>s.textContent);
-  ok('v1.68 十一塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀/中學英文/備考地圖/原創試卷/朗文單詞本）('+sums.length+')', sums.length===11 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡','中學英文','備考地圖','本站原創試卷','朗文單詞本'].every(t=>sums.some(s=>s.includes(t))));
+  ok('v1.68 十塊標題條齊（排期/教材/面試/術語/繁體/字表/泛讀/中學英文/備考地圖/原創試卷）('+sums.length+')', sums.length===10 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','繁體認讀翻卡','教育局官方字表','泛讀打卡','中學英文','備考地圖','本站原創試卷'].every(t=>sums.some(s=>s.includes(t))));
   const nTerm=tv.querySelectorAll('#termGrid .fcard').length, nFt=tv.querySelectorAll('#ftGrid .fcard').length, nRead=tv.querySelectorAll('#readGrid .rcell').length;
   ok('v1.68 折疊後內容仍在 DOM（術語 '+nTerm+'／繁體 '+nFt+'／打卡 '+nRead+'）', nTerm===60 && nFt===100 && nRead===21);
   ok('v1.68 頁標題已去「女兒學習角」', tv.querySelector('h2').textContent==='補習材料（插中一 · 35 週減壓版）');
@@ -447,8 +447,8 @@ try{
 try{
   const esBtns=[...doc.querySelectorAll('#enPracSub button')];
   const order=esBtns.map(b=>b.dataset.es);
-  ok('v1.69 英文子頁動線不變，v1.80 只插入 mywords('+order.join(',')+')',
-     JSON.stringify(order.filter(x=>x!=='mywords'))===JSON.stringify(['goal','hk','vocab','paper','exam','iv']));
+  ok('v1.69 英文子頁動線不變，v1.80 只插入 mywords、v1.81 再插入 wb('+order.join(',')+')',
+     JSON.stringify(order.filter(x=>x!=='mywords'&&x!=='wb'))===JSON.stringify(['goal','hk','vocab','paper','exam','iv']));
   ok('v1.69 首顆=詞彙路線圖', esBtns[0].dataset.es==='goal' && esBtns[0].textContent==='詞彙路線圖');
   ok('v1.69 源碼首顆自帶 class="on"（首次進頁默認選中）', /<button data-es="goal" class="on">詞彙路線圖<\/button>/.test(html));
   ok('v1.69 僅一顆按鈕 on('+esBtns.filter(b=>b.classList.contains('on')).length+')', esBtns.filter(b=>b.classList.contains('on')).length===1);
@@ -537,9 +537,9 @@ try{
   const rnHtml=rn?rn.outerHTML:'';
   const tvEl=doc.getElementById('tutorView');
   const tvDets=[...tvEl.querySelectorAll('details.gsec.fold')];
-  ok('v1.72 ⑧ 為第 8 個折疊塊且默認收起（v1.78 後共 11 塊）', !!rn && tvDets.length===11 && tvDets[7]===rn && tvDets[8].id==='examMap' && tvDets[9].id==='paperHub' && tvDets[10].id==='lwteHub' && !rn.open);
+  ok('v1.72 ⑧ 為第 8 個折疊塊且默認收起（v1.81 後共 10 塊）', !!rn && tvDets.length===10 && tvDets[7]===rn && tvDets[8].id==='examMap' && tvDets[9].id==='paperHub' && !rn.open && !tvDets.some(d=>d.id==='lwteHub'));
   ok('v1.72 ⑧ 標題含「中學英文／不轉載內容」', !!rn && rn.querySelector('summary').textContent.includes('中學英文') && rn.querySelector('summary').textContent.includes('不轉載內容'));
-  ok('v1.72 頭部提示 11 模塊且標明 ⑧ 書籤、⑨ 先看、⑩ 找卷、⑪ 打卡', tvEl.textContent.includes('11 個模塊已折疊') && tvEl.textContent.includes('⑧ 是入學後的資源書籤') && tvEl.textContent.includes('⑨ 不知道從哪開始先看它') && tvEl.textContent.includes('⑩ 按年級找本站原創卷') && tvEl.textContent.includes('⑪ 朗文單詞本打卡'));
+  ok('v1.72 頭部提示 10 模塊且標明 ⑧ 書籤、⑨ 先看、⑩ 找卷，並指向英文區某文單詞本', tvEl.textContent.includes('10 個模塊已折疊') && tvEl.textContent.includes('⑧ 是入學後的資源書籤') && tvEl.textContent.includes('⑨ 不知道從哪開始先看它') && tvEl.textContent.includes('⑩ 按年級找本站原創卷') && tvEl.textContent.includes('某文單詞本'));
   ok('v1.72 ② 教材清單有指向 ⑧ 的指引', tvDets[1].textContent.includes('⑧ 中學英文 · 外部資源導航'));
   const off=['edb.gov.hk/Academic_English','student.edcity.hk/sec/en/guidance/1031','hkeaa.edu.hk','hkedcity.net'];
   const links=[...rn.querySelectorAll('a[href^="http"]')];
@@ -1088,7 +1088,7 @@ try{
   ok('v1.53 兩 tab 按鈕已刪（繪本閱讀/朗文詞庫）', !/data-es="ort"/.test(html) && !/data-es="lwte"/.test(html) && !html.includes('繪本閱讀') && !html.includes('朗文詞庫'));
   ok('v1.53 ortView/lwteView DOM 與 JS 全清', !/id="ortView"|id="lwteView"|ortView|lwteView/.test(html));
   ok('v1.53 數據鏈已斷（無 ort_books/lwte_banks）', !/ort_books|lwte_banks/.test(html));
-  ok('v1.53 enPracSub 原有 6 tab 未刪（v1.80 起共 7）', doc.querySelectorAll('#enPracSub button').length===7);
+  ok('v1.53 enPracSub 原有 6 tab 未刪（v1.80 加 mywords、v1.81 加 wb，共 8）', doc.querySelectorAll('#enPracSub button').length===8);
 }catch(e){ ok('v1.53 測試執行', false); console.log('   err='+e.message); }
 
 // ============ v1.52 時間線加回小學線 + 全站無 schooland ============
@@ -1252,7 +1252,7 @@ try{
   const d9=[...tv9.querySelectorAll('details.gsec.fold')];
   const emTxt=em?em.textContent:'';
   const emHtml=em?em.outerHTML:'';
-  ok('v1.75 ⑨ 為第 9 個折疊塊、默認收起、在 ⑧ 之後（v1.78 後共 11 塊）', !!em && d9.length===11 && d9[8]===em && d9[9].id==='paperHub' && d9[10].id==='lwteHub' && !em.open && d9[7].id==='secResNav');
+  ok('v1.75 ⑨ 為第 9 個折疊塊、默認收起、在 ⑧ 之後（v1.81 後共 10 塊）', !!em && d9.length===10 && d9[8]===em && d9[9].id==='paperHub' && !em.open && d9[7].id==='secResNav');
   ok('v1.75 ⑨ 標題含「備考地圖／不知道從哪開始」', !!em && em.querySelector('summary.gsec-h').textContent.includes('備考地圖') && em.querySelector('summary.gsec-h').textContent.includes('不知道從哪開始先看這張'));
   ok('v1.75 頭部「🗺 打開備考地圖」直達鈕在', !!doc.getElementById('mapOpenBtn') && doc.getElementById('mapOpenBtn').textContent.includes('打開備考地圖'));
   ok('v1.75 A 區矩陣 4 科 × 3 段表頭齊', !!em && em.querySelectorAll('table.mtable tbody tr').length===4 && ['中文','英文','數學','面試'].every(k=>em.querySelector('table.mtable').textContent.includes(k)) && ['輸入','輸出','複盤'].every(k=>em.querySelector('table.mtable thead').textContent.includes(k)));
@@ -1333,7 +1333,7 @@ try{
   const pBtns=ph?[...ph.querySelectorAll('button.pgo')]:[];
   const specs=pBtns.map(b=>b.getAttribute('data-paper')||'');
   const d10=[...doc.getElementById('tutorView').querySelectorAll('details.gsec.fold')];
-  ok('v1.77 ⑩ 為第 10 個折疊塊、默認收起、排在 ⑨ 之後（v1.78 後共 11 塊）', !!ph && d10.length===11 && d10[9]===ph && d10[10].id==='lwteHub' && d10[8].id==='examMap' && !ph.open);
+  ok('v1.77 ⑩ 為第 10 個折疊塊、默認收起、排在 ⑨ 之後（v1.81 後共 10 塊）', !!ph && d10.length===10 && d10[9]===ph && d10[8].id==='examMap' && !ph.open);
   ok('v1.77 標題含「本站原創試卷／按年級找」', !!ph && ph.querySelector('summary').textContent.includes('本站原創試卷') && ph.querySelector('summary').textContent.includes('按年級找'));
   ok('v1.77 表格 6 個年級 × 3 卷種表頭齊', !!ph && ph.querySelectorAll('table.phub-tbl tbody tr').length===6 && ['英文卷','數學卷','呈分試卷'].every(k=>ph.querySelector('table.phub-tbl thead').textContent.includes(k)));
   ok('v1.77 14 顆按鈕且 data-paper 全部合法 ('+pBtns.length+')', pBtns.length===14 && specs.every(s=>/^(en|math):P[1-6]$|^exam:P[56]$/.test(s)) && new Set(specs).size===14);
@@ -1349,7 +1349,7 @@ try{
   ok('v1.77 不新增 localStorage 鍵／不新增雲端請求', typeof window.__paperHubTest==='object' && phJs.length>200 && !/localStorage|fetch\(|XMLHttpRequest/.test(phJs));
   ok('v1.77 新模塊未污染 AI 白名單知識庫', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/本站原創試卷|不爬取|公開發行|題型結構/.test(x.t+x.s)));
   ok('v1.77 窄屏可橫滑且有文字提示', /\.phub-wrap\{overflow-x:auto/.test(html) && /min-width:600px/.test(html) && phTxt.includes('手機窄屏可左右滑動表格'));
-  ok('v1.77 頭部提示 11 模塊且點名 ⑩', doc.getElementById('tutorView').textContent.includes('11 個模塊已折疊') && doc.getElementById('tutorView').textContent.includes('⑩ 按年級找本站原創卷'));
+  ok('v1.77 頭部提示 10 模塊且點名 ⑩', doc.getElementById('tutorView').textContent.includes('10 個模塊已折疊') && doc.getElementById('tutorView').textContent.includes('⑩ 按年級找本站原創卷'));
   function tap(spec){
     const b=pBtns.find(x=>x.getAttribute('data-paper')===spec);
     if(!b)return false;
@@ -1368,13 +1368,14 @@ try{
 // ============ v1.78 朗文單詞本 · 進度本（版權紅線優先） ============
 try{
   const fs=require('fs');
-  const lh=doc.getElementById('lwteHub');
+  const lh=doc.getElementById('wbView');
   const lhTxt=lh?lh.textContent:'';
   const lhHtml=lh?lh.outerHTML:'';
   const d11=[...doc.getElementById('tutorView').querySelectorAll('details.gsec.fold')];
-  ok('v1.78 ⑪ 為第 11 個折疊塊、默認收起、排在 ⑩ 之後', !!lh && d11.length===11 && d11[10]===lh && d11[9].id==='paperHub' && !lh.open);
-  ok('v1.78 標題條帶 gsec-h 類（v1.77 踩過漏類）', !!lh && !!lh.querySelector('summary.gsec-h'));
-  ok('v1.78 標題含「朗文單詞本／進度本」', lhTxt.includes('朗文單詞本') && lhTxt.includes('進度本'));
+  // v1.81：整塊搬到「練習 → 英文 → 某文單詞本」子頁，不再是 tutorView 的第 ⑪ 個折疊塊
+  ok('v1.81 ⑪ 已搬出補習材料（tutorView 10 塊、無 lwteHub）', !!lh && d11.length===10 && !d11.some(d=>d.id==='lwteHub'));
+  ok('v1.81 某文單詞本在英文練習區內、默認收起', !!lh && !!doc.getElementById('enPracView').contains(lh) && lh.style.display==='none');
+  ok('v1.81 標題含「某文單詞本／進度本」且已無「朗文」', lhTxt.includes('某文單詞本') && lhTxt.includes('進度本') && lhTxt.indexOf('朗文')<0);
 
   // ── 版權紅線：拿本機私有詞表逐條反查公開 HTML ──
   let priv=null, zhPriv=null;
@@ -1393,9 +1394,9 @@ try{
   ok('v1.78 公開 HTML 零朗文中文自譯（'+zhs.length+' 條）', !!zhPriv && zhs.length>40 && leakZh.length===0);
   const metaSrc=fs.readFileSync('_lwte_meta.json','utf8').trim();
   ok('v1.78 注入內容＝公開目錄檔本身、無詞表結構／無私有檔名外洩', html.includes(metaSrc) && !/"w"\s*:\s*"/.test(metaSrc) && !/"items"\s*:\s*\[/.test(metaSrc) && !html.includes('_lwte_all.json') && !html.includes('_lwte_notebook'));
-  ok('v1.78 ⑪ 區塊零外鏈／零圖片／零檔案連結', !/<a\s|<img\b|\.pdf|\.jpe?g|\.png|https?:\/\//i.test(lhHtml));
-  ok('v1.78 warn 卡標 © Pearson 與「不是法律意見」', lhTxt.includes('Pearson Education Asia Limited') && lhTxt.includes('不是法律意見'));
-  ok('v1.78 明確「不收錄任何單詞」與「完整版在本機」', lhTxt.includes('不收錄任何單詞') && lhTxt.includes('家庭學習用的完整版在本機'));
+  ok('v1.81 ⑪ 區塊零外鏈／零圖片／零檔案連結', !/<a\s|<img\b|\.pdf|\.jpe?g|\.png|https?:\/\//i.test(lhHtml));
+  ok('v1.81 warn 卡仍標版權歸屬與「不是法律意見」（已去出版社名）', lhTxt.includes('版權屬原出版社') && lhTxt.includes('不是法律意見') && lhTxt.indexOf('Pearson')<0 && lhTxt.indexOf('Longman')<0);
+  ok('v1.81 明確「不收錄任何單詞」與「完整版在本機」', lhTxt.includes('不收錄任何單詞') && lhTxt.includes('家庭學習用的完整版在本機'));
 
   // ── 目錄元數據：只有冊／主題名／詞數 ──
   const meta=window.__lwteTest?window.__lwteTest.meta:null;
@@ -1419,9 +1420,11 @@ try{
 
   // ── 聽寫紙、集成、白名單、推送紅線 ──
   ok('v1.78 聽寫紙只印主題名＋詞數＋橫線', html.includes('lhub-line') && html.includes('for(var i=0;i<c.n;i++)') && lhTxt.includes('紙上不會出現任何單詞'));
+  ok('v1.81 聽寫紙標題已去「朗文」', html.includes('<h2>聽寫紙 · ') && !html.includes('朗文聽寫紙'));
   ok('v1.78 匯出／匯入／清空都帶 lwteProg', html.includes('lwteProg:window.__lwteTest') && html.includes('if(d.lwteProg&&window.__lwteTest)') && html.includes('window.__lwteTest.clear()'));
   ok('v1.78 不進 AI 白名單知識庫', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/朗文單詞本|hkk_lwte|聽寫紙/.test(x.t+x.s)));
   ok('v1.78 窄屏可橫滑、表格壓窄、提示在表格上方', /\.lhub-wrap\{overflow-x:auto/.test(html) && /min-width:520px/.test(html) && /max-width:640px\)\{[\s\S]{0,220}min-width:430px/.test(html) && lhTxt.includes('手機窄屏可左右滑動表格') && lhHtml.indexOf('向右滑動下面的表格') < lhHtml.indexOf('lhub-wrap'));
+  ok('v1.81 全站公開 HTML 零「朗文」字樣', html.indexOf('朗文')<0);
   const syncSrc=fs.readFileSync('_gh_sync.py','utf8');
   ok('v1.78 私有詞表檔永不進 FILE_MAP、目錄檔已納入', !/'_lwte_all\.json'\s*:/.test(syncSrc) && !/'_lwte_notebook\.html'\s*:/.test(syncSrc) && /'_lwte_meta\.json'\s*:/.test(syncSrc));
 }catch(e){ ok('v1.78 測試執行', false); console.log('   err='+e.message); }
@@ -1433,7 +1436,7 @@ try{
   const rdTxt=rh?rh.textContent:'';
   const rf=window.__readFocusTest;
   const rdDets=[...doc.querySelectorAll('#tutorView details.gsec.fold')];
-  ok('v1.79 ⑦ 仍是第 7 個折疊塊、全站 11 塊不多不少', !!rh && rdDets.length===11 && rdDets[6]===rh && !rh.open);
+  ok('v1.79 ⑦ 仍是第 7 個折疊塊、全站 10 塊不多不少', !!rh && rdDets.length===10 && rdDets[6]===rh && !rh.open);
   ok('v1.79 21 格打卡與統計／清空鈕原樣保留', rh.querySelectorAll('#readGrid .rcell').length===21 && !!rh.querySelector('#readStat') && !!rh.querySelector('#readReset'));
   ok('v1.79 四顆子目錄頁簽且預設「今日重點」on', [...doc.querySelectorAll('#readSubNav button[data-rd]')].map(b=>b.getAttribute('data-rd')).join(',')==='today,plan,pick,check' && doc.querySelector('#readSubNav button.on').getAttribute('data-rd')==='today');
   ok('v1.79 四個面板、預設只顯示 today', doc.querySelectorAll('#readFocusBox .rdpane').length===4 && [...doc.querySelectorAll('#readFocusBox .rdpane')].every(p=>p.style.display===(p.getAttribute('data-rd-pane')==='today'?'block':'none')));
@@ -1495,7 +1498,7 @@ try{
   ok('v1.80 按鈕純文字無 emoji', !/[\u{1F300}-\u{1FAFF}]/u.test(vw));
   ok('v1.80 窄屏轉單列 CSS', /\.mwform label\{flex:1 1 100%\}/.test(html) && /\.mwfoot \.btn\{flex:1 1 44%\}/.test(html));
   const es=[...doc.querySelectorAll('#enPracSub button')].map(b=>b.dataset.es);
-  ok('v1.80 第 7 顆子標籤插在詞表之後', es.length===7 && es[3]==='mywords' && es.filter(x=>x!=='mywords').join(',')==='goal,hk,vocab,paper,exam,iv');
+  ok('v1.80 第 7 顆子標籤插在詞表之後（v1.81 加 wb 後共 8 顆）', es.length===8 && es[3]==='mywords' && es.filter(x=>x!=='mywords'&&x!=='wb').join(',')==='goal,hk,vocab,paper,exam,iv');
   doc.querySelector('#practiceSub button[data-sub="en"]').click();
   const mwTab=doc.querySelector('#enPracSub button[data-es="mywords"]');
   mwTab.click();
@@ -1565,12 +1568,82 @@ try{
   mw.clear();
   ok('v1.80 清空後空態提示', mw.count()===0 && doc.querySelectorAll('#mwList .mwempty').length===1);
   ok('v1.80 全站導出含 myWords 字段', /myWords:window\.__myWordsTest\?window\.__myWordsTest\.exportData\(\)\.words:\[\]/.test(html));
-  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.80'/.test(html));
+  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v1\.81'/.test(html));
   ok('v1.80 清空確認文案補「我的單詞本」', /泛讀自查／我的單詞本/.test(html));
   ok('v1.80 不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/我的單詞本|hkk_mywords/.test(x.t+x.s)));
   ok('v1.80 版權文案在子頁', doc.getElementById('myWordsView').textContent.includes('不預置任何出版社詞表'));
-  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.80/g)||[]).length===2 && html.includes("ver:'hkk_v1.80'") && !html.includes('公開版 v1.79'));
+  ok('v1.80 版本號三處一致', (html.match(/公開版 v1\.81/g)||[]).length===2 && html.includes("ver:'hkk_v1.81'") && !html.includes('公開版 v1.79'));
 }catch(e){ ok('v1.80 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
+
+// ============ v1.81 反饋牆 ＋ 貪吃蛇單詞背景 ＋ 某文單詞本搬位 ============
+try{
+  const fs=require('fs');
+  // ── A. 某文單詞本：落位與去品牌 ──
+  const wb=doc.getElementById('wbView');
+  const wbTxt=wb?wb.textContent:'';
+  const wbHtml=wb?wb.outerHTML:'';
+  ok('v1.81 某文單詞本是英文區第 8 顆子標籤', !!doc.querySelector('#enPracSub button[data-es="wb"]') && doc.querySelector('#enPracSub button[data-es="wb"]').textContent==='某文單詞本');
+  ok('v1.81 某文單詞本 DOM 在 enPracView 內（非 tutorView）', !!wb && doc.getElementById('enPracView').contains(wb) && !doc.getElementById('tutorView').contains(wb));
+  ok('v1.81 公開 HTML 零「朗文」', html.indexOf('朗文')<0 && doc.body.textContent.indexOf('朗文')<0);
+  ok('v1.81 __hkkGo 能跳 p:en:wb（沿用既有解析器）', html.includes('if(a[1]===\'en\'&&a[2])click(\'#enPracSub button[data-es="\'+a[2]+\'"]\');'));
+  // 內部 ID 與進度 key 保留（不影響既有用戶進度）
+  ok('v1.81 內部 ID／進度 key 不變（兼容既有進度）', html.includes("KEY='hkk_lwte_prog_v0'") && html.includes('id="lwteChips"') && html.includes('id="lwteBody"') && html.includes('id="lwteStat"'));
+  ok('v1.81 元數據已去出版社名（_lwte_meta.json）', (()=>{const m=fs.readFileSync('_lwte_meta.json','utf8');return m.indexOf('Pearson')<0&&m.indexOf('Longman')<0&&m.indexOf('朗文')<0;})());
+
+  // ── B. 貪吃蛇：單詞鋪背景 + 目標格顯示詞 + 吃到換詞 ──
+  const st=window.__snakeTest;
+  ok('v1.81 貪吃蛇測試鉤子存在', !!st && st.G===16);
+  ok('v1.81 背景鋪滿 256 格單詞且來自港小詞池', !!st && st.bg.length===256 && st.bg.every(w=>typeof w==='string'&&w.length>0));
+  ok('v1.81 背景單詞皆來自站內小學詞池（非亂碼、非中學詞）', !!st && Array.isArray(st.pool) && st.pool.length>0 && (()=>{
+    const set={};st.pool.forEach(w=>set[w]=1);
+    return st.bg.every(w=>typeof w==='string'&&!!set[w]);
+  })());
+  ok('v1.81 目標格有單詞，且與面板「去吃」一致', !!st && !!st.food && st.food.w && doc.getElementById('snakeWord').textContent.indexOf(st.food.w)>=0);
+  ok('v1.81 目標格在背景中顯示的就是目標詞', !!st && st.bg[st.food.y*st.G+st.food.x]===st.food.w);
+  const f0=st.food.w;
+  const f1=st.nextFood();
+  ok('v1.81 吃到後換成另一個詞（'+f0+'→'+f1.w+'）', !!f1 && f1.w!==f0 && st.food.w===f1.w);
+  ok('v1.81 換詞後目標格背景同步更新', st.bg[st.food.y*st.G+st.food.x]===st.food.w);
+  ok('v1.81 吃到即換詞走 nextFood（去重保護）', /nextFood\(\);\s*\/\/ v1.81：吃到即換一個新詞/.test(html) && /function nextFood\(\)/.test(html));
+  ok('v1.81 面板文案說明「背景全是港小生字／黃色格子是目標詞」', doc.getElementById('funView').textContent.includes('背景全是港小生字') && doc.getElementById('funView').textContent.includes('黃色格子是目標詞'));
+
+  // ── C. 反饋牆：結構、雲表接線、降級路徑 ──
+  ok('v1.81 反饋浮動入口與彈窗齊', !!doc.getElementById('fbFabBtn') && !!doc.getElementById('fbMask') && !!doc.getElementById('fbModal') && !!doc.getElementById('fbList'));
+  ok('v1.81 反饋表單三欄（類型／內容／暱稱）', !!doc.getElementById('fbCat') && !!doc.getElementById('fbText') && !!doc.getElementById('fbName') && doc.getElementById('fbText').getAttribute('maxlength')==='300');
+  ok('v1.81 反饋表單含「提交反饋」鈕', !!doc.getElementById('fbSend') && doc.getElementById('fbSend').textContent.indexOf('提交反饋')>=0);
+  ok('v1.81 反饋牆接雲表 site_feedback（公開可讀／僅可插入）', /from\(TBL\)\.insert/.test(html) && /TBL='site_feedback'/.test(html) && /from\(TBL\)\.select/.test(html));
+  ok('v1.81 插入只帶 category/content/nickname/page，不帶 owner_id', /insert\(\{[\s\S]{0,220}?category:[\s\S]{0,220}?content:v,[\s\S]{0,220}?page:'web'[\s\S]{0,80}?\}\)/.test(html) && html.indexOf('owner_id')<0);
+  ok('v1.81 訪客內容一律 textContent 渲染（防 XSS）', /body\.textContent=esc\(r\.content\)/.test(html) && !/innerHTML\s*=\s*[^;]*r\.content/.test(html));
+  ok('v1.81 域判定沿用 v1.74 白名單（非綁定域降級）', /h==='hk-study-site\.app\.workbuddy\.host'/.test(html) && !!doc.getElementById('fbFallback'));
+  ok('v1.81 降級引導指向 AI 專用連結（帶 sharecode）', doc.getElementById('fbFallbackGo').getAttribute('href')==='https://hk-study-site.app.workbuddy.host/?sharecode=45B2W7AOKI');
+  ok('v1.81 錯誤按碼分類給人話，不吞錯', /errText\(code\(|'network_error'/.test(html) && /'42501'/.test(html) && /'42P01'/.test(html));
+  ok('v1.81 反饋列表依時間倒序並限量', /\.order\('created_at',\{ascending:false\}\)\.limit\(LIST_LIMIT\)/.test(html) && /LIST_LIMIT=60/.test(html));
+  ok('v1.81 反饋狀態三態（待處理／已排期／已完成）', /STATUS_TXT=\{open:'待處理',planned:'已排期',done:'已完成'\}/.test(html));
+  ok('v1.81 反饋不進 AI 白名單（kb 仍 95）', (window.__aiTest.kb||[]).length===95 && (window.__aiTest.kb||[]).every(x=>!/意見反饋|site_feedback|反饋牆/.test(x.t+x.s)));
+  ok('v1.81 反饋浮鈕固定在左下（不與右下加微信打架）', /#fbFab\{position:fixed;left:14px;bottom:18px/.test(html) && /#ctaFab\{position:fixed;right:14px;bottom:18px/.test(html));
+  ok('v1.81 窄屏反饋鈕上移、加微信鈕不動（兩鈕不重疊）', /max-width:640px\)\{[\s\S]{0,260}#fbFab\{left:10px;bottom:66px\}/.test(html) && /max-width:640px\)\{[\s\S]{0,320}#ctaFab\{right:10px;bottom:14px\}/.test(html));
+  ok('v1.81 反饋按鈕 44px 可點', /#fbFabBtn\{[^}]*padding:11px 16px/.test(html) && /\.fb-form button\{[^}]*min-height:44px/.test(html));
+  ok('v1.81 反饋區零外鏈零圖片（除專用連結）', (()=>{
+    const m=doc.getElementById('fbModal');if(!m)return false;
+    const h=m.outerHTML;
+    return !/<img\b|\.png|\.jpe?g|\.pdf/i.test(h) && (h.match(/https?:\/\//g)||[]).length===1;
+  })());
+  // 反饋渲染純邏輯（不連雲）
+  const fbT=window.__fbTest;
+  ok('v1.81 反饋測試鉤子存在', !!fbT && fbT.tbl==='site_feedback' && fbT.maxLen===300);
+  fbT.renderList([{id:1,category:'建議',content:'測試 <img src=x onerror=alert(1)> 反饋',nickname:'甲',status:'open',created_at:new Date().toISOString()},
+                  {id:2,category:'問題',content:'第二條',nickname:null,status:'done',created_at:'2026-11-01T00:00:00Z'}]);
+  const items=[...doc.querySelectorAll('#fbList .fb-item')];
+  ok('v1.81 反饋列表渲染 2 條', items.length===2);
+  ok('v1.81 訪客內容以文字呈現、未變成 DOM 標籤（XSS 防護）', items[0].querySelectorAll('img').length===0 && items[0].textContent.indexOf('<img src=x')>=0);
+  ok('v1.81 反饋狀態套用對應樣式', items[0].className.indexOf('open')>=0 && items[1].className.indexOf('done')>=0);
+  fbT.renderList([]);
+  ok('v1.81 空列表有引導文案', doc.querySelectorAll('#fbList .fb-empty').length===1);
+  ok('v1.81 錯誤碼映射覆蓋網絡／權限／表不存在／重複', ['network_error','42501','42P01','23505'].every(c=>fbT.errText(c)&&fbT.errText(c).length>4));
+  ok('v1.81 時間顯示相對時間', fbT.when(new Date(Date.now()-3600000).toISOString()).indexOf('小時前')>=0);
+
+  ok('v1.81 版本號三處一致', (html.match(/公開版 v1\.81/g)||[]).length===2 && html.includes("ver:'hkk_v1.81'") && !html.includes('公開版 v1.80'));
+}catch(e){ ok('v1.81 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
