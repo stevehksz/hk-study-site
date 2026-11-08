@@ -1018,13 +1018,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.12（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.13（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.12（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.13（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2425,6 +2425,8 @@ Thank you for your time.</div>
         <summary>本家庭叩門總邏輯（身份 2027.6 到手的家庭先看這個）</summary>
         <p>孩子身份預計 <b>2027 年 6 月到手</b>，意味著：① 2027.1.4–1.18 自行分配窗口＝錯過（須遞交時已持身份）；② 5 月前所有主申請＝錯過；③ 唯一現實路徑＝兩條並行——<b>A. 2027.7.6 放榜後叩門</b>（黃金期 7.6–7.9，官津每班約 1 個留班位）＋ <b>B. 教育局途徑三</b>（新來港兒童資助中一，2027.5–8 月登記，分批 7.6/7 月底/8 月中出結果，兜底不會沒書讀）；④ 直資僅心誠一所（風采經 2026-10-31 教育局收費證明書勘誤為資助、免學費僅堂費 $340/年，走官津派位窗口），不存在「身份到手即報第一批占位」紅利。</p>
       </details>
+      <details class="gcard fold" open>
+        <summary>本家庭擇校分檔表（20 所 · 衝刺／穩妥／墊底 · 非官方 Band）</summary>
         <div class="scroll-x">
         <table class="mtable" id="tierTable">
           <thead><tr><th>梯隊</th><th>學校</th><th>類型</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>學費</th><th>申請路徑（本家庭）</th></tr></thead>
@@ -2455,6 +2457,7 @@ Thank you for your time.</div>
           </tbody>
         </table>
       </div>
+      </details>
       <details class="gcard fold">
         <summary>叩門衝刺組合建議（按英文水平分）</summary>
         <p><b>英文達標（PET 量級）</b>：衝刺 鄧顯/甲寅年/田家炳/陳融 ＋ 求穩 風采/心誠 ＋ 保底 基新/上水官立/粉嶺救恩/粉嶺官立（粉嶺官立 2026-10-31 勘誤為中中，接受中文授課才納入）。</p>
@@ -52305,7 +52308,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.12',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.13',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

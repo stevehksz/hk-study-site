@@ -6,6 +6,8 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.13：葉工圈截圖「本家庭叩門總邏輯這裡折疊不了」——排查發現 v2.11 頁籤改版時 **#tierTable（本家庭 20 所分檔表）從折疊卡裡掉了出來**，成了裸塊：點收起只收掉上面的邏輯說明段，表永遠攤在頁面上。修法＝給表單獨包一張 `<details class="gcard fold" open>`（open 是布爾屬性不能寫進 class）（默認展開——它是核心校表，符合 v1.65「核心校表默認展開」慣例），summary「本家庭擇校分檔表（20 所 · 衝刺／穩妥／墊底 · 非官方 Band）」，現在可正常收起。全檔掃描確認 details 後裸 scroll-x 僅此一處。斷言 folds 16→17、默認展開 5→6（加 #tierTable），總數 1179→1181。
+
 v2.12：葉工把私有 P6 數學基礎庫（26 題型／五部制）要求「接進站內數學卷模組，可上公開站，出處標本站原創」。落地＝①P6 題池 24→**54**，新增 **30 道原創題**覆蓋 26 個題型（部分雙空題拆成單空以便自動判分）：甲 運算與互化 6／乙 百分數應用 8／丙 平均數 3／丁 容量與體積 6／戊 圓周與面積 7；②每題帶 `part`（甲乙丙丁戊）與 `pname`（題型名），題卡標籤顯示為「填空題 · 甲部 · 小數除法直式」，打印卷題頭同標，卷頭標所選分部；③新增 `#mpartChips` 分部列（僅 P6 顯示）：全部／甲／乙／丙／丁／戊，點一部＝只從該部抽題；切離 P6 自動收列並重置 `curMathPart='all'`；④`pickMathN()` 抽題配額——word 型（多小問／說理，不自動判分）上限取 N 的 1/4（8 題→2 題），其餘先抽 mc/fill，否則新庫會令一套卷有 4 題交卷後看不到分數；⑤雙語一致：30 題全部補原創英文題幹（站內 P6 定位是練英中英文出題），欄位與既有題庫同構，故 `gradeMathPaper`／`printMathPaper`／錯題本 v2.08 接線**零改動**即生效；⑥版權口徑：只描述「小六常見考什麼」的分部結構，未取用任何真卷原文、原題數字、配分；公開站零「港學家／小紅書」字樣，srcNote 明寫本站原創與「配分以各校原卷為準」。⚠️ 教訓沿用：P6 末條以整行字面量作錨點（不用行號），`assert` 命中 1 次才改；`norm()` 只去尾句點、壓空格，故 `%` 答案另給 `alt:["30%"]` 等變體，避免孩子輸入帶 % 判錯。
 v2.11：葉工貼擇校分檔截圖問「這個子目錄很亂要優化，新加的（元朗）中學也要有排名還有詳細信息」，AskUserQuestion 拍板＝頁籤式目錄＋AI 選校同步接入。落地＝①**目錄頁籤化（零搬運）**：#schTabSec（北區中學＋大埔兩 fold 原地包住）／#schTabYl（天瑞邨卡＋元朗表）／#schTabPri（小學整個 gsec）三頁籤 hidden 切換（schTab()，存 hkk_sch_tab_v1），jmpSch 保留（切籤＋開折疊＋滾動）；AI 選校卡原地轉折疊卡（details，Pages 域降級時自動展開），工具卡（心水/地圖/詳情/跨境/校車/叩門/勘誤/外鏈）在頁籤區後通用；②**元朗 39 所坊間 Band 入表**：ylTable 加 Band參考列（對齊 tierTable 口徑區間式），schoolhub.hk 2026-02 全 39 所名單為基底＋51talkshengxue/tweducational/hkstudyroute 交叉，衝突取區間（如元朗信義 1A–1B、盧幹庭 1C–2A、青年會 1B–2B），來源行明標「坊間整理·非官方 2026-11-08 檢索」；collectMapSchools yl 分支欄位索引隨 Band 列右移；③**元朗 39 所詳細檔案**：_chsc_ids.json 補 6 所（CHSC 元朗區列表頁 POST district_id=18 解析，可道＝全形括號坑），新 gen_sch_profiles_yl.py 復用 gen_sch_profiles.py 的 fetch/parse 抓中學概覽 2025/2026 全 39 校（CHSC 連接抖動重跑 3 輪補齊，冪等設計），_sch_profiles.json 40→79，build_data 斷言同步——ylTable 行自動獲得📄詳情＋⚖️對比（injectSchBtns 按檔案存在性掛鈕，零改動）；④**AI 選校接元朗**：SCH_DB sec 擴為 60 行（北區·大埔 21＋元朗 39，分檔由坊間 Band 首字對應 1→衝刺/2→穩妥/3→保底，帶 rg 地區欄），schDbText 用 rg；schAiStart 加深圳灣口岸（元朗主口）＋askSch 通勤提示（B2/B2P 巴士 30–50 分鐘估算）；buildSchSystem 規則 2 要求兩區兼顧；tip 改「全站 79＋30 所全部入庫」。⚠️ 大坑（v2.11 教訓）：第一版重排腳本用「切塊再插回」搬運大段 HTML， schoolsView 開口行留在殼裡而 gsec 收口在塊裡，DOM 整體錯位（內容全落 tutorView、folds=0，jsdom 結構檢查救場）——大段 HTML 搬運必須先用 jsdom 驗證嵌套；改用零搬運（頁籤容器原地包住既有塊）一次過。generate_html.py 主體 CRLF、後插塊 LF 混行——錨點必須行尾自適應。
 v2.10：葉工貪吃蛇截圖問「这里看看能不能选年级的单词」。落地＝①面板新增「全部年級／一年級…六年級」7 顆 chips（#snakeGradeChips，沿 .subnav 樣式，默認全部＝v2.06 行為不變）；②rndWord 改三段過濾——小學詞（grade 非「中」開頭）→ 選了年級再加 w.grade===snakeGrade → 空池容錯回退全小學池（不引 HK_PRI_GRADES，避免 TDZ）；③切年級即重開一局（背景 64 詞塊＋目標詞全部切到該年級），選擇存 localStorage hkk_snake_grade 刷新保留；④__snakeTest 暴露 grade/setGrade/gradeOf 供斷言（二年級 68 詞＞64 塊，逐年級池都夠用）。年份分布（build_data）：一~六年級 73/68/56/50/47/41＋中一二三 152（蛇不收中學詞，沿 v1.54 口徑）。
@@ -1103,13 +1105,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.12（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.13（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.12（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.13（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2510,6 +2512,8 @@ Thank you for your time.</div>
         <summary>本家庭叩門總邏輯（身份 2027.6 到手的家庭先看這個）</summary>
         <p>孩子身份預計 <b>2027 年 6 月到手</b>，意味著：① 2027.1.4–1.18 自行分配窗口＝錯過（須遞交時已持身份）；② 5 月前所有主申請＝錯過；③ 唯一現實路徑＝兩條並行——<b>A. 2027.7.6 放榜後叩門</b>（黃金期 7.6–7.9，官津每班約 1 個留班位）＋ <b>B. 教育局途徑三</b>（新來港兒童資助中一，2027.5–8 月登記，分批 7.6/7 月底/8 月中出結果，兜底不會沒書讀）；④ 直資僅心誠一所（風采經 2026-10-31 教育局收費證明書勘誤為資助、免學費僅堂費 $340/年，走官津派位窗口），不存在「身份到手即報第一批占位」紅利。</p>
       </details>
+      <details class="gcard fold" open>
+        <summary>本家庭擇校分檔表（20 所 · 衝刺／穩妥／墊底 · 非官方 Band）</summary>
         <div class="scroll-x">
         <table class="mtable" id="tierTable">
           <thead><tr><th>梯隊</th><th>學校</th><th>類型</th><th>教學語言</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>學費</th><th>申請路徑（本家庭）</th></tr></thead>
@@ -2540,6 +2544,7 @@ Thank you for your time.</div>
           </tbody>
         </table>
       </div>
+      </details>
       <details class="gcard fold">
         <summary>叩門衝刺組合建議（按英文水平分）</summary>
         <p><b>英文達標（PET 量級）</b>：衝刺 鄧顯/甲寅年/田家炳/陳融 ＋ 求穩 風采/心誠 ＋ 保底 基新/上水官立/粉嶺救恩/粉嶺官立（粉嶺官立 2026-10-31 勘誤為中中，接受中文授課才納入）。</p>
@@ -7892,7 +7897,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.12',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.13',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
