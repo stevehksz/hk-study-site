@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.92：葉工圈「某文單詞本」截圖問「可以把課文也按單詞這種放到網站裏面學習嗎」。先查本機教材能否取到課文文字：5A 課本 PDF 59 頁、教師用書 Ch1 10 頁 **pypdf 提文字層均 0 字符**（純掃描），Reading Courseware 19 頁僅 933 字符且多在圖片內，Learn to Read script.docx 16 段 517 字符是講師提示詞；Windows OCR 實測（zh-Hans-CN）5A 第 12 頁放大 2 倍出 370 字符但 to→t0、are→0 re、漫畫對話氣泡基本認不出 → **課文原文要 OCR＋逐章人工校對，無法自動化**。⚠️ 版權：倉庫公開＝公開發行，課文正文比詞表更敏感，**不能上公開站**（沿用 v1.78 雙軌先例）。AskUserQuestion 拍板＝**只做公開可放的配套練習，5A＋5B 兩冊全做**（否決雙軌課文精讀／家用私人版／暫不處理）。落地：英文區加第 10 顆子標籤「課文配套」＋`#textView`：冊 chips（5A/5B）→ 單元 chips（U1–U7）→ 當前單元卡（語法重點／字數／最佳分）＋原創短文（段落渲染）＋🔊 朗讀（複用全站 `speak()`）＋4 題判分（.qcard/.qopt，交卷即標正確與錯選＋逐題解析）＋2 題仿寫（附例句）＋朗讀任務（口語）。內容＝`_text_units.json`（14 單元，構建期注入 `__TEXT_UNITS__`，全原創：短文 140–179 詞、每單元 4 題 4 選項且答案分散、零重複選項）。進度 `hkk_ctx_best_v0`（満分單元計數，`hkk_` 前綴跟賬號隔離）。⚠️ 版權口徑寫進卡片尾 note：未取用課本原文／未改寫課文句子／不含教材頁面與音檔，單元名稱僅事實性目錄，語言點為本站自選**非課本逐章對應**。驗證：舊斷言改 1 處（v1.80 子標籤 9→10 顆）＋新增 v1.92 專項（14 單元結構/零重複選項/答案分散/實跑 U1 満分/朗讀鈕存在/零外鏈/零圖片/零教材品牌/進度落盤）。
 v1.91：葉工圈「今日課表」裏「興趣泛讀（不查詞典、不考核）」那一項問「給材料清單，或者網址」。AskUserQuestion 拍板＝**泛讀打卡塊內加「免費電子書」頁簽＋外鏈卡**（否決「只進 Obsidian」「暫不處理」）。落位＝`readSubNav` 加第 5 顆頁簽 `data-rd="res"`（插在「讀什麼」後），新增 `.rdpane[data-rd-pane="res"]`：只列**官方／開放授權**平臺入口＋本站自寫一句話說明（沿用⑧「只列入口，不轉載內容」口徑）——Oxford Owl 免費電子書庫（牛津大學出版社官方，3–11 歲分級，免費註冊家長帳號）、Storyline Online（SAG-AFTRA 基金會，明星朗讀繪本 105 條免費無廣告）、香港公共圖書館電子書（OverDrive／HyRead／SUEP，需圖書證）、香港閱讀城（教育城，官方書架免費試閱；完整書庫看學校有沒有訂「e悅讀」）、香港故事書（開放授權粵語有聲，兼練粵語耳）；另給**五指法則**選書法＋泛讀三不。卡尾 `rdgo` 回打卡格（t:6）與教材清單（t:1）。⚠️ **版權口徑**：只鏈官方平臺首頁，零第三方內容存放；`folk` 標注「連結 2026-11-07 核對；外鏈版權歸原站」。①路由：`go()` 的 `t:` 分支補可選第 3 段——`t:6:res` 打開泛讀塊後再 `click('#readSubNav button[data-rd="res"]')`（try 內，找不到不炸）。②課表接線：`SCH_ITEMS.read` 改 `go:'t:6:res',btn:'免費電子書清單'`（打卡格就在同塊下方，res 頁簽也有「去打卡」鈕，兩頭不失聯）。⚠️ **AI 知識庫不入庫**：res 頁簽在 `tutorView` 折疊塊內，KB 恆 100 條。驗證：舊斷言改 3 處（v1.79 頁簽 4→5 與序列、v1.79 面板 4→5、v1.90 錨點白名單放寬 `t:數字(:頁簽名)`）＋新增 v1.91 專項（頁簽序列/實跑 t:6:res 切到 res/外鏈恰 5 條且域名白名單/folk 核對日期/零圖片/KB 不變/零新增 localStorage 鍵/課表 read 項直達）。
 v1.90：葉工圈「補習材料①每週課表（≤3 小時）」截圖問「這個能做一個主目錄嗎，然後再細化優化」。AskUserQuestion 拍板＝**練習區新子頁「今日課表」＋全套**（打卡＋直達＋排入新模塊＋週日驗收；否決「獨立主導航按鈕」「留在原位強化」）。落位＝`practiceSub` 第 1 顆 `data-sub="sched"`（**練習默認子頁改為 sched**——女兒打開練習就看到今天做什麼），新增 `#schedView`。①數據：`SCH_ITEMS` 七項（泛讀 t:6／繁體認讀 t:5／粵語無按鈕只聽不跟讀／寫作 t:1／口語面試 t:2／數學術語 t:3／**時態與題型 p:en:drill 為 v1.89 新增項每週 2 次×15 分鐘**）＋`SCH_WEEK` 週一→週日排開（頻率與總表一致，只按天分派；寫作週二週六、口語週三、數學週四、時態週一週五）。②打卡：`hkk_sched_v0` 按日期存勾選（`{"YYYY-MM-DD":[ids]}`，只留最近 28 天），**跨天自動重置**（按今天日期讀）；今日 N/M＋已做約 N/M 分鐘；本週一覽七格（今天高亮、未來置灰、過去天顯示完成數）。③週日驗收卡：只在週日顯示——對照 35 週排期表當月驗收指標，不達標下週補該項、不趕進度（按鈕 t:0）。④直達一律走既有 `__hkkGo`（`p:sched` 由 go() 通用分支天然支援，未改解析器）。⑤原總表保留，表下加提示行＋`p:sched` 跳轉（兩處不失聯）。⑥接線：practiceSub 切換分支＋默認 `curPractice='sched'`（cnPracView 改默認隱藏）＋開頁即 `schRender()`；進度匯出/匯入/清空補 `sched` 字段，清空確認文案補「今日課表打卡」。⚠️ **AI 知識庫不入庫**：schedView 在 practiceView 內，KB 恆 100 條。⚠️ 版權：課表行項與頻率全部重組自站內既有總表，零新事實、零外鏈、零圖片。驗證：舊斷言改 2 處（practiceSub 4→5、默認子頁）＋新增 v1.90 專項（七日排程完整/每日任務數/打卡寫入與跨天重置/直達按鈕實跑 t:6 與 p:en:drill/週日卡只在週日顯示/本週七格/匯出含 sched/清空/零外鏈/KB 不變）。P1/P2 六處引導仍留待辦。
 v1.89：葉工貼來女兒做的 5 張打印卷照片（站內 v1.77 出的 P5 英文練習卷＋呈分試模擬卷），說「題型不熟悉，單詞不知道」；診斷後追問「怎麼在網站裡面加資源」，拍板＝**練習→英文新增第 9 子標籤「時態與題型」、可判分、只做 P5 一套**（另兩個選項「只做打印資料」「按錯題自動組卷生成器」未採納：前者孩子仍要家長對答案、後者要記錄錯題知識點、工程風險高）。⚠️ **診斷結論決定模塊形態**：卷面最重的不是「不會」而是「空白」——(B) 習語、(E) since 句、(F) 短語動詞、(H)(3)(4) 開放題整題沒動筆，屬「題型沒見過」；另有同一知識點連錯 6 題（written→wrote、fly→flew、bring→brought、share→shared、land→landed、blow→blew，全是一般過去式）。故模塊＝**動詞表（反覆練條件反射）＋五組題型（先見一面）**，不是再造一套綜合卷。①結構：`enPracSub` 加 `data-es="drill"`（插在「呈分試卷」後、「升中面試」前，即筆試輸出→題型專訓→口語輸出的動線），新增 `#drillView` 子頁與 `body` 頂層 `#drillPrintSheet`；`__hkkGo('p:en:drill')` 由既有解析器天然支援，未改導航代碼。②動詞表：`DRILL_VERBS` 30 條（原形／過去式／中文義，通用英語事實），可切「遮中文」「遮英文」自測（`.drvt.hidezh/.hideen` 用 `color:transparent` 遮蔽，不重繪整表以外的狀態），逐詞勾選存 `hkk_drill_prog_v0`，即時更新「已掌握 N/30」。③五組練習 `DRILL_GROUPS`：`past` 20 題（fill）、`simile` 6 題、`idiom` 12 題、`since` 4 題、`pv` 10 題（後四組 pick，附詞庫橫幅）。**答案索引刻意分散**（不是全 0），避免孩子摸出「永遠選 A」。④判分沿用 `gradeEnPaper` 口徑：fill 用 `norm()` 比對＋`alt` 容錯、pick 比對索引，結果用 `.qtot/.qbar` 並接 v1.88 的 `nsWrongLine('en')`；本組最佳存 `hkk_drill_best_v0`。⑤錯詞一鍵進「我的單詞本」：直接調 `__myWordsTest.addFrom('vocab',{w,zh,topic:'時態與題型'})`，**不另寫儲存邏輯**（沿用 v1.80 原則）。⑥打印：`printDrill()` 生成 A4 題卷（fill 用 `.ansline` 整寬橫線、pick 印選項、可勾「含答案版」），動詞表也可印（可選教師版）；打印白名單加 `#drillPrintSheet`，並沿用 v1.86 的 `EPS_SHARED_CSS`＋`printing-paper` 隔離。⑦接線：子標籤切換補 `sw('drillView',…)` 與 `drTapTo(drTap)`；進度匯出／匯入／清空補 `drillProg`／`drillBest`（清空確認文案同步加「時態題型勾選與成績」）。⑧測試鉤子 `window.__drillTest` 直接暴露 `groups/verbs/prog/best`——記 v1.85 教訓，斷言查穩定資料源、不靠隨機集合求交集。⚠️ **版權紅線**：題目與例句全部本站原創編寫，零第三方教材／補習社／學校／評估局內容、零外鏈、零圖片；動詞表只放通用英語事實（原形／過去式／中文義）。⚠️ **AI 知識庫不入庫**：`drillView` 在 `enPracView` 內，而 `ai_kb.py` 只抽 `faqView`／`timelineView`／`policyView`＋學校名冊，KB 恆 100 條（加斷言鎖死）。驗證：舊斷言改 3 處（子標籤 8→9 且 `drill` 插在 `exam` 與 `iv` 之間、匯出 JSON 版本號、v1.88「零新增 localStorage 鍵」改為只鎖 v1.88 那三個前綴）＋新增 v1.89 專項 18 項（子標籤與 `__hkkGo` 實跑／六組 chip 齊／30 詞表／五組題數與答案索引合法／fill 判分含大小寫與空白容錯／pick 判分／最佳分寫入／錯詞按鈕接單詞本／遮中文與遮英文／勾選持久化／打印含 `.ansline` 與答案版／零外鏈／KB 不污染／匯出含 drillProg）。P1/P2 六處引導仍留待下一版。
@@ -974,6 +975,11 @@ header{position:relative}
     .psteps button{flex:1 1 44%}
   }
   @media print{#ctaFab{display:none!important}}
+  /* v1.92 課文配套：短文段落＋逐題解析 */
+  .tx-passage{border-left:3px solid var(--acc);padding-left:12px;margin:8px 0 2px}
+  .tx-passage p{margin:0 0 10px;line-height:1.85;font-size:14.5px}
+  .tx-passage p:last-child{margin-bottom:0}
+  @media screen and (max-width:640px){.tx-passage{padding-left:9px}.tx-passage p{font-size:14px;line-height:1.8}}
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
 <script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js"></script>
@@ -1018,13 +1024,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.91（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.92（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.91（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.92（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1288,6 +1294,8 @@ header{position:relative}
       <button data-es="vocab">詞表</button>
       <button data-es="mywords">我的單詞本</button>
       <button data-es="wb">某文單詞本</button>
+      <!-- v1.92：課文配套——按單元主題另寫的原創短文＋判分題（零課本原文） -->
+      <button data-es="text">課文配套</button>
       <button data-es="paper">英文卷</button>
       <button data-es="exam">呈分試卷</button>
       <!-- v1.89：時態與題型——補「過去式反覆練＋香港常見題型首次見面」，插在筆試輸出（卷）之後、口語輸出（面試）之前 -->
@@ -1606,6 +1614,22 @@ Thank you for your time.</div>
           <div class="cell"><h4>6. 詞根詞綴＋聯想</h4><p>-tion 名詞、-ful 形容、un- 否定；用影像／故事聯想。適合中高年級擴詞。</p></div>
         </div>
         <p class="hint">方法學為通用學習科學與備考經驗整理（坊間參考），非官方教學指引；80/20 框架為本規劃顧問方法論（見升學規劃→學習路線），時間表與教材按各級實際情況重排。</p>
+      </div>
+    </div>
+    <!-- v1.92 課文配套：按單元主題另寫的原創短文＋判分題；不放任何課本原文／教材頁面／音檔 -->
+    <div class="wrap gsec" id="textView" style="display:none">
+      <div class="gtitle">課文配套 · 單元主題閱讀（原創短文 · 每單元 4 題）</div>
+      <p class="tip">這裡<b>不放課本原文</b>。每個單元按<b>同一個主題另寫一篇短文</b>，配 4 道理解題、2 個仿寫任務、1 個朗讀任務——把那一課的語法與詞彙放進真實閱讀裡再走一遍。課本音檔在你本機教材資料夾，本站不收錄、不上傳。</p>
+      <div class="tools">
+        <span class="chip on" data-tb="5A" id="txBkA">5A</span>
+        <span class="chip" data-tb="5B" id="txBkB">5B</span>
+        <span style="font-size:12px;color:#8a8aa0;align-self:center">短文字數約 140–180 · 建議 8 分鐘</span>
+        <span class="enpaper-stat" id="txStat">滿分單元 0 / 14</span>
+      </div>
+      <div class="subnav" id="txUnits" style="position:static;top:auto;margin:0 0 10px"></div>
+      <div id="txBox"></div>
+      <div class="en-src-note">
+        <b>題材與版權說明：</b>短文、題目、選項、解析全部為<b>本站原創</b>，只按單元主題另寫，<b>未取用課本原文、未改寫課文句子、不含任何教材頁面或音檔</b>；單元名稱僅作事實性目錄標注。語言點由本站按主題自選，<b>非課本逐章對應</b>。
       </div>
     </div>
     <div class="wrap gsec" id="paperView" style="display:none">
@@ -3221,7 +3245,7 @@ function gradeMathPaper(){
   if(!curMathPaper.length){alert('請先按「🎲 出新卷」生成練習卷。');return;}
   let correct=0, scored=0;
   curMathPaper.forEach(function(q,i){
-    const card=document.querySelector('.qcard[data-qi="'+i+'"]');
+    const card=document.querySelector('#mathPaperBox .qcard[data-qi="'+i+'"]');
     if(q.t==='mc'){
       const sel=card.querySelector('input[name="mq'+i+'"]:checked');
       scored++; const ok=sel&&+sel.value===q.a; if(ok)correct++;
@@ -3449,7 +3473,7 @@ function gradeCnPaper(){
   if(!all.length){alert('請先按「🎲 出新卷」生成中文卷。');return;}
   let correct=0,scored=0;
   all.forEach(function(q){
-    const card=document.querySelector('.qcard[data-qi="'+q._gi+'"]');
+    const card=document.querySelector('#cnPaperBox .qcard[data-qi="'+q._gi+'"]');
     if(!card)return;
     let val=null,ok=false;
     if(q.t==='mc'){
@@ -3721,7 +3745,7 @@ async function cnAiSwap(i,kind){
   const cfg=getAiCfg();
   if(!cfg.base||!cfg.key||!cfg.model){ alert('尚未配置 AI 接口。請到「練習 → 英文 → 智能練習卷」底部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器）。'); return; }
   const t=kind||'mc';
-  const btn=document.querySelector('.qcard[data-qi="'+i+'"] .cnai');
+  const btn=document.querySelector('#cnPaperBox .qcard[data-qi="'+i+'"] .cnai');
   const oldTxt=btn?btn.textContent:'';
   if(btn){btn.disabled=true;btn.textContent='生成中…';}
   try{
@@ -3834,7 +3858,7 @@ function gradeEnPaper(){
   if(!curEnPaper.length){alert('請先按「🎲 出新卷」生成練習卷。');return;}
   let correct=0, scored=0;
   curEnPaper.forEach((q,i)=>{
-    const card=document.querySelector('.qcard[data-qi="'+i+'"]');
+    const card=document.querySelector('#enPaperBox .qcard[data-qi="'+i+'"]');
     if(q.t==='mc'){
       const sel=card.querySelector('input[name="q'+i+'"]:checked');
       scored++;const ok=sel&&+sel.value===q.a; if(ok)correct++;
@@ -4216,7 +4240,7 @@ async function aiGenQuestion(g,t){
 }
 async function aiSwap(i){
   const cur=curEnPaper[i]; if(!cur)return; const g=cur.grade||curEnGrade; const t=cur.t;
-  const btn=document.querySelector('.qcard[data-qi="'+i+'"] .qswap .ai');
+  const btn=document.querySelector('#enPaperBox .qcard[data-qi="'+i+'"] .qswap .ai');
   const oldTxt=btn?btn.textContent:'';
   if(btn){ btn.disabled=true; btn.textContent='生成中…'; }
   try{
@@ -6248,7 +6272,8 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
     sw('hkView',es==='hk'); sw('vocabView',es==='vocab'); sw('ivView',es==='iv');
     sw('paperView',es==='paper'); sw('goalView',es==='goal'); sw('examView',es==='exam');
     sw('myWordsView',es==='mywords'); sw('wbView',es==='wb'); sw('drillView',es==='drill');
-    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(es==='drill')drTapTo(drTap); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
+    sw('textView',es==='text');
+    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(es==='drill')drTapTo(drTap); else if(es==='text'&&window.__txTest)window.__txTest.render(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
   }catch(e){ console.error('切換視圖失敗：',e); }
 });
 // v1.69：路線圖頁的動線按鈕——複用同一套切換邏輯，避免另寫一份顯隱代碼
@@ -6882,7 +6907,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.91',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.92',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -7763,6 +7788,161 @@ authBoot();
   renderPack();
   window.__lwteTest={get:get,set:set,clear:clear,render:render,key:KEY,meta:META,renderPack:renderPack};
 })();
+/* ---- v1.92 課文配套：按單元主題另寫的原創短文＋判分題（零課本原文） ----
+   版權紅線：短文／題目／選項／解析全部本站原創，只沿用單元主題方向；
+   不取用課本原文、不改寫課文句子、不放任何教材頁面或音檔；單元名稱僅事實性目錄標注。
+   進度：hkk_ctx_best_v0 = { unitId:{s:得分,t:題數,d:日期} }（hkk_ 前綴跟賬號隔離）。
+   內容來源：_text_units.json 於構建期注入 __TEXT_UNITS__。 */
+(function(){
+  var U=(__TEXT_UNITS__ && __TEXT_UNITS__.units) || [];
+  var KEY='hkk_ctx_best_v0', B={};
+  try{B=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){B={};}
+  var curBk='5A', curId='', inited=false, SEL={};
+  function saveB(){try{localStorage.setItem(KEY,JSON.stringify(B));}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function pad2(n){return (n<10?'0':'')+n;}
+  function today(){var d=new Date();return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+  function find(id){for(var i=0;i<U.length;i++){if(U[i].id===id)return U[i];}return null;}
+  function unitsOf(bk){var r=[];for(var i=0;i<U.length;i++){if(U[i].bk===bk)r.push(U[i]);}return r;}
+  function wc(s){return String(s||'').replace(/\s+/g,' ').trim().split(' ').filter(Boolean).length;}
+  // 換單元／換冊前先快照已選答案，回來時還原（不重繪全局狀態）
+  function snapshot(){
+    var u=find(curId); if(!u)return;
+    var o={};
+    for(var i=0;i<u.qs.length;i++){
+      var r=document.querySelector('#txBox .qcard[data-tqi="'+i+'"] input[type=radio]:checked');
+      if(r)o[i]=+r.value;
+    }
+    SEL[curId]=o;
+  }
+  function restore(){
+    var o=SEL[curId]; if(!o)return;
+    for(var k in o){ if(!o.hasOwnProperty(k))continue;
+      var r=document.querySelector('#txBox .qcard[data-tqi="'+k+'"] input[value="'+o[k]+'"]');
+      if(r)r.checked=true;
+    }
+  }
+  function fullCount(){var n=0;for(var i=0;i<U.length;i++){var b=B[U[i].id];if(b&&b.t&&b.s===b.t)n++;}return n;}
+  function stat(){var el=document.getElementById('txStat');if(el)el.textContent='滿分單元 '+fullCount()+' / '+U.length;}
+  function syncBk(){
+    var cs=document.querySelectorAll('#textView .chip[data-tb]');
+    for(var i=0;i<cs.length;i++){cs[i].classList.toggle('on',cs[i].getAttribute('data-tb')===curBk);}
+  }
+  function chips(){
+    var box=document.getElementById('txUnits'); if(!box)return;
+    var arr=unitsOf(curBk), h='', i;
+    for(i=0;i<arr.length;i++){
+      var u=arr[i], b=B[u.id], full=!!(b&&b.t&&b.s===b.t);
+      h+='<button type="button" data-tu="'+esc(u.id)+'"'+(u.id===curId?' class="on"':'')+'>U'+u.u+' '+esc(u.t)+(full?' ✓':((b&&b.s!=null)?' '+b.s+'/'+b.t:''))+'</button>';
+    }
+    box.innerHTML=h;
+    var bs=box.querySelectorAll('button[data-tu]');
+    for(i=0;i<bs.length;i++){(function(btn){btn.onclick=function(){curId=btn.getAttribute('data-tu');chips();unit();};})(bs[i]);}
+  }
+  function unit(){
+    var box=document.getElementById('txBox'); if(!box)return;
+    var u=find(curId);
+    if(!u){box.innerHTML='';return;}
+    var b=B[u.id]||{}, h='';
+    h+='<div class="qcard" style="background:#fbfcff">';
+    h+='<div class="qhead"><span class="qn">'+esc(u.bk)+' · 單元 '+u.u+'</span><span class="qtype"> '+esc(u.t)+'</span></div>';
+    h+='<div class="qtext" style="font-size:12.5px;color:#6b6b6b">語法重點：'+esc(u.gram)+' ｜ 約 '+wc(u.passage)+' 詞'+(b.s!=null?' ｜ 最佳 '+b.s+' / '+b.t+'（'+esc(b.d||'')+'）':'')+'</div>';
+    h+='<div style="margin:10px 0 4px"><button type="button" class="btn" id="txSpeak">🔊 朗讀短文</button> <span style="font-size:11.5px;color:#8a8aa0">先聽一遍再自己讀一遍，比直接做題有用</span></div>';
+    h+='<div class="tx-passage">'+String(u.passage).split('\n\n').map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'</div>';
+    h+='</div>';
+    h+='<div style="margin:14px 0 6px;font-weight:700">讀後 4 題（選完按「核對答案」）</div>';
+    var i;
+    for(i=0;i<u.qs.length;i++){
+      var q=u.qs[i], k;
+      h+='<div class="qcard" data-tqi="'+i+'"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span><span class="qtype">理解</span></div>';
+      h+='<div class="qtext">'+esc(q.q)+'</div><div class="qopts">';
+      for(k=0;k<q.opts.length;k++){
+        h+='<label class="qopt"><input type="radio" name="txq'+i+'" value="'+k+'"> '+'ABCD'.charAt(k)+'. '+esc(q.opts[k])+'</label>';
+      }
+      h+='</div><div id="txwhy'+i+'" style="display:none;font-size:12.5px;color:#2a6a3a;background:#f2fbf5;border-left:3px solid #2a8a5a;padding:8px 10px;border-radius:6px;margin-top:6px"></div></div>';
+    }
+    h+='<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 4px">'
+      +'<button type="button" class="btn" id="txGrade">✅ 核對答案</button>'
+      +'<button type="button" class="btn" id="txReset">↺ 重做</button>'
+      +'<button type="button" class="btn" id="txNext">下一個單元 →</button>'
+      +'<span class="enpaper-stat" id="txRes">—</span></div><div id="txWrong"></div>';
+    h+='<div class="qcard" style="background:#fffdf5"><div class="qhead"><span class="qn">仿寫 2 題</span><span class="qtype">寫在紙上即可</span></div>';
+    for(i=0;i<u.writes.length;i++){
+      h+='<div class="qtext" style="margin-top:8px">'+(i+1)+'. '+esc(u.writes[i].p)+'</div><div class="qzh">例：'+esc(u.writes[i].eg)+'</div>';
+    }
+    h+='</div>';
+    h+='<div class="qcard" style="background:#f7fbff"><div class="qhead"><span class="qn">朗讀任務</span><span class="qtype">口語</span></div><div class="qtext">'+esc(u.speak)+'</div><div class="qzh">錄 30–45 秒自己回聽：句子有沒有讀完、有沒有在錯的地方停頓。</div></div>';
+    box.innerHTML=h;
+    var bt=document.getElementById('txSpeak');
+    if(bt)bt.onclick=function(){try{speak(u.passage,'en-US');}catch(e){}};
+    var bg=document.getElementById('txGrade'); if(bg)bg.onclick=grade;
+    var br=document.getElementById('txReset'); if(br)br.onclick=unit;
+    var bn=document.getElementById('txNext'); if(bn)bn.onclick=next;
+    restore();
+  }
+  function grade(){
+    var u=find(curId); if(!u)return;
+    var i,k,n=0,ans=0;
+    for(i=0;i<u.qs.length;i++){
+      var q=u.qs[i], card=document.querySelector('#txBox .qcard[data-tqi="'+i+'"]');
+      if(!card)continue;
+      var sel=card.querySelector('input[type="radio"]:checked'), ops=card.querySelectorAll('.qopt');
+      for(k=0;k<ops.length;k++){
+        ops[k].className='qopt'+(k===q.a?' correct':'')+((sel&&+sel.value===k&&k!==q.a)?' wrong':'');
+      }
+      var why=document.getElementById('txwhy'+i);
+      if(why){
+        why.style.display='block';
+        why.textContent=(sel?(+sel.value===q.a?'✓ 答對。':'✗ 你選 '+'ABCD'.charAt(+sel.value)+'。'):'（未作答）')+'正確答案 '+'ABCD'.charAt(q.a)+'。'+q.why;
+      }
+      if(sel){ans++;if(+sel.value===q.a)n++;}
+    }
+    var res=document.getElementById('txRes'); if(res)res.textContent='得分 '+n+' / '+u.qs.length;
+    var wr=document.getElementById('txWrong');
+    if(wr){
+      wr.innerHTML=(n===u.qs.length)?'<p class="ns-line">全對。把朗讀任務也做完，再換下一個單元。</p>'
+        :(ans===0?'<p class="ns-line">先讀完短文再選答案；看不懂的句子看每題下面的解析。</p>':nsWrongLine('en'));
+    }
+    if(ans===u.qs.length){
+      var old=B[u.id];
+      if(!old||!old.t||n>old.s){B[u.id]={s:n,t:u.qs.length,d:today()};saveB();}
+    }
+    stat();chips();
+  }
+  function next(){
+    var ids=[],i;
+    snapshot();
+    for(i=0;i<U.length;i++)ids.push(U[i].id);
+    var nx=ids[ids.indexOf(curId)+1]||ids[0];
+    curId=nx;
+    var nu=find(nx); if(nu)curBk=nu.bk;
+    syncBk();chips();unit();
+    var box=document.getElementById('txBox');
+    if(box&&box.scrollIntoView)try{box.scrollIntoView({block:'start'});}catch(e){}
+  }
+  function bindBk(){
+    var cs=document.querySelectorAll('#textView .chip[data-tb]');
+    for(var i=0;i<cs.length;i++){
+      (function(c){c.onclick=function(){
+        snapshot();
+        curBk=c.getAttribute('data-tb');
+        var arr=unitsOf(curBk);
+        if(arr.length&&(!find(curId)||find(curId).bk!==curBk))curId=arr[0].id;
+        syncBk();chips();unit();
+      };})(cs[i]);
+    }
+  }
+  function render(){
+    if(!U.length){var bx=document.getElementById('txBox');if(bx)bx.innerHTML='<p class="tip">題庫未載入。</p>';return;}
+    if(!inited){inited=true;bindBk();}
+    if(!curId||!find(curId))curId=(unitsOf(curBk)[0]||U[0]).id;
+    syncBk();chips();stat();
+    var box=document.getElementById('txBox');
+    if(box&&!box.innerHTML)unit();
+  }
+  window.__txTest={units:U,key:KEY,best:function(){return B;},render:render,go:function(id){if(!find(id))return false;curId=id;curBk=find(id).bk;syncBk();chips();unit();return true;},cur:function(){return curId;},wc:wc};
+  render();
+})();
 </script>
 <div id="lwtePrintArea"></div>
 </body>
@@ -7791,6 +7971,19 @@ assert all(set(c.keys()) == {'t', 'n'} for b in _lwte_obj['books'] for c in b['c
 assert '"items"' not in _lwte_meta and '"w":' not in _lwte_meta and '"zh"' not in _lwte_meta, '朗文目錄疑似混入詞條'
 html = html.replace('__LWTE_META__', _lwte_meta)
 assert '__LWTE_META__' not in html, '朗文目錄注入失敗'
+# ---- v1.92 構建期注入：課文配套原創短文（零課本原文，全部本站自寫） ----
+_tx = open(os.path.join(WS, '_text_units.json'), encoding='utf-8').read().strip()
+_tx_obj = json.loads(_tx)
+assert len(_tx_obj['units']) == 14, '課文配套應為 14 單元（5A/5B 各 7）'
+assert sum(1 for u in _tx_obj['units'] if u['bk'] == '5A') == 7 and sum(1 for u in _tx_obj['units'] if u['bk'] == '5B') == 7, '課文配套冊數不齊'
+for _u in _tx_obj['units']:
+    assert len(_u['qs']) == 4 and len(_u['writes']) == 2 and _u['speak'], '課文配套 %s 題目結構錯' % _u['id']
+    assert 110 <= len(_u['passage'].split()) <= 200, '課文配套 %s 短文長度超範圍' % _u['id']
+    for _q in _u['qs']:
+        assert len(_q['opts']) == 4 and len(set(_q['opts'])) == 4 and 0 <= _q['a'] < 4, '課文配套 %s 選項結構錯' % _u['id']
+assert '朗文' not in _tx and 'Longman' not in _tx, '課文配套混入教材品牌名'
+html = html.replace('__TEXT_UNITS__', _tx)
+assert '__TEXT_UNITS__' not in html, '課文配套注入失敗'
 # ---- v1.82 構建期注入：中文卷原創題庫（零第三方原文） ----
 _cn_qbank = open(os.path.join(WS, '_cn_qbank.json'), encoding='utf-8').read().strip()
 _cn_obj = json.loads(_cn_qbank)

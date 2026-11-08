@@ -1,0 +1,816 @@
+{
+  "note": "本站原創配套短文與題目。短文、選項、解析全部自寫，只沿用單元主題方向；未取用任何課本原文、未改寫課文句子。單元名稱僅作事實性目錄標注。5A/5B 各 7 單元。",
+  "ver": "hkk_ctx_v1",
+  "units": [
+    {
+      "id": "5A1",
+      "bk": "5A",
+      "u": 1,
+      "t": "Changes at home",
+      "gram": "現在完成式（since / for）",
+      "passage": "My cousin Ada has lived with us since March. At first I did not like it. Our flat is small, and I had to share my room with her. Her side was always untidy, and she sang in her sleep.\n\nLast month Dad bought a bunk bed. I sleep on the top and Ada has the bottom. We put a curtain in the middle so that we can both read at night. Ada has stuck photos of her old school on the wall. She says she has not seen her friends since her family moved to Hong Kong.\n\nNow I think sharing is not so bad. Ada helps me with my homework, and she has taught me three card games. Last night she cooked noodles because Mum was tired. Our room is still small, but it no longer feels crowded.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "How the writer's feelings about sharing a room changed",
+            "Why the writer's cousin came to Hong Kong",
+            "How to buy a bunk bed for a small flat",
+            "Why the writer's mother was tired last night"
+          ],
+          "a": 0,
+          "why": "全文由「最初不喜歡」寫到「現在覺得不錯」，重心是感受的改變；其餘三項只是文中的一兩個細節。"
+        },
+        {
+          "q": "What did Dad buy last month?",
+          "opts": ["A curtain", "A bunk bed", "A card game", "A bigger flat"],
+          "a": 1,
+          "why": "第二段第一句：Last month Dad bought a bunk bed. 窗簾是自己加的，不是爸爸買的。"
+        },
+        {
+          "q": "The word untidy in paragraph 1 means",
+          "opts": ["very noisy", "too small", "not clean or neat", "full of photos"],
+          "a": 2,
+          "why": "untidy 由 tidy（整齊）加否定前綴 un- 組成；文中說的是房間那一邊亂，不是吵或小。"
+        },
+        {
+          "q": "Why has Ada put photos of her old school on the wall?",
+          "opts": [
+            "She wants to make the room look bigger.",
+            "She is learning to take photos.",
+            "She wants the writer to clean the room.",
+            "She misses her old school and friends."
+          ],
+          "a": 3,
+          "why": "下一句她說「自從搬家就沒見過朋友」，貼舊校照片是因為想念；這是推論題，文中沒有直說。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用現在完成式寫兩句你「已經做了」的事，一句用 since、一句用 for。",
+          "eg": "I have lived in Shenzhen for six years. / I have not seen my cousin since last summer."
+        },
+        {
+          "p": "用 so that 寫一句你家的規矩或安排。",
+          "eg": "We put a curtain in the middle so that we can both read at night."
+        }
+      ],
+      "speak": "朗讀第一段，重點聽 has lived / has stuck 這兩個完成式的讀音。"
+    },
+    {
+      "id": "5A2",
+      "bk": "5A",
+      "u": 2,
+      "t": "Turning over a new leaf",
+      "gram": "be going to 表計劃",
+      "passage": "On the first day of term, Miss Chan asked us to write down three promises for the year. Mine were easy to write and hard to keep.\n\nI am going to finish my homework before I watch television. I am going to go to bed before ten. I am going to keep my desk tidy.\n\nFor two weeks I did well. Then my favourite cartoon started at seven, and my homework was still open on the desk. On Friday I forgot my maths book at school. Mum was not angry, but she said, 'A promise is not a wish. It needs a plan.'\n\nSo I made a new plan. I put a small clock on my desk. When it rings at six, the television goes off. My desk still gets messy, but every Sunday night I clean it. Two promises are going well. The third one needs more time.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "How the writer tries to keep three promises",
+            "Why the writer likes cartoons",
+            "How Miss Chan marks homework",
+            "How to clean a desk in one minute"
+          ],
+          "a": 0,
+          "why": "全篇講三個承諾、失敗、再訂計劃，主線是「怎麼做到」。"
+        },
+        {
+          "q": "What did the writer forget at school?",
+          "opts": ["The clock", "The maths book", "The promise list", "The homework"],
+          "a": 1,
+          "why": "第三段：On Friday I forgot my maths book at school. 其他三項都是干擾項。"
+        },
+        {
+          "q": "What does Mum mean by A promise is not a wish?",
+          "opts": [
+            "Promises are easy to forget.",
+            "You should not make promises.",
+            "A promise needs action, not just hoping.",
+            "Wishes always come true."
+          ],
+          "a": 2,
+          "why": "媽媽下一句就說 It needs a plan——承諾要靠行動和計劃，不是許願。"
+        },
+        {
+          "q": "Which promise does the writer still find difficult?",
+          "opts": [
+            "Going to bed before ten",
+            "Finishing homework before TV",
+            "Writing three promises",
+            "Keeping the desk tidy"
+          ],
+          "a": 3,
+          "why": "文末：Two promises are going well. The third one needs more time. 而書桌那句仍說 desk still gets messy。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用 be going to 寫三個你這個學期的計劃（最少一個跟學英文有關）。",
+          "eg": "I am going to read one English book every month."
+        },
+        {
+          "p": "寫一句「計劃 + 條件」的句子，用 When 或 If 開頭。",
+          "eg": "When the clock rings at six, the television goes off."
+        }
+      ],
+      "speak": "朗讀第二段三句 be going to，注意 going to 在口語裡讀成 gonna 也可以，但書面要寫完整。"
+    },
+    {
+      "id": "5A3",
+      "bk": "5A",
+      "u": 3,
+      "t": "What's the matter",
+      "gram": "should / should not 給建議",
+      "passage": "Tim has not been to school since Tuesday. On Monday night he ate a whole box of cold chicken and then went to bed without a coat because the flat was warm.\n\nOn Tuesday morning he had a headache and a fever. His mother took him to the clinic. The doctor listened to his chest and looked at his throat. 'It is a bad cold, not the flu,' she said. 'He should stay at home for two days. He should drink warm water and sleep more. He should not eat cold food.'\n\nTim has slept for most of the week. He has finished two books and has watched too much television. On Wednesday his classmate Amy called him. She said the class has started a new science project about the weather, and she has saved a place for him in her group.\n\nTim says he has learned one thing: a warm night is not worth a week in bed.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "What Tim did at home during his sick days",
+            "Why Tim was ill and what he should do",
+            "How to cook chicken safely",
+            "How Amy finished the science project"
+          ],
+          "a": 1,
+          "why": "全文由病因寫到醫生建議、在家休養，重點是生病與該怎麼做；「在家做什麼」只是其中一段。"
+        },
+        {
+          "q": "What did the doctor say Tim should NOT do?",
+          "opts": ["Eat cold food", "Drink warm water", "Sleep more", "Stay at home"],
+          "a": 0,
+          "why": "醫生三句建議裡只有一句是否定的：He should not eat cold food. 其餘三項都是醫生叫他做的事。"
+        },
+        {
+          "q": "In paragraph 2, a bad cold means",
+          "opts": [
+            "a serious illness that keeps you in bed for a month",
+            "an illness that makes you cough and have a fever",
+            "a small problem with the weather",
+            "a kind of food that is not fresh"
+          ],
+          "a": 1,
+          "why": "前一句提到 headache and a fever，醫生又說要休息兩天，所以 bad cold 是會發燒咳嗽的病。"
+        },
+        {
+          "q": "What does Tim mean by a warm night is not worth a week in bed?",
+          "opts": [
+            "He likes sleeping in bed.",
+            "He wants a warmer flat.",
+            "He will not eat chicken again.",
+            "He will wear a coat next time it is cold."
+          ],
+          "a": 3,
+          "why": "他後悔當晚因為屋裡暖就沒穿外套；結論是下次寧願穿外套，也別病一星期。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用 should / should not 各寫一句給同學的健康建議。",
+          "eg": "You should drink warm water. You should not stay up late before a test."
+        },
+        {
+          "p": "用現在完成式寫兩句你「最近已經做過」的事。",
+          "eg": "I have finished two books this week."
+        }
+      ],
+      "speak": "朗讀醫生說的那三句建議，注意 should 後面動詞不加 s、不加 to。"
+    },
+    {
+      "id": "5A4",
+      "bk": "5A",
+      "u": 4,
+      "t": "Lending a hand",
+      "gram": "動名詞作主語（Collecting ... is ...）",
+      "passage": "The box stood outside the classroom for three weeks. Nobody looked inside.\n\nMs Wong finally opened it in our English lesson. It was full of storybooks — thin ones, fat ones, and a few with broken covers. 'Collecting books is easy,' she said. 'Deciding what to do with them is harder.'\n\nOur class decided to give the books to a reading room in a village school. We sorted them into three piles: picture books, story books and information books. Sorting took two afternoons. Lily found a book with her own name written inside. 'Reading it again made me remember Primary One,' she said.\n\nOn Saturday, nine of us carried the boxes to the minibus. The village school had only one shelf, so we painted two more shelves on the wall. The children there asked us to read aloud. Speaking in front of them was the hardest part of the day, but nobody wanted to stop.\n\nGiving something away can be harder than keeping it. It can also be much more fun.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "How a class shared books with another school",
+            "Why Ms Wong likes storybooks",
+            "How to paint a shelf",
+            "Why Lily forgot her name"
+          ],
+          "a": 0,
+          "why": "全篇是一次捐書行動的完整過程；其餘三項只是文中一句話。"
+        },
+        {
+          "q": "How many shelves did the students paint?",
+          "opts": ["One", "Two", "Three", "Nine"],
+          "a": 1,
+          "why": "原文：The village school had only one shelf, so we painted two more shelves. 一是原有的，他們畫的是兩個。"
+        },
+        {
+          "q": "In paragraph 1, Nobody looked inside shows that the box was",
+          "opts": ["heavy", "interesting", "ignored", "broken"],
+          "a": 2,
+          "why": "放在走廊三週沒人打開，說明大家沒在意它；後文才發現裡面全是書。"
+        },
+        {
+          "q": "Which part of the day did the students find hardest?",
+          "opts": [
+            "Sorting the books",
+            "Carrying the boxes",
+            "Painting the shelves",
+            "Reading aloud to the children"
+          ],
+          "a": 3,
+          "why": "原文直說 Speaking in front of them was the hardest part of the day。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用動名詞做主語寫兩句（做一件事的感覺）。",
+          "eg": "Reading aloud in front of the class is difficult for me."
+        },
+        {
+          "p": "寫一句「A 比 B 更…」的比較句，比較兩件活動。",
+          "eg": "Giving books away is harder than keeping them."
+        }
+      ],
+      "speak": "朗讀最後一段兩句，注意 Giving / Keeping 開頭的重音。"
+    },
+    {
+      "id": "5A5",
+      "bk": "5A",
+      "u": 5,
+      "t": "Festivals and special days",
+      "gram": "時間介詞 in / on / at＋will 表將來",
+      "passage": "Every January my family fills in a big calendar on the kitchen wall. We write down every festival we celebrate, and we plan what to cook and where to go.\n\nIn February, during the Spring Festival, we will visit my grandmother in Shenzhen. She will give us red packets, and my brother will eat too many sweet cakes, as usual. In April, at Ching Ming, we will go to the hills to clean my grandfather's grave. Mum says we should take an umbrella because it always rains then.\n\nThe busiest month is September. The Mid-Autumn Festival is on the fifteenth day of the eighth lunar month, so we will buy mooncakes early. My father will carry the lanterns up to the roof, and we will sit there until the moon is high.\n\nIn June, on the fifth day of the fifth lunar month, we will watch the dragon boat races in Stanley. My uncle's boat came third last year. He says that next year his team will win.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "Why the family likes mooncakes",
+            "Where the dragon boat races are held",
+            "How the family plans and celebrates festivals",
+            "Why it always rains in April"
+          ],
+          "a": 2,
+          "why": "開頭就講全家人寫節日日曆，後面按月講各節日怎麼過，主線是「計劃與過節」。"
+        },
+        {
+          "q": "When will the family visit Grandmother?",
+          "opts": ["In April", "In June", "In September", "In February"],
+          "a": 3,
+          "why": "第二段：In February, during the Spring Festival, we will visit my grandmother in Shenzhen."
+        },
+        {
+          "q": "What will Father do with the lanterns?",
+          "opts": ["Carry them up to the roof", "Put them on the calendar", "Give them to the brother", "Take them to Stanley"],
+          "a": 0,
+          "why": "原文：My father will carry the lanterns up to the roof. 到 Stanley 是看龍舟，不是提燈籠。"
+        },
+        {
+          "q": "Why does Mum say they should take an umbrella in April?",
+          "opts": [
+            "Because the hills are far.",
+            "Because it often rains then.",
+            "Because the grave is wet.",
+            "Because red packets get wet."
+          ],
+          "a": 1,
+          "why": "原文直接給理由：because it always rains then。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用 in / on / at 各寫一個時間短語，再各配一句 will 的句子。",
+          "eg": "On the fifteenth day of the eighth lunar month, we will eat mooncakes."
+        },
+        {
+          "p": "寫兩句你家的節日安排（誰做什麼）。",
+          "eg": "My father will carry the lanterns. My mother will cook the dinner."
+        }
+      ],
+      "speak": "朗讀第三段，注意 the fifteenth day of the eighth lunar month 這串序數詞的讀法。"
+    },
+    {
+      "id": "5A6",
+      "bk": "5A",
+      "u": 6,
+      "t": "A public holiday",
+      "gram": "過去式 vs 現在完成式",
+      "passage": "Last Monday was a public holiday, so there was no school. Mum said we had to go somewhere because Dad has worked every weekend since the summer.\n\nWe took a bus to a country park. It had rained for three days, so the path was soft and our shoes were soon wet. My little sister found a snail on a leaf and carried it for fifteen minutes before she put it back.\n\nWe walked to a small waterfall. There were only four other people there. Dad sat on a rock for a long time and did not say anything. That is unusual for him.\n\nOn the way home, we stopped at a bakery. We had not eaten lunch, so the bread tasted better than any restaurant meal. My sister fell asleep on the bus and missed our stop.\n\nToday Dad has already asked, 'When is the next public holiday?' I have circled it on the calendar. It is in twelve days.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "A family day out on a public holiday",
+            "Why Dad works every weekend",
+            "How to find snails in a country park",
+            "The best bakery in Hong Kong"
+          ],
+          "a": 0,
+          "why": "全篇按時間順序記一天的外遊：出發、走路、瀑布、麵包店、回家。"
+        },
+        {
+          "q": "Why were the family's shoes wet?",
+          "opts": [
+            "They walked in the waterfall.",
+            "It had rained for three days.",
+            "They fell into a stream.",
+            "The bus was wet."
+          ],
+          "a": 1,
+          "why": "原文：It had rained for three days, so the path was soft and our shoes were soon wet."
+        },
+        {
+          "q": "Dad sat quietly on a rock. This is unusual because he is usually",
+          "opts": ["tired", "hungry", "talkative", "late"],
+          "a": 2,
+          "why": "文中說 That is unusual for him，意思是他平時愛講話，難得這樣安靜。"
+        },
+        {
+          "q": "Why does Dad ask about the next public holiday?",
+          "opts": [
+            "He wants to work on that day.",
+            "He did not enjoy the walk.",
+            "He has to take the sister to school.",
+            "He enjoyed the free day with the family."
+          ],
+          "a": 3,
+          "why": "他玩得開心才會馬上問下一次；後一句把日子圈起來也說明全家期待。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用過去式寫三句你上個假期的行程。",
+          "eg": "We took a bus to a country park. We walked to a waterfall. I fell asleep on the bus."
+        },
+        {
+          "p": "用現在完成式寫一句「到現在為止已經…」的句子。",
+          "eg": "I have visited three country parks this year."
+        }
+      ],
+      "speak": "朗讀第四段，注意 had not eaten 這種過去完成式在句中的弱讀。"
+    },
+    {
+      "id": "5A7",
+      "bk": "5A",
+      "u": 7,
+      "t": "Be a good citizen",
+      "gram": "must / must not＋If 條件句",
+      "passage": "Every morning I take the number 72 bus to school. The driver, Mr Ho, knows most of the passengers by name.\n\nThere is a list of rules above the door, written in small black letters. Passengers must pay the exact fare. They must not eat or drink. They must give up their seats to elderly people or to anyone who is pregnant. If you press the bell too early, the driver will not stop, because he cannot stop between stops. If you forget your Octopus card, you must tell him, and he will let you pay at the next stop, but only once.\n\nLast week a boy got on with a dripping ice cream. Mr Ho pointed at the rules. The boy looked at the list, then at the driver, and put the ice cream in his bag. An old woman laughed and said, 'That list works better than a teacher.'\n\nRules are boring until you need them. Then they are the reason the bus arrives on time.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "How to use an Octopus card",
+            "The rules on a bus and why they matter",
+            "Why Mr Ho knows the passengers",
+            "How to buy ice cream"
+          ],
+          "a": 1,
+          "why": "中段整段在列規則，首尾又在講規則的用處，主線是規則與它的作用。"
+        },
+        {
+          "q": "What must a passenger do if they forget their Octopus card?",
+          "opts": ["Get off the bus", "Press the bell twice", "Tell the driver", "Borrow money from Mr Ho"],
+          "a": 2,
+          "why": "原文：If you forget your Octopus card, you must tell him, and he will let you pay at the next stop."
+        },
+        {
+          "q": "Why will the driver not stop if you press the bell too early?",
+          "opts": [
+            "The bell is broken.",
+            "He is angry.",
+            "He does not know your name.",
+            "He cannot stop between stops."
+          ],
+          "a": 3,
+          "why": "原文直說 because he cannot stop between stops，跟司機生氣無關。"
+        },
+        {
+          "q": "The phrase give up their seats means",
+          "opts": [
+            "stand up and let others sit",
+            "clean their seats",
+            "move to another bus",
+            "pay for two seats"
+          ],
+          "a": 0,
+          "why": "下文說讓給老人和孕婦，所以是讓座；不是打掃或付兩個人的錢。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用 must / must not 各寫兩條你學校或家裡的規矩。",
+          "eg": "Students must turn off their phones in the library."
+        },
+        {
+          "p": "用 If 寫一句「如果…就會…」，講一件公共場所的事。",
+          "eg": "If you talk loudly on the bus, other people cannot rest."
+        }
+      ],
+      "speak": "朗讀規則那一段，must 後面不加 to，must not 要讀清楚 not。"
+    },
+    {
+      "id": "5B1",
+      "bk": "5B",
+      "u": 1,
+      "t": "Teamwork",
+      "gram": "動名詞與分擔表達（be good at + V-ing）",
+      "passage": "Ms Lau gave our group a project about water. We had four people and three weeks.\n\nThe first week was a disaster. Peter wanted to make a video. Sara wanted to write a report. I wanted to draw a poster. Nobody listened, and on Friday we had nothing on the desk except three empty ideas.\n\nOn Monday, Sara brought a piece of paper with a table on it. She asked each of us one question: what are you best at? Peter is good with a camera. Sara writes clearly. I draw quickly. May, who had said almost nothing, is the best at finding facts in the library.\n\nSo we divided the work. May found the numbers, Sara wrote, Peter filmed, and I drew the pictures for the video. We finished two days early.\n\nMs Lau wrote one comment on our project: 'Four people, one job.' Peter said it was the best mark he had ever had for talking to his friends.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "How a group learned to divide work by strength",
+            "Why Ms Lau gave a project about water",
+            "How to make a video at school",
+            "Why Peter talks to his friends"
+          ],
+          "a": 0,
+          "why": "文章由「一週吵不出結果」到「按各人長處分工」再到成功，主線是分工。"
+        },
+        {
+          "q": "What is May best at?",
+          "opts": ["Filming", "Finding facts", "Drawing", "Writing clearly"],
+          "a": 1,
+          "why": "原文：May ... is the best at finding facts in the library."
+        },
+        {
+          "q": "The first week was a disaster means",
+          "opts": ["it was very successful", "it went very badly", "it was very short", "it was very funny"],
+          "a": 1,
+          "why": "下一句說週五桌上什麼都沒有，只有三個空想法，所以是很糟。"
+        },
+        {
+          "q": "Why did the group finish two days early?",
+          "opts": [
+            "They worked at night.",
+            "Ms Lau helped them.",
+            "Peter stopped talking to his friends.",
+            "Each person did the part they were good at."
+          ],
+          "a": 3,
+          "why": "關鍵在按長處分工，效率才提高；其餘三項文中都沒說。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用 be good at + V-ing 寫兩句關於你自己和一位同學的長處。",
+          "eg": "I am good at drawing quickly. My classmate is good at finding facts."
+        },
+        {
+          "p": "寫一句「我們分工」的句子，用 and 連接三個人做的事。",
+          "eg": "May found the numbers, Sara wrote, and Peter filmed."
+        }
+      ],
+      "speak": "朗讀第三段，注意 asked each of us one question 的連讀。"
+    },
+    {
+      "id": "5B2",
+      "bk": "5B",
+      "u": 2,
+      "t": "Exciting experiences",
+      "gram": "現在完成式 with ever / never",
+      "passage": "On Friday afternoon, Mr Cheng wrote three words on the board: Have you ever...?\n\nWe had to stand up and ask each other. At first nobody spoke. Then May said, 'Have you ever seen snow?' Half the class put up their hands. Ken has seen snow in Japan, and he says it was colder than he expected. He has never made a snowman, though, because the snow was too dry.\n\nAnna asked, 'Have you ever been lost?' Peter said he had been lost in a shopping centre when he was five. He cried for twenty minutes, and a security guard bought him a drink. He has never told his parents.\n\nFinally Mr Cheng asked, 'Have you ever helped a stranger?' That question was harder. Only four hands went up. He said, 'That is the question to remember. The other ones are just good English practice.'\n\nThen he gave us homework: help one stranger this week and write three sentences about it.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "A lesson about asking and answering questions with ever",
+            "Why Ken went to Japan",
+            "How to make a snowman",
+            "Why Peter cried in a shopping centre"
+          ],
+          "a": 0,
+          "why": "全篇是一堂課的經過，核心句型就是 Have you ever...?；其餘都是例子細節。"
+        },
+        {
+          "q": "Why has Ken never made a snowman?",
+          "opts": [
+            "There was no snow in Japan.",
+            "The snow was too dry.",
+            "He was too young.",
+            "He does not like snow."
+          ],
+          "a": 1,
+          "why": "原文：He has never made a snowman ... because the snow was too dry."
+        },
+        {
+          "q": "Why did only four hands go up for the last question?",
+          "opts": [
+            "The question was in English.",
+            "The class was too tired.",
+            "Few students had ever helped a stranger.",
+            "Mr Cheng had asked it before."
+          ],
+          "a": 2,
+          "why": "老師說這一題才是要記住的，說明多數人沒做過——是經歷問題，不是語言問題。"
+        },
+        {
+          "q": "In this lesson, stranger means",
+          "opts": ["a new student", "a security guard", "a person you know well", "a person you do not know"],
+          "a": 3,
+          "why": "stranger 指不認識的人；security guard 只是另一個故事裡的角色。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用 Have you ever...? 寫三個問題問家人，各配一個 Yes/No 的答句。",
+          "eg": "Have you ever been to Japan? No, I have never been there."
+        },
+        {
+          "p": "用 never 寫兩句你真實的經歷。",
+          "eg": "I have never seen snow. I have never made a snowman."
+        }
+      ],
+      "speak": "朗讀 Peter 那一段，注意 had been lost 與 has never told 兩種完成式的分別。"
+    },
+    {
+      "id": "5B3",
+      "bk": "5B",
+      "u": 3,
+      "t": "Eating habits",
+      "gram": "頻率副詞與數量詞（most / nearly / a few）",
+      "passage": "Our class did a small survey about eating habits. We asked forty students in P5 and P6. The results were surprising.\n\nOnly twelve students eat breakfast every day. Twenty-six sometimes eat breakfast, and two never eat it. The two said they cannot eat early in the morning. One of them drinks a glass of milk on the bus.\n\nMost students eat rice or noodles for lunch, but nine eat only a sandwich. Nearly everyone drinks water with meals, which is better than soft drinks. A few students eat fruit once a week or less.\n\nOur teacher asked us to count how many kinds of vegetables we eat in a week. The average was four. Ms Wong says we should eat more than that, and she showed us a chart of colours: red, green, yellow and white vegetables.\n\nNext week we will make a class lunch. Each group will bring one dish, and it must contain at least two colours. Nobody has complained yet.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "Results of a class survey about eating habits",
+            "Why two students never eat breakfast",
+            "How to make a class lunch",
+            "Why water is better than soft drinks"
+          ],
+          "a": 0,
+          "why": "全篇主體是一份問卷的數字結果，最後一段是延伸活動。"
+        },
+        {
+          "q": "How many students sometimes eat breakfast?",
+          "opts": ["Twelve", "Twenty-six", "Nine", "Forty"],
+          "a": 1,
+          "why": "原文：Twenty-six sometimes eat breakfast. 十二是每天吃的，九是午餐只吃三明治的。"
+        },
+        {
+          "q": "The average number of vegetables is four. This means",
+          "opts": [
+            "the highest number",
+            "the lowest number",
+            "the middle number of the group",
+            "the number the teacher chose"
+          ],
+          "a": 2,
+          "why": "average（平均數）是整體的中間水平，不是最高或最低，也不是老師指定的。"
+        },
+        {
+          "q": "Why must each dish contain two colours of vegetables?",
+          "opts": [
+            "To make the table pretty.",
+            "Because the canteen has no plates.",
+            "Because each group has two people.",
+            "To help students eat more kinds of vegetables."
+          ],
+          "a": 3,
+          "why": "前文老師說平均只吃四種蔬菜要更多，顏色分類就是為了讓人吃更多種類。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用頻率副詞（always / usually / sometimes / never）寫四句你的飲食習慣。",
+          "eg": "I always eat breakfast. I sometimes drink soft drinks."
+        },
+        {
+          "p": "用 Most / Nearly all / A few 描述你班的一項情況。",
+          "eg": "Most students in my class bring their own water."
+        }
+      ],
+      "speak": "朗讀第二段，數字 twelve / twenty-six / two 要讀清楚，別混。"
+    },
+    {
+      "id": "5B4",
+      "bk": "5B",
+      "u": 4,
+      "t": "Advice on eating",
+      "gram": "should / ought to 提建議",
+      "passage": "The school canteen asked for our advice. There is a suggestion box outside the office, and the head teacher promised to read every letter.\n\nOur class wrote four letters. Peter's letter was short: 'The noodles are too salty. You should use less salt.' Lily wrote about the drinks. She said the canteen ought to sell plain water in bigger bottles, because the small ones are empty before the end of lunch. Anna asked for more fruit: 'Younger students should get a piece of fruit every day. It is cheaper than cakes and much better for them.'\n\nMy letter was about noise. The canteen is so loud that I cannot talk to the person next to me. I suggested quiet tables in one corner.\n\nLast Friday the head teacher put a notice on the door. The canteen will sell large bottles of water next term, and there will be a fruit day every Wednesday. She did not mention the salt. Peter says he will write a second letter.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "Letters giving advice about the school canteen",
+            "Why the canteen is noisy",
+            "How to write a short letter",
+            "Why Peter likes fruit"
+          ],
+          "a": 0,
+          "why": "全篇是四封建議信與校方回應，主線是「提建議」。"
+        },
+        {
+          "q": "What did the head teacher change?",
+          "opts": ["Less salt in the noodles", "Bigger bottles of water", "Quiet tables", "A longer lunch time"],
+          "a": 1,
+          "why": "通知只答應兩件：大瓶水與週三水果日，鹽和安靜桌都沒提。"
+        },
+        {
+          "q": "Why will Peter write a second letter?",
+          "opts": [
+            "He wants a bigger bottle of water.",
+            "He wants a piece of fruit.",
+            "The canteen did not act on his advice about salt.",
+            "He wants quieter tables."
+          ],
+          "a": 2,
+          "why": "文末：She did not mention the salt. Peter says he will write a second letter. 對應的就是鹽。"
+        },
+        {
+          "q": "Anna says fruit is cheaper than cakes. She is comparing",
+          "opts": ["two kinds of fruit", "two classes", "two teachers", "prices"],
+          "a": 3,
+          "why": "cheaper 比較的是價錢，不是種類或人。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用 should 寫三條給學校飯堂的建議，每條一個理由。",
+          "eg": "The canteen should sell more fruit because it is healthy."
+        },
+        {
+          "p": "用 ought to 寫一句你覺得同學應該改的習慣。",
+          "eg": "Students ought to bring their own water bottles."
+        }
+      ],
+      "speak": "朗讀 Peter 與 Anna 的兩封信，注意 should / ought to 後面動詞原形。"
+    },
+    {
+      "id": "5B5",
+      "bk": "5B",
+      "u": 5,
+      "t": "Enjoying nature",
+      "gram": "比較級與最高級",
+      "passage": "My uncle takes visitors to the same place every time: a country park in the New Territories. He says it is the best walk in Hong Kong, and he has tried many of them.\n\nThe path is not the shortest. It is about eleven kilometres, and the last part is steeper than the first. But you pass three waterfalls, and the second one is more beautiful than the others because the water falls into a round pool.\n\nThe busiest time is Sunday morning. My uncle says the worst thing you can do is start at eleven o'clock. He starts at seven, when the path is quiet and the air is cooler. On a good day you will see birds, and if you are very lucky, a monkey.\n\nThe walk takes four hours, which is longer than most people expect. My uncle carries extra food because hungry visitors walk more slowly.\n\n'Any walk is better than no walk,' he says, 'but the best one is the one you finish with a smile.'",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "Why the writer's uncle recommends a particular walk",
+            "How to take a bus to the country park",
+            "Why monkeys live in Hong Kong",
+            "How long the walk takes"
+          ],
+          "a": 0,
+          "why": "全篇是叔叔對一條路線的推薦理由：風景、時間、長度。"
+        },
+        {
+          "q": "Which waterfall is the most beautiful according to the passage?",
+          "opts": ["The first one", "The second one", "The third one", "The one near the bus stop"],
+          "a": 1,
+          "why": "原文：the second one is more beautiful than the others because the water falls into a round pool."
+        },
+        {
+          "q": "The path is steeper than the first part. This means it",
+          "opts": ["is longer", "is wetter", "goes up more sharply", "is more crowded"],
+          "a": 2,
+          "why": "steep 指坡度陡，跟長度、濕度、人多無關。"
+        },
+        {
+          "q": "Why does the uncle carry extra food?",
+          "opts": [
+            "The restaurants are closed.",
+            "He sells food to visitors.",
+            "Monkeys take his food.",
+            "Visitors walk more slowly when they are hungry."
+          ],
+          "a": 3,
+          "why": "原文給的理由就是 because hungry visitors walk more slowly。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用比較級寫三句比較兩個地方／兩條路線。",
+          "eg": "The second waterfall is more beautiful than the first one."
+        },
+        {
+          "p": "用最高級寫一句你心目中最喜歡的行山或公園。",
+          "eg": "This is the quietest path I have ever walked."
+        }
+      ],
+      "speak": "朗讀最後一段引號裡那句，注意 Any walk is better than no walk 的對比語氣。"
+    },
+    {
+      "id": "5B6",
+      "bk": "5B",
+      "u": 6,
+      "t": "Help save the animals",
+      "gram": "If 條件句＋被動語態（are moved / are released）",
+      "passage": "Last term a scientist visited our school. She studies sea turtles on a beach in the south of China.\n\nShe showed us a photo of a turtle lying between two plastic bags. Sea turtles cannot tell the difference between a bag and a jellyfish, she said. If a turtle eats enough plastic, it will slowly starve, because plastic stays in its stomach for months.\n\nShe also showed us what her team does. Every morning, before the sun is hot, they walk along the beach and count tracks in the sand. If they find a nest too near the water, the eggs are moved to a safer place. The young turtles are released at night, when fewer birds are hunting.\n\nOur class asked what we can do in Hong Kong. Her answer was boring but clear: use fewer plastic bags, join a beach clean-up, and tell other people what you have learned.\n\nWe have already done two beach clean-ups. We collected eleven bags of rubbish. If every class in Hong Kong did the same, the beach would be much cleaner.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "How sea turtles are in danger and how people can help",
+            "How to count tracks in the sand",
+            "Why scientists move to the south of China",
+            "How many bags of rubbish the class collected"
+          ],
+          "a": 0,
+          "why": "全篇由危險講到科學家的做法，再到我們可以做什麼，主線是保育。"
+        },
+        {
+          "q": "Why will a turtle starve after eating plastic?",
+          "opts": [
+            "It cannot swim.",
+            "Plastic stays in its stomach for months.",
+            "It cannot see its food.",
+            "It eats too much jellyfish."
+          ],
+          "a": 1,
+          "why": "原文：plastic stays in its stomach for months——所以吃不下也消化不了。"
+        },
+        {
+          "q": "Why are young turtles released at night?",
+          "opts": [
+            "The beach is cooler.",
+            "People are sleeping.",
+            "Fewer birds are hunting then.",
+            "They can see the moon."
+          ],
+          "a": 2,
+          "why": "原文：at night, when fewer birds are hunting."
+        },
+        {
+          "q": "The sentence plastic stays in its stomach tells us that plastic",
+          "opts": ["breaks down quickly", "is soft and safe", "tastes like food", "does not go away"],
+          "a": 3,
+          "why": "stays for months 就是不會消失、不會分解；其他三項都與原文相反。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用 If 寫兩句條件句，講一件環保行為的後果。",
+          "eg": "If we use fewer plastic bags, fewer turtles will eat plastic."
+        },
+        {
+          "p": "用被動語態寫兩句（東西被怎麼處理）。",
+          "eg": "The eggs are moved to a safer place. The rubbish is collected every Sunday."
+        }
+      ],
+      "speak": "朗讀第三段，注意 are moved / are released 的被動讀法。"
+    },
+    {
+      "id": "5B7",
+      "bk": "5B",
+      "u": 7,
+      "t": "The new cinderella",
+      "gram": "過去進行式＋過去式",
+      "passage": "The school play was on Friday, and on Thursday afternoon we had our last rehearsal.\n\nThe hall was cold. While Ms Lau was fixing the lights, we were practising the third scene. Ken was reading his lines too fast, and Anna was laughing at the wrong moment. Everything was going wrong.\n\nThen the door opened. A man in a grey coat walked in and sat at the back. He watched us for ten minutes and did not smile. Anna asked me who he was. I said I did not know.\n\nWhen the rehearsal ended, Ms Lau walked to the back of the hall and shook his hand. She told us the man was a former student who now works in a theatre. He said three things: speak more slowly, look at the audience, and stop worrying about the lights.\n\nOn Friday, Ken spoke slowly. Anna did not laugh at the wrong moment. And when we took our bow, we saw the man in the grey coat standing up at the back.",
+      "qs": [
+        {
+          "q": "What is the passage mainly about?",
+          "opts": [
+            "A rehearsal that helped the class improve before the play",
+            "Why the hall was cold",
+            "How to fix the stage lights",
+            "Why Anna laughed at the wrong moment"
+          ],
+          "a": 0,
+          "why": "全篇是一次排練到正式演出的轉變，重點在改進。"
+        },
+        {
+          "q": "What did the man in the grey coat do during the rehearsal?",
+          "opts": [
+            "He fixed the lights.",
+            "He read Ken's lines.",
+            "He watched silently at the back.",
+            "He spoke to the audience."
+          ],
+          "a": 2,
+          "why": "原文：He watched us for ten minutes and did not smile. 修燈的是 Ms Lau。"
+        },
+        {
+          "q": "Which of these did the man NOT tell the students?",
+          "opts": [
+            "Speak more slowly.",
+            "Look at the audience.",
+            "Stop worrying about the lights.",
+            "Memorise more lines."
+          ],
+          "a": 3,
+          "why": "他只講了三點，都在原文列出；「多背台詞」文中沒有。"
+        },
+        {
+          "q": "In the story, rehearsal means",
+          "opts": ["a practice before a performance", "a theatre building", "a kind of play", "the end of a show"],
+          "a": 0,
+          "why": "第一段就說週五演出、週四下午是最後一次排練，所以 rehearsal 是演出前的練習。"
+        }
+      ],
+      "writes": [
+        {
+          "p": "用 While 寫一句「一邊…一邊…」的過去進行式句子。",
+          "eg": "While Ms Lau was fixing the lights, we were practising the third scene."
+        },
+        {
+          "p": "用過去式寫三句你上一次表演或報告的經過。",
+          "eg": "I spoke slowly. I looked at the audience. I felt much better."
+        }
+      ],
+      "speak": "朗讀第二段，注意 was fixing / were practising 兩邊同時進行的語調。"
+    }
+  ]
+}
