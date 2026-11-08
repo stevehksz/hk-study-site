@@ -252,7 +252,7 @@ assert len(school_geo) == 109, f'school_geo 應 109 所，實得 {len(school_geo
 
 # ---- 中學詳情檔案（v1.58：CHSC 中學概覽 2025/2026 官方公開資料，40 所） ----
 sch_profiles = json.load(open(os.path.join(WS, '_sch_profiles.json'), encoding='utf-8'))
-assert len(sch_profiles) == 40, f'sch_profiles 應 40 所，實得 {len(sch_profiles)}'
+assert len(sch_profiles) == 79, f'sch_profiles 應 79 所，實得 {len(sch_profiles)}'
 
 # ---- 小學詳情檔案（v1.59：CHSC 小學概覽 2026 psp2026 官方公開資料，30 所） ----
 sch_pri_profiles = json.load(open(os.path.join(WS, '_sch_pri_profiles.json'), encoding='utf-8'))
