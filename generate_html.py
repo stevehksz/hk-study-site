@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.99：葉工貼第三方應用 MC 題（實用文）截圖，要求批改後反饋升級——「批改完後要出現正確和不正確，不正確的要在下面寫原因、寫解釋；正確的直接打個勾，然後公布正確答案，也可以寫解釋」。落地＝中文試卷 gradeCnPaper 批改反饋重構：①對題＝「✓ 正確」＋公布「正確答案：C. xxx」＋有 ex 時附「講解：…」；②錯題＝「✗ 不正確」＋「你選了 B. xxx」（mc）或「你的答案：…」（fill/short）＋「正確答案：…」＋有 ex 時附講解；③filltbl 錯題公布各欄答案（／分隔）。講解只用題庫既有 q.ex 欄位（本地題庫 80 條帶 ex；AI 題 prompt 本就要求 ex、可空——空則不硬編，只公布答案）。新增 .qans .qyou／.qkey 樣式。斷言 1023→1032 全過×3；雙通道發布；線上真機實跑對/錯兩路反饋。
 v1.98：葉工貼官方字表「今日認讀」截圖（已認到第 2771／3171 字）要「加一個清 0 的按鈕」。落地＝⑥官方字表今日認讀進度行尾加「↺ 進度清零」（#lexReset）：confirm 確認後 lexPosSet(0)＋renderLexToday()，回第 1 組重新開始。寫 0 而非 removeItem（與 v1.95 星圖重置同理，防舊值回潮）。無版權新暴露。
 v1.97：葉工貼「⑤ 繁體認讀翻卡」截圖要求「搞一個這種語文繁體字的單詞本，有不會的單詞可以放進去，以後可以去複習，學會了可以在裏邊打勾」。判定＝與 v1.80「我的單詞本」同構的本地 CRUD，直接照該模式做，零版權新暴露（收的都是站內既有公開詞卡＋使用者自輸入）。落地＝練習→中文第 3 顆子標籤「我的生字本」（data-cs="zibook"，p:cn:zibook 由既有解析器天然支援）＋`#ziBookView`：①收字入口三處——⑤繁體翻卡 100 字每卡右上「＋本」（收繁體字、簡體對照隨行）、速覽→繁體對照表每行行尾「＋本」、⑥官方字表每格「＋本」；document 捕獲階段統一委派（capture+stopPropagation 防誤觸翻卡，記 v1.80 .mwadd 兩處 stopPropagation 教訓；重渲染後按鈕狀態由 has() 重算，已收過的自動顯「✓ 已收」）；②手動輸入：字／詞必填＋意思選填＋Enter 提交；③複習：列表／翻卡兩種模式切換，翻卡模式正面字、背面意思（未填顯簡體對照），卡上可就地打勾；④打勾＝「✓ 認得了」＋三態篩選（全部／待複習／已認得）＋搜尋＋統計；🔊 粵語朗讀（speak(w,'zh-HK')，缺粵語包由裝置降級）。⑤本地儲存 hkk_zibook_v0（hkk_ 前綴跟賬號隔離），上限 1000，導出／匯入 JSON（合併去重不覆蓋）、清空 confirm；⑥全站導出／匯入／清空補 ziWords 欄位，清空確認文案補「我的生字本」。測試鉤子 window.__ziTest。⚠️ 公開 HTML 零預置生字（紅線同 v1.80）；zibook 在 cnPracView 內，ai_kb.py 只抽 faqView/timelineView/policyView＋學校名冊，KB 恆 100 不變。
 v1.96：葉工圈第三方站「上載試卷」截圖（傳 3 卷換 1 卷下載權）問「幫我做一個類似的功能」。評估＝**照搬不可行**：①收用戶上傳試卷存服務器再分發＝存放+轉發第三方版權內容，踩死 v1.78 雙軌紅線（band1.org 卷零搬運同一條線）；「傳3換1」積分制激勵批量搬運更不可取；②純靜態站無文件後端，100MB PDF 收存需雲端對象存儲+人工審核+濫用處理（該站自己都要求全部卷過審）；③責任問題（侵權卷/含學生個人資料的卷）。AskUserQuestion 拍板＝**兩個都要**：「我的試卷夾（本機版）」＋「官方免費卷入口卡」（後者 v1.97 另做，先核實來源）。落地 v1.96＝練習區第 6 顆子標籤「📁 試卷夾」＋`#papersView`：拖放/多選收 PDF（>30MB confirm 警告）、IndexedDB 存 Blob（db hkkPapersDB／store files）、年級（P1–P6/S1）×科目（中英數常識其他）標籤可改、按年級科目篩選、列表（名稱/日期/大小）、打開（blob URL 新標籤）、列印（iframe print 失敗降級 window.open）、刪除（confirm）、清空（confirm 顯示份數）、容量統計（份數+MB）。⚠️ 版權口徑寫進 folk：檔案只存本設備瀏覽器、不上傳伺服器不進雲端站方看不到、版權歸原出品方僅供家中自用。⚠️ 技術：jsdom 無 indexedDB → pfReady 檢查走降級提示路徑（斷言鎖降級文案），增刪改查在真瀏覽器 CDP 實跑；本機無上限（原站限 3 是審核需要，本機自用不需要）。
@@ -221,6 +222,9 @@ TEMPLATE = r'''<!DOCTYPE html>
   .qans{font-size:13px;margin-top:6px}
   .qans .ok{color:#1a8a4a;font-weight:700}
   .qans .no{color:var(--jy);font-weight:700}
+  /* v1.99 批改後逐題反饋：你選了什麼＋正確答案＋講解 */
+  .qans .qyou{color:#64748b;margin-left:8px}
+  .qans .qkey{display:block;margin-top:3px;color:#334155}
   .qtip{font-size:12px;color:var(--mut);margin-top:4px}
   .qwrite{background:#f4f7ff;border-left:3px solid var(--acc);padding:10px 12px;border-radius:6px;font-size:13px;white-space:pre-wrap;line-height:1.6;margin-top:6px}
   .qwrite textarea{width:100%;min-height:80px;margin-top:6px;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit;box-sizing:border-box}
@@ -1049,13 +1053,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.98（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.99（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.98（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.99（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3569,7 +3573,9 @@ function cnTotalQ(){
   return n;
 }
 function cnAllQs(){
-  const list=curCnPaper.slice();
+  // v1.99 修復：主卷題（curCnPaper）此前沒有 _gi，gradeCnPaper 的 data-qi 選擇器匹配不到，
+  // 導致「一、字詞與句子」整段批改後零反饋、得分只統計閱讀題——補上 _gi=i（與 renderCnPaper 的 data-qi 一致）。
+  const list=curCnPaper.map(function(q,i){return Object.assign({},q,{_gi:i});});
   curCnRead.forEach(function(r,ri){
     (r.qs||[]).forEach(function(q,qi){list.push(Object.assign({},q,{_gi:list.length}));});
   });
@@ -3608,6 +3614,7 @@ function gradeCnPaper(){
   all.forEach(function(q){
     const card=document.querySelector('#cnPaperBox .qcard[data-qi="'+q._gi+'"]');
     if(!card)return;
+    card.querySelectorAll('.qansfb,.qans-note').forEach(function(el){el.remove();}); // v1.99 重批改先清舊反饋（qansfb 專屬標記，不誤刪 fill 輸入框的 .qans 容器）
     let val=null,ok=false;
     if(q.t==='mc'){
       const sel=card.querySelector('input[type="radio"]:checked');
@@ -3633,9 +3640,20 @@ function gradeCnPaper(){
       });
     }
     if(ok)correct++;
-    const ex=q.ex?'<div class="qans-note">'+q.ex+'</div>':'';
-    card.insertAdjacentHTML('beforeend',
-      '<div class="qans"><span class="'+(ok?'ok':'no')+'">'+(ok?'✓ 正確':'✗ 正確答案：'+(q.t==='mc'?String.fromCharCode(65+q.a)+'. '+q.opts[q.a]:(q.t==='filltbl'?String(q.a).split('|').join('／'):String(q.a).split('|')[0])))+'</span></div>'+ex);
+    // v1.99 批改反饋：對＝✓＋公布正確答案（＋講解）；錯＝你選了什麼＋正確答案（＋講解）
+    const LABF=['A','B','C','D','E','F'];
+    const keyTxt=(q.t==='mc')?LABF[q.a]+'. '+q.opts[q.a]:(q.t==='filltbl'?String(q.a).split('|').join('／'):String(q.a).split('|')[0]);
+    let head;
+    if(ok){
+      head='<span class="ok">✓ 正確</span><span class="qkey">正確答案：'+keyTxt+'</span>';
+    }else{
+      let youTxt='';
+      if(q.t==='mc'&&val!=null)youTxt='<span class="qyou">你選了 '+LABF[val]+'. '+q.opts[val]+'</span>';
+      else if(val!=null&&String(val).trim())youTxt='<span class="qyou">你的答案：'+String(val).split('|').join('／')+'</span>';
+      head='<span class="no">✗ 不正確</span>'+youTxt+'<span class="qkey">正確答案：'+keyTxt+'</span>';
+    }
+    const ex=q.ex?'<div class="qans-note">講解：'+q.ex+'</div>':'';
+    card.insertAdjacentHTML('beforeend','<div class="qans qansfb">'+head+'</div>'+ex);
   });
   const pct=scored?Math.round(correct/scored*100):0;
   document.getElementById('cnPaperResult').innerHTML='<div class="qtot">得分：'+correct+' / '+scored+' 題正確（'+pct+'%）'
@@ -7359,7 +7377,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.98',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.99',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
