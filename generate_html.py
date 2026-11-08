@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.07：葉工貼「今日課表」卡截圖——「这里介绍详细一点」。落地＝①介紹段落從一句話擴成完整說明：每日固定三項逐項講（泛讀＝不查詞典不考核＋五指法則選書＋電子書按鈕指向；繁體認讀＝官方字表翻卡簡→繁、給中文課鋪路；粵語磨耳朵＝RTHK 背景音只聽不跟讀聽懂大意即完成）＋專項日頻次（週一/週五時態 15 分、週二/週六寫作 30 分、週三口語 30 分、週四數學術語 20 分 2027.2 起）＋用法（打卡存本機留 28 天、隔天自動重置、按鈕直達）＋驗收（本週一覽、週日卡對照 35 週排期不趕進度）；②`SCH_ITEMS` 七項全部新增 `d` 說明欄，渲染在每行任務名下方（`.schd` 小字灰色），讓孩子/家長不用翻別處就知道每項怎麼做；全部重組自站內既有內容（五指法則/90 秒計時器/21 天打卡），零新事實零外鏈；③`v1.90 schedView 零外鏈零圖片`斷言繼續成立。
 v2.06：葉工貼貪吃蛇截圖——「把英語單詞還有中文放到背景里面，不需要密密麻麻那么多單詞，吃一個就換一個單詞」。落地＝背景詞系統重構：①逐格 256 個純英文詞 → **BG=8×8=64 個 2×2 詞塊**（稀疏 4 倍），每塊兩行——英文（上）＋中文（下），英中對照一眼看懂；②目標塊同步加大成 2×2 黃色大塊（英文＋中文都寫在塊內），碰撞判定從單格改為 2×2 塊內四格；③「吃一個換一個」雙重落地：吃到後 nextFood 換新目標詞（v1.81 已有）＋新增 refreshBlk 把**被吃掉的原詞塊**也換成新詞（英文不同才收手，guard 12 次）；④蛇身經過的詞塊不畫字（2×2 區域判定）；⑤面板文案改「背景是稀疏的英文＋中文詞塊／黃色大格是目標詞，吃一個就換一個新詞」。__snakeTest.bg 改返回詞塊陣列（en/zh）＋暴露 BG；畫布 448、格 C=28 不變，詞塊尺寸 56px 足夠兩行。
 v2.05：葉工貼網盤目錄截圖（01 牛津樹＋10 香港朗文：教師用書 TG／B5135／LWTEGOLD 1A-6B 全套／白板軟件）問「怎麼運用這些資料放到網站上面去，或者自己用，給個接口鏈接登入拿本地資料」。AskUserQuestion 拍板＝**本地私人資料台＋公開站用法卡**（否決在線登入拿資料——版權紅線：任何公開可達域托管原檔等同公開發行，sharecode≠登入；網盤 App 本身就是登入入口）。①公開站②教材清單表後新增 #ownResCard「手頭已有牛津閱讀樹＋某文小學教材？這樣排（家長版）」：三行方法表（牛津樹 1–12 級五指法則起點＋1-3聽讀/4-6自主/7-9初章/10-12長篇坊間節奏；配套音頻視頻當磨耳朵不占泛讀額度；某文教材按單元走家長看教師書備課 5 分鐘、對接某文單詞本）——只講方法零原文，某文口徑沿 v1.81 零「朗文」字樣，版權 warn 卡 h3 曾被編輯誤刪已補回；②本地私人資料台（G:\00 咨詢&公自媒体\22 香港插班\私人資料台.html，副本 _private/hub/）：網盤 7+4 條路徑速查＋牛津樹四階段用法（藍思坊間估算）＋朗文家長用法＋每週排法＋ORT 四階段/朗文 12 冊 localStorage 打卡（pvt_ort/pvt_lwte），零外鏈零原文零分享鏈接，永不進公開站；jsdom 驗證 4+12 選項與勾選存儲。⚠️ 版權結論：資料原檔永不上站；用法卡僅方法論（級別對應標坊間整理）。
 v2.04：葉工貼 AI 選校「通勤起點」下拉截圖——「加一個莲塘口岸」。落地＝①#schAiStart 下拉在羅湖／福田之後新增「蓮塘口岸」選項（其他口岸或交通仍在末位）；②選蓮塘時 prompt 背景自動附加通行提示：蓮塘＝香園圍口岸，過關後靠巴士經香園圍公路接駁粉嶺／上水一帶、無鐵路直達、通勤普遍較東鐵口岸長（估算），避免 AI 按東鐵口岸邏輯估通勤；③其余規則（衝2+穩3+保2、Band 非官方、免責、額度共享）不動。
@@ -933,6 +934,7 @@ header{position:relative}
   .schrow:last-of-type{border-bottom:none}
   .schrow.on label{color:#7c8b9c;text-decoration:line-through}
   .schrow label{flex:1;min-width:200px;cursor:pointer}
+  .schrow .schd{display:block;font-weight:400;font-size:12.5px;line-height:1.6;color:#8a97a6;margin-top:3px}
   .schrow .schm{color:#5b7;font-weight:700;white-space:nowrap;font-size:13px}
   .schrow .schgo{padding:7px 14px;font-size:14px}
   .schrow .schtip{margin:0;white-space:nowrap}
@@ -1077,13 +1079,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.06（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.07（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.06（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.07（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1265,7 +1267,7 @@ header{position:relative}
   <div class="wrap" id="schedView">
     <div class="gsec">
       <h2>今日課表</h2>
-      <p class="tip">按星期幾自動顯示今天該做的幾項：做完一項打個勾，明天自動重置。右邊按鈕直接跳到對應練習。總表與 35 週排期見「補習材料」。</p>
+      <p class="tip"><b>這是每日功課打卡表</b>（小六英文中上、每週 ≤3 小時的減壓版），按星期幾自動顯示今天該做的幾項。<b>每天固定三項打底</b>：①興趣泛讀 20 分鐘——不查詞典、不考核，詞彙靠讀熟自然復現（設計原則「不背單詞」），選書用五指法則：隨手翻一頁生詞超過 5 個就換簡單些的，免費電子書清單見右邊按鈕；②繁體字認讀 10 分鐘——官方字表翻卡，簡→繁認讀，給中文課和功課鋪路；③粵語磨耳朵 10 分鐘——RTHK 兒童節目當背景音，只聽不跟讀、聽懂大意就算完成。<b>部分天加一項專項</b>：週一/週五時態與題型 15 分鐘、週二/週六寫作 30 分鐘、週三口頭分享/面試 30 分鐘、週四數學英文術語 20 分鐘（2027.2 起）。<b>用法</b>：做完一項打個勾——打卡按日期存在本機、只留最近 28 天，第二天打開自動重置；右邊按鈕直接跳到對應練習，做完回來勾。下方「本週一覽」看七天完成數；週日有驗收卡對照 35 週排期表——達標照走、不達標下週補該項，不趕進度。總表與 35 週排期見「補習材料」。</p>
       <div class="gcard" id="schCard"></div>
       <div class="gcard" id="schWeekCard" style="display:none">
         <h3>本週一覽</h3>
@@ -5374,13 +5376,13 @@ document.querySelectorAll('#cngChips .chip').forEach(c=>c.onclick=()=>{
 // ---- v1.90 今日課表：按天顯示＋打勾（hkk_sched_v0，跟賬號隔離）＋直達對應練習 ----
 var SCHED_KEY='hkk_sched_v0';
 var SCH_ITEMS={
-  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:6:res',btn:'免費電子書清單'},
-  trad:{n:'繁體字認讀（官方字表）',m:10,go:'t:5',btn:'去今日認讀'},
-  yue:{n:'粵語磨耳朵（RTHK 兒童節目）',m:10,go:'',btn:'',tip:'只聽不跟讀'},
-  write:{n:'寫作（Great Writing 教材）',m:30,go:'t:1',btn:'看教材清單'},
-  oral:{n:'口頭分享／面試練習',m:30,go:'t:2',btn:'去面試話題庫'},
-  mterm:{n:'數學英文術語翻卡（2027.2 起）',m:20,go:'t:3',btn:'去翻卡'},
-  drill:{n:'時態與題型（動詞表＋五組小練習）',m:15,go:'p:en:drill',btn:'去練習'}
+  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:6:res',btn:'免費電子書清單',d:'讀孩子自己喜歡的書：隨手翻一頁生詞超過 5 個就換簡單些的；讀完回「泛讀打卡」格點一天，湊 21 天連續。'},
+  trad:{n:'繁體字認讀（官方字表）',m:10,go:'t:5',btn:'去今日認讀',d:'翻卡認讀簡→繁常用字，認出就翻面對答案；今天不會的字明天還會再見到。'},
+  yue:{n:'粵語磨耳朵（RTHK 兒童節目）',m:10,go:'',btn:'',tip:'只聽不跟讀',d:'RTHK 兒童節目當背景音放，只聽不跟讀、不考核；聽懂大意就算完成。'},
+  write:{n:'寫作（Great Writing 教材）',m:30,go:'t:1',btn:'看教材清單',d:'教材按單元推進，一次一小節；寫完不必批改，第二天回看一眼即可。'},
+  oral:{n:'口頭分享／面試練習',m:30,go:'t:2',btn:'去面試話題庫',d:'從話題庫抽一題口頭講 90 秒（頁內有可停計時器）；家長只當聽眾，不用糾錯。'},
+  mterm:{n:'數學英文術語翻卡（2027.2 起）',m:20,go:'t:3',btn:'去翻卡',d:'數學課會用到的英文題幹詞，點卡翻面看中文；先混個臉熟，開課前自然接上。'},
+  drill:{n:'時態與題型（動詞表＋五組小練習）',m:15,go:'p:en:drill',btn:'去練習',d:'動詞表過一遍＋做五組小練習裡的一組；錯的那組，下次開頁先重做它。'}
 };
 var SCH_WEEK=[ /* 週一 → 週日 */
   ['read','trad','yue','drill'],
@@ -5407,7 +5409,9 @@ function schRender(){
     var it=SCH_ITEMS[id]; if(!it)return;
     var on=done.indexOf(id)>=0; total+=it.m; if(on)doneMin+=it.m;
     h+='<div class="schrow'+(on?' on':'')+'">'
-      +'<label><input type="checkbox" class="schchk" data-sid="'+id+'"'+(on?' checked':'')+'> <b>'+it.n+'</b></label>'
+      +'<label><input type="checkbox" class="schchk" data-sid="'+id+'"'+(on?' checked':'')+'> <b>'+it.n+'</b>'
+      +(it.d?'<span class="schd">'+it.d+'</span>':'')
+      +'</label>'
       +'<span class="schm">'+it.m+' 分鐘</span>'
       +(it.go?'<button class="btn schgo" type="button" onclick="__hkkGo(\''+it.go+'\')">'+it.btn+'</button>'
              :'<span class="tip schtip">'+it.tip+'</span>')
@@ -7493,7 +7497,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.06',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.07',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
