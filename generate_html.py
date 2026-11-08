@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.08：葉工問「網站有什麼需要優化的地方，以後要變收費制度或會員制度怎麼操作」，並拍板「先只做優化不上收費」＋優先做錯題本與新手引導。本版＝**錯題本**（補站內最大產品缺口：錯題只閃一下不沉澱）。落地＝①練習子頁新增第 2 顆「錯題本」`#wrongView`（`p:wrong` 由既有解析器天然支援）；②四種卷批改全部接線——中文卷（含講解與「你選了 X」）、英文卷（選擇題／填空／閱讀子題）、數學卷（選擇題／填空）、呈分模擬卷（只記題號與答案，題幹回卷面對照），只收「錯」，對題不入庫；③數據 `hkk_wrong_v0`（`{ver,items[]}`，上限 400）：欄位只存文字（題幹／我的答案／正確答案／講解／年級／來源／時間／次數／done），**不存題目物件**，換版本後舊錯題仍可顯示；同題（科目＋年級＋題幹雜湊）再錯只累計次數並提到最前，不重複收錄；④視圖＝統計條（待複習總數＋分科）＋五顆科目 chips（全部／中文／英文／數學／呈分卷）＋錯題卡（科目標籤、來源年級與相對時間、題幹、你的答案／正確答案、講解）＋「✓ 已掌握」（移入底部折疊區，可「↺ 放回待複習」）＋「刪除」；⑤事件用 document 委派一次綁定（重渲染不丟，沿 v1.97 教訓）、文字一律 `wrongEsc()` 轉義（⚠️ 站內 `esc()` 是各 IIFE 局部函數、全局沒有，直接調會 ReferenceError）；⑥全站導出／匯入／清空接 `wrong` 欄位，清空確認文案補「錯題本」；⑦四顆「去做卷」按鈕走既有錨點 p:cn:cnpaper／p:en:paper／p:math:mpaper／p:en:exam。測試鉤子 `window.__wrongTest`。
 v2.07：葉工貼「今日課表」卡截圖——「这里介绍详细一点」。落地＝①介紹段落從一句話擴成完整說明：每日固定三項逐項講（泛讀＝不查詞典不考核＋五指法則選書＋電子書按鈕指向；繁體認讀＝官方字表翻卡簡→繁、給中文課鋪路；粵語磨耳朵＝RTHK 背景音只聽不跟讀聽懂大意即完成）＋專項日頻次（週一/週五時態 15 分、週二/週六寫作 30 分、週三口語 30 分、週四數學術語 20 分 2027.2 起）＋用法（打卡存本機留 28 天、隔天自動重置、按鈕直達）＋驗收（本週一覽、週日卡對照 35 週排期不趕進度）；②`SCH_ITEMS` 七項全部新增 `d` 說明欄，渲染在每行任務名下方（`.schd` 小字灰色），讓孩子/家長不用翻別處就知道每項怎麼做；全部重組自站內既有內容（五指法則/90 秒計時器/21 天打卡），零新事實零外鏈；③`v1.90 schedView 零外鏈零圖片`斷言繼續成立。
 v2.06：葉工貼貪吃蛇截圖——「把英語單詞還有中文放到背景里面，不需要密密麻麻那么多單詞，吃一個就換一個單詞」。落地＝背景詞系統重構：①逐格 256 個純英文詞 → **BG=8×8=64 個 2×2 詞塊**（稀疏 4 倍），每塊兩行——英文（上）＋中文（下），英中對照一眼看懂；②目標塊同步加大成 2×2 黃色大塊（英文＋中文都寫在塊內），碰撞判定從單格改為 2×2 塊內四格；③「吃一個換一個」雙重落地：吃到後 nextFood 換新目標詞（v1.81 已有）＋新增 refreshBlk 把**被吃掉的原詞塊**也換成新詞（英文不同才收手，guard 12 次）；④蛇身經過的詞塊不畫字（2×2 區域判定）；⑤面板文案改「背景是稀疏的英文＋中文詞塊／黃色大格是目標詞，吃一個就換一個新詞」。__snakeTest.bg 改返回詞塊陣列（en/zh）＋暴露 BG；畫布 448、格 C=28 不變，詞塊尺寸 56px 足夠兩行。
 v2.05：葉工貼網盤目錄截圖（01 牛津樹＋10 香港朗文：教師用書 TG／B5135／LWTEGOLD 1A-6B 全套／白板軟件）問「怎麼運用這些資料放到網站上面去，或者自己用，給個接口鏈接登入拿本地資料」。AskUserQuestion 拍板＝**本地私人資料台＋公開站用法卡**（否決在線登入拿資料——版權紅線：任何公開可達域托管原檔等同公開發行，sharecode≠登入；網盤 App 本身就是登入入口）。①公開站②教材清單表後新增 #ownResCard「手頭已有牛津閱讀樹＋某文小學教材？這樣排（家長版）」：三行方法表（牛津樹 1–12 級五指法則起點＋1-3聽讀/4-6自主/7-9初章/10-12長篇坊間節奏；配套音頻視頻當磨耳朵不占泛讀額度；某文教材按單元走家長看教師書備課 5 分鐘、對接某文單詞本）——只講方法零原文，某文口徑沿 v1.81 零「朗文」字樣，版權 warn 卡 h3 曾被編輯誤刪已補回；②本地私人資料台（G:\00 咨詢&公自媒体\22 香港插班\私人資料台.html，副本 _private/hub/）：網盤 7+4 條路徑速查＋牛津樹四階段用法（藍思坊間估算）＋朗文家長用法＋每週排法＋ORT 四階段/朗文 12 冊 localStorage 打卡（pvt_ort/pvt_lwte），零外鏈零原文零分享鏈接，永不進公開站；jsdom 驗證 4+12 選項與勾選存儲。⚠️ 版權結論：資料原檔永不上站；用法卡僅方法論（級別對應標坊間整理）。
@@ -944,6 +945,25 @@ header{position:relative}
   .schday span{display:block;font-weight:700;color:#0369a1;margin-top:3px}
   .schday.today{border-color:#2f8f5b;background:#f0faf4;box-shadow:0 0 0 2px #cfe9db inset}
   .schday.fut{opacity:.45}
+  /* v2.08 錯題本 */
+  .wsum{margin:0;font-weight:700;color:#0369a1;font-size:14px;line-height:1.7}
+  .wsum .wsep{color:#b9c6dd;margin:0 5px}
+  .wchips button{font-size:13px;padding:6px 13px}
+  .wcard{border:1px solid #e3ecf5;border-radius:12px;padding:12px 13px;margin:10px 0;background:#fff}
+  .wcard .wh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+  .wcard .wtag{background:#e8f3fb;color:#0369a1;font-weight:800;font-size:12px;border-radius:6px;padding:2px 8px}
+  .wcard .wmeta{color:#8a97a6;font-size:12px}
+  .wcard .wq{font-size:14.5px;line-height:1.75;color:#22303f;margin:0 0 7px;word-break:break-word}
+  .wcard .wa{display:flex;flex-direction:column;gap:3px;font-size:13px;line-height:1.7}
+  .wcard .wmine{color:#c2410c}
+  .wcard .wkey{color:#0f7a4f;font-weight:700}
+  .wcard .wex{font-size:12.5px;line-height:1.75;color:#5b6b7c;margin-top:6px;padding-top:6px;border-top:1px dashed #eef2f7}
+  .wcard .wbtns{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .wcard .wbtns .btn,.wcard .wbtns .clr{min-height:36px;font-size:13px;padding:6px 14px}
+  .wcard.done{opacity:.72;background:#f8fafc}
+  .wempty{color:#8a97a6;font-size:13px;line-height:1.8;margin:14px 0}
+  .wtools{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed #e3ecf5}
+  .wtools .btn,.wtools .clr{min-height:38px;font-size:13px}
   .ns-line .nssep{color:#b9c6dd;margin:0 6px}
   /* FAQ 分組頭與卡內「下一步」。⚠️ 用 #faqView 前綴壓過 .gsec h3，否則被既有標題樣式吃掉 */
   #faqView .faq-grp{margin:20px 0 9px;padding:8px 12px;font-size:13.5px;font-weight:800;color:#0d5a53;background:#eaf7f4;border-left:4px solid #2fa295;border-radius:0 8px 8px 0;line-height:1.6}
@@ -1079,13 +1099,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.07（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.08（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.07（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.08（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1102,6 +1122,8 @@ header{position:relative}
 </div>
 <div class="subnav" id="practiceSub" style="display:none">
   <button data-sub="sched" class="on">今日課表</button>
+  <!-- v2.08：錯題本——四種卷批改自動歸檔、跨卷複習 -->
+  <button data-sub="wrong">錯題本</button>
   <button data-sub="cn">中文</button>
   <button data-sub="en">英文</button>
   <button data-sub="math">數學</button>
@@ -1279,6 +1301,35 @@ header{position:relative}
         <button class="btn" type="button" onclick="__hkkGo('t:0')">打開 35 週排期表對照</button>
       </div>
       <p class="tip">課表來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29，坊間整理）；「時態與題型」為 v1.89 新增項（每週 2 次 × 15 分鐘）。頻率與補習材料①總表一致，只按天排開。</p>
+    </div>
+  </div>
+  <!-- 錯題本（v2.08：中文/英文/數學/呈分 四種卷批改自動歸檔，跨卷複習） -->
+  <div class="wrap" id="wrongView" style="display:none">
+    <div class="gsec">
+      <h2>我的錯題本</h2>
+      <p class="tip">做過的中文卷／英文卷／數學卷／呈分模擬卷，<b>答錯的題會自動收到這裏</b>：按科目分、新的在上、同一題再錯會累計次數。標「✓ 已掌握」就不再出現在待複習清單（記錄仍保留在下方可恢復）。選擇題未作答也會收錄，答案是空白就寫「未作答」。<b>全部只存本機</b>，不上傳。</p>
+      <div class="gcard">
+        <div class="wsum" id="wrongSum">待複習 0 題</div>
+        <div class="subnav wchips" id="wrongChips" style="position:static;top:auto;margin:10px 0">
+          <button data-ws="all" class="on">全部</button>
+          <button data-ws="cn">中文</button>
+          <button data-ws="en">英文</button>
+          <button data-ws="math">數學</button>
+          <button data-ws="exam">呈分卷</button>
+        </div>
+        <div id="wrongList"></div>
+        <div class="wtools" id="wrongTools">
+          <button class="btn" type="button" onclick="__hkkGo('p:cn:cnpaper')">去做中文卷</button>
+          <button class="btn" type="button" onclick="__hkkGo('p:en:paper')">去做英文卷</button>
+          <button class="btn" type="button" onclick="__hkkGo('p:math:mpaper')">去做數學卷</button>
+          <button class="btn" type="button" onclick="__hkkGo('p:en:exam')">呈分模擬卷</button>
+          <button class="clr" type="button" id="wrongClear">清空錯題本</button>
+        </div>
+        <details class="gsec fold" id="wrongDoneBox" style="display:none">
+          <summary class="gsec-h">✓ 已掌握的錯題（<span id="wrongDoneN">0</span>）</summary>
+          <div id="wrongDone"></div>
+        </details>
+      </div>
     </div>
   </div>
   <!-- 中文 -->
@@ -3469,11 +3520,13 @@ function gradeMathPaper(){
       scored++; const ok=sel&&+sel.value===q.a; if(ok)correct++;
       card.querySelectorAll('.qopt').forEach(function(op,k){ if(k===q.a)op.classList.add('correct'); else if(sel&&+sel.value===k)op.classList.add('wrong'); });
       card.insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+q.opts[q.a]+'（'+q.optszh[q.a]+'）</span></div>');
+      if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'math',src:'數學練習卷',g:curMathGrade,q:q.q,mine:(sel?q.opts[+sel.value]:'（未作答）'),key:wrongKeyPair(q.opts[q.a],q.optszh[q.a])});
     }else if(q.t==='fill'){
       const inp=document.getElementById('mqf'+i); const v=norm(inp.value);
       scored++; const ok=v===norm(q.a)||(q.alt&&q.alt.some(function(x){return norm(x)===v;})); if(ok)correct++;
       inp.classList.add(ok?'correct':'wrong');
       card.insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+(q.a||'')+(q.azh?('（'+q.azh+'）'):'')+'</span></div>');
+      if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'math',src:'數學練習卷',g:curMathGrade,q:q.q,mine:inp.value,key:wrongKeyPair(q.a,q.azh)});
     }else if(q.t==='word'){
       card.insertAdjacentHTML('beforeend','<div class="qans"><span class="no">✎ 應用題（不計分，對照參考答案自評）</span><br>參考：'+(q.model||'')+'<br><span class="qzh">'+(q.modelzh||'')+'</span></div>');
     }
@@ -3724,6 +3777,11 @@ function gradeCnPaper(){
     // v1.99 批改反饋：對＝✓＋公布正確答案（＋講解）；錯＝你選了什麼＋正確答案（＋講解）
     const LABF=['A','B','C','D','E','F'];
     const keyTxt=(q.t==='mc')?LABF[q.a]+'. '+q.opts[q.a]:(q.t==='filltbl'?String(q.a).split('|').join('／'):String(q.a).split('|')[0]);
+    // v2.08：錯的題自動收進錯題本（含講解；未作答也收）
+    if(!ok&&typeof wrongAdd==='function'){
+      var _mine=(q.t==='mc'&&val!=null)?(LABF[val]+'. '+q.opts[val]):((val==null||String(val).trim()==='')?'（未作答）':String(val).split('|').join('／'));
+      wrongAdd({sub:'cn',src:(curCnIsAi?'中文 AI 卷':'中文練習卷'),g:curCnGrade,q:q.q,mine:_mine,key:keyTxt,ex:q.ex||''});
+    }
     let head;
     if(ok){
       head='<span class="ok">✓ 正確</span><span class="qkey">正確答案：'+keyTxt+'</span>';
@@ -4106,18 +4164,21 @@ function gradeEnPaper(){
       scored++;const ok=sel&&+sel.value===q.a; if(ok)correct++;
       card.querySelectorAll('.qopt').forEach((op,k)=>{if(k===q.a)op.classList.add('correct');else if(sel&&+sel.value===k)op.classList.add('wrong');});
       card.insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+q.opts[q.a]+'</span></div>');
+      if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'en',src:'英文練習卷',g:curEnGrade,q:q.q,mine:(sel?q.opts[+sel.value]:'（未作答）'),key:q.opts[q.a]});
     }else if(q.t==='read'){
       q.qs.forEach((sub,j)=>{
         const subEl=card.querySelector('.qsub[data-sj="'+j+'"]');
         const sel=subEl.querySelector('input:checked');
         scored++;const ok=sel&&+sel.value===sub.a; if(ok)correct++;
         subEl.querySelectorAll('.qopt').forEach((op,k)=>{if(k===sub.a)op.classList.add('correct');else if(sel&&+sel.value===k)op.classList.add('wrong');});
+        if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'en',src:'英文卷 · 閱讀理解',g:curEnGrade,q:sub.q,mine:(sel?sub.opts[+sel.value]:'（未作答）'),key:sub.opts[sub.a]});
       });
     }else if(q.t==='fill'){
       const inp=document.getElementById('qf'+i);const v=norm(inp.value);
       scored++;const ok=v===norm(q.a)||(q.alt&&q.alt.some(x=>norm(x)===v)); if(ok)correct++;
       inp.classList.add(ok?'correct':'wrong');
       card.insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+q.a+'</span></div>');
+      if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'en',src:'英文練習卷',g:curEnGrade,q:q.q,mine:inp.value,key:q.a});
     }else if(q.t==='open'){
       card.insertAdjacentHTML('beforeend','<div class="qans"><span class="no">✎ 開放題（不計分）</span> 參考：'+(q.model||'')+'</div>');
     }else if(q.t==='write'){
@@ -5435,6 +5496,7 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   curPractice=b.dataset.sub;
   document.querySelectorAll('#practiceSub button').forEach(x=>x.classList.toggle('on',x===b));
   document.getElementById('schedView').style.display = curPractice==='sched'?'block':'none';
+  var _wv=document.getElementById('wrongView'); if(_wv)_wv.style.display = curPractice==='wrong'?'block':'none';
   document.getElementById('cnPracView').style.display = curPractice==='cn'?'block':'none';
   document.getElementById('enPracView').style.display = curPractice==='en'?'block':'none';
   document.getElementById('mathPracView').style.display = curPractice==='math'?'block':'none';
@@ -5442,10 +5504,116 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   document.getElementById('papersView').style.display = curPractice==='papers'?'block':'none';
   if(curPractice==='en'){renderHk();renderVocab();}
   if(curPractice==='sched')schRender();
+  if(curPractice==='wrong'&&typeof wrongRender==='function')wrongRender();
   if(curPractice==='papers')pfRender();
 });
 window.__schedTest={items:SCH_ITEMS,week:SCH_WEEK,get:schGet,key:schKey,render:schRender,toggle:schToggle,dayIdx:schDayIdx};
 schRender(); // v1.90 開頁即渲染（sched 為練習默認子頁）
+// ---- v2.08 錯題本：四種卷批改自動歸檔（hkk_wrong_v0，hkk_ 前綴跟賬號隔離）----
+// 設計：只存「可用文字複習的欄位」（題幹／我的答案／正確答案／講解），不存原始題目物件，
+// 換版本後舊錯題仍能顯示；同一題（科目＋年級＋題幹雜湊）再錯只累計次數、不重複收錄。
+var WRONG_KEY='hkk_wrong_v0', WRONG_MAX=400;
+var WRONG_SUB={cn:'中文',en:'英文',math:'數學',exam:'呈分卷'};
+function wrongAll(){ try{ var o=JSON.parse(localStorage.getItem(WRONG_KEY)||'{}'); return Array.isArray(o.items)?o.items:[]; }catch(e){ return []; } }
+function wrongSave(items){ try{ localStorage.setItem(WRONG_KEY,JSON.stringify({ver:'hkk_wrong_v1',items:(items||[]).slice(0,WRONG_MAX)})); }catch(e){} }
+function wrongHash(s){ var h=0; s=String(s||''); for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return Math.abs(h); }
+function wrongKeyPair(a,zh){ a=String(a==null?'':a); zh=String(zh==null?'':zh); return (!zh||zh===a)?a:(a+'（'+zh+'）'); }
+function wrongEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function wrongAdd(o){
+  if(!o||!o.q)return;
+  var items=wrongAll();
+  var k=o.sub+'|'+(o.g||'')+'|'+wrongHash(o.q);
+  var idx=-1;
+  for(var i=0;i<items.length;i++){ if(items[i].k===k){ idx=i; break; } }
+  var rec={
+    k:k, sub:o.sub, src:String(o.src||WRONG_SUB[o.sub]||'').slice(0,40), g:String(o.g||'').slice(0,10),
+    q:String(o.q).slice(0,300), mine:String(o.mine||'').slice(0,160), key:String(o.key||'').slice(0,200),
+    ex:String(o.ex||'').slice(0,400), ts:Date.now(), done:0, n:1
+  };
+  if(idx>=0){ rec.n=(items[idx].n||1)+1; items.splice(idx,1); items.unshift(rec); }
+  else items.unshift(rec);
+  wrongSave(items);
+  if(typeof wrongRender==='function')wrongRender();
+}
+function wrongToggle(k,done){
+  var items=wrongAll();
+  items.forEach(function(i){ if(i.k===k)i.done=done?1:0; });
+  wrongSave(items); wrongRender();
+}
+function wrongDel(k){
+  wrongSave(wrongAll().filter(function(i){ return i.k!==k; }));
+  wrongRender();
+}
+var curWrong='all';
+function wrongCard(i,isDone){
+  var d=Math.floor((Date.now()-i.ts)/86400000);
+  var when=d<=0?'今天':(d===1?'昨天':d+' 天前');
+  return '<div class="wcard'+(isDone?' done':'')+'">'
+    +'<div class="wh"><span class="wtag">'+(WRONG_SUB[i.sub]||'')+'</span><span class="wmeta">'
+      +(i.src||'')+(i.g?' · '+i.g:'')+' · '+when+((i.n>1)?(' · 錯 '+i.n+' 次'):'')+'</span></div>'
+    +'<div class="wq">'+wrongEsc(i.q)+'</div>'
+    +'<div class="wa"><span class="wmine">你的答案：'+(i.mine?wrongEsc(i.mine):'（未作答／未記錄）')+'</span>'
+      +'<span class="wkey">正確答案：'+wrongEsc(i.key||'—')+'</span></div>'
+    +(i.ex?'<div class="wex">講解：'+wrongEsc(i.ex)+'</div>':'')
+    +'<div class="wbtns">'
+      +(isDone
+        ? '<button class="btn" type="button" data-wres="'+i.k+'">↺ 放回待複習</button>'
+        : '<button class="btn" type="button" data-wok="'+i.k+'">✓ 已掌握</button>')
+      +'<button class="clr" type="button" data-wdel="'+i.k+'">刪除</button></div>'
+    +'</div>';
+}
+function wrongRender(){
+  var box=document.getElementById('wrongList'); if(!box)return;
+  var items=wrongAll();
+  var todo=items.filter(function(i){ return !i.done; });
+  var done=items.filter(function(i){ return i.done; });
+  var st='待複習 <b>'+todo.length+'</b> 題';
+  ['cn','en','math','exam'].forEach(function(s){
+    var n=todo.filter(function(i){ return i.sub===s; }).length;
+    if(n)st+='<span class="wsep">·</span>'+WRONG_SUB[s]+' '+n;
+  });
+  if(done.length)st+='<span class="wsep">·</span>已掌握 '+done.length;
+  var sum=document.getElementById('wrongSum'); if(sum)sum.innerHTML=st;
+  var show=todo.filter(function(i){ return curWrong==='all'||i.sub===curWrong; });
+  if(!show.length){
+    box.innerHTML='<p class="wempty">'+(todo.length
+      ? '這個科目目前沒有待複習的錯題，切到「全部」看其他科目。'
+      : '還沒有錯題——做完一份卷按「批改」，答錯的題會自動收到這裏。')+'</p>';
+  }else{
+    box.innerHTML=show.map(function(i){ return wrongCard(i,false); }).join('');
+  }
+  var dn=document.getElementById('wrongDoneN'); if(dn)dn.textContent=done.length;
+  var dbox=document.getElementById('wrongDoneBox');
+  if(dbox)dbox.style.display=done.length?'block':'none';
+  var dl=document.getElementById('wrongDone'); if(dl)dl.innerHTML=done.map(function(i){ return wrongCard(i,true); }).join('');
+}
+(function(){
+  var chips=document.querySelectorAll('#wrongChips button');
+  chips.forEach(function(b){ b.onclick=function(){
+    curWrong=b.dataset.ws;
+    chips.forEach(function(x){ x.classList.toggle('on',x===b); });
+    wrongRender();
+  };});
+  // 事件委派：一次綁定，重渲染不丟（沿用 v1.97 教訓：別在每次渲染時重綁）
+  document.addEventListener('click',function(e){
+    var t=e.target;
+    if(!t||!t.getAttribute)return;
+    var k;
+    if((k=t.getAttribute('data-wok'))){ wrongToggle(k,1); }
+    else if((k=t.getAttribute('data-wres'))){ wrongToggle(k,0); }
+    else if((k=t.getAttribute('data-wdel'))){
+      if(confirm('刪除這道錯題記錄？'))wrongDel(k);
+    }
+  });
+  var cb=document.getElementById('wrongClear');
+  if(cb)cb.onclick=function(){
+    var n=wrongAll().length;
+    if(!n){ alert('錯題本已經是空的。'); return; }
+    if(confirm('確定清空錯題本全部 '+n+' 條記錄？此操作不可恢復。')){ wrongSave([]); wrongRender(); }
+  };
+})();
+window.__wrongTest={all:wrongAll,add:wrongAdd,toggle:wrongToggle,del:wrongDel,render:wrongRender,clear:function(){wrongSave([]);wrongRender();},key:WRONG_KEY};
+
 function swPlan(s){
   curPlan=s;
   document.querySelectorAll('#planSub button').forEach(x=>x.classList.toggle('on',x.dataset.sub===s));
@@ -6351,6 +6519,10 @@ function gradeExamPaper(noSave){
     if(el){el.disabled=true;el.classList.add(okv?'ex-ok':'ex-bad');}
   });
   curExamPaper.J.items.forEach((it,i)=>{markFill('ex_J_'+i+'_0',Array.isArray(it.a)?it.a:[it.a],1,'J('+(i+1)+')');});
+  // v2.08：呈分模擬卷的錯題也收（該卷只記題號與答案，題幹需回卷面看）
+  if(!noSave&&wrongs.length&&typeof wrongAdd==='function'){
+    wrongs.forEach(function(w){ wrongAdd({sub:'exam',src:'呈分模擬卷',g:curExamGrade||'',q:'第 '+w.label+' 題',key:w.ans,mine:'（回卷面對照）'}); });
+  }
   const key='hkk_exampaper_v0';let rec={};
   if(!noSave){
    try{rec=JSON.parse(localStorage.getItem(key)||'{}');}catch(e){}
@@ -7391,7 +7563,7 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／我的生字本／已匯入詞庫／時態題型勾選與成績／今日課表打卡）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／我的生字本／已匯入詞庫／時態題型勾選與成績／今日課表打卡／錯題本）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
@@ -7401,6 +7573,7 @@ document.getElementById('clearBtn').onclick=()=>{
     if(window.__lwtePackTest){window.__lwtePackTest.clear();}
     if(typeof drSaveProg==='function'){drSaveProg({});try{localStorage.removeItem(DRILL_BEST_KEY);}catch(e){}if(typeof drTapTo==='function')drTapTo('verb');}
     if(typeof schSave==='function'){schSave({});if(typeof schRender==='function')schRender();}
+    if(typeof wrongSave==='function'){wrongSave([]);if(typeof wrongRender==='function')wrongRender();}
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
@@ -7497,7 +7670,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.07',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.08',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -7516,6 +7689,7 @@ document.getElementById('importFile').onchange=e=>{
     if(d.lwteWordProg&&window.__lwtePackTest){window.__lwtePackTest.setProg(d.lwteWordProg);}
     if(d.drillProg&&typeof drSaveProg==='function'){drSaveProg(d.drillProg);}
     if(d.sched&&typeof schSave==='function'){schSave(d.sched);if(typeof schRender==='function')schRender();}
+    if(Array.isArray(d.wrong)&&typeof wrongSave==='function'){wrongSave(d.wrong);if(typeof wrongRender==='function')wrongRender();}
     if(d.drillBest&&typeof drBest==='function'){try{localStorage.setItem(DRILL_BEST_KEY,JSON.stringify(d.drillBest));}catch(e){}}
     if(typeof drTapTo==='function'){drTapTo(drTap);}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
