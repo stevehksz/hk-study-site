@@ -998,13 +998,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.03（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.04（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.03（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.04（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2304,7 +2304,7 @@ Thank you for your time.</div>
           <label>英文水平<select id="schAiEng"><option>剛起步（未系統學過）</option><option selected>中等（能讀簡單英文）</option><option>良好（能用英文對答面試）</option></select></label>
           <label>粵語聽力<select id="schAiCanto"><option>基本聽不懂</option><option selected>聽得懂一些</option><option>日常會話沒問題</option></select></label>
           <label>香港身份<select id="schAiId"><option>已有（受養人/永居等）</option><option selected>辦理中尚未到手</option><option>單程證排隊中</option></select></label>
-          <label>通勤起點<select id="schAiStart"><option selected>羅湖口岸（東鐵沿線）</option><option>福田口岸</option><option>其他口岸或交通</option></select></label>
+          <label>通勤起點<select id="schAiStart"><option selected>羅湖口岸（東鐵沿線）</option><option>福田口岸</option><option>蓮塘口岸</option><option>其他口岸或交通</option></select></label>
           <label>學費預算<select id="schAiBudget"><option selected>只考慮免費官津</option><option>可接受直資學費</option></select></label>
           <label>操作<span><button type="button" class="btn" id="schAiGo" style="min-height:44px">🤖 給我選校參考</button></span></label>
         </div>
@@ -49120,7 +49120,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.03',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.04',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -49490,7 +49490,9 @@ authBoot();
     if(busy)return;
     const g=function(id){const el=document.getElementById(id);return el?el.options[el.selectedIndex].text:'';};
     const stage=document.getElementById('schAiStage').value;
-    const bg='插班學段：'+(stage==='sec'?'中學':'小學')+'｜目標年級：'+g('schAiGrade')+'｜英文水平：'+g('schAiEng')+'｜粵語聽力：'+g('schAiCanto')+'｜香港身份：'+g('schAiId')+'｜通勤起點：'+g('schAiStart')+'｜學費預算：'+g('schAiBudget');
+    const st0=g('schAiStart');
+    let bg='插班學段：'+(stage==='sec'?'中學':'小學')+'｜目標年級：'+g('schAiGrade')+'｜英文水平：'+g('schAiEng')+'｜粵語聽力：'+g('schAiCanto')+'｜香港身份：'+g('schAiId')+'｜通勤起點：'+st0+'｜學費預算：'+g('schAiBudget');
+    if(st0.indexOf('蓮塘')>-1)bg+='｜提示：蓮塘口岸＝香園圍口岸，過關後靠巴士經香園圍公路接駁粉嶺／上水一帶，無鐵路直達，通勤時間普遍較東鐵口岸長（估算）';
     const q0=quota();
     if(q0.n>=AI_DAILY){schShow('今日 AI 額度（與 AI 問答共享 3 條）已用完，明天再來；急的話直接加葉工微信。',false);return;}
     busy=true;

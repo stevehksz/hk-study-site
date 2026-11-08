@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.04：葉工貼 AI 選校「通勤起點」下拉截圖——「加一個莲塘口岸」。落地＝①#schAiStart 下拉在羅湖／福田之後新增「蓮塘口岸」選項（其他口岸或交通仍在末位）；②選蓮塘時 prompt 背景自動附加通行提示：蓮塘＝香園圍口岸，過關後靠巴士經香園圍公路接駁粉嶺／上水一帶、無鐵路直達、通勤普遍較東鐵口岸長（估算），避免 AI 按東鐵口岸邏輯估通勤；③其余規則（衝2+穩3+保2、Band 非官方、免責、額度共享）不動。
 v2.03：葉工貼英文卷資料來源截圖要「整個網站除了官方的出處，不要顯示私人或者公司的出處」。先全站摸排（外鏈清單＋來源行 grep）再 AskUserQuestion 拍板＝**只清內容出處標註**，⑧外部資源導航與教科書書目（出版社名屬事實性書目）保留。清除 6 處商號/私站署名：①英文卷 enSrcNote（GoStudy.HK／弦月教育／香港教育圖書／Band1 試卷網／The Exam Coach 連 4 條外鏈）→「坊間補習社／練習站常見做法（坊間參考，不逐一署名）；題目與答案為本站原創」；②升中面試資料來源 4 站（hkstudyroute/notesity/couchpotatoeducation/topschool.hket）→ 同口徑；③詞彙路線圖 hint（智瞳教育／51Talk／公眾號葫蘆媽/EHLA/博纳）→「坊間教育機構與升學媒體估算（不逐一署名）」，並同步改表格行與「主動vs被動」卡的 EHLA 字樣；④語境閱讀法卡智瞳教育；⑤大埔中學表來源行（教育王國/hkecec/hkstudyroute）；⑥東鐵備選梯隊事實欄（升學天地/教育王國）。官方出處全保留（教育局/考評局/家委會概覽/教育城/公共圖書館/各校官網）；verify2 兩條舊「含商號」斷言反轉為零商號＋全站新增 22 個商號/私站字串的零出現斷言（官方站外鏈白名單不變）。
 v2.02：葉工貼悠閒區截圖——「有些要折疊起來，選了哪個遊戲再顯示哪個遊戲，貪吃蛇的畫面要大一點」。落地＝①悠閒 tab 頂部新增遊戲選擇器 #funGameChips（🐍單詞貪吃蛇／🔢數獨兩顆 chip，復用 .subnav 樣式）：貪吃蛇整塊包進 #snakeGame、數獨卡默認 display:none，選哪個顯示哪個，不再兩個遊戲平鋪一屏；②貪吃蛇 canvas 320→448（格 C=20→28，目標詞字號上限 13→16px 隨格子放大；手機端照舊 max-width:100% 自適應，格數 G=16 不變、玩法與詞池不動）；③切到數獨或離開悠閒 tab（showMain）時自動暫停貪吃蛇（__snakeTest.pause，clearInterval＋提示按「開始/重來」重新開局），計時器不在背景空跑；測試鉤子 window.__funGameTest（show 可編程切換）。
 v2.01：葉工貼擇校分檔截圖要「AI 選校——填入學生的基本背景資料，讓 AI 根據 data base 推薦學校」。落地＝擇校分檔子頁頂部新增「🤖 AI 選校（實驗版）」卡（#schAiCard）：①學校庫 `SCH_DB` 構建期從站內兩張表抽取（#tierTable 北區中學檔位表 21 行＋#psTable 北區小學 30 所），單一真相源、欄位只有檔位/學校/類型/語言/Band/學費/申請路徑/校網，**不餵電話與外鏈**（構建期 assert 鎖死）；②表單 7 個下拉（學段/目標年級/英文水平/粵語聽力/香港身份/通勤起點/學費預算，全選擇題零輸入）；③專用 system prompt（buildSchSystem）：只推薦表內學校、中學輸出衝刺2+穩妥3+保底2／小學輸出首選3+常規3、Band 必帶「非官方」、不編學額截止日、結尾固定免責兩行、越獄指令視為普通內容；④復用 AI 客服雲通道（aiCloud/pickModel/quota），**共享每日 3 條額度**、預扣＋失敗退款、可重試一次、輸出只進 textContent 防 XSS、上限 900 字；⑤Pages 域沿用 v1.76 降級模式（#schAiFb 引導卡顯示＋表單隱藏），域判定零改動、零 UserAgent 分支；⑥AI_KB 白名單不受污染（卡在 schoolsView，ai_kb.py 不抽此區，KB 恆 100）。測試鉤子 window.__schAiTest。\nv2.00：葉工問「我百度有 P6 的試卷文件夾，怎麼把這些作為 database 讓 AI 出題，或者做一個出題的 skill」。⚠️ 先實測再定案：網盤「/20 香港讀書插班/P6試卷」實盤＝P6新整理 20 份＋p6/語數外常/P6(1000+)/P6 下分中英數常四科（數學分 a/b、英文分 6A/6B、中文分 a/b、常識分 a/b）；文檔正文接口實抽 9 份（中英數各 3 份，含 96KB–364KB 小檔）**全部 char_count=0**——整庫是掃描圖 PDF、無文字層；另 3 頁的「小六數1測驗-主恩.pdf」只抽出 266 字且是答案頁。故「批量抽題建庫」不可行（千份 OCR 也不現實），下載接口亦只允許 /apps/bdpan 範圍。AskUserQuestion 拍板＝兩個都做（站內骨架增強＋skill）、私有庫原計劃「網盤解析抽 20 份」。落地 v2.00 公開側＝新增 `P6_SKELETON`（cn/en/math 三段結構骨架）並注入三處 AI 出卷 prompt（cnAiPrompt 整卷、aiPrompt 英文單題 P6、exAiPrompt 呈分整卷）；⑩ 本站原創試卷區新增「P6 校內卷題型骨架（只有結構，沒有原題）」卡——中文/英文/數學/常識四行，明寫「具體題量與配分以各校原卷為準、非教育局公布、不是任何真卷」。⚠️ 版權雙軌：骨架只描述分段與題型，零原卷原文、零原卷答案、零配分數字臆造；私有樣例庫只存本機、永不進公開站。斷言 1031→1041 全過×3；雙通道發布；線上真機驗證骨架卡與 prompt 注入。
@@ -1074,13 +1075,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.03（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.04（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.03（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.04（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2380,7 +2381,7 @@ Thank you for your time.</div>
           <label>英文水平<select id="schAiEng"><option>剛起步（未系統學過）</option><option selected>中等（能讀簡單英文）</option><option>良好（能用英文對答面試）</option></select></label>
           <label>粵語聽力<select id="schAiCanto"><option>基本聽不懂</option><option selected>聽得懂一些</option><option>日常會話沒問題</option></select></label>
           <label>香港身份<select id="schAiId"><option>已有（受養人/永居等）</option><option selected>辦理中尚未到手</option><option>單程證排隊中</option></select></label>
-          <label>通勤起點<select id="schAiStart"><option selected>羅湖口岸（東鐵沿線）</option><option>福田口岸</option><option>其他口岸或交通</option></select></label>
+          <label>通勤起點<select id="schAiStart"><option selected>羅湖口岸（東鐵沿線）</option><option>福田口岸</option><option>蓮塘口岸</option><option>其他口岸或交通</option></select></label>
           <label>學費預算<select id="schAiBudget"><option selected>只考慮免費官津</option><option>可接受直資學費</option></select></label>
           <label>操作<span><button type="button" class="btn" id="schAiGo" style="min-height:44px">🤖 給我選校參考</button></span></label>
         </div>
@@ -7467,7 +7468,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.03',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.04',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -7837,7 +7838,9 @@ authBoot();
     if(busy)return;
     const g=function(id){const el=document.getElementById(id);return el?el.options[el.selectedIndex].text:'';};
     const stage=document.getElementById('schAiStage').value;
-    const bg='插班學段：'+(stage==='sec'?'中學':'小學')+'｜目標年級：'+g('schAiGrade')+'｜英文水平：'+g('schAiEng')+'｜粵語聽力：'+g('schAiCanto')+'｜香港身份：'+g('schAiId')+'｜通勤起點：'+g('schAiStart')+'｜學費預算：'+g('schAiBudget');
+    const st0=g('schAiStart');
+    let bg='插班學段：'+(stage==='sec'?'中學':'小學')+'｜目標年級：'+g('schAiGrade')+'｜英文水平：'+g('schAiEng')+'｜粵語聽力：'+g('schAiCanto')+'｜香港身份：'+g('schAiId')+'｜通勤起點：'+st0+'｜學費預算：'+g('schAiBudget');
+    if(st0.indexOf('蓮塘')>-1)bg+='｜提示：蓮塘口岸＝香園圍口岸，過關後靠巴士經香園圍公路接駁粉嶺／上水一帶，無鐵路直達，通勤時間普遍較東鐵口岸長（估算）';
     const q0=quota();
     if(q0.n>=AI_DAILY){schShow('今日 AI 額度（與 AI 問答共享 3 條）已用完，明天再來；急的話直接加葉工微信。',false);return;}
     busy=true;
