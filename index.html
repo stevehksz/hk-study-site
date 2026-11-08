@@ -977,13 +977,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.97（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.98（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.97（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.98（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1856,7 +1856,7 @@ Thank you for your time.</div>
       <div class="gcard" style="margin:10px 12px">
         <h3>今日認讀 · 第 <span id="lexGroupN">1</span> 組（每天 20 字，認完點下一組）</h3>
         <div class="fgrid" id="lexToday"></div>
-        <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button></p>
+        <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button> <button id="lexReset">↺ 進度清零</button></p>
         <p class="tip" style="margin:4px 0 0">每天 20 字 × 3,171 字 ≈ 159 天（約 5 個月），剛好覆蓋 35 週路線裏的繁體認讀線；配合上方⑤的簡→繁翻卡一起用。</p>
       </div>
       <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）</p>
@@ -46406,6 +46406,9 @@ function lexSearch(){
   if(nx)nx.onclick=function(){lexPosSet(Math.min(lexPosGet()+LEX_DAY,Math.max(0,LEX.length-LEX_DAY)));renderLexToday();};
   const bk=document.getElementById('lexBack');
   if(bk)bk.onclick=function(){lexPosSet(Math.max(0,lexPosGet()-LEX_DAY));renderLexToday();};
+  // v1.98：進度清零（confirm 防誤觸；寫 0 而非 removeItem，與 v1.95 星圖重置同理防回潮）
+  const rs=document.getElementById('lexReset');
+  if(rs)rs.onclick=function(){if(confirm('確定把「今日認讀」進度清零，回到第 1 組重新開始嗎？此操作不可恢復。')){lexPosSet(0);renderLexToday();}};
   renderLexToday();renderLexAll();
   window.__lexTest=function(){const s={};for(const c of LEX)s[c]=1;return{total:LEX.length,unique:Object.keys(s).length,pos:lexPosGet(),todayCells:document.querySelectorAll('#lexToday .fcard').length,allCells:document.querySelectorAll('#lexAll .fcard').length,pages:LEX_PAGES,idxOf:function(c){return LEX.indexOf(c);}};};
 })();
@@ -49013,7 +49016,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.97',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.98',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

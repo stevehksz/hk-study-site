@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.98：葉工貼官方字表「今日認讀」截圖（已認到第 2771／3171 字）要「加一個清 0 的按鈕」。落地＝⑥官方字表今日認讀進度行尾加「↺ 進度清零」（#lexReset）：confirm 確認後 lexPosSet(0)＋renderLexToday()，回第 1 組重新開始。寫 0 而非 removeItem（與 v1.95 星圖重置同理，防舊值回潮）。無版權新暴露。
 v1.97：葉工貼「⑤ 繁體認讀翻卡」截圖要求「搞一個這種語文繁體字的單詞本，有不會的單詞可以放進去，以後可以去複習，學會了可以在裏邊打勾」。判定＝與 v1.80「我的單詞本」同構的本地 CRUD，直接照該模式做，零版權新暴露（收的都是站內既有公開詞卡＋使用者自輸入）。落地＝練習→中文第 3 顆子標籤「我的生字本」（data-cs="zibook"，p:cn:zibook 由既有解析器天然支援）＋`#ziBookView`：①收字入口三處——⑤繁體翻卡 100 字每卡右上「＋本」（收繁體字、簡體對照隨行）、速覽→繁體對照表每行行尾「＋本」、⑥官方字表每格「＋本」；document 捕獲階段統一委派（capture+stopPropagation 防誤觸翻卡，記 v1.80 .mwadd 兩處 stopPropagation 教訓；重渲染後按鈕狀態由 has() 重算，已收過的自動顯「✓ 已收」）；②手動輸入：字／詞必填＋意思選填＋Enter 提交；③複習：列表／翻卡兩種模式切換，翻卡模式正面字、背面意思（未填顯簡體對照），卡上可就地打勾；④打勾＝「✓ 認得了」＋三態篩選（全部／待複習／已認得）＋搜尋＋統計；🔊 粵語朗讀（speak(w,'zh-HK')，缺粵語包由裝置降級）。⑤本地儲存 hkk_zibook_v0（hkk_ 前綴跟賬號隔離），上限 1000，導出／匯入 JSON（合併去重不覆蓋）、清空 confirm；⑥全站導出／匯入／清空補 ziWords 欄位，清空確認文案補「我的生字本」。測試鉤子 window.__ziTest。⚠️ 公開 HTML 零預置生字（紅線同 v1.80）；zibook 在 cnPracView 內，ai_kb.py 只抽 faqView/timelineView/policyView＋學校名冊，KB 恆 100 不變。
 v1.96：葉工圈第三方站「上載試卷」截圖（傳 3 卷換 1 卷下載權）問「幫我做一個類似的功能」。評估＝**照搬不可行**：①收用戶上傳試卷存服務器再分發＝存放+轉發第三方版權內容，踩死 v1.78 雙軌紅線（band1.org 卷零搬運同一條線）；「傳3換1」積分制激勵批量搬運更不可取；②純靜態站無文件後端，100MB PDF 收存需雲端對象存儲+人工審核+濫用處理（該站自己都要求全部卷過審）；③責任問題（侵權卷/含學生個人資料的卷）。AskUserQuestion 拍板＝**兩個都要**：「我的試卷夾（本機版）」＋「官方免費卷入口卡」（後者 v1.97 另做，先核實來源）。落地 v1.96＝練習區第 6 顆子標籤「📁 試卷夾」＋`#papersView`：拖放/多選收 PDF（>30MB confirm 警告）、IndexedDB 存 Blob（db hkkPapersDB／store files）、年級（P1–P6/S1）×科目（中英數常識其他）標籤可改、按年級科目篩選、列表（名稱/日期/大小）、打開（blob URL 新標籤）、列印（iframe print 失敗降級 window.open）、刪除（confirm）、清空（confirm 顯示份數）、容量統計（份數+MB）。⚠️ 版權口徑寫進 folk：檔案只存本設備瀏覽器、不上傳伺服器不進雲端站方看不到、版權歸原出品方僅供家中自用。⚠️ 技術：jsdom 無 indexedDB → pfReady 檢查走降級提示路徑（斷言鎖降級文案），增刪改查在真瀏覽器 CDP 實跑；本機無上限（原站限 3 是審核需要，本機自用不需要）。
 v1.95：葉工說「請幫我語文打卡那裏恢復到開始」。AskUserQuestion 確認＝**背古詩星圖（中文科，185 顆星存 hkk_poem_done）**＋站內加「重置」按鈕（否決只本次幫清）。落地：sm-top 加「↺ 重置星圖」小鈕＋resetStarMap()（confirm 二次確認、文案明說不可恢復）＋bindStarMapReset() 開頁綁定。⚠️ 關鍵坑：清空必須寫入 '{}' 而非 removeItem——loadDone() 對「鍵不存在」會再從舊 pProg.recite 一次性遷移，removeItem 會讓舊進度全數回潮。星圖 185 顆燈由 POEMS 數據驅動，重置只清狀態零數據改動。
@@ -1048,13 +1049,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.97（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.98（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.97（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.98（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1927,7 +1928,7 @@ Thank you for your time.</div>
       <div class="gcard" style="margin:10px 12px">
         <h3>今日認讀 · 第 <span id="lexGroupN">1</span> 組（每天 20 字，認完點下一組）</h3>
         <div class="fgrid" id="lexToday"></div>
-        <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button></p>
+        <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button> <button id="lexReset">↺ 進度清零</button></p>
         <p class="tip" style="margin:4px 0 0">每天 20 字 × 3,171 字 ≈ 159 天（約 5 個月），剛好覆蓋 35 週路線裏的繁體認讀線；配合上方⑤的簡→繁翻卡一起用。</p>
       </div>
       <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）</p>
@@ -4748,6 +4749,9 @@ function lexSearch(){
   if(nx)nx.onclick=function(){lexPosSet(Math.min(lexPosGet()+LEX_DAY,Math.max(0,LEX.length-LEX_DAY)));renderLexToday();};
   const bk=document.getElementById('lexBack');
   if(bk)bk.onclick=function(){lexPosSet(Math.max(0,lexPosGet()-LEX_DAY));renderLexToday();};
+  // v1.98：進度清零（confirm 防誤觸；寫 0 而非 removeItem，與 v1.95 星圖重置同理防回潮）
+  const rs=document.getElementById('lexReset');
+  if(rs)rs.onclick=function(){if(confirm('確定把「今日認讀」進度清零，回到第 1 組重新開始嗎？此操作不可恢復。')){lexPosSet(0);renderLexToday();}};
   renderLexToday();renderLexAll();
   window.__lexTest=function(){const s={};for(const c of LEX)s[c]=1;return{total:LEX.length,unique:Object.keys(s).length,pos:lexPosGet(),todayCells:document.querySelectorAll('#lexToday .fcard').length,allCells:document.querySelectorAll('#lexAll .fcard').length,pages:LEX_PAGES,idxOf:function(c){return LEX.indexOf(c);}};};
 })();
@@ -7355,7 +7359,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.97',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.98',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
