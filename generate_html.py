@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.97：葉工貼「⑤ 繁體認讀翻卡」截圖要求「搞一個這種語文繁體字的單詞本，有不會的單詞可以放進去，以後可以去複習，學會了可以在裏邊打勾」。判定＝與 v1.80「我的單詞本」同構的本地 CRUD，直接照該模式做，零版權新暴露（收的都是站內既有公開詞卡＋使用者自輸入）。落地＝練習→中文第 3 顆子標籤「我的生字本」（data-cs="zibook"，p:cn:zibook 由既有解析器天然支援）＋`#ziBookView`：①收字入口三處——⑤繁體翻卡 100 字每卡右上「＋本」（收繁體字、簡體對照隨行）、速覽→繁體對照表每行行尾「＋本」、⑥官方字表每格「＋本」；document 捕獲階段統一委派（capture+stopPropagation 防誤觸翻卡，記 v1.80 .mwadd 兩處 stopPropagation 教訓；重渲染後按鈕狀態由 has() 重算，已收過的自動顯「✓ 已收」）；②手動輸入：字／詞必填＋意思選填＋Enter 提交；③複習：列表／翻卡兩種模式切換，翻卡模式正面字、背面意思（未填顯簡體對照），卡上可就地打勾；④打勾＝「✓ 認得了」＋三態篩選（全部／待複習／已認得）＋搜尋＋統計；🔊 粵語朗讀（speak(w,'zh-HK')，缺粵語包由裝置降級）。⑤本地儲存 hkk_zibook_v0（hkk_ 前綴跟賬號隔離），上限 1000，導出／匯入 JSON（合併去重不覆蓋）、清空 confirm；⑥全站導出／匯入／清空補 ziWords 欄位，清空確認文案補「我的生字本」。測試鉤子 window.__ziTest。⚠️ 公開 HTML 零預置生字（紅線同 v1.80）；zibook 在 cnPracView 內，ai_kb.py 只抽 faqView/timelineView/policyView＋學校名冊，KB 恆 100 不變。
 v1.96：葉工圈第三方站「上載試卷」截圖（傳 3 卷換 1 卷下載權）問「幫我做一個類似的功能」。評估＝**照搬不可行**：①收用戶上傳試卷存服務器再分發＝存放+轉發第三方版權內容，踩死 v1.78 雙軌紅線（band1.org 卷零搬運同一條線）；「傳3換1」積分制激勵批量搬運更不可取；②純靜態站無文件後端，100MB PDF 收存需雲端對象存儲+人工審核+濫用處理（該站自己都要求全部卷過審）；③責任問題（侵權卷/含學生個人資料的卷）。AskUserQuestion 拍板＝**兩個都要**：「我的試卷夾（本機版）」＋「官方免費卷入口卡」（後者 v1.97 另做，先核實來源）。落地 v1.96＝練習區第 6 顆子標籤「📁 試卷夾」＋`#papersView`：拖放/多選收 PDF（>30MB confirm 警告）、IndexedDB 存 Blob（db hkkPapersDB／store files）、年級（P1–P6/S1）×科目（中英數常識其他）標籤可改、按年級科目篩選、列表（名稱/日期/大小）、打開（blob URL 新標籤）、列印（iframe print 失敗降級 window.open）、刪除（confirm）、清空（confirm 顯示份數）、容量統計（份數+MB）。⚠️ 版權口徑寫進 folk：檔案只存本設備瀏覽器、不上傳伺服器不進雲端站方看不到、版權歸原出品方僅供家中自用。⚠️ 技術：jsdom 無 indexedDB → pfReady 檢查走降級提示路徑（斷言鎖降級文案），增刪改查在真瀏覽器 CDP 實跑；本機無上限（原站限 3 是審核需要，本機自用不需要）。
 v1.95：葉工說「請幫我語文打卡那裏恢復到開始」。AskUserQuestion 確認＝**背古詩星圖（中文科，185 顆星存 hkk_poem_done）**＋站內加「重置」按鈕（否決只本次幫清）。落地：sm-top 加「↺ 重置星圖」小鈕＋resetStarMap()（confirm 二次確認、文案明說不可恢復）＋bindStarMapReset() 開頁綁定。⚠️ 關鍵坑：清空必須寫入 '{}' 而非 removeItem——loadDone() 對「鍵不存在」會再從舊 pProg.recite 一次性遷移，removeItem 會讓舊進度全數回潮。星圖 185 顆燈由 POEMS 數據驅動，重置只清狀態零數據改動。
 v1.94：葉工貼數學模擬卷截圖說「試卷重複了，不要重複的，要出新的題，不要跟上一套卷子一樣」。根因實測＝MATH_QBANK 每個年級只有 10 題、genMathPaper 每次抽 8 題，10 選 8 每套新卷期望與上一套重合 6.4 題——不是隨機失靈，是池子太小。拍板＝P5＋P6 各補 14 道原創題（池 10→24；女兒現用 P5＋葉工測試的 P6 優先，其餘年級後續按需）。新題全原創（英文題幹＋繁中對照，與現庫欄位一致）：P5＝分數加減/三角形面積/小數比大小/百分數/化簡比/餘角/毫升/分數乘法/最簡分數/平行四邊形面積/經過時間/找零應用題/水箱容積/閱讀天數；P6＝百分增幅/速率/概率/三角形內角/負數比大小/折扣/平均數反推/解方程/鐘錶慢分/百分數化分數/圓周長反推直徑/踏單車時速/減價找零/長方體體積。⚠️ genMathPaper 加防重保險：window.__mathLastFp 存上一套題幹前 48 字 Set，新卷重合 ≥75% 自動重抽（至多 4 次）；指紋只存內存不落盤，刷新後重新允許重複屬預期；切年級不誤判（不同年級題幹不同）。⚠️ 24 選 8 後期望重合 ≈2.7 題，加保險後 ≤5 題斷言鎖死。驗證：新增 v1.94 專項（P5/P6 池 24、28 新題結構零重複選項、實跑連出兩卷重合 ≤5、prepMcMath 後 4 選項仍齊）。
@@ -468,6 +469,25 @@ table.rdtable td:first-child{font-weight:800;color:#334155;white-space:nowrap}
 .mwadd{min-height:30px;padding:4px 9px;border:1px solid var(--line);background:#f8fafc;border-radius:8px;font-size:11.5px;font-weight:700;color:#0b7a68;cursor:pointer;margin-left:8px;vertical-align:middle}
 .mwadd:hover{border-color:var(--math);background:#e6fbf5}
 .mwadd.in{color:#64748b;background:#eef2f7;cursor:default}
+/* v1.97 我的生字本：收字小鈕（字卡右上角）＋大字列表卡＋翻卡複習 */
+.ziadd{position:absolute;top:4px;right:4px;min-height:24px;padding:2px 7px;border:1px solid var(--line);background:#f8fafc;border-radius:8px;font-size:11px;font-weight:700;color:#0b7a68;cursor:pointer;line-height:1.3}
+.ziadd:hover{border-color:var(--math);background:#e6fbf5}
+.ziadd.in{color:#64748b;background:#eef2f7;cursor:default}
+#ftGrid .fcard,#lexToday .fcard,#lexAll .fcard,#lexQRes .fcard{position:relative}
+.ftrow .ziadd{position:static;margin-left:auto;flex:0 0 auto}
+.zicard{background:#fff;border:1px solid var(--line);border-left:4px solid var(--jy);border-radius:10px;padding:11px 13px;margin:0 0 9px}
+.zicard.done{border-left-color:#94a3b8;background:#f8fafc}
+.zitop{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+.zitop .ziw{font-size:26px;font-weight:800;color:#1e293b}
+.zitop .zis{font-size:13px;color:#c2410c;font-weight:700}
+.zitop .mwsrc{font-size:11px;color:#0b7a68;background:#e8f6f2;border-radius:10px;padding:2px 8px}
+.zitop .mwdate{font-size:11px;color:#94a3b8;margin-left:auto}
+.ziflip{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.ziflip .fcard{position:relative;padding:22px 6px 14px}
+.ziflip .fw{font-size:26px;font-weight:800}
+.ziflip .fcard small{font-size:11px}
+.ziflip .zichk{position:absolute;top:4px;right:4px;min-height:22px;padding:1px 6px;border:1px solid var(--line);background:#f8fafc;border-radius:7px;font-size:11px;font-weight:700;color:#475569;cursor:pointer}
+.ziflip .zichk.on{background:var(--math);color:#fff;border-color:var(--math)}
 @media screen and (max-width:640px){
   .mwform label{flex:1 1 100%}
   .mwform .mwaddbtn{width:100%}
@@ -1028,13 +1048,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.96（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.97（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.96（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.97（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1236,6 +1256,8 @@ header{position:relative}
     <div class="subnav" id="cnPracSub" style="position:static;top:auto;margin:0 -16px 12px">
       <button data-cs="star" class="on">背古詩</button>
       <button data-cs="cnpaper">中文試卷</button>
+      <!-- v1.97 我的生字本：繁體字本地 CRUD（照 v1.80 我的單詞本模式） -->
+      <button data-cs="zibook">我的生字本</button>
     </div>
     <p class="tip" style="margin:0 0 10px">「背古詩」＝<b>背詩星圖</b>（185 首按年級分 7 段點亮，看整體進度）＋<b>古詩詞列表</b>（繁體＋拼音＋粵拼全文）＋<b>一首詩四步</b>（聽讀 → 看譯文 → 遮字背誦 → 抽查）。想練做卷請切到「中文試卷」。</p>
     <div id="cnStarView">
@@ -1290,6 +1312,32 @@ header{position:relative}
         ⚠️ 本卷<b>全部題目、短文、實用文、選項與答案均為本站原創</b>，只仿題型結構與篇章類型，<b>未取用任何考卷、課本、題庫或第三方網站的內容</b>，亦非任何機構真卷。
         年級難度為依香港小學中文科教學進度的一般估算，<b>非官方分級</b>，實際以學校進度為準。
       </div>
+    </div>
+    <!-- v1.97 我的生字本：純本地增刪改查。公開 HTML 只有空結構，零預置生字 -->
+    <div id="ziBookView" style="display:none">
+      <div class="gtitle">我的生字本（不會的繁體字自己收 · 只存這台設備）</div>
+      <p class="tip">在「補習材料 → ⑤ 繁體翻卡／⑥ 官方字表」或「速覽 → 繁體對照」看到不會認的字，點卡片上的「＋本」收進來，也可以在下面自己輸入。以後切到「翻卡複習」遮著認，認得了打個勾。<b>資料只存本瀏覽器、跟賬號走，不會上傳</b>；清快取或換設備前請先「導出生字本」。</p>
+      <div class="mwform">
+        <label>繁體字／詞（必填）<input id="ziW" maxlength="40" placeholder="例：讀（或整個詞：功課）"></label>
+        <label>簡體對照（選填）<input id="ziS" maxlength="40" placeholder="例：读"></label>
+        <label>意思／備註（選填）<input id="ziZh" maxlength="200" placeholder="例：讀書的讀"></label>
+        <button type="button" class="btn mwaddbtn" id="ziAdd">加入生字本</button>
+      </div>
+      <div class="mwmsg" id="ziMsg" role="status" aria-live="polite"></div>
+      <div class="mwtools">
+        <button type="button" class="btn" id="ziMode" style="min-height:38px">翻卡複習</button>
+        <input type="search" id="ziSearch" placeholder="搜字 / 簡體 / 意思">
+        <select id="ziFilter"><option value="all">全部</option><option value="todo">待複習</option><option value="done">已認得</option></select>
+        <span class="mwstat" id="ziStat"></span>
+      </div>
+      <div id="ziList"></div>
+      <div class="mwfoot">
+        <button type="button" class="btn" id="ziExport">導出生字本 (JSON)</button>
+        <button type="button" class="btn" id="ziImport">匯入生字本</button>
+        <input type="file" id="ziFile" accept="application/json" style="display:none">
+        <button type="button" class="btn mwdanger" id="ziClear">清空生字本</button>
+      </div>
+      <p class="src">本站不預置任何生字表；生字本內容由使用者自行輸入或從本站公開字卡（繁體翻卡／繁體對照／官方字表）收進，只保存在本設備。導出檔為純文字 JSON，換設備時用「匯入生字本」合併（同字自動跳過，不會覆蓋既有內容）。全站「導出進度／匯入進度」亦包含生字本。</p>
     </div>
   </div>
   <div class="wrap" id="enPracView" style="display:none">
@@ -4600,9 +4648,11 @@ const INTERVIEW_Q=[
  ["你的優點和缺點是什麼？","要點：優點配一個例子；缺點要附「正在改進」的具體行動。"],
  ["你有什麼問題想問我們？","要點：準備 1 個真誠的問題（迎新活動／社團選擇），不要問「幾時放假」。"]
 ];
-function hkCard(f,b,n,sub){
+function hkCard(f,b,n,sub,zi){
   var note=n?' data-n="'+hkEsc(n)+'"':'';
-  return '<div class="fcard" data-open="0" data-f="'+hkEsc(f)+'" data-b="'+hkEsc(b)+'"'+note+'><span class="fw">'+hkEsc(f)+'</span><small>'+(sub||'點擊翻卡')+'</small></div>';
+  // v1.97：zi 傳入「繁體字」時，卡右上角加「＋本」收字鈕（f=簡 b=繁）；點擊由 document 捕獲階段統一處理，不誤翻卡
+  var zib=zi?'<button type="button" class="ziadd" data-zw="'+hkEsc(zi)+'" data-zs="'+hkEsc(f)+'" data-zsrc="站內·繁體翻卡" title="收進我的生字本">＋本</button>':'';
+  return '<div class="fcard" data-open="0" data-f="'+hkEsc(f)+'" data-b="'+hkEsc(b)+'"'+note+'>'+zib+'<span class="fw">'+hkEsc(f)+'</span><small>'+(sub||'點擊翻卡')+'</small></div>';
 }
 function hkBindFlips(grid){
   grid.querySelectorAll('.fcard').forEach(function(c){
@@ -4632,7 +4682,7 @@ function renderTutorTerms(){
 }
 function renderTutorFt(){
   const grid=document.getElementById('ftGrid'); if(!grid)return;
-  grid.innerHTML=FT_PAIRS.map(function(p){return hkCard(p[0],p[1],p[2]||'','點擊翻卡');}).join('');
+  grid.innerHTML=FT_PAIRS.map(function(p){return hkCard(p[0],p[1],p[2]||'','點擊翻卡',p[1]);}).join('');
   hkBindFlips(grid);
 }
 function renderTutorIv(){
@@ -4648,7 +4698,8 @@ let lexPage=0;
 function lexPosGet(){const v=parseInt(localStorage.getItem('hkk_lex_pos')||'0',10);return isNaN(v)?0:Math.max(0,Math.min(v,Math.max(0,LEX.length-LEX_DAY)));}
 function lexPosSet(v){try{localStorage.setItem('hkk_lex_pos',String(v));}catch(e){}}
 function lexCell(ch,sub,warn){
-  return '<div class="fcard"'+(warn?' style="border-color:#c2410c"':'')+'><span class="fw">'+hkEsc(ch)+'</span><small>'+(warn?'不在官方字表內':hkEsc(sub))+'</small></div>';
+  // v1.97：每格附「＋本」收字鈕（s 未知留空，收進生字本後可自行補簡體對照）
+  return '<div class="fcard"'+(warn?' style="border-color:#c2410c"':'')+'><button type="button" class="ziadd" data-zw="'+hkEsc(ch)+'" data-zs="" data-zsrc="站內·官方字表" title="收進我的生字本">＋本</button><span class="fw">'+hkEsc(ch)+'</span><small>'+(warn?'不在官方字表內':hkEsc(sub))+'</small></div>';
 }
 function renderLexToday(){
   const grid=document.getElementById('lexToday'); if(!grid)return;
@@ -5173,7 +5224,7 @@ document.querySelectorAll('#cnPracSub button').forEach(b=>b.onclick=()=>{
   const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
   try{
     document.querySelectorAll('#cnPracSub button').forEach(x=>x.classList.toggle('on',x===b));
-    sw('cnStarView',cs==='star'); sw('cnPaperView',cs==='cnpaper');
+    sw('cnStarView',cs==='star'); sw('cnPaperView',cs==='cnpaper'); sw('ziBookView',cs==='zibook');
     if(cs==='cnpaper' && !window.__cnPaperTest.paper.length && !window.__cnPaperTest.read.length) genCnPaper();
   }catch(e){ console.error('中文區切換失敗：',e); }
 });
@@ -6778,7 +6829,7 @@ function renderFt(){
   const rows=src.filter(([s,f])=>!q||s.includes(q)||f.includes(q));
   rows.forEach(([s,f,note])=>{
     const d=document.createElement('div'); d.className='ftrow';
-    d.innerHTML='<span class="s">'+s+'</span><span class="ar">→</span><span class="f">'+f+'</span>'+(note?'<span class="mini" style="margin-left:8px">'+note+'</span>':'');
+    d.innerHTML='<span class="s">'+s+'</span><span class="ar">→</span><span class="f">'+f+'</span>'+(note?'<span class="mini" style="margin-left:8px">'+note+'</span>':'')+'<button type="button" class="ziadd" data-zw="'+f+'" data-zs="'+s+'" data-zsrc="站內·繁體對照" title="收進我的生字本">＋本</button>';
     list.appendChild(d);
   });
   document.getElementById('ftCount').textContent='共 '+rows.length+' 字';
@@ -6971,6 +7022,213 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
   list=load();render();
 })();
 
+/* ============ v1.97 我的生字本：繁體字本地 CRUD ＋ 翻卡複習 ＋ 打勾 ============
+   沿用 v1.80 我的單詞本全部取捨：①公開 HTML 零預置生字；②站內收字統一走 add，
+   三處入口（繁體翻卡／繁體對照／官方字表）由 document 捕獲階段統一委派
+   （capture+stopPropagation，字卡重渲染後按鈕狀態由 has() 重算，不在渲染側綁事件）；
+   ③匯入一律合併去重不覆蓋；④KEY hkk_ 前綴跟賬號隔離；⑤渲染一律 esc() 防注入。 */
+(function(){
+  var KEY='hkk_zibook_v0', MAX=1000, list=[], mode='list';
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+  function todayFor(){var d=new Date();var z=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate());}
+  function clean(o,idx){
+    if(!o||typeof o!=='object')return null;
+    var w=String(o.w==null?'':o.w).trim().slice(0,40);
+    if(!w)return null;
+    return {id:String(o.id==null?'zi'+Date.now().toString(36)+'_'+idx:o.id).slice(0,60),w:w,
+      s:String(o.s==null?'':o.s).trim().slice(0,40),
+      zh:String(o.zh==null?'':o.zh).trim().slice(0,200),
+      src:(String(o.src==null?'自行輸入':o.src).trim().slice(0,40)||'自行輸入'),
+      ts:String(o.ts==null?todayFor():o.ts).slice(0,10),done:!!o.done};
+  }
+  function normalize(a){
+    var seen={},out=[];
+    (Array.isArray(a)?a:[]).forEach(function(x,i){
+      var c=clean(x,i);if(!c)return;
+      if(seen[c.w])return;seen[c.w]=1;out.push(c);
+    });
+    return out.slice(0,MAX);
+  }
+  function load(){try{return normalize(JSON.parse(localStorage.getItem(KEY)||'[]'));}catch(e){return [];}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(list));return true;}catch(e){return false;}}
+  function msg(t,bad){var m=document.getElementById('ziMsg');if(m){m.textContent=t||'';m.className='mwmsg'+(bad?' bad':'');}}
+  function has(w){return list.some(function(x){return x.w===String(w||'').trim();});}
+  function add(o){
+    var c=clean(o,list.length);
+    if(!c)return {ok:false,msg:'請先填繁體字／詞'};
+    if(list.length>=MAX)return {ok:false,msg:'生字本已達 '+MAX+' 字上限，請先導出並清理'};
+    if(has(c.w))return {ok:false,msg:'「'+c.w+'」已在生字本'};
+    c.ts=todayFor();
+    list.unshift(c);
+    if(!save()){list.shift();return {ok:false,msg:'儲存失敗（瀏覽器儲存空間不足或已停用）'};}
+    render();
+    return {ok:true,msg:'已收進生字本：「'+c.w+'」'};
+  }
+  function render(){
+    var box=document.getElementById('ziList');if(!box)return;
+    var q=(document.getElementById('ziSearch')||{value:''}).value.trim().toLowerCase();
+    var f=(document.getElementById('ziFilter')||{value:'all'}).value;
+    var items=list.filter(function(x){
+      if(f==='todo'&&x.done)return false;
+      if(f==='done'&&!x.done)return false;
+      if(q&&!(x.w.toLowerCase().indexOf(q)>=0||x.s.toLowerCase().indexOf(q)>=0||x.zh.toLowerCase().indexOf(q)>=0))return false;
+      return true;
+    });
+    var known=list.filter(function(x){return x.done;}).length;
+    var st=document.getElementById('ziStat');
+    if(st)st.textContent='共 '+list.length+' 字 · 已認得 '+known+' · 顯示 '+items.length;
+    var mb=document.getElementById('ziMode');
+    if(mb)mb.textContent=mode==='flip'?'返回列表':'翻卡複習';
+    if(!items.length){
+      box.innerHTML='<div class="mwempty">'+(list.length?'沒有符合篩選的字，換個條件試試。':'生字本還是空的：在「繁體翻卡／官方字表／繁體對照」點字卡上的「＋本」，或直接在上面輸入。')+'</div>';
+      return;
+    }
+    if(mode==='flip'){
+      box.innerHTML='<div class="ziflip">'+      items.map(function(x){
+        var back='';
+        if(x.zh)back='意思：'+x.zh;
+        else if(x.s)back='簡體：'+x.s;
+        if(!back)back='（還沒填意思，回列表補一下）';
+        return '<div class="fcard" data-open="0" data-f="'+esc(x.w)+'" data-b="'+esc(back)+'" data-ziid="'+esc(x.id)+'"><button type="button" class="zichk'+(x.done?' on':'')+'" data-zichk="1" title="認得了打勾">✓</button><span class="fw">'+esc(x.w)+'</span><small>點擊翻卡</small></div>';
+      }).join('')+'</div>';
+      box.querySelectorAll('.fcard').forEach(function(c){
+        c.onclick=function(){
+          var open=c.dataset.open==='1';
+          var w=c.querySelector('.fw'),n=c.querySelector('small');
+          if(open){w.textContent=c.dataset.f;n.textContent='點擊翻卡';c.classList.remove('open');c.dataset.open='0';}
+          else{w.textContent=c.dataset.b;n.textContent='點擊蓋回';c.classList.add('open');c.dataset.open='1';}
+        };
+      });
+      box.querySelectorAll('.zichk').forEach(function(b){
+        b.onclick=function(e){
+          e.stopPropagation();
+          var id=b.closest('.fcard').getAttribute('data-ziid');
+          var x=list.filter(function(o){return o.id===id;})[0];if(!x)return;
+          x.done=!x.done;save();render();msg(x.done?'已打勾：「'+x.w+'」認得了':'已取消「'+x.w+'」的勾');
+        };
+      });
+      return;
+    }
+    box.innerHTML=items.map(function(x){
+      return '<div class="zicard'+(x.done?' done':'')+'" data-ziid="'+esc(x.id)+'">'+
+        '<div class="zitop"><span class="ziw">'+esc(x.w)+'</span>'+
+        (x.s?'<span class="zis">簡：'+esc(x.s)+'</span>':'')+
+        '<span class="mwsrc">'+esc(x.src)+'</span><span class="mwdate">'+esc(x.ts)+'</span></div>'+
+        '<div class="mwfields">'+
+          '<label>意思／備註<input data-zif="zh" maxlength="200" value="'+esc(x.zh)+'" placeholder="可稍後補"></label>'+
+          '<label>簡體對照<input data-zif="s" maxlength="40" value="'+esc(x.s)+'" placeholder="選填"></label>'+
+        '</div><div class="mwacts">'+
+          '<button type="button" data-ziact="speak">🔊 發音</button>'+
+          '<button type="button" data-ziact="done" class="'+(x.done?'on':'')+'">'+(x.done?'✓ 認得了':'打勾：認得了')+'</button>'+
+          '<button type="button" data-ziact="del" class="mwdel">移除</button>'+
+        '</div></div>';
+    }).join('');
+  }
+  var box=document.getElementById('ziList');
+  if(box){
+    box.addEventListener('click',function(e){
+      var b=e.target.closest?e.target.closest('[data-ziact]'):null;if(!b)return;
+      var card=b.closest('.zicard');if(!card)return;
+      var id=card.getAttribute('data-ziid');
+      var x=list.filter(function(o){return o.id===id;})[0];if(!x)return;
+      var act=b.getAttribute('data-ziact');
+      if(act==='speak'){try{if(typeof speak==='function')speak(x.w,'zh-HK');}catch(err){msg('這台設備不支援發音',true);}}
+      else if(act==='done'){x.done=!x.done;save();render();msg(x.done?'已打勾：「'+x.w+'」認得了':'已取消「'+x.w+'」的勾');}
+      else if(act==='del'){list=list.filter(function(o){return o.id!==id;});save();render();msg('已移除「'+x.w+'」');}
+    });
+    box.addEventListener('change',function(e){
+      var fld=e.target&&e.target.getAttribute?e.target.getAttribute('data-zif'):null;
+      if(fld!=='zh'&&fld!=='s')return;
+      var card=e.target.closest('.zicard');if(!card)return;
+      var id=card.getAttribute('data-ziid');
+      var x=list.filter(function(o){return o.id===id;})[0];if(!x)return;
+      x[fld]=String(e.target.value||'').trim().slice(0,fld==='zh'?200:40);
+      save();msg('已保存「'+x.w+'」的'+(fld==='zh'?'意思':'簡體對照'));
+    });
+  }
+  var addBtn=document.getElementById('ziAdd');
+  if(addBtn)addBtn.onclick=function(){
+    var w=document.getElementById('ziW'),s=document.getElementById('ziS'),zh=document.getElementById('ziZh');
+    var r=add({w:w.value,s:s.value,zh:zh.value,src:'自行輸入'});
+    msg(r.msg,!r.ok);
+    if(r.ok){w.value='';s.value='';zh.value='';w.focus();}
+  };
+  var wIn=document.getElementById('ziW');
+  if(wIn)wIn.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();if(addBtn)addBtn.click();}});
+  ['ziSearch','ziFilter'].forEach(function(id){
+    var el=document.getElementById(id);if(!el)return;
+    el.addEventListener(id==='ziSearch'?'input':'change',render);
+  });
+  var mb=document.getElementById('ziMode');
+  if(mb)mb.onclick=function(){mode=mode==='flip'?'list':'flip';render();};
+  function exportData(){return {ver:'hkk_zibook_v1',exported:todayFor(),words:list.map(function(x){
+    return {w:x.w,s:x.s,zh:x.zh,src:x.src,ts:x.ts,done:x.done};})};}
+  var exBtn=document.getElementById('ziExport');
+  if(exBtn)exBtn.onclick=function(){
+    var txt=JSON.stringify(exportData(),null,2),a=document.createElement('a');
+    a.download='hkk_zibook.json';
+    try{
+      var blob=new Blob([txt],{type:'application/json'});
+      a.href=URL.createObjectURL(blob);a.click();URL.revokeObjectURL(a.href);
+    }catch(e){
+      a.href='data:application/json;charset=utf-8,'+encodeURIComponent(txt);a.click();
+    }
+    msg('已導出 '+list.length+' 字（hkk_zibook.json）');
+  };
+  function importData(d){
+    var arr0=Array.isArray(d)?d:(d&&Array.isArray(d.words)?d.words:null);
+    if(!arr0)throw new Error('不是本站導出的生字本檔案');
+    var arr=normalize(arr0),have={},n=0;
+    list.forEach(function(x){have[x.w]=1;});
+    arr.forEach(function(x){
+      if(have[x.w]||list.length>=MAX)return;
+      have[x.w]=1;list.push(x);n++;
+    });
+    save();render();
+    return {added:n,skipped:arr0.length-n,total:list.length};
+  }
+  var imBtn=document.getElementById('ziImport'),fi=document.getElementById('ziFile');
+  if(imBtn&&fi)imBtn.onclick=function(){fi.click();};
+  if(fi)fi.onchange=function(e){
+    var f=e.target.files&&e.target.files[0];if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var out=importData(JSON.parse(r.result));
+        msg('已匯入 '+out.added+' 字，跳過重複／超限 '+out.skipped+' 字，現共 '+out.total+' 字');
+      }catch(err){msg('匯入失敗：'+((err&&err.message)||'檔案格式錯誤')+'。請選本站導出的 JSON。',true);}
+    };
+    r.onerror=function(){msg('讀取檔案失敗，請重試。',true);};
+    r.readAsText(f);e.target.value='';
+  };
+  var clBtn=document.getElementById('ziClear');
+  if(clBtn)clBtn.onclick=function(){
+    if(window.confirm('確定清空我的生字本（'+list.length+' 字）？此操作不可恢復，建議先導出。')){
+      list=[];save();render();msg('生字本已清空');
+    }
+  };
+  // 站內三處「＋本」統一委派：document 捕獲階段先於字卡自身的翻面 handler，stopPropagation 防誤翻
+  document.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest?e.target.closest('.ziadd'):null;
+    if(!b)return;
+    e.stopPropagation();e.preventDefault();
+    var w=b.getAttribute('data-zw'),s=b.getAttribute('data-zs')||'';
+    var src=b.getAttribute('data-zsrc')||'站內';
+    var r=add({w:w,s:s,src:src});
+    if(r.ok||/已在生字本/.test(r.msg)){b.textContent='✓ 已收';b.classList.add('in');}
+    msg(r.msg,!r.ok);
+  },true);
+  window.__ziTest={
+    key:KEY,max:MAX,get:function(){return list.map(function(x){return Object.assign({},x);});},
+    set:function(a){list=normalize(a);save();render();},
+    clear:function(){list=[];save();render();},
+    add:add,addFrom:add,has:has,render:render,normalize:normalize,
+    exportData:exportData,importData:importData,count:function(){return list.length;},
+    setMode:function(m){mode=m==='flip'?'flip':'list';render();},getMode:function(){return mode;}
+  };
+  list=load();render();
+})();
+
 // ---- 进度 ----
 function renderProgress(){
   const recite=Object.values(pProg).filter(x=>x.recite).length;
@@ -6991,12 +7249,13 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／已匯入詞庫／時態題型勾選與成績／今日課表打卡）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／我的生字本／已匯入詞庫／時態題型勾選與成績／今日課表打卡）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
     if(window.__readFocusTest){window.__readFocusTest.set({});window.__readFocusTest.render();}
     if(window.__myWordsTest){window.__myWordsTest.clear();}
+    if(window.__ziTest){window.__ziTest.clear();}
     if(window.__lwtePackTest){window.__lwtePackTest.clear();}
     if(typeof drSaveProg==='function'){drSaveProg({});try{localStorage.removeItem(DRILL_BEST_KEY);}catch(e){}if(typeof drTapTo==='function')drTapTo('verb');}
     if(typeof schSave==='function'){schSave({});if(typeof schRender==='function')schRender();}
@@ -7096,7 +7355,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.96',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.97',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -7111,13 +7370,14 @@ document.getElementById('importFile').onchange=e=>{
     if(d.lwteProg&&window.__lwteTest){window.__lwteTest.set(d.lwteProg);window.__lwteTest.render();}
     if(d.readFocus&&window.__readFocusTest){window.__readFocusTest.set(d.readFocus);window.__readFocusTest.render();}
     if(Array.isArray(d.myWords)&&window.__myWordsTest){window.__myWordsTest.importData(d.myWords);}
+    if(Array.isArray(d.ziWords)&&window.__ziTest){window.__ziTest.importData(d.ziWords);}
     if(d.lwteWordProg&&window.__lwtePackTest){window.__lwtePackTest.setProg(d.lwteWordProg);}
     if(d.drillProg&&typeof drSaveProg==='function'){drSaveProg(d.drillProg);}
     if(d.sched&&typeof schSave==='function'){schSave(d.sched);if(typeof schRender==='function')schRender();}
     if(d.drillBest&&typeof drBest==='function'){try{localStorage.setItem(DRILL_BEST_KEY,JSON.stringify(d.drillBest));}catch(e){}}
     if(typeof drTapTo==='function'){drTapTo(drTap);}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
-    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查 / '+(window.__myWordsTest?window.__myWordsTest.count():0)+' 個自收詞）');
+    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查 / '+(window.__myWordsTest?window.__myWordsTest.count():0)+' 個自收詞 / '+(window.__ziTest?window.__ziTest.count():0)+' 個自收生字）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
   r.readAsText(f); e.target.value='';
 };
