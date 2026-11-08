@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.12：葉工把私有 P6 數學基礎庫（26 題型／五部制）要求「接進站內數學卷模組，可上公開站，出處標本站原創」。落地＝①P6 題池 24→**54**，新增 **30 道原創題**覆蓋 26 個題型（部分雙空題拆成單空以便自動判分）：甲 運算與互化 6／乙 百分數應用 8／丙 平均數 3／丁 容量與體積 6／戊 圓周與面積 7；②每題帶 `part`（甲乙丙丁戊）與 `pname`（題型名），題卡標籤顯示為「填空題 · 甲部 · 小數除法直式」，打印卷題頭同標，卷頭標所選分部；③新增 `#mpartChips` 分部列（僅 P6 顯示）：全部／甲／乙／丙／丁／戊，點一部＝只從該部抽題；切離 P6 自動收列並重置 `curMathPart='all'`；④`pickMathN()` 抽題配額——word 型（多小問／說理，不自動判分）上限取 N 的 1/4（8 題→2 題），其餘先抽 mc/fill，否則新庫會令一套卷有 4 題交卷後看不到分數；⑤雙語一致：30 題全部補原創英文題幹（站內 P6 定位是練英中英文出題），欄位與既有題庫同構，故 `gradeMathPaper`／`printMathPaper`／錯題本 v2.08 接線**零改動**即生效；⑥版權口徑：只描述「小六常見考什麼」的分部結構，未取用任何真卷原文、原題數字、配分；公開站零「港學家／小紅書」字樣，srcNote 明寫本站原創與「配分以各校原卷為準」。⚠️ 教訓沿用：P6 末條以整行字面量作錨點（不用行號），`assert` 命中 1 次才改；`norm()` 只去尾句點、壓空格，故 `%` 答案另給 `alt:["30%"]` 等變體，避免孩子輸入帶 % 判錯。
 v2.11：葉工貼擇校分檔截圖問「這個子目錄很亂要優化，新加的（元朗）中學也要有排名還有詳細信息」，AskUserQuestion 拍板＝頁籤式目錄＋AI 選校同步接入。落地＝①**目錄頁籤化（零搬運）**：#schTabSec（北區中學＋大埔兩 fold 原地包住）／#schTabYl（天瑞邨卡＋元朗表）／#schTabPri（小學整個 gsec）三頁籤 hidden 切換（schTab()，存 hkk_sch_tab_v1），jmpSch 保留（切籤＋開折疊＋滾動）；AI 選校卡原地轉折疊卡（details，Pages 域降級時自動展開），工具卡（心水/地圖/詳情/跨境/校車/叩門/勘誤/外鏈）在頁籤區後通用；②**元朗 39 所坊間 Band 入表**：ylTable 加 Band參考列（對齊 tierTable 口徑區間式），schoolhub.hk 2026-02 全 39 所名單為基底＋51talkshengxue/tweducational/hkstudyroute 交叉，衝突取區間（如元朗信義 1A–1B、盧幹庭 1C–2A、青年會 1B–2B），來源行明標「坊間整理·非官方 2026-11-08 檢索」；collectMapSchools yl 分支欄位索引隨 Band 列右移；③**元朗 39 所詳細檔案**：_chsc_ids.json 補 6 所（CHSC 元朗區列表頁 POST district_id=18 解析，可道＝全形括號坑），新 gen_sch_profiles_yl.py 復用 gen_sch_profiles.py 的 fetch/parse 抓中學概覽 2025/2026 全 39 校（CHSC 連接抖動重跑 3 輪補齊，冪等設計），_sch_profiles.json 40→79，build_data 斷言同步——ylTable 行自動獲得📄詳情＋⚖️對比（injectSchBtns 按檔案存在性掛鈕，零改動）；④**AI 選校接元朗**：SCH_DB sec 擴為 60 行（北區·大埔 21＋元朗 39，分檔由坊間 Band 首字對應 1→衝刺/2→穩妥/3→保底，帶 rg 地區欄），schDbText 用 rg；schAiStart 加深圳灣口岸（元朗主口）＋askSch 通勤提示（B2/B2P 巴士 30–50 分鐘估算）；buildSchSystem 規則 2 要求兩區兼顧；tip 改「全站 79＋30 所全部入庫」。⚠️ 大坑（v2.11 教訓）：第一版重排腳本用「切塊再插回」搬運大段 HTML， schoolsView 開口行留在殼裡而 gsec 收口在塊裡，DOM 整體錯位（內容全落 tutorView、folds=0，jsdom 結構檢查救場）——大段 HTML 搬運必須先用 jsdom 驗證嵌套；改用零搬運（頁籤容器原地包住既有塊）一次過。generate_html.py 主體 CRLF、後插塊 LF 混行——錨點必須行尾自適應。
 v2.10：葉工貪吃蛇截圖問「这里看看能不能选年级的单词」。落地＝①面板新增「全部年級／一年級…六年級」7 顆 chips（#snakeGradeChips，沿 .subnav 樣式，默認全部＝v2.06 行為不變）；②rndWord 改三段過濾——小學詞（grade 非「中」開頭）→ 選了年級再加 w.grade===snakeGrade → 空池容錯回退全小學池（不引 HK_PRI_GRADES，避免 TDZ）；③切年級即重開一局（背景 64 詞塊＋目標詞全部切到該年級），選擇存 localStorage hkk_snake_grade 刷新保留；④__snakeTest 暴露 grade/setGrade/gradeOf 供斷言（二年級 68 詞＞64 塊，逐年級池都夠用）。年份分布（build_data）：一~六年級 73/68/56/50/47/41＋中一二三 152（蛇不收中學詞，沿 v1.54 口徑）。
 v2.09：葉工拍擇校分檔截圖問「小學中學分開目錄＋把天水圍、元朗的中學都列出來＋住天瑞邨有什麼中學」。本版＝①**元朗區中學全量入站（39 所＝天水圍 21＋元朗市 18）**：事實欄（校名/類型/地址/電話/官網）全部取自教育局開放數據 SCH_LOC_EDB.csv（2026-11-04 版，數據截至 2026-09-30）並與教育局《中一學位分配辦法·元朗區 2026》手冊交叉核對（官立 4／資助 30／直資 5，手冊不含直資故以 CSV 為全量真相源）；教學語言欄＝坊間升學資料庫整理（2026-11-08 取樣，明確標「坊間整理·非官方」）；chips 篩選（全部/天水圍/元朗市/官立/直資）。②**天瑞邨就近中學卡**：官方校址在天瑞邨 2 所（張煊昌＋陳呂重德）→直線約 1 公里內 11 所→約 1–2 公里 8 所，分檔依官方坐標直線估算並標注來源版本；插班直接電話校務處、中一派位按元朗區網的現實提示。③**目錄分離**：頁頭三按鈕（北區小學 30／北區中學 20／元朗·天水圍 39），jmpSch 支持 yl（#ylTable），localStorage 記住上次；頁頭改「中學 79 所＋北區小學 30 所」。④**地圖擴容**：collectMapSchools 接 #ylTable（grp:sec/region:元朗區），_school_geo.json 70→109（元朗條目帶 region/area/fin），mapChips 中學 40→79，injectSchBtns 加 ylTable（元朗行只有 🤍 心水，無詳情檔案）。⑤**AI 名冊擴容**：ai_kb.py 名冊讀 school_geo 全 109 校，元朗條目補「地區/類別」→KB 100→139——AI 客服能答「天水圍有咩中學」；AI 選校（分檔）仍限北區+大埔表，tip 明示元朗暫未入庫。
@@ -1102,13 +1103,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.11（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.12（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.11（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.12（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1886,7 +1887,7 @@ Thank you for your time.</div>
     </div>
     <div class="wrap gsec" id="mathPaperView" style="display:none">
       <div class="gtitle">數學卷 · 智能練習卷（雙語對照 · 分 P1–P6）</div>
-      <span class="folk">基礎題庫為本地仿編原創題（非評估局／學校真卷）；題目採「英文題幹＋中文對照」，對應香港英中數學以英文出題的實況；年級難度為常見教學進度估算，以學校課本為準。</span>
+      <span class="folk">基礎題庫為本地仿編原創題（非評估局／學校真卷）；題目採「英文題幹＋中文對照」，對應香港英中數學以英文出題的實況；年級難度為常見教學進度估算，以學校課本為準。<b>P6 另有 30 道原創題</b>，按香港小六校內數學卷常見的甲乙丙丁戊五部分部（運算與互化／百分數應用／平均數／容量與體積／圓周與面積），選 P6 後可只練一部；計算題請在紙上寫步驟，站內只自動核對最後答案。</span>
       <div class="pg-chips" id="mpgChips">
         <span class="chip on" data-pg="P1">P1</span>
         <span class="chip" data-pg="P2">P2</span>
@@ -1894,6 +1895,15 @@ Thank you for your time.</div>
         <span class="chip" data-pg="P4">P4</span>
         <span class="chip" data-pg="P5">P5</span>
         <span class="chip" data-pg="P6">P6</span>
+      </div>
+      <!-- v2.12：P6 分部練習（只在 P6 顯示；點一部＝只從該部抽題） -->
+      <div class="pg-chips" id="mpartChips" style="display:none">
+        <span class="chip on" data-mp="all">全部題型</span>
+        <span class="chip" data-mp="甲">甲 運算與互化</span>
+        <span class="chip" data-mp="乙">乙 百分數應用</span>
+        <span class="chip" data-mp="丙">丙 平均數</span>
+        <span class="chip" data-mp="丁">丁 容量與體積</span>
+        <span class="chip" data-mp="戊">戊 圓周與面積</span>
       </div>
       <div class="enpaper-actions">
         <button class="btn" id="mathNewPaper" onclick="genMathPaper()">🎲 出新卷</button>
@@ -1905,8 +1915,9 @@ Thank you for your time.</div>
       <div id="mathPaperBox"></div>
       <div id="mathPaperResult"></div>
       <div class="en-src-note" id="mathSrcNote">
-        <b>資料來源與說明（坊間參考 · 2026-10-31 檢索）：</b>
-        題庫為本地仿編原創練習題，參考香港小學數學課程常見進度（數與運算／分數·小數·百分數／代數／幾何／度量／統計與概率）整理；非評估局（HKEAA）或學校真卷，年級難度為估算。正式以學校課本與教育局課程指引為準。
+        <b>資料來源與說明（坊間參考 · 2026-11-08 更新）：</b>
+        題庫為本地仿編原創練習題，參考香港小學數學課程常見進度（數與運算／分數·小數·百分數／代數／幾何／度量／統計與概率）整理；非評估局（HKEAA）或學校真卷，年級難度為估算。正式以學校課本與教育局課程指引為準。<br>
+        <b>P6 五部分部題（30 道）：</b>題幹、選項、答案與英文翻譯全部為本站原創編寫；分部方式只描述「小六數學常見考什麼」（甲 運算與互化／乙 百分數應用／丙 平均數／丁 容量與體積／戊 圓周與面積，圓取 π = 3.14），<b>未取用任何學校、補習機構或評估局的真卷原文、原題數字與配分</b>；配分與題量以各校原卷為準。
       </div>
     </div>
   </div>
@@ -3527,26 +3538,87 @@ const MATH_QBANK = {
     {t:'fill',q:"The circumference of a circle is 31.4 cm. Find its diameter. (Take π = 3.14, answer in cm)",qzh:"一個圓的周長是 31.4 厘米，求它的直徑。（取 π = 3.14，以厘米作答）",a:"10",azh:"10",alt:["10 cm","10cm"]},
     {t:'word',q:"Ming cycles 18 km in 1 hour 30 minutes. Find his average speed in km/h.",qzh:"Ming 用 1 小時 30 分鐘踏單車行了 18 公里，求他的平均時速。",model:"1 h 30 min = 1.5 h; 18 ÷ 1.5 = 12 km/h.",modelzh:"1.5 小時行 18 公里，18 ÷ 1.5 = 12 公里/小時。"},
     {t:'word',q:"A vase costs $360 in a shop. During a sale it is sold at a 25% discount. Mary pays with two $200 notes. How much change does she get?",qzh:"一間店的花瓶售 $360，減價期間以 75 折（減 25%）出售。Mary 用兩張 $200 付款，應找回多少零錢？",model:"Discount = 25% × $360 = $90; $360 − $90 = $270; $400 − $270 = $130. She gets $130 change.",modelzh:"減價 $90，售價 $270；400 − 270 = 130，應找回 $130。"},
-    {t:'word',q:"An open rectangular box is 25 cm long, 16 cm wide and 12 cm high. Find its volume.",qzh:"一個無蓋長方體盒長 25 厘米、闊 16 厘米、高 12 厘米，求它的體積。",model:"25 × 16 × 12 = 4800 cm³.",modelzh:"25 × 16 × 12 = 4800 立方厘米。"}
+    {t:'word',q:"An open rectangular box is 25 cm long, 16 cm wide and 12 cm high. Find its volume.",qzh:"一個無蓋長方體盒長 25 厘米、闊 16 厘米、高 12 厘米，求它的體積。",model:"25 × 16 × 12 = 4800 cm³.",modelzh:"25 × 16 × 12 = 4800 立方厘米。"},
+    {t:'fill',q:"Work out 8.64 ÷ 1.2. Write the steps on paper, then fill in the final answer only.",qzh:"計算 8.64 ÷ 1.2，步驟寫在紙上，只填最後答案。",a:"7.2",azh:"7.2",alt:["7.20"],part:"甲",pname:"小數除法直式"},
+    {t:'fill',q:"Work out 7.2 ÷ (2.4 − 0.9). Write the steps on paper, then fill in the final answer only.",qzh:"計算 7.2 ÷ (2.4 − 0.9)，步驟寫在紙上，只填最後答案。",a:"4.8",azh:"4.8",alt:["4.80"],part:"甲",pname:"小數四則混合"},
+    {t:'fill',q:"Express 0.625 as a fraction in its simplest form.",qzh:"把 0.625 化成最簡分數。",a:"5/8",azh:"5/8",alt:["5 / 8"],part:"甲",pname:"小數化最簡分數"},
+    {t:'fill',q:"Express 7/25 as a decimal.",qzh:"把 7/25 化成小數。",a:"0.28",azh:"0.28",alt:["0.280"],part:"甲",pname:"分數化小數"},
+    {t:'word',q:"Arrange 2/3, 0.67, 3/4 and 0.68 from the smallest to the largest. Show how you compare them.",qzh:"把 2/3、0.67、3/4、0.68 由小至大排列，並寫出比較過程。",model:"Change them all to decimals: 2/3 ≈ 0.667 and 3/4 = 0.75. So the order is 2/3 < 0.67 < 0.68 < 3/4.",modelzh:"2/3≈0.667，3/4=0.75，故 2/3＜0.67＜0.68＜3/4。",part:"甲",pname:"分數小數混合排序"},
+    {t:'word',q:"Ming works out 36.5 ÷ 0.5 and gets 7.3. (a) Find the correct quotient and show the steps. (b) Without doing the division again, explain why the correct quotient is greater than 36.5.",qzh:"小明算 36.5 ÷ 0.5 得 7.3。(a) 寫出正確的商及步驟；(b) 不重做直式，解釋為甚麼正確的商大於 36.5。",model:"(a) 36.5 ÷ 0.5 = 365 ÷ 5 = 73. (b) The divisor 0.5 is less than 1, so the quotient is larger than the number being divided.",modelzh:"(a) 365÷5＝73；(b) 除數 0.5＜1，除以小於 1 的數，商大於被除數。",part:"甲",pname:"錯誤診斷（商不變）"},
+    {t:'fill',q:"A grid has 20 equal squares and 6 of them are shaded. What percentage of the whole grid is shaded?",qzh:"一個圖形分成 20 格，其中 6 格有斜線。斜線格佔全部的百分之幾？",a:"30",azh:"30%",alt:["30%", "30 %"],part:"乙",pname:"百分格圖"},
+    {t:'fill',q:"Express 2.4 as a percentage.",qzh:"把 2.4 化成百分數。",a:"240",azh:"240%",alt:["240%", "240 %"],part:"乙",pname:"小數化百分數"},
+    {t:'fill',q:"A garden has 80 flowers and 72 of them bloom. What percentage of the flowers bloom?",qzh:"園地種了 80 株花，其中 72 株開花。開花佔所種花的百分之幾？",a:"90",azh:"90%",alt:["90%", "90 %"],part:"乙",pname:"求百分比"},
+    {t:'fill',q:"In a garden, 90% of the 80 flowers bloom. What percentage of the flowers do NOT bloom?",qzh:"園地種了 80 株花，其中 90% 開花。未開花的花佔百分之幾？",a:"10",azh:"10%",alt:["10%", "10 %"],part:"乙",pname:"百分數補集"},
+    {t:'word',q:"A funfair has 400 tickets. 40% of the total is sold in the morning and another 25% of the total is sold in the afternoon. How many tickets are left? Show the steps and write an answer sentence.",qzh:"遊樂場有 400 張門票，上午售出總數的 40%，下午再售出總數的 25%，還剩多少張？寫出步驟和答句。",model:"400 × (1 − 40% − 25%) = 400 × 35% = 140. 140 tickets are left.",modelzh:"400×(1−40%−25%)＝400×35%＝140，還剩 140 張。",part:"乙",pname:"連續兩次百分數扣除"},
+    {t:'word',q:"A rectangular piece of paper has an area of 450 cm². 60% of it is coloured. (a) What is the coloured area? (b) What is the area that is not coloured? Show the steps and the units.",qzh:"一張面積 450 平方厘米的長方形紙，著色部分佔 60%。(a) 已著色的面積是多少？(b) 未著色的面積是多少？寫出步驟及單位。",model:"(a) 450 × 60% = 270 cm². (b) 450 × 40% = 180 cm².",modelzh:"(a) 450×60%＝270 平方厘米；(b) 450×40%＝180 平方厘米。",part:"乙",pname:"求一個數的百分之幾"},
+    {t:'word',q:"Box A has 200 apples and 20% of them are rotten. Box B has 300 apples and 15% of them are rotten. Sindy says, '20% is bigger, so Box A has more rotten apples.' Is she correct? Find the number of rotten apples in each box and explain.",qzh:"甲箱有 200 個蘋果，壞的佔 20%；乙箱有 300 個，壞的佔 15%。小欣說「20% 較大，所以甲箱壞蘋果較多」。她的結論正確嗎？計算兩箱壞蘋果的數量並說明理由。",model:"Not correct. Box A: 200 × 20% = 40. Box B: 300 × 15% = 45. Box B has more, because the two boxes have different totals.",modelzh:"不正確。甲 200×20%＝40 個，乙 300×15%＝45 個，乙箱較多；兩箱總數不同，不能只比百分數。",part:"乙",pname:"基數陷阱判斷"},
+    {t:'word',q:"Team A scores 35 goals in 50 shots. Team B scores 26 goals in 40 shots. (a) Find the scoring rate of each team. (b) Which team has the higher rate? Explain with percentages.",qzh:"甲組投籃 50 次入 35 球，乙組投 40 次入 26 球。(a) 兩組的入球率分別是多少？(b) 哪一組較高？用百分數說明。",model:"(a) Team A: 35/50 = 70%. Team B: 26/40 = 65%. (b) Team A has the higher rate.",modelzh:"(a) 甲 70%、乙 65%；(b) 甲組較高。",part:"乙",pname:"百分率比較"},
+    {t:'fill',q:"Five models weigh 120 g, 130 g, 125 g, 135 g and 140 g. Find the mean weight in grams. Fill in the number only.",qzh:"五個模型分別重 120 克、130 克、125 克、135 克、140 克。平均每個模型重多少克？只填數字。",a:"130",azh:"130 克",part:"丙",pname:"基本平均"},
+    {t:'fill',q:"Sara reads 15 pages a day on average over 6 days. She reads 12, 14, 16, 13 and 15 pages in the first five days. How many pages does she read on the sixth day?",qzh:"小華六天平均每天看 15 頁書，前五天分別看 12、14、16、13、15 頁。第六天看了多少頁？",a:"20",azh:"20 頁",part:"丙",pname:"平均反推"},
+    {t:'word',q:"A volunteer sorts 10 boxes a day on average for the first two days, then 12 boxes a day on average for the next three days. Ming says, 'The mean of the five days is (10 + 12) ÷ 2 = 11 boxes.' Is he correct? Find the correct mean and explain.",qzh:"一名義工首兩天平均每天整理 10 箱物品，接著三天平均每天整理 12 箱。小明說「五天的平均數是 (10＋12)÷2＝11 箱」。他算得對嗎？求正確的五天平均數並解釋。",model:"Not correct. Total = 10 × 2 + 12 × 3 = 56 boxes, so 56 ÷ 5 = 11.2 boxes. The two parts have different numbers of days, so you cannot average the two means directly.",modelzh:"不對。總數 10×2＋12×3＝56 箱，56÷5＝11.2 箱；兩段天數不同，不能直接把兩個平均數再平均。",part:"丙",pname:"兩段平均陷阱"},
+    {t:'fill',q:"Fill in the number: 2400 cm³ = ____ L",qzh:"填上適當的數：2400 立方厘米＝____ 公升",a:"2.4",azh:"2.4",part:"丁",pname:"容積單位換算（cm³→L）"},
+    {t:'fill',q:"Fill in the number: 0.08 L = ____ cm³",qzh:"填上適當的數：0.08 公升＝____ 立方厘米",a:"80",azh:"80",part:"丁",pname:"容積單位換算（L→cm³）"},
+    {t:'fill',q:"A rectangular tank is 25 cm long and 10 cm wide inside. The water is 6 cm deep. How many litres of water are in the tank? Fill in the number only.",qzh:"長方體水箱內長 25 厘米、內闊 10 厘米，箱內水深 6 厘米。箱內有多少公升水？只填數字。",a:"1.5",azh:"1.5 公升",part:"丁",pname:"長方體容積→公升"},
+    {t:'fill',q:"A rectangular container is 12 cm long and 8 cm wide inside. A stone is fully immersed and the water level rises from 4 cm to 7 cm. The stone does not absorb water and no water spills out. Find the volume of the stone in cm³. Fill in the number only.",qzh:"長方體容器的內底面長 12 厘米、闊 8 厘米。把一塊石頭完全浸沒在水中，水位由 4 厘米升至 7 厘米；石頭不吸水、不溶解，水沒有溢出。求石頭的體積（立方厘米），只填數字。",a:"288",azh:"288 立方厘米",part:"丁",pname:"排水法求體積"},
+    {t:'word',q:"A rectangular tank is 40 cm long, 25 cm wide and 20 cm high inside. The water is 12 cm deep. If 3 L of water is poured in, will it overflow? Find how much more water the tank can hold and explain.",qzh:"一個長方體水箱的內長 40 厘米、內闊 25 厘米、內高 20 厘米，現有水深 12 厘米。再倒入 3 公升水會溢出嗎？計算尚可容納的水量再說明。",model:"Water inside: 40 × 25 × 12 = 12000 cm³ = 12 L. The tank holds 40 × 25 × 20 = 20000 cm³ = 20 L, so it can still hold 8 L. 8 L > 3 L, so it will not overflow.",modelzh:"箱內已有 40×25×12＝12000 立方厘米＝12 公升，全箱 20 公升，尚可容納 8 公升＞3 公升，不會溢出。",part:"丁",pname:"溢出判斷"},
+    {t:'fill',q:"A wooden cuboid 10 cm long, 6 cm wide and 5 cm high has a smaller cuboid 4 cm long, 2 cm wide and 5 cm high cut out of it. Find the volume of the remaining wood in cm³. Fill in the number only.",qzh:"從一個長 10 厘米、闊 6 厘米、高 5 厘米的長方體木塊，切走一個長 4 厘米、闊 2 厘米、高 5 厘米的小長方體。求剩下木塊的體積（立方厘米），只填數字。",a:"260",azh:"260 立方厘米",part:"丁",pname:"切割求剩餘體積"},
+    {t:'fill',q:"A line segment passes through the centre O of a circle and both ends lie on the circle. Its length is 18 cm. Find the radius in cm. Fill in the number only.",qzh:"一條線段穿過圓心 O，兩端都在圓周上，長 18 厘米。求半徑（厘米），只填數字。",a:"9",azh:"9 厘米",part:"戊",pname:"直徑求半徑"},
+    {t:'fill',q:"A circle has a diameter of 18 cm. Find its circumference in cm. (Take π = 3.14)",qzh:"一個圓的直徑是 18 厘米。求圓周（厘米）。（取 π = 3.14）",a:"56.52",azh:"56.52 厘米",part:"戊",pname:"圓周（已知直徑）"},
+    {t:'fill',q:"A circle has a radius of 6 cm. Find its area in cm². (Take π = 3.14)",qzh:"一個圓的半徑是 6 厘米。求圓面積（平方厘米）。（取 π = 3.14）",a:"113.04",azh:"113.04 平方厘米",part:"戊",pname:"圓面積"},
+    {t:'fill',q:"A semicircular card has a diameter of 12 cm. Find its perimeter in cm. (Take π = 3.14)",qzh:"一個半圓形紙牌的直徑是 12 厘米。求紙牌的周界（厘米）。（取 π = 3.14）",a:"30.84",azh:"30.84 厘米",part:"戊",pname:"半圓周界"},
+    {t:'fill',q:"A square has sides of 10 cm. A circle touches all four sides of the square. Find the total area of the shaded parts (the square minus the circle) in cm². (Take π = 3.14)",qzh:"正方形邊長 10 厘米，圓與正方形的四邊相切。求斜線部分（正方形減圓）的總面積（平方厘米）。（取 π = 3.14）",a:"21.5",azh:"21.5 平方厘米",part:"戊",pname:"圓內切正方形陰影"},
+    {t:'fill',q:"Two circles have the same centre O. The big circle has a radius of 6 cm and the small one has a radius of 2 cm. Find the area of the shaded ring in cm². (Take π = 3.14)",qzh:"兩個圓的圓心都是 O，大圓半徑 6 厘米、小圓半徑 2 厘米。求斜線部分（圓環）的面積（平方厘米）。（取 π = 3.14）",a:"100.48",azh:"100.48 平方厘米",part:"戊",pname:"圓環面積"},
+    {t:'word',q:"A circular coaster has a radius of 3 cm. May puts a ribbon 25 cm long round it once, and 2 cm more is needed for joining the ends. Is the ribbon long enough? Find the length needed and explain. (Take π = 3.14)",qzh:"一個圓形杯墊的半徑是 3 厘米。小華用一條 25 厘米長的絲帶圍杯墊一周，接駁處另需 2 厘米。絲帶夠用嗎？計算所需長度再說明。（取 π = 3.14）",model:"Circumference = 3.14 × 6 = 18.84 cm. Total needed = 18.84 + 2 = 20.84 cm, which is less than 25 cm, so it is long enough.",modelzh:"圓周 3.14×6＝18.84 厘米，加接駁 2 厘米共 20.84 厘米＜25 厘米，夠用。",part:"戊",pname:"圓周與預算判斷"}
   ]
 };
 
-let curMathGrade='P1', curMathPaper=[], _mathPrintBound=false;
+let curMathGrade='P1', curMathPart='all', curMathPaper=[], _mathPrintBound=false;
 function prepMcMath(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);const opts=sh.map(i=>q.opts[i]);const optszh=sh.map(i=>q.optszh[i]);return Object.assign({},q,{opts:opts,optszh:optszh,a:sh.indexOf(q.a)});}
+/* v2.12：P6 題庫分甲乙丙丁戊五部（另加 30 道原創題），可只練一部。 */
+function mathPoolFor(){
+  let pool=(MATH_QBANK[curMathGrade]||[]);
+  if(curMathGrade==='P6'&&curMathPart!=='all') pool=pool.filter(function(q){return q.part===curMathPart;});
+  return pool;
+}
+/* v2.12：抽題配額，兩條同時管。
+   ① word 型（多小問／說理）不自動判分——純隨機會令一套 8 題有 4 題交卷後看不到分數，
+      故 word 上限取 1/4（8 題→2 題），且優先取有五部標籤的題。
+   ② P6 全庫 54 題裡只有 30 題帶 part；純隨機一套 8 題期望只 4.4 題是新題，
+      而且可能整套舊題（等於這一版白做），故 part 題保底佔 60%（8 題→5 題）。
+   兩條在 P1–P5 完全無副作用（那幾級沒有 part 題，池子只有 word 配額生效）。 */
+function pickMathN(pool,N){
+  const w=pool.filter(function(q){return q.t==='word';});
+  const o=pool.filter(function(q){return q.t!=='word';});
+  const maxW=Math.min(w.length,Math.max(1,Math.round(N*0.25)));
+  const wordPick=shuffle(w.filter(function(q){return q.part;})).concat(shuffle(w.filter(function(q){return !q.part;}))).slice(0,maxW);
+  let picked=wordPick;
+  const wantPart=Math.max(0,Math.round(N*0.6)-picked.filter(function(q){return q.part;}).length);
+  picked=picked.concat(shuffle(o.filter(function(q){return q.part&&picked.indexOf(q)<0;})).slice(0,Math.min(wantPart,N-picked.length)));
+  const need=N-picked.length;
+  if(need>0){
+    const rest=shuffle(o.filter(function(q){return picked.indexOf(q)<0;}));
+    picked=picked.concat(rest.slice(0,need));
+  }
+  if(picked.length<N){
+    const rest2=shuffle(w.filter(function(q){return picked.indexOf(q)<0;}));
+    picked=picked.concat(rest2.slice(0,N-picked.length));
+  }
+  return picked;
+}
 function genMathPaper(){
-  const pool=(MATH_QBANK[curMathGrade]||[]);
+  const pool=mathPoolFor();
   if(!pool.length){alert('該年級題庫暫空。');return;}
   const N=Math.min(8,pool.length);
   /* v1.94：與上一套比對，重合 ≥75% 就重抽（至多 4 次），池大時基本一次過；
      指紋用題幹前 48 字，只存內存不落盤——刷新後重新允許重複，屬預期。 */
   const key=q=>q.q.slice(0,48);
   const prev=window.__mathLastFp;
-  let picked=shuffle(pool).slice(0,N);
+  let picked=pickMathN(pool,N);
   if(prev){
     for(let i=0;i<4;i++){
       const hit=picked.filter(q=>prev.has(key(q))).length;
       if(hit<Math.ceil(N*0.75))break;
-      picked=shuffle(pool).slice(0,N);
+      picked=pickMathN(pool,N);
     }
   }
   window.__mathLastFp=new Set(picked.map(key));
@@ -3558,7 +3630,8 @@ function genMathPaper(){
 const LAB_M=['A','B','C','D','E','F'];
 function mathCardHtml(q,i){
   const TL={mc:"選擇題",fill:"填空題",word:"應用題"};
-  let h='<div class="qcard" data-qi="'+i+'"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span><span class="qtype">'+(TL[q.t]||"")+'</span></div>';
+  const tag=q.part?(' · '+q.part+'部 · '+(q.pname||'')):'';
+  let h='<div class="qcard" data-qi="'+i+'"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span><span class="qtype">'+(TL[q.t]||"")+tag+'</span></div>';
   if(q.t==='mc'){
     h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="qopts">';
     q.opts.forEach(function(o,k){ h+='<label class="qopt"><input type="radio" name="mq'+i+'" value="'+k+'"> '+LAB_M[k]+'. '+o+' <span class="qzh">('+q.optszh[k]+')</span></label>'; });
@@ -3638,9 +3711,9 @@ function printMathPaper(){
   function optsLine(opts,optszh){ return opts.map(function(o,k){return LAB[k]+'. '+o+' ('+optszh[k]+')';}).join('　　'); }
   const totalQ=curMathPaper.length, totalMarks=curMathPaper.length;
   let h='<div class="eps-head"><div class="eps-title">香港小學數學練習卷'+(withAns?'（答案版）':'')+'</div>'
-       +'<div class="eps-meta">年級：<b>'+curMathGrade+'</b>　　姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span>　　共 '+totalQ+' 題／'+totalMarks+' 分</div></div>';
+       +'<div class="eps-meta">年級：<b>'+curMathGrade+(curMathGrade==='P6'&&curMathPart!=='all'?('（'+curMathPart+' 部）'):'')+'</b>　　姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span>　　共 '+totalQ+' 題／'+totalMarks+' 分</div></div>';
   curMathPaper.forEach(function(q,i){
-    h+='<div class="eps-q"><div class="eps-qh">Q'+(i+1)+'. （'+(TL[q.t]||'')+'）</div>';
+    h+='<div class="eps-q"><div class="eps-qh">Q'+(i+1)+'. （'+(TL[q.t]||'')+(q.part?(' · '+q.part+'部 · '+(q.pname||'')):'')+'）</div>';
     if(q.t==='mc'){
       h+='<div class="eps-text">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="eps-opts">'+optsLine(q.opts,q.optszh)+'</div><div class="ansline lbl"><span class="al-t">答：</span><span class="al-l"></span></div>';
     }else if(q.t==='fill'){
@@ -6874,6 +6947,18 @@ document.querySelectorAll('#mathPracSub button').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('#mpgChips .chip').forEach(c=>c.onclick=()=>{
   curMathGrade=c.dataset.pg;
   document.querySelectorAll('#mpgChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  /* v2.12：分部列只在 P6 出現；切離 P6 時重置回「全部」，避免留下空池。 */
+  const pc=document.getElementById('mpartChips');
+  if(pc){
+    const on=(curMathGrade==='P6');
+    pc.style.display=on?'':'none';
+    if(!on){ curMathPart='all'; pc.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.dataset.mp==='all')); }
+  }
+  genMathPaper();
+});
+document.querySelectorAll('#mpartChips .chip').forEach(c=>c.onclick=()=>{
+  curMathPart=c.dataset.mp;
+  document.querySelectorAll('#mpartChips .chip').forEach(x=>x.classList.toggle('on',x===c));
   genMathPaper();
 });
 document.querySelectorAll('#ssChips .chip').forEach(c=>c.onclick=()=>{
@@ -7807,7 +7892,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.11',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.12',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
