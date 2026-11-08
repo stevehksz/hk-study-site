@@ -336,6 +336,19 @@ table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac
 .rdnav button.on{background:var(--math);color:#fff;border-color:var(--math);box-shadow:0 6px 14px -4px rgba(13,148,136,.5)}
 #readFocusBox{padding:0 12px}
 .rdpane{margin:0}
+/* v2.14 泛讀文章：屏顯版式（打印走 .en-print 白名單） */
+.rdart-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:2px 0 8px}
+.rdart-t{font-size:17px;font-weight:700;color:#1f3a4d}
+.rdart-lv{font-size:12px;font-weight:600;color:#0d9488;background:#eef8f6;border:1px solid #cfe9e4;border-radius:10px;padding:2px 8px}
+.rdart-src{font-size:12px;color:#8a97a3}
+.rdart-p{margin:8px 0;line-height:1.85;color:#2a3d4d}
+.rdart-sec{margin:12px 0 4px;font-size:13px;font-weight:700;color:#33475b}
+.rdart-w{display:inline-block;margin:2px 8px 2px 0;font-size:13px;color:#2a3d4d;background:#f5f8fa;border:1px solid #e2eaf0;border-radius:8px;padding:2px 8px}
+.rdart-q{margin:4px 0;color:#2a3d4d;line-height:1.7}
+.rdart-btn{min-height:44px;padding:9px 13px;border:1px solid var(--line);background:#f8fafc;border-radius:9px;font-size:12.5px;font-weight:700;color:#0b7a68;cursor:pointer;line-height:1.5}
+.rdart-btn:hover{border-color:var(--math);background:#e6fbf5}
+.rdart-btn:disabled{opacity:.55;cursor:wait}
+
 .rdcard{background:#fff;border:1px solid var(--line);border-left:4px solid var(--math);border-radius:10px;padding:13px 15px;margin:0 0 10px;font-size:13.5px;line-height:1.85;color:#475569}
 .rdcard h3{font-size:15px;margin:0 0 7px;color:#0f766e;font-weight:800}
 .rdcard.warn{border-left-color:#d97706;background:#fffbeb}
@@ -530,7 +543,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   header::before,header::after{display:none!important}
   nav,.subnav{display:none!important}
   body.printing-paper nav,body.printing-paper .subnav,body.printing-paper header,body.printing-paper #guideView,body.printing-paper #practiceView,body.printing-paper #progressView,body.printing-paper #funView,body.printing-paper #mask,body.printing-paper footer,body.printing-paper .folk{display:none!important}
-  body.printing-paper #enPrintSheet,body.printing-paper #mathPrintSheet,body.printing-paper #examPrintSheet,body.printing-paper #drillPrintSheet{display:block!important;position:static;width:100%}
+  body.printing-paper #enPrintSheet,body.printing-paper #mathPrintSheet,body.printing-paper #examPrintSheet,body.printing-paper #drillPrintSheet,body.printing-paper #rdArtPrintSheet{display:block!important;position:static;width:100%}
   /* v1.86：打印時限 A4 版心（210mm − 左右各 15mm = 180mm），答題線才會跟紙同寬 */
   body.printing-paper{max-width:180mm;margin:0 auto;padding:0}
   @page{size:A4 portrait;margin:15mm}
@@ -1018,13 +1031,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.13（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.14（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.13（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.14（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1963,6 +1976,7 @@ Thank you for your time.</div>
         <button type="button" data-rd="plan" role="tab" aria-selected="false">📅 21 天怎麼讀</button>
         <button type="button" data-rd="pick" role="tab" aria-selected="false">📚 讀什麼</button>
         <button type="button" data-rd="res" role="tab" aria-selected="false">🌐 免費電子書</button>
+        <button type="button" data-rd="art" role="tab" aria-selected="false">📄 泛讀文章</button>
         <button type="button" data-rd="check" role="tab" aria-selected="false">✅ 家長自查</button>
       </div>
       <div id="readFocusBox">
@@ -2050,6 +2064,23 @@ Thank you for your time.</div>
             </div>
           </div>
           <span class="folk">依公開資料整理，連結 2026-11-07 核對；外鏈版權歸原站，本站與之無合作或背書關係，以各站最新公告為準</span>
+        </div>
+
+        <div class="rdpane" data-rd-pane="art" style="display:none">
+          <div class="rdcard">
+            <h3>泛讀文章 · 分級短文（本站原創＋AI 生成）</h3>
+            <p class="rdnote">手頭沒書、今天想換口味的時候用這頁：先選級別（對照牛津閱讀樹四階段，坊間整理），讀本站原創短文；讀完了點「換一篇」，或讓 AI 按級別再寫一篇新的（需在家長設置裏填接口）。泛讀規則不變：<b>不查詞典、不考核、讀完喜歡就算數</b>。</p>
+            <div id="rdArtChips" class="rdnav" style="margin-bottom:10px"></div>
+            <div id="rdArtBox"></div>
+            <div class="rdgo-row" style="margin-top:10px">
+              <button type="button" class="rdart-btn" id="rdArtLocalBtn">換一篇（本機）</button>
+              <button type="button" class="rdart-btn" id="rdArtAiBtn">AI 出新文章</button>
+              <button type="button" class="rdart-btn" id="rdArtPrintBtn">打印這篇</button>
+            </div>
+            <input id="rdArtTopic" type="text" maxlength="40" placeholder="（選填）想讀的主題，如：籃球／恐龍／海洋——留空讓 AI 自選" style="margin-top:8px">
+            <p class="rdnote" id="rdArtMsg" style="margin-top:6px">八篇本站原創短文按級別分四檔，只在本設備與打印紙上出現，不設下載不進 AI 知識庫。</p>
+          </div>
+          <span class="folk">文章為本站原創編寫（AI 生成稿已標注，請家長把關）；分級對照牛津閱讀樹四階段屬坊間整理，以孩子實際讀感為準</span>
         </div>
 
         <div class="rdpane" data-rd-pane="check" style="display:none">
@@ -2942,6 +2973,7 @@ Thank you for your time.</div>
 <div id="enPrintSheet" class="en-print"></div>
 <div id="drillPrintSheet" class="en-print"></div>
 <div id="mathPrintSheet" class="en-print"></div>
+<div id="rdArtPrintSheet" class="en-print"></div>
 <div id="examPrintSheet" class="en-print"></div>
 
 <!-- v1.48 悬浮咨询 -->
@@ -49098,6 +49130,181 @@ function aiPrompt(g,t){
   else usr='Create one writing task for grade '+g+'. Schema: {"t":"write","q":"writing prompt","guide":["tip1","tip2"],"model":"model paragraph 40-80 words"}.';
   return [{role:'system',content:sys},{role:'user',content:usr}];
 }
+// ---- v2.14 泛讀文章：4 級別 × 8 篇本站原創短文＋AI 出新＋打印（AI 復用 hkk_ai_cfg） ----
+const RD_ART_LEVELS=[
+  {id:'L1',name:'起步',tag:'牛津閱讀樹 1–3 級 · 聽讀啟蒙',target:'約 80 詞，現在時短句，圖畫感強'},
+  {id:'L2',name:'成長',tag:'牛津閱讀樹 4–6 級 · 自主閱讀',target:'約 120 詞，開始用過去時講一件事'},
+  {id:'L3',name:'進階',tag:'牛津閱讀樹 7–9 級 · 初章過渡',target:'約 180 詞，複合句與簡單對話'},
+  {id:'L4',name:'長篇',tag:'牛津閱讀樹 10–12 級 · 章節書過渡',target:'約 250 詞，多段敘事與細節描寫'}
+];
+const RD_ART=[
+ {lv:'L1',title:'The Red Minibus',paras:[
+  'Every Saturday, Ah Lam and his mother ride the red minibus to visit Grandma.',
+  'The minibus is small and fast. It goes up the hill and down the hill. Ah Lam counts the street lights. "One, two, three..."',
+  'At the last stop, Grandma is waiting. She always says, "Come in, my two little monkeys!"',
+  'Ah Lam loves the red minibus. It is small, fast, and full of love.'],
+  words:[['minibus','小巴'],['hill','山坡'],['count','數（數字）'],['stop','車站'],['full of','充滿']],
+  qs:['你坐過小巴嗎？它和巴士有什麼不一樣？','坐車的時候，你喜歡做什麼？']},
+ {lv:'L1',title:'Ah Lam\'s Goldfish',paras:[
+  'Ah Lam has a goldfish. Its name is Bubbles.',
+  'Bubbles is orange and small. It swims round and round in its bowl. Every morning, Ah Lam feeds it a little fish food.',
+  'One day, Bubbles does not swim. It hides behind the stone. Ah Lam is worried. "Mum, is Bubbles sick?"',
+  'Mum looks and laughs. "No, silly! Bubbles is sleeping. Fish sleep with their eyes open!"'],
+  words:[['goldfish','金魚'],['bowl','魚缸'],['feed','餵'],['hide','躲藏'],['worried','擔心的']],
+  qs:['你養過什麼小動物？它愛做什麼？','你怎麼看出小動物開心還是不開心？']},
+ {lv:'L2',title:'A Day at Sai Kung Pier',paras:[
+  'Last Sunday, Wai Yee went to Sai Kung with her family. The sun was bright and the sea was blue.',
+  'First, they walked along the pier. Fishermen were selling fish and crabs from their boats. Wai Yee saw a big crab wave its claw. She laughed and clapped.',
+  'Then they had lunch at a small restaurant. Dad ordered salt-and-pepper squid. Wai Yee thought it was too spicy, but Grandpa loved it.',
+  'Before going home, they bought two mango drinks and sat by the sea. "Can we come again next week?" Wai Yee asked. Dad smiled. "Of course."'],
+  words:[['pier','碼頭'],['fisherman','漁民'],['claw','爪'],['spicy','辣的'],['order','點（菜）']],
+  qs:['你最難忘的一個週末去了哪裏？做了什麼？','如果帶外地朋友去玩一天，你會帶他去哪裏？']},
+ {lv:'L2',title:'The Dim Sum Trolley',paras:[
+  'On Sunday morning, Ka Ho\'s family goes to the teahouse for dim sum. The hall is noisy and warm. Old friends wave to each other across the tables.',
+  'A lady pushes a shiny steel trolley between the tables. On it, there are many bamboo baskets. Ka Ho always stands up to look inside. "Har gow! Siu mai!" he calls out.',
+  'Grandpa pours hot tea for everyone. He teaches Ka Ho to tap the table with two fingers. "This is how we say thank you," he says.',
+  'Ka Ho eats three baskets of har gow. He thinks the little dumplings taste like small, juicy presents.'],
+  words:[['teahouse','茶樓'],['trolley','推車'],['bamboo','竹製的'],['pour','倒（茶）'],['juicy','多汁的']],
+  qs:['你們最常去哪間茶樓？最喜歡吃什麼點心？','你還知道哪些香港的老傳統？講一個聽聽。']},
+ {lv:'L3',title:'Typhoon Signal No.8',paras:[
+  'Last August, Typhoon Signal No.8 was raised, so Mei Ling\'s school was closed. The wind outside howled like a hungry wolf, and the rain hit the window like tiny stones.',
+  'At first, Mei Ling was excited. No school! She built a tent out of two chairs and a blanket in the living room. Her little brother brought in all his toy dinosaurs, and they pretended the tent was a safe island.',
+  'In the afternoon, the power went out for an hour. Dad found candles and told stories about the great typhoon of his childhood. Mei Ling listened with wide eyes. "No smartphones back then?" she asked. "Not even one," Dad said proudly.',
+  'When the signal was lowered, the streets were full of broken leaves and branches. Mei Ling helped Mum sweep the corridor. She felt a little proud too — the island had kept them safe, and she had helped clean it up.'],
+  words:[['typhoon','颱風'],['howl','呼嘯'],['blanket','毯子'],['signal','信號'],['sweep','掃']],
+  qs:['颱風假你在家裏做什麼？講一件最開心的事。','停電的時候，沒有手機你會怎麼過？']},
+ {lv:'L3',title:'The Wishing Tree',paras:[
+  'In a quiet village in Tai Po, there stands an old banyan tree. People call it the Wishing Tree. Long ago, villagers tied their wishes to heavy fruits and threw them onto the branches. If the fruit stayed, the wish would come true.',
+  'On Chinese New Year, Tsz Ching visited the tree with her aunt. She held her wish in her hand: "I hope Grandma\'s leg gets better soon."',
+  'She threw the fruit once — too low. Twice — it hit a leaf. The third time, she closed her eyes, thought of Grandma, and threw with all her heart. The fruit hooked onto a high branch and stayed.',
+  'Tsz Ching jumped with joy. Her aunt smiled. "You know," she said, "Grandma\'s leg got better last year too. Maybe the tree listens. Or maybe we just never stop hoping." Tsz Ching thought about this all the way home.'],
+  words:[['banyan','榕樹'],['villager','村民'],['branch','樹枝'],['hook on','勾住'],['hope','希望']],
+  qs:['如果只能許一個願望，你會許什麼？為什麼？','你覺得願望實現靠的是什麼？']},
+ {lv:'L4',title:'The Night Ferry',paras:[
+  'The Star Ferry runs between Tsim Sha Tsui and Central all day, but Ho Yin likes it best at night. That is when the harbour turns into a bowl of light.',
+  'That evening, he and his uncle boarded the 7:30 ferry. The wind smelled of salt and engine oil. Behind them, the skyscrapers of Central switched on their lights one by one, like a city slowly waking up for its second shift.',
+  '"Your great-grandfather was a ferryman," Uncle said, leaning on the rail. "Thirty years on the water. He could name every star above the harbour, but he never learned to swim." Ho Yin laughed, then stopped. "Really? Why not?" "He said the sea was his office. You don\'t jump into your office." Ho Yin laughed again, louder this time.',
+  'A green Star Ferry passed them going the other way. Passengers waved, and Ho Yin waved back, though he did not know a single face. For one strange moment, he felt connected to all of them — and to the great-grandfather he had never met.',
+  'On the Kowloon side, the lights of the clock tower glowed softly. Ho Yin took a photo, but he knew he would not need it. Some nights you remember without a picture.'],
+  words:[['ferry','渡輪'],['harbour','海港'],['skyscraper','摩天大樓'],['rail','欄杆'],['glow','發光']],
+  qs:['你坐過天星小輪嗎？晚上和白天有什麼不同？','你的家人裏有什麼老故事？今晚回去問一位長輩。']},
+ {lv:'L4',title:'The Stair Street Cat',paras:[
+  'On Tai Ping Shan Street, between the antique shops and the coffee roasters, lives a grey cat named General. Nobody knows who first called him that, but everyone agrees he behaves like one.',
+  'Every afternoon, General walks his territory. He inspects the plant pots, sits in front of the ice cream shop until someone gives him a lick of vanilla, and naps on the warm stone steps of the temple. The shopkeepers greet him by name. Tourists photograph him. He ignores them all with perfect royal calm.',
+  'Ten-year-old Chloe lives upstairs. Every day after school, she brings General a small piece of steamed fish. She never picks him up or bothers him while he eats. She just sits on the step and tells him about her day — the spelling test, the new boy who cannot use chopsticks, the PE teacher\'s terrible jokes.',
+  'One rainy Monday, Chloe was late. The rain drummed on the awnings, and the street was empty. General waited on the temple steps for a whole hour, tail curled around his paws.',
+  'When Chloe finally came, soaked and out of breath, General stood up, stretched, and — for the first time anyone could remember — rubbed his head against her school bag. The shopkeepers smiled. Even royalty needs a friend on rainy days.'],
+  words:[['antique','古董'],['territory','地盤'],['inspect','巡視'],['nap','打盹'],['soaked','濕透的']],
+  qs:['你家附近有認識的貓狗嗎？給它們起過名字嗎？','如果你養寵物，你會怎麼照顧它？']}
+];
+const RD_ART_KEY='hkk_rdart_v0';
+let curRdArtLv='L1',curRdArt=null,curRdArtPrev=-1;
+function rdArtLoad(){try{return JSON.parse(localStorage.getItem(RD_ART_KEY)||'{}')||{};}catch(e){return {};}}
+function rdArtSave(o){try{localStorage.setItem(RD_ART_KEY,JSON.stringify(o||{}));}catch(e){}}
+function rdArtEsc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function rdArtCountWords(a){return a.paras.reduce(function(n,p){return n+p.trim().split(/\s+/).length;},0);}
+function rdArtHtml(a,forPrint){
+  const lv=RD_ART_LEVELS.find(function(x){return x.id===a.lv;})||RD_ART_LEVELS[0];
+  const src=a.ai?'<span class="rdart-src">AI 生成（請家長把關）</span>':'<span class="rdart-src">本站原創</span>';
+  let h='<div class="rdart-h"><span class="rdart-t">'+rdArtEsc(a.title)+'</span>'
+    +'<span class="rdart-lv">'+rdArtEsc(lv.name)+' · '+rdArtEsc(lv.tag)+'</span>'+src+'</div>';
+  if(a.ai&&a.topic)h+='<div class="rdnote">主題：'+rdArtEsc(a.topic)+'</div>';
+  h+=a.paras.map(function(p){return '<p class="rdart-p">'+rdArtEsc(p)+'</p>';}).join('');
+  h+='<div class="rdart-sec">生詞（先猜，再對照）</div>';
+  h+='<div>'+a.words.map(function(w){return '<span class="rdart-w"><b>'+rdArtEsc(w[0])+'</b> '+rdArtEsc(w[1])+'</span>';}).join('')+'</div>';
+  h+='<div class="rdart-sec">讀後分享（講 30 秒，不用寫）</div>';
+  h+=a.qs.map(function(q,i){return '<p class="rdart-q">'+(i+1)+'. '+rdArtEsc(q)+'</p>';}).join('');
+  if(forPrint)h+='<p class="rdnote">泛讀文章 · '+(a.ai?'AI 生成，請家長把關':'本站原創')+' · 不查詞典不考核，讀完喜歡就算數</p>';
+  return h;
+}
+function rdArtRender(){
+  const box=document.getElementById('rdArtBox'); if(!box)return;
+  box.innerHTML=rdArtHtml(curRdArt,false);
+  const chips=document.getElementById('rdArtChips');
+  chips.innerHTML=RD_ART_LEVELS.map(function(l){
+    return '<button type="button" class="'+(l.id===curRdArtLv?'on':'')+'" data-rdlv="'+l.id+'">'+l.name+'（'+l.tag.split(' · ')[0].replace('牛津閱讀樹 ','')+'）</button>';
+  }).join('');
+  chips.querySelectorAll('[data-rdlv]').forEach(function(b){
+    b.onclick=function(){curRdArtLv=b.getAttribute('data-rdlv');curRdArtPrev=-1;rdArtPick();rdArtSave({lv:curRdArtLv,last:rdArtLoad().last});};
+  });
+  const msg=document.getElementById('rdArtMsg');
+  if(msg&&!curRdArt.ai)msg.textContent='本篇約 '+rdArtCountWords(curRdArt)+' 詞 · '+RD_ART_LEVELS.find(function(x){return x.id===curRdArt.lv;}).target;
+  if(msg&&curRdArt.ai)msg.textContent='本篇為 AI 生成（約 '+rdArtCountWords(curRdArt)+' 詞），讀前請家長先看一眼；不滿意就點「換一篇（本機）」或再讓 AI 寫一篇。';
+}
+function rdArtPick(){
+  const pool=RD_ART.map(function(a,i){return [a,i];}).filter(function(x){return x[0].lv===curRdArtLv;});
+  let cand=pool.filter(function(x){return x[1]!==curRdArtPrev;});
+  if(!cand.length)cand=pool;
+  const pick=cand[Math.floor(Math.random()*cand.length)];
+  curRdArt=pick[0];curRdArtPrev=pick[1];rdArtRender();
+}
+async function rdArtAI(){
+  const cfg=getAiCfg();
+  const msg=document.getElementById('rdArtMsg');
+  const btn=document.getElementById('rdArtAiBtn');
+  if(!cfg.base||!cfg.key||!cfg.model){
+    if(msg)msg.textContent='還沒填 AI 接口：去「練習 → 英文 → 英文卷」的 AI 設置填 Base URL／Key／模型，回來再點。本機八篇原創文章不受影響。';
+    return;
+  }
+  const lv=RD_ART_LEVELS.find(function(x){return x.id===curRdArtLv;});
+  const topic=(document.getElementById('rdArtTopic').value||'').trim().slice(0,40);
+  if(btn){btn.disabled=true;btn.textContent='生成中…';}
+  if(msg)msg.textContent='AI 正在按「'+lv.tag+'」寫一篇新文章…';
+  try{
+    const sys='你是香港小學英文泛讀分級讀物作者。請原創一篇英文短文給小學生作興趣泛讀（不查詞典可以讀完）。級別：'+lv.tag+'（'+lv.target+'）。背景用香港兒童日常生活，只用常見詞彙；不得複製或影射任何受版權保護的讀物角色、書名或情節。'+(topic?'本篇主題：'+topic+'。':'主題自選。')+'只輸出 JSON：{"title":"英文短標題","paras":["段落1","段落2",...],"words":[["文內出現的較難詞","中文意思"],...],"qs":["口頭分享問題1","口頭分享問題2"]}';
+    const body={model:cfg.model,messages:[{role:'system',content:sys}],temperature:0.9};
+    try{body.response_format={type:'json_object'};}catch(e){}
+    let resp=null;
+    try{resp=await fetch(cfg.base.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},body:JSON.stringify(body)});}catch(e){}
+    if(!resp||!resp.ok)throw new Error('http '+((resp&&resp.status)||'?'));
+    let data=null;try{data=await resp.json();}catch(e){}
+    let content=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
+    if(!content)throw new Error('empty');
+    content=String(content).trim().replace(/^```(?:json)?/i,'').replace(/```$/i,'').trim();
+    const obj=JSON.parse(content);
+    if(!obj||typeof obj.title!=='string'||!obj.title.trim()||obj.title.length>90)throw new Error('title');
+    if(!Array.isArray(obj.paras)||obj.paras.length<2||obj.paras.length>6)throw new Error('paras');
+    obj.paras=obj.paras.map(function(p){return String(p).trim();}).filter(Boolean);
+    if(obj.paras.length<2)throw new Error('paras');
+    if(!Array.isArray(obj.words)||obj.words.length<3||obj.words.length>6||!obj.words.every(function(w){return Array.isArray(w)&&w.length>=2&&String(w[0]).trim()&&String(w[1]).trim();}))throw new Error('words');
+    if(!Array.isArray(obj.qs)||obj.qs.length<1||obj.qs.length>3)throw new Error('qs');
+    curRdArt={lv:curRdArtLv,title:obj.title.trim(),paras:obj.paras,words:obj.words.slice(0,6).map(function(w){return [String(w[0]).trim(),String(w[1]).trim()];}),qs:obj.qs.slice(0,3).map(function(q){return String(q).trim();}),ai:true,topic:topic};
+    rdArtSave({lv:curRdArtLv,last:curRdArt});
+    rdArtRender();
+  }catch(e){
+    if(msg)msg.textContent='AI 出文章失敗（'+e.message+'）——接口未通或返回格式不符，已保留當前文章；再試一次或點「換一篇（本機）」。';
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='AI 出新文章';}
+  }
+}
+function printRdArt(){
+  if(!curRdArt)rdArtPick();
+  const h='<div class="eps-head"><div class="eps-title">泛讀文章（不查詞典 · 不考核）</div>'
+    +'<div class="eps-meta">級別：'+rdArtEsc(RD_ART_LEVELS.find(function(x){return x.id===curRdArt.lv;}).tag)+'　　姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span></div></div>'
+    +rdArtHtml(curRdArt,true);
+  document.getElementById('rdArtPrintSheet').innerHTML=h;
+  if(!_rdArtPrintBound){_rdArtPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
+  document.body.classList.add('printing-paper');
+  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+}
+let _rdArtPrintBound=false;
+(function(){
+  const st=rdArtLoad();
+  if(st.lv&&RD_ART_LEVELS.some(function(x){return x.id===st.lv;}))curRdArtLv=st.lv;
+  if(st.last&&st.last.lv===curRdArtLv&&st.last.ai&&st.last.paras)curRdArt=st.last;else rdArtPick();
+  rdArtRender();
+  const lb=document.getElementById('rdArtLocalBtn');
+  if(lb)lb.onclick=function(){curRdArt=rdArtLoad().last&&rdArtLoad().last.ai&&rdArtLoad().last.lv===curRdArtLv?rdArtLoad().last:null;rdArtPick();};
+  const ab=document.getElementById('rdArtAiBtn');
+  if(ab)ab.onclick=rdArtAI;
+  const pb=document.getElementById('rdArtPrintBtn');
+  if(pb)pb.onclick=printRdArt;
+})();
+window.__rdArtTest={levels:RD_ART_LEVELS,list:RD_ART,render:rdArtRender,pick:rdArtPick,
+  cur:function(){return curRdArt;},lv:function(){return curRdArtLv;},
+  exportData:rdArtLoad,importData:function(d){rdArtSave(d&&typeof d==='object'?d:{});if(d&&d.lv){curRdArtLv=d.lv;if(d.last&&d.last.ai)curRdArt=d.last;else rdArtPick();}else rdArtPick();},
+  clear:function(){rdArtSave({});curRdArtLv='L1';curRdArtPrev=-1;rdArtPick();}};
+
 async function aiGenQuestion(g,t){
   const cfg=getAiCfg();
   if(!cfg.base||!cfg.key||!cfg.model) return null;
@@ -52201,11 +52408,12 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／我的單詞本／我的生字本／已匯入詞庫／時態題型勾選與成績／今日課表打卡／錯題本）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／泛讀文章檔／我的單詞本／我的生字本／已匯入詞庫／時態題型勾選與成績／今日課表打卡／錯題本）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
     if(window.__readFocusTest){window.__readFocusTest.set({});window.__readFocusTest.render();}
+    if(window.__rdArtTest){window.__rdArtTest.clear();}
     if(window.__myWordsTest){window.__myWordsTest.clear();}
     if(window.__ziTest){window.__ziTest.clear();}
     if(window.__lwtePackTest){window.__lwtePackTest.clear();}
@@ -52308,7 +52516,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.13',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.14',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -52322,6 +52530,7 @@ document.getElementById('importFile').onchange=e=>{
     if(d.mapChk&&window.__mapTest){window.__mapTest.set(d.mapChk);window.__mapTest.render();}
     if(d.lwteProg&&window.__lwteTest){window.__lwteTest.set(d.lwteProg);window.__lwteTest.render();}
     if(d.readFocus&&window.__readFocusTest){window.__readFocusTest.set(d.readFocus);window.__readFocusTest.render();}
+    if(d.rdArt&&window.__rdArtTest){window.__rdArtTest.importData(d.rdArt);}
     if(Array.isArray(d.myWords)&&window.__myWordsTest){window.__myWordsTest.importData(d.myWords);}
     if(Array.isArray(d.ziWords)&&window.__ziTest){window.__ziTest.importData(d.ziWords);}
     if(d.lwteWordProg&&window.__lwtePackTest){window.__lwtePackTest.setProg(d.lwteWordProg);}
