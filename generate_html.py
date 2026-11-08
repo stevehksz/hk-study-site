@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.06：葉工貼貪吃蛇截圖——「把英語單詞還有中文放到背景里面，不需要密密麻麻那么多單詞，吃一個就換一個單詞」。落地＝背景詞系統重構：①逐格 256 個純英文詞 → **BG=8×8=64 個 2×2 詞塊**（稀疏 4 倍），每塊兩行——英文（上）＋中文（下），英中對照一眼看懂；②目標塊同步加大成 2×2 黃色大塊（英文＋中文都寫在塊內），碰撞判定從單格改為 2×2 塊內四格；③「吃一個換一個」雙重落地：吃到後 nextFood 換新目標詞（v1.81 已有）＋新增 refreshBlk 把**被吃掉的原詞塊**也換成新詞（英文不同才收手，guard 12 次）；④蛇身經過的詞塊不畫字（2×2 區域判定）；⑤面板文案改「背景是稀疏的英文＋中文詞塊／黃色大格是目標詞，吃一個就換一個新詞」。__snakeTest.bg 改返回詞塊陣列（en/zh）＋暴露 BG；畫布 448、格 C=28 不變，詞塊尺寸 56px 足夠兩行。
 v2.05：葉工貼網盤目錄截圖（01 牛津樹＋10 香港朗文：教師用書 TG／B5135／LWTEGOLD 1A-6B 全套／白板軟件）問「怎麼運用這些資料放到網站上面去，或者自己用，給個接口鏈接登入拿本地資料」。AskUserQuestion 拍板＝**本地私人資料台＋公開站用法卡**（否決在線登入拿資料——版權紅線：任何公開可達域托管原檔等同公開發行，sharecode≠登入；網盤 App 本身就是登入入口）。①公開站②教材清單表後新增 #ownResCard「手頭已有牛津閱讀樹＋某文小學教材？這樣排（家長版）」：三行方法表（牛津樹 1–12 級五指法則起點＋1-3聽讀/4-6自主/7-9初章/10-12長篇坊間節奏；配套音頻視頻當磨耳朵不占泛讀額度；某文教材按單元走家長看教師書備課 5 分鐘、對接某文單詞本）——只講方法零原文，某文口徑沿 v1.81 零「朗文」字樣，版權 warn 卡 h3 曾被編輯誤刪已補回；②本地私人資料台（G:\00 咨詢&公自媒体\22 香港插班\私人資料台.html，副本 _private/hub/）：網盤 7+4 條路徑速查＋牛津樹四階段用法（藍思坊間估算）＋朗文家長用法＋每週排法＋ORT 四階段/朗文 12 冊 localStorage 打卡（pvt_ort/pvt_lwte），零外鏈零原文零分享鏈接，永不進公開站；jsdom 驗證 4+12 選項與勾選存儲。⚠️ 版權結論：資料原檔永不上站；用法卡僅方法論（級別對應標坊間整理）。
 v2.04：葉工貼 AI 選校「通勤起點」下拉截圖——「加一個莲塘口岸」。落地＝①#schAiStart 下拉在羅湖／福田之後新增「蓮塘口岸」選項（其他口岸或交通仍在末位）；②選蓮塘時 prompt 背景自動附加通行提示：蓮塘＝香園圍口岸，過關後靠巴士經香園圍公路接駁粉嶺／上水一帶、無鐵路直達、通勤普遍較東鐵口岸長（估算），避免 AI 按東鐵口岸邏輯估通勤；③其余規則（衝2+穩3+保2、Band 非官方、免責、額度共享）不動。
 v2.03：葉工貼英文卷資料來源截圖要「整個網站除了官方的出處，不要顯示私人或者公司的出處」。先全站摸排（外鏈清單＋來源行 grep）再 AskUserQuestion 拍板＝**只清內容出處標註**，⑧外部資源導航與教科書書目（出版社名屬事實性書目）保留。清除 6 處商號/私站署名：①英文卷 enSrcNote（GoStudy.HK／弦月教育／香港教育圖書／Band1 試卷網／The Exam Coach 連 4 條外鏈）→「坊間補習社／練習站常見做法（坊間參考，不逐一署名）；題目與答案為本站原創」；②升中面試資料來源 4 站（hkstudyroute/notesity/couchpotatoeducation/topschool.hket）→ 同口徑；③詞彙路線圖 hint（智瞳教育／51Talk／公眾號葫蘆媽/EHLA/博纳）→「坊間教育機構與升學媒體估算（不逐一署名）」，並同步改表格行與「主動vs被動」卡的 EHLA 字樣；④語境閱讀法卡智瞳教育；⑤大埔中學表來源行（教育王國/hkecec/hkstudyroute）；⑥東鐵備選梯隊事實欄（升學天地/教育王國）。官方出處全保留（教育局/考評局/家委會概覽/教育城/公共圖書館/各校官網）；verify2 兩條舊「含商號」斷言反轉為零商號＋全站新增 22 個商號/私站字串的零出現斷言（官方站外鏈白名單不變）。
@@ -1076,13 +1077,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.05（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.06（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.05（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.06（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2806,7 +2807,7 @@ Thank you for your time.</div>
   </div>
   <div id="snakeGame">
   <div class="gtitle">單詞貪吃蛇（悠閒 · 邊玩邊記）</div>
-  <span class="folk">背景全是港小生字；<b>黃色格子是目標詞</b>，蛇頭吃到就換一個新詞。純本地，不計分排名。</span>
+  <span class="folk">背景是稀疏的「英文＋中文」詞塊；<b>黃色大格是目標詞</b>，吃一個就換一個新詞。純本地，不計分排名。</span>
   <div class="snake-wrap">
     <canvas id="snakeCanvas" width="448" height="448"></canvas>
     <div class="snake-side">
@@ -5208,27 +5209,31 @@ function showMain(m){
   const cv=document.getElementById('snakeCanvas'), ctx=cv.getContext('2d');
   const hasCtx=!!ctx;
   const G=16, C=cv.width/G;
-  let snake, dir, food, timer, running=false, score=0, roundWords=[], bgWords=[];
+  let snake, dir, food, timer, running=false, score=0, roundWords=[], bgBlk=[];
+  const BG=G/2;   // v2.06：背景改稀疏詞塊（每塊 2×2 格，英文＋中文兩行），不再逐格鋪滿
   const bestKey='hkk_snake_best';
   let best=+localStorage.getItem(bestKey)||0;
   document.getElementById('snakeBest').textContent=best;
   function rndWord(){ const pool=HK.filter(w=>w.grade && w.grade.indexOf('中')!==0); return pool[Math.floor(Math.random()*pool.length)]; } // 貪吃蛇只用小學詞（不引 HK_PRI_GRADES，避免 TDZ）
-  // v1.81：每格鋪一個港小生字當背景，讓整個畫面都是可讀的詞；目標詞格另外高亮
+  // v2.06：每個 2×2 詞塊放一個「英文＋中文」，英中對照一眼看懂
   function buildBg(){
-    bgWords=[];
-    for(let i=0;i<G*G;i++){
-      const w=rndWord();
-      bgWords.push(w.w);
-    }
+    bgBlk=[];
+    for(let i=0;i<BG*BG;i++){ const w=rndWord(); bgBlk.push({en:w.w, zh:w.zh}); }
   }
   function placeFood(){
-    const w=rndWord(); let x,y,tries=0;
-    do{ x=Math.floor(Math.random()*G); y=Math.floor(Math.random()*G); tries++; }
-    while(snake && snake.some(s=>s.x===x&&s.y===y) && tries<50);
-    food={w:w.w, zh:w.zh, id:w.id, x, y};
-    // 目標詞格在背景上換成本局的目標詞，讓玩家一眼看到「要吃哪個」
-    bgWords[y*G+x]=w.w;
+    const w=rndWord(); let bx,by,tries=0;
+    do{ bx=Math.floor(Math.random()*BG); by=Math.floor(Math.random()*BG); tries++; }
+    while(snake && snake.some(s=>s.x>=bx*2&&s.x<bx*2+2&&s.y>=by*2&&s.y<by*2+2) && tries<50);
+    food={w:w.w, zh:w.zh, id:w.id, bx, by, x:bx*2, y:by*2};
+    // 目標詞塊在背景上同步顯示本局目標詞（英中兩行），讓玩家一眼看到「要吃哪個」
+    bgBlk[by*BG+bx]={en:w.w, zh:w.zh};
     document.getElementById('snakeWord').innerHTML='去吃：<b>'+food.w+'</b> ＝ '+food.zh;
+  }
+  // v2.06：吃掉之後，原詞塊換一個新詞（英文換了才收手）
+  function refreshBlk(bx,by,notEn){
+    let w, guard=0;
+    do{ w=rndWord(); guard++; }while(w.w===notEn && guard<12);
+    bgBlk[by*BG+bx]={en:w.w, zh:w.zh};
   }
   // v1.81：吃到之後一定要換成「另一個」詞，否則玩家會覺得沒換
   function nextFood(){
@@ -5248,29 +5253,33 @@ function showMain(m){
   function draw(){
     if(!hasCtx)return;
     ctx.fillStyle='#0f2a22'; ctx.fillRect(0,0,cv.width,cv.height);
-    // 背景層：每格寫一個生字，低透明度不搶蛇與目標格的視線
+    // 背景層：稀疏詞塊（英文上＋中文下），低透明度不搶蛇與目標塊的視線
     ctx.save();
-    ctx.globalAlpha=0.42;
-    ctx.fillStyle='#a8ecd0';
-    ctx.font=(C-10)+'px system-ui,-apple-system,sans-serif';
+    ctx.globalAlpha=0.55;
     ctx.textAlign='center'; ctx.textBaseline='middle';
-    for(let i=0;i<G*G;i++){
-      const t=bgWords[i]||'';
-      if(!t)continue;
-      const gx=i%G, gy=Math.floor(i/G);
-      if(food && food.x===gx && food.y===gy)continue;   // 目標格留給高亮
-      if(snake.some(s=>s.x===gx&&s.y===gy))continue;   // 蛇身格不壓字
-      ctx.fillText(t, gx*C+C/2, gy*C+C/2, C-2);
+    for(let i=0;i<BG*BG;i++){
+      const b=bgBlk[i]; if(!b)continue;
+      const bx=i%BG, by=Math.floor(i/BG);
+      if(food && food.bx===bx && food.by===by)continue;   // 目標塊留給高亮
+      if(snake.some(s=>s.x>=bx*2&&s.x<bx*2+2&&s.y>=by*2&&s.y<by*2+2))continue;   // 蛇身塊不壓字
+      ctx.fillStyle='#a8ecd0';
+      ctx.font='bold '+Math.round(C*0.42)+'px system-ui,-apple-system,sans-serif';
+      ctx.fillText(b.en, bx*2*C+C, by*2*C+C*0.55, 2*C-6);
+      ctx.fillStyle='#7fd8b6';
+      ctx.font=Math.round(C*0.4)+'px system-ui,-apple-system,sans-serif';
+      ctx.fillText(b.zh, bx*2*C+C, by*2*C+C*1.5, 2*C-6);
     }
     ctx.restore();
     if(food){
-      ctx.fillStyle='#f2c14e'; ctx.fillRect(food.x*C, food.y*C, C-2, C-2);
-      // 目標格寫出這個詞本身，蛇頭吃到才算記住；字號按格寬自适应，長詞縮一點但要看得清
+      // v2.06：目標塊加大成 2×2 黃塊，英文＋中文兩行都看得到
+      ctx.fillStyle='#f2c14e'; ctx.fillRect(food.x*C+1, food.y*C+1, 2*C-4, 2*C-4);
       ctx.save();
-      ctx.fillStyle='#3b2a05'; ctx.textAlign='center'; ctx.textBaseline='middle';
-      var fw=food.w.length;
-      ctx.font='bold '+Math.max(10,Math.min(16,C-8-(fw>5?2:0)))+'px system-ui,-apple-system,sans-serif';
-      ctx.fillText(food.w, food.x*C+C/2, food.y*C+C/2, C-4);
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillStyle='#3b2a05';
+      ctx.font='bold '+Math.round(C*0.5)+'px system-ui,-apple-system,sans-serif';
+      ctx.fillText(food.w, food.x*C+C, food.y*C+C*0.55, 2*C-8);
+      ctx.font=Math.round(C*0.48)+'px system-ui,-apple-system,sans-serif';
+      ctx.fillText(food.zh, food.x*C+C, food.y*C+C*1.5, 2*C-8);
       ctx.restore();
     }
     snake.forEach((s,i)=>{ ctx.fillStyle=i===0?'#5ad6a0':'#2f9e74'; ctx.fillRect(s.x*C, s.y*C, C-2, C-2); });
@@ -5285,11 +5294,12 @@ function showMain(m){
     if(head.x<0||head.y<0||head.x>=G||head.y>=G) return die();
     if(snake.some(s=>s.x===head.x&&s.y===head.y)) return die();
     snake.unshift(head);
-    if(food && head.x===food.x && head.y===food.y){
+    if(food && head.x>=food.x&&head.x<food.x+2&&head.y>=food.y&&head.y<food.y+2){
       score++; document.getElementById('snakeScore').textContent=score;
       roundWords.push(food.id);
       document.getElementById('snakeMaster').disabled=false;
       document.getElementById('snakeMasterN').textContent=roundWords.length;
+      refreshBlk(food.bx, food.by, food.w);   // v2.06：吃掉的原詞塊換新詞
       nextFood();          // v1.81：吃到即換一個新詞
     } else { snake.pop(); }
     draw();
@@ -5308,7 +5318,8 @@ function showMain(m){
   // v1.81：測試鉤子，驗證背景鋪詞、目標格顯示詞、吃到換詞
   window.__snakeTest={
     get food(){return food;},
-    get bg(){return bgWords.slice();},
+    get bg(){return bgBlk.map(b=>({en:b.en,zh:b.zh}));},
+    get BG(){return BG;},
     get score(){return score;},
     get roundWords(){return roundWords.slice();},
     // 暴露小學詞池：斷言可直接比對背景詞來源，不靠隨機集合求交集（否則 flaky）
@@ -7482,7 +7493,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.05',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.06',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

@@ -1574,11 +1574,11 @@ try{
   mw.clear();
   ok('v1.80 清空後空態提示', mw.count()===0 && doc.querySelectorAll('#mwList .mwempty').length===1);
   ok('v1.80 全站導出含 myWords 字段', /myWords:window\.__myWordsTest\?window\.__myWordsTest\.exportData\(\)\.words:\[\]/.test(html));
-  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v2\.05'/.test(html));
+  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v2\.06'/.test(html));
   ok('v1.80 清空確認文案補「我的單詞本」', /泛讀自查／我的單詞本/.test(html));
   ok('v1.80 不進 AI 白名單（kb 仍 100）', (window.__aiTest.kb||[]).length===100 && (window.__aiTest.kb||[]).every(x=>!/我的單詞本|hkk_mywords/.test(x.t+x.s)));
   ok('v1.80 版權文案在子頁', doc.getElementById('myWordsView').textContent.includes('不預置任何出版社詞表'));
-  ok('v1.80 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2 && html.includes("ver:'hkk_v2.05'") && !html.includes('公開版 v1.79'));
+  ok('v1.80 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2 && html.includes("ver:'hkk_v2.06'") && !html.includes('公開版 v1.79'));
 }catch(e){ ok('v1.80 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.81 反饋牆 ＋ 貪吃蛇單詞背景 ＋ 某文單詞本搬位 ============
@@ -1596,22 +1596,24 @@ try{
   ok('v1.81 內部 ID／進度 key 不變（兼容既有進度）', html.includes("KEY='hkk_lwte_prog_v0'") && html.includes('id="lwteChips"') && html.includes('id="lwteBody"') && html.includes('id="lwteStat"'));
   ok('v1.81 元數據已去出版社名（_lwte_meta.json）', (()=>{const m=fs.readFileSync('_lwte_meta.json','utf8');return m.indexOf('Pearson')<0&&m.indexOf('Longman')<0&&m.indexOf('朗文')<0;})());
 
-  // ── B. 貪吃蛇：單詞鋪背景 + 目標格顯示詞 + 吃到換詞 ──
+  // ── B. 貪吃蛇：稀疏英中詞塊背景 + 目標塊顯示詞 + 吃到換詞（v2.06 重構）──
   const st=window.__snakeTest;
   ok('v1.81 貪吃蛇測試鉤子存在', !!st && st.G===16);
-  ok('v1.81 背景鋪滿 256 格單詞且來自港小詞池', !!st && st.bg.length===256 && st.bg.every(w=>typeof w==='string'&&w.length>0));
-  ok('v1.81 背景單詞皆來自站內小學詞池（非亂碼、非中學詞）', !!st && Array.isArray(st.pool) && st.pool.length>0 && (()=>{
+  ok('v2.06 背景為 8×8=64 個稀疏詞塊（不再 256 格鋪滿）', !!st && st.BG===8 && st.bg.length===64 && st.bg.every(b=>b&&typeof b.en==='string'&&b.en.length>0));
+  ok('v2.06 每個詞塊都帶中文（en＋zh 兩行）', !!st && st.bg.every(b=>typeof b.zh==='string'&&b.zh.length>0));
+  ok('v2.06 背景英文詞皆來自站內小學詞池（非亂碼、非中學詞）', !!st && Array.isArray(st.pool) && st.pool.length>0 && (()=>{
     const set={};st.pool.forEach(w=>set[w]=1);
-    return st.bg.every(w=>typeof w==='string'&&!!set[w]);
+    return st.bg.every(b=>!!set[b.en]);
   })());
   ok('v1.81 目標格有單詞，且與面板「去吃」一致', !!st && !!st.food && st.food.w && doc.getElementById('snakeWord').textContent.indexOf(st.food.w)>=0);
-  ok('v1.81 目標格在背景中顯示的就是目標詞', !!st && st.bg[st.food.y*st.G+st.food.x]===st.food.w);
+  ok('v2.06 目標詞塊在背景中顯示的就是目標詞（英中同步）', !!st && st.bg[st.food.by*st.BG+st.food.bx].en===st.food.w && st.bg[st.food.by*st.BG+st.food.bx].zh===st.food.zh);
   const f0=st.food.w;
   const f1=st.nextFood();
   ok('v1.81 吃到後換成另一個詞（'+f0+'→'+f1.w+'）', !!f1 && f1.w!==f0 && st.food.w===f1.w);
-  ok('v1.81 換詞後目標格背景同步更新', st.bg[st.food.y*st.G+st.food.x]===st.food.w);
-  ok('v1.81 吃到即換詞走 nextFood（去重保護）', /nextFood\(\);\s*\/\/ v1.81：吃到即換一個新詞/.test(html) && /function nextFood\(\)/.test(html));
-  ok('v1.81 面板文案說明「背景全是港小生字／黃色格子是目標詞」', doc.getElementById('funView').textContent.includes('背景全是港小生字') && doc.getElementById('funView').textContent.includes('黃色格子是目標詞'));
+  ok('v2.06 換詞後目標詞塊背景同步更新', st.bg[st.food.by*st.BG+st.food.bx].en===st.food.w);
+  ok('v2.06 吃到即換詞走 nextFood＋原詞塊 refreshBlk（吃一個換一個）', /nextFood\(\);\s*\/\/ v1.81：吃到即換一個新詞/.test(html) && /refreshBlk\(food\.bx, food\.by, food\.w\)/.test(html) && /function refreshBlk\(/.test(html));
+  ok('v2.06 碰撞判定為 2×2 目標塊（不再單格）', /head\.x>=food\.x&&head\.x<food\.x\+2&&head\.y>=food\.y&&head\.y<food\.y\+2/.test(html));
+  ok('v2.06 面板文案說明「英文＋中文詞塊／黃色大格／吃一個換一個」', doc.getElementById('funView').textContent.includes('英文＋中文') && doc.getElementById('funView').textContent.includes('黃色大格是目標詞') && doc.getElementById('funView').textContent.includes('吃一個就換一個新詞'));
 
   // ── C. 反饋牆：結構、雲表接線、降級路徑 ──
   ok('v1.81 反饋浮動入口與彈窗齊', !!doc.getElementById('fbFabBtn') && !!doc.getElementById('fbMask') && !!doc.getElementById('fbModal') && !!doc.getElementById('fbList'));
@@ -1648,7 +1650,7 @@ try{
   ok('v1.81 錯誤碼映射覆蓋網絡／權限／表不存在／重複', ['network_error','42501','42P01','23505'].every(c=>fbT.errText(c)&&fbT.errText(c).length>4));
   ok('v1.81 時間顯示相對時間', fbT.when(new Date(Date.now()-3600000).toISOString()).indexOf('小時前')>=0);
 
-  ok('v1.81 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2 && html.includes("ver:'hkk_v2.05'") && !html.includes('公開版 v1.80'));
+  ok('v1.81 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2 && html.includes("ver:'hkk_v2.06'") && !html.includes('公開版 v1.80'));
 }catch(e){ ok('v1.81 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.82 中文卷（本站原創仿題型） ============
@@ -1760,7 +1762,7 @@ try{
   ok('v1.82 含答案版勾選存在', !!doc.getElementById('cnPrintAns'));
   ok('v1.82 本級最佳存 hkk_cnpaper_v0', html.includes("'hkk_cnpaper_v0'"));
   ok('v1.82 CSS：篇章卡與寫作區樣式齊', /\.cnread\{/.test(html)&&/\.cnwrite-hint\{/.test(html)&&/\.cnsec\{/.test(html));
-  ok('v1.82 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2&&html.includes("ver:'hkk_v2.05'")&&!html.includes('公開版 v1.81'));
+  ok('v1.82 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2&&html.includes("ver:'hkk_v2.06'")&&!html.includes('公開版 v1.81'));
 }catch(e){ ok('v1.82 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.83 中文區兩個子目錄：背古詩 ／ 中文試卷 ============
@@ -1795,7 +1797,7 @@ try{
   ok('v1.83 切回背古詩：星圖可見、卷隱藏', sv.style.display!=='none'&&cv.style.display==='none');
   ok('v1.83 切回後高亮回到第一顆', bStar.classList.contains('on')&&!bPaper.classList.contains('on'));
 
-  ok('v1.83 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2&&html.includes("ver:'hkk_v2.05'")&&!html.includes('公開版 v1.82'));
+  ok('v1.83 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2&&html.includes("ver:'hkk_v2.06'")&&!html.includes('公開版 v1.82'));
 }catch(e){ ok('v1.83 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.84 中文卷 AI 出卷（官方題型骨架＋結構校驗） ============
@@ -1876,7 +1878,7 @@ try{
   ok('v1.84 AI 出卷沿用使用者自填接口（密鑰存本機不上傳）', html.includes("getAiCfg()")&&html.includes("localStorage.getItem('hkk_ai_cfg')"));
   ok('v1.84 AI 卷不計入本級最佳（避免 AI 卷刷高分污染記錄）', html.includes('if(!curCnIsAi && (!best[curCnGrade]'));
   ok('v1.84 AI 失敗時回退本地題庫', /AI 出卷失敗[\s\S]{0,200}可改用|已保留原本地題庫卷/.test(html));
-  ok('v1.84 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2&&html.includes("ver:'hkk_v2.05'")&&!html.includes('公開版 v1.83'));
+  ok('v1.84 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2&&html.includes("ver:'hkk_v2.06'")&&!html.includes('公開版 v1.83'));
   // ── v1.85：本機詞庫包匯入 → 完整詞表（公開站仍零詞條）──
   const pk = window.__lwtePackTest || null;
   ok('v1.85 詞庫包測試鉤子存在且鍵名正確', !!pk && pk.key==='hkk_lwte_pack_v0' && pk.wordKey==='hkk_lwte_wordprog_v0');
@@ -2010,7 +2012,7 @@ try{
   ok('v1.85 匯入區文案講清「網站本身沒有這些詞」',
      doc.getElementById('lwtePackBox').textContent.includes('網站本身沒有、也不會有這些詞')
      && doc.getElementById('lwtePackBox').textContent.includes('不會上傳'));
-  ok('v1.85 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2&&html.includes("ver:'hkk_v2.05'")&&!html.includes('公開版 v1.84'));
+  ok('v1.85 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2&&html.includes("ver:'hkk_v2.06'")&&!html.includes('公開版 v1.84'));
   // ── v1.86：打印答題線改整寬 + A4 版心 ──
   // 三引擎的打印 HTML 生成段（英文卷／數學卷／中文卷）
   const prEn=(html.match(/function printEnPaper[\s\S]{0,9000}/)||[''])[0];
@@ -2041,7 +2043,7 @@ try{
      !prCn.includes('max-width:860px;margin:0 auto') && !prCn.includes('padding:24px;line-height:1.9'));
   ok('v1.86 三引擎都接上 ansline（不只中文卷）',
      prEn.includes('ansline lbl') && prMa.includes('ansline lbl') && prCn.includes('ansline lbl'));
-  ok('v1.86 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2&&html.includes("ver:'hkk_v2.05'")&&!html.includes('公開版 v1.85'));
+  ok('v1.86 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2&&html.includes("ver:'hkk_v2.06'")&&!html.includes('公開版 v1.85'));
   // ── v1.87：某文單詞本改同中小學單詞本格式 ＋ 詞庫包資料補齊（繁體中文義／全量音標）──
   const pkb=(()=>{try{return JSON.parse(fs.readFileSync('_lwte_pack.json','utf8'));}catch(e){return null;}})();
   // IPA 合法字元：按 Unicode 區間自動生成（與 build_lwte_pack.py 的 IPA_CHARS 同一套思路）
@@ -2124,7 +2126,7 @@ try{
     const kbLen=(window.__aiTest&&window.__aiTest.kbLen)||0;
     return kbLen===100;
   })());
-  ok('v1.87 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2&&html.includes("ver:'hkk_v2.05'")&&!html.includes('公開版 v1.86'));
+  ok('v1.87 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2&&html.includes("ver:'hkk_v2.06'")&&!html.includes('公開版 v1.86'));
 }catch(e){ ok('v1.87 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.88 下一步引導 ＋ FAQ 按顧慮重排（零新增素材，只重組既有內容＋掛出口） ============
@@ -2171,7 +2173,7 @@ try{
   ok('v1.88 既有 .cta-strip 仍 3 條（沒手滑多加加微信）', doc.querySelectorAll('.cta-strip').length===3);
   ok('v1.88 零新增 localStorage 鍵（v1.89 的 drill 鍵是本版刻意新增，另有意見）', !/hkk_nextstep|hkk_nx|hkk_faq/.test(html));
   ok('v1.88 下一步組件窄屏滿寬可點', /\.nextstep \.ns-btns\{flex-direction:column\}/.test(html) && /#faqView \.faq-grp\{/.test(html));
-  ok('v1.88 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2 && html.includes("ver:'hkk_v2.05'") && !html.includes('公開版 v1.87'));
+  ok('v1.88 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2 && html.includes("ver:'hkk_v2.06'") && !html.includes('公開版 v1.87'));
 }catch(e){ ok('v1.88 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -2371,7 +2373,7 @@ try{
   ok('v1.92 卡片尾聲明「未取用課本原文」', txTxt.includes('未取用課本原文') && txTxt.includes('非課本逐章對應'));
   ok('v1.92 不進 AI 知識庫（仍 100 條）', ((window.__aiTest&&window.__aiTest.kbLen)||0)===100);
   ok('v1.92 只新增一個 localStorage 鍵 hkk_ctx_best_v0', html.includes("'hkk_ctx_best_v0'") && !/hkk_txb|hkk_text|hkk_ctxprog/.test(html));
-  ok('v1.92 版本號三處一致', (html.match(/公開版 v2\.05/g)||[]).length===2 && html.includes("ver:'hkk_v2.05'"));
+  ok('v1.92 版本號三處一致', (html.match(/公開版 v2\.06/g)||[]).length===2 && html.includes("ver:'hkk_v2.06'"));
 }catch(e){ ok('v1.92 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ===== v1.94 數學題庫擴池＋防重保險 =====
@@ -2601,7 +2603,7 @@ try{
   ok('v2.02 默認只顯示貪吃蛇、數獨收起', !!sgEl && sgEl.style.display!=='none' && !!scEl && scEl.style.display==='none');
   ok('v2.02 貪吃蛇畫布 320→448（格 C=28）', doc.getElementById('snakeCanvas').getAttribute('width')==='448' && doc.getElementById('snakeCanvas').getAttribute('height')==='448');
   ok('v2.02 貪吃蛇主屏樣式存在（v1.5 起舊規則誤落 @media print 塊，屏上無樣式致 448 溢出——已補 display:block 屏上規則）', /#snakeCanvas\{display:block;[^}]*max-width:100%;height:auto/.test(html) && /\.spad\{width:52px/.test(html));
-  ok('v2.02 目標詞字號上限隨格子放大（13→16）', /Math\.min\(16,C-8-\(fw>5\?2:0\)\)/.test(html));
+  ok('v2.02→v2.06 目標塊字號隨格子放大（英文 C*0.5＝14px，中文 C*0.48）', /Math\.round\(C\*0\.5\)/.test(html) && /Math\.round\(C\*0\.48\)/.test(html));
   ok('v2.02 切走/離開悠閒都接暫停（選擇器＋showMain）', /if\(k!=='snake'&&window\.__snakeTest&&window\.__snakeTest\.pause\)window\.__snakeTest\.pause\(\);/.test(html) && /if\(m!=='fun'&&window\.__snakeTest&&window\.__snakeTest\.pause\)window\.__snakeTest\.pause\(\);/.test(html));
   ok('v2.02 暫停鉤子：clearInterval＋重開提示', (function(){const i=html.indexOf('pause:function()');const seg=html.slice(i,i+300);return seg.includes('clearInterval(timer)')&&seg.includes('已暫停');})());
   // 實跑：編程切換
