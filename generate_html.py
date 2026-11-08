@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.95：葉工說「請幫我語文打卡那裏恢復到開始」。AskUserQuestion 確認＝**背古詩星圖（中文科，185 顆星存 hkk_poem_done）**＋站內加「重置」按鈕（否決只本次幫清）。落地：sm-top 加「↺ 重置星圖」小鈕＋resetStarMap()（confirm 二次確認、文案明說不可恢復）＋bindStarMapReset() 開頁綁定。⚠️ 關鍵坑：清空必須寫入 '{}' 而非 removeItem——loadDone() 對「鍵不存在」會再從舊 pProg.recite 一次性遷移，removeItem 會讓舊進度全數回潮。星圖 185 顆燈由 POEMS 數據驅動，重置只清狀態零數據改動。
 v1.94：葉工貼數學模擬卷截圖說「試卷重複了，不要重複的，要出新的題，不要跟上一套卷子一樣」。根因實測＝MATH_QBANK 每個年級只有 10 題、genMathPaper 每次抽 8 題，10 選 8 每套新卷期望與上一套重合 6.4 題——不是隨機失靈，是池子太小。拍板＝P5＋P6 各補 14 道原創題（池 10→24；女兒現用 P5＋葉工測試的 P6 優先，其餘年級後續按需）。新題全原創（英文題幹＋繁中對照，與現庫欄位一致）：P5＝分數加減/三角形面積/小數比大小/百分數/化簡比/餘角/毫升/分數乘法/最簡分數/平行四邊形面積/經過時間/找零應用題/水箱容積/閱讀天數；P6＝百分增幅/速率/概率/三角形內角/負數比大小/折扣/平均數反推/解方程/鐘錶慢分/百分數化分數/圓周長反推直徑/踏單車時速/減價找零/長方體體積。⚠️ genMathPaper 加防重保險：window.__mathLastFp 存上一套題幹前 48 字 Set，新卷重合 ≥75% 自動重抽（至多 4 次）；指紋只存內存不落盤，刷新後重新允許重複屬預期；切年級不誤判（不同年級題幹不同）。⚠️ 24 選 8 後期望重合 ≈2.7 題，加保險後 ≤5 題斷言鎖死。驗證：新增 v1.94 專項（P5/P6 池 24、28 新題結構零重複選項、實跑連出兩卷重合 ≤5、prepMcMath 後 4 選項仍齊）。
 v1.93：葉工貼 Gemini 的改版建議問「看有沒有可取的地方」。評估結論：**結構一條不採**（該建議假設本站是公開資訊落地頁，實際是登入後的工具型應用；照搬其 index.html+style.css 會令全站功能歸零，另含 3 處事實硬傷：Badge「2026-2027 升學季」落後一學年、要求「Band 1 中學名單」（教育局不公布 Banding）、`.nav-links{display:none}` 手機藏導航違反「微信點開即用」，以及新增 3 處微信 CTA 觸 v1.88「只 3 條永不新增」硬規則）。**只採配色**，AskUserQuestion 拍板＝「只換配色＋警示色」＋主色選亮藍 #0284C7 系。落地（92 處色值替換，零結構／零類名／零鍵名改動）：①主色 `--acc` 靛藍紫 #4f46e5 → **#0369a1**（白字對比 5.93:1 達 WCAG AA；亮度級 #0284C7 白字僅 4.09:1 故只用作漸變亮端）②`--grad` 紫三色 → 藍三色 #0284c7→#0369a1→#075985 ③警示 `--jy` 朱紅 #d6452f → **暖橙 #c2410c**（白底 5.18:1 達標；#f97316 白底僅 2.80:1 故不用於文字，只作語義方向），配套紅底 #fdecea→#fdf1e6 ④頁頭與微信 CTA 既有的舊藍 #2c7be5／#1a5fc4／#1550a6 一併歸到新主色（原本「藍頁頭＋紫按鈕」是撞色，本版統一）⑤淺紫底／紫邊／深紫字 17 種一併轉藍（避免換主色後紫底藍字打架）。**未動**：底色 #eef1f7（與卡片白的層次感保留）、字體（PingFang HK 繁體優先，優於建議的英文優先棧）、分科色（數學青綠 #0d9488／金 #c79a3a）、卡片 hover 抬升（站內 .fcard/.vcard 等已有 -1px~-3px＋shadow-md，不重複加）。斷言不動（verify2 零處依賴色值）。
 v1.92：葉工圈「某文單詞本」截圖問「可以把課文也按單詞這種放到網站裏面學習嗎」。先查本機教材能否取到課文文字：5A 課本 PDF 59 頁、教師用書 Ch1 10 頁 **pypdf 提文字層均 0 字符**（純掃描），Reading Courseware 19 頁僅 933 字符且多在圖片內，Learn to Read script.docx 16 段 517 字符是講師提示詞；Windows OCR 實測（zh-Hans-CN）5A 第 12 頁放大 2 倍出 370 字符但 to→t0、are→0 re、漫畫對話氣泡基本認不出 → **課文原文要 OCR＋逐章人工校對，無法自動化**。⚠️ 版權：倉庫公開＝公開發行，課文正文比詞表更敏感，**不能上公開站**（沿用 v1.78 雙軌先例）。AskUserQuestion 拍板＝**只做公開可放的配套練習，5A＋5B 兩冊全做**（否決雙軌課文精讀／家用私人版／暫不處理）。落地：英文區加第 10 顆子標籤「課文配套」＋`#textView`：冊 chips（5A/5B）→ 單元 chips（U1–U7）→ 當前單元卡（語法重點／字數／最佳分）＋原創短文（段落渲染）＋🔊 朗讀（複用全站 `speak()`）＋4 題判分（.qcard/.qopt，交卷即標正確與錯選＋逐題解析）＋2 題仿寫（附例句）＋朗讀任務（口語）。內容＝`_text_units.json`（14 單元，構建期注入 `__TEXT_UNITS__`，全原創：短文 140–179 詞、每單元 4 題 4 選項且答案分散、零重複選項）。進度 `hkk_ctx_best_v0`（満分單元計數，`hkk_` 前綴跟賬號隔離）。⚠️ 版權口徑寫進卡片尾 note：未取用課本原文／未改寫課文句子／不含教材頁面與音檔，單元名稱僅事實性目錄，語言點為本站自選**非課本逐章對應**。驗證：舊斷言改 1 處（v1.80 子標籤 9→10 顆）＋新增 v1.92 專項（14 單元結構/零重複選項/答案分散/實跑 U1 満分/朗讀鈕存在/零外鏈/零圖片/零教材品牌/進度落盤）。
@@ -1026,13 +1027,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.94（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.95（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.94（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.95（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1240,6 +1241,7 @@ header{position:relative}
       <div class="sm-top">
         <div class="sm-count" id="smCount">✦ 0 <em>/ 185 顆星</em></div>
         <div class="sm-today" id="smToday"></div>
+        <button type="button" class="btn" id="smReset" style="margin-left:auto;padding:4px 12px;font-size:12px">↺ 重置星圖</button>
       </div>
       <div class="sm-bar"><i id="smBar"></i></div>
       <div id="smSegs"></div>
@@ -6490,6 +6492,18 @@ function renderStarMap(){
   document.getElementById('smBar').style.width=(total?Math.round(done*1000/total)/10:0)+'%';
   document.getElementById('smToday').textContent=today?('今日又亮了 '+today+' 顆 ✨'):'今天還沒亮新星星，挑一首吧';
 }
+/* v1.95：重置星圖——清空 hkk_poem_done 回到 0 顆。
+   ⚠️ 必須寫入 '{}' 而不是 removeItem：loadDone() 對「鍵不存在」會再從舊 pProg.recite 一次性遷移，
+   removeItem 會讓舊進度全回來。二次確認文案明說「不可恢復」。 */
+function resetStarMap(){
+  if(!confirm('確定把背詩星圖全部重置嗎？\\n全部 '+POEMS.length+' 顆星會熄滅，此操作不可恢復。'))return;
+  poemDone={};saveDone();renderStarMap();renderPoemGrid();
+  if(curTab==='progress')renderProgress();
+}
+function bindStarMapReset(){
+  const b=document.getElementById('smReset');
+  if(b&&!b.__bound){b.__bound=1;b.onclick=resetStarMap;}
+}
 
 // ---- v1.73 四步④抽查：隨機挖空／上下句接龍，統一 4 選 1 避免繁簡輸入法誤判 ----
 let poemStep=1, quiz=null, quizPass=0, QPOOL=null;
@@ -6952,7 +6966,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.94',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.95',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -7008,7 +7022,7 @@ document.getElementById('flashReveal').onclick=flashReveal;
 document.getElementById('flashKnow').onclick=flashKnow;
 document.getElementById('flashUnk').onclick=flashUnk;
 document.getElementById('flashSound').onclick=function(){if(flashCur)speak(flashCur.w,'en-US');};
-renderStarMap();renderPoemGrid();renderVocab();renderHk();renderMath();renderFt();showEnStat();
+bindStarMapReset();renderStarMap();renderPoemGrid();renderVocab();renderHk();renderMath();renderFt();showEnStat();
 bumpStreak();renderMoti();renderBadges();
 (function(){const c=getAiCfg();if(!c||!c.base)return;const b=document.getElementById('aiBase');if(b&&c.base)b.value=c.base;const k=document.getElementById('aiKey');if(k&&c.key)k.value=c.key;const m=document.getElementById('aiModel');if(m&&c.model)m.value=c.model;})();
 
