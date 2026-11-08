@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.05：葉工貼網盤目錄截圖（01 牛津樹＋10 香港朗文：教師用書 TG／B5135／LWTEGOLD 1A-6B 全套／白板軟件）問「怎麼運用這些資料放到網站上面去，或者自己用，給個接口鏈接登入拿本地資料」。AskUserQuestion 拍板＝**本地私人資料台＋公開站用法卡**（否決在線登入拿資料——版權紅線：任何公開可達域托管原檔等同公開發行，sharecode≠登入；網盤 App 本身就是登入入口）。①公開站②教材清單表後新增 #ownResCard「手頭已有牛津閱讀樹＋某文小學教材？這樣排（家長版）」：三行方法表（牛津樹 1–12 級五指法則起點＋1-3聽讀/4-6自主/7-9初章/10-12長篇坊間節奏；配套音頻視頻當磨耳朵不占泛讀額度；某文教材按單元走家長看教師書備課 5 分鐘、對接某文單詞本）——只講方法零原文，某文口徑沿 v1.81 零「朗文」字樣，版權 warn 卡 h3 曾被編輯誤刪已補回；②本地私人資料台（G:\00 咨詢&公自媒体\22 香港插班\私人資料台.html，副本 _private/hub/）：網盤 7+4 條路徑速查＋牛津樹四階段用法（藍思坊間估算）＋朗文家長用法＋每週排法＋ORT 四階段/朗文 12 冊 localStorage 打卡（pvt_ort/pvt_lwte），零外鏈零原文零分享鏈接，永不進公開站；jsdom 驗證 4+12 選項與勾選存儲。⚠️ 版權結論：資料原檔永不上站；用法卡僅方法論（級別對應標坊間整理）。
 v2.04：葉工貼 AI 選校「通勤起點」下拉截圖——「加一個莲塘口岸」。落地＝①#schAiStart 下拉在羅湖／福田之後新增「蓮塘口岸」選項（其他口岸或交通仍在末位）；②選蓮塘時 prompt 背景自動附加通行提示：蓮塘＝香園圍口岸，過關後靠巴士經香園圍公路接駁粉嶺／上水一帶、無鐵路直達、通勤普遍較東鐵口岸長（估算），避免 AI 按東鐵口岸邏輯估通勤；③其余規則（衝2+穩3+保2、Band 非官方、免責、額度共享）不動。
 v2.03：葉工貼英文卷資料來源截圖要「整個網站除了官方的出處，不要顯示私人或者公司的出處」。先全站摸排（外鏈清單＋來源行 grep）再 AskUserQuestion 拍板＝**只清內容出處標註**，⑧外部資源導航與教科書書目（出版社名屬事實性書目）保留。清除 6 處商號/私站署名：①英文卷 enSrcNote（GoStudy.HK／弦月教育／香港教育圖書／Band1 試卷網／The Exam Coach 連 4 條外鏈）→「坊間補習社／練習站常見做法（坊間參考，不逐一署名）；題目與答案為本站原創」；②升中面試資料來源 4 站（hkstudyroute/notesity/couchpotatoeducation/topschool.hket）→ 同口徑；③詞彙路線圖 hint（智瞳教育／51Talk／公眾號葫蘆媽/EHLA/博纳）→「坊間教育機構與升學媒體估算（不逐一署名）」，並同步改表格行與「主動vs被動」卡的 EHLA 字樣；④語境閱讀法卡智瞳教育；⑤大埔中學表來源行（教育王國/hkecec/hkstudyroute）；⑥東鐵備選梯隊事實欄（升學天地/教育王國）。官方出處全保留（教育局/考評局/家委會概覽/教育城/公共圖書館/各校官網）；verify2 兩條舊「含商號」斷言反轉為零商號＋全站新增 22 個商號/私站字串的零出現斷言（官方站外鏈白名單不變）。
 v2.02：葉工貼悠閒區截圖——「有些要折疊起來，選了哪個遊戲再顯示哪個遊戲，貪吃蛇的畫面要大一點」。落地＝①悠閒 tab 頂部新增遊戲選擇器 #funGameChips（🐍單詞貪吃蛇／🔢數獨兩顆 chip，復用 .subnav 樣式）：貪吃蛇整塊包進 #snakeGame、數獨卡默認 display:none，選哪個顯示哪個，不再兩個遊戲平鋪一屏；②貪吃蛇 canvas 320→448（格 C=20→28，目標詞字號上限 13→16px 隨格子放大；手機端照舊 max-width:100% 自適應，格數 G=16 不變、玩法與詞池不動）；③切到數獨或離開悠閒 tab（showMain）時自動暫停貪吃蛇（__snakeTest.pause，clearInterval＋提示按「開始/重來」重新開局），計時器不在背景空跑；測試鉤子 window.__funGameTest（show 可編程切換）。
@@ -1075,13 +1076,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.04（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.05（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.04（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.05（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1901,6 +1902,19 @@ Thank you for your time.</div>
           <tr><td>粵語聽力</td><td>RTHK（香港電台）兒童節目／粵語配音動畫</td><td>免費</td></tr>
         </tbody>
       </table>
+      <!-- v2.05 手頭資源用法卡：只講方法，零原文零商號（某文口徑沿 v1.81） -->
+      <div class="gcard" id="ownResCard">
+        <h3>🏠 手頭已有牛津閱讀樹＋某文小學教材？這樣排（家長版）</h3>
+        <table class="mtable">
+          <thead><tr><th style="width:135px">手頭資料</th><th>怎麼用（方法參考，坊間整理）</th></tr></thead>
+          <tbody>
+            <tr><td>牛津閱讀樹 1–12 級</td><td>每天 20 分鐘泛讀就用它：從「讀 9 成、錯 1 成」的級別起（五指法則），先聽該級音頻一遍、再自己讀、不查詞典，一級讀順再上下一級。大體節奏（坊間估算）：1–3 聽讀啟蒙 → 4–6 自主閱讀 → 7–9 初章過渡（TreeTops 分支在 9 級上下）→ 10–12 接長篇與兒童非虛構</td></tr>
+            <tr><td>配套音頻／視頻</td><td>當磨耳朵素材：讀前聽一遍、讀後再聽；真人劇／繪本視頻週末看，不占每天泛讀 20 分鐘</td></tr>
+            <tr><td>某文小學教材（1A–6B）</td><td>這是「學教材」線，跟泛讀分開算：按單元走，每單元「課本讀懂 → 練習挑做 → 錯的講一遍」；家長翻教師書看該單元要教什麼（備課 5 分鐘就夠）。學到哪個單元，就回本頁「某文單詞本」複習對應的詞</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">起點以定級三連測為準（本頁「英文 → 定級三連測」）；級別對應為坊間教輔整理非官方，以出版社官網為準。⚠️ 教材資料僅限家庭學習、勿外傳、勿上傳任何公開網頁——本站只講用法，不含任何教材原文。</p>
+      </div>
       <div class="gcard warn">
         <h3>⚠️ 版權與級別提醒</h3>
         <p>教材內容<b>僅限家庭學習</b>，請勿外傳、勿打印傳閱。教材 CEFR/級別對應為<b>坊間教輔整理（非官方測評）</b>，起點以定級三連測為準；教材版本信息以出版社官網為準。</p>
@@ -7468,7 +7482,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.04',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.05',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
