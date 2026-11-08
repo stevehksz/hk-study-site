@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.94：葉工貼數學模擬卷截圖說「試卷重複了，不要重複的，要出新的題，不要跟上一套卷子一樣」。根因實測＝MATH_QBANK 每個年級只有 10 題、genMathPaper 每次抽 8 題，10 選 8 每套新卷期望與上一套重合 6.4 題——不是隨機失靈，是池子太小。拍板＝P5＋P6 各補 14 道原創題（池 10→24；女兒現用 P5＋葉工測試的 P6 優先，其餘年級後續按需）。新題全原創（英文題幹＋繁中對照，與現庫欄位一致）：P5＝分數加減/三角形面積/小數比大小/百分數/化簡比/餘角/毫升/分數乘法/最簡分數/平行四邊形面積/經過時間/找零應用題/水箱容積/閱讀天數；P6＝百分增幅/速率/概率/三角形內角/負數比大小/折扣/平均數反推/解方程/鐘錶慢分/百分數化分數/圓周長反推直徑/踏單車時速/減價找零/長方體體積。⚠️ genMathPaper 加防重保險：window.__mathLastFp 存上一套題幹前 48 字 Set，新卷重合 ≥75% 自動重抽（至多 4 次）；指紋只存內存不落盤，刷新後重新允許重複屬預期；切年級不誤判（不同年級題幹不同）。⚠️ 24 選 8 後期望重合 ≈2.7 題，加保險後 ≤5 題斷言鎖死。驗證：新增 v1.94 專項（P5/P6 池 24、28 新題結構零重複選項、實跑連出兩卷重合 ≤5、prepMcMath 後 4 選項仍齊）。
 v1.93：葉工貼 Gemini 的改版建議問「看有沒有可取的地方」。評估結論：**結構一條不採**（該建議假設本站是公開資訊落地頁，實際是登入後的工具型應用；照搬其 index.html+style.css 會令全站功能歸零，另含 3 處事實硬傷：Badge「2026-2027 升學季」落後一學年、要求「Band 1 中學名單」（教育局不公布 Banding）、`.nav-links{display:none}` 手機藏導航違反「微信點開即用」，以及新增 3 處微信 CTA 觸 v1.88「只 3 條永不新增」硬規則）。**只採配色**，AskUserQuestion 拍板＝「只換配色＋警示色」＋主色選亮藍 #0284C7 系。落地（92 處色值替換，零結構／零類名／零鍵名改動）：①主色 `--acc` 靛藍紫 #4f46e5 → **#0369a1**（白字對比 5.93:1 達 WCAG AA；亮度級 #0284C7 白字僅 4.09:1 故只用作漸變亮端）②`--grad` 紫三色 → 藍三色 #0284c7→#0369a1→#075985 ③警示 `--jy` 朱紅 #d6452f → **暖橙 #c2410c**（白底 5.18:1 達標；#f97316 白底僅 2.80:1 故不用於文字，只作語義方向），配套紅底 #fdecea→#fdf1e6 ④頁頭與微信 CTA 既有的舊藍 #2c7be5／#1a5fc4／#1550a6 一併歸到新主色（原本「藍頁頭＋紫按鈕」是撞色，本版統一）⑤淺紫底／紫邊／深紫字 17 種一併轉藍（避免換主色後紫底藍字打架）。**未動**：底色 #eef1f7（與卡片白的層次感保留）、字體（PingFang HK 繁體優先，優於建議的英文優先棧）、分科色（數學青綠 #0d9488／金 #c79a3a）、卡片 hover 抬升（站內 .fcard/.vcard 等已有 -1px~-3px＋shadow-md，不重複加）。斷言不動（verify2 零處依賴色值）。
 v1.92：葉工圈「某文單詞本」截圖問「可以把課文也按單詞這種放到網站裏面學習嗎」。先查本機教材能否取到課文文字：5A 課本 PDF 59 頁、教師用書 Ch1 10 頁 **pypdf 提文字層均 0 字符**（純掃描），Reading Courseware 19 頁僅 933 字符且多在圖片內，Learn to Read script.docx 16 段 517 字符是講師提示詞；Windows OCR 實測（zh-Hans-CN）5A 第 12 頁放大 2 倍出 370 字符但 to→t0、are→0 re、漫畫對話氣泡基本認不出 → **課文原文要 OCR＋逐章人工校對，無法自動化**。⚠️ 版權：倉庫公開＝公開發行，課文正文比詞表更敏感，**不能上公開站**（沿用 v1.78 雙軌先例）。AskUserQuestion 拍板＝**只做公開可放的配套練習，5A＋5B 兩冊全做**（否決雙軌課文精讀／家用私人版／暫不處理）。落地：英文區加第 10 顆子標籤「課文配套」＋`#textView`：冊 chips（5A/5B）→ 單元 chips（U1–U7）→ 當前單元卡（語法重點／字數／最佳分）＋原創短文（段落渲染）＋🔊 朗讀（複用全站 `speak()`）＋4 題判分（.qcard/.qopt，交卷即標正確與錯選＋逐題解析）＋2 題仿寫（附例句）＋朗讀任務（口語）。內容＝`_text_units.json`（14 單元，構建期注入 `__TEXT_UNITS__`，全原創：短文 140–179 詞、每單元 4 題 4 選項且答案分散、零重複選項）。進度 `hkk_ctx_best_v0`（満分單元計數，`hkk_` 前綴跟賬號隔離）。⚠️ 版權口徑寫進卡片尾 note：未取用課本原文／未改寫課文句子／不含教材頁面與音檔，單元名稱僅事實性目錄，語言點為本站自選**非課本逐章對應**。驗證：舊斷言改 1 處（v1.80 子標籤 9→10 顆）＋新增 v1.92 專項（14 單元結構/零重複選項/答案分散/實跑 U1 満分/朗讀鈕存在/零外鏈/零圖片/零教材品牌/進度落盤）。
 v1.91：葉工圈「今日課表」裏「興趣泛讀（不查詞典、不考核）」那一項問「給材料清單，或者網址」。AskUserQuestion 拍板＝**泛讀打卡塊內加「免費電子書」頁簽＋外鏈卡**（否決「只進 Obsidian」「暫不處理」）。落位＝`readSubNav` 加第 5 顆頁簽 `data-rd="res"`（插在「讀什麼」後），新增 `.rdpane[data-rd-pane="res"]`：只列**官方／開放授權**平臺入口＋本站自寫一句話說明（沿用⑧「只列入口，不轉載內容」口徑）——Oxford Owl 免費電子書庫（牛津大學出版社官方，3–11 歲分級，免費註冊家長帳號）、Storyline Online（SAG-AFTRA 基金會，明星朗讀繪本 105 條免費無廣告）、香港公共圖書館電子書（OverDrive／HyRead／SUEP，需圖書證）、香港閱讀城（教育城，官方書架免費試閱；完整書庫看學校有沒有訂「e悅讀」）、香港故事書（開放授權粵語有聲，兼練粵語耳）；另給**五指法則**選書法＋泛讀三不。卡尾 `rdgo` 回打卡格（t:6）與教材清單（t:1）。⚠️ **版權口徑**：只鏈官方平臺首頁，零第三方內容存放；`folk` 標注「連結 2026-11-07 核對；外鏈版權歸原站」。①路由：`go()` 的 `t:` 分支補可選第 3 段——`t:6:res` 打開泛讀塊後再 `click('#readSubNav button[data-rd="res"]')`（try 內，找不到不炸）。②課表接線：`SCH_ITEMS.read` 改 `go:'t:6:res',btn:'免費電子書清單'`（打卡格就在同塊下方，res 頁簽也有「去打卡」鈕，兩頭不失聯）。⚠️ **AI 知識庫不入庫**：res 頁簽在 `tutorView` 折疊塊內，KB 恆 100 條。驗證：舊斷言改 3 處（v1.79 頁簽 4→5 與序列、v1.79 面板 4→5、v1.90 錨點白名單放寬 `t:數字(:頁簽名)`）＋新增 v1.91 專項（頁簽序列/實跑 t:6:res 切到 res/外鏈恰 5 條且域名白名單/folk 核對日期/零圖片/KB 不變/零新增 localStorage 鍵/課表 read 項直達）。
@@ -1025,13 +1026,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.93（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.94（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.93（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.94（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3173,7 +3174,22 @@ const MATH_QBANK = {
     {t:'mc',q:"How many sides does a hexagon have?",qzh:"一個六邊形有多少條邊？",opts:["6","5","7","8"],optszh:["6","5","7","8"],a:0},
     {t:'fill',q:"Solve: x + 7 = 15. x = ____",qzh:"解方程：x + 7 = 15，x = ____",a:"8",azh:"8"},
     {t:'mc',q:"What is 0.4 × 0.5?",qzh:"0.4 × 0.5 等於多少？",opts:["0.20","0.9","2.0","0.02"],optszh:["0.20","0.9","2.0","0.02"],a:0},
-    {t:'word',q:"The total of 5 numbers is 100. What is their average?",qzh:"5 個數的總和是 100，它們的平均數是多少？",model:"100 ÷ 5 = 20.",modelzh:"100 ÷ 5 = 20。"}
+    {t:'word',q:"The total of 5 numbers is 100. What is their average?",qzh:"5 個數的總和是 100，它們的平均數是多少？",model:"100 ÷ 5 = 20.",modelzh:"100 ÷ 5 = 20。"},
+    /* ---- v1.94 補題 14 道（原創，與上方零重複）→ 池 10→24 ---- */
+    {t:'mc',q:"What is 3/4 − 1/8?",qzh:"3/4 − 1/8 等於多少？",opts:["5/8","1/4","2/6","7/12"],optszh:["5/8","1/4","2/6","7/12"],a:0},
+    {t:'mc',q:"A triangle has a base of 8 cm and a height of 5 cm. What is its area?",qzh:"一個三角形底 8 厘米、高 5 厘米，它的面積是多少？",opts:["20 cm²","40 cm²","13 cm²","10 cm²"],optszh:["20 平方厘米","40 平方厘米","13 平方厘米","10 平方厘米"],a:0},
+    {t:'mc',q:"Which decimal is the largest?",qzh:"下列哪一個小數最大？",opts:["0.45","0.4","0.405","0.04"],optszh:["0.45","0.4","0.405","0.04"],a:0},
+    {t:'mc',q:"15% of the 40 pupils in a class walk to school. How many pupils walk to school?",qzh:"班上 40 名學生中 15% 步行上學，步行上學的有多少人？",opts:["6","4","8","15"],optszh:["6","4","8","15"],a:0},
+    {t:'mc',q:"Simplify the ratio 18 : 24.",qzh:"把比 18 : 24 化簡。",opts:["3 : 4","2 : 3","9 : 12","6 : 8"],optszh:["3 : 4","2 : 3","9 : 12","6 : 8"],a:0},
+    {t:'mc',q:"An angle measures 65°. What is the size of its complement?",qzh:"一個角是 65°，它的餘角是多少度？",opts:["25°","35°","115°","15°"],optszh:["25°","35°","115°","15°"],a:0},
+    {t:'mc',q:"How many millilitres are there in 3.6 L?",qzh:"3.6 升等於多少毫升？",opts:["3600","360","36","36000"],optszh:["3600","360","36","36000"],a:0},
+    {t:'fill',q:"What is 2/5 of 45?",qzh:"45 的 2/5 是多少？",a:"18",azh:"18"},
+    {t:'fill',q:"Write 0.08 as a fraction in its simplest form.",qzh:"把 0.08 寫成最簡分數。",a:"2/25",azh:"2/25",alt:["2 / 25"]},
+    {t:'fill',q:"A parallelogram has a base of 9 cm and a height of 4 cm. Its area is ____ cm².",qzh:"一個平行四邊形底 9 厘米、高 4 厘米，面積是 ____ 平方厘米。",a:"36",azh:"36",alt:["36 cm²","36cm²"]},
+    {t:'fill',q:"The time is 09:45. How many minutes are there until 11:15?",qzh:"現在是 09:45，距離 11:15 還有多少分鐘？",a:"90",azh:"90"},
+    {t:'word',q:"Kitty buys 3 notebooks at $8 each and 2 pens at $5 each. She pays with a $50 note. How much change does she get?",qzh:"Kitty 買 3 本筆記簿每本 $8，又買 2 支筆每支 $5，她用一張 $50 付款，應找回多少零錢？",model:"3 × $8 + 2 × $5 = $24 + $10 = $34; $50 − $34 = $16. She gets $16 change.",modelzh:"3 × 8 + 2 × 5 = 34，50 − 34 = 16，應找回 $16。"},
+    {t:'word',q:"A rectangular water tank is 30 cm long, 20 cm wide and 10 cm high. How much water can it hold when full? (Answer in cm³)",qzh:"一個長方形水箱長 30 厘米、闊 20 厘米、高 10 厘米，裝滿水時可容水多少？（以立方厘米作答）",model:"30 × 20 × 10 = 6000 cm³.",modelzh:"30 × 20 × 10 = 6000 立方厘米。"},
+    {t:'word',q:"John reads 15 pages every day. The book has 135 pages. How many days will he take to finish the book?",qzh:"John 每天看 15 頁，一本書共 135 頁，他要多少天才能看完？",model:"135 ÷ 15 = 9 days.",modelzh:"135 ÷ 15 = 9 天。"}
   ],
   P6:[
     {t:'mc',q:"A circle has radius 7 cm. What is its circumference? (Take π = 3.14)",qzh:"一個圓半徑為 7 厘米，它的周長是多少？（取 π = 3.14）",opts:["43.96","21.98","49","14"],optszh:["43.96","21.98","49","14"],a:0},
@@ -3185,7 +3201,22 @@ const MATH_QBANK = {
     {t:'mc',q:"What is -5 + 8?",qzh:"-5 + 8 等於多少？",opts:["3","-3","13","-13"],optszh:["3","-3","13","-13"],a:0},
     {t:'fill',q:"Find the area of a circle with radius 7 cm. (Take π = 3.14)",qzh:"求半徑 7 厘米的圓的面積。（取 π = 3.14）",a:"153.86",azh:"153.86",alt:["153.86 cm²","153.86cm²"]},
     {t:'mc',q:"A cuboid measures 4 cm by 3 cm by 2 cm. What is its volume?",qzh:"一個長方體長 4 厘米、闊 3 厘米、高 2 厘米，它的體積是多少？",opts:["24 cm³","18 cm³","26 cm³","12 cm³"],optszh:["24 立方厘米","18 立方厘米","26 立方厘米","12 立方厘米"],a:0},
-    {t:'word',q:"The ratio of flour to sugar is 2:1. If 300 g of flour is used, how much sugar is needed?",qzh:"麵粉與糖的比例是 2:1。若用了 300 克麵粉，需要多少克糖？",model:"300 ÷ 2 = 150 g of sugar.",modelzh:"300 ÷ 2 = 150 克糖。"}
+    {t:'word',q:"The ratio of flour to sugar is 2:1. If 300 g of flour is used, how much sugar is needed?",qzh:"麵粉與糖的比例是 2:1。若用了 300 克麵粉，需要多少克糖？",model:"300 ÷ 2 = 150 g of sugar.",modelzh:"300 ÷ 2 = 150 克糖。"},
+    /* ---- v1.94 補題 14 道（原創，與上方零重複）→ 池 10→24 ---- */
+    {t:'mc',q:"The price of a lamp rises from $80 to $92. What is the percentage increase?",qzh:"一盞燈的價格由 $80 升至 $92，增幅是百分之幾？",opts:["15%","12%","92%","8%"],optszh:["15%","12%","92%","8%"],a:0},
+    {t:'mc',q:"A truck travels at 65 km/h for 4 hours. How far does it go?",qzh:"一輛貨車以每小時 65 公里行駛 4 小時，共行駛多少公里？",opts:["260 km","240 km","285 km","130 km"],optszh:["260 公里","240 公里","285 公里","130 公里"],a:0},
+    {t:'mc',q:"A box contains 6 white and 4 black marbles. What is the probability of picking a white marble?",qzh:"盒中有 6 粒白珠和 4 粒黑珠，抽到白珠的概率是多少？",opts:["3/5","2/5","1/2","3/10"],optszh:["3/5","2/5","1/2","3/10"],a:0},
+    {t:'mc',q:"The interior angles of a triangle are x°, 55° and 95°. Find x.",qzh:"三角形三個內角分別是 x°、55° 和 95°，求 x。",opts:["30","40","50","140"],optszh:["30","40","50","140"],a:0},
+    {t:'mc',q:"Which of the following is the smallest?",qzh:"下列哪一個數最小？",opts:["−7","−2","0","−9"],optszh:["−7","−2","0","−9"],a:3},
+    {t:'mc',q:"A TV costs $2400. It is sold at a 15% discount. What is the selling price?",qzh:"一部電視機售 $2400，以 15% 折扣出售，售價是多少？",opts:["$2040","$360","$2160","$2080"],optszh:["$2040","$360","$2160","$2080"],a:0},
+    {t:'mc',q:"The mean of 4 numbers is 18. Three of them are 12, 20 and 25. Find the fourth number.",qzh:"4 個數的平均數是 18，其中三個是 12、20 和 25，求第四個數。",opts:["15","16","18","20"],optszh:["15","16","18","20"],a:0},
+    {t:'fill',q:"Solve: 2x + 5 = 17. x = ____",qzh:"解方程：2x + 5 = 17，x = ____",a:"6",azh:"6"},
+    {t:'fill',q:"A watch loses 2 minutes every hour. How many minutes does it lose in half an hour?",qzh:"一隻手錶每小時慢 2 分鐘，半小時它會慢多少分鐘？",a:"1",azh:"1"},
+    {t:'fill',q:"Express 45% as a fraction in its simplest form.",qzh:"把 45% 化成最簡分數。",a:"9/20",azh:"9/20",alt:["9 / 20"]},
+    {t:'fill',q:"The circumference of a circle is 31.4 cm. Find its diameter. (Take π = 3.14, answer in cm)",qzh:"一個圓的周長是 31.4 厘米，求它的直徑。（取 π = 3.14，以厘米作答）",a:"10",azh:"10",alt:["10 cm","10cm"]},
+    {t:'word',q:"Ming cycles 18 km in 1 hour 30 minutes. Find his average speed in km/h.",qzh:"Ming 用 1 小時 30 分鐘踏單車行了 18 公里，求他的平均時速。",model:"1 h 30 min = 1.5 h; 18 ÷ 1.5 = 12 km/h.",modelzh:"1.5 小時行 18 公里，18 ÷ 1.5 = 12 公里/小時。"},
+    {t:'word',q:"A vase costs $360 in a shop. During a sale it is sold at a 25% discount. Mary pays with two $200 notes. How much change does she get?",qzh:"一間店的花瓶售 $360，減價期間以 75 折（減 25%）出售。Mary 用兩張 $200 付款，應找回多少零錢？",model:"Discount = 25% × $360 = $90; $360 − $90 = $270; $400 − $270 = $130. She gets $130 change.",modelzh:"減價 $90，售價 $270；400 − 270 = 130，應找回 $130。"},
+    {t:'word',q:"An open rectangular box is 25 cm long, 16 cm wide and 12 cm high. Find its volume.",qzh:"一個無蓋長方體盒長 25 厘米、闊 16 厘米、高 12 厘米，求它的體積。",model:"25 × 16 × 12 = 4800 cm³.",modelzh:"25 × 16 × 12 = 4800 立方厘米。"}
   ]
 };
 
@@ -3194,7 +3225,20 @@ function prepMcMath(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);cons
 function genMathPaper(){
   const pool=(MATH_QBANK[curMathGrade]||[]);
   if(!pool.length){alert('該年級題庫暫空。');return;}
-  const picked=shuffle(pool).slice(0,Math.min(8,pool.length));
+  const N=Math.min(8,pool.length);
+  /* v1.94：與上一套比對，重合 ≥75% 就重抽（至多 4 次），池大時基本一次過；
+     指紋用題幹前 48 字，只存內存不落盤——刷新後重新允許重複，屬預期。 */
+  const key=q=>q.q.slice(0,48);
+  const prev=window.__mathLastFp;
+  let picked=shuffle(pool).slice(0,N);
+  if(prev){
+    for(let i=0;i<4;i++){
+      const hit=picked.filter(q=>prev.has(key(q))).length;
+      if(hit<Math.ceil(N*0.75))break;
+      picked=shuffle(pool).slice(0,N);
+    }
+  }
+  window.__mathLastFp=new Set(picked.map(key));
   curMathPaper=picked.map(function(q){ if(q.t==='mc')return prepMcMath(q); return Object.assign({},q); });
   document.getElementById('mathPaperResult').innerHTML='';
   renderMathPaper();
@@ -6908,7 +6952,7 @@ document.getElementById('clearBtn').onclick=()=>{
 };
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.93',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.94',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
