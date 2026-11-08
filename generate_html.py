@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.00：葉工問「我百度有 P6 的試卷文件夾，怎麼把這些作為 database 讓 AI 出題，或者做一個出題的 skill」。⚠️ 先實測再定案：網盤「/20 香港讀書插班/P6試卷」實盤＝P6新整理 20 份＋p6/語數外常/P6(1000+)/P6 下分中英數常四科（數學分 a/b、英文分 6A/6B、中文分 a/b、常識分 a/b）；文檔正文接口實抽 9 份（中英數各 3 份，含 96KB–364KB 小檔）**全部 char_count=0**——整庫是掃描圖 PDF、無文字層；另 3 頁的「小六數1測驗-主恩.pdf」只抽出 266 字且是答案頁。故「批量抽題建庫」不可行（千份 OCR 也不現實），下載接口亦只允許 /apps/bdpan 範圍。AskUserQuestion 拍板＝兩個都做（站內骨架增強＋skill）、私有庫原計劃「網盤解析抽 20 份」。落地 v2.00 公開側＝新增 `P6_SKELETON`（cn/en/math 三段結構骨架）並注入三處 AI 出卷 prompt（cnAiPrompt 整卷、aiPrompt 英文單題 P6、exAiPrompt 呈分整卷）；⑩ 本站原創試卷區新增「P6 校內卷題型骨架（只有結構，沒有原題）」卡——中文/英文/數學/常識四行，明寫「具體題量與配分以各校原卷為準、非教育局公布、不是任何真卷」。⚠️ 版權雙軌：骨架只描述分段與題型，零原卷原文、零原卷答案、零配分數字臆造；私有樣例庫只存本機、永不進公開站。斷言 1031→1041 全過×3；雙通道發布；線上真機驗證骨架卡與 prompt 注入。
 v1.99：葉工貼第三方應用 MC 題（實用文）截圖，要求批改後反饋升級——「批改完後要出現正確和不正確，不正確的要在下面寫原因、寫解釋；正確的直接打個勾，然後公布正確答案，也可以寫解釋」。落地＝中文試卷 gradeCnPaper 批改反饋重構：①對題＝「✓ 正確」＋公布「正確答案：C. xxx」＋有 ex 時附「講解：…」；②錯題＝「✗ 不正確」＋「你選了 B. xxx」（mc）或「你的答案：…」（fill/short）＋「正確答案：…」＋有 ex 時附講解；③filltbl 錯題公布各欄答案（／分隔）。講解只用題庫既有 q.ex 欄位（本地題庫 80 條帶 ex；AI 題 prompt 本就要求 ex、可空——空則不硬編，只公布答案）。新增 .qans .qyou／.qkey 樣式。斷言 1023→1032 全過×3；雙通道發布；線上真機實跑對/錯兩路反饋。
 v1.98：葉工貼官方字表「今日認讀」截圖（已認到第 2771／3171 字）要「加一個清 0 的按鈕」。落地＝⑥官方字表今日認讀進度行尾加「↺ 進度清零」（#lexReset）：confirm 確認後 lexPosSet(0)＋renderLexToday()，回第 1 組重新開始。寫 0 而非 removeItem（與 v1.95 星圖重置同理，防舊值回潮）。無版權新暴露。
 v1.97：葉工貼「⑤ 繁體認讀翻卡」截圖要求「搞一個這種語文繁體字的單詞本，有不會的單詞可以放進去，以後可以去複習，學會了可以在裏邊打勾」。判定＝與 v1.80「我的單詞本」同構的本地 CRUD，直接照該模式做，零版權新暴露（收的都是站內既有公開詞卡＋使用者自輸入）。落地＝練習→中文第 3 顆子標籤「我的生字本」（data-cs="zibook"，p:cn:zibook 由既有解析器天然支援）＋`#ziBookView`：①收字入口三處——⑤繁體翻卡 100 字每卡右上「＋本」（收繁體字、簡體對照隨行）、速覽→繁體對照表每行行尾「＋本」、⑥官方字表每格「＋本」；document 捕獲階段統一委派（capture+stopPropagation 防誤觸翻卡，記 v1.80 .mwadd 兩處 stopPropagation 教訓；重渲染後按鈕狀態由 has() 重算，已收過的自動顯「✓ 已收」）；②手動輸入：字／詞必填＋意思選填＋Enter 提交；③複習：列表／翻卡兩種模式切換，翻卡模式正面字、背面意思（未填顯簡體對照），卡上可就地打勾；④打勾＝「✓ 認得了」＋三態篩選（全部／待複習／已認得）＋搜尋＋統計；🔊 粵語朗讀（speak(w,'zh-HK')，缺粵語包由裝置降級）。⑤本地儲存 hkk_zibook_v0（hkk_ 前綴跟賬號隔離），上限 1000，導出／匯入 JSON（合併去重不覆蓋）、清空 confirm；⑥全站導出／匯入／清空補 ziWords 欄位，清空確認文案補「我的生字本」。測試鉤子 window.__ziTest。⚠️ 公開 HTML 零預置生字（紅線同 v1.80）；zibook 在 cnPracView 內，ai_kb.py 只抽 faqView/timelineView/policyView＋學校名冊，KB 恆 100 不變。
@@ -1053,13 +1054,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.99（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.00（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.99（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.00（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2199,6 +2200,24 @@ Thank you for your time.</div>
         <p class="tip" style="margin-top:4px">手機窄屏可左右滑動表格。點按鈕會自動切到對應練習頁、選好年級並出一份卷；想再來一份按該頁的「🎲 出新卷」，呈分試卷另有「📋 一次出 10 套」。年級難度是常見教學進度估算，以學校課本為準。</p>
       </div>
 
+      <!-- v2.00 P6 校內卷題型骨架：只有結構描述，零原卷原文（版權雙軌的公開側） -->
+      <div class="gcard">
+        <h3>P6 校內卷題型骨架（只有結構，沒有原題）</h3>
+        <p class="tip" style="background:#eef7fd;color:#075985;border:1px solid #d5e8f6">下面是香港小六校內卷<b>常見的分段與題型</b>，用來約束站內 AI 出卷「像不像校內卷」。<b>這裡沒有任何一份真卷的題目、答案或配分</b>；具體題量與分數以孩子該校原卷為準。</p>
+        <div class="phub-wrap">
+          <table class="mtable phub-tbl">
+            <thead><tr><th>科目</th><th>常見分段</th><th>常見題型</th></tr></thead>
+            <tbody>
+              <tr><td>中文</td><td>一 字詞與句子／二 閱讀理解／三 寫作</td><td>字形字音、量詞、標點、詞語配搭、句子改寫、修辭辨識；記敘文與說明文＋實用文（書信·日記·周記·海報·說明書·通告）；實用文寫作（稱謂·祝頌語·署名·日期）＋短文</td></tr>
+              <tr><td>英文</td><td>Vocabulary／Grammar／Cloze／Reading／Practical writing／Guided writing</td><td>同義反義與詞形、時態與 as…as、介詞代詞冠詞、動詞填空（括號提示）、閱讀理解（選擇＋短答）、通告海報書信、40–80 字引導寫作</td></tr>
+              <tr><td>數學</td><td>甲 選擇題／乙 短答計算／丙 應用題</td><td>分數四則、小數、百分數、比與比例、速率、圓周與面積、體積、平均數與統計圖、簡易方程、方向與位置；應用題須列式＋步驟＋單位</td></tr>
+              <tr><td>常識</td><td class="phub-na">本站不設常識出卷</td><td class="phub-na">只做中英數三科，不假裝覆蓋常識</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tip" style="margin-top:4px"><b>用法：</b>到「練習 → 中文試卷／英文卷／呈分試卷」按 <b>🤖 AI 出新卷</b>（需先在英文練習頁底部填自己的 AI 接口），骨架會自動帶進提示詞；本地題庫出卷不受影響，仍可照常按「🎲 出新卷」。</p>
+        <p class="src">骨架來源：中文＝考評局 HKEAA 公開評估框架；英文／呈分＝本站原創引擎 A–J 分段（非真卷）；數學＝香港小學課程常見範圍。<b>具體題量與配分以各校原卷為準</b>，本表為坊間／經驗整理，非教育局公布，也不是任何學校真卷。</p>
+      </div>
       <div class="gcard warn">
         <h3>⚠️ 為什麼本站不搬外面的試卷</h3>
         <p><b>彙整不等於取得再授權。</b>第三方試卷網收錄的卷子，版權多半屬於出卷學校、出版社或製作者；本站是公開倉庫，放上去等於公開發行。因此本站<b>不存放、不爬取、不代理</b>任何第三方試卷、答案或評卷參考，也不設這類下載連結。</p>
@@ -3768,10 +3787,20 @@ function printCnPaper(){
         篇章段數／寫作兩題齊），不合格直接丟棄並回退本地題庫——**這才是「不亂」的真正保證**。
      4. 內容必須原創（香港小學生活場景），不得抄任何真卷。
      5. AI 只在自家瀏覽器直連使用者自填的接口（密鑰存 localStorage），不上傳本站任何資料。 */
+// ---- v2.00 P6 校內卷題型骨架（只約束「像不像校內卷」，不含任何原卷原文）----
+// 來源：①中文＝考評局 HKEAA 公開評估框架（v1.82 已核實）；②英文／呈分＝本站既有原創引擎 A–J 分段（非任何真卷）；
+// ③葉工 P6 試卷庫 2026-11-08 盤點：中英數常四科、上／下學期、測驗／考試／模擬卷混排，PDF 為掃描圖、無文字層（實測 9 份抽樣全 0 字）。
+// ⚠️ 具體題量與配分以各校原卷為準；本骨架為坊間／經驗參考，非教育局公布，也不是任何學校真卷。
+const P6_SKELETON={
+  cn:'香港小學校內中文卷常見骨架（只仿結構，勿抄任何真卷）：一、字詞與句子——字形字音辨識、量詞、標點符號、詞語配搭、句子改寫或擴寫、修辭辨識（比喻／擬人／排比）；二、閱讀理解——記敘文與說明文各一，另加實用文（書信、日記、周記、海報、說明書、通告）；三、寫作——實用文（須有稱謂、問候語、正文、祝頌語、署名、日期）＋短文（記敘或說明）。難度貼近該級課本用字。',
+  en:'Typical Hong Kong primary in-school English paper layout (structure only, never copy a real paper): (1) Vocabulary — synonyms/antonyms, matching, word forms; (2) Grammar — tenses, comparatives as...as, prepositions, pronouns, articles; (3) Cloze / verb-form passage with bracketed hints; (4) Reading comprehension — one passage with MC plus short answers; (5) Practical writing — notice, poster or letter with format labels; (6) Guided writing — 40-80 words with 3 given prompts. Keep vocabulary at grade level and use Hong Kong school-life contexts.',
+  math:'香港小學校內數學卷常見骨架（只仿結構）：甲部選擇題（四選一）、乙部短答計算（直接寫答案，分數須化簡）、丙部應用題（須列式、寫步驟與單位）。常見課題：分數四則、小數、百分數、比與比例、速率、圓周與面積、體積、平均數與統計圖、簡易方程、方向與位置。題目情境用香港生活場景（港鐵、屋邨、超市、校園）。'
+};
 function cnAiPrompt(g){
   const sys='你是香港小學中文科命題老師。為 '+g+' 級出卷。只輸出合法 JSON，不要 markdown 圍欄，不要解釋。'
     +'所有內容必須你自己原創（香港小學生活場景），不得抄寫任何真卷、課本或網站試題。'
-    +'語言為繁體中文，用字須為香港小學常用字。';
+    +'語言為繁體中文，用字須為香港小學常用字。'
+    +P6_SKELETON.cn;
   const usr='請出一份 '+g+' 級中文科練習卷。JSON schema：\n'
   +'{\n'
   +'"mc":{"items":[exactly 8 items {"sec":"字詞|標點|詞語|句子|修辭|閱讀|實用文|文言","q":"題目","opts":[exactly 4 options],"a":correctIndex0to3,"ex":"一兩句講解（可空字串）"}]},\n'
@@ -4361,7 +4390,7 @@ function localSwap(i){
   swapCard(i,o);
 }
 function aiPrompt(g,t){
-  const sys='You are an expert author of English exercises for Hong Kong primary school students. Return ONLY a JSON object (no markdown, no explanation) matching the requested schema. Keep vocabulary appropriate to the grade level (P1 easiest to P6 hardest).';
+  const sys='You are an expert author of English exercises for Hong Kong primary school students. Return ONLY a JSON object (no markdown, no explanation) matching the requested schema. Keep vocabulary appropriate to the grade level (P1 easiest to P6 hardest).'+(g==='P6'?(' '+P6_SKELETON.en):'');
   let usr='';
   if(t==='mc') usr='Create one multiple-choice question for grade '+g+' (Hong Kong primary). Schema: {"t":"mc","q":"question text","opts":["A","B","C","D"],"a":correctIndex0to3}. Use exactly 4 options.';
   else if(t==='fill') usr='Create one fill-in-the-blank question for grade '+g+'. Schema: {"t":"fill","q":"sentence with ____ for the blank","a":"correct answer word or phrase"}.';
@@ -6370,7 +6399,7 @@ document.querySelectorAll('#examChips .chip').forEach(c=>c.onclick=()=>{
 });
 // ---- v1.27 呈分試卷 AI 出新卷（OpenAI 兼容，復用 hkk_ai_cfg） ----
 function exAiPrompt(g){
-  const sys='You are an expert author of Hong Kong primary school English exam papers (呈分試). Return ONLY a valid JSON object — no markdown fences, no explanation. All content must be original and age-appropriate for grade '+g+'. Use Hong Kong context (school life, places, festivals).';
+  const sys='You are an expert author of Hong Kong primary school English exam papers (呈分試). Return ONLY a valid JSON object — no markdown fences, no explanation. All content must be original and age-appropriate for grade '+g+'. Use Hong Kong context (school life, places, festivals). '+P6_SKELETON.en;
   const usr='Create ONE complete mock English exam paper. JSON schema:\n'
   +'{\n'
   +'"head":{"words":[exactly 8 items {"w":"word (part of speech)","zh":"中文解釋"}],"fills":[exactly 5 items {"s":"sentence containing {0} for the blank","a":["accepted answer"]}]},\n'
@@ -7377,7 +7406,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.99',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.00',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
