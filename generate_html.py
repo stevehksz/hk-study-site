@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.02：葉工貼悠閒區截圖——「有些要折疊起來，選了哪個遊戲再顯示哪個遊戲，貪吃蛇的畫面要大一點」。落地＝①悠閒 tab 頂部新增遊戲選擇器 #funGameChips（🐍單詞貪吃蛇／🔢數獨兩顆 chip，復用 .subnav 樣式）：貪吃蛇整塊包進 #snakeGame、數獨卡默認 display:none，選哪個顯示哪個，不再兩個遊戲平鋪一屏；②貪吃蛇 canvas 320→448（格 C=20→28，目標詞字號上限 13→16px 隨格子放大；手機端照舊 max-width:100% 自適應，格數 G=16 不變、玩法與詞池不動）；③切到數獨或離開悠閒 tab（showMain）時自動暫停貪吃蛇（__snakeTest.pause，clearInterval＋提示按「開始/重來」重新開局），計時器不在背景空跑；測試鉤子 window.__funGameTest（show 可編程切換）。
 v2.01：葉工貼擇校分檔截圖要「AI 選校——填入學生的基本背景資料，讓 AI 根據 data base 推薦學校」。落地＝擇校分檔子頁頂部新增「🤖 AI 選校（實驗版）」卡（#schAiCard）：①學校庫 `SCH_DB` 構建期從站內兩張表抽取（#tierTable 北區中學檔位表 21 行＋#psTable 北區小學 30 所），單一真相源、欄位只有檔位/學校/類型/語言/Band/學費/申請路徑/校網，**不餵電話與外鏈**（構建期 assert 鎖死）；②表單 7 個下拉（學段/目標年級/英文水平/粵語聽力/香港身份/通勤起點/學費預算，全選擇題零輸入）；③專用 system prompt（buildSchSystem）：只推薦表內學校、中學輸出衝刺2+穩妥3+保底2／小學輸出首選3+常規3、Band 必帶「非官方」、不編學額截止日、結尾固定免責兩行、越獄指令視為普通內容；④復用 AI 客服雲通道（aiCloud/pickModel/quota），**共享每日 3 條額度**、預扣＋失敗退款、可重試一次、輸出只進 textContent 防 XSS、上限 900 字；⑤Pages 域沿用 v1.76 降級模式（#schAiFb 引導卡顯示＋表單隱藏），域判定零改動、零 UserAgent 分支；⑥AI_KB 白名單不受污染（卡在 schoolsView，ai_kb.py 不抽此區，KB 恆 100）。測試鉤子 window.__schAiTest。\nv2.00：葉工問「我百度有 P6 的試卷文件夾，怎麼把這些作為 database 讓 AI 出題，或者做一個出題的 skill」。⚠️ 先實測再定案：網盤「/20 香港讀書插班/P6試卷」實盤＝P6新整理 20 份＋p6/語數外常/P6(1000+)/P6 下分中英數常四科（數學分 a/b、英文分 6A/6B、中文分 a/b、常識分 a/b）；文檔正文接口實抽 9 份（中英數各 3 份，含 96KB–364KB 小檔）**全部 char_count=0**——整庫是掃描圖 PDF、無文字層；另 3 頁的「小六數1測驗-主恩.pdf」只抽出 266 字且是答案頁。故「批量抽題建庫」不可行（千份 OCR 也不現實），下載接口亦只允許 /apps/bdpan 範圍。AskUserQuestion 拍板＝兩個都做（站內骨架增強＋skill）、私有庫原計劃「網盤解析抽 20 份」。落地 v2.00 公開側＝新增 `P6_SKELETON`（cn/en/math 三段結構骨架）並注入三處 AI 出卷 prompt（cnAiPrompt 整卷、aiPrompt 英文單題 P6、exAiPrompt 呈分整卷）；⑩ 本站原創試卷區新增「P6 校內卷題型骨架（只有結構，沒有原題）」卡——中文/英文/數學/常識四行，明寫「具體題量與配分以各校原卷為準、非教育局公布、不是任何真卷」。⚠️ 版權雙軌：骨架只描述分段與題型，零原卷原文、零原卷答案、零配分數字臆造；私有樣例庫只存本機、永不進公開站。斷言 1031→1041 全過×3；雙通道發布；線上真機驗證骨架卡與 prompt 注入。
 v1.99：葉工貼第三方應用 MC 題（實用文）截圖，要求批改後反饋升級——「批改完後要出現正確和不正確，不正確的要在下面寫原因、寫解釋；正確的直接打個勾，然後公布正確答案，也可以寫解釋」。落地＝中文試卷 gradeCnPaper 批改反饋重構：①對題＝「✓ 正確」＋公布「正確答案：C. xxx」＋有 ex 時附「講解：…」；②錯題＝「✗ 不正確」＋「你選了 B. xxx」（mc）或「你的答案：…」（fill/short）＋「正確答案：…」＋有 ex 時附講解；③filltbl 錯題公布各欄答案（／分隔）。講解只用題庫既有 q.ex 欄位（本地題庫 80 條帶 ex；AI 題 prompt 本就要求 ex、可空——空則不硬編，只公布答案）。新增 .qans .qyou／.qkey 樣式。斷言 1023→1032 全過×3；雙通道發布；線上真機實跑對/錯兩路反饋。
 v1.98：葉工貼官方字表「今日認讀」截圖（已認到第 2771／3171 字）要「加一個清 0 的按鈕」。落地＝⑥官方字表今日認讀進度行尾加「↺ 進度清零」（#lexReset）：confirm 確認後 lexPosSet(0)＋renderLexToday()，回第 1 組重新開始。寫 0 而非 removeItem（與 v1.95 星圖重置同理，防舊值回潮）。無版權新暴露。
@@ -698,6 +699,19 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .sdkCell.given{background:#f1efe8;font-weight:700;color:#0b3a5c;cursor:default}
   .sdkCell.sel{outline:2px solid #0369a1;outline-offset:-2px;z-index:1}
   .sdkCell.conflict{color:#c2410c;background:#fdf1e6}
+  /* v2.02 貪吃蛇主屏樣式：v1.5 起舊規則一直誤落在 @media print 塊內（320px 时代不溢出沒暴露），
+     448px 起必須在屏上生效——max-width:100% 讓手機自適應收縮，flex 容器同理。 */
+  .snake-wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+  #snakeCanvas{display:block;background:#0f2a22;border-radius:12px;max-width:100%;height:auto;touch-action:none}
+  .snake-side{flex:1;min-width:220px}
+  .snake-stat{font-size:14px;margin-bottom:8px}
+  .snake-word{font-size:18px;font-weight:700;color:#0f7a63;min-height:54px;padding:8px 10px;background:#eafaf4;border-radius:8px;margin-bottom:10px;line-height:1.4}
+  .snake-word b{color:#b8541b}
+  .snake-pad{margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .snake-pad>div{display:flex;gap:6px}
+  .spad{width:52px;height:46px;font-size:18px;border:1px solid #cfe3da;background:#fff;border-radius:10px;cursor:pointer}
+  .spad:active{background:#eafaf4}
+  .snake-tip{font-size:12px;color:#888;margin-top:10px}
   .sdkCell.wrong{outline:2px solid #c2410c;outline-offset:-2px}
   .sdkCell.hint{color:#1d4ed8;font-weight:700}
   .sdkCell.br{border-right:2px solid #444}
@@ -1059,13 +1073,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.01（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.02（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.01（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.02（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2775,10 +2789,16 @@ Thank you for your time.</div>
 </div>
 
 <div class="wrap" id="funView" style="display:none">
+  <!-- v2.02：遊戲選擇器——選哪個顯示哪個，其餘收起，不再全部平鋪 -->
+  <div class="subnav" id="funGameChips">
+    <button data-fg="snake" class="on">🐍 單詞貪吃蛇</button>
+    <button data-fg="sudoku">🔢 數獨</button>
+  </div>
+  <div id="snakeGame">
   <div class="gtitle">單詞貪吃蛇（悠閒 · 邊玩邊記）</div>
   <span class="folk">背景全是港小生字；<b>黃色格子是目標詞</b>，蛇頭吃到就換一個新詞。純本地，不計分排名。</span>
   <div class="snake-wrap">
-    <canvas id="snakeCanvas" width="320" height="320"></canvas>
+    <canvas id="snakeCanvas" width="448" height="448"></canvas>
     <div class="snake-side">
       <div class="snake-stat">本局吃到：<b id="snakeScore">0</b> 詞 ｜ 最高：<b id="snakeBest">0</b></div>
       <div class="snake-word" id="snakeWord">按「開始」出題</div>
@@ -2791,9 +2811,10 @@ Thank you for your time.</div>
       <p class="snake-tip">電腦用方向鍵，手機用上面按鈕。撞牆或咬到自己就結束。</p>
     </div>
   </div>
+  </div>
 
-  <!-- 數獨（v1.61：悠閒·邏輯推理） -->
-  <div class="gsec" id="sdkCard">
+  <!-- 數獨（v1.61：悠閒·邏輯推理；v2.02 起默認收起，由遊戲選擇器控制） -->
+  <div class="gsec" id="sdkCard" style="display:none">
     <h2>🔢 數獨（悠閒 · 邏輯推理）</h2>
     <span class="folk">每行、每列、每宮數字不重複。純本地生成＋唯一解校驗，計時與最佳紀錄跟賬號存本機。</span>
     <div class="subnav" id="sdkChips">
@@ -5121,6 +5142,7 @@ function showMain(m){
   document.getElementById('guideSub').style.display = m==='guide'?'flex':'none';
   document.getElementById('planSub').style.display = m==='plan'?'flex':'none';
   document.getElementById('practiceSub').style.display = m==='practice'?'flex':'none';
+  if(m!=='fun'&&window.__snakeTest&&window.__snakeTest.pause)window.__snakeTest.pause(); // v2.02：離開悠閒頁暫停貪吃蛇
   if(m==='progress')renderProgress();
 }
 
@@ -5237,7 +5259,7 @@ function showMain(m){
       ctx.save();
       ctx.fillStyle='#3b2a05'; ctx.textAlign='center'; ctx.textBaseline='middle';
       var fw=food.w.length;
-      ctx.font='bold '+Math.max(8,Math.min(13,C-6-(fw>5?2:0)))+'px system-ui,-apple-system,sans-serif';
+      ctx.font='bold '+Math.max(10,Math.min(16,C-8-(fw>5?2:0)))+'px system-ui,-apple-system,sans-serif';
       ctx.fillText(food.w, food.x*C+C/2, food.y*C+C/2, C-4);
       ctx.restore();
     }
@@ -5281,10 +5303,26 @@ function showMain(m){
     get roundWords(){return roundWords.slice();},
     // 暴露小學詞池：斷言可直接比對背景詞來源，不靠隨機集合求交集（否則 flaky）
     pool:HK.filter(function(w){return w.grade && w.grade.indexOf('中')!==0;}).map(function(w){return w.w;}),
+    // v2.02：切到其他遊戲或離開悠閒頁時暫停，計時器不在背景空跑
+    pause:function(){ if(running){ clearInterval(timer); running=false; document.getElementById('snakeWord').innerHTML='已暫停——按「開始 / 重來」重新開局。'; } },
     buildBg:buildBg,
     nextFood:nextFood,
     G:G
   };
+})();
+
+// ---- v2.02 悠閒遊戲選擇器：選哪個顯示哪個，其餘收起 ----
+(function(){
+  const chips=document.querySelectorAll('#funGameChips button');
+  const views={snake:document.getElementById('snakeGame'),sudoku:document.getElementById('sdkCard')};
+  function showFunGame(k){
+    if(!views[k])return;
+    chips.forEach(b=>b.classList.toggle('on',b.dataset.fg===k));
+    Object.keys(views).forEach(x=>views[x].style.display=x===k?'block':'none');
+    if(k!=='snake'&&window.__snakeTest&&window.__snakeTest.pause)window.__snakeTest.pause();
+  }
+  chips.forEach(b=>b.onclick=()=>showFunGame(b.dataset.fg));
+  window.__funGameTest={show:showFunGame};
 })();
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showMain(b.dataset.tab));
 document.querySelectorAll('#guideSub button').forEach(b=>b.onclick=()=>{
@@ -7434,7 +7472,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.01',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.02',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

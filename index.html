@@ -624,6 +624,19 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .sdkCell.given{background:#f1efe8;font-weight:700;color:#0b3a5c;cursor:default}
   .sdkCell.sel{outline:2px solid #0369a1;outline-offset:-2px;z-index:1}
   .sdkCell.conflict{color:#c2410c;background:#fdf1e6}
+  /* v2.02 貪吃蛇主屏樣式：v1.5 起舊規則一直誤落在 @media print 塊內（320px 时代不溢出沒暴露），
+     448px 起必須在屏上生效——max-width:100% 讓手機自適應收縮，flex 容器同理。 */
+  .snake-wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+  #snakeCanvas{display:block;background:#0f2a22;border-radius:12px;max-width:100%;height:auto;touch-action:none}
+  .snake-side{flex:1;min-width:220px}
+  .snake-stat{font-size:14px;margin-bottom:8px}
+  .snake-word{font-size:18px;font-weight:700;color:#0f7a63;min-height:54px;padding:8px 10px;background:#eafaf4;border-radius:8px;margin-bottom:10px;line-height:1.4}
+  .snake-word b{color:#b8541b}
+  .snake-pad{margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .snake-pad>div{display:flex;gap:6px}
+  .spad{width:52px;height:46px;font-size:18px;border:1px solid #cfe3da;background:#fff;border-radius:10px;cursor:pointer}
+  .spad:active{background:#eafaf4}
+  .snake-tip{font-size:12px;color:#888;margin-top:10px}
   .sdkCell.wrong{outline:2px solid #c2410c;outline-offset:-2px}
   .sdkCell.hint{color:#1d4ed8;font-weight:700}
   .sdkCell.br{border-right:2px solid #444}
@@ -985,13 +998,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.01（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.02（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.01（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.02（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2701,10 +2714,16 @@ Thank you for your time.</div>
 </div>
 
 <div class="wrap" id="funView" style="display:none">
+  <!-- v2.02：遊戲選擇器——選哪個顯示哪個，其餘收起，不再全部平鋪 -->
+  <div class="subnav" id="funGameChips">
+    <button data-fg="snake" class="on">🐍 單詞貪吃蛇</button>
+    <button data-fg="sudoku">🔢 數獨</button>
+  </div>
+  <div id="snakeGame">
   <div class="gtitle">單詞貪吃蛇（悠閒 · 邊玩邊記）</div>
   <span class="folk">背景全是港小生字；<b>黃色格子是目標詞</b>，蛇頭吃到就換一個新詞。純本地，不計分排名。</span>
   <div class="snake-wrap">
-    <canvas id="snakeCanvas" width="320" height="320"></canvas>
+    <canvas id="snakeCanvas" width="448" height="448"></canvas>
     <div class="snake-side">
       <div class="snake-stat">本局吃到：<b id="snakeScore">0</b> 詞 ｜ 最高：<b id="snakeBest">0</b></div>
       <div class="snake-word" id="snakeWord">按「開始」出題</div>
@@ -2717,9 +2736,10 @@ Thank you for your time.</div>
       <p class="snake-tip">電腦用方向鍵，手機用上面按鈕。撞牆或咬到自己就結束。</p>
     </div>
   </div>
+  </div>
 
-  <!-- 數獨（v1.61：悠閒·邏輯推理） -->
-  <div class="gsec" id="sdkCard">
+  <!-- 數獨（v1.61：悠閒·邏輯推理；v2.02 起默認收起，由遊戲選擇器控制） -->
+  <div class="gsec" id="sdkCard" style="display:none">
     <h2>🔢 數獨（悠閒 · 邏輯推理）</h2>
     <span class="folk">每行、每列、每宮數字不重複。純本地生成＋唯一解校驗，計時與最佳紀錄跟賬號存本機。</span>
     <div class="subnav" id="sdkChips">
@@ -46776,6 +46796,7 @@ function showMain(m){
   document.getElementById('guideSub').style.display = m==='guide'?'flex':'none';
   document.getElementById('planSub').style.display = m==='plan'?'flex':'none';
   document.getElementById('practiceSub').style.display = m==='practice'?'flex':'none';
+  if(m!=='fun'&&window.__snakeTest&&window.__snakeTest.pause)window.__snakeTest.pause(); // v2.02：離開悠閒頁暫停貪吃蛇
   if(m==='progress')renderProgress();
 }
 
@@ -46892,7 +46913,7 @@ function showMain(m){
       ctx.save();
       ctx.fillStyle='#3b2a05'; ctx.textAlign='center'; ctx.textBaseline='middle';
       var fw=food.w.length;
-      ctx.font='bold '+Math.max(8,Math.min(13,C-6-(fw>5?2:0)))+'px system-ui,-apple-system,sans-serif';
+      ctx.font='bold '+Math.max(10,Math.min(16,C-8-(fw>5?2:0)))+'px system-ui,-apple-system,sans-serif';
       ctx.fillText(food.w, food.x*C+C/2, food.y*C+C/2, C-4);
       ctx.restore();
     }
@@ -46936,10 +46957,26 @@ function showMain(m){
     get roundWords(){return roundWords.slice();},
     // 暴露小學詞池：斷言可直接比對背景詞來源，不靠隨機集合求交集（否則 flaky）
     pool:HK.filter(function(w){return w.grade && w.grade.indexOf('中')!==0;}).map(function(w){return w.w;}),
+    // v2.02：切到其他遊戲或離開悠閒頁時暫停，計時器不在背景空跑
+    pause:function(){ if(running){ clearInterval(timer); running=false; document.getElementById('snakeWord').innerHTML='已暫停——按「開始 / 重來」重新開局。'; } },
     buildBg:buildBg,
     nextFood:nextFood,
     G:G
   };
+})();
+
+// ---- v2.02 悠閒遊戲選擇器：選哪個顯示哪個，其餘收起 ----
+(function(){
+  const chips=document.querySelectorAll('#funGameChips button');
+  const views={snake:document.getElementById('snakeGame'),sudoku:document.getElementById('sdkCard')};
+  function showFunGame(k){
+    if(!views[k])return;
+    chips.forEach(b=>b.classList.toggle('on',b.dataset.fg===k));
+    Object.keys(views).forEach(x=>views[x].style.display=x===k?'block':'none');
+    if(k!=='snake'&&window.__snakeTest&&window.__snakeTest.pause)window.__snakeTest.pause();
+  }
+  chips.forEach(b=>b.onclick=()=>showFunGame(b.dataset.fg));
+  window.__funGameTest={show:showFunGame};
 })();
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showMain(b.dataset.tab));
 document.querySelectorAll('#guideSub button').forEach(b=>b.onclick=()=>{
@@ -49089,7 +49126,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.01',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v2.02',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
