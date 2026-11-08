@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.10：葉工貪吃蛇截圖問「这里看看能不能选年级的单词」。落地＝①面板新增「全部年級／一年級…六年級」7 顆 chips（#snakeGradeChips，沿 .subnav 樣式，默認全部＝v2.06 行為不變）；②rndWord 改三段過濾——小學詞（grade 非「中」開頭）→ 選了年級再加 w.grade===snakeGrade → 空池容錯回退全小學池（不引 HK_PRI_GRADES，避免 TDZ）；③切年級即重開一局（背景 64 詞塊＋目標詞全部切到該年級），選擇存 localStorage hkk_snake_grade 刷新保留；④__snakeTest 暴露 grade/setGrade/gradeOf 供斷言（二年級 68 詞＞64 塊，逐年級池都夠用）。年份分布（build_data）：一~六年級 73/68/56/50/47/41＋中一二三 152（蛇不收中學詞，沿 v1.54 口徑）。
 v2.09：葉工拍擇校分檔截圖問「小學中學分開目錄＋把天水圍、元朗的中學都列出來＋住天瑞邨有什麼中學」。本版＝①**元朗區中學全量入站（39 所＝天水圍 21＋元朗市 18）**：事實欄（校名/類型/地址/電話/官網）全部取自教育局開放數據 SCH_LOC_EDB.csv（2026-11-04 版，數據截至 2026-09-30）並與教育局《中一學位分配辦法·元朗區 2026》手冊交叉核對（官立 4／資助 30／直資 5，手冊不含直資故以 CSV 為全量真相源）；教學語言欄＝坊間升學資料庫整理（2026-11-08 取樣，明確標「坊間整理·非官方」）；chips 篩選（全部/天水圍/元朗市/官立/直資）。②**天瑞邨就近中學卡**：官方校址在天瑞邨 2 所（張煊昌＋陳呂重德）→直線約 1 公里內 11 所→約 1–2 公里 8 所，分檔依官方坐標直線估算並標注來源版本；插班直接電話校務處、中一派位按元朗區網的現實提示。③**目錄分離**：頁頭三按鈕（北區小學 30／北區中學 20／元朗·天水圍 39），jmpSch 支持 yl（#ylTable），localStorage 記住上次；頁頭改「中學 79 所＋北區小學 30 所」。④**地圖擴容**：collectMapSchools 接 #ylTable（grp:sec/region:元朗區），_school_geo.json 70→109（元朗條目帶 region/area/fin），mapChips 中學 40→79，injectSchBtns 加 ylTable（元朗行只有 🤍 心水，無詳情檔案）。⑤**AI 名冊擴容**：ai_kb.py 名冊讀 school_geo 全 109 校，元朗條目補「地區/類別」→KB 100→139——AI 客服能答「天水圍有咩中學」；AI 選校（分檔）仍限北區+大埔表，tip 明示元朗暫未入庫。
 v2.08：葉工問「網站有什麼需要優化的地方，以後要變收費制度或會員制度怎麼操作」，並拍板「先只做優化不上收費」＋優先做錯題本與新手引導。本版＝**錯題本**（補站內最大產品缺口：錯題只閃一下不沉澱）。落地＝①練習子頁新增第 2 顆「錯題本」`#wrongView`（`p:wrong` 由既有解析器天然支援）；②四種卷批改全部接線——中文卷（含講解與「你選了 X」）、英文卷（選擇題／填空／閱讀子題）、數學卷（選擇題／填空）、呈分模擬卷（只記題號與答案，題幹回卷面對照），只收「錯」，對題不入庫；③數據 `hkk_wrong_v0`（`{ver,items[]}`，上限 400）：欄位只存文字（題幹／我的答案／正確答案／講解／年級／來源／時間／次數／done），**不存題目物件**，換版本後舊錯題仍可顯示；同題（科目＋年級＋題幹雜湊）再錯只累計次數並提到最前，不重複收錄；④視圖＝統計條（待複習總數＋分科）＋五顆科目 chips（全部／中文／英文／數學／呈分卷）＋錯題卡（科目標籤、來源年級與相對時間、題幹、你的答案／正確答案、講解）＋「✓ 已掌握」（移入底部折疊區，可「↺ 放回待複習」）＋「刪除」；⑤事件用 document 委派一次綁定（重渲染不丟，沿 v1.97 教訓）、文字一律 `wrongEsc()` 轉義（⚠️ 站內 `esc()` 是各 IIFE 局部函數、全局沒有，直接調會 ReferenceError）；⑥全站導出／匯入／清空接 `wrong` 欄位，清空確認文案補「錯題本」；⑦四顆「去做卷」按鈕走既有錨點 p:cn:cnpaper／p:en:paper／p:math:mpaper／p:en:exam。測試鉤子 `window.__wrongTest`。
 v2.07：葉工貼「今日課表」卡截圖——「这里介绍详细一点」。落地＝①介紹段落從一句話擴成完整說明：每日固定三項逐項講（泛讀＝不查詞典不考核＋五指法則選書＋電子書按鈕指向；繁體認讀＝官方字表翻卡簡→繁、給中文課鋪路；粵語磨耳朵＝RTHK 背景音只聽不跟讀聽懂大意即完成）＋專項日頻次（週一/週五時態 15 分、週二/週六寫作 30 分、週三口語 30 分、週四數學術語 20 分 2027.2 起）＋用法（打卡存本機留 28 天、隔天自動重置、按鈕直達）＋驗收（本週一覽、週日卡對照 35 週排期不趕進度）；②`SCH_ITEMS` 七項全部新增 `d` 說明欄，渲染在每行任務名下方（`.schd` 小字灰色），讓孩子/家長不用翻別處就知道每項怎麼做；全部重組自站內既有內容（五指法則/90 秒計時器/21 天打卡），零新事實零外鏈；③`v1.90 schedView 零外鏈零圖片`斷言繼續成立。
@@ -1100,13 +1101,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.09（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.10（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.09（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.10（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2930,7 +2931,16 @@ Thank you for your time.</div>
   </div>
   <div id="snakeGame">
   <div class="gtitle">單詞貪吃蛇（悠閒 · 邊玩邊記）</div>
-  <span class="folk">背景是稀疏的「英文＋中文」詞塊；<b>黃色大格是目標詞</b>，吃一個就換一個新詞。純本地，不計分排名。</span>
+  <span class="folk">背景是稀疏的「英文＋中文」詞塊；<b>黃色大格是目標詞</b>，吃一個就換一個新詞。可先選年級詞庫，純本地，不計分排名。</span>
+  <div class="subnav" id="snakeGradeChips" style="margin:10px 0 2px">
+    <button data-sg="all" class="on">全部年級</button>
+    <button data-sg="一年級">一年級</button>
+    <button data-sg="二年級">二年級</button>
+    <button data-sg="三年級">三年級</button>
+    <button data-sg="四年級">四年級</button>
+    <button data-sg="五年級">五年級</button>
+    <button data-sg="六年級">六年級</button>
+  </div>
   <div class="snake-wrap">
     <canvas id="snakeCanvas" width="448" height="448"></canvas>
     <div class="snake-side">
@@ -5347,7 +5357,15 @@ function showMain(m){
   const bestKey='hkk_snake_best';
   let best=+localStorage.getItem(bestKey)||0;
   document.getElementById('snakeBest').textContent=best;
-  function rndWord(){ const pool=HK.filter(w=>w.grade && w.grade.indexOf('中')!==0); return pool[Math.floor(Math.random()*pool.length)]; } // 貪吃蛇只用小學詞（不引 HK_PRI_GRADES，避免 TDZ）
+  // v2.10：年級詞庫——默認全部小學詞；選了年級只出該年級詞，空池容錯回退。
+  // 沿 v1.54 口徑貪吃蛇只用小學詞（不引 HK_PRI_GRADES，避免 TDZ）
+  let snakeGrade='all';
+  try{ snakeGrade=localStorage.getItem('hkk_snake_grade')||'all'; }catch(e){}
+  function rndWord(){
+    let pool=HK.filter(w=>w.grade && w.grade.indexOf('中')!==0 && (snakeGrade==='all'||w.grade===snakeGrade));
+    if(!pool.length) pool=HK.filter(w=>w.grade && w.grade.indexOf('中')!==0);
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
   // v2.06：每個 2×2 詞塊放一個「英文＋中文」，英中對照一眼看懂
   function buildBg(){
     bgBlk=[];
@@ -5440,6 +5458,20 @@ function showMain(m){
   function setDir(d){ const map={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}}; const nd=map[d]; if(nd && !(nd.x===-dir.x&&nd.y===-dir.y)) dir=nd; }
   document.getElementById('snakeStart').onclick=()=>{ if(running)clearInterval(timer); running=true; reset(); timer=setInterval(step,130); };
   document.querySelectorAll('.spad').forEach(b=>b.onclick=()=>setDir(b.dataset.dir));
+  // v2.10：年級 chips——切年級即重開一局（背景詞＋目標詞全切到該年級），選擇存 hkk_snake_grade
+  const sgWrap=document.getElementById('snakeGradeChips');
+  if(sgWrap){
+    const sgBtns=sgWrap.querySelectorAll('button');
+    sgBtns.forEach(b=>{ if(b.dataset.sg===snakeGrade){ sgBtns.forEach(x=>x.classList.remove('on')); b.classList.add('on'); } });
+    sgBtns.forEach(b=>b.onclick=()=>{
+      snakeGrade=b.dataset.sg;
+      try{ localStorage.setItem('hkk_snake_grade',snakeGrade); }catch(e){}
+      sgBtns.forEach(x=>x.classList.toggle('on',x===b));
+      if(running)clearInterval(timer);
+      running=false;
+      reset();
+    });
+  }
   document.addEventListener('keydown',e=>{ const k={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'}; if(k[e.key]){e.preventDefault(); setDir(k[e.key]);} });
   document.getElementById('snakeMaster').onclick=()=>{
     roundWords.forEach(id=>hProg[id]=true); saveH();
@@ -5461,7 +5493,11 @@ function showMain(m){
     pause:function(){ if(running){ clearInterval(timer); running=false; document.getElementById('snakeWord').innerHTML='已暫停——按「開始 / 重來」重新開局。'; } },
     buildBg:buildBg,
     nextFood:nextFood,
-    G:G
+    G:G,
+    // v2.10：年級詞庫斷言入口——setGrade 切池後重開局；gradeOf 查詞的年級來源
+    get grade(){return snakeGrade;},
+    setGrade:function(g){ snakeGrade=g; reset(); },
+    gradeOf:function(en){ const w=HK.find(x=>x.w===en); return w?w.grade:''; }
   };
 })();
 
@@ -7752,7 +7788,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.09',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.10',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
