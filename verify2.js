@@ -2392,6 +2392,13 @@ try{
   ok('v1.94 每套 8 題渲染且指紋已存', stems2.length===8 && !!d2.__mathLastFp && d2.__mathLastFp.size===8);
 }catch(e){ ok('v1.94 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
+// ===== v1.95 背詩星圖重置按鈕 =====
+try{
+  ok('v1.95 sm-top 有重置鈕且 resetStarMap 函數存在', /id="smReset"/.test(html) && /function resetStarMap\(\)/.test(html) && /bindStarMapReset\(\)/.test(html));
+  ok('v1.95 重置清空寫空對象而非 removeItem（防舊進度回潮）', /poemDone=\{\};saveDone\(\)/.test(html) && /此操作不可恢復/.test(html) && !/localStorage\.removeItem\(DONEKEY\)/.test(html));
+  ok('v1.95 重置鈕開頁即綁定且 confirm 二次確認', /function bindStarMapReset\(\)\{[\s\S]{0,200}b\.onclick=resetStarMap/.test(html) && /confirm\('確定把背詩星圖全部重置嗎/.test(html));
+}catch(e){ ok('v1.95 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
+
 console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
 process.exit(fail ? 1 : 0);
 })();
