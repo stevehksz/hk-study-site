@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.09：葉工拍擇校分檔截圖問「小學中學分開目錄＋把天水圍、元朗的中學都列出來＋住天瑞邨有什麼中學」。本版＝①**元朗區中學全量入站（39 所＝天水圍 21＋元朗市 18）**：事實欄（校名/類型/地址/電話/官網）全部取自教育局開放數據 SCH_LOC_EDB.csv（2026-11-04 版，數據截至 2026-09-30）並與教育局《中一學位分配辦法·元朗區 2026》手冊交叉核對（官立 4／資助 30／直資 5，手冊不含直資故以 CSV 為全量真相源）；教學語言欄＝坊間升學資料庫整理（2026-11-08 取樣，明確標「坊間整理·非官方」）；chips 篩選（全部/天水圍/元朗市/官立/直資）。②**天瑞邨就近中學卡**：官方校址在天瑞邨 2 所（張煊昌＋陳呂重德）→直線約 1 公里內 11 所→約 1–2 公里 8 所，分檔依官方坐標直線估算並標注來源版本；插班直接電話校務處、中一派位按元朗區網的現實提示。③**目錄分離**：頁頭三按鈕（北區小學 30／北區中學 20／元朗·天水圍 39），jmpSch 支持 yl（#ylTable），localStorage 記住上次；頁頭改「中學 79 所＋北區小學 30 所」。④**地圖擴容**：collectMapSchools 接 #ylTable（grp:sec/region:元朗區），_school_geo.json 70→109（元朗條目帶 region/area/fin），mapChips 中學 40→79，injectSchBtns 加 ylTable（元朗行只有 🤍 心水，無詳情檔案）。⑤**AI 名冊擴容**：ai_kb.py 名冊讀 school_geo 全 109 校，元朗條目補「地區/類別」→KB 100→139——AI 客服能答「天水圍有咩中學」；AI 選校（分檔）仍限北區+大埔表，tip 明示元朗暫未入庫。
 v2.08：葉工問「網站有什麼需要優化的地方，以後要變收費制度或會員制度怎麼操作」，並拍板「先只做優化不上收費」＋優先做錯題本與新手引導。本版＝**錯題本**（補站內最大產品缺口：錯題只閃一下不沉澱）。落地＝①練習子頁新增第 2 顆「錯題本」`#wrongView`（`p:wrong` 由既有解析器天然支援）；②四種卷批改全部接線——中文卷（含講解與「你選了 X」）、英文卷（選擇題／填空／閱讀子題）、數學卷（選擇題／填空）、呈分模擬卷（只記題號與答案，題幹回卷面對照），只收「錯」，對題不入庫；③數據 `hkk_wrong_v0`（`{ver,items[]}`，上限 400）：欄位只存文字（題幹／我的答案／正確答案／講解／年級／來源／時間／次數／done），**不存題目物件**，換版本後舊錯題仍可顯示；同題（科目＋年級＋題幹雜湊）再錯只累計次數並提到最前，不重複收錄；④視圖＝統計條（待複習總數＋分科）＋五顆科目 chips（全部／中文／英文／數學／呈分卷）＋錯題卡（科目標籤、來源年級與相對時間、題幹、你的答案／正確答案、講解）＋「✓ 已掌握」（移入底部折疊區，可「↺ 放回待複習」）＋「刪除」；⑤事件用 document 委派一次綁定（重渲染不丟，沿 v1.97 教訓）、文字一律 `wrongEsc()` 轉義（⚠️ 站內 `esc()` 是各 IIFE 局部函數、全局沒有，直接調會 ReferenceError）；⑥全站導出／匯入／清空接 `wrong` 欄位，清空確認文案補「錯題本」；⑦四顆「去做卷」按鈕走既有錨點 p:cn:cnpaper／p:en:paper／p:math:mpaper／p:en:exam。測試鉤子 `window.__wrongTest`。
 v2.07：葉工貼「今日課表」卡截圖——「这里介绍详细一点」。落地＝①介紹段落從一句話擴成完整說明：每日固定三項逐項講（泛讀＝不查詞典不考核＋五指法則選書＋電子書按鈕指向；繁體認讀＝官方字表翻卡簡→繁、給中文課鋪路；粵語磨耳朵＝RTHK 背景音只聽不跟讀聽懂大意即完成）＋專項日頻次（週一/週五時態 15 分、週二/週六寫作 30 分、週三口語 30 分、週四數學術語 20 分 2027.2 起）＋用法（打卡存本機留 28 天、隔天自動重置、按鈕直達）＋驗收（本週一覽、週日卡對照 35 週排期不趕進度）；②`SCH_ITEMS` 七項全部新增 `d` 說明欄，渲染在每行任務名下方（`.schd` 小字灰色），讓孩子/家長不用翻別處就知道每項怎麼做；全部重組自站內既有內容（五指法則/90 秒計時器/21 天打卡），零新事實零外鏈；③`v1.90 schedView 零外鏈零圖片`斷言繼續成立。
 v2.06：葉工貼貪吃蛇截圖——「把英語單詞還有中文放到背景里面，不需要密密麻麻那么多單詞，吃一個就換一個單詞」。落地＝背景詞系統重構：①逐格 256 個純英文詞 → **BG=8×8=64 個 2×2 詞塊**（稀疏 4 倍），每塊兩行——英文（上）＋中文（下），英中對照一眼看懂；②目標塊同步加大成 2×2 黃色大塊（英文＋中文都寫在塊內），碰撞判定從單格改為 2×2 塊內四格；③「吃一個換一個」雙重落地：吃到後 nextFood 換新目標詞（v1.81 已有）＋新增 refreshBlk 把**被吃掉的原詞塊**也換成新詞（英文不同才收手，guard 12 次）；④蛇身經過的詞塊不畫字（2×2 區域判定）；⑤面板文案改「背景是稀疏的英文＋中文詞塊／黃色大格是目標詞，吃一個就換一個新詞」。__snakeTest.bg 改返回詞塊陣列（en/zh）＋暴露 BG；畫布 448、格 C=28 不變，詞塊尺寸 56px 足夠兩行。
@@ -1099,13 +1100,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.08（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.09（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.08（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.09（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2429,16 +2430,17 @@ Thank you for your time.</div>
   <!-- 擇校分檔 -->
   <div class="wrap" id="schoolsView" style="display:none">
     <div class="gsec">
-      <h2>擇校分檔：北區中學 20 所＋東鐵沿線（大埔）20 所＋北區小學 30 所</h2>
+      <h2>擇校分檔：中學 79 所（北區 20＋大埔 20＋元朗·天水圍 39）＋北區小學 30 所</h2>
       <div style="display:flex;gap:10px;margin:12px 0">
-        <button class="btn" id="jmpPri" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🏫 北區小學 30 所</button>
-        <button class="btn" id="jmpSec" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🎓 北區中學 20 所</button>
+        <button class="btn" id="jmpPri" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🏫 北區小學 30</button>
+        <button class="btn" id="jmpSec" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🎓 北區中學 20</button>
+        <button class="btn" id="jmpYl" style="flex:1;padding:12px 8px;font-size:15px;font-weight:700">🏘️ 元朗·天水圍中學 39</button>
       </div>
-      <p class="tip" style="margin:0 0 6px">按上面按鈕直達對應名單；上次看的表會被記住。</p>
+      <p class="tip" style="margin:0 0 6px">小學、中學分開目錄：按上面按鈕直達對應名單；上次看的表會被記住。</p>
       <!-- v2.01 AI 選校：填背景 → AI 按站內學校庫給分檔參考（只限綁定域，Pages 域降級引導，同 v1.76 模式） -->
       <div class="gcard" id="schAiCard">
         <h3>🤖 AI 選校（實驗版）</h3>
-        <p class="tip">填孩子的基本背景，AI 按<b>本站已核實的學校表</b>（北區中學 21 行＋北區小學 30 所，含大埔備選）給出「衝刺／穩妥／保底」分檔參考。<b>只是參考起點，不是錄取承諾</b>；Band 組別為坊間非官方，學額與截止日請直接問學校。與 AI 問答共享每日 3 條額度。</p>
+        <p class="tip">填孩子的基本背景，AI 按<b>本站已核實的學校表</b>（北區中學 21 行＋北區小學 30 所，含大埔備選）給出「衝刺／穩妥／保底」分檔參考。<b>只是參考起點，不是錄取承諾</b>；Band 組別為坊間非官方，學額與截止日請直接問學校。與 AI 問答共享每日 3 條額度。<b>元朗·天水圍 39 所暫未入 AI 選校庫</b>——天水圍家庭請直接看下方名錄＋地圖。</p>
         <div id="schAiFb" style="display:none">
           <p style="margin:4px 0 8px;font-size:13.5px">AI 選校只在專用連結（workbuddy 域）提供；GitHub Pages 域的雲端接口被 CORS 攔截。點下面去專用連結使用：</p>
           <a id="schAiFbGo" class="ai-fb-btn" href="https://hk-study-site.app.workbuddy.host/?sharecode=45B2W7AOKI">點這裏用 AI 選校 · 開啟專用連結</a>
@@ -2465,7 +2467,7 @@ Thank you for your time.</div>
         <summary>🗺️ 校園地圖（騰訊地圖 · 實時）</summary>
         <div class="pg-chips" id="mapChips">
           <span class="chip on" data-mf="all">全部</span>
-          <span class="chip" data-mf="sec">中學 40</span>
+          <span class="chip" data-mf="sec">中學 79</span>
           <span class="chip" data-mf="pri">小學 30</span>
         </div>
         <div id="mapContainer" style="width:100%;height:60vh;min-height:420px;border-radius:8px;border:1.5px solid var(--line);position:relative;overflow:hidden">
@@ -2477,7 +2479,7 @@ Thank you for your time.</div>
       </details>
       <details class="gcard fold">
         <summary>📖 學校詳情（中學）</summary>
-        <p style="margin:4px 0 6px">下面兩張中學表每行有「📄 詳情」按鈕——點開看該校完整檔案：基本資料、2025/2026 收費、教師概況、班級結構、中一收生準則、辦學宗旨、聯絡資料。</p>
+        <p style="margin:4px 0 6px">北區與大埔兩張中學表每行有「📄 詳情」按鈕——點開看該校完整檔案：基本資料、2025/2026 收費、教師概況、班級結構、中一收生準則、辦學宗旨、聯絡資料。元朗·天水圍表為官方名錄（電話直撥＋官網直達），每行可 🤍 收藏心水。</p>
         <p class="src">詳情資料來源：家庭與學校合作事宜委員會《中學概覽 2025/2026》（chsc.hk，學校提供及核實的官方公開資料），以各校官網最新公布為準。</p>
       </details>
       <details class="gcard fold">
@@ -2609,6 +2611,74 @@ Thank you for your time.</div>
         </table>
         </div>
         <p class="src">來源：坊間中學資料庫與升學資訊站多源交叉（2026-11-02 核對，坊間整理不逐一署名）；英中判定以教育局微調教學語言安排及各校官網為準（王肇枝＝EMI 官網確認）；Band／近站／車程＝坊間非官方估算，以學校官網與港鐵路線圖為準。</p>
+      </details>
+      <details class="gcard fold" open>
+        <summary>🏠 住天瑞邨（天水圍），就近中學有哪啲？</summary>
+        <p>天瑞邨屬<b>元朗區</b>，全區 39 所中學中 <b>21 所就在天水圍</b>——全港中學密度最高的社區之一，這 21 所全部在約 2 公里半徑內。按官方坐標分三檔：</p>
+        <p>① <b>邨內 2 所</b>（官方校址就在天瑞邨，下樓即到）：<b>香港中文大學校友會聯會張煊昌中學</b>（資助·部分英文）、<b>圓玄學院妙法寺內明陳呂重德紀念中學</b>（資助·部分英文·佛教，天瑞邨第一期）。</p>
+        <p>② <b>直線約 1 公里內 11 所</b>：賽馬會萬鈞毅智書院（最近，約 0.4 公里）｜裘錦秋中學(元朗)、伊利沙伯中學舊生會中學、十八鄉鄉事委員會公益社中學、中華基督教青年會中學、天主教培聖中學、天水圍循道衞理中學（約 0.7–0.8 公里）｜基督教香港信義會元朗信義中學、天水圍官立中學、香港管理專業協會羅桂祥中學、香港青年協會李兆基書院（約 0.9–1 公里）。</p>
+        <p>③ <b>約 1–2 公里 8 所</b>（步行或輕鐵一程）：萬鈞伯裘書院、伊利沙伯中學舊生會湯國華中學、佛教茂峰法師紀念中學、天水圍香島中學、中華基督教會方潤華中學、東華三院郭一葦中學、元朗公立中學校友會鄧兆棠中學、順德聯誼總會翁祐中學（天恆邨，最遠）。</p>
+        <p>④ <b>申請現實</b>：官津插班<b>直接打電話問校務處</b>（下表電話可點撥）；中一統一派位才按居住地址所屬派位網（天瑞邨屬元朗區）。天水圍 21 所中 17 所官津<b>免學費</b>，4 所直資（香島／伯裘／李兆基／青年會）學費另計，申請前問清楚。</p>
+        <p class="src">分檔依教育局開放數據官方坐標直線估算（SCH_LOC_EDB 2026-11-04 版），實際步行時間約多兩三成，以地圖為準（下方「校園地圖」可看全部 109 所位置）；校名/地址/類別/電話為教育局官方數據。</p>
+      </details>
+      <details class="gcard fold" open>
+        <summary>元朗區中學一覽（39 所 · 天水圍 21＋元朗市 18 · 可篩選）</summary>
+        <p>元朗區＝天水圍＋元朗市＋屏山/洪水橋/錦繡花園等。事實欄（校名/類型/地址/電話/官網）全部取自教育局開放數據「學校位置及資料」（SCH_LOC_EDB 2026-11-04 版，數據截至 2026-09-30）；教學語言＝坊間升學資料庫整理（2026-11-08 取樣，<b>非官方</b>），英中/中中判定以教育局微調安排及各校官網為準。直資 5 所不參加中一統一派位，學位直接向學校申請。</p>
+        <div class="pg-chips" id="ylChips">
+          <span class="chip on" data-ylf="all">全部 39</span>
+          <span class="chip" data-ylf="ts">天水圍 21</span>
+          <span class="chip" data-ylf="ylc">元朗市/其他 18</span>
+          <span class="chip" data-ylf="gov">官立 4</span>
+          <span class="chip" data-ylf="dss">直資 5</span>
+        </div>
+        <div class="scroll-x">
+        <table class="mtable" id="ylTable">
+          <thead><tr><th>學校</th><th>類型</th><th>教學語言<br><span style="font-weight:400;color:#a33">坊間整理·非官方</span></th><th>地址</th><th>電話<br><span style="font-weight:400;color:#a33">教育局 2026-11-04</span></th><th>官網</th></tr></thead>
+          <tbody>
+
+            <tr data-yl="ts gov"><td>天水圍官立中學</td><td>官立</td><td>中文為主</td><td>天水圍天耀邨第二期</td><td><a href="tel:24450967">24450967</a></td><td><a href="http://www.tswgss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.tswgss.edu.hk</a></td></tr>
+            <tr data-yl="ts dss"><td>中華基督教青年會中學</td><td>直資</td><td>英文為主</td><td>天水圍第102區第6期天富苑</td><td><a href="tel:25408650">25408650</a></td><td><a href="http://www.cymcass.edu.hk" target="_blank" rel="noopener" title="學校官網">www.cymcass.edu.hk</a></td></tr>
+            <tr data-yl="ts dss"><td>天水圍香島中學</td><td>直資</td><td>部分英文</td><td>天水圍第101區</td><td><a href="tel:26500016">26500016</a></td><td><a href="http://www.heungto.net/index/customIndex.aspx" target="_blank" rel="noopener" title="學校官網">www.heungto.net</a></td></tr>
+            <tr data-yl="ts dss"><td>萬鈞伯裘書院</td><td>直資</td><td>部分英文</td><td>天水圍天華路51號</td><td><a href="tel:24482122">24482122</a></td><td><a href="http://www.pakkau.edu.hk" target="_blank" rel="noopener" title="學校官網">www.pakkau.edu.hk</a></td></tr>
+            <tr data-yl="ts dss"><td>香港青年協會李兆基書院</td><td>直資</td><td>英文為主</td><td>天水圍天葵路12號</td><td><a href="tel:21461128">21461128</a></td><td><a href="http://www.hlc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.hlc.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>中華基督教會方潤華中學</td><td>資助</td><td>中文為主</td><td>天水圍天業路6號</td><td><a href="tel:24455833">24455833</a></td><td><a href="http://www.fywss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.fywss.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>伊利沙伯中學舊生會中學</td><td>資助</td><td>部分英文</td><td>天水圍天城路18號</td><td><a href="tel:23386122">23386122</a></td><td><a href="https://qos.edu.hk/tc" target="_blank" rel="noopener" title="學校官網">qos.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>伊利沙伯中學舊生會湯國華中學</td><td>資助</td><td>中文為主</td><td>天水圍天華路57號</td><td><a href="tel:26175000">26175000</a></td><td><a href="https://www.qts.edu.hk/index/index43.aspx" target="_blank" rel="noopener" title="學校官網">www.qts.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>佛教茂峰法師紀念中學</td><td>資助</td><td>部分英文</td><td>天水圍天柏路18號</td><td><a href="tel:24457171">24457171</a></td><td><a href="http://www.bmf.edu.hk" target="_blank" rel="noopener" title="學校官網">www.bmf.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>元朗公立中學校友會鄧兆棠中學</td><td>資助</td><td>部分英文</td><td>天水圍第三區屏廈路</td><td><a href="tel:24461661">24461661</a></td><td><a href="http://www.tstss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.tstss.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>十八鄉鄉事委員會公益社中學</td><td>資助</td><td>部分英文</td><td>天水圍天城路20號</td><td><a href="tel:24478123">24478123</a></td><td><a href="http://www.sphrc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.sphrc.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>圓玄學院妙法寺內明陳呂重德紀念中學</td><td>資助</td><td>部分英文</td><td>天水圍天瑞邨第一期</td><td><a href="tel:24458899">24458899</a></td><td><a href="http://www.clctmc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.clctmc.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>基督教香港信義會元朗信義中學</td><td>資助</td><td>英文為主</td><td>天水圍天耀邨</td><td><a href="tel:24480622">24480622</a></td><td><a href="http://www.yll.edu.hk" target="_blank" rel="noopener" title="學校官網">www.yll.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>天主教培聖中學</td><td>資助</td><td>中文為主</td><td>天水圍天河路9號</td><td><a href="tel:24450800">24450800</a></td><td><a href="http://www.puishing.edu.hk" target="_blank" rel="noopener" title="學校官網">www.puishing.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>天水圍循道衞理中學</td><td>資助</td><td>中文為主</td><td>天水圍第102區第4期</td><td><a href="tel:31562500">31562500</a></td><td><a href="http://www.tswmc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.tswmc.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>東華三院郭一葦中學</td><td>資助</td><td>中文為主</td><td>天水圍聚星路3號</td><td><a href="tel:24477164">24477164</a></td><td><a href="http://www.twghkywc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.twghkywc.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>裘錦秋中學(元朗)</td><td>資助</td><td>部分英文</td><td>天水圍天湖路5號</td><td><a href="tel:24450228">24450228</a></td><td><a href="http://www.jccssyl.edu.hk" target="_blank" rel="noopener" title="學校官網">www.jccssyl.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>賽馬會萬鈞毅智書院</td><td>資助</td><td>中文為主</td><td>天水圍天榮路5號</td><td><a href="tel:24472322">24472322</a></td><td><a href="http://www.jcmkec.edu.hk" target="_blank" rel="noopener" title="學校官網">www.jcmkec.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>順德聯誼總會翁祐中學</td><td>資助</td><td>部分英文</td><td>天水圍天恒邨</td><td><a href="tel:31570636">31570636</a></td><td><a href="http://www.stfa-yyc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.stfa-yyc.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>香港中文大學校友會聯會張煊昌中學</td><td>資助</td><td>部分英文</td><td>天水圍天瑞邨</td><td><a href="tel:24483111">24483111</a></td><td><a href="http://www.tcss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.tcss.edu.hk</a></td></tr>
+            <tr data-yl="ts"><td>香港管理專業協會羅桂祥中學</td><td>資助</td><td>英文為主</td><td>天水圍天柏路26號</td><td><a href="tel:24703363">24703363</a></td><td><a href="http://www.hkmakslo.edu.hk" target="_blank" rel="noopener" title="學校官網">www.hkmakslo.edu.hk</a></td></tr>
+            <tr data-yl="ylc gov"><td>元朗公立中學</td><td>官立</td><td>部分英文</td><td>元朗水牛嶺公園南路二十二號</td><td><a href="tel:24762357">24762357</a></td><td><a href="http://www.ylpss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.ylpss.edu.hk</a></td></tr>
+            <tr data-yl="ylc gov"><td>新界鄉議局元朗區中學</td><td>官立</td><td>英文為主</td><td>元朗教育路123號</td><td><a href="tel:24766226">24766226</a></td><td><a href="http://www.nthykyldss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.nthykyldss.edu.hk</a></td></tr>
+            <tr data-yl="ylc gov"><td>趙聿修紀念中學</td><td>官立</td><td>英文為主</td><td>元朗體育路七號</td><td><a href="tel:24778237">24778237</a></td><td><a href="http://www.clsmss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.clsmss.edu.hk</a></td></tr>
+            <tr data-yl="ylc dss"><td>基督教香港信義會宏信書院</td><td>直資</td><td>英文為主</td><td>欖口村路25號</td><td><a href="tel:82082092">82082092</a></td><td><a href="http://www.luac.edu.hk" target="_blank" rel="noopener" title="學校官網">www.luac.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>中華基督教會基元中學</td><td>資助</td><td>英文為主</td><td>鳳攸東街</td><td><a href="tel:24750331">24750331</a></td><td><a href="http://www.ccckyc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.ccckyc.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>中華基督教會基朗中學</td><td>資助</td><td>英文為主</td><td>鳳攸南街8號</td><td><a href="tel:24754781">24754781</a></td><td><a href="http://www.keilong.edu.hk" target="_blank" rel="noopener" title="學校官網">www.keilong.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>伯特利中學</td><td>資助</td><td>部分英文</td><td>錦繡花園F段四街11號</td><td><a href="tel:24712622">24712622</a></td><td><a href="http://www.bethel.edu.hk" target="_blank" rel="noopener" title="學校官網">www.bethel.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>元朗商會中學</td><td>資助</td><td>英文為主</td><td>豐年路20號</td><td><a href="tel:24787348">24787348</a></td><td><a href="http://www.ylmass.edu.hk" target="_blank" rel="noopener" title="學校官網">www.ylmass.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>元朗天主教中學</td><td>資助</td><td>中文為主</td><td>屏山青山道水邊圍邨201號屏山青山道201號副翼</td><td><a href="tel:24431363">24431363</a></td><td><a href="http://www.ylcss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.ylcss.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>博愛醫院鄧佩瓊紀念中學</td><td>資助</td><td>部分英文</td><td>朗屏邨第三期</td><td><a href="tel:24741576">24741576</a></td><td><a href="http://www.tpk.edu.hk" target="_blank" rel="noopener" title="學校官網">www.tpk.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>可道中學(嗇色園主辦)</td><td>資助</td><td>中文為主</td><td>洪順路11號</td><td><a href="tel:24799885">24799885</a></td><td><a href="http://www.hodao.edu.hk" target="_blank" rel="noopener" title="學校官網">www.hodao.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>天主教崇德英文書院</td><td>資助</td><td>英文為主</td><td>洪水橋洪德路1號</td><td><a href="tel:24764263">24764263</a></td><td><a href="http://www.stc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.stc.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>明愛元朗陳震夏中學</td><td>資助</td><td>中文為主</td><td>西裕街66號</td><td><a href="tel:24755491">24755491</a></td><td><a href="http://www.cys.edu.hk" target="_blank" rel="noopener" title="學校官網">www.cys.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>東華三院盧幹庭紀念中學</td><td>資助</td><td>英文為主</td><td>朗屏邨第三期屋邨中學A地下至4樓及5樓實驗室</td><td><a href="tel:24742678">24742678</a></td><td><a href="http://www.lktmc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.lktmc.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>東華三院馬振玉紀念中學</td><td>資助</td><td>中文為主</td><td>坳頭友善街</td><td><a href="tel:24439833">24439833</a></td><td><a href="http://www.cyma.edu.hk" target="_blank" rel="noopener" title="學校官網">www.cyma.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>聖公會白約翰會督中學</td><td>資助</td><td>英文為主</td><td>鳳攸南街</td><td><a href="tel:24754778">24754778</a></td><td><a href="http://www.skhbbss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.skhbbss.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>路德會西門英才中學</td><td>資助</td><td>部分英文</td><td>公園北路1號</td><td><a href="tel:24782424">24782424</a></td><td><a href="http://www.gslc.edu.hk" target="_blank" rel="noopener" title="學校官網">www.gslc.edu.hk</a></td></tr>
+            <tr data-yl="ylc"><td>金巴崙長老會耀道中學</td><td>資助</td><td>英文為主</td><td>康業街28號</td><td><a href="tel:24730777">24730777</a></td><td><a href="http://www.cpcydss.edu.hk" target="_blank" rel="noopener" title="學校官網">www.cpcydss.edu.hk</a></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="src">來源：教育局開放數據「學校位置及資料」SCH_LOC_EDB.csv（2026-11-04 下載版）＋教育局《中一學位分配辦法·元朗區 2026》手冊交叉核對；官立 4／資助 30／直資 5。學費、學額、申請日期以各校官網當年公告為準。</p>
       </details>
       <details class="gcard fold">
         <summary>升中攻略 · 外鏈精選（正文版權屬原站）</summary>
@@ -5622,15 +5692,16 @@ function swPlan(s){
 document.querySelectorAll('#planSub button').forEach(b=>b.onclick=()=>swPlan(b.dataset.sub));
 // v1.48 擇校頁小學/中學置頂切換（滾動定位＋記住上次）
 function jmpSch(k){
-  const t=document.getElementById(k==='pri'?'psTable':'ssTable'); if(!t)return;
+  const t=document.getElementById(k==='pri'?'psTable':(k==='yl'?'ylTable':'ssTable')); if(!t)return;
   const g=t.closest('.gsec')||t; if(g.scrollIntoView)g.scrollIntoView({behavior:'smooth',block:'start'});
   try{localStorage.setItem('hkk_lastSchool',k)}catch(e){}
 }
 (function(){
-  const a=document.getElementById('jmpPri'),b=document.getElementById('jmpSec'); if(!a||!b)return;
-  a.onclick=()=>jmpSch('pri'); b.onclick=()=>jmpSch('sec');
+  const a=document.getElementById('jmpPri'),b=document.getElementById('jmpSec'),c=document.getElementById('jmpYl'); if(!a||!b||!c)return;
+  a.onclick=()=>jmpSch('pri'); b.onclick=()=>jmpSch('sec'); c.onclick=()=>jmpSch('yl');
   let last=null; try{last=localStorage.getItem('hkk_lastSchool')}catch(e){}
-  if(last){const el=last==='pri'?a:b; el.style.borderColor='#0d9488'; el.style.color='#0d9488';}
+  const els={pri:a,sec:b,yl:c};
+  if(last&&els[last]){els[last].style.borderColor='#0d9488'; els[last].style.color='#0d9488';}
 })();
 // ---- v1.55 校園地圖（騰訊地圖 GL JS · 默認 key 代理模式，合規數據源） ----
 // 校點數據直接從頁面三張學校表收集（不重複造數據）；坐標內置自教育局開放數據 SCH_LOC_EDB（v1.57，已預轉 GCJ-02，零運行時解析）；
@@ -5646,6 +5717,10 @@ function collectMapSchools(){
   document.querySelectorAll('#tpTable tbody tr').forEach(tr=>{
     const tds=tr.querySelectorAll('td'); if(tds.length<7)return;
     out.push({name:tds[0].textContent.trim(),type:tds[1].textContent.trim(),lang:tds[2].textContent.trim(),band:tds[3].textContent.trim(),addr:'',near:tds[4].textContent.trim(),tel:(tds[6]&&tds[6].textContent.trim())||'',grp:'sec',region:'大埔區'});
+  });
+  document.querySelectorAll('#ylTable tbody tr').forEach(tr=>{
+    const tds=tr.querySelectorAll('td'); if(tds.length<6)return;
+    out.push({name:tds[0].textContent.trim(),type:tds[1].textContent.trim(),lang:tds[2].textContent.trim(),band:'',addr:tds[3].textContent.trim(),tel:(tds[4]&&tds[4].textContent.trim())||'',grp:'sec',region:'元朗區'});
   });
   document.querySelectorAll('#psTable tbody tr').forEach(tr=>{
     const tds=tr.querySelectorAll('td'); if(tds.length<6)return;
@@ -5735,7 +5810,7 @@ function schEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;
 function injectSchBtns(){
   // v1.59：psTable 校名在第 2 列（第 1 列是檔位），故三張表分開處理
   // v1.66：每行操作格擴為 📄詳情 ＋ ⚖️對比（僅有官方檔案者）＋ 🤍心水（全部行）
-  [['ssTable',0],['tpTable',0],['psTable',1]].forEach(([tid,idx])=>{
+  [['ssTable',0],['tpTable',0],['ylTable',0],['psTable',1]].forEach(([tid,idx])=>{
     const t=document.getElementById(tid); if(!t)return;
     const th=t.querySelector('thead tr');
     if(th&&!th.querySelector('th[data-schbtn]')){const h=document.createElement('th');h.setAttribute('data-schbtn','1');h.textContent='詳情';th.appendChild(h);}
@@ -6767,6 +6842,13 @@ document.querySelectorAll('#psChips .chip').forEach(c=>c.onclick=()=>{
     tr.style.display=(k==='all'||(' '+tr.dataset.m+' ').includes(' '+k+' '))?'':'none';
   });
 });
+document.querySelectorAll('#ylChips .chip').forEach(c=>c.onclick=()=>{
+  const k=c.dataset.ylf;
+  document.querySelectorAll('#ylChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  document.querySelectorAll('#ylTable tbody tr').forEach(tr=>{
+    tr.style.display=(k==='all'||(' '+tr.dataset.yl+' ').includes(' '+k+' '))?'':'none';
+  });
+});
 function buildIntro(){
   var g=function(id){return (document.getElementById(id).value||'').trim();};
   var f=function(v){return v? v : '______';};
@@ -7670,7 +7752,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.08',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.09',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

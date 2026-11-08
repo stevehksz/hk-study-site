@@ -247,7 +247,8 @@ print(f'初中通用詞：{len(sec_words)} 條（坊間整理，年級為估算�
 
 # ---- 校園地圖校點坐標（v1.57：教育局開放數據 SCH_LOC_EDB.csv 官方坐標，WGS84→GCJ-02 預轉換，內置零運行時解析） ----
 school_geo = json.load(open(os.path.join(WS, '_school_geo.json'), encoding='utf-8'))
-assert len(school_geo) == 70, f'school_geo 應 70 所，實得 {len(school_geo)}'
+# v2.09：70（北區+大埔）＋39（元朗區，天水圍 21＋元朗市 18，含 region/area/fin 供 AI 名冊）
+assert len(school_geo) == 109, f'school_geo 應 109 所，實得 {len(school_geo)}'
 
 # ---- 中學詳情檔案（v1.58：CHSC 中學概覽 2025/2026 官方公開資料，40 所） ----
 sch_profiles = json.load(open(os.path.join(WS, '_sch_profiles.json'), encoding='utf-8'))

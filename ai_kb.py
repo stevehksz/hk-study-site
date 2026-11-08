@@ -54,13 +54,18 @@ def build_ai_kb(template_html):
     for h3, p in re.findall(r'<div class="gcard(?: warn)?">\s*<h3>(.*?)</h3>\s*<p>(.*?)</p>\s*</div>', pol, re.S):
         add('身份政策', h3, p)
 
-    # ④ 70 校名單（只餵站內已核實的「校名／類別／性別／學段」，不餵 Band／坐標／電話）
+    # ④ 學校名冊（只餵「校名／學段／類別」，不餵 Band／坐標／電話）
+    #    v2.09：元朗區 39 所來自教育局開放數據（_school_geo 帶 region/area/fin），照樣入冊——AI 客服要能答「天水圍有咩中學」
     data = json.load(open(os.path.join(WS, 'build_data.json'), encoding='utf-8'))
     sec, pri = data.get('sch_profiles', {}), data.get('sch_pri_profiles', {})
-    for name in data.get('school_geo', {}):
+    for name, g in data.get('school_geo', {}).items():
         p = pri.get(name) or sec.get(name) or {}
         stage = '小學' if name in pri else '中學'
         bits = ['學段：' + stage]
+        if isinstance(g, dict) and g.get('region'):
+            bits.append('地區：' + str(g.get('area') or g['region']))
+            if g.get('fin'):
+                bits.append('類別：' + str(g['fin']))
         if p.get('type'):
             bits.append('類別：' + str(p['type']))
         if p.get('gender'):
