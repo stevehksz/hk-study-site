@@ -958,13 +958,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.95（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.96（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.95（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.96（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -985,6 +985,8 @@ header{position:relative}
   <button data-sub="en">英文</button>
   <button data-sub="math">數學</button>
   <button data-sub="tutor">補習材料</button>
+  <!-- v1.96：試卷夾——本機 PDF 管理，零上傳 -->
+  <button data-sub="papers">📁 試卷夾</button>
 </div>
 
 <!-- ============ 速覽指南 ============ -->
@@ -2092,6 +2094,40 @@ Thank you for your time.</div>
 
 </div>
 
+  <!-- ============ v1.96 我的試卷夾（本機 PDF · IndexedDB · 零上傳） ============ -->
+  <div class="wrap" id="papersView" style="display:none">
+    <div class="gsec">
+      <div class="gtitle">我的試卷夾 · 本機 PDF 管理（不上傳）</div>
+      <span class="folk">檔案只存<b>這台設備的瀏覽器</b>（IndexedDB），不上傳伺服器、不進雲端、站方看不到；清除瀏覽器資料會一并清除，換設備前請先「另存」回本機。試卷版權歸原出品方，請僅供家中自用。</span>
+      <div class="gcard" id="pfDropCard">
+        <div id="pfDrop" style="border:2px dashed #7fb3d8;border-radius:10px;padding:22px 12px;text-align:center;color:#075985;background:#f4f9fd">
+          <div style="font-size:30px">📄</div>
+          <div style="font-weight:700;margin:6px 0 4px">把 PDF 試卷拖到這裏</div>
+          <div style="font-size:12px">或
+            <button type="button" class="btn" id="pfPick" style="padding:4px 12px;font-size:12px">點擊選擇檔案</button>
+            <input type="file" id="pfInput" accept="application/pdf,.pdf" multiple style="display:none">
+          </div>
+          <div style="font-size:11px;color:#8a8aa0;margin-top:6px">可多選；超過 30MB 的大檔建議在電腦上操作（手機記憶體吃緊）</div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <label style="font-size:13px">年級 <select id="pfGrade"><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option>P5</option><option>P6</option><option>S1</option></select></label>
+          <label style="font-size:13px">科目 <select id="pfSubj"><option>中文</option><option>英文</option><option>數學</option><option>常識</option><option>其他</option></select></label>
+          <span style="font-size:12px;color:#8a8aa0">＝新加入檔案的預設標籤（加入後仍可單獨改）</span>
+        </div>
+      </div>
+      <div class="gcard">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <b>已存試卷 <span id="pfCount">0</span> 份 · 共 <span id="pfSize">0</span> MB</b>
+          <span>
+            <select id="pfFilterG" style="font-size:12px"><option value="">全部年級</option><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option>P5</option><option>P6</option><option>S1</option></select>
+            <select id="pfFilterS" style="font-size:12px"><option value="">全部科目</option><option>中文</option><option>英文</option><option>數學</option><option>常識</option><option>其他</option></select>
+            <button type="button" class="btn" id="pfClearAll" style="padding:4px 12px;font-size:12px">清空試卷夾</button>
+          </span>
+        </div>
+        <div id="pfList" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
 <!-- ============ 升學規劃（插班思路） ============ -->
 <div id="planView">
   <div class="subnav" id="planSub">
@@ -46869,8 +46905,10 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   document.getElementById('enPracView').style.display = curPractice==='en'?'block':'none';
   document.getElementById('mathPracView').style.display = curPractice==='math'?'block':'none';
   document.getElementById('tutorView').style.display = curPractice==='tutor'?'block':'none';
+  document.getElementById('papersView').style.display = curPractice==='papers'?'block':'none';
   if(curPractice==='en'){renderHk();renderVocab();}
   if(curPractice==='sched')schRender();
+  if(curPractice==='papers')pfRender();
 });
 window.__schedTest={items:SCH_ITEMS,week:SCH_WEEK,get:schGet,key:schKey,render:schRender,toggle:schToggle,dayIdx:schDayIdx};
 schRender(); // v1.90 開頁即渲染（sched 為練習默認子頁）
@@ -48624,9 +48662,100 @@ document.getElementById('clearBtn').onclick=()=>{
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
+// ---- v1.96 我的試卷夾：本機 PDF 管理（IndexedDB · 零上傳） ----
+//   檔案 Blob 只存本機 indexedDB（db: hkkPapersDB / store: files），站方無後端無法收到；
+//   jsdom 無 indexedDB → 走降級提示路徑，斷言鎖降級文案；真瀏覽器實跑增刪改查。
+var PF_DB='hkkPapersDB', PF_STORE='files';
+var pfDb=null, pfReady=false;
+var PF_GRADES=['P1','P2','P3','P4','P5','P6','S1'];
+var PF_SUBJ=['中文','英文','數學','常識','其他'];
+function pfOpen(cb){
+  if(!window.indexedDB){pfReady=false;if(cb)cb(false);return;}
+  var req=indexedDB.open(PF_DB,1);
+  req.onupgradeneeded=function(e){e.target.result.createObjectStore(PF_STORE,{keyPath:'id'});};
+  req.onsuccess=function(e){pfDb=e.target.result;pfReady=true;if(cb)cb(true);};
+  req.onerror=function(){pfReady=false;if(cb)cb(false);};
+}
+function pfTx(mode){return pfDb.transaction(PF_STORE,mode).objectStore(PF_STORE);}
+function pfAll(cb){
+  if(!pfReady){if(cb)cb([]);return;}
+  var req=pfTx('readonly').getAll();
+  req.onsuccess=function(){if(cb)cb(req.result||[]);};
+  req.onerror=function(){if(cb)cb([]);};
+}
+function pfGetRec(id,cb){ if(!pfReady){if(cb)cb(null);return;} var r=pfTx('readonly').get(id); r.onsuccess=function(){if(cb)cb(r.result||null);}; r.onerror=function(){if(cb)cb(null);}; }
+function pfPut(rec,cb){ if(!pfReady){if(cb)cb(false);return;} var r=pfTx('readwrite').put(rec); r.onsuccess=function(){if(cb)cb(true);}; r.onerror=function(){if(cb)cb(false);}; }
+function pfDelRec(id,cb){ if(!pfReady){if(cb)cb(false);return;} var r=pfTx('readwrite').delete(id); r.onsuccess=function(){if(cb)cb(true);}; r.onerror=function(){if(cb)cb(false);}; }
+function pfWipe(cb){ if(!pfReady){if(cb)cb(false);return;} var r=pfTx('readwrite').clear(); r.onsuccess=function(){if(cb)cb(true);}; r.onerror=function(){if(cb)cb(false);}; }
+function pfOpts(arr,cur){return arr.map(function(v){return '<option'+(v===cur?' selected':'')+'>'+v+'</option>';}).join('');}
+function pfAddFiles(files){
+  if(!pfReady){alert('此瀏覽器不支援本機檔案存儲，請改用較新版 Chrome／Edge／Safari。');return;}
+  var g=document.getElementById('pfGrade').value, sj=document.getElementById('pfSubj').value;
+  var pending=[].filter.call(files,function(f){return f&&(f.type==='application/pdf'||/\.pdf$/i.test(f.name));});
+  if(!pending.length){alert('請選 PDF 檔案。');return;}
+  var big=pending.filter(function(f){return f.size>30*1024*1024;});
+  if(big.length&&!confirm('有 '+big.length+' 個檔案超過 30MB，手機瀏覽器可能吃不消，仍要加入嗎？'))return;
+  var n=0, done=pending.length;
+  pending.forEach(function(f){
+    pfPut({id:'pf'+Date.now()+Math.random().toString(36).slice(2,7),name:f.name,size:f.size,date:new Date().toISOString().slice(0,10),grade:g,subj:sj,blob:f},function(){ if(++n===done)pfRender(); });
+  });
+}
+function pfRender(){
+  var list=document.getElementById('pfList'); if(!list)return;
+  if(!window.indexedDB||!pfReady){list.innerHTML='<div class="qtip">此瀏覽器不支援本機檔案存儲，請改用較新版 Chrome／Edge／Safari。</div>';return;}
+  pfAll(function(items){
+    var fg=document.getElementById('pfFilterG').value, fs=document.getElementById('pfFilterS').value;
+    var rows=items.filter(function(x){return x&&(!fg||x.grade===fg)&&(!fs||x.subj===fs);});
+    rows.sort(function(a,b){return ((b.date||'')+(b.id||'')).localeCompare((a.date||'')+(a.id||''));});
+    document.getElementById('pfCount').textContent=items.length;
+    document.getElementById('pfSize').textContent=(items.reduce(function(t,x){return t+(x.size||0);},0)/1048576).toFixed(1);
+    if(!rows.length){list.innerHTML='<div class="qtip">還沒有試卷。把手裏的 PDF 拖上來，或點上面「點擊選擇檔案」。</div>';return;}
+    var h='';
+    rows.forEach(function(x){
+      var sz=x.size>=1048576?(x.size/1048576).toFixed(1)+' MB':Math.max(1,Math.round(x.size/1024))+' KB';
+      h+='<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid #e7e9f2">'
+        +'<div style="flex:1;min-width:180px"><div style="font-weight:600;font-size:14px;word-break:break-all">'+hkEsc(x.name)+'</div>'
+        +'<div style="font-size:11px;color:#8a8aa0">'+hkEsc(x.date||'')+' · '+sz+'</div></div>'
+        +'<select data-pfg="'+x.id+'" style="font-size:12px">'+pfOpts(PF_GRADES,x.grade)+'</select>'
+        +'<select data-pfs="'+x.id+'" style="font-size:12px">'+pfOpts(PF_SUBJ,x.subj)+'</select>'
+        +'<button type="button" class="btn" data-pfo="'+x.id+'" style="padding:4px 10px;font-size:12px">打開</button>'
+        +'<button type="button" class="btn" data-pfp="'+x.id+'" style="padding:4px 10px;font-size:12px">列印</button>'
+        +'<button type="button" class="btn" data-pfd="'+x.id+'" style="padding:4px 10px;font-size:12px">刪除</button>'
+        +'</div>';
+    });
+    list.innerHTML=h;
+    list.querySelectorAll('[data-pfg]').forEach(function(sel){sel.onchange=function(){pfGetRec(sel.dataset.pfg,function(it){if(it){it.grade=sel.value;pfPut(it,pfRender);}});};});
+    list.querySelectorAll('[data-pfs]').forEach(function(sel){sel.onchange=function(){pfGetRec(sel.dataset.pfs,function(it){if(it){it.subj=sel.value;pfPut(it,pfRender);}});};});
+    list.querySelectorAll('[data-pfo]').forEach(function(b){b.onclick=function(){pfGetRec(b.dataset.pfo,function(it){if(!it)return;try{var u=URL.createObjectURL(it.blob);window.open(u,'_blank');}catch(e){alert('打開失敗：'+e.message);}});};});
+    list.querySelectorAll('[data-pfp]').forEach(function(b){b.onclick=function(){pfGetRec(b.dataset.pfp,function(it){if(!it)return;try{var u=URL.createObjectURL(it.blob);var f=document.createElement('iframe');f.style.display='none';f.src=u;f.onload=function(){try{f.contentWindow.print();}catch(e){window.open(u,'_blank');}};document.body.appendChild(f);}catch(e){window.open(URL.createObjectURL(it.blob),'_blank');}});};});
+    list.querySelectorAll('[data-pfd]').forEach(function(b){b.onclick=function(){pfGetRec(b.dataset.pfd,function(it){if(!it)return;if(!confirm('確定刪除「'+it.name+'」？此操作不可恢復。'))return;pfDelRec(it.id,pfRender);});};});
+  });
+}
+(function pfInit(){
+  var pick=document.getElementById('pfPick'), inp=document.getElementById('pfInput');
+  if(!pick)return;
+  pick.onclick=function(){inp.click();};
+  inp.onchange=function(){pfAddFiles(inp.files);inp.value='';};
+  var drop=document.getElementById('pfDrop');
+  ['dragover','dragenter'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.style.background='#e8f3fb';});});
+  ['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.style.background='#f4f9fd';});});
+  drop.addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.files.length)pfAddFiles(e.dataTransfer.files);});
+  document.getElementById('pfClearAll').onclick=function(){
+    pfAll(function(items){
+      if(!items.length){alert('試卷夾已經是空的。');return;}
+      if(!confirm('確定清空試卷夾全部 '+items.length+' 份試卷？此操作不可恢復。'))return;
+      pfWipe(pfRender);
+    });
+  };
+  document.getElementById('pfFilterG').onchange=pfRender;
+  document.getElementById('pfFilterS').onchange=pfRender;
+  pfOpen(function(){pfRender();});
+})();
+window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetRec,del:pfDelRec,db:PF_DB,store:PF_STORE};
+
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.95',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.96',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

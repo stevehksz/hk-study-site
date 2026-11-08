@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.96：葉工圈第三方站「上載試卷」截圖（傳 3 卷換 1 卷下載權）問「幫我做一個類似的功能」。評估＝**照搬不可行**：①收用戶上傳試卷存服務器再分發＝存放+轉發第三方版權內容，踩死 v1.78 雙軌紅線（band1.org 卷零搬運同一條線）；「傳3換1」積分制激勵批量搬運更不可取；②純靜態站無文件後端，100MB PDF 收存需雲端對象存儲+人工審核+濫用處理（該站自己都要求全部卷過審）；③責任問題（侵權卷/含學生個人資料的卷）。AskUserQuestion 拍板＝**兩個都要**：「我的試卷夾（本機版）」＋「官方免費卷入口卡」（後者 v1.97 另做，先核實來源）。落地 v1.96＝練習區第 6 顆子標籤「📁 試卷夾」＋`#papersView`：拖放/多選收 PDF（>30MB confirm 警告）、IndexedDB 存 Blob（db hkkPapersDB／store files）、年級（P1–P6/S1）×科目（中英數常識其他）標籤可改、按年級科目篩選、列表（名稱/日期/大小）、打開（blob URL 新標籤）、列印（iframe print 失敗降級 window.open）、刪除（confirm）、清空（confirm 顯示份數）、容量統計（份數+MB）。⚠️ 版權口徑寫進 folk：檔案只存本設備瀏覽器、不上傳伺服器不進雲端站方看不到、版權歸原出品方僅供家中自用。⚠️ 技術：jsdom 無 indexedDB → pfReady 檢查走降級提示路徑（斷言鎖降級文案），增刪改查在真瀏覽器 CDP 實跑；本機無上限（原站限 3 是審核需要，本機自用不需要）。
 v1.95：葉工說「請幫我語文打卡那裏恢復到開始」。AskUserQuestion 確認＝**背古詩星圖（中文科，185 顆星存 hkk_poem_done）**＋站內加「重置」按鈕（否決只本次幫清）。落地：sm-top 加「↺ 重置星圖」小鈕＋resetStarMap()（confirm 二次確認、文案明說不可恢復）＋bindStarMapReset() 開頁綁定。⚠️ 關鍵坑：清空必須寫入 '{}' 而非 removeItem——loadDone() 對「鍵不存在」會再從舊 pProg.recite 一次性遷移，removeItem 會讓舊進度全數回潮。星圖 185 顆燈由 POEMS 數據驅動，重置只清狀態零數據改動。
 v1.94：葉工貼數學模擬卷截圖說「試卷重複了，不要重複的，要出新的題，不要跟上一套卷子一樣」。根因實測＝MATH_QBANK 每個年級只有 10 題、genMathPaper 每次抽 8 題，10 選 8 每套新卷期望與上一套重合 6.4 題——不是隨機失靈，是池子太小。拍板＝P5＋P6 各補 14 道原創題（池 10→24；女兒現用 P5＋葉工測試的 P6 優先，其餘年級後續按需）。新題全原創（英文題幹＋繁中對照，與現庫欄位一致）：P5＝分數加減/三角形面積/小數比大小/百分數/化簡比/餘角/毫升/分數乘法/最簡分數/平行四邊形面積/經過時間/找零應用題/水箱容積/閱讀天數；P6＝百分增幅/速率/概率/三角形內角/負數比大小/折扣/平均數反推/解方程/鐘錶慢分/百分數化分數/圓周長反推直徑/踏單車時速/減價找零/長方體體積。⚠️ genMathPaper 加防重保險：window.__mathLastFp 存上一套題幹前 48 字 Set，新卷重合 ≥75% 自動重抽（至多 4 次）；指紋只存內存不落盤，刷新後重新允許重複屬預期；切年級不誤判（不同年級題幹不同）。⚠️ 24 選 8 後期望重合 ≈2.7 題，加保險後 ≤5 題斷言鎖死。驗證：新增 v1.94 專項（P5/P6 池 24、28 新題結構零重複選項、實跑連出兩卷重合 ≤5、prepMcMath 後 4 選項仍齊）。
 v1.93：葉工貼 Gemini 的改版建議問「看有沒有可取的地方」。評估結論：**結構一條不採**（該建議假設本站是公開資訊落地頁，實際是登入後的工具型應用；照搬其 index.html+style.css 會令全站功能歸零，另含 3 處事實硬傷：Badge「2026-2027 升學季」落後一學年、要求「Band 1 中學名單」（教育局不公布 Banding）、`.nav-links{display:none}` 手機藏導航違反「微信點開即用」，以及新增 3 處微信 CTA 觸 v1.88「只 3 條永不新增」硬規則）。**只採配色**，AskUserQuestion 拍板＝「只換配色＋警示色」＋主色選亮藍 #0284C7 系。落地（92 處色值替換，零結構／零類名／零鍵名改動）：①主色 `--acc` 靛藍紫 #4f46e5 → **#0369a1**（白字對比 5.93:1 達 WCAG AA；亮度級 #0284C7 白字僅 4.09:1 故只用作漸變亮端）②`--grad` 紫三色 → 藍三色 #0284c7→#0369a1→#075985 ③警示 `--jy` 朱紅 #d6452f → **暖橙 #c2410c**（白底 5.18:1 達標；#f97316 白底僅 2.80:1 故不用於文字，只作語義方向），配套紅底 #fdecea→#fdf1e6 ④頁頭與微信 CTA 既有的舊藍 #2c7be5／#1a5fc4／#1550a6 一併歸到新主色（原本「藍頁頭＋紫按鈕」是撞色，本版統一）⑤淺紫底／紫邊／深紫字 17 種一併轉藍（避免換主色後紫底藍字打架）。**未動**：底色 #eef1f7（與卡片白的層次感保留）、字體（PingFang HK 繁體優先，優於建議的英文優先棧）、分科色（數學青綠 #0d9488／金 #c79a3a）、卡片 hover 抬升（站內 .fcard/.vcard 等已有 -1px~-3px＋shadow-md，不重複加）。斷言不動（verify2 零處依賴色值）。
@@ -1027,13 +1028,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v1.95（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v1.96（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.95（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v1.96（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1054,6 +1055,8 @@ header{position:relative}
   <button data-sub="en">英文</button>
   <button data-sub="math">數學</button>
   <button data-sub="tutor">補習材料</button>
+  <!-- v1.96：試卷夾——本機 PDF 管理，零上傳 -->
+  <button data-sub="papers">📁 試卷夾</button>
 </div>
 
 <!-- ============ 速覽指南 ============ -->
@@ -2161,6 +2164,40 @@ Thank you for your time.</div>
 
 </div>
 
+  <!-- ============ v1.96 我的試卷夾（本機 PDF · IndexedDB · 零上傳） ============ -->
+  <div class="wrap" id="papersView" style="display:none">
+    <div class="gsec">
+      <div class="gtitle">我的試卷夾 · 本機 PDF 管理（不上傳）</div>
+      <span class="folk">檔案只存<b>這台設備的瀏覽器</b>（IndexedDB），不上傳伺服器、不進雲端、站方看不到；清除瀏覽器資料會一并清除，換設備前請先「另存」回本機。試卷版權歸原出品方，請僅供家中自用。</span>
+      <div class="gcard" id="pfDropCard">
+        <div id="pfDrop" style="border:2px dashed #7fb3d8;border-radius:10px;padding:22px 12px;text-align:center;color:#075985;background:#f4f9fd">
+          <div style="font-size:30px">📄</div>
+          <div style="font-weight:700;margin:6px 0 4px">把 PDF 試卷拖到這裏</div>
+          <div style="font-size:12px">或
+            <button type="button" class="btn" id="pfPick" style="padding:4px 12px;font-size:12px">點擊選擇檔案</button>
+            <input type="file" id="pfInput" accept="application/pdf,.pdf" multiple style="display:none">
+          </div>
+          <div style="font-size:11px;color:#8a8aa0;margin-top:6px">可多選；超過 30MB 的大檔建議在電腦上操作（手機記憶體吃緊）</div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <label style="font-size:13px">年級 <select id="pfGrade"><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option>P5</option><option>P6</option><option>S1</option></select></label>
+          <label style="font-size:13px">科目 <select id="pfSubj"><option>中文</option><option>英文</option><option>數學</option><option>常識</option><option>其他</option></select></label>
+          <span style="font-size:12px;color:#8a8aa0">＝新加入檔案的預設標籤（加入後仍可單獨改）</span>
+        </div>
+      </div>
+      <div class="gcard">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <b>已存試卷 <span id="pfCount">0</span> 份 · 共 <span id="pfSize">0</span> MB</b>
+          <span>
+            <select id="pfFilterG" style="font-size:12px"><option value="">全部年級</option><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option>P5</option><option>P6</option><option>S1</option></select>
+            <select id="pfFilterS" style="font-size:12px"><option value="">全部科目</option><option>中文</option><option>英文</option><option>數學</option><option>常識</option><option>其他</option></select>
+            <button type="button" class="btn" id="pfClearAll" style="padding:4px 12px;font-size:12px">清空試卷夾</button>
+          </span>
+        </div>
+        <div id="pfList" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
 <!-- ============ 升學規劃（插班思路） ============ -->
 <div id="planView">
   <div class="subnav" id="planSub">
@@ -5209,8 +5246,10 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   document.getElementById('enPracView').style.display = curPractice==='en'?'block':'none';
   document.getElementById('mathPracView').style.display = curPractice==='math'?'block':'none';
   document.getElementById('tutorView').style.display = curPractice==='tutor'?'block':'none';
+  document.getElementById('papersView').style.display = curPractice==='papers'?'block':'none';
   if(curPractice==='en'){renderHk();renderVocab();}
   if(curPractice==='sched')schRender();
+  if(curPractice==='papers')pfRender();
 });
 window.__schedTest={items:SCH_ITEMS,week:SCH_WEEK,get:schGet,key:schKey,render:schRender,toggle:schToggle,dayIdx:schDayIdx};
 schRender(); // v1.90 開頁即渲染（sched 為練習默認子頁）
@@ -6964,9 +7003,100 @@ document.getElementById('clearBtn').onclick=()=>{
     renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
   }
 };
+// ---- v1.96 我的試卷夾：本機 PDF 管理（IndexedDB · 零上傳） ----
+//   檔案 Blob 只存本機 indexedDB（db: hkkPapersDB / store: files），站方無後端無法收到；
+//   jsdom 無 indexedDB → 走降級提示路徑，斷言鎖降級文案；真瀏覽器實跑增刪改查。
+var PF_DB='hkkPapersDB', PF_STORE='files';
+var pfDb=null, pfReady=false;
+var PF_GRADES=['P1','P2','P3','P4','P5','P6','S1'];
+var PF_SUBJ=['中文','英文','數學','常識','其他'];
+function pfOpen(cb){
+  if(!window.indexedDB){pfReady=false;if(cb)cb(false);return;}
+  var req=indexedDB.open(PF_DB,1);
+  req.onupgradeneeded=function(e){e.target.result.createObjectStore(PF_STORE,{keyPath:'id'});};
+  req.onsuccess=function(e){pfDb=e.target.result;pfReady=true;if(cb)cb(true);};
+  req.onerror=function(){pfReady=false;if(cb)cb(false);};
+}
+function pfTx(mode){return pfDb.transaction(PF_STORE,mode).objectStore(PF_STORE);}
+function pfAll(cb){
+  if(!pfReady){if(cb)cb([]);return;}
+  var req=pfTx('readonly').getAll();
+  req.onsuccess=function(){if(cb)cb(req.result||[]);};
+  req.onerror=function(){if(cb)cb([]);};
+}
+function pfGetRec(id,cb){ if(!pfReady){if(cb)cb(null);return;} var r=pfTx('readonly').get(id); r.onsuccess=function(){if(cb)cb(r.result||null);}; r.onerror=function(){if(cb)cb(null);}; }
+function pfPut(rec,cb){ if(!pfReady){if(cb)cb(false);return;} var r=pfTx('readwrite').put(rec); r.onsuccess=function(){if(cb)cb(true);}; r.onerror=function(){if(cb)cb(false);}; }
+function pfDelRec(id,cb){ if(!pfReady){if(cb)cb(false);return;} var r=pfTx('readwrite').delete(id); r.onsuccess=function(){if(cb)cb(true);}; r.onerror=function(){if(cb)cb(false);}; }
+function pfWipe(cb){ if(!pfReady){if(cb)cb(false);return;} var r=pfTx('readwrite').clear(); r.onsuccess=function(){if(cb)cb(true);}; r.onerror=function(){if(cb)cb(false);}; }
+function pfOpts(arr,cur){return arr.map(function(v){return '<option'+(v===cur?' selected':'')+'>'+v+'</option>';}).join('');}
+function pfAddFiles(files){
+  if(!pfReady){alert('此瀏覽器不支援本機檔案存儲，請改用較新版 Chrome／Edge／Safari。');return;}
+  var g=document.getElementById('pfGrade').value, sj=document.getElementById('pfSubj').value;
+  var pending=[].filter.call(files,function(f){return f&&(f.type==='application/pdf'||/\.pdf$/i.test(f.name));});
+  if(!pending.length){alert('請選 PDF 檔案。');return;}
+  var big=pending.filter(function(f){return f.size>30*1024*1024;});
+  if(big.length&&!confirm('有 '+big.length+' 個檔案超過 30MB，手機瀏覽器可能吃不消，仍要加入嗎？'))return;
+  var n=0, done=pending.length;
+  pending.forEach(function(f){
+    pfPut({id:'pf'+Date.now()+Math.random().toString(36).slice(2,7),name:f.name,size:f.size,date:new Date().toISOString().slice(0,10),grade:g,subj:sj,blob:f},function(){ if(++n===done)pfRender(); });
+  });
+}
+function pfRender(){
+  var list=document.getElementById('pfList'); if(!list)return;
+  if(!window.indexedDB||!pfReady){list.innerHTML='<div class="qtip">此瀏覽器不支援本機檔案存儲，請改用較新版 Chrome／Edge／Safari。</div>';return;}
+  pfAll(function(items){
+    var fg=document.getElementById('pfFilterG').value, fs=document.getElementById('pfFilterS').value;
+    var rows=items.filter(function(x){return x&&(!fg||x.grade===fg)&&(!fs||x.subj===fs);});
+    rows.sort(function(a,b){return ((b.date||'')+(b.id||'')).localeCompare((a.date||'')+(a.id||''));});
+    document.getElementById('pfCount').textContent=items.length;
+    document.getElementById('pfSize').textContent=(items.reduce(function(t,x){return t+(x.size||0);},0)/1048576).toFixed(1);
+    if(!rows.length){list.innerHTML='<div class="qtip">還沒有試卷。把手裏的 PDF 拖上來，或點上面「點擊選擇檔案」。</div>';return;}
+    var h='';
+    rows.forEach(function(x){
+      var sz=x.size>=1048576?(x.size/1048576).toFixed(1)+' MB':Math.max(1,Math.round(x.size/1024))+' KB';
+      h+='<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid #e7e9f2">'
+        +'<div style="flex:1;min-width:180px"><div style="font-weight:600;font-size:14px;word-break:break-all">'+hkEsc(x.name)+'</div>'
+        +'<div style="font-size:11px;color:#8a8aa0">'+hkEsc(x.date||'')+' · '+sz+'</div></div>'
+        +'<select data-pfg="'+x.id+'" style="font-size:12px">'+pfOpts(PF_GRADES,x.grade)+'</select>'
+        +'<select data-pfs="'+x.id+'" style="font-size:12px">'+pfOpts(PF_SUBJ,x.subj)+'</select>'
+        +'<button type="button" class="btn" data-pfo="'+x.id+'" style="padding:4px 10px;font-size:12px">打開</button>'
+        +'<button type="button" class="btn" data-pfp="'+x.id+'" style="padding:4px 10px;font-size:12px">列印</button>'
+        +'<button type="button" class="btn" data-pfd="'+x.id+'" style="padding:4px 10px;font-size:12px">刪除</button>'
+        +'</div>';
+    });
+    list.innerHTML=h;
+    list.querySelectorAll('[data-pfg]').forEach(function(sel){sel.onchange=function(){pfGetRec(sel.dataset.pfg,function(it){if(it){it.grade=sel.value;pfPut(it,pfRender);}});};});
+    list.querySelectorAll('[data-pfs]').forEach(function(sel){sel.onchange=function(){pfGetRec(sel.dataset.pfs,function(it){if(it){it.subj=sel.value;pfPut(it,pfRender);}});};});
+    list.querySelectorAll('[data-pfo]').forEach(function(b){b.onclick=function(){pfGetRec(b.dataset.pfo,function(it){if(!it)return;try{var u=URL.createObjectURL(it.blob);window.open(u,'_blank');}catch(e){alert('打開失敗：'+e.message);}});};});
+    list.querySelectorAll('[data-pfp]').forEach(function(b){b.onclick=function(){pfGetRec(b.dataset.pfp,function(it){if(!it)return;try{var u=URL.createObjectURL(it.blob);var f=document.createElement('iframe');f.style.display='none';f.src=u;f.onload=function(){try{f.contentWindow.print();}catch(e){window.open(u,'_blank');}};document.body.appendChild(f);}catch(e){window.open(URL.createObjectURL(it.blob),'_blank');}});};});
+    list.querySelectorAll('[data-pfd]').forEach(function(b){b.onclick=function(){pfGetRec(b.dataset.pfd,function(it){if(!it)return;if(!confirm('確定刪除「'+it.name+'」？此操作不可恢復。'))return;pfDelRec(it.id,pfRender);});};});
+  });
+}
+(function pfInit(){
+  var pick=document.getElementById('pfPick'), inp=document.getElementById('pfInput');
+  if(!pick)return;
+  pick.onclick=function(){inp.click();};
+  inp.onchange=function(){pfAddFiles(inp.files);inp.value='';};
+  var drop=document.getElementById('pfDrop');
+  ['dragover','dragenter'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.style.background='#e8f3fb';});});
+  ['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.style.background='#f4f9fd';});});
+  drop.addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.files.length)pfAddFiles(e.dataTransfer.files);});
+  document.getElementById('pfClearAll').onclick=function(){
+    pfAll(function(items){
+      if(!items.length){alert('試卷夾已經是空的。');return;}
+      if(!confirm('確定清空試卷夾全部 '+items.length+' 份試卷？此操作不可恢復。'))return;
+      pfWipe(pfRender);
+    });
+  };
+  document.getElementById('pfFilterG').onchange=pfRender;
+  document.getElementById('pfFilterS').onchange=pfRender;
+  pfOpen(function(){pfRender();});
+})();
+window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetRec,del:pfDelRec,db:PF_DB,store:PF_STORE};
+
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.95',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),ver:'hkk_v1.96',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
