@@ -5753,9 +5753,10 @@ function jmpSch(k){
 }
 (function(){
   const a=document.getElementById('jmpPri'),b=document.getElementById('jmpSec'),c=document.getElementById('jmpYl'); if(!a||!b||!c)return;
-  b.onclick=()=>schTab('sec'); c.onclick=()=>schTab('yl'); a.onclick=()=>schTab('pri');
+  // v2.11：按鈕＝切頁籤＋滾動直達對應表（jmpSch 內含 schTab），否則內容在深處視口無反饋
+  b.onclick=()=>jmpSch('sec'); c.onclick=()=>jmpSch('yl'); a.onclick=()=>jmpSch('pri');
   let last=null; try{last=localStorage.getItem('hkk_sch_tab_v1')}catch(e){}
-  schTab(['sec','yl','pri'].indexOf(last)>=0?last:'sec');
+  schTab(['sec','yl','pri'].indexOf(last)>=0?last:'sec');   // 恢復上次頁籤但不滾動
 })();
 // ---- v1.55 校園地圖（騰訊地圖 GL JS · 默認 key 代理模式，合規數據源） ----
 // 校點數據直接從頁面三張學校表收集（不重複造數據）；坐標內置自教育局開放數據 SCH_LOC_EDB（v1.57，已預轉 GCJ-02，零運行時解析）；
