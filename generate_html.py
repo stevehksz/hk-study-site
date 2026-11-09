@@ -6,6 +6,8 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.21：葉工貼「速覽指南」子頁籤截圖——「繁体对照放到练习中文里面的子目录里面，看看怎么优化」。沿用 changelog v1.9 的既有先例（當年把「速覽→英文卷」整體遷入「練習→英文」第 4 個子標籤、速覽入口移除），不另造導航結構。落地：①#guideSub 移除「繁體對照」按鈕（4→3 顆），顯隱陣列 ['cn','en','math','ft'] 改回三項；②#cnPracSub 新增第 4 顆 data-cs="ft"「繁體對照」，切換邏輯補 sw('ftView')；③#ftView 整塊從 #guideView 移到 #cnPracView 內，與 cnStarView／cnPaperView／ziBookView 並列為兄弟 pane，class 去掉 wrap／gsec 避免雙層留白與 @media print 的 display:block!important 強制顯示；內部 P1–P6 chips、搜尋、字表、＋本收字、nextstep 出口零改動，renderFt() 初始化呼叫不變；④#cnPracView 頂部寫死給「背古詩」的 tip 改為 #cnPracTips 四段隨子頁籤顯隱，切到對照表不再看到錯的說明；⑤「速覽 → 繁體對照」文案改指「練習 → 中文 → 繁體對照」，__hkkGo('p:cn:ft') 沿用既有 data-cs 分支即可直達，零新路由。零搬運紀律：ftView 以完整開收口整塊剪切插入，不切塊重排；構建後用 jsdom 驗落位／兄弟關係／ID 唯一／四 pane 互斥。
+
 v2.20：葉工貼「③ 面試話題庫」截圖——「主標題還有裡面的面試題的框框太相似，不容易識別，要優化」。根因：v1.68 起的 renderTutorIv() 給 Q1–Q10 每題複用了 .gsec＋.gsec-h，與 ①–⑩ 分區頭是同一套樣式（淺藍底＋左 4px 豎條＋▾/▴ 箭頭），只把左框色行內改成 #0284c7，兩個層級視覺上無法分辨。落地：①#tutorView 十塊分區頭統一改深藍漸變底白字、16px、去左豎條、保留 ▾/▴；②#ivList 十條題目改專屬 .ivq／.ivq-h——白底細框、Q1–Q10 圓角序號徽章、14px、＋/－ 展開符、展開後答案區 .ivq-body，與分區頭在底色／字號／左框／符號四個維度分離；③零搬運、零結構變動：#ivList details 仍 10 個、#tutorView details.gsec.fold 仍 10 個且順序不變，全域 .gsec-h 規則一字未動（錯題本／單詞本／其它頁共用不受影響），AI 知識庫四來源與既有斷言未改；④@media print 把深藍分區頭還原為淺底深字避免吃墨，窄屏 640px 下兩級字號各自收斂。CDP 真機量 computedStyle：兩級背景色／字號確實不同、題條零溢出。
 
 v2.19：葉工貼「每週課表（≤3 小時）」截圖——「這裡要給相應的按鈕可以點進去，然後做完再可以跳回來這裡」。現狀：對應欄 6 格全是純文字（本頁「泛讀打卡」／教材清單②／本頁「面試話題庫」／本頁（2027.2 起）／本頁「繁體翻卡」／只聽不跟讀），站內已有 __hkkGo 三段路由但這張表沒接上，也沒有回程。落地：①對應欄 6 列改 7 顆直達鈕——⑦泛讀打卡 t:6／②教材清單 t:1／③面試話題庫 t:2／④數學術語翻卡 t:3／⑤繁體翻卡 t:4＋⑥官方字表 t:5／粵語磨耳朵走「今日課表」p:sched 打勾；原口徑（2027.2 起、只聽不跟讀、只買兩本）全部保留為按鈕下小字。②t:1–t:6 六個折疊塊＋#schedView 共 7 處，內容流內靜態插入「↩ 返回每週課表」條，點表格按鈕時記錄來源列（sessionStorage hkk_wkback_v0）並顯示，點返回則回到補習材料①、滾到 #wkHead（標題，讓上方說明不被吸頂導航蓋住）、高亮該列 2.6 秒後自動退；窄屏下對應欄按鈕改全寬塊狀，兩顆按鈕上下排不擠成碎行。③不做自動完成判定：各模塊「做完」定義不同，硬猜會誤判，由使用者按返回鈕收尾；返回條用 display:flex 的內容流元素，零 fixed/absolute（沿用 v2.18 反浮層結論）。④零搬運：表格整段原地重寫，①–⑩ 折疊結構、既有斷言、AI 知識庫四來源均未動。
@@ -1177,13 +1179,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.20（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.21（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.20（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.21（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1196,7 +1198,6 @@ header{position:relative}
   <button data-sub="cn" class="on">中文</button>
   <button data-sub="en">英文</button>
   <button data-sub="math">數學</button>
-  <button data-sub="ft">繁體對照</button>
 </div>
 <div class="subnav" id="practiceSub" style="display:none">
   <button data-sub="sched" class="on">今日課表</button>
@@ -1326,38 +1327,6 @@ header{position:relative}
       </div>
     </div>
   </div>
-  <!-- 繁體對照 -->
-  <div class="wrap gsec" id="ftView" style="display:none">
-    <div class="gtitle">繁體字 · 簡→繁 高頻對照（分 P1–P6）</div>
-    <span class="folk">常用字對照，以香港課本用字為準；分級＝自編（按簡體常用度＋繁體書寫複雜度遞增），非教育局官方分級；一簡對多繁者（如 发→發/髮、里→裡/裏）須按詞義選</span>
-    <div class="pg-chips" id="ftChips">
-      <span class="chip on" data-fg="all">全部</span>
-      <span class="chip" data-fg="P1">P1</span>
-      <span class="chip" data-fg="P2">P2</span>
-      <span class="chip" data-fg="P3">P3</span>
-      <span class="chip" data-fg="P4">P4</span>
-      <span class="chip" data-fg="P5">P5</span>
-      <span class="chip" data-fg="P6">P6</span>
-    </div>
-    <div class="tools">
-      <input type="search" id="ftSearch" placeholder="搜簡體字，如 国 / 学">
-      <span class="mini" id="ftCount"></span>
-    </div>
-    <div id="ftList"></div>
-    <!-- v1.88 下一步：對照表是查閱用的，要「認得快」得靠翻卡 -->
-    <div class="nextstep">
-      <h4>這張表用來查，不用來背</h4>
-      <ol>
-        <li>一簡對多繁（发→發/髮、里→裡/裏）按詞義選；查不到就看課本原文怎麼寫。</li>
-        <li>練「認得快」用翻卡；練「寫得對」用格紙抄寫。</li>
-        <li>正式字表在「補習材料 → ⑥ 官方字表」（筆畫序），以教育局公布為準。</li>
-      </ol>
-      <div class="ns-btns">
-        <button class="btn" type="button" onclick="__hkkGo('t:4')">繁體認讀翻卡（100 字）</button>
-        <button class="btn" type="button" onclick="__hkkGo('t:5')">官方字表</button>
-      </div>
-    </div>
-  </div>
   <!-- 英文卷 -->
 </div>
 
@@ -1439,8 +1408,16 @@ header{position:relative}
       <button data-cs="cnpaper">中文試卷</button>
       <!-- v1.97 我的生字本：繁體字本地 CRUD（照 v1.80 我的單詞本模式） -->
       <button data-cs="zibook">我的生字本</button>
+      <!-- v2.21：繁體對照由速覽指南整體遷入，沿用 v1.9 英文卷遷移模式 -->
+      <button data-cs="ft">繁體對照</button>
     </div>
-    <p class="tip" style="margin:0 0 10px">「背古詩」＝<b>背詩星圖</b>（185 首按年級分 7 段點亮，看整體進度）＋<b>古詩詞列表</b>（繁體＋拼音＋粵拼全文）＋<b>一首詩四步</b>（聽讀 → 看譯文 → 遮字背誦 → 抽查）。想練做卷請切到「中文試卷」。</p>
+    <!-- v2.21：說明隨子頁籤切換，切到對照表時不再看到寫死給「背古詩」的說明 -->
+    <div id="cnPracTips">
+      <p class="tip" data-cstip="star" style="margin:0 0 10px">「背古詩」＝<b>背詩星圖</b>（185 首按年級分 7 段點亮，看整體進度）＋<b>古詩詞列表</b>（繁體＋拼音＋粵拼全文）＋<b>一首詩四步</b>（聽讀 → 看譯文 → 遮字背誦 → 抽查）。想練做卷請切到「中文試卷」。</p>
+      <p class="tip" data-cstip="cnpaper" style="margin:0 0 10px;display:none">「中文試卷」＝<b>本站原創仿題型</b>（小二／小五／小六），可出新卷、AI 出新卷、交卷批改；題目、篇章、選項與答案全部本站原創，非任何機構真卷。</p>
+      <p class="tip" data-cstip="zibook" style="margin:0 0 10px;display:none">「我的生字本」＝把不會認的繁體字收進來，切「翻卡複習」遮著認、認得打勾；<b>只存本瀏覽器、跟賬號走，不會上傳</b>。</p>
+      <p class="tip" data-cstip="ft" style="margin:0 0 10px;display:none">「繁體對照」＝<b>簡→繁高頻對照表</b>（分 P1–P6），用來查字、不用來背；一簡對多繁（发→發/髮、里→裡/裏）按詞義選。想練「認得快」用「補習材料 → ⑤ 繁體翻卡」。</p>
+    </div>
     <div id="cnStarView">
     <!-- v1.73 背詩星圖：185 首按 7 段點亮，全部數據取自現成 POEMS，不新造素材 -->
     <div class="starmap" id="starMap">
@@ -1497,7 +1474,7 @@ header{position:relative}
     <!-- v1.97 我的生字本：純本地增刪改查。公開 HTML 只有空結構，零預置生字 -->
     <div id="ziBookView" style="display:none">
       <div class="gtitle">我的生字本（不會的繁體字自己收 · 只存這台設備）</div>
-      <p class="tip">在「補習材料 → ⑤ 繁體翻卡／⑥ 官方字表」或「速覽 → 繁體對照」看到不會認的字，點卡片上的「＋本」收進來，也可以在下面自己輸入。以後切到「翻卡複習」遮著認，認得了打個勾。<b>資料只存本瀏覽器、跟賬號走，不會上傳</b>；清快取或換設備前請先「導出生字本」。</p>
+      <p class="tip">在「補習材料 → ⑤ 繁體翻卡／⑥ 官方字表」或「練習 → 中文 → 繁體對照」看到不會認的字，點卡片上的「＋本」收進來，也可以在下面自己輸入。以後切到「翻卡複習」遮著認，認得了打個勾。<b>資料只存本瀏覽器、跟賬號走，不會上傳</b>；清快取或換設備前請先「導出生字本」。</p>
       <div class="mwform">
         <label>繁體字／詞（必填）<input id="ziW" maxlength="40" placeholder="例：讀（或整個詞：功課）"></label>
         <label>簡體對照（選填）<input id="ziS" maxlength="40" placeholder="例：读"></label>
@@ -1520,6 +1497,38 @@ header{position:relative}
       </div>
       <p class="src">本站不預置任何生字表；生字本內容由使用者自行輸入或從本站公開字卡（繁體翻卡／繁體對照／官方字表）收進，只保存在本設備。導出檔為純文字 JSON，換設備時用「匯入生字本」合併（同字自動跳過，不會覆蓋既有內容）。全站「導出進度／匯入進度」亦包含生字本。</p>
     </div>
+  <!-- v2.21：繁體對照由「速覽指南」整體遷入「練習 → 中文」第 4 個子頁籤（沿用 v1.9 遷移模式）；整塊搬運，內部零改動 -->
+  <div id="ftView" style="display:none">
+    <div class="gtitle">繁體字 · 簡→繁 高頻對照（分 P1–P6）</div>
+    <span class="folk">常用字對照，以香港課本用字為準；分級＝自編（按簡體常用度＋繁體書寫複雜度遞增），非教育局官方分級；一簡對多繁者（如 发→發/髮、里→裡/裏）須按詞義選</span>
+    <div class="pg-chips" id="ftChips">
+      <span class="chip on" data-fg="all">全部</span>
+      <span class="chip" data-fg="P1">P1</span>
+      <span class="chip" data-fg="P2">P2</span>
+      <span class="chip" data-fg="P3">P3</span>
+      <span class="chip" data-fg="P4">P4</span>
+      <span class="chip" data-fg="P5">P5</span>
+      <span class="chip" data-fg="P6">P6</span>
+    </div>
+    <div class="tools">
+      <input type="search" id="ftSearch" placeholder="搜簡體字，如 国 / 学">
+      <span class="mini" id="ftCount"></span>
+    </div>
+    <div id="ftList"></div>
+    <!-- v1.88 下一步：對照表是查閱用的，要「認得快」得靠翻卡 -->
+    <div class="nextstep">
+      <h4>這張表用來查，不用來背</h4>
+      <ol>
+        <li>一簡對多繁（发→發/髮、里→裡/裏）按詞義選；查不到就看課本原文怎麼寫。</li>
+        <li>練「認得快」用翻卡；練「寫得對」用格紙抄寫。</li>
+        <li>正式字表在「補習材料 → ⑥ 官方字表」（筆畫序），以教育局公布為準。</li>
+      </ol>
+      <div class="ns-btns">
+        <button class="btn" type="button" onclick="__hkkGo('t:4')">繁體認讀翻卡（100 字）</button>
+        <button class="btn" type="button" onclick="__hkkGo('t:5')">官方字表</button>
+      </div>
+    </div>
+  </div>
   </div>
   <div class="wrap" id="enPracView" style="display:none">
     <div class="subnav" id="enPracSub" style="position:static;top:auto;margin:0 -16px 12px">
@@ -3296,7 +3305,7 @@ Thank you for your time.</div>
 <footer>
 <!-- Credits (not displayed): 詞表源自 word-atlas（CC BY 4.0, Word Atlas contributors）；詩文取自 chinese-poetry 收錄之公有領域古典詩文；拼音 pypinyin；粵拼 jyutping。 -->
 數學術語表為手編中↔英對照，以香港課本／考評局用語為準。<br>
-速覽差異與繁體對照、英文卷結構為坊間整理，正式以香港教育局課程指引、考評局與學校公布為準。本頁為本地原型，未上傳任何數據。<br>
+繁體對照表與速覽差異、英文卷結構為坊間整理，正式以香港教育局課程指引、考評局與學校公布為準。本頁為本地原型，未上傳任何數據。<br>
 🔊 朗讀功能依賴瀏覽器語音引擎：英文／普通話普遍支援；粵語朗讀需系統已安裝粵語嗓（如無則回退），以實際設備為準。
 </footer>
 
@@ -6133,7 +6142,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showMain(b.data
 document.querySelectorAll('#guideSub button').forEach(b=>b.onclick=()=>{
   curGuide=b.dataset.sub;
   document.querySelectorAll('#guideSub button').forEach(x=>x.classList.toggle('on',x===b));
-  ['cn','en','math','ft'].forEach(s=>document.getElementById(s+'View').style.display = s===curGuide?'block':'none');
+  ['cn','en','math'].forEach(s=>document.getElementById(s+'View').style.display = s===curGuide?'block':'none');
 });
 document.querySelectorAll('#pgChips .chip').forEach(c=>c.onclick=()=>{
   curEnGrade=c.dataset.pg;
@@ -6146,7 +6155,13 @@ document.querySelectorAll('#cnPracSub button').forEach(b=>b.onclick=()=>{
   const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
   try{
     document.querySelectorAll('#cnPracSub button').forEach(x=>x.classList.toggle('on',x===b));
-    sw('cnStarView',cs==='star'); sw('cnPaperView',cs==='cnpaper'); sw('ziBookView',cs==='zibook');
+    sw('cnStarView',cs==='star'); sw('cnPaperView',cs==='cnpaper'); sw('ziBookView',cs==='zibook'); sw('ftView',cs==='ft');
+    document.querySelectorAll('#cnPracTips [data-cstip]').forEach(function(p){p.style.display=p.dataset.cstip===cs?'block':'none';});
+    // v2.21：一級 #practiceSub 是 sticky，滾動後會蓋住 static 的二級頁籤；點頁籤時把它滾回一級下方。
+    // 只在本頁且真的被蓋時觸發，不改全域 .subnav 定位（其它二級頁籤共用，改全域必誤傷）。
+    var _ps=document.getElementById('practiceSub'), _cs=document.getElementById('cnPracSub');
+    if(_ps&&_cs){var _r=_cs.getBoundingClientRect(), _b=_ps.getBoundingClientRect().bottom;
+      if(_r.top<_b)window.scrollBy(0,_r.top-_b-8);}
     if(cs==='cnpaper' && !window.__cnPaperTest.paper.length && !window.__cnPaperTest.read.length) genCnPaper();
   }catch(e){ console.error('中文區切換失敗：',e); }
 });
@@ -8426,7 +8441,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.20',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.21',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
