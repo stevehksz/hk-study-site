@@ -608,6 +608,15 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .ai-cfg-body input{width:100%;max-width:440px;padding:7px 9px;border:1px solid #ccc;border-radius:6px;margin-top:3px;font-size:13px}
   .ai-cfg-actions{margin-top:10px;display:flex;gap:8px;align-items:center}
   .ai-cfg-actions .btn{font-size:13px;padding:5px 12px}
+  /* v2.16 按卷出題 */
+  .mai-body label{display:block;font-size:13px;margin-top:8px;color:#444}
+  .mai-body input[type=text],.mai-body input:not([type]){width:100%;max-width:440px;padding:7px 9px;border:1px solid #ccc;border-radius:6px;margin-top:3px;font-size:13px}
+  .mai-body input[type=file]{margin-top:5px;font-size:13px}
+  #maiPrev{margin-top:8px}
+  #maiImg{max-width:320px;max-height:240px;border:1px solid #ddd;border-radius:8px;display:block;margin-bottom:6px}
+  #mcustBar{margin:10px 0;padding:8px 12px;border:1px dashed var(--math,#0b7a68);border-radius:10px;background:#f4fbf9;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px}
+  .mchip-set{background:#fff;border:1px solid #d5e8e3;border-radius:8px;padding:3px 8px;display:inline-flex;gap:6px;align-items:center}
+  .mcdel{border:none;background:none;color:#c0392b;cursor:pointer;font-size:12px;padding:0;text-decoration:underline}
   .eps-sec{font-weight:700;margin:12px 0 5px;color:#0b3a5c;page-break-after:avoid}
   .gsec{border:1px solid var(--line);border-radius:10px;margin:12px auto;overflow:hidden;background:var(--card)}
   .gsec-h{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(3,105,161,.08);font-weight:700;color:#0b3a5c;border-left:4px solid var(--accent,#0369a1)}
@@ -1031,13 +1040,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.15（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.16（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.15（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.16（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1818,7 +1827,7 @@ Thank you for your time.</div>
     </div>
     <div class="wrap gsec" id="mathPaperView" style="display:none">
       <div class="gtitle">數學卷 · 智能練習卷（雙語對照 · 分 P1–P6）</div>
-      <span class="folk">基礎題庫為本地仿編原創題（非評估局／學校真卷）；題目採「英文題幹＋中文對照」，對應香港英中數學以英文出題的實況；年級難度為常見教學進度估算，以學校課本為準。<b>P6 另有 30 道原創題</b>，按香港小六校內數學卷常見的甲乙丙丁戊五部分部（運算與互化／百分數應用／平均數／容量與體積／圓周與面積），選 P6 後可只練一部；計算題請在紙上寫步驟，站內只自動核對最後答案。</span>
+      <span class="folk">基礎題庫為本地仿編原創題（非評估局／學校真卷）；題目採「英文題幹＋中文對照」，對應香港英中數學以英文出題的實況；年級難度為常見教學進度估算，以學校課本為準。<b>P6 另有 30 道原創題</b>，按香港小六校內數學卷常見的甲乙丙丁戊五部分部（運算與互化／百分數應用／平均數／容量與體積／圓周與面積），選 P6 後可只練一部；計算題請在紙上寫步驟，站內只自動核對最後答案。另可用「🤖 按學校卷子出題」上傳學校卷截圖，AI 仿卷上題型生成新題存入本機自訂題庫（見下方折疊卡）。</span>
       <div class="pg-chips" id="mpgChips">
         <span class="chip on" data-pg="P1">P1</span>
         <span class="chip" data-pg="P2">P2</span>
@@ -1835,6 +1844,7 @@ Thank you for your time.</div>
         <span class="chip" data-mp="丙">丙 平均數</span>
         <span class="chip" data-mp="丁">丁 容量與體積</span>
         <span class="chip" data-mp="戊">戊 圓周與面積</span>
+        <span class="chip" data-mp="自訂">📚 自訂</span>
       </div>
       <div class="enpaper-actions">
         <button class="btn" id="mathNewPaper" onclick="genMathPaper()">🎲 出新卷</button>
@@ -1843,10 +1853,29 @@ Thank you for your time.</div>
         <label class="print-ans-toggle"><input type="checkbox" id="mathPrintAns"> 含答案版</label>
         <span class="enpaper-stat" id="mathStat">本級最佳：—</span>
       </div>
+      <!-- v2.16：按學校卷子 AI 出題（截圖直傳 · 生成題存本機自訂題庫） -->
+      <details class="gcard fold" id="mathAiCard">
+        <summary>🤖 按學校卷子出題（截圖直傳 · 生成題存本機自訂題庫）</summary>
+        <div class="mai-body">
+          <p class="hint">卷子截圖只發往你在「練習」頁頂部「⚙ AI 設置」填的接口（模型需支持看圖，如 gpt-4o-mini），本站不經手不存儲；AI 按卷上<b>題型結構</b>生成全新題目（數字與情境自創，不照抄原卷），只存你本機瀏覽器的自訂題庫。生成後請家長先把關。</p>
+          <label>學校／卷名（存庫標識，如「聖X 2025 下學期」）</label>
+          <input id="maiName" placeholder="自訂卷 1">
+          <label>卷子截圖（選檔或直接 Ctrl+V 貼圖；一次一張，可重複生成追加）</label>
+          <input id="maiFile" type="file" accept="image/*">
+          <div id="maiPrev" style="display:none"><img id="maiImg" alt="卷子預覽"><button type="button" class="rdart-btn" id="maiClear">移除圖片</button></div>
+          <label>備註（可選：年級／範圍，如「P6 圓周」「只出乙部百分數」）</label>
+          <input id="maiNote" placeholder="">
+          <div class="ai-cfg-actions">
+            <button class="btn" id="maiBtn" onclick="maiGen()">🤖 讀卷出一套（8 題）</button>
+            <span id="maiMsg" style="font-size:12.5px;font-weight:700"></span>
+          </div>
+        </div>
+      </details>
+      <div id="mcustBar" style="display:none"></div>
       <div id="mathPaperBox"></div>
       <div id="mathPaperResult"></div>
       <div class="en-src-note" id="mathSrcNote">
-        <b>資料來源與說明（坊間參考 · 2026-11-08 更新）：</b>
+        <b>資料來源與說明（坊間參考 · 2026-11-08 更新）：</b><br>🤖 自訂題庫為家長上傳學校卷截圖後由 AI 仿題型自創的新題（原卷文字與數字不照抄），僅存本機瀏覽器 localStorage，不會出現在本站靜態頁；原卷截圖只發往家長自填的 AI 接口。
         題庫為本地仿編原創練習題，參考香港小學數學課程常見進度（數與運算／分數·小數·百分數／代數／幾何／度量／統計與概率）整理；非評估局（HKEAA）或學校真卷，年級難度為估算。正式以學校課本與教育局課程指引為準。<br>
         <b>P6 五部分部題（30 道）：</b>題幹、選項、答案與英文翻譯全部為本站原創編寫；分部方式只描述「小六數學常見考什麼」（甲 運算與互化／乙 百分數應用／丙 平均數／丁 容量與體積／戊 圓周與面積，圓取 π = 3.14），<b>未取用任何學校、補習機構或評估局的真卷原文、原題數字與配分</b>；配分與題量以各校原卷為準。
       </div>
@@ -48027,6 +48056,8 @@ let curMathGrade='P1', curMathPart='all', curMathPaper=[], _mathPrintBound=false
 function prepMcMath(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);const opts=sh.map(i=>q.opts[i]);const optszh=sh.map(i=>q.optszh[i]);return Object.assign({},q,{opts:opts,optszh:optszh,a:sh.indexOf(q.a)});}
 /* v2.12：P6 題庫分甲乙丙丁戊五部（另加 30 道原創題），可只練一部。 */
 function mathPoolFor(){
+  /* v2.16：「自訂」= 全部自訂題（不限年級）；其餘照舊。 */
+  if(curMathPart==='自訂'){ return mcAllQs(); }
   let pool=(MATH_QBANK[curMathGrade]||[]);
   if(curMathGrade==='P6'&&curMathPart!=='all') pool=pool.filter(function(q){return q.part===curMathPart;});
   return pool;
@@ -48051,14 +48082,15 @@ function pickMathN(pool,N){
     picked=picked.concat(rest.slice(0,need));
   }
   if(picked.length<N){
-    const rest2=shuffle(w.filter(function(q){return picked.indexOf(q)<0;}));
+    /* v2.16：兜底改搜整池——原只搜 word，小池（如自訂題 4 題）會湊不滿 N 丟題 */
+    const rest2=shuffle(pool.filter(function(q){return picked.indexOf(q)<0;}));
     picked=picked.concat(rest2.slice(0,N-picked.length));
   }
   return picked;
 }
 function genMathPaper(){
   const pool=mathPoolFor();
-  if(!pool.length){alert('該年級題庫暫空。');return;}
+  if(!pool.length){alert(curMathPart==='自訂'?'自訂題庫還沒有題：先在下方「🤖 按學校卷子出題」生成。':'該年級題庫暫空。');return;}
   const N=Math.min(8,pool.length);
   /* v1.94：與上一套比對，重合 ≥75% 就重抽（至多 4 次），池大時基本一次過；
      指紋用題幹前 48 字，只存內存不落盤——刷新後重新允許重複，屬預期。 */
@@ -48081,7 +48113,7 @@ function genMathPaper(){
 const LAB_M=['A','B','C','D','E','F'];
 function mathCardHtml(q,i){
   const TL={mc:"選擇題",fill:"填空題",word:"應用題"};
-  const tag=q.part?(' · '+q.part+'部 · '+(q.pname||'')):'';
+  const tag=q.part?(q.part==='自訂'?(' · 自訂 · '+(q.pname||'')):(' · '+q.part+'部 · '+(q.pname||''))):'';
   let h='<div class="qcard" data-qi="'+i+'"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span><span class="qtype">'+(TL[q.t]||"")+tag+'</span></div>';
   if(q.t==='mc'){
     h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="qopts">';
@@ -48162,9 +48194,9 @@ function printMathPaper(){
   function optsLine(opts,optszh){ return opts.map(function(o,k){return LAB[k]+'. '+o+' ('+optszh[k]+')';}).join('　　'); }
   const totalQ=curMathPaper.length, totalMarks=curMathPaper.length;
   let h='<div class="eps-head"><div class="eps-title">香港小學數學練習卷'+(withAns?'（答案版）':'')+'</div>'
-       +'<div class="eps-meta">年級：<b>'+curMathGrade+(curMathGrade==='P6'&&curMathPart!=='all'?('（'+curMathPart+' 部）'):'')+'</b>　　姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span>　　共 '+totalQ+' 題／'+totalMarks+' 分</div></div>';
+       +'<div class="eps-meta">年級：<b>'+curMathGrade+(curMathPart==='自訂'?'（自訂題）':(curMathGrade==='P6'&&curMathPart!=='all'?('（'+curMathPart+' 部）'):''))+'</b>　　姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span>　　共 '+totalQ+' 題／'+totalMarks+' 分</div></div>';
   curMathPaper.forEach(function(q,i){
-    h+='<div class="eps-q"><div class="eps-qh">Q'+(i+1)+'. （'+(TL[q.t]||'')+(q.part?(' · '+q.part+'部 · '+(q.pname||'')):'')+'）</div>';
+    h+='<div class="eps-q"><div class="eps-qh">Q'+(i+1)+'. （'+(TL[q.t]||'')+(q.part?(q.part==='自訂'?(' · 自訂 · '+(q.pname||'')):(' · '+q.part+'部 · '+(q.pname||''))):'')+'）</div>';
     if(q.t==='mc'){
       h+='<div class="eps-text">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="eps-opts">'+optsLine(q.opts,q.optszh)+'</div><div class="ansline lbl"><span class="al-t">答：</span><span class="al-l"></span></div>';
     }else if(q.t==='fill'){
@@ -49158,6 +49190,168 @@ function aiPrompt(g,t){
   else usr='Create one writing task for grade '+g+'. Schema: {"t":"write","q":"writing prompt","guide":["tip1","tip2"],"model":"model paragraph 40-80 words"}.';
   return [{role:'system',content:sys},{role:'user',content:usr}];
 }
+// ---- v2.16 自訂題庫（hkk_mcustom_v0）：按學校卷截圖 AI 出的題存本機 ----
+function mcEsc(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+var MC_KEY='hkk_mcustom_v0';
+function mcLoad(){ try{ var o=JSON.parse(localStorage.getItem(MC_KEY)||'{}'); return (o&&Array.isArray(o.sets))?o.sets:[]; }catch(e){ return []; } }
+function mcSave(sets){ try{ localStorage.setItem(MC_KEY,JSON.stringify({sets:sets})); }catch(e){} }
+function mcSets(){ return mcLoad(); }
+function mcAllQs(){ var a=[]; mcSets().forEach(function(st){ a=a.concat(st.qs); }); return a; }
+function mcCount(){ return mcAllQs().length; }
+function mcAddSet(name,qs){
+  var sets=mcSets();
+  var clean=qs.map(function(q){ var c=Object.assign({},q); c.part='自訂'; if(!c.src)c.src='AI·'+name; return c; });
+  sets.push({id:Date.now(),name:String(name).slice(0,60),ts:new Date().toISOString().slice(0,10),qs:clean});
+  mcSave(sets); mcRenderBar();
+  return sets.length;
+}
+function mcRemoveSet(id){ var sets=mcSets().filter(function(st){return String(st.id)!==String(id);}); mcSave(sets); mcRenderBar(); }
+function mcRenderBar(){
+  var bar=document.getElementById('mcustBar'); if(!bar)return;
+  var sets=mcSets();
+  if(!sets.length){ bar.style.display='none'; bar.innerHTML=''; updateMpartChips(); return; }
+  var h='<b style="font-size:13px">📚 自訂題庫（'+mcCount()+' 題 · 僅存本機）：</b>';
+  sets.forEach(function(st){
+    h+='<span class="mchip-set">'+mcEsc(st.name)+' · '+st.qs.length+' 題 <button type="button" class="mcdel" data-mcdel="'+st.id+'">刪除</button></span>';
+  });
+  h+='<span style="font-size:12px;color:#666">點上方「📚 自訂」chip 即只練自訂題</span>';
+  bar.innerHTML=h; bar.style.display='';
+  bar.querySelectorAll('[data-mcdel]').forEach(function(b){ b.onclick=function(){ if(confirm('刪除這套自訂卷？')){ mcRemoveSet(b.dataset.mcdel); } }; });
+  updateMpartChips();
+}
+/* v2.16 分部列顯隱：P6 或有自訂題時出現；五部 chip 僅 P6、自訂 chip 有題才顯。 */
+function updateMpartChips(){
+  var pc=document.getElementById('mpartChips'); if(!pc)return;
+  var hasCust=mcCount()>0;
+  pc.style.display=(curMathGrade==='P6'||hasCust)?'':'none';
+  pc.querySelectorAll('.chip').forEach(function(x){
+    if(x.dataset.mp==='自訂'){ x.style.display=hasCust?'':'none'; }
+    else{ x.style.display=(curMathGrade==='P6')?'':'none'; }
+    x.classList.toggle('on',x.dataset.mp===curMathPart);
+  });
+}
+/* v2.16 AI 生成卷的結構校驗：不合格整卷丟棄（沿用 v1.84 口徑）。 */
+function mCustomValidate(o){
+  if(!o||typeof o!=='object'||!Array.isArray(o.paper))return '格式不對';
+  if(o.paper.length<4||o.paper.length>12)return '題數須 4–12';
+  var seen={};
+  for(var i=0;i<o.paper.length;i++){
+    var q=o.paper[i];
+    if(!q||typeof q!=='object')return '第'+(i+1)+'題不是物件';
+    if(q.t!=='mc'&&q.t!=='fill'&&q.t!=='word')return '第'+(i+1)+'題題型不認識';
+    if(!q.pname||!String(q.pname).trim())return '第'+(i+1)+'題缺題型名';
+    if(!q.q||!String(q.q).trim()||!q.qzh||!String(q.qzh).trim())return '第'+(i+1)+'題題幹不全';
+    if(seen[String(q.q).slice(0,48)])return '第'+(i+1)+'題與前面重複';
+    seen[String(q.q).slice(0,48)]=1;
+    if(q.t==='mc'){
+      if(!Array.isArray(q.opts)||q.opts.length!==4||!Array.isArray(q.optszh)||q.optszh.length!==4)return '第'+(i+1)+'題 MC 選項須 4 個';
+      if(new Set(q.opts.map(function(x){return String(x).trim();})).size!==4)return '第'+(i+1)+'題 MC 選項重複';
+      if(!Number.isInteger(q.a)||q.a<0||q.a>3)return '第'+(i+1)+'題 MC 答案索引不合法';
+      if(q.azh===undefined||q.azh===null||!String(q.azh).trim())return '第'+(i+1)+'題 MC 缺中文答案';
+    }else if(q.t==='fill'){
+      if(q.a===undefined||q.a===null||!String(q.a).trim())return '第'+(i+1)+'題填充缺答案';
+    }else{
+      if(!q.model||!String(q.model).trim())return '第'+(i+1)+'題應用題缺參考答案';
+    }
+  }
+  return '';
+}
+var _maiImg=null;
+function setMaiMsg(t,c){ var m=document.getElementById('maiMsg'); if(m){ m.textContent=t; m.style.color=c||''; } }
+function maiShrink(img){
+  /* 控制上傳體積：長邊壓到 1400px 內、JPEG 0.85（卷面文字仍清晰） */
+  try{
+    var sc=Math.min(1,1400/Math.max(img.width,img.height));
+    var cv=document.createElement('canvas');
+    cv.width=Math.round(img.width*sc); cv.height=Math.round(img.height*sc);
+    cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+    return cv.toDataURL('image/jpeg',0.85);
+  }catch(e){ return img.src; }
+}
+function maiRead(file){
+  if(!/^image\//.test(file.type)){ setMaiMsg('請選圖片檔（JPG／PNG）','#c0392b'); return; }
+  var fr=new FileReader();
+  fr.onload=function(){
+    var img=new Image();
+    img.onload=function(){ _maiImg=maiShrink(img); document.getElementById('maiImg').src=_maiImg; document.getElementById('maiPrev').style.display=''; setMaiMsg('',''); };
+    img.onerror=function(){ setMaiMsg('圖片讀取失敗，換一張試試','#c0392b'); };
+    img.src=fr.result;
+  };
+  fr.readAsDataURL(file);
+}
+function maiBind(){
+  var f=document.getElementById('maiFile'); if(!f)return;
+  f.onchange=function(){ if(f.files&&f.files[0])maiRead(f.files[0]); };
+  var clr=document.getElementById('maiClear');
+  if(clr)clr.onclick=function(){ _maiImg=null; f.value=''; document.getElementById('maiPrev').style.display='none'; };
+  document.addEventListener('paste',function(e){
+    var card=document.getElementById('mathAiCard');
+    if(!card||!card.open)return;
+    var items=e.clipboardData&&e.clipboardData.items; if(!items)return;
+    for(var i=0;i<items.length;i++){
+      if(items[i].type&&items[i].type.indexOf('image')===0){
+        var it=items[i].getAsFile();
+        if(it){ maiRead(it); e.preventDefault(); break; }
+      }
+    }
+  });
+}
+function maiPrompt(){
+  var note=(document.getElementById('maiNote').value||'').trim();
+  return '以下是一張香港小學校內數學卷的截圖。請：①看懂卷上的題型結構與難度；②模仿這些題型結構，出 8 道全新的練習題——數字、人名、情境必須全部自創，嚴禁照抄原卷的題目文字或數字，題目中不得出現真實學校名稱；③每題英文題幹＋中文對照（對應香港英中數學以英文出題的實況）；④題型 t 只能是 mc（四選一選擇，英文選項放 opts、中文選項放 optszh）、fill（填空，答案唯一可自動判分）、word（應用題，給參考答案不判分），分配約 mc 2–3／fill 4–5／word 1–2；⑤每題帶 pname（題型名，如「圓周長計算」）；⑥計算涉及圓時 π 一律取 3.14。備註：'+(note||'（無）')+'。只輸出 JSON：{"paper":[{"t":"mc","pname":"…","q":"…","qzh":"…","opts":["英文選項A","英文選項B","英文選項C","英文選項D"],"optszh":["中文選項A","中文選項B","中文選項C","中文選項D"],"a":0,"azh":"…"},{"t":"fill","pname":"…","q":"…","qzh":"…","a":"…","alt":["…"]},{"t":"word","pname":"…","q":"…","qzh":"…","model":"…","modelzh":"…"}]}';
+}
+async function maiGen(){
+  const btn=document.getElementById('maiBtn'),msg=document.getElementById('maiMsg');
+  const cfg=getAiCfg();
+  if(!cfg.base||!cfg.key||!cfg.model){ setMaiMsg('先到「練習」頁頂部「⚙ AI 設置」填好接口（模型需支持看圖，如 gpt-4o-mini），再用「🔌 測試連接」確認可用','#c0392b'); return; }
+  if(!_maiImg){ setMaiMsg('先選一張卷子截圖（或直接 Ctrl+V 貼上）','#c0392b'); return; }
+  const old=btn.textContent; btn.disabled=true; btn.textContent='AI 讀卷出題中…（約 1–2 分鐘）'; setMaiMsg('','');
+  const ctl=(typeof AbortController==='function')?new AbortController():null;
+  const timer=ctl?setTimeout(function(){ try{ctl.abort();}catch(e){} },90000):null;
+  try{
+    const r=await fetch(cfg.base.replace(/\/+$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},body:JSON.stringify({model:cfg.model,messages:[{role:'user',content:[{type:'text',text:maiPrompt()},{type:'image_url',image_url:{url:_maiImg}}]}],response_format:{type:'json_object'}}),signal:ctl?ctl.signal:undefined});
+    if(!r.ok){ setMaiMsg('❌ 接口返回 HTTP '+r.status+((r&&r.statusText)?(' '+r.statusText):'')+'：檢查接口與模型','#c0392b'); return; }
+    let txt=await r.text(),j;
+    try{ j=JSON.parse(txt); }catch(e){ setMaiMsg('❌ 返回不是 JSON，可再試一次','#c0392b'); return; }
+    let content=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;
+    if(!content){ setMaiMsg('❌ 返回缺少內容，可再試一次','#c0392b'); return; }
+    content=String(content).replace(/^\s*\`\`\`(json)?/,'').replace(/\`\`\`\s*$/,'').trim();
+    let o; try{ o=JSON.parse(content); }catch(e){ setMaiMsg('❌ AI 內容不是合法 JSON，可再試一次','#c0392b'); return; }
+    const err=mCustomValidate(o);
+    if(err){ setMaiMsg('❌ 生成的卷未通過結構校驗（'+err+'），已丟棄——可再點一次或換張清晰截圖','#c0392b'); return; }
+    const name=(document.getElementById('maiName').value||'').trim()||('自訂卷 '+(mcSets().length+1));
+    mcAddSet(name,o.paper);
+    setMaiMsg('✅ 已入庫 '+o.paper.length+' 題（'+name+'）——已切到「📚 自訂」出卷，請家長先把關','#0b7a68');
+    curMathPart='自訂'; updateMpartChips(); genMathPaper();
+  }catch(e){
+    if(e&&e.name==='AbortError'){ setMaiMsg('❌ 90 秒無響應：接口太慢或網絡不通','#c0392b'); }
+    else{ setMaiMsg('❌ 請求發不出去（多為 CORS 或網絡）：見「⚙ AI 設置」的提示','#c0392b'); }
+  }finally{
+    if(timer)clearTimeout(timer);
+    btn.disabled=false; btn.textContent=old;
+  }
+}
+window.__mCustomTest={
+  get list(){return mcSets();},
+  count:mcCount,
+  all:mcAllQs,
+  validate:mCustomValidate,
+  addSet:mcAddSet,
+  removeSet:mcRemoveSet,
+  clear:function(){ mcSave([]); mcRenderBar(); },
+  exportData:function(){ return {sets:mcSets()}; },
+  importData:function(d){
+    if(!(d&&Array.isArray(d.sets)))return 0;
+    var cur=mcSets(),ids={}; cur.forEach(function(st){ids[st.id]=1;});
+    d.sets.forEach(function(st){
+      if(st&&Array.isArray(st.qs)&&st.qs.length&&!ids[st.id]){
+        cur.push({id:st.id||Date.now()+Math.floor(Math.random()*9999),name:String(st.name||'匯入卷').slice(0,60),ts:String(st.ts||'').slice(0,20),qs:st.qs.slice(0,60)});
+      }
+    });
+    mcSave(cur); mcRenderBar(); return cur.length;
+  },
+  __setImg:function(d){ _maiImg=d; }
+};
 // ---- v2.14 泛讀文章：4 級別 × 8 篇本站原創短文＋AI 出新＋打印（AI 復用 hkk_ai_cfg） ----
 const RD_ART_LEVELS=[
   {id:'L1',name:'起步',tag:'牛津閱讀樹 1–3 級 · 聽讀啟蒙',target:'約 80 詞，現在時短句，圖畫感強'},
@@ -51598,13 +51792,10 @@ document.querySelectorAll('#mathPracSub button').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('#mpgChips .chip').forEach(c=>c.onclick=()=>{
   curMathGrade=c.dataset.pg;
   document.querySelectorAll('#mpgChips .chip').forEach(x=>x.classList.toggle('on',x===c));
-  /* v2.12：分部列只在 P6 出現；切離 P6 時重置回「全部」，避免留下空池。 */
-  const pc=document.getElementById('mpartChips');
-  if(pc){
-    const on=(curMathGrade==='P6');
-    pc.style.display=on?'':'none';
-    if(!on){ curMathPart='all'; pc.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.dataset.mp==='all')); }
-  }
+  /* v2.12/v2.16：分部列在 P6 或有自訂題時出現；五部 chip 僅 P6 可用，
+     切離 P6 時若停在五部某部則重置回「全部」（自訂不限年級、保留）。 */
+  if(curMathGrade!=='P6'&&curMathPart!=='all'&&curMathPart!=='自訂'){ curMathPart='all'; }
+  updateMpartChips();
   genMathPaper();
 });
 document.querySelectorAll('#mpartChips .chip').forEach(c=>c.onclick=()=>{
@@ -52436,12 +52627,13 @@ function renderProgress(){
   renderBadges();
 }
 document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／泛讀文章檔／我的單詞本／我的生字本／已匯入詞庫／時態題型勾選與成績／今日課表打卡／錯題本）？此操作不可恢復。')){
+  if(confirm('確定清空所有進度（詩詞／星圖／詞表／港小詞／數術語／備考自查／課本詞彙進度／泛讀自查／泛讀文章檔／自訂數學題庫／我的單詞本／我的生字本／已匯入詞庫／時態題型勾選與成績／今日課表打卡／錯題本）？此操作不可恢復。')){
     pProg={};vProg={};hProg={};mProg={};poemDone={};saveP();saveV();saveH();saveM();saveDone();
     if(window.__mapTest){window.__mapTest.set({});window.__mapTest.render();}
     if(window.__lwteTest){window.__lwteTest.clear();window.__lwteTest.render();}
     if(window.__readFocusTest){window.__readFocusTest.set({});window.__readFocusTest.render();}
     if(window.__rdArtTest){window.__rdArtTest.clear();}
+    if(window.__mCustomTest){window.__mCustomTest.clear();}
     if(window.__myWordsTest){window.__myWordsTest.clear();}
     if(window.__ziTest){window.__ziTest.clear();}
     if(window.__lwtePackTest){window.__lwtePackTest.clear();}
@@ -52544,7 +52736,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.15',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.16',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -52559,6 +52751,7 @@ document.getElementById('importFile').onchange=e=>{
     if(d.lwteProg&&window.__lwteTest){window.__lwteTest.set(d.lwteProg);window.__lwteTest.render();}
     if(d.readFocus&&window.__readFocusTest){window.__readFocusTest.set(d.readFocus);window.__readFocusTest.render();}
     if(d.rdArt&&window.__rdArtTest){window.__rdArtTest.importData(d.rdArt);}
+    if(d.mCustom&&window.__mCustomTest){window.__mCustomTest.importData(d.mCustom);}
     if(Array.isArray(d.myWords)&&window.__myWordsTest){window.__myWordsTest.importData(d.myWords);}
     if(Array.isArray(d.ziWords)&&window.__ziTest){window.__ziTest.importData(d.ziWords);}
     if(d.lwteWordProg&&window.__lwtePackTest){window.__lwtePackTest.setProg(d.lwteWordProg);}
@@ -52606,6 +52799,7 @@ document.getElementById('flashSound').onclick=function(){if(flashCur)speak(flash
 bindStarMapReset();renderStarMap();renderPoemGrid();renderVocab();renderHk();renderMath();renderFt();showEnStat();
 bumpStreak();renderMoti();renderBadges();
 (function(){const c=getAiCfg();if(!c||!c.base)return;const b=document.getElementById('aiBase');if(b&&c.base)b.value=c.base;const k=document.getElementById('aiKey');if(k&&c.key)k.value=c.key;const m=document.getElementById('aiModel');if(m&&c.model)m.value=c.model;})();
+(function(){maiBind();mcRenderBar();updateMpartChips();})();/* v2.16 自訂題庫初始化 */
 
 // ============ 賬號系統（v1.33）：本機賬號 + 進度按賬號隔離 ============
 // 純前端方案（雲服務未開通）：賬號/進度僅存本瀏覽器 localStorage，密碼存 salt+SHA-256（Web Crypto 標準實現）。
