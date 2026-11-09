@@ -6,6 +6,8 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.20：葉工貼「③ 面試話題庫」截圖——「主標題還有裡面的面試題的框框太相似，不容易識別，要優化」。根因：v1.68 起的 renderTutorIv() 給 Q1–Q10 每題複用了 .gsec＋.gsec-h，與 ①–⑩ 分區頭是同一套樣式（淺藍底＋左 4px 豎條＋▾/▴ 箭頭），只把左框色行內改成 #0284c7，兩個層級視覺上無法分辨。落地：①#tutorView 十塊分區頭統一改深藍漸變底白字、16px、去左豎條、保留 ▾/▴；②#ivList 十條題目改專屬 .ivq／.ivq-h——白底細框、Q1–Q10 圓角序號徽章、14px、＋/－ 展開符、展開後答案區 .ivq-body，與分區頭在底色／字號／左框／符號四個維度分離；③零搬運、零結構變動：#ivList details 仍 10 個、#tutorView details.gsec.fold 仍 10 個且順序不變，全域 .gsec-h 規則一字未動（錯題本／單詞本／其它頁共用不受影響），AI 知識庫四來源與既有斷言未改；④@media print 把深藍分區頭還原為淺底深字避免吃墨，窄屏 640px 下兩級字號各自收斂。CDP 真機量 computedStyle：兩級背景色／字號確實不同、題條零溢出。
+
 v2.19：葉工貼「每週課表（≤3 小時）」截圖——「這裡要給相應的按鈕可以點進去，然後做完再可以跳回來這裡」。現狀：對應欄 6 格全是純文字（本頁「泛讀打卡」／教材清單②／本頁「面試話題庫」／本頁（2027.2 起）／本頁「繁體翻卡」／只聽不跟讀），站內已有 __hkkGo 三段路由但這張表沒接上，也沒有回程。落地：①對應欄 6 列改 7 顆直達鈕——⑦泛讀打卡 t:6／②教材清單 t:1／③面試話題庫 t:2／④數學術語翻卡 t:3／⑤繁體翻卡 t:4＋⑥官方字表 t:5／粵語磨耳朵走「今日課表」p:sched 打勾；原口徑（2027.2 起、只聽不跟讀、只買兩本）全部保留為按鈕下小字。②t:1–t:6 六個折疊塊＋#schedView 共 7 處，內容流內靜態插入「↩ 返回每週課表」條，點表格按鈕時記錄來源列（sessionStorage hkk_wkback_v0）並顯示，點返回則回到補習材料①、滾到 #wkHead（標題，讓上方說明不被吸頂導航蓋住）、高亮該列 2.6 秒後自動退；窄屏下對應欄按鈕改全寬塊狀，兩顆按鈕上下排不擠成碎行。③不做自動完成判定：各模塊「做完」定義不同，硬猜會誤判，由使用者按返回鈕收尾；返回條用 display:flex 的內容流元素，零 fixed/absolute（沿用 v2.18 反浮層結論）。④零搬運：表格整段原地重寫，①–⑩ 折疊結構、既有斷言、AI 知識庫四來源均未動。
 
 v2.18：葉工貼「⑤ 繁體翻卡」100 字卡截圖——「＋本還有已收這些圖示遮住字體了，要優化」。根因：v1.97 起的 .ziadd 是 position:absolute;top:4px;right:4px 的右上角浮層，而 .fcard 只有 10px 上下內距、大字 17px 正好落在按鈕 24px 高的帶裡；收字後按鈕文案由「＋本」變「✓ 已收」寬度翻倍，直接蓋住整張卡上部。落地：①#ftGrid／#lexToday／#lexAll／#lexQRes 四個字卡網格改 grid 三行——大字 20px／小字／收字鈕各佔一行；②這四格內的 .ziadd 由 absolute 浮層改 position:static＋justify-self:center＋white-space:nowrap，文案再長也不壓字；③其它容器（#ftList 行內 .ftrow、#ziList .ziflip）沿用原規則不動，零搬運、零 DOM 改動；④「✓ 已收」文案與捕獲階段 stopPropagation 保持不變，v1.97「收字不誤翻卡」既有斷言不用改。真機 CDP 量 getBoundingClientRect()：收字前後 .ziadd 與 .fw 矩形零重疊（桌面 1440／手機 390px）。
@@ -1114,6 +1116,23 @@ header{position:relative}
   .tx-passage p{margin:0 0 10px;line-height:1.85;font-size:14.5px}
   .tx-passage p:last-child{margin-bottom:0}
   @media screen and (max-width:640px){.tx-passage{padding-left:9px}.tx-passage p{font-size:14px;line-height:1.8}}
+/* v2.20：補習材料①–⑩ 分區頭 與 ③ 面試題條 拆成兩個視覺層級（原本同款 .gsec-h 難辨層級） */
+#tutorView details.gsec.fold>summary.gsec-h{background:linear-gradient(100deg,#0d4a75 0%,#0369a1 100%);color:#fff;font-size:16px;font-weight:700;letter-spacing:.4px;border-left:0;padding:13px 16px;min-height:48px;box-shadow:inset 0 -2px 0 rgba(255,255,255,.16)}
+#tutorView details.gsec.fold>summary.gsec-h::after{content:'▾';margin-left:auto;font-size:13px;color:#e8f4ff}
+#tutorView details.gsec.fold[open]>summary.gsec-h::after{content:'▴'}
+#tutorView details.gsec.fold:not([open])>summary.gsec-h:hover{background:linear-gradient(100deg,#0e5687 0%,#0479b9 100%)}
+#tutorView details.gsec.fold[open]>summary.gsec-h{border-bottom:1px solid rgba(255,255,255,.2)}
+#ivList details.ivq{border:1px solid #d7e6f1;border-radius:9px;background:#fff;margin:8px 0;overflow:hidden}
+#ivList details.ivq>summary.ivq-h{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f8fbfe;border:0;color:#0b3a5c;font-size:14px;font-weight:600;line-height:1.5;min-height:40px}
+#ivList details.ivq>summary.ivq-h::-webkit-details-marker{display:none}
+#ivList details.ivq>summary.ivq-h::after{content:'＋';margin-left:auto;flex:0 0 auto;font-size:15px;font-weight:700;color:#7aa6c2}
+#ivList details.ivq[open]>summary.ivq-h::after{content:'－'}
+#ivList details.ivq[open]>summary.ivq-h{background:#eef7fd;border-bottom:1px solid #d7e6f1}
+.ivq-n{flex:0 0 auto;min-width:32px;text-align:center;background:#e4f1fa;border:1px solid #cbe4f5;border-radius:6px;padding:2px 6px;font-size:12px;font-weight:700;color:#0369a1}
+.ivq-t{flex:1 1 auto;min-width:0}
+.ivq-body{padding:10px 14px;border-top:1px solid #e3eef7;background:#fff;font-size:14px;line-height:1.8;color:#33475b}
+@media screen and (max-width:640px){#tutorView details.gsec.fold>summary.gsec-h{font-size:14.5px;padding:12px 12px;letter-spacing:0}#ivList details.ivq>summary.ivq-h{font-size:13.5px;padding:9px 10px;gap:8px}}
+@media print{#tutorView details.gsec.fold>summary.gsec-h{background:#eef4f9!important;color:#0b3a5c!important;border-left:4px solid #0369a1!important;box-shadow:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}#tutorView details.gsec.fold>summary.gsec-h::after{color:#8a8aa0}#ivList details.ivq>summary.ivq-h{background:#f8fbfe!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
 <script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js"></script>
@@ -1158,13 +1177,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.19（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.20（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.19（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.20（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -5498,8 +5517,9 @@ function renderTutorFt(){
 }
 function renderTutorIv(){
   const box=document.getElementById('ivList'); if(!box)return;
+  // v2.20：題條不再複用分區頭的 .gsec-h，改用 .ivq／.ivq-h（白底細框＋Q 徽章），層級一眼可分
   box.innerHTML=INTERVIEW_Q.map(function(q,i){
-    return '<details class="gsec" style="margin:8px 0"><summary class="gsec-h" style="border-left-color:#0284c7">Q'+(i+1)+' · '+hkEsc(q[0])+'</summary><div style="padding:10px 14px;border-top:1px solid var(--line)">'+hkEsc(q[1])+'</div></details>';
+    return '<details class="gsec ivq"><summary class="ivq-h"><span class="ivq-n">Q'+(i+1)+'</span><span class="ivq-t">'+hkEsc(q[0])+'</span></summary><div class="ivq-body">'+hkEsc(q[1])+'</div></details>';
   }).join('');
 }
 // ---- 教育局官方字表（v1.62：3171 字筆畫序 · 搜字／今日認讀／分頁瀏覽） ----
@@ -8406,7 +8426,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.19',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.20',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
