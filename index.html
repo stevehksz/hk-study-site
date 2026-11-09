@@ -1031,13 +1031,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.14（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.15（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.14（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.15（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1218,6 +1218,26 @@ header{position:relative}
 <!-- ============ 練習區（按科目歸口） ============ -->
 <div id="practiceView" style="display:none">
   <!-- 今日課表（v1.90：補習材料①每週課表升級——按天顯示＋打勾＋直達） -->
+  <!-- v2.15：AI 設置卡從英文卷底部移到練習區公共位（各 AI 功能共用、進練習即可見） -->
+      <details class="ai-cfg" id="aiCfg">
+        <summary>⚙ AI 設置（AI 出題／換題／AI 文章共用 · 自填接口與密鑰）</summary>
+        <div class="ai-cfg-body">
+          <p class="hint">密鑰僅存於本瀏覽器 localStorage，不會上傳到本站以外的任何地方；僅發往你填寫的接口地址。若瀏覽器報 CORS 錯誤，說明該接口不允許瀏覽器直連，可改用 OpenRouter / Groq / 本地 LM Studio，或自建反向代理。</p>
+          <label>Base URL（如 https://api.openai.com/v1）</label>
+          <input id="aiBase" placeholder="https://api.openai.com/v1">
+          <label>API Key</label>
+          <input id="aiKey" type="password" placeholder="sk-...">
+          <label>模型（如 gpt-4o-mini / deepseek-chat）</label>
+          <input id="aiModel" placeholder="gpt-4o-mini">
+          <div class="ai-cfg-actions">
+            <button class="btn" onclick="saveAiCfg()">保存</button>
+            <button class="btn" onclick="clearAiCfg()">清除</button>
+            <button class="btn" id="aiTestBtn" onclick="aiTestCfg()">🔌 測試連接</button>
+            <span id="aiCfgMsg"></span>
+            <span id="aiTestMsg" style="font-size:12.5px;font-weight:700"></span>
+          </div>
+        </div>
+      </details>
   <div class="wrap" id="schedView">
     <div class="gsec">
       <h2>今日課表</h2>
@@ -1697,7 +1717,7 @@ Thank you for your time.</div>
     </div>
     <div class="wrap gsec" id="paperView" style="display:none">
       <div class="gtitle">英文卷 · 智能練習卷（本地隨機出題 · 分 P1–P6 · 可 AI 換題）</div>
-      <span class="folk">基礎題庫為本地規則生成（非外部 AI）；可於下方「⚙ AI 設置」接入大模型現場換題（需自填接口與密鑰，僅存本瀏覽器）。題目為小學英文常見題型，年級歸屬為常見教學進度估算，以學校課本為準</span>
+      <span class="folk">基礎題庫為本地規則生成（非外部 AI）；可於「練習」頁頂部「⚙ AI 設置」接入大模型現場換題（需自填接口與密鑰，僅存本瀏覽器）。題目為小學英文常見題型，年級歸屬為常見教學進度估算，以學校課本為準</span>
       <div class="pg-chips" id="pgChips">
         <span class="chip on" data-pg="P1">P1</span>
         <span class="chip" data-pg="P2">P2</span>
@@ -1724,23 +1744,6 @@ Thank you for your time.</div>
         <br>⚠️ 本卷為本地規則隨機仿題，非評估局／學校真卷；年級難度為常見教學進度估算，以學校課本為準。
         <br>        📚 閱讀理解題取材自 <a href="https://www.edb.gov.hk/en/curriculum-development/kla/eng-edu/references-resources/Lit_Classics_Pri_CFT_r.html" target="_blank" rel="noopener">教育局「中國寓言系列」</a>（EDB 公開學與教資源，版權歸教育局，僅教學用途，檢索 2026-10-31）；題目為本站依官方英文文本改編，非逐字複製。
       </div>
-      <details class="ai-cfg" id="aiCfg">
-        <summary>⚙ AI 設置（接大模型現場換題 · 自填接口與密鑰）</summary>
-        <div class="ai-cfg-body">
-          <p class="hint">密鑰僅存於本瀏覽器 localStorage，不會上傳到本站以外的任何地方；僅發往你填寫的接口地址。若瀏覽器報 CORS 錯誤，說明該接口不允許瀏覽器直連，可改用 OpenRouter / Groq / 本地 LM Studio，或自建反向代理。</p>
-          <label>Base URL（如 https://api.openai.com/v1）</label>
-          <input id="aiBase" placeholder="https://api.openai.com/v1">
-          <label>API Key</label>
-          <input id="aiKey" type="password" placeholder="sk-...">
-          <label>模型（如 gpt-4o-mini / deepseek-chat）</label>
-          <input id="aiModel" placeholder="gpt-4o-mini">
-          <div class="ai-cfg-actions">
-            <button class="btn" onclick="saveAiCfg()">保存</button>
-            <button class="btn" onclick="clearAiCfg()">清除</button>
-            <span id="aiCfgMsg"></span>
-          </div>
-        </div>
-      </details>
     </div>
     <div class="wrap gsec" id="examView" style="display:none">
       <div class="gtitle">呈分試卷 · 英文呈分試模擬卷（P5–P6 · 仿版式原創題）</div>
@@ -1760,7 +1763,7 @@ Thank you for your time.</div>
       </div>
       <div id="examPaperBox"></div>
       <div id="examPaperResult"></div>
-      <div class="en-src-note"><b>說明：</b>題型版式取自家長提供的坊間呈分試模擬卷樣式（2026-10-31 兩批樣張，僅取版式與分值結構，不取內容）：第二批樣張的海報閱讀、since/therefore、電影職業、習語等題型已對應併入 (I)(J)(D)(B)；題目內容全部原創仿編。「🤖 AI 出新卷」需先在「練習→英文→智能練習卷」底部「⚙ AI 設置」填好接口（僅存本瀏覽器），AI 生成的整卷經結構校驗後才替換當前卷，卷頭標 AI 生成。年級難度以 P5–P6 呈分試常見水平估算，以學校課本為準。</div>
+      <div class="en-src-note"><b>說明：</b>題型版式取自家長提供的坊間呈分試模擬卷樣式（2026-10-31 兩批樣張，僅取版式與分值結構，不取內容）：第二批樣張的海報閱讀、since/therefore、電影職業、習語等題型已對應併入 (I)(J)(D)(B)；題目內容全部原創仿編。「🤖 AI 出新卷」需先在「練習」頁頂部「⚙ AI 設置」填好接口（僅存本瀏覽器），AI 生成的整卷經結構校驗後才替換當前卷，卷頭標 AI 生成。年級難度以 P5–P6 呈分試常見水平估算，以學校課本為準。</div>
     </div>
 
     <!-- v1.89 時態與題型：葉工女兒做站內打印卷時暴露兩個缺口——①一般過去式同一知識點連錯 6 題；②習語／since 句／短語動詞／開放題整題空白（不是不會，是沒見過）。
@@ -48611,7 +48614,7 @@ function cnValidate(o){
 /* AI 出整卷：先要 cfg，再生成，再過校驗，不合格回退本地題庫 */
 async function cnAiPaper(){
   const cfg=getAiCfg();
-  if(!cfg.base||!cfg.key||!cfg.model){ alert('尚未配置 AI 接口。請到「練習 → 英文 → 智能練習卷」底部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器），再回來生成新卷。'); return; }
+  if(!cfg.base||!cfg.key||!cfg.model){ alert('尚未配置 AI 接口。請到「練習」頁頂部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器），再回來生成新卷。'); return; }
   const btn=document.getElementById('cnAiBtn'); const t0=btn?btn.textContent:'';
   if(btn){btn.disabled=true;btn.textContent='AI 生成中…（約 1–2 分鐘）';}
   try{
@@ -48651,7 +48654,7 @@ async function cnAiPaper(){
 /* 單題 AI 換題：只替換指定題型的題目，失敗不動原題 */
 async function cnAiSwap(i,kind){
   const cfg=getAiCfg();
-  if(!cfg.base||!cfg.key||!cfg.model){ alert('尚未配置 AI 接口。請到「練習 → 英文 → 智能練習卷」底部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器）。'); return; }
+  if(!cfg.base||!cfg.key||!cfg.model){ alert('尚未配置 AI 接口。請到「練習」頁頂部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器）。'); return; }
   const t=kind||'mc';
   const btn=document.querySelector('#cnPaperBox .qcard[data-qi="'+i+'"] .cnai');
   const oldTxt=btn?btn.textContent:'';
@@ -49108,6 +49111,31 @@ window.__drillTest={groups:DRILL_GROUPS,verbs:DRILL_VERBS,tap:function(){return 
 function getAiCfg(){ try{return JSON.parse(localStorage.getItem('hkk_ai_cfg')||'{}');}catch(e){return {};} }
 function saveAiCfg(){ const cfg={base:(document.getElementById('aiBase').value||'').trim(),key:(document.getElementById('aiKey').value||'').trim(),model:(document.getElementById('aiModel').value||'').trim()}; localStorage.setItem('hkk_ai_cfg',JSON.stringify(cfg)); const m=document.getElementById('aiCfgMsg'); if(m)m.textContent='已保存（本瀏覽器）'; }
 function clearAiCfg(){ localStorage.removeItem('hkk_ai_cfg'); ['aiBase','aiKey','aiModel'].forEach(function(id){const e=document.getElementById(id); if(e)e.value='';}); const m=document.getElementById('aiCfgMsg'); if(m)m.textContent='已清除'; }
+// v2.15 測試連接：發一次 max_tokens=1 的最小請求驗證接口真實可用；15s 超時；錯誤分類（密鑰／HTTP／CORS-網絡）；不回顯密鑰
+async function aiTestCfg(){
+  const btn=document.getElementById('aiTestBtn'), msg=document.getElementById('aiTestMsg');
+  const setMsg=function(t,c){ if(!msg)return; msg.textContent=t; msg.style.color=c; };
+  const base=(document.getElementById('aiBase').value||'').trim().replace(/\/+$/,'');
+  const key=(document.getElementById('aiKey').value||'').trim();
+  const model=(document.getElementById('aiModel').value||'').trim();
+  if(!base||!key||!model){ setMsg('先填齊 Base URL／Key／模型再測試','#c0392b'); return; }
+  const old=btn.textContent; btn.disabled=true; btn.textContent='測試中…'; setMsg('','');
+  const t0=Date.now();
+  const ctl=(typeof AbortController==='function')?new AbortController():null;
+  const timer=ctl?setTimeout(function(){ try{ctl.abort();}catch(e){} },15000):null;
+  try{
+    const r=await fetch(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:model,messages:[{role:'user',content:'ping'}],max_tokens:1,stream:false}),signal:ctl?ctl.signal:undefined});
+    if(r.ok){ setMsg('✅ 接口通 · 模型 '+model+' · '+((Date.now()-t0)/1000).toFixed(1)+'s —— 各 AI 功能已可用','#0b7a68'); return; }
+    if(r.status===401||r.status===403){ setMsg('❌ 密鑰被拒（HTTP '+r.status+'）：檢查 API Key 是否正確、賬戶有無餘額','#c0392b'); return; }
+    setMsg('❌ 接口返回 HTTP '+r.status+(r&&r.statusText?(' '+r.statusText):'')+'：確認 Base URL 是否到 /v1 一級','#c0392b');
+  }catch(e){
+    if(e&&e.name==='AbortError'){ setMsg('❌ 15 秒無響應：接口地址可能不對或網絡不通','#c0392b'); }
+    else{ setMsg('❌ 請求發不出去（多為 CORS 或網絡）：該接口可能不允許瀏覽器直連，可改用 OpenRouter／Groq／本地 LM Studio 或自建反向代理','#c0392b'); }
+  }finally{
+    if(timer)clearTimeout(timer);
+    btn.disabled=false; btn.textContent=old;
+  }
+}
 function swapCard(i,q){ curEnPaper[i]=q; const box=document.getElementById('enPaperBox'); const old=box.querySelector('.qcard[data-qi="'+i+'"]'); if(old) old.outerHTML=enCardHtml(q,i); }
 function localSwap(i){
   const cur=curEnPaper[i]; if(!cur)return; const g=cur.grade||curEnGrade; const t=cur.t;
@@ -49243,7 +49271,7 @@ async function rdArtAI(){
   const msg=document.getElementById('rdArtMsg');
   const btn=document.getElementById('rdArtAiBtn');
   if(!cfg.base||!cfg.key||!cfg.model){
-    if(msg)msg.textContent='還沒填 AI 接口：去「練習 → 英文 → 英文卷」的 AI 設置填 Base URL／Key／模型，回來再點。本機八篇原創文章不受影響。';
+    if(msg)msg.textContent='還沒填 AI 接口：去「練習」頁頂部的 AI 設置填 Base URL／Key／模型，回來再點。本機八篇原創文章不受影響。';
     return;
   }
   const lv=RD_ART_LEVELS.find(function(x){return x.id===curRdArtLv;});
@@ -49332,7 +49360,7 @@ async function aiSwap(i){
   try{
     const q=await aiGenQuestion(g,t);
     if(btn){ btn.disabled=false; btn.textContent=oldTxt; }
-    if(!q){ if(!getAiCfg().key){ alert('尚未配置 AI 接口。請點開下方「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器）。'); } else { alert('AI 生成失敗，可改用 🔄 換一題（本地）。'); } return; }
+    if(!q){ if(!getAiCfg().key){ alert('尚未配置 AI 接口。請點開「練習」頁頂部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器）。'); } else { alert('AI 生成失敗，可改用 🔄 換一題（本地）。'); } return; }
     let o=Object.assign({},q,{grade:g});
     if(o.t==='mc')o=prepMc(o); else if(o.t==='read')o=prepRead(o);
     swapCard(i,o);
@@ -51518,7 +51546,7 @@ function exValidate(o){
 }
 async function exAiPaper(){
   const cfg=getAiCfg();
-  if(!cfg.base||!cfg.key||!cfg.model){ alert('尚未配置 AI 接口。請到「練習→英文→智能練習卷」底部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器），再回來生成新卷。'); return; }
+  if(!cfg.base||!cfg.key||!cfg.model){ alert('尚未配置 AI 接口。請到「練習」頁頂部的「⚙ AI 設置」填寫 Base URL／密鑰／模型（僅存本瀏覽器），再回來生成新卷。'); return; }
   const btn=document.getElementById('examAiBtn');const t0=btn?btn.textContent:'';
   if(btn){btn.disabled=true;btn.textContent='AI 生成中…（約 1–2 分鐘）';}
   try{
@@ -52516,7 +52544,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.14',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.15',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
