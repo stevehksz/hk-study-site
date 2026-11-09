@@ -6,6 +6,8 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.18：葉工貼「⑤ 繁體翻卡」100 字卡截圖——「＋本還有已收這些圖示遮住字體了，要優化」。根因：v1.97 起的 .ziadd 是 position:absolute;top:4px;right:4px 的右上角浮層，而 .fcard 只有 10px 上下內距、大字 17px 正好落在按鈕 24px 高的帶裡；收字後按鈕文案由「＋本」變「✓ 已收」寬度翻倍，直接蓋住整張卡上部。落地：①#ftGrid／#lexToday／#lexAll／#lexQRes 四個字卡網格改 grid 三行——大字 20px／小字／收字鈕各佔一行；②這四格內的 .ziadd 由 absolute 浮層改 position:static＋justify-self:center＋white-space:nowrap，文案再長也不壓字；③其它容器（#ftList 行內 .ftrow、#ziList .ziflip）沿用原規則不動，零搬運、零 DOM 改動；④「✓ 已收」文案與捕獲階段 stopPropagation 保持不變，v1.97「收字不誤翻卡」既有斷言不用改。真機 CDP 量 getBoundingClientRect()：收字前後 .ziadd 與 .fw 矩形零重疊（桌面 1440／手機 390px）。
+
 v2.17：葉工貼「今日認讀」20 字卡截圖問「這些字可以和前面一樣有簡體還有繁體字互相反轉嗎」——前面指⑤繁體認讀翻卡（簡→繁逐卡翻面）。落地：①構建期用 OpenCC 開源轉換表 t2s（opencc-python-reimplemented 0.1.7）對教育局官方字表 3,171 字生成繁→簡差異對照（1,153 對，其餘 2,018 字同形），gen_lex_simp.py 可重跑、_lex_simp.json 構建期注入靜態頁（瀏覽器零依賴，斷言鍵必在字表內／鍵值皆單字）；②lexCell 三處容器共用翻卡（今日認讀／全表瀏覽／查字結果），正面繁、點卡翻面簡，「🔁 方向」一鍵反成正面簡、翻面繁，「全部翻開／全部蓋回」只作用今日 20 字；③⚠️ 實測字表前 60 字簡繁全同形、首個差異字是第 67 字「內→内」（第 4 組），故同形字翻面明標「簡繁同形」並給 .open 底色，避免「點了沒變化」被當成壞掉（v2.13 教訓）；④「＋本」按鈕順帶補上 v1.97 留空的 data-zs 簡體對照；⑤⚠️ 口徑寫進⑥卡來源行：對照由 OpenCC 機械生成、非教育局官方，部分屬香港／內地字形差異或異體歸併（內→内、冊→册、並→并），一字多義（乾／幹、後／后）以課本為準；⑥方向只存記憶體，零新增 localStorage 鍵；翻卡走 document 冒泡委派，與「＋本」捕獲階段 stopPropagation 天然隔離。零搬運改版（只換 lexCell 與三個 render 尾行）。斷言 1229→1249×3。
 
 v2.16：葉工圈數學卷截圖說「數學試卷的題型太少了，最好以後可以隨意添加學校卷子的類型——給了不同學校的卷子，可以按照這個卷子 AI 出題」，並附 P6 數學卷 PDF。AskUserQuestion 拍板＝**截圖直傳（AI 視覺讀卷）＋存本機自訂題庫**（否決純文字粘贴／臨時一套）。落地：①數學卷操作行下新增折疊卡「🤖 按學校卷子出題」：選檔或 Ctrl+V 貼卷子截圖（canvas 壓到長邊 1400px/JPEG 0.85 控制體積）＋可選卷名與備註→「讀卷出一套（8 題）」走 hkk_ai_cfg 的 `image_url` 視覺請求，prompt 明令模仿題型結構但數字情境全部自創、嚴禁照抄原卷文字數字、題中不出真實校名、π=3.14、mc 2–3/fill 4–5/word 1–2；②**mCustomValidate 結構校驗**（題數 4–12／題型白名單／MC 四選項不重複且索引合法／fill 缺答案拒收／word 缺參考答案拒收／題幹重複拒收）不合格整卷丟棄——沿用 v1.84「AI 不亂出題」口徑；③通過即入 **hkk_mcustom_v0 自訂題庫**（每套 id/卷名/日期/題目，題帶 part:「自訂」＋src 標注），#mcustBar 列各套（名稱·題數·刪除），**#mpartChips 加「📚 自訂」chip**：分部列改為「P6 或有自訂題」時出現（五部 chip 僅 P6 顯示、自訂 chip 有題才顯示），點自訂＝只從自訂題抽卷且**不限年級**；切離 P6 若停在五部某部才重置 all；④生成後自動切到自訂出卷讓家長即時過目；90s 超時／HTTP 錯／非 JSON／校驗失敗四級提示，按鈕 finally 恢復；⑤導出/導入（合併不去重 by id）/清空確認文案接 mCustom。⚠️ 版權：原卷截圖只發往家長自填接口、本站不經手；生成題僅存本機 localStorage，公開靜態頁零用戶數據；mathSrcNote 與卡內 hint 明示。⚠️ 題卡/打印 tag 分流：part=「自訂」顯示「· 自訂 ·」不加「部」字。探針：mock fetch 覆蓋成功入庫與壞卷丟棄兩路＋validate 壞例矩陣＋chip 接線實跑。
@@ -515,7 +517,11 @@ table.rdtable td:first-child{font-weight:800;color:#334155;white-space:nowrap}
 .ziadd{position:absolute;top:4px;right:4px;min-height:24px;padding:2px 7px;border:1px solid var(--line);background:#f8fafc;border-radius:8px;font-size:11px;font-weight:700;color:#0b7a68;cursor:pointer;line-height:1.3}
 .ziadd:hover{border-color:var(--math);background:#e6fbf5}
 .ziadd.in{color:#64748b;background:#eef2f7;cursor:default}
-#ftGrid .fcard,#lexToday .fcard,#lexAll .fcard,#lexQRes .fcard{position:relative}
+#ftGrid .fcard,#lexToday .fcard,#lexAll .fcard,#lexQRes .fcard{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;justify-items:center;align-items:center;gap:3px;padding:9px 5px 8px}
+/* v2.18：大字／小字／收字鈕各佔一行，收字鈕不再浮在字上（葉工 2026-11-09 截圖反饋） */
+#ftGrid .fcard .fw,#lexToday .fcard .fw,#lexAll .fcard .fw,#lexQRes .fcard .fw{grid-row:1;font-size:20px;line-height:1.35}
+#ftGrid .fcard small,#lexToday .fcard small,#lexAll .fcard small,#lexQRes .fcard small{grid-row:2;margin-top:0;max-width:100%;overflow-wrap:anywhere;text-align:center}
+#ftGrid .fcard .ziadd,#lexToday .fcard .ziadd,#lexAll .fcard .ziadd,#lexQRes .fcard .ziadd{position:static;grid-row:3;justify-self:center;min-width:46px;min-height:22px;padding:1px 8px;font-size:10.5px;line-height:1.4;text-align:center;white-space:nowrap}
 .ftrow .ziadd{position:static;margin-left:auto;flex:0 0 auto}
 .zicard{background:#fff;border:1px solid var(--line);border-left:4px solid var(--jy);border-radius:10px;padding:11px 13px;margin:0 0 9px}
 .zicard.done{border-left-color:#94a3b8;background:#f8fafc}
@@ -1137,13 +1143,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.17（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.18（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.17（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.18（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -8377,7 +8383,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.17',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.18',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
