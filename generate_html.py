@@ -6,6 +6,8 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v2.22：葉工貼「今日認讀 · 第 3 組」截圖——「這裏都是簡體字，沒有繁體字，請修改全部」。先查根因再動手：⑥ 教育局官方字表 3,171 字本身就是繁體標準字形，只是全表 2,018 字（63.6%）與簡體同形，前 10 組 200 字裏 196 字同形；第 41–60 字「工己已巾干弓才丑丐不中丹之予云井互五仁什」正好全落在同形區，翻面大字不變，觀感才像簡體。v2.17 的 LEX_SIMP 是 OpenCC t2s 機械生成，「云」被判同形屬正常（繁體『云』本就是言說義正字），不能硬改成『雲』篡改官方字表。落地四件：①字卡小字前加 .lexflag「繁／簡」角標，正面深藍底「繁」、翻面綠底「簡」，lexApplyCard 只更新 .lexflag／.lexnote 兩個子節點，.fw.textContent 保持純漢字（v1.62／v2.17／v2.18 既有斷言零改動）；small 用 grid-row:2 的既有行，沿用 v2.18 反浮層結論，不加 position:absolute。②同形字文案由乾巴巴「簡繁同形」改「簡繁同形（繁體標準字形）」，保留 base 序號與「點蓋回」；今日認讀標題加 #lexSameN 動態統計本組同形數，頂部 tip 用 #lexSameTotal 填全表同形數並解釋根因，順帶指向上方⑤人工校過的一字多繁對照（云→雲／干→乾／面→麵），不把長備註塞進小卡撐破網格。③全表瀏覽加 #lexDiffBtn「只看繁簡差異」：切換 lexDiffOnly，LEX_DIFF 由 LEX_SIMP 實測派生（1153 字），分頁頁數／下拉選項／#lexDiffN 計數隨池重算，再點一次回到全表；字表原字、筆畫序、進度鍵 hkk_lex_pos 與既有 53 頁斷言全不動。④版本串升 v2.22、changelog 置頂、verify2.js 版本鎖全量換鎖並補 v2.22 專項斷言。全程零搬運、零新增 localStorage 鍵、零外部依賴。
+
 v2.21：葉工貼「速覽指南」子頁籤截圖——「繁体对照放到练习中文里面的子目录里面，看看怎么优化」。沿用 changelog v1.9 的既有先例（當年把「速覽→英文卷」整體遷入「練習→英文」第 4 個子標籤、速覽入口移除），不另造導航結構。落地：①#guideSub 移除「繁體對照」按鈕（4→3 顆），顯隱陣列 ['cn','en','math','ft'] 改回三項；②#cnPracSub 新增第 4 顆 data-cs="ft"「繁體對照」，切換邏輯補 sw('ftView')；③#ftView 整塊從 #guideView 移到 #cnPracView 內，與 cnStarView／cnPaperView／ziBookView 並列為兄弟 pane，class 去掉 wrap／gsec 避免雙層留白與 @media print 的 display:block!important 強制顯示；內部 P1–P6 chips、搜尋、字表、＋本收字、nextstep 出口零改動，renderFt() 初始化呼叫不變；④#cnPracView 頂部寫死給「背古詩」的 tip 改為 #cnPracTips 四段隨子頁籤顯隱，切到對照表不再看到錯的說明；⑤「速覽 → 繁體對照」文案改指「練習 → 中文 → 繁體對照」，__hkkGo('p:cn:ft') 沿用既有 data-cs 分支即可直達，零新路由。零搬運紀律：ftView 以完整開收口整塊剪切插入，不切塊重排；構建後用 jsdom 驗落位／兄弟關係／ID 唯一／四 pane 互斥。
 
 v2.20：葉工貼「③ 面試話題庫」截圖——「主標題還有裡面的面試題的框框太相似，不容易識別，要優化」。根因：v1.68 起的 renderTutorIv() 給 Q1–Q10 每題複用了 .gsec＋.gsec-h，與 ①–⑩ 分區頭是同一套樣式（淺藍底＋左 4px 豎條＋▾/▴ 箭頭），只把左框色行內改成 #0284c7，兩個層級視覺上無法分辨。落地：①#tutorView 十塊分區頭統一改深藍漸變底白字、16px、去左豎條、保留 ▾/▴；②#ivList 十條題目改專屬 .ivq／.ivq-h——白底細框、Q1–Q10 圓角序號徽章、14px、＋/－ 展開符、展開後答案區 .ivq-body，與分區頭在底色／字號／左框／符號四個維度分離；③零搬運、零結構變動：#ivList details 仍 10 個、#tutorView details.gsec.fold 仍 10 個且順序不變，全域 .gsec-h 規則一字未動（錯題本／單詞本／其它頁共用不受影響），AI 知識庫四來源與既有斷言未改；④@media print 把深藍分區頭還原為淺底深字避免吃墨，窄屏 640px 下兩級字號各自收斂。CDP 真機量 computedStyle：兩級背景色／字號確實不同、題條零溢出。
@@ -541,6 +543,9 @@ table.rdtable td:first-child{font-weight:800;color:#334155;white-space:nowrap}
 #ftGrid .fcard .fw,#lexToday .fcard .fw,#lexAll .fcard .fw,#lexQRes .fcard .fw{grid-row:1;font-size:20px;line-height:1.35}
 #ftGrid .fcard small,#lexToday .fcard small,#lexAll .fcard small,#lexQRes .fcard small{grid-row:2;margin-top:0;max-width:100%;overflow-wrap:anywhere;text-align:center}
 #ftGrid .fcard .ziadd,#lexToday .fcard .ziadd,#lexAll .fcard .ziadd,#lexQRes .fcard .ziadd{position:static;grid-row:3;justify-self:center;min-width:46px;min-height:22px;padding:1px 8px;font-size:10.5px;line-height:1.4;text-align:center;white-space:nowrap}
+/* v2.22：小字前加「繁／簡」角標，明確字表原字本身是繁體標準字形；沿用 grid-row:2，不加浮層 */
+#lexToday .fcard small .lexflag,#lexAll .fcard small .lexflag,#lexQRes .fcard small .lexflag{display:inline-block;margin-right:4px;padding:0 4px;border-radius:4px;background:#0d4a75;color:#fff;font-size:9.5px;line-height:1.5;font-weight:700;vertical-align:1px}
+#lexToday .fcard.open small .lexflag,#lexAll .fcard.open small .lexflag,#lexQRes .fcard.open small .lexflag{background:#0b7a68}
 .ftrow .ziadd{position:static;margin-left:auto;flex:0 0 auto}
 .zicard{background:#fff;border:1px solid var(--line);border-left:4px solid var(--jy);border-radius:10px;padding:11px 13px;margin:0 0 9px}
 .zicard.done{border-left-color:#94a3b8;background:#f8fafc}
@@ -1179,13 +1184,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.21（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.22（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.21（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.22（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2141,18 +2146,18 @@ Thank you for your time.</div>
       <div id="lexQMsg" class="tip" style="padding:6px 12px;min-height:18px"></div>
       <div class="fgrid" id="lexQRes" style="display:none"></div>
       <div class="gcard" style="margin:10px 12px">
-        <h3>今日認讀 · 第 <span id="lexGroupN">1</span> 組（每天 20 字，認完點下一組）</h3>
+        <h3>今日認讀 · 第 <span id="lexGroupN">1</span> 組（每天 20 字，認完點下一組）<span id="lexSameN" class="tip" style="margin-left:8px;font-weight:400"></span></h3>
         <div class="fgrid" id="lexToday"></div>
         <p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 4px">
           <button type="button" id="lexDirBtn">🔁 方向：繁 → 簡</button>
           <button type="button" id="lexFlipAll">全部翻開</button>
           <button type="button" id="lexFlipNone">全部蓋回</button>
-          <span class="tip" style="margin:0">點字卡翻面看對照；「全部翻開／蓋回」只作用今日這 20 字</span>
+          <span class="tip" style="margin:0">每卡大字旁的藍色「繁」標＝字表原字（繁體），翻面變綠色「簡」；「全部翻開／蓋回」只作用今日這 20 字</span>
         </p>
         <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button> <button id="lexReset">↺ 進度清零</button></p>
-        <p class="tip" style="margin:4px 0 0">每天 20 字 × 3,171 字 ≈ 159 天（約 5 個月），剛好覆蓋 35 週路線裏的繁體認讀線；配合上方⑤的簡→繁翻卡一起用。⑥ 字卡現在可點翻面看簡體對照，「🔁 方向」可改成簡→繁；部分字簡繁同形，翻面會標明，不是壞了。</p>
+        <p class="tip" style="margin:4px 0 0">每天 20 字 × 3,171 字 ≈ 159 天（約 5 個月），剛好覆蓋 35 週路線裏的繁體認讀線；配合上方⑤的簡→繁翻卡一起用。<b>v2.22 說明：⑥ 這 3,171 字全部是繁體標準字形</b>，其中 <span id="lexSameTotal"></span> 字跟簡體寫法一模一樣（如「工、己、中、云」），所以前幾組看起來像簡體，其實沒有被轉成簡體；翻面時大字不變是正常的，卡上會標「簡繁同形」。想一次看到字形不同的字，點下方全表瀏覽的「🔎 只看繁簡差異」。「云→雲」「干→乾」「面→麵」這類一字多繁，上方⑤的人工校過對照表附了備註，一字多義以課本為準。</p>
       </div>
-      <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）</p>
+      <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）　<button type="button" id="lexDiffBtn">🔎 只看繁簡差異</button> <span id="lexDiffN" class="tip"></span></p>
       <div class="fgrid" id="lexAll"></div>
       <div class="src">數據：教育局《香港小學學習字詞表》小學用字一覽表 3,171 字（文本轉錄 GitHub huwan/HKCLL4PL，字數與教育局官方簡介 PDF 一致，2026-11-05 核實）；含粵普發音＋筆順動畫的官方電子檢索版：<a href="https://www.edbchinese.hk/lexlist_ch/index.jsp" target="_blank" rel="noopener">edbchinese.hk/lexlist_ch</a>（逐字查詢）；簡體對照：OpenCC 開源轉換表 t2s 機械生成（非教育局官方對照，部分為香港／內地字形差異或異體歸併，一字多義以課本為準）</div>
     </details>
@@ -5533,8 +5538,9 @@ function renderTutorIv(){
 }
 // ---- 教育局官方字表（v1.62：3171 字筆畫序 · 搜字／今日認讀／分頁瀏覽） ----
 const LEX=DATA.lex_chars||'';
-const LEX_DAY=20, LEX_PAGE=60, LEX_PAGES=Math.ceil(LEX.length/LEX_PAGE)||1;
-let lexPage=0;
+const LEX_DAY=20, LEX_PAGE=60;
+let LEX_PAGES=Math.ceil(LEX.length/LEX_PAGE)||1;
+let lexPage=0, lexDiffOnly=false;
 function lexPosGet(){const v=parseInt(localStorage.getItem('hkk_lex_pos')||'0',10);return isNaN(v)?0:Math.max(0,Math.min(v,Math.max(0,LEX.length-LEX_DAY)));}
 function lexPosSet(v){try{localStorage.setItem('hkk_lex_pos',String(v));}catch(e){}}
 // ---- v2.17：字卡簡↔繁翻面（今日認讀／全表瀏覽／查字結果三處共用） ----
@@ -5548,9 +5554,14 @@ function lexApplyCard(c){
   if(!w||!n)return;
   const face=(lexDir==='t2s')?(open?s:t):(open?t:s);
   w.textContent=face;
-  if(same) n.textContent=base+(open?' · 簡繁同形 · 點蓋回':' · 簡繁同形');
-  else if(open) n.textContent=(lexDir==='t2s'?'簡體 ':'繁體 ')+face+' · 點蓋回';
-  else n.textContent=base+' · 點看'+(lexDir==='t2s'?'簡體':'繁體');
+  // v2.22：只改兩個子節點，.fw.textContent 保持純漢字，v1.62／v2.17 既有斷言零改動。
+  const flag=n.querySelector('.lexflag'),note=n.querySelector('.lexnote');
+  if(flag)flag.textContent=(lexDir==='t2s')?(open?'簡':'繁'):(open?'繁':'簡');
+  let txt;
+  if(same) txt=base+' · 簡繁同形（繁體標準字形）'+(open?' · 點蓋回':'');
+  else if(open) txt=(lexDir==='t2s'?'簡體 ':'繁體 ')+face+' · 點蓋回';
+  else txt=base+' · 點看'+(lexDir==='t2s'?'簡體':'繁體');
+  if(note)note.textContent=txt; else n.textContent=txt;
   c.classList.toggle('open',open);
 }
 function lexApplyGrid(g){if(g)g.querySelectorAll('.fcard').forEach(lexApplyCard);}
@@ -5560,7 +5571,8 @@ function lexCell(ch,sub,warn){
   // v2.17：卡帶 data-t（字表原字＝繁）／data-s（簡體對照）／data-sub（原小字）；「＋本」補上 data-zs 簡體
   if(warn) return '<div class="fcard" style="border-color:#c2410c" data-noflip="1"><button type="button" class="ziadd" data-zw="'+hkEsc(ch)+'" data-zs="" data-zsrc="站內·官方字表" title="收進我的生字本">＋本</button><span class="fw">'+hkEsc(ch)+'</span><small>不在官方字表內</small></div>';
   const sp=lexSimpOf(ch);
-  return '<div class="fcard" data-open="0" data-t="'+hkEsc(ch)+'" data-s="'+hkEsc(sp)+'" data-sub="'+hkEsc(sub)+'"><button type="button" class="ziadd" data-zw="'+hkEsc(ch)+'" data-zs="'+hkEsc(sp)+'" data-zsrc="站內·官方字表" title="收進我的生字本">＋本</button><span class="fw">'+hkEsc(ch)+'</span><small>'+hkEsc(sub)+'</small></div>';
+  // v2.22：small 拆成「繁／簡」角標＋說明兩段，兩者都是 grid-row:2 的既有行內元素，不新增第三行、不壓大字。
+  return '<div class="fcard" data-open="0" data-t="'+hkEsc(ch)+'" data-s="'+hkEsc(sp)+'" data-sub="'+hkEsc(sub)+'"><button type="button" class="ziadd" data-zw="'+hkEsc(ch)+'" data-zs="'+hkEsc(sp)+'" data-zsrc="站內·官方字表" title="收進我的生字本">＋本</button><span class="fw">'+hkEsc(ch)+'</span><small><b class="lexflag">繁</b><span class="lexnote">'+hkEsc(sub)+'</span></small></div>';
 }
 function renderLexToday(){
   const grid=document.getElementById('lexToday'); if(!grid)return;
@@ -5569,15 +5581,33 @@ function renderLexToday(){
   let html='';
   for(let i=pos;i<Math.min(pos+LEX_DAY,LEX.length);i++)html+=lexCell(LEX[i],'筆畫序第 '+(i+1)+' 字');
   grid.innerHTML=html; lexApplyGrid(grid);
+  // v2.22：本組有幾字與簡體同形，直接寫在標題旁，讓「整屏像簡體」這件事有解釋。
+  const sn=document.getElementById('lexSameN');
+  if(sn){let sameN=0,totN=0;
+    for(let i=pos;i<Math.min(pos+LEX_DAY,LEX.length);i++){totN++;if(lexSimpOf(LEX[i])===LEX[i])sameN++;}
+    sn.textContent='本組 '+sameN+'／'+totN+' 字與簡體同形（字表原字本身即繁體標準字形）';}
   const pg=document.getElementById('lexProg');
   if(pg)pg.textContent='進度：已認到第 '+pos+'／'+LEX.length+' 字 · 剩約 '+Math.ceil((LEX.length-pos)/LEX_DAY)+' 天';
 }
+// v2.22：差異池由 LEX_SIMP 實測派生，不新增資料、不改字表原序；頁數隨池重算，進度鍵不受影響。
+const LEX_DIFF=Array.from(LEX).filter(function(c){return lexSimpOf(c)!==c;});
+function lexPool(){return lexDiffOnly?LEX_DIFF:Array.from(LEX);}
 function renderLexAll(){
   const grid=document.getElementById('lexAll'); if(!grid)return;
-  const st=Math.min(lexPage*LEX_PAGE,LEX.length), en=Math.min(st+LEX_PAGE,LEX.length);
+  const pool=lexPool(); LEX_PAGES=Math.ceil(pool.length/LEX_PAGE)||1;
+  lexPage=Math.max(0,Math.min(lexPage,LEX_PAGES-1));
+  const st=Math.min(lexPage*LEX_PAGE,pool.length), en=Math.min(st+LEX_PAGE,pool.length);
   let html='';
-  for(let i=st;i<en;i++)html+=lexCell(LEX[i],'第 '+(i+1)+' 字');
+  for(let i=st;i<en;i++)html+=lexCell(pool[i],(lexDiffOnly?'差異字第 '+(i+1)+' 字':'第 '+(i+1)+' 字'));
   grid.innerHTML=html; lexApplyGrid(grid);
+  const sel=document.getElementById('lexPageSel');
+  if(sel){
+    let opts='';
+    for(let p=0;p<LEX_PAGES;p++)opts+='<option value="'+p+'">第 '+(p+1)+'／'+LEX_PAGES+' 頁</option>';
+    sel.innerHTML=opts; sel.value=String(lexPage);
+  }
+  const dn=document.getElementById('lexDiffN');
+  if(dn)dn.textContent=lexDiffOnly?('篩出 '+pool.length+' 字，字形與簡體不同'):('全表 '+pool.length+' 字，其中 '+LEX_DIFF.length+' 字與簡體不同');
 }
 function lexSearch(){
   const inp=document.getElementById('lexQ'),res=document.getElementById('lexQRes'),msg=document.getElementById('lexQMsg');
@@ -5595,13 +5625,9 @@ function lexSearch(){
 }
 (function(){
   const q=document.getElementById('lexQ'); if(!q)return;
+  // v2.22：分頁選項由 renderLexAll() 依當前池重建；這裏只綁事件，避免兩處各寫一份。
   const sel=document.getElementById('lexPageSel');
-  if(sel){
-    let opts='';
-    for(let p=0;p<LEX_PAGES;p++)opts+='<option value="'+p+'">第 '+(p+1)+'／'+LEX_PAGES+' 頁</option>';
-    sel.innerHTML=opts;
-    sel.onchange=function(){lexPage=+sel.value;renderLexAll();};
-  }
+  if(sel)sel.onchange=function(){lexPage=+sel.value;renderLexAll();};
   const go=document.getElementById('lexGo');
   if(go)go.onclick=lexSearch;
   q.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();lexSearch();}});
@@ -5626,8 +5652,12 @@ function lexSearch(){
   const lfa=document.getElementById('lexFlipAll'),lfn=document.getElementById('lexFlipNone');
   if(lfa)lfa.onclick=function(){lexSetOpen(document.getElementById('lexToday'),true);};
   if(lfn)lfn.onclick=function(){lexSetOpen(document.getElementById('lexToday'),false);};
+  const ldb=document.getElementById('lexDiffBtn');
+  if(ldb)ldb.onclick=function(){lexDiffOnly=!lexDiffOnly;lexPage=0;ldb.textContent=lexDiffOnly?'↩ 看回全部字':'🔎 只看繁簡差異';renderLexAll();};
+  const lst=document.getElementById('lexSameTotal');
+  if(lst)lst.textContent=String(LEX.length-Object.keys(LEX_SIMP).length);
   renderLexToday();renderLexAll();
-  window.__lexTest=function(){const s={};for(const c of LEX)s[c]=1;return{total:LEX.length,unique:Object.keys(s).length,pos:lexPosGet(),todayCells:document.querySelectorAll('#lexToday .fcard').length,allCells:document.querySelectorAll('#lexAll .fcard').length,pages:LEX_PAGES,idxOf:function(c){return LEX.indexOf(c);},dir:lexDir,simpOf:lexSimpOf,diffCount:Object.keys(LEX_SIMP).length,simpAt:function(i){return lexSimpOf(LEX[i]);},openCount:function(gid){return document.querySelectorAll('#'+gid+' .fcard[data-open="1"]').length;}};};
+  window.__lexTest=function(){const s={};for(const c of LEX)s[c]=1;return{total:LEX.length,unique:Object.keys(s).length,pos:lexPosGet(),todayCells:document.querySelectorAll('#lexToday .fcard').length,allCells:document.querySelectorAll('#lexAll .fcard').length,pages:LEX_PAGES,idxOf:function(c){return LEX.indexOf(c);},dir:lexDir,simpOf:lexSimpOf,diffCount:Object.keys(LEX_SIMP).length,simpAt:function(i){return lexSimpOf(LEX[i]);},openCount:function(gid){return document.querySelectorAll('#'+gid+' .fcard[data-open="1"]').length;},diffOnly:lexDiffOnly,diffPool:LEX_DIFF.length,sameTotal:LEX.length-Object.keys(LEX_SIMP).length,pool:function(){return lexPool();}};};
 })();
 
 const RKEY='hkk_ereg_v0';
@@ -8441,7 +8471,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.21',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.22',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
