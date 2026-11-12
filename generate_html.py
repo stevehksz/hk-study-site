@@ -5,7 +5,11 @@ v1.1 结构：2 级导航，練習區按科目歸口
   練習＝中文(古詩詞) / 英文(港小生字＋詞表) / 數學(中↔英術語表·點擊打卡)
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
-v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。
+v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.23：葉工貼列印預覽截圖——「打印数学打的确实英语，检查一遍」。先做只讀 CDP 複現再動手，查出兩條根因：①六個 print 函數各自把卷面寫進自己的 .en-print sheet，但 @media print 裡那條白名單把五張 sheet 全部設成 display:block，且 afterprint 只移除 printing-paper 類、不清 sheet 內容 → 同一頁先印過英文卷再印數學卷時，英文卷內容永久殘留，而 enPrintSheet 在 DOM 裡排在 mathPrintSheet 前面，預覽第一頁就是「香港小學英文練習卷」（實測 en 殘留 2,082 字元、math 2,895 字元、五張 sheet 全為 block）。②列印態下 planView／aboutView／fbFab 等 body 直屬區塊仍 display:block，會跟著多印雜頁（截圖「6 張紙」由此而來）。落地：①新增全站唯一列印入口 hkkPrintSheet(id,html)——只給目標 sheet 寫內容並加 .print-active，其餘四張清空並移除標記，順手移除 lwte-printing 避免兩套隔離打架；六處（英文卷／數學卷／時態題型／泛讀文章／呈分試卷單套／呈分試卷十套）全部改接，不再各寫一份 afterprint。②CSS 白名單改為 body.printing-paper .en-print 全隱藏、只有 .en-print.print-active 顯示；再加 body.printing-paper > *:not(.en-print) 隱藏其餘頂層區塊（保留既有 id 級規則壓住 @media print 對 guideView／practiceView／progressView 的 display:block）。③不改任何題庫、卷面版式、答案版分頁、中文卷新視窗列印、詞卡 lwte 列印、古詩與術語表的整頁列印——這幾條路徑實測不受影響。④版本串升 v2.23、changelog 置頂、verify2.js 全量換鎖、改寫 v2.14 白名單正則並補 12 條專項斷言（含「先印英文再印數學」的回歸）。零搬運、零新增 localStorage 鍵、零外部依賴。
+
+同版第二件事：葉工給三條香港中文大學 ILC 粵語資源網址（粵語拼音速遞／粵語網路課堂／港式粵語速遞），要求「放到我网站里面，可以跳轉」。落地＝「補習材料」⑧ 外部資源導航之後新增靜態卡 #yueResCard「粵語自學 · 官方資源（香港中文大學 ILC）」，三條 a 標籤原樣照錄網址、target=_blank＋rel=noopener noreferrer，點開即跳；只寫「入口名稱＋本站自寫的一句話說明」，不轉載任何拼音表、課堂內容、詞表、截圖或音檔。⚠️ 本機 curl 帶瀏覽器 UA 實測三條皆回 202／0 位元組、站根 403／919 位元組（沙箱代理未取到頁面內容），故不對頁面內容作任何事實描述，卡上明寫「連結由葉工提供，本站未核實頁面內容，以原站為準」。落位刻意用靜態 div.gcard 而非 details.gsec.fold：tutorView 的 10 塊折疊計數、⑧ 的 4 條外鏈計數、⑨／⑩ 索引全部零改動；cuhk.edu.hk 命中 v2.03 既有外鏈白名單的 .edu.hk，白名單正則一字不改。
+
 v2.22：葉工貼「今日認讀 · 第 3 組」截圖——「這裏都是簡體字，沒有繁體字，請修改全部」。先查根因再動手：⑥ 教育局官方字表 3,171 字本身就是繁體標準字形，只是全表 2,018 字（63.6%）與簡體同形，前 10 組 200 字裏 196 字同形；第 41–60 字「工己已巾干弓才丑丐不中丹之予云井互五仁什」正好全落在同形區，翻面大字不變，觀感才像簡體。v2.17 的 LEX_SIMP 是 OpenCC t2s 機械生成，「云」被判同形屬正常（繁體『云』本就是言說義正字），不能硬改成『雲』篡改官方字表。落地四件：①字卡小字前加 .lexflag「繁／簡」角標，正面深藍底「繁」、翻面綠底「簡」，lexApplyCard 只更新 .lexflag／.lexnote 兩個子節點，.fw.textContent 保持純漢字（v1.62／v2.17／v2.18 既有斷言零改動）；small 用 grid-row:2 的既有行，沿用 v2.18 反浮層結論，不加 position:absolute。②同形字文案由乾巴巴「簡繁同形」改「簡繁同形（繁體標準字形）」，保留 base 序號與「點蓋回」；今日認讀標題加 #lexSameN 動態統計本組同形數，頂部 tip 用 #lexSameTotal 填全表同形數並解釋根因，順帶指向上方⑤人工校過的一字多繁對照（云→雲／干→乾／面→麵），不把長備註塞進小卡撐破網格。③全表瀏覽加 #lexDiffBtn「只看繁簡差異」：切換 lexDiffOnly，LEX_DIFF 由 LEX_SIMP 實測派生（1153 字），分頁頁數／下拉選項／#lexDiffN 計數隨池重算，再點一次回到全表；字表原字、筆畫序、進度鍵 hkk_lex_pos 與既有 53 頁斷言全不動。④版本串升 v2.22、changelog 置頂、verify2.js 版本鎖全量換鎖並補 v2.22 專項斷言。全程零搬運、零新增 localStorage 鍵、零外部依賴。
 
 v2.21：葉工貼「速覽指南」子頁籤截圖——「繁体对照放到练习中文里面的子目录里面，看看怎么优化」。沿用 changelog v1.9 的既有先例（當年把「速覽→英文卷」整體遷入「練習→英文」第 4 個子標籤、速覽入口移除），不另造導航結構。落地：①#guideSub 移除「繁體對照」按鈕（4→3 顆），顯隱陣列 ['cn','en','math','ft'] 改回三項；②#cnPracSub 新增第 4 顆 data-cs="ft"「繁體對照」，切換邏輯補 sw('ftView')；③#ftView 整塊從 #guideView 移到 #cnPracView 內，與 cnStarView／cnPaperView／ziBookView 並列為兄弟 pane，class 去掉 wrap／gsec 避免雙層留白與 @media print 的 display:block!important 強制顯示；內部 P1–P6 chips、搜尋、字表、＋本收字、nextstep 出口零改動，renderFt() 初始化呼叫不變；④#cnPracView 頂部寫死給「背古詩」的 tip 改為 #cnPracTips 四段隨子頁籤顯隱，切到對照表不再看到錯的說明；⑤「速覽 → 繁體對照」文案改指「練習 → 中文 → 繁體對照」，__hkkGo('p:cn:ft') 沿用既有 data-cs 分支即可直達，零新路由。零搬運紀律：ftView 以完整開收口整塊剪切插入，不切塊重排；構建後用 jsdom 驗落位／兄弟關係／ID 唯一／四 pane 互斥。
@@ -670,7 +674,11 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   header::before,header::after{display:none!important}
   nav,.subnav{display:none!important}
   body.printing-paper nav,body.printing-paper .subnav,body.printing-paper header,body.printing-paper #guideView,body.printing-paper #practiceView,body.printing-paper #progressView,body.printing-paper #funView,body.printing-paper #mask,body.printing-paper footer,body.printing-paper .folk{display:none!important}
-  body.printing-paper #enPrintSheet,body.printing-paper #mathPrintSheet,body.printing-paper #examPrintSheet,body.printing-paper #drillPrintSheet,body.printing-paper #rdArtPrintSheet{display:block!important;position:static;width:100%}
+  /* v2.23：列印隔離改白名單——只顯示本輪目標 sheet，杜絕「先印英文卷、再印數學卷」時英文卷殘留一起印出 */
+  body.printing-paper .en-print{display:none!important}
+  body.printing-paper .en-print.print-active{display:block!important;position:static;width:100%}
+  /* v2.23：其餘 body 直屬區塊（planView／aboutView／浮動按鈕等）列印時一併隱藏，避免多印雜頁 */
+  body.printing-paper > *:not(.en-print){display:none!important}
   /* v1.86：打印時限 A4 版心（210mm − 左右各 15mm = 180mm），答題線才會跟紙同寬 */
   body.printing-paper{max-width:180mm;margin:0 auto;padding:0}
   @page{size:A4 portrait;margin:15mm}
@@ -1184,13 +1192,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.22（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.24（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.22（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.24（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1364,6 +1372,15 @@ header{position:relative}
       <div class="wkback" data-wkback="p:sched"><button type="button" data-wkback-go>↩ 返回每週課表</button><span>做完這項，按這裡回去對照表格</span></div>
       <p class="tip"><b>這是每日功課打卡表</b>（小六英文中上、每週 ≤3 小時的減壓版），按星期幾自動顯示今天該做的幾項。<b>每天固定三項打底</b>：①興趣泛讀 20 分鐘——不查詞典、不考核，詞彙靠讀熟自然復現（設計原則「不背單詞」），選書用五指法則：隨手翻一頁生詞超過 5 個就換簡單些的，免費電子書清單見右邊按鈕；②繁體字認讀 10 分鐘——官方字表翻卡，簡→繁認讀，給中文課和功課鋪路；③粵語磨耳朵 10 分鐘——RTHK 兒童節目當背景音，只聽不跟讀、聽懂大意就算完成。<b>部分天加一項專項</b>：週一/週五時態與題型 15 分鐘、週二/週六寫作 30 分鐘、週三口頭分享/面試 30 分鐘、週四數學英文術語 20 分鐘（2027.2 起）。<b>用法</b>：做完一項打個勾——打卡按日期存在本機、只留最近 28 天，第二天打開自動重置；右邊按鈕直接跳到對應練習，做完回來勾。下方「本週一覽」看七天完成數；週日有驗收卡對照 35 週排期表——達標照走、不達標下週補該項，不趕進度。總表與 35 週排期見「補習材料」。</p>
       <div class="gcard" id="schCard"></div>
+      <div class="gcard" id="jyutCard">
+        <h3>🗣 粵語道場 · 站外免費工具（練「開口說」）</h3>
+        <p class="tip">上面的「粵語磨耳朵」只管聽；要開口講，用呢個：<b>粵語道場</b>——為普通話母語者做的粵語學習 App，免費、免註冊、加到手機主屏幕就當 App 用（PWA，不用去商店下載）。</p>
+        <p><b>練什麼</b>：聲調道場——對着手機跟讀，即時睇聲調準唔準（粵語六聲係第一道坎，聽得多都唔等於講得準）；90 節生活情景課（買嘢、搭車、搵路、見工面試）；雙人對話可揀角色對練，輪到你講會自動停，逼你開口；學過嘅表達按間隔重複排期溫習。</p>
+        <p><b>點用</b>：手機瀏覽器打開 <b>jyut.benbox.dev</b> → 瀏覽器菜單「加到主屏幕」→ 每日 10 分鐘：聲調道場 5 分鐘 ＋ 生活課一節。同打卡表嘅「粵語磨耳朵」一齊做，一聽一講。</p>
+        <p class="tip"><b>先講醜話</b>：微信內打開有機會受限制，複製去 Safari／Chrome；聲調訓練要授權麥克風（錄音只在本機處理，唔會上傳）；學習記錄存喺你部機，進度頁可導出 JSON 備份、換機再導入；課程係生活粵語，唔係考試粵語，面試題型仍要跟站內「面試話題庫」練。</p>
+        <button class="btn" type="button" onclick="window.open('https://jyut.benbox.dev/','_blank','noopener')">🔗 打開粵語道場（另開新頁）</button>
+        <span class="folk">GitHub cheeryaudio/jyut-dojo，MIT 開源，作者 cheeryaudio（benbox.dev），2026-11-12 收錄。本站只做介紹，不託管代碼、不代收費、不收集你的學習記錄；外鏈內容、可用性與使用條款以原站公告為準，與本站無合作或背書關係</span>
+      </div>
       <div class="gcard" id="schWeekCard" style="display:none">
         <h3>本週一覽</h3>
         <div class="schweek" id="schWeek"></div>
@@ -2345,6 +2362,18 @@ Thank you for your time.</div>
       </div>
       <div class="src">官方連結來源：香港教育局 Academic Use of English 專頁、香港教育城「英文科實用自學材料推薦」、考評局官網、香港教育城首頁（2026-11-06 檢索核對）；學友社 student.hk 版權聲明見其 DSE 網上備試補給站頁面（同日核對）｜本區所有說明文字為本站重寫，未複製任何第三方文章或教材內容</div>
     </details>
+
+    <!-- v2.23 粵語自學官方入口：三條 CUHK ILC 網址由葉工提供，只列入口、不轉載內容 -->
+    <div class="gcard" id="yueResCard">
+      <h3>粵語自學 · 官方資源（香港中文大學 ILC）</h3>
+      <p class="tip">下面三個入口由葉工提供，點名稱會<b>另開新頁</b>跳去香港中文大學原站。本站只放入口，<b>不存放、不轉載</b>任何拼音表、課堂內容、詞表、音檔或截圖；想配合每天 10 分鐘「粵語磨耳朵」，見本頁「每週課表」。</p>
+      <ul id="yueResList" style="margin:8px 0 10px;padding-left:20px;line-height:2">
+        <li><a href="https://www.ilc.cuhk.edu.hk/workshop/Chinese/Cantonese/Romanization/" target="_blank" rel="noopener noreferrer">粵語拼音速遞 ↗</a> — 名稱對應粵語拼音主題；實際內容與章節以原站為準。</li>
+        <li><a href="https://www.ilc.cuhk.edu.hk/workshop/chinese/cantonese/onlinetutorial/intro.aspx" target="_blank" rel="noopener noreferrer">粵語網路課堂 ↗</a> — 名稱對應線上課堂；實際內容與使用方式以原站為準。</li>
+        <li><a href="https://www.ilc.cuhk.edu.hk/workshop/Chinese/Cantonese/CantoneseExpress/" target="_blank" rel="noopener noreferrer">港式粵語速遞 ↗</a> — 名稱對應港式粵語主題；實際內容以原站為準。</li>
+      </ul>
+      <span class="folk">連結由葉工提供，2026-11-11 收錄；本站未核實頁面內容、未轉載任何資料，外鏈版權歸原站，與本站無合作或背書關係；可用性與使用條款以原站最新公告為準</span>
+    </div>
 
     <!-- v1.75 備考地圖：只借「按科目 × 動作整理」的架構，文字全部本站重寫，零第三方內容、零新造學習素材 -->
     <details class="gsec fold" id="examMap">
@@ -3885,12 +3914,29 @@ function printMathPaper(){
     });
     h+='</div>';
   }
-  document.getElementById('mathPrintSheet').innerHTML=h;
-  if(!_mathPrintBound){_mathPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
+  hkkPrintSheet('mathPrintSheet',h);
+}
+
+
+/* v2.23：全站列印統一入口。
+   ⚠️ 根因：舊版六個 print 函數各自填自己的 sheet，但 @media print 把五張 sheet 全部設為可見，
+   afterprint 又只移除 class、不清內容 → 同頁先印英文卷再印數學卷，英文卷會排在前一起印出。
+   這裡改成「只給目標 sheet 加 print-active，其餘清空並隱藏」，六處共用，杜絕漏改。 */
+var HKK_PRINT_SHEETS=['enPrintSheet','drillPrintSheet','mathPrintSheet','rdArtPrintSheet','examPrintSheet'];
+var _hkkPrintBound=false;
+function hkkPrintSheet(id,html){
+  HKK_PRINT_SHEETS.forEach(function(x){
+    var el=document.getElementById(x);
+    if(!el)return;
+    if(x===id){el.innerHTML=html;el.classList.add('print-active');}
+    else{el.innerHTML='';el.classList.remove('print-active');}
+  });
+  // 兩套列印隔離互斥：lwte-printing 的規則對 body 直屬元素優先級更高，殘留會把目標 sheet 藏掉。
+  document.body.classList.remove('lwte-printing');
+  if(!_hkkPrintBound){_hkkPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
   document.body.classList.add('printing-paper');
   if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
 }
-
 
 /* v1.86：三個引擎（英文卷／數學卷／中文卷）打印頁**共用**的樣式片段。
    ⚠️ 教訓：三個 print 函數各自寫了一份自己的 <style>，改樣式時必須三處都注入，
@@ -4564,10 +4610,7 @@ function printEnPaper(){
     });
     h+='</div>';
   }
-  document.getElementById('enPrintSheet').innerHTML=h;
-  if(!_enPrintBound){_enPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
-  document.body.classList.add('printing-paper');
-  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+  hkkPrintSheet('enPrintSheet',h);
 }
 
 // ================= v1.89 時態與題型引擎（動詞表＋五組可判分小練習） =================
@@ -4797,10 +4840,7 @@ function printDrill(){
   }
   h+='<div class="eps-meta" style="margin-top:14px;font-size:12px;color:#666">本站自編練習 · 題目與答案原創 · 非任何學校、補習社或評估局真卷</div>';
   var sheet=document.getElementById('drillPrintSheet'); if(!sheet)return;
-  sheet.innerHTML=h;
-  if(!_drPrintBound){_drPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
-  document.body.classList.add('printing-paper');
-  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+  hkkPrintSheet('drillPrintSheet',h);
 }
 document.querySelectorAll('#drChips .chip').forEach(function(c){ c.onclick=function(){ drTapTo(c.dataset.dr); }; });
 drTapTo('verb');
@@ -5172,10 +5212,7 @@ function printRdArt(){
   const h='<div class="eps-head"><div class="eps-title">泛讀文章（不查詞典 · 不考核）</div>'
     +'<div class="eps-meta">級別：'+rdArtEsc(RD_ART_LEVELS.find(function(x){return x.id===curRdArt.lv;}).tag)+'　　姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span></div></div>'
     +rdArtHtml(curRdArt,true);
-  document.getElementById('rdArtPrintSheet').innerHTML=h;
-  if(!_rdArtPrintBound){_rdArtPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
-  document.body.classList.add('printing-paper');
-  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+  hkkPrintSheet('rdArtPrintSheet',h);
 }
 let _rdArtPrintBound=false;
 (function(){
@@ -7371,10 +7408,7 @@ function examPrintHtml(p,ans,examNo){
 function printExamPaper(){
   if(!curExamPaper)genExamPaper();
   const ans=document.getElementById('examPrintAns').checked;
-  document.getElementById('examPrintSheet').innerHTML=examPrintHtml(curExamPaper,ans);
-  if(!window._examPrintBound){window._examPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
-  document.body.classList.add('printing-paper');
-  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+  hkkPrintSheet('examPrintSheet',examPrintHtml(curExamPaper,ans));
 }
 // ---- v1.28 一次出 10 套（去重組卷 + 目錄卡 + 整冊打印） ----
 function genTenExamPapers(){
@@ -7433,10 +7467,7 @@ function printTenExamPapers(){
   const ans=document.getElementById('examPrintAns').checked;
   let h='';
   list.forEach((p,i)=>{ if(i)h+='<div style="page-break-before:always"></div>'; h+=examPrintHtml(p,ans,i+1); });
-  document.getElementById('examPrintSheet').innerHTML=h;
-  if(!window._examPrintBound){window._examPrintBound=true;window.addEventListener('afterprint',function(){document.body.classList.remove('printing-paper');});}
-  document.body.classList.add('printing-paper');
-  if(typeof window.print==='function')window.print();else setTimeout(function(){document.body.classList.remove('printing-paper');},300);
+  hkkPrintSheet('examPrintSheet',h);
 }
 document.querySelectorAll('#examChips .chip').forEach(c=>c.onclick=()=>{
   curExamGrade=c.dataset.pg;
@@ -8471,7 +8502,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.22',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.24',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

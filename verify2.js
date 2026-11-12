@@ -1576,11 +1576,11 @@ try{
   mw.clear();
   ok('v1.80 清空後空態提示', mw.count()===0 && doc.querySelectorAll('#mwList .mwempty').length===1);
   ok('v1.80 全站導出含 myWords 字段', /myWords:window\.__myWordsTest\?window\.__myWordsTest\.exportData\(\)\.words:\[\]/.test(html));
-  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v2.22'/.test(html));
+  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v2.24'/.test(html));
   ok('v1.80 清空確認文案補「我的單詞本」（v2.14 加泛讀文章檔）', /泛讀自查／泛讀文章檔／(自訂數學題庫／)?我的單詞本/.test(html));
   ok('v1.80 不進 AI 白名單（kb 仍 139）', (window.__aiTest.kb||[]).length===139 && (window.__aiTest.kb||[]).every(x=>!/我的單詞本|hkk_mywords/.test(x.t+x.s)));
   ok('v1.80 版權文案在子頁', doc.getElementById('myWordsView').textContent.includes('不預置任何出版社詞表'));
-  ok('v1.80 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'") && !html.includes('公開版 v1.79'));
+  ok('v1.80 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'") && !html.includes('公開版 v1.79'));
 }catch(e){ ok('v1.80 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.81 反饋牆 ＋ 貪吃蛇單詞背景 ＋ 某文單詞本搬位 ============
@@ -1652,7 +1652,7 @@ try{
   ok('v1.81 錯誤碼映射覆蓋網絡／權限／表不存在／重複', ['network_error','42501','42P01','23505'].every(c=>fbT.errText(c)&&fbT.errText(c).length>4));
   ok('v1.81 時間顯示相對時間', fbT.when(new Date(Date.now()-3600000).toISOString()).indexOf('小時前')>=0);
 
-  ok('v1.81 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'") && !html.includes('公開版 v1.80'));
+  ok('v1.81 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'") && !html.includes('公開版 v1.80'));
 }catch(e){ ok('v1.81 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.82 中文卷（本站原創仿題型） ============
@@ -1765,7 +1765,7 @@ try{
   ok('v1.82 含答案版勾選存在', !!doc.getElementById('cnPrintAns'));
   ok('v1.82 本級最佳存 hkk_cnpaper_v0', html.includes("'hkk_cnpaper_v0'"));
   ok('v1.82 CSS：篇章卡與寫作區樣式齊', /\.cnread\{/.test(html)&&/\.cnwrite-hint\{/.test(html)&&/\.cnsec\{/.test(html));
-  ok('v1.82 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2&&html.includes("ver:'hkk_v2.22'")&&!html.includes('公開版 v1.81'));
+  ok('v1.82 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2&&html.includes("ver:'hkk_v2.24'")&&!html.includes('公開版 v1.81'));
 }catch(e){ ok('v1.82 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.83 中文區兩個子目錄：背古詩 ／ 中文試卷 ============
@@ -1800,7 +1800,7 @@ try{
   ok('v1.83 切回背古詩：星圖可見、卷隱藏', sv.style.display!=='none'&&cv.style.display==='none');
   ok('v1.83 切回後高亮回到第一顆', bStar.classList.contains('on')&&!bPaper.classList.contains('on'));
 
-  ok('v1.83 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2&&html.includes("ver:'hkk_v2.22'")&&!html.includes('公開版 v1.82'));
+  ok('v1.83 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2&&html.includes("ver:'hkk_v2.24'")&&!html.includes('公開版 v1.82'));
 }catch(e){ ok('v1.83 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.84 中文卷 AI 出卷（官方題型骨架＋結構校驗） ============
@@ -1881,7 +1881,7 @@ try{
   ok('v1.84 AI 出卷沿用使用者自填接口（密鑰存本機不上傳）', html.includes("getAiCfg()")&&html.includes("localStorage.getItem('hkk_ai_cfg')"));
   ok('v1.84 AI 卷不計入本級最佳（避免 AI 卷刷高分污染記錄）', html.includes('if(!curCnIsAi && (!best[curCnGrade]'));
   ok('v1.84 AI 失敗時回退本地題庫', /AI 出卷失敗[\s\S]{0,200}可改用|已保留原本地題庫卷/.test(html));
-  ok('v1.84 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2&&html.includes("ver:'hkk_v2.22'")&&!html.includes('公開版 v1.83'));
+  ok('v1.84 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2&&html.includes("ver:'hkk_v2.24'")&&!html.includes('公開版 v1.83'));
   // ── v1.85：本機詞庫包匯入 → 完整詞表（公開站仍零詞條）──
   const pk = window.__lwtePackTest || null;
   ok('v1.85 詞庫包測試鉤子存在且鍵名正確', !!pk && pk.key==='hkk_lwte_pack_v0' && pk.wordKey==='hkk_lwte_wordprog_v0');
@@ -2015,7 +2015,7 @@ try{
   ok('v1.85 匯入區文案講清「網站本身沒有這些詞」',
      doc.getElementById('lwtePackBox').textContent.includes('網站本身沒有、也不會有這些詞')
      && doc.getElementById('lwtePackBox').textContent.includes('不會上傳'));
-  ok('v1.85 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2&&html.includes("ver:'hkk_v2.22'")&&!html.includes('公開版 v1.84'));
+  ok('v1.85 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2&&html.includes("ver:'hkk_v2.24'")&&!html.includes('公開版 v1.84'));
   // ── v1.86：打印答題線改整寬 + A4 版心 ──
   // 三引擎的打印 HTML 生成段（英文卷／數學卷／中文卷）
   const prEn=(html.match(/function printEnPaper[\s\S]{0,9000}/)||[''])[0];
@@ -2046,7 +2046,7 @@ try{
      !prCn.includes('max-width:860px;margin:0 auto') && !prCn.includes('padding:24px;line-height:1.9'));
   ok('v1.86 三引擎都接上 ansline（不只中文卷）',
      prEn.includes('ansline lbl') && prMa.includes('ansline lbl') && prCn.includes('ansline lbl'));
-  ok('v1.86 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2&&html.includes("ver:'hkk_v2.22'")&&!html.includes('公開版 v1.85'));
+  ok('v1.86 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2&&html.includes("ver:'hkk_v2.24'")&&!html.includes('公開版 v1.85'));
   // ── v1.87：某文單詞本改同中小學單詞本格式 ＋ 詞庫包資料補齊（繁體中文義／全量音標）──
   const pkb=(()=>{try{return JSON.parse(fs.readFileSync('_lwte_pack.json','utf8'));}catch(e){return null;}})();
   // IPA 合法字元：按 Unicode 區間自動生成（與 build_lwte_pack.py 的 IPA_CHARS 同一套思路）
@@ -2129,7 +2129,7 @@ try{
     const kbLen=(window.__aiTest&&window.__aiTest.kbLen)||0;
     return kbLen===139;
   })());
-  ok('v1.87 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2&&html.includes("ver:'hkk_v2.22'")&&!html.includes('公開版 v1.86'));
+  ok('v1.87 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2&&html.includes("ver:'hkk_v2.24'")&&!html.includes('公開版 v1.86'));
 }catch(e){ ok('v1.87 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.88 下一步引導 ＋ FAQ 按顧慮重排（零新增素材，只重組既有內容＋掛出口） ============
@@ -2176,7 +2176,7 @@ try{
   ok('v1.88 既有 .cta-strip 仍 3 條（沒手滑多加加微信）', doc.querySelectorAll('.cta-strip').length===3);
   ok('v1.88 零新增 localStorage 鍵（v1.89 的 drill 鍵是本版刻意新增，另有意見）', !/hkk_nextstep|hkk_nx|hkk_faq/.test(html));
   ok('v1.88 下一步組件窄屏滿寬可點', /\.nextstep \.ns-btns\{flex-direction:column\}/.test(html) && /#faqView \.faq-grp\{/.test(html));
-  ok('v1.88 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'") && !html.includes('公開版 v1.87'));
+  ok('v1.88 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'") && !html.includes('公開版 v1.87'));
 }catch(e){ ok('v1.88 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -2254,7 +2254,7 @@ try{
   ok('v1.89 不進 AI 知識庫（仍 139 條）', !!window.__aiTest && window.__aiTest.kbLen===139);
   ok('v1.89 進度匯出／匯入帶 drillProg 與 drillBest', /drillProg:drProg\(\),drillBest:drBest\(\)/.test(html) && /if\(d\.drillProg/.test(html) && /if\(d\.drillBest/.test(html));
   ok('v1.89 清空全部進度含時態題型', /時態題型勾選與成績/.test(html) && /drSaveProg\(\{\}\)/.test(html));
-  ok('v1.89 打印樣式沿用 v1.86 整寬 ansline', /\.ansline\{border-bottom:1px solid #444;height:22px/.test(html) && /#drillPrintSheet/.test(html));
+  ok('v1.89 打印樣式沿用 v1.86 整寬 ansline（v2.24 口徑：v2.23 統一 hkkPrintSheet 後 #drillPrintSheet 選擇器已移除，改鎖統一入口＋sheet 名）', /\.ansline\{border-bottom:1px solid #444;height:22px/.test(html) && /function hkkPrintSheet/.test(html) && /hkkPrintSheet\('drillPrintSheet'/.test(html));
   ok('v1.89 窄屏表格可橫滑', /\.drvt-wrap\{overflow-x:auto/.test(html));
   window.__hkkGo('p:en:drill');
   ok('v1.89 __hkkGo 可直達 p:en:drill', doc.getElementById('drillView').style.display!=='none' && doc.getElementById('paperView').style.display==='none');
@@ -2380,7 +2380,7 @@ try{
   ok('v1.92 卡片尾聲明「未取用課本原文」', txTxt.includes('未取用課本原文') && txTxt.includes('非課本逐章對應'));
   ok('v1.92 不進 AI 知識庫（仍 139 條）', ((window.__aiTest&&window.__aiTest.kbLen)||0)===139);
   ok('v1.92 只新增一個 localStorage 鍵 hkk_ctx_best_v0', html.includes("'hkk_ctx_best_v0'") && !/hkk_txb|hkk_text|hkk_ctxprog/.test(html));
-  ok('v1.92 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'"));
+  ok('v1.92 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
 }catch(e){ ok('v1.92 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ===== v1.94 數學題庫擴池＋防重保險 =====
@@ -2663,6 +2663,11 @@ try{
   ok('v2.07 介紹段落含三項逐項說明與關鍵詞', (()=>{const t=doc.getElementById('schedView').textContent;return t.includes('每天固定三項打底')&&t.includes('五指法則')&&t.includes('只聽不跟讀')&&t.includes('2027.2 起')&&t.includes('28 天');})());
   ok('v2.07 說明小字樣式存在（主屏 CSS）', /\.schrow \.schd\{display:block/.test(html));
   ok('v2.07 schedView 仍零外鏈零圖片（v1.90 斷言同步確認）', (()=>{const s=doc.documentElement.outerHTML;const seg=s.slice(s.indexOf('id="schedView"'),s.indexOf('id="cnPracView"'));return !/href="http/.test(seg)&&!/<img/.test(seg);})());
+
+  ok('v2.24 粵語道場導購卡存在且在 schedView 內', (()=>{const c=doc.getElementById('jyutCard');if(!c)return false;const t=c.textContent;return !!c.closest('#schedView')&&t.includes('粵語道場')&&t.includes('jyut.benbox.dev')&&t.includes('加到主屏幕')&&t.includes('MIT')&&t.includes('cheeryaudio')&&!!c.querySelector('button');})());
+  ok('v2.24 導購卡位置：打卡格之後、本週一覽之前', (()=>{const c=doc.getElementById('schCard'),j=doc.getElementById('jyutCard'),w=doc.getElementById('schWeekCard');if(!c||!j||!w)return false;return !!(c.compareDocumentPosition(j)&4)&&!!(j.compareDocumentPosition(w)&4);})());
+  ok('v2.24 導購卡用 button+window.open，schedView 零外鏈零圖片不被破', (()=>{const s=doc.documentElement.outerHTML;const seg=s.slice(s.indexOf('id="schedView"'),s.indexOf('id="cnPracView"'));return seg.includes('jyutCard')&&seg.includes('window.open')&&seg.includes('jyut.benbox.dev')&&!/href="http/.test(seg)&&!/<img/.test(seg);})());
+  ok('v2.24 版本串 v2.24（頁腳/標題/匯出）', /公開版 v2\.24（全站免費）/.test(html) && /ver:'hkk_v2\.24'/.test(html));
 }catch(e){ ok('v2.07 測試執行', false); console.log('   err='+e.message); }
 
 // ================= v2.08 錯題本（四種卷批改自動歸檔） =================
@@ -2848,7 +2853,7 @@ try{
   ok('v2.12 srcNote 明寫本站原創＋未取用真卷原文', srcNote.indexOf('本站原創編寫')>=0 && srcNote.indexOf('未取用任何學校')>=0 && srcNote.indexOf('以各校原卷為準')>=0);
   ok('v2.12 公開頁零「港學家／小紅書」字樣', html.indexOf('港學家')<0 && html.indexOf('小紅書')<0 && html.indexOf('小红书')<0);
   ok('v2.12 錯題本接線未動（數學卷仍寫 wrongAdd sub=math）', /wrongAdd\(\{sub:'math',src:'數學練習卷'/.test(html));
-  ok('v2.12 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'"));
+  ok('v2.12 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
 }catch(e){ ok('v2.12 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -2896,13 +2901,13 @@ try{
   d3v.document.getElementById('rdArtAiBtn').click();
   ok('v2.14 未填接口點 AI 給指引並保留文章', /AI 設置|接口/.test(doc.getElementById('rdArtMsg').textContent) && !!T.cur());
   // 打印源碼與容器
-  ok('v2.14 #rdArtPrintSheet 存在且入打印白名單', !!doc.getElementById('rdArtPrintSheet') && /body\.printing-paper #enPrintSheet[^}]*#rdArtPrintSheet/.test(html));
+  ok('v2.14 #rdArtPrintSheet 存在且入 v2.23 列印白名單', !!doc.getElementById('rdArtPrintSheet') && /body\.printing-paper \.en-print\.print-active/.test(html) && /rdArtPrintSheet/.test(html));
   ok('v2.14 printRdArt 含級別行與姓名欄', /function printRdArt\(\)/.test(html) && (html.match(/function printRdArt\(\)[\s\S]{0,600}/)||[''])[0].indexOf('姓名')>0);
   ok('v2.14 AI prompt 含版權禁令與家長把關標注', html.indexOf('不得複製或影射任何受版權保護')>0 && html.indexOf('請家長把關')>0);
   // 導出/導入/清空接線
   ok('v2.14 全站導出含 rdArt、導入/清空接 __rdArtTest', /rdArt:window\.__rdArtTest\?window\.__rdArtTest\.exportData\(\):\{\}/.test(html) && /if\(d\.rdArt&&window\.__rdArtTest\)/.test(html) && /if\(window\.__rdArtTest\)\{window\.__rdArtTest\.clear\(\);\}/.test(html));
   // localStorage 鍵與版本
-  ok('v2.14 狀態鍵 hkk_rdart_v0、版本號三處一致', html.includes('hkk_rdart_v0') && (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'"));
+  ok('v2.14 狀態鍵 hkk_rdart_v0、版本號三處一致', html.includes('hkk_rdart_v0') && (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
   // AI 知識庫不污染
   ok('v2.14 文章不進 AI 知識庫（KB 恆不變）', html.includes('kbLen')||true);
 }catch(e){ ok('v2.14 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
@@ -3060,7 +3065,7 @@ try{
   const qr=[...doc.querySelectorAll('#lexQRes .fcard')];
   ok('v2.17 查字結果同帶對照；不在表卡禁翻', qr.length===2 && qr[0].dataset.s==='内' && qr[1].dataset.noflip==='1' && (qr[1].click(), qr[1].dataset.open===undefined));
   ok('v2.17 方向只存記憶體，零新增 localStorage 鍵', !/hkk_lex_(dir|simp)/.test(html));
-  ok('v2.17 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'"));
+  ok('v2.17 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
 }catch(e){ ok('v2.17 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3075,7 +3080,7 @@ try{
   const v218cards=[...doc.querySelectorAll('#ftGrid .fcard, #lexToday .fcard, #lexAll .fcard, #lexQRes .fcard')];
   ok('v2.18 每卡仍恰有一顆收字鈕('+v218cards.length+')', v218cards.length===nFt+nTo+nAl+nQr && v218cards.length>0 && v218cards.every(c=>c.querySelectorAll('.ziadd').length===1));
   ok('v2.18 「＋本」與「✓ 已收」文案保持不變（既有斷言不破）', html.includes('>＋本</button>') && html.includes("b.textContent='✓ 已收'"));
-  ok('v2.18 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'"));
+  ok('v2.18 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
 }catch(e){ ok('v2.18 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3107,7 +3112,7 @@ try{
   doc.querySelector('.wkback[data-wkback="p:sched"] button[data-wkback-go]').click();
   ok('v2.19 第二條路線也能返回並高亮 yue 列', wkTbl.querySelector('tr[data-wkrow="yue"]').classList.contains('wkhl') && wkt.on().length===0);
   ok('v2.19 只新增 sessionStorage 鍵、不新增 localStorage 鍵', html.includes('hkk_wkback_v0') && !/localStorage\.(setItem|getItem)\('hkk_wkback_v0'/.test(html));
-  ok('v2.19 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'"));
+  ok('v2.19 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
 }catch(e){ ok('v2.19 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3127,7 +3132,7 @@ try{
   ok('v2.20 窄屏兩級字號各自收斂', html.includes('@media screen and (max-width:640px){#tutorView details.gsec.fold>summary.gsec-h{font-size:14.5px'));
   ivs[0].open=true;
   ok('v2.20 題條仍可展開，答案區與 [open] 樣式齊備', ivs[0].open===true && html.includes('#ivList details.ivq[open]>summary.ivq-h{background:#eef7fd'));
-  ok('v2.20 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'"));
+  ok('v2.20 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
 }catch(e){ ok('v2.20 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3156,7 +3161,7 @@ try{
   ok('v2.21 切回背古詩後 ftView 收起、star tip 顯示', fv.style.display==='none' && doc.getElementById('cnStarView').style.display!=='none' && tips.find(p=>p.dataset.cstip==='star').style.display!=='none');
   ok('v2.21 全站文案已改向「練習 → 中文 → 繁體對照」', !html.includes('「速覽 → 繁體對照」') && html.includes('「練習 → 中文 → 繁體對照」'));
   ok('v2.21 二級頁籤被 sticky 一級蓋住時點頁籤會自動校正（不動全域 .subnav）', html.includes('v2.21：一級 #practiceSub 是 sticky') && html.includes('if(_r.top<_b)window.scrollBy(0,_r.top-_b-8);') && html.includes('position:sticky;top:60px;z-index:5'));
-  ok('v2.21 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'"));
+  ok('v2.21 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
 }catch(e){ ok('v2.21 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3195,8 +3200,44 @@ try{
   db2.click();
   ok('v2.22 再點回到全表 53 頁、首頁 60 格', v.__lexTest().diffOnly===false && v.__lexTest().pages===53 && doc.querySelectorAll('#lexAll .fcard').length===60 && db2.textContent.includes('只看繁簡差異'));
   ok('v2.22 零新增 localStorage 鍵、字表進度鍵未動', !/hkk_lex_(dir|simp|diff)/.test(html) && html.includes("hkk_lex_pos"));
-  ok('v2.22 版本號三處一致', (html.match(/公開版 v2\.22/g)||[]).length===2 && html.includes("ver:'hkk_v2.22'"));
+  ok('v2.22 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
 }catch(e){ ok('v2.22 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
+
+// ===== v2.23 列印隔離白名單：只印本輪那一張卷 =====
+try{
+  const W=doc.defaultView;
+  const PIDS=['enPrintSheet','drillPrintSheet','mathPrintSheet','rdArtPrintSheet','examPrintSheet'];
+  ok('v2.23 統一列印入口存在且六處列印函數全改接', /function hkkPrintSheet\(/.test(html) && /HKK_PRINT_SHEETS/.test(html) && (html.match(/hkkPrintSheet\('(?:en|drill|math|rdArt|exam)PrintSheet'/g)||[]).length===6);
+  ok('v2.23 CSS 只顯示 .print-active 且隱藏其餘頂層區塊', html.includes('body.printing-paper .en-print{display:none!important}') && html.includes('body.printing-paper .en-print.print-active{display:block!important') && html.includes('body.printing-paper > *:not(.en-print){display:none!important}'));
+  ok('v2.23 舊「五張 sheet 全可見」規則已移除', !/body\.printing-paper #enPrintSheet,body\.printing-paper #mathPrintSheet/.test(html));
+  ok('v2.23 五張 sheet 仍是 body 直屬且 en-print 類齊全', PIDS.every(id=>{const e=doc.getElementById(id);return e&&e.parentElement===doc.body&&e.classList.contains('en-print');}));
+  const _op=W.print; W.print=function(){};
+  doc.getElementById('enPrint').click();
+  ok('v2.23 先印英文卷：僅 enPrintSheet 有內容且帶 print-active', doc.getElementById('enPrintSheet').textContent.includes('香港小學英文練習卷') && doc.getElementById('enPrintSheet').classList.contains('print-active') && PIDS.filter(x=>x!=='enPrintSheet').every(x=>doc.getElementById(x).innerHTML===''&&!doc.getElementById(x).classList.contains('print-active')));
+  doc.getElementById('mathPrintBtn').click();
+  ok('v2.23 再印數學卷：英文卷被清空、數學卷為唯一可印卷', doc.getElementById('enPrintSheet').innerHTML==='' && !doc.getElementById('enPrintSheet').classList.contains('print-active') && doc.getElementById('mathPrintSheet').textContent.includes('香港小學數學練習卷') && doc.getElementById('mathPrintSheet').classList.contains('print-active') && PIDS.filter(x=>x!=='mathPrintSheet').every(x=>doc.getElementById(x).innerHTML===''));
+  ok('v2.23 列印態只掛一個 print-active', PIDS.filter(x=>doc.getElementById(x).classList.contains('print-active')).length===1);
+  W.printDrill();
+  ok('v2.23 時態題型列印同樣互斥（drill 為唯一）', doc.getElementById('mathPrintSheet').innerHTML==='' && doc.getElementById('drillPrintSheet').classList.contains('print-active') && PIDS.filter(x=>doc.getElementById(x).classList.contains('print-active')).length===1);
+  ok('v2.23 列印態不殘留 lwte-printing 類', !doc.body.classList.contains('lwte-printing'));
+  ok('v2.23 中文卷仍走獨立新視窗、不進共用 sheet', /function printCnPaper/.test(html) && /window\.open\('','_blank'\)/.test(html));
+  ok('v2.23 六處列印按鈕仍各自存在', ['enPrint','mathPrintBtn','drPrint','rdArtPrintBtn','examPrintBtn','cnPrint'].every(id=>!!doc.getElementById(id)));
+  // ── 粵語自學三條中大連結 ──
+  const yc=doc.getElementById('yueResCard');
+  const yl=yc?[...yc.querySelectorAll('a[href^="http"]')]:[];
+  const YUE_URLS=[
+    'https://www.ilc.cuhk.edu.hk/workshop/Chinese/Cantonese/Romanization/',
+    'https://www.ilc.cuhk.edu.hk/workshop/chinese/cantonese/onlinetutorial/intro.aspx',
+    'https://www.ilc.cuhk.edu.hk/workshop/Chinese/Cantonese/CantoneseExpress/'
+  ];
+  ok('v2.23 三條中大連結原樣照錄（路徑大小寫一致）', !!yc && yl.length===3 && YUE_URLS.every(u=>yc.innerHTML.includes('href="'+u+'"')));
+  ok('v2.23 三條連結另開新頁且 rel 安全', yl.every(a=>a.getAttribute('target')==='_blank' && /noopener/.test(a.getAttribute('rel')||'')));
+  ok('v2.23 卡內零轉載：無圖片／檔案／音檔／商號外鏈', !!yc && !/<img\b|\.pdf|\.mp3|<audio|href="http[^"]*(risemark|band1|pearson)/i.test(yc.innerHTML) && yc.textContent.includes('未核實頁面內容') && yc.textContent.includes('不存放、不轉載'));
+  ok('v2.23 新卡緊接 ⑧ 之後、⑨ 之前且不進折疊計數', !!yc && !!yc.previousElementSibling && yc.previousElementSibling.id==='secResNav' && !!yc.nextElementSibling && yc.nextElementSibling.id==='examMap' && !yc.matches('details') && doc.querySelectorAll('#tutorView details.gsec.fold').length===10);
+  ok('v2.23 ⑧ 外鏈仍恰 4 條、cuhk 命中既有白名單', doc.getElementById('secResNav').querySelectorAll('a').length===4 && /ilc\.cuhk\.edu\.hk/.test(html) && /\.edu\.hk/.test(YUE_URLS[0]));
+  W.print=_op; doc.body.classList.remove('printing-paper');
+  ok('v2.23 版本號三處一致', (html.match(/公開版 v2\.24/g)||[]).length===2 && html.includes("ver:'hkk_v2.24'"));
+}catch(e){ ok('v2.23 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 setTimeout(function(){
   console.log('\n结果: ' + pass + ' 通过, ' + fail + ' 失败');
