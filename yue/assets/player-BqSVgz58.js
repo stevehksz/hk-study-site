@@ -1,0 +1,1 @@
+var e=null,t=async t=>{e!==null&&(e.pause(),e.currentTime=0);let n=new Audio(t);e=n;try{await n.play()}finally{n.addEventListener(`ended`,()=>{e===n&&(e=null)},{once:!0})}};export{t};

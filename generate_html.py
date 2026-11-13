@@ -5,7 +5,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
   練習＝中文(古詩詞) / 英文(港小生字＋詞表) / 數學(中↔英術語表·點擊打卡)
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
-v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
 v2.23：葉工貼列印預覽截圖——「打印数学打的确实英语，检查一遍」。先做只讀 CDP 複現再動手，查出兩條根因：①六個 print 函數各自把卷面寫進自己的 .en-print sheet，但 @media print 裡那條白名單把五張 sheet 全部設成 display:block，且 afterprint 只移除 printing-paper 類、不清 sheet 內容 → 同一頁先印過英文卷再印數學卷時，英文卷內容永久殘留，而 enPrintSheet 在 DOM 裡排在 mathPrintSheet 前面，預覽第一頁就是「香港小學英文練習卷」（實測 en 殘留 2,082 字元、math 2,895 字元、五張 sheet 全為 block）。②列印態下 planView／aboutView／fbFab 等 body 直屬區塊仍 display:block，會跟著多印雜頁（截圖「6 張紙」由此而來）。落地：①新增全站唯一列印入口 hkkPrintSheet(id,html)——只給目標 sheet 寫內容並加 .print-active，其餘四張清空並移除標記，順手移除 lwte-printing 避免兩套隔離打架；六處（英文卷／數學卷／時態題型／泛讀文章／呈分試卷單套／呈分試卷十套）全部改接，不再各寫一份 afterprint。②CSS 白名單改為 body.printing-paper .en-print 全隱藏、只有 .en-print.print-active 顯示；再加 body.printing-paper > *:not(.en-print) 隱藏其餘頂層區塊（保留既有 id 級規則壓住 @media print 對 guideView／practiceView／progressView 的 display:block）。③不改任何題庫、卷面版式、答案版分頁、中文卷新視窗列印、詞卡 lwte 列印、古詩與術語表的整頁列印——這幾條路徑實測不受影響。④版本串升 v2.23、changelog 置頂、verify2.js 全量換鎖、改寫 v2.14 白名單正則並補 12 條專項斷言（含「先印英文再印數學」的回歸）。零搬運、零新增 localStorage 鍵、零外部依賴。
 
 同版第二件事：葉工給三條香港中文大學 ILC 粵語資源網址（粵語拼音速遞／粵語網路課堂／港式粵語速遞），要求「放到我网站里面，可以跳轉」。落地＝「補習材料」⑧ 外部資源導航之後新增靜態卡 #yueResCard「粵語自學 · 官方資源（香港中文大學 ILC）」，三條 a 標籤原樣照錄網址、target=_blank＋rel=noopener noreferrer，點開即跳；只寫「入口名稱＋本站自寫的一句話說明」，不轉載任何拼音表、課堂內容、詞表、截圖或音檔。⚠️ 本機 curl 帶瀏覽器 UA 實測三條皆回 202／0 位元組、站根 403／919 位元組（沙箱代理未取到頁面內容），故不對頁面內容作任何事實描述，卡上明寫「連結由葉工提供，本站未核實頁面內容，以原站為準」。落位刻意用靜態 div.gcard 而非 details.gsec.fold：tutorView 的 10 塊折疊計數、⑧ 的 4 條外鏈計數、⑨／⑩ 索引全部零改動；cuhk.edu.hk 命中 v2.03 既有外鏈白名單的 .edu.hk，白名單正則一字不改。
@@ -1192,13 +1192,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.24（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.25（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.24（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.25（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1373,13 +1373,13 @@ header{position:relative}
       <p class="tip"><b>這是每日功課打卡表</b>（小六英文中上、每週 ≤3 小時的減壓版），按星期幾自動顯示今天該做的幾項。<b>每天固定三項打底</b>：①興趣泛讀 20 分鐘——不查詞典、不考核，詞彙靠讀熟自然復現（設計原則「不背單詞」），選書用五指法則：隨手翻一頁生詞超過 5 個就換簡單些的，免費電子書清單見右邊按鈕；②繁體字認讀 10 分鐘——官方字表翻卡，簡→繁認讀，給中文課和功課鋪路；③粵語磨耳朵 10 分鐘——RTHK 兒童節目當背景音，只聽不跟讀、聽懂大意就算完成。<b>部分天加一項專項</b>：週一/週五時態與題型 15 分鐘、週二/週六寫作 30 分鐘、週三口頭分享/面試 30 分鐘、週四數學英文術語 20 分鐘（2027.2 起）。<b>用法</b>：做完一項打個勾——打卡按日期存在本機、只留最近 28 天，第二天打開自動重置；右邊按鈕直接跳到對應練習，做完回來勾。下方「本週一覽」看七天完成數；週日有驗收卡對照 35 週排期表——達標照走、不達標下週補該項，不趕進度。總表與 35 週排期見「補習材料」。</p>
       <div class="gcard" id="schCard"></div>
       <div class="gcard" id="jyutCard">
-        <h3>🗣 粵語道場 · 站外免費工具（練「開口說」）</h3>
-        <p class="tip">上面的「粵語磨耳朵」只管聽；要開口講，用呢個：<b>粵語道場</b>——為普通話母語者做的粵語學習 App，免費、免註冊、加到手機主屏幕就當 App 用（PWA，不用去商店下載）。</p>
+        <h3>🗣 粵語道場 · 站內直用（練「開口說」）</h3>
+        <p class="tip">上面的「粵語磨耳朵」只管聽；要開口講，用呢個：<b>粵語道場</b>——為普通話母語者做的粵語學習 App，<b>已經整份收錄喺本站</b>，按下面個掣就喺站內練，唔使跳去第三方、唔使裝 App、唔使註冊。</p>
         <p><b>練什麼</b>：聲調道場——對着手機跟讀，即時睇聲調準唔準（粵語六聲係第一道坎，聽得多都唔等於講得準）；90 節生活情景課（買嘢、搭車、搵路、見工面試）；雙人對話可揀角色對練，輪到你講會自動停，逼你開口；學過嘅表達按間隔重複排期溫習。</p>
-        <p><b>點用</b>：手機瀏覽器打開 <b>jyut.benbox.dev</b> → 瀏覽器菜單「加到主屏幕」→ 每日 10 分鐘：聲調道場 5 分鐘 ＋ 生活課一節。同打卡表嘅「粵語磨耳朵」一齊做，一聽一講。</p>
-        <p class="tip"><b>先講醜話</b>：微信內打開有機會受限制，複製去 Safari／Chrome；聲調訓練要授權麥克風（錄音只在本機處理，唔會上傳）；學習記錄存喺你部機，進度頁可導出 JSON 備份、換機再導入；課程係生活粵語，唔係考試粵語，面試題型仍要跟站內「面試話題庫」練。</p>
-        <button class="btn" type="button" onclick="window.open('https://jyut.benbox.dev/','_blank','noopener')">🔗 打開粵語道場（另開新頁）</button>
-        <span class="folk">GitHub cheeryaudio/jyut-dojo，MIT 開源，作者 cheeryaudio（benbox.dev），2026-11-12 收錄。本站只做介紹，不託管代碼、不代收費、不收集你的學習記錄；外鏈內容、可用性與使用條款以原站公告為準，與本站無合作或背書關係</span>
+        <p><b>點用</b>：按下面個掣 → 另開新頁喺站內開，原頁面唔會走 → 每日 10 分鐘：聲調道場 5 分鐘 ＋ 生活課一節。手機用瀏覽器菜單「加到主屏幕」就當 App 用。同打卡表嘅「粵語磨耳朵」一齊做，一聽一講。</p>
+        <p class="tip"><b>先講醜話</b>：聲調訓練要授權麥克風（錄音只喺你部機處理，唔會上傳，本站亦收唔到）；學習記錄存喺呢個網站嘅瀏覽器本機，清瀏覽器資料就會冇，進度頁可導出 JSON 備份、換機再導入；課程係生活粵語，唔係考試粵語，面試題型仍要跟站內「面試話題庫」練；微信內置瀏覽器如果打唔開，複製連結去 Safari／Chrome 再開。</p>
+        <button class="btn" type="button" onclick="window.open('./yue/'+location.search,'_blank','noopener')">▶ 站內開始練（另開新頁）</button>
+        <span class="folk">站內版整合自開源項目 GitHub cheeryaudio/jyut-dojo（MIT，作者 cheeryaudio／benbox.dev），收錄上游 commit 5e6d719（v1.0.0，2026-11-01），2026-11-13 編譯上站。只改構建路徑與路由方式以適配子目錄，功能邏輯未動；不代收費、不收集你的學習記錄。原站 jyut.benbox.dev（含 Android APK）由作者自行維護。</span>
       </div>
       <div class="gcard" id="schWeekCard" style="display:none">
         <h3>本週一覽</h3>
@@ -2803,16 +2803,7 @@ Thank you for your time.</div>
       </details>
       </div>
       <div id="schTabYl" hidden>
-      <details class="gcard fold" open>
-        <summary>🏠 住天瑞邨（天水圍），就近中學有哪啲？</summary>
-        <p>天瑞邨屬<b>元朗區</b>，全區 39 所中學中 <b>21 所就在天水圍</b>——全港中學密度最高的社區之一，這 21 所全部在約 2 公里半徑內。按官方坐標分三檔：</p>
-        <p>① <b>邨內 2 所</b>（官方校址就在天瑞邨，下樓即到）：<b>香港中文大學校友會聯會張煊昌中學</b>（資助·部分英文）、<b>圓玄學院妙法寺內明陳呂重德紀念中學</b>（資助·部分英文·佛教，天瑞邨第一期）。</p>
-        <p>② <b>直線約 1 公里內 11 所</b>：賽馬會萬鈞毅智書院（最近，約 0.4 公里）｜裘錦秋中學(元朗)、伊利沙伯中學舊生會中學、十八鄉鄉事委員會公益社中學、中華基督教青年會中學、天主教培聖中學、天水圍循道衞理中學（約 0.7–0.8 公里）｜基督教香港信義會元朗信義中學、天水圍官立中學、香港管理專業協會羅桂祥中學、香港青年協會李兆基書院（約 0.9–1 公里）。</p>
-        <p>③ <b>約 1–2 公里 8 所</b>（步行或輕鐵一程）：萬鈞伯裘書院、伊利沙伯中學舊生會湯國華中學、佛教茂峰法師紀念中學、天水圍香島中學、中華基督教會方潤華中學、東華三院郭一葦中學、元朗公立中學校友會鄧兆棠中學、順德聯誼總會翁祐中學（天恆邨，最遠）。</p>
-        <p>④ <b>申請現實</b>：官津插班<b>直接打電話問校務處</b>（下表電話可點撥）；中一統一派位才按居住地址所屬派位網（天瑞邨屬元朗區）。天水圍 21 所中 17 所官津<b>免學費</b>，4 所直資（香島／伯裘／李兆基／青年會）學費另計，申請前問清楚。</p>
-        <p class="src">分檔依教育局開放數據官方坐標直線估算（SCH_LOC_EDB 2026-11-04 版），實際步行時間約多兩三成，以地圖為準（下方「校園地圖」可看全部 109 所位置）；校名/地址/類別/電話為教育局官方數據。</p>
-      </details>
-      <details class="gcard fold" open>
+            <details class="gcard fold" open>
         <summary>元朗區中學一覽（39 所 · 天水圍 21＋元朗市 18 · 可篩選）</summary>
         <p>元朗區＝天水圍＋元朗市＋屏山/洪水橋/錦繡花園等。事實欄（校名/類型/地址/電話/官網）全部取自教育局開放數據「學校位置及資料」（SCH_LOC_EDB 2026-11-04 版，數據截至 2026-09-30）；教學語言＝坊間升學資料庫整理（2026-11-08 取樣，<b>非官方</b>），英中/中中判定以教育局微調安排及各校官網為準。直資 5 所不參加中一統一派位，學位直接向學校申請。</p>
         <div class="pg-chips" id="ylChips">
@@ -8502,7 +8493,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.24',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.25',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

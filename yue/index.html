@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7fbff" />
+    <meta name="description" content="粵語道場，為普通話母語者而設的廣東話口語練習。" />
+    <link rel="icon" type="image/svg+xml" href="./app-icon.svg?sharecode=45B2W7AOKI" />
+    <title>粵語道場 | Jyut Dojo</title>
+    <script>
+    // v2.25 託管閘適配：workbuddy 域所有靜態子資源要帶 sharecode query；Pages 域不生效（hostname 判定，零 UA 分支）。
+    // 只攔「相對路徑」的新 Audio／fetch（884 個 mp3 由 app 運行時動態載入）；blob:/data:/絕對 URL 與已帶 sharecode 的不動。
+    (function () {
+      if (!/app\.workbuddy\.host$/.test(location.hostname)) return;
+      var SC = 'sharecode=45B2W7AOKI';
+      var need = function (u) {
+        return typeof u === 'string' && u && !/^blob:/i.test(u) && !/^data:/i.test(u)
+          && !/^[a-z][a-z0-9+.-]*:\/\//i.test(u) && !/[?&]sharecode=/.test(u);
+      };
+      var RealAudio = window.Audio;
+      window.Audio = new Proxy(RealAudio, {
+        construct: function (Target, args) {
+          var a = new Target();
+          if (need(args[0])) a.src = args[0] + (args[0].indexOf('?') >= 0 ? '&' : '?') + SC;
+          return a;
+        }
+      });
+      var realFetch = window.fetch;
+      window.fetch = function (input, init) {
+        if (typeof input === 'string' && need(input)) {
+          input = input + (input.indexOf('?') >= 0 ? '&' : '?') + SC;
+        }
+        return realFetch.call(window, input, init);
+      };
+    })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-DFqwHsrN.js?sharecode=45B2W7AOKI"></script>
+    <link rel="modulepreload" crossorigin href="./assets/jsx-runtime-DmaltCKy.js?sharecode=45B2W7AOKI">
+    <link rel="stylesheet" crossorigin href="./assets/index-Bxlwwv_i.css?sharecode=45B2W7AOKI">
+  <link rel="manifest" href="./manifest.webmanifest?sharecode=45B2W7AOKI"></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

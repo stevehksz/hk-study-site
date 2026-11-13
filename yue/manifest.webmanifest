@@ -1,0 +1,25 @@
+{
+  "name": "粵語道場 Jyut Dojo",
+  "short_name": "粵語道場",
+  "description": "為普通話母語者而設嘅廣東話口語同聲調練習。",
+  "start_url": "./?sharecode=45B2W7AOKI",
+  "display": "standalone",
+  "background_color": "#f7fbff",
+  "theme_color": "#f7fbff",
+  "lang": "zh-Hant",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "./app-icon.svg?sharecode=45B2W7AOKI",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./app-icon.svg?sharecode=45B2W7AOKI",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

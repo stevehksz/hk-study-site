@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-DmaltCKy.js";var t=e();function n({scene:e,className:n=``,label:r}){return(0,t.jsx)(`div`,{role:r?`img`:void 0,"aria-label":r,"aria-hidden":!r,className:`course-cover scene-${e%4} ${n}`})}export{n as t};
