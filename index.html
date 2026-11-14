@@ -526,6 +526,13 @@ details.gcard:not([open]):hover{border-color:var(--acc);box-shadow:var(--shadow-
 @media(max-width:640px){#schoolView .sch-scenes{grid-template-columns:1fr}}
 #schoolView .sch-scenes div{border:1px solid #e2ebf4;border-radius:8px;padding:6px 8px;font-size:13px;background:#fff}
 #schoolView .sch-words{font-size:12.5px;color:#8a8aa0}
+#schoolView .sch-batch-h{font-size:14px;margin:0 0 6px;color:#1f4e79}
+#schoolView .sch-bank{width:100%;border-collapse:collapse;font-size:13px}
+#schoolView .sch-bank th,#schoolView .sch-bank td{border:1px solid #e2ebf4;padding:5px 7px;text-align:left;vertical-align:top}
+#schoolView .sch-bank th{background:#f2f7fc;font-weight:600;white-space:nowrap}
+#schoolView .sch-bank td:nth-child(1){white-space:nowrap}
+#schoolView .sch-ai-tag{display:inline-block;margin-left:4px;padding:0 5px;border-radius:6px;background:#eef7fd;color:#1f6fa8;font-size:11px}
+@media(max-width:640px){#schoolView .sch-bank{font-size:12px}#schoolView .sch-bank th:nth-child(4),#schoolView .sch-bank td:nth-child(4),#schoolView .sch-bank th:nth-child(5),#schoolView .sch-bank td:nth-child(5){display:none}}
 #mathPaperBox .qscratch{border:1px solid var(--line);border-radius:10px;background:#fbfdff;padding:6px 8px 8px;display:flex;flex-direction:column;gap:6px}
 #mathPaperBox .qscr-head{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);min-height:44px}
 #mathPaperBox .qscr-t{font-weight:700;color:#475069;font-size:12.5px}
@@ -1148,13 +1155,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.35（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.36（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.35（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.36（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1909,13 +1916,18 @@ Thank you for your time.</div>
       <span class="folk">骨架取自 2026-11-14 家長提供的校內英文測驗卷：A 閱讀（四欄雜誌文）→ B 閱讀（blog 記敘）→ C·D 聽力 → E·F 動詞正確形式 → G 連接詞 → H 看圖寫故事。只取「題型與分部順序」，文章與題目全部本站原創編寫，零原文轉載、零外鏈。C·D 站內無音頻，卷後附家長朗讀稿（勾「顯示朗讀稿」可邊讀邊做）。</span>
       <div class="enpaper-actions">
         <button class="btn" id="schNewPaper" onclick="genSchoolPaper()">🎲 出新卷</button>
+        <button class="btn" id="schTenBtn" onclick="genTenSchoolPapers()">📋 一次出 10 套</button>
+        <button class="btn" id="schAiBtn" onclick="schAiGen()">🤖 AI 出卷</button>
         <button class="btn" id="schSubmit" onclick="gradeSchoolPaper()">✅ 交卷批改</button>
         <button class="btn" onclick="printSchoolPaper()">🖨 列印</button>
         <label class="print-ans-toggle"><input type="checkbox" id="schPrintAns"> 含答案版</label>
         <label class="print-ans-toggle"><input type="checkbox" id="schShowScript" onchange="schToggleScript()"> 顯示朗讀稿</label>
+        <span class="enpaper-stat" id="schAiStat">AI 卷池：空</span>
         <span class="enpaper-stat" id="schStat">共 8 部分</span>
       </div>
+      <p class="folk" id="schAiMsg" style="margin:6px 0 0"></p>
       <div id="schPaperBox"></div>
+      <div id="schBatchBox"></div>
       <div id="schPaperResult"></div>
       <div class="en-src-note"><b>說明：</b>題型骨架來自校內測驗卷（版權歸原校），本頁只沿用分部與題型順序；全部文章、題目、朗讀稿、參考答案均為本站原創編寫，不轉載任何原文。站內批改只判選擇題與單詞填空（大小寫、首尾空格容錯），全句作答與寫作給參考答案自評。寫作提示四格為文字描述（無插圖），可讓孩子先口述再動筆。</div>
     </div>
@@ -48635,6 +48647,76 @@ var SCH_READING=[
   note:{intro:'Jen is writing a text message to her friend. Complete the text message. Use only ONE word for each blank. Make sure your answers are grammatically correct.',
    parts:['Hi Chris,\nToday we had a cooking lesson. My group made vegetable ','. We cut the vegetables first and then cooked them in a big pot. At last we ate outside. Everyone said it was ','!\nJen'],
    ans:['soup','delicious'],alt:[['soups'],['tasty','good','nice','yummy']],sign:'Jen'}
+ },
+ {k:'mag',title:'Four Ways Children Travel to School',
+  paras:[
+   {h:'Walking in a Group',t:'In many Japanese cities, children walk to school in small groups. The oldest child in the group walks at the front and carries a yellow flag. Every child wears a yellow hat so that drivers can see them easily. Most children walk the same way every day from their first year of primary school.'},
+   {h:'The Yellow School Bus',t:'In the United States and Canada, many children go to school by yellow school bus. The bus stops at the end of every street, so children never have to walk far. When the bus stops, cars on both sides of the road must wait. The driver is an adult who has passed a special driving test.'},
+   {h:'Going by Bicycle',t:'In the Netherlands, thousands of children ride bicycles to school. The country has special bicycle roads with their own traffic lights. Children learn to ride before they are five years old. On a rainy day they put on waterproof trousers and keep going, because the bicycle roads are safe even in bad weather.'},
+   {h:'Catching a Ferry',t:'Some children in Hong Kong live on small islands. They take a ferry to school every morning. The ferry ride takes about forty minutes, so they read or do their homework on the boat. When a typhoon comes, the ferry stops and the children stay at home.'}
+  ],
+  mc:[
+   {q:'Children in Japan wear yellow hats so that        .',o:['they can see each other','drivers can see them easily','they stay warm','teachers can count them'],a:1},
+   {q:'The oldest child in a walking group        .',o:['carries a flag','drives a car','wears a blue hat','walks at the back'],a:0},
+   {q:'Which two kinds of transport are found in places with rain or wind?<br>1. walking\u3000 2. the school bus\u3000 3. the bicycle\u3000 4. the ferry',o:['1 and 2','2 and 3','3 and 4','1 and 4'],a:1},
+   {q:'Read: \u2018On a rainy day they put on waterproof trousers.\u2019 The word \u2018waterproof\u2019 means        .',o:['keeping water out','made of paper','very cheap','bright in colour'],a:0},
+   {q:'Which of the following is NOT true about the school bus?',o:['It is yellow.','Cars must wait when it stops.','It stops only at school.','The driver has passed a test.'],a:2},
+   {q:'When does the ferry stop running?',o:['in the morning','after forty minutes','when there is a typhoon','when children do homework'],a:2}
+  ],
+  sa:[
+   {q:'How do children in the Netherlands get to school on a rainy day?',m:'They put on waterproof trousers and keep riding their bicycles.'},
+   {q:'What do some children on islands do during the ferry ride?',m:'They read or do their homework on the boat.'}
+  ],
+  note:{intro:'Tom is writing an email to his cousin about how he goes to school. Complete the email. Use only ONE word for each blank. Make sure your answers are grammatically correct.',
+   parts:['Hi Sara,\nI go to school by ',' every morning. It stops at the end of my street, so I do not have to walk far. When it stops, all the cars must ',' and wait for us.\nTom'],
+   ans:['bus','stop'],alt:[['school bus'],['stop','wait']],sign:'Tom'}
+ },
+ {k:'mag',title:'Four Famous Bridges',
+  paras:[
+   {h:'A Bridge That Opens',t:'Tower Bridge in London is more than a hundred years old. The middle of the bridge can open and rise, so that tall ships can pass through. When the road lifts, cars and buses must wait. The bridge opens about eight hundred times a year.'},
+   {h:'The Longest Suspension Bridge',t:'The Akashi Kaikyo Bridge in Japan is the longest suspension bridge in the world. It took ten years to build. The sea below is very deep and the wind is strong, so engineers made the bridge able to move a little in the wind.'},
+   {h:'An Old Water Bridge',t:'The Pont du Gard in France was built by the Romans nearly two thousand years ago. It carries water, not people. There are three levels of arches, and the huge stone blocks were put together without any glue. It is still standing today.'},
+   {h:'The Orange Bridge',t:'The Golden Gate Bridge in San Francisco is famous for its orange colour. The colour was chosen because it is easy to see in thick fog. Before the bridge was built, people crossed the water by boat, and the journey took over an hour.'}
+  ],
+  mc:[
+   {q:'The middle of Tower Bridge opens so that        .',o:['cars can pass','tall ships can pass','people can fish','trains can cross'],a:1},
+   {q:'The Akashi Kaikyo Bridge can move a little        .',o:['in the wind','at night','when it rains','in the morning'],a:0},
+   {q:'Which two bridges are the oldest and the newest?<br>1. Tower Bridge\u3000 2. the Akashi Kaikyo Bridge\u3000 3. the Pont du Gard\u3000 4. the Golden Gate Bridge',o:['3 and 2','1 and 4','3 and 1','2 and 3'],a:0},
+   {q:'Read: \u2018The huge stone blocks were put together without any glue.\u2019 This tells us the Romans        .',o:['had no glue in their country','built it very carefully','used a lot of water','built it in one year'],a:1},
+   {q:'Which of the following is NOT true about the Golden Gate Bridge?',o:['It is orange.','It is easy to see in fog.','People used to cross by boat.','The boat journey took ten minutes.'],a:3},
+   {q:'What is the Pont du Gard used for?',o:['carrying water','carrying cars','carrying ships','carrying trains'],a:0}
+  ],
+  sa:[
+   {q:'Why was the Golden Gate Bridge painted orange?',m:'Because the colour is easy to see in thick fog.'},
+   {q:'How long did it take to build the Akashi Kaikyo Bridge?',m:'It took ten years to build.'}
+  ],
+  note:{intro:'Amy is writing a postcard to her friend about a bridge she visited. Complete the postcard. Use only ONE word for each blank. Make sure your answers are grammatically correct.',
+   parts:['Dear Lily,\nYesterday we visited a very old bridge. It has three levels of arches and it is made of ','. It was built two thousand years ','. You can see it in my photo!\nAmy'],
+   ans:['stone','ago'],alt:[['stones'],[]],sign:'Amy'}
+ },
+ {k:'blog',title:'The Day the Lights Went Out',
+  paras:[
+   {t:'On Tuesday morning, the lights in our classroom suddenly went out. At first everyone laughed, because we thought someone had pressed the wrong switch.'},
+   {t:'Then we found out that the whole building had no electricity. The fans stopped, so the room became hot very quickly. Miss Yip opened all the windows and told us to sit still and speak quietly.'},
+   {t:'Our English lesson was going to use the computers, so we could not do it. Instead, Miss Yip took out a big book and read us a story about a boy who lived on a boat. She read by the light from the window.'},
+   {t:'At lunchtime the canteen could not cook rice, so we had sandwiches and fruit. Nobody complained, because the sandwiches were quite good. Sam said it was the best lunch of the term.'},
+   {t:'The electricity came back at two o\u2019clock. Everyone cheered. Miss Yip said, \u2018Now write down what you did this morning.\u2019 It was the easiest writing lesson we have ever had, because so many things had happened.'}
+  ],
+  mc:[
+   {q:'What happened at the start of the morning?',o:['The windows broke.','The lights went out.','The bell rang twice.','The fans started.'],a:1},
+   {q:'Why did the classroom become hot?',o:['The windows were closed.','The fans stopped.','There were too many people.','The sun was very strong.'],a:1},
+   {q:'Put the events in the correct order.<br>1. the lights went out\u3000 2. Miss Yip read a story\u3000 3. the class ate sandwiches\u3000 4. the electricity came back',o:['1 \u2192 2 \u2192 3 \u2192 4','2 \u2192 1 \u2192 4 \u2192 3','1 \u2192 3 \u2192 2 \u2192 4','3 \u2192 1 \u2192 2 \u2192 4'],a:0},
+   {q:'Why could the class not have their English lesson on the computers?',o:['The computers were broken.','There was no electricity.','Miss Yip forgot the password.','The lesson was moved to the hall.'],a:1},
+   {q:'What does the last paragraph tell us?',o:['The class had a lot to write about.','The class did not like writing.','Miss Yip was angry.','The lesson was very short.'],a:0},
+   {q:'From the blog, the writer thinks the morning was        .',o:['boring and long','surprising but interesting','sad and quiet','easy and usual'],a:1}
+  ],
+  sa:[
+   {q:'What did the canteen give the students for lunch?',m:'The canteen gave them sandwiches and fruit.'},
+   {q:'What time did the electricity come back?',m:'It came back at two o\u2019clock.'}
+  ],
+  note:{intro:'Sam is writing a text message to his mother. Complete the text message. Use only ONE word for each blank. Make sure your answers are grammatically correct.',
+   parts:['Hi Mum,\nSomething funny happened today. The lights went ',' and we could not use the computers. Miss Yip read us a story instead. We had sandwiches for ','.\nSam'],
+   ans:['out','lunch'],alt:[[],['lunch','lunchtime']],sign:'Sam'}
  }
 ];
 
@@ -48658,6 +48740,35 @@ var SCH_LISTEN=[
    {q:'What did the old man want to do?',o:['call the police','give Tom some money','take a photo of Tom','buy Tom dinner'],a:1},
    {q:'Tom did NOT take the money because        .',o:['it was not enough','his mother taught him to return things that are not his','the officer said no','the old man needed it more'],a:1},
    {q:'What does this story teach us?',o:['Money can buy happiness.','Police officers are always kind.','Be honest and return what is not yours.','Always carry a wallet with you.'],a:2}
+  ]},
+ {k:'talk',title:'A talk by Mr Lee, the PE teacher',
+  script:['Good morning, everyone. I am Mr Lee, your PE teacher. I want to tell you about Sports Day, which is on the twenty-second of this month. Everyone in Primary Five and Six must take part in at least one event.',
+   'The morning starts at nine o\u2019clock with the long jump. Please come to the field ten minutes earlier so that we can warm up together. Remember to bring your water bottle and wear your house colour T-shirt.',
+   'There is no practice on the day before Sports Day, because we need the field for setting up. Instead, go to bed early and eat a good breakfast. A tired runner is never a fast runner.',
+   'Finally, the relay races are in the afternoon. Each class needs four boys and four girls. If you want to join, write your name on the notice board outside the gym before Friday.'],
+  mc:[
+   {q:'Sports Day is on the        of this month.',o:['twelfth','twentieth','twenty-second','twenty-fifth'],a:2},
+   {q:'The first event in the morning is        .',o:['the relay race','the long jump','the 100-metre race','the high jump'],a:1},
+   {q:'Students should come to the field        .',o:['ten minutes earlier','thirty minutes earlier','after breakfast','at nine o\u2019clock sharp'],a:0},
+   {q:'Why is there no practice the day before Sports Day?',o:['The teachers are busy.','The field is needed for setting up.','The students are too tired.','It will rain.'],a:1},
+   {q:'How many students does each class need for the relay races?',o:['four students','six students','eight students','ten students'],a:2}
+  ]},
+ {k:'story',title:'The New Girl',
+  script:['On the first day after the holidays, a new girl came to Class 5B. Her name was Anna and she had moved to Hong Kong from Canada two weeks before.',
+   'Anna sat at the back of the classroom and did not say much. At lunchtime everyone ran to the playground, but Anna stayed at her desk. She was looking at a photo of a girl with long hair.',
+   'Mia, who sat next to Anna, walked over and asked, \u2018Is that your sister?\u2019 Anna nodded. \u2018She is still in Canada,\u2019 she said quietly. \u2018I miss her.\u2019',
+   'Mia took out her phone and showed Anna a photo of her brother. \u2018He is at university in England,\u2019 said Mia. \u2018I only see him at Chinese New Year.\u2019',
+   'The two girls talked until the bell rang. On Friday, Anna joined the art club with Mia. By the end of the month, Anna had four new friends.',
+   'One day Anna brought a card to school. It was from her sister. On it was a drawing of two girls holding hands. Anna put the card on the corner of her desk so that she could see it every day.',
+   'Mia asked, \u2018Do you still miss Canada?\u2019 \u2018Sometimes,\u2019 said Anna. \u2018But this is my school now.\u2019'],
+  mc:[
+   {q:'Where did Anna come from?',o:['England','Canada','Japan','Australia'],a:1},
+   {q:'At lunchtime on the first day, Anna        .',o:['ran to the playground','stayed at her desk','went to the art club','called her sister'],a:1},
+   {q:'What was Anna looking at?',o:['a photo of her sister','a drawing of a boat','a new book','her homework'],a:0},
+   {q:'Why did Mia show Anna a photo of her brother?',o:['to make Anna laugh','to show that she also missed someone','to ask Anna for help','to change the subject'],a:1},
+   {q:'What did Anna join with Mia on Friday?',o:['the art club','the library helpers','the football team','the choir'],a:0},
+   {q:'The card on Anna\u2019s desk was        .',o:['from her teacher','from her new friends','from her sister','from Mia\u2019s brother'],a:2},
+   {q:'What does Anna mean by \u2018this is my school now\u2019?',o:['She wants to go back to Canada.','She feels she belongs here.','She has a new classroom.','She has to study harder.'],a:1}
   ]}
 ];
 
@@ -48707,13 +48818,13 @@ function schPick(a,n){
   for(i=b.length-1;i>0;i--){ j=Math.floor(Math.random()*(i+1)); t=b[i]; b[i]=b[j]; b[j]=t; }
   return b.slice(0,n);
 }
-function genSchoolPaper(){
+function schFormalize(){
   var mags=SCH_READING.filter(function(r){return r.k==='mag';});
   var blogs=SCH_READING.filter(function(r){return r.k==='blog';});
   var talks=SCH_LISTEN.filter(function(r){return r.k==='talk';});
   var stories=SCH_LISTEN.filter(function(r){return r.k==='story';});
-  curSchoolPaper={
-    A:schPick(mags,1)[0],
+  return {
+    A:schPick(mags.length?mags:SCH_READING,1)[0],
     B:schPick(blogs.length?blogs:SCH_READING,1)[0],
     C:schPick(talks.length?talks:SCH_LISTEN,1)[0],
     D:schPick(stories.length?stories:SCH_LISTEN,1)[0],
@@ -48721,6 +48832,9 @@ function genSchoolPaper(){
     G:schPick(SCH_CONN,1)[0],
     H:schPick(SCH_WRITE,1)[0]
   };
+}
+function genSchoolPaper(){
+  curSchoolPaper=schFormalize();
   renderSchoolPaper();
 }
 function schMcHtml(m,sec,i){
@@ -48867,12 +48981,8 @@ function gradeSchoolPaper(){
   document.getElementById('schPaperResult').innerHTML=res;
   var st=document.getElementById('schStat'); if(st) st.textContent='本次：'+got+' / '+total;
 }
-function printSchoolPaper(){
-  if(!curSchoolPaper) genSchoolPaper();
-  var p=curSchoolPaper;
-  var withAns=document.getElementById('schPrintAns')&&document.getElementById('schPrintAns').checked;
-  var withScript=document.getElementById('schShowScript')&&document.getElementById('schShowScript').checked;
-  var h='<div class="eps-head"><div class="eps-title">PRIMARY ENGLISH · 校內卷題型模擬卷'+(withAns?'（答案版）':'')+'</div>';
+function schPrintHtml(p,withAns,withScript,no){
+  var h='<div class="eps-head"><div class="eps-title">PRIMARY ENGLISH · 校內卷題型模擬卷'+(no?('　第 '+no+' 套'):'')+(withAns?'（答案版）':'')+'</div>';
   h+='<div class="eps-meta">年級：<b>P5</b>　　姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span>　　班別：<span class="al-tbl"></span></div></div>';
   function pass(txt){ return '<div class="sch-pass" style="border:1px solid #ddd;padding:6px 8px;margin:4px 0">'+txt+'</div>'; }
   function mcq(m,sec,i){
@@ -48923,10 +49033,267 @@ function printSchoolPaper(){
     h+='<div class="eps-ak-row"><b>H.</b> 參考範文：'+p.H.model+'</div>';
     h+='</div>';
   }
+  return h;
+}
+function printSchoolPaper(){
+  if(!curSchoolPaper) genSchoolPaper();
+  var withAns=document.getElementById('schPrintAns')&&document.getElementById('schPrintAns').checked;
+  var withScript=document.getElementById('schShowScript')&&document.getElementById('schShowScript').checked;
+  var no=0;
+  if(schBatch&&schBatch.length){ var k=schBatch.indexOf(curSchoolPaper); if(k>=0)no=k+1; }
+  hkkPrintSheet('schPrintSheet',schPrintHtml(curSchoolPaper,withAns,withScript,no));
+}
+
+/* ---- v2.36 校卷批次（一次出 10 套）＋ AI 出卷 ---- */
+var SCH_AI_KEY='hkk_schai_v0', schBatch=[];
+function schAiGet(){ try{ var a=JSON.parse(localStorage.getItem(SCH_AI_KEY)||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+function schAiPut(a){ try{ localStorage.setItem(SCH_AI_KEY,JSON.stringify(a)); }catch(e){} schAiStat(); }
+function schAiStat(){
+  var el=document.getElementById('schAiStat'); if(!el)return;
+  var n=schAiGet().length;
+  el.textContent=n?('AI 卷池：'+n+' 套（批次出卷優先使用）'):'AI 卷池：空';
+}
+function schSig(p){ return p.A.title+'|'+p.B.title+'|'+p.C.title+'|'+p.D.title; }
+function schSig2(p){ return p.E[0].title+'|'+p.E[1].title+'|'+p.G.title+'|'+p.H.title; }
+function schFromAi(st){
+  var base=schFormalize();
+  ['A','B','C','D','G','H'].forEach(function(k){ if(st[k]&&st[k].title)base[k]=st[k]; });
+  if(Array.isArray(st.E)&&st.E.length===2&&st.E[0]&&st.E[0].ans&&st.E[0].ans.length===13&&st.E[1]&&st.E[1].ans&&st.E[1].ans.length===13)base.E=st.E;
+  return base;
+}
+function schBatchBuild(n){
+  var list=schAiGet().slice(0,n).map(schFromAi);
+  var seenP={},seenQ={};
+  list.forEach(function(p){ seenP[schSig(p)]=1; seenQ[schSig2(p)]=1; });
+  function fill(strict){
+    for(var t=0;t<4000&&list.length<n;t++){
+      var p=schFormalize();
+      var sp=schSig(p);
+      if(seenP[sp])continue;
+      if(strict&&seenQ[schSig2(p)])continue;
+      seenP[sp]=1; seenQ[schSig2(p)]=1; list.push(p);
+    }
+  }
+  fill(true); fill(false);
+  return list;
+}
+function genTenSchoolPapers(){
+  schBatch=schBatchBuild(10);
+  renderSchBatch();
+  try{ document.getElementById('schBatchBox').scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){}
+}
+function renderSchBatch(){
+  var box=document.getElementById('schBatchBox'); if(!box)return;
+  if(!schBatch.length){ box.innerHTML=''; return; }
+  var aiSet={}; schAiGet().forEach(function(st){ aiSet[st.A?st.A.title:'']=1; });
+  var h='<div class="gsec" style="margin-top:12px"><div class="sch-batch-h"><b>📋 已生成 '+schBatch.length+' 套</b>　<span class="folk">10 套的閱讀／聽力組合互不相同；「📄 打開」即在下方作答，可逐套交卷批改。</span></div>';
+  h+='<table class="sch-bank"><tr><th>套號</th><th>A 閱讀</th><th>B 閱讀</th><th>C 聽力</th><th>D 聽力</th><th>G 連接詞</th><th>操作</th></tr>';
+  schBatch.forEach(function(p,i){
+    h+='<tr><td><b>第 '+(i+1)+' 套</b></td><td>'+p.A.title+(aiSet[p.A.title]?'<span class="sch-ai-tag">AI</span>':'')+'</td><td>'+p.B.title+'</td><td>'+p.C.title+'</td><td>'+p.D.title+'</td><td>'+p.G.title+'</td>';
+    h+='<td><button class="btn" onclick="showSchPaper('+i+')">📄 打開</button> <button class="btn" onclick="showSchAnswer('+i+')">📖 答案</button></td></tr>';
+  });
+  h+='</table><p class="ex-it"><button class="btn" onclick="printTenSchoolPapers()">🖨 列印這 '+schBatch.length+' 套</button>　<span class="folk">每套獨立分頁；勾「含答案版」答案跟在各自卷後，勾「顯示朗讀稿」連朗讀稿一併印出。</span></p></div>';
+  box.innerHTML=h;
+}
+function showSchPaper(i){
+  var p=schBatch[i]; if(!p){ alert('請先按「📋 一次出 10 套」。'); return; }
+  curSchoolPaper=p; renderSchoolPaper();
+  try{ document.getElementById('schPaperBox').scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){}
+}
+function showSchAnswer(i){
+  var p=schBatch[i]; if(!p){ alert('請先按「📋 一次出 10 套」。'); return; }
+  showSchPaper(i);
+  function sv(id,v){ var e=document.getElementById(id); if(e)e.value=v; }
+  ['A','B'].forEach(function(sec){
+    p[sec].mc.forEach(function(m,k){ var r=document.querySelector('input[name="sch_'+sec+'_mc'+k+'"][value="'+m.a+'"]'); if(r)r.checked=true; });
+    p[sec].sa.forEach(function(x,k){ sv('sch_'+sec+'_sa'+k,x.m); });
+    p[sec].note.ans.forEach(function(a,k){ sv('sch_'+sec+'_note'+k,a); });
+  });
+  ['C','D'].forEach(function(sec){
+    p[sec].mc.forEach(function(m,k){ var r=document.querySelector('input[name="sch_'+sec+'_mc'+k+'"][value="'+m.a+'"]'); if(r)r.checked=true; });
+  });
+  p.E[0].ans.forEach(function(a,k){ sv('sch_E_'+k,a); });
+  p.E[1].ans.forEach(function(a,k){ sv('sch_F_'+k,a); });
+  p.G.ans.forEach(function(a,k){ sv('sch_G_'+k,a); });
+  sv('sch_H_write',p.H.model||'');
+  gradeSchoolPaper();
+}
+function printTenSchoolPapers(){
+  if(!schBatch.length){ alert('請先按「📋 一次出 10 套」。'); return; }
+  var withAns=document.getElementById('schPrintAns')&&document.getElementById('schPrintAns').checked;
+  var withScript=document.getElementById('schShowScript')&&document.getElementById('schShowScript').checked;
+  var h='';
+  schBatch.forEach(function(p,i){ if(i)h+='<div style="page-break-before:always"></div>'; h+=schPrintHtml(p,withAns,withScript,i+1); });
   hkkPrintSheet('schPrintSheet',h);
 }
+function setSchAiMsg(t,c){ var e=document.getElementById('schAiMsg'); if(!e)return; e.textContent=t; e.style.color=c||''; }
+/* ---- AI 出卷 ---- */
+function schAiPromptRead(kind){
+  var mag=kind==='mag';
+  return '你在為中國香港小學五年級（P5）學生編寫一份校內英文測驗卷的閱讀部分（'+(mag?'四欄雜誌式知識短文':'網誌記敘文')+'）。\n'
+   +'硬要求：\n'
+   +'1. 主題自選，但避開「圖書館／運動會／煮食課／寵物走失／新同學／環保海報」等常見題材，換一個新鮮具體的角度；\n'
+   +'2. '+(mag?'文章 4 段，每段要有小標題 h 與 45–60 字英文段落 t；':'文章 5 段，無小標題，每段 45–60 字，用第一人稱寫當天發生的事；')+'\n'
+   +'3. 6 道四選一選擇題 mc：至少 1 題考詞義或代詞指代、1 題考 NOT 或真偽判斷、1 題用「1. …　2. …　3. …　4. …」編號做跨段組合；每題四個選項互不相同；a 為正確索引（0 至 3 的整數）；\n'
+   +'4. 2 道全句作答题 sa（q 問句、m 參考答案必須是完整句子）；\n'
+   +'5. 1 則短訊或便條填空 note：intro 說明指示、parts 為三段文字（中間夾 2 個空）、ans 為兩個答案；每空只填一個詞，答案唯一；\n'
+   +'6. 全部內容必須原創，不得抄襲任何真實教材、試卷或網站文字；不得出現真實學校名稱；\n'
+   +'7. 難度對齊 P5：句長中等，每段最多 2 個生詞。\n'
+   +'題幹需要換行時用 <br>。\n'
+   +'只輸出 JSON，不要任何解釋或 markdown：\n'
+   +'{"k":"'+kind+'","title":"文章標題","paras":['+(mag?'{"h":"小標題","t":"段落"}':('{"t":"段落"}'))+' × '+(mag?4:5)+'],'
+   +'"mc":[{"q":"題幹","o":["選項A","選項B","選項C","選項D"],"a":0} × 6],'
+   +'"sa":[{"q":"問句","m":"完整句子答案"} × 2],'
+   +'"note":{"intro":"指示","parts":["前段","中段","後段"],"ans":["答案1","答案2"]}}';
+}
+function schAiPromptListen(){
+  return '你在為中國香港小學五年級（P5）學生編寫一份校內英文測驗卷的聽力部分。老師／家長會把朗讀稿讀 1–2 次，學生只聽不看稿作答。\n'
+   +'硬要求：\n'
+   +'1. talk：一段校內廣播或老師講話（例如課外活動報名、圖書館新安排、學校旅行須知等，主題自選且具體），朗讀稿 script 分 3–4 段、每段 50–70 字，配 5 道四選一選擇題；\n'
+   +'2. story：一個 4–6 段的小故事（校園或日常情境），每段 45–65 字，配 7 道四選一選擇題；\n'
+   +'3. 所有選擇題四選項互不相同，a 為正確索引（0 至 3 的整數）；答案必須只靠聽就能判斷，不要出需要看圖的題；\n'
+   +'4. 全部內容原創，不得抄襲任何真實教材或試卷；不得出現真實學校名稱；難度對齊 P5。\n'
+   +'只輸出 JSON，不要任何解釋或 markdown：\n'
+   +'{"talk":{"k":"talk","title":"講話題目","script":["段落","段落","段落"],"mc":[{"q":"題幹","o":["A","B","C","D"],"a":0} × 5]},'
+   +'"story":{"k":"story","title":"故事題目","script":["段落","段落","段落","段落"],"mc":[{"q":"題幹","o":["A","B","C","D"],"a":0} × 7]}}';
+}
+function schAiPromptRest(){
+  return '你在為中國香港小學五年級（P5）學生編寫一份校內英文測驗卷的第三部分。\n'
+   +'硬要求：\n'
+   +'1. E 陣列放 2 篇「動詞正確形式」填空篇章，每篇：title 篇名、text 為短文，文中用 [[1|動詞原形]] 到 [[13|動詞原形]] 標出 13 個空（編號必須由 1 連續到 13）、ans 為 13 個正確答案（按編號順序）；篇章情境自選（例如校園活動通知、日記、給家長的便條），時態要自然混用現在式／過去式／現在進行式／將來式／條件句；\n'
+   +'2. G 為 1 篇「連接詞」日記填空：bank0 固定寫「although ／ and ／ but ／ or ／ since ／ so ／ so that」（用全形斜線分隔），text 用 [[1]] 到 [[7]] 標出 7 個空（編號連續），ans 為 7 個答案（只從上述 7 個連接詞中選，可重複使用）；\n'
+   +'3. H 為 1 道看圖寫作題（以文字描述代替圖片）：title、lead 一段指示、scenes 四格文字描述（"1. …" 至 "4. …"）、qs 四條提示問題、start 開頭句、model 約 100 字參考範文；\n'
+   +'4. 全部內容原創，不得抄襲任何真實教材或試卷；不得出現真實學校名稱；難度對齊 P5。\n'
+   +'只輸出 JSON，不要任何解釋或 markdown：\n'
+   +'{"E":[{"title":"篇名","text":"... [[1|hold]] ...","ans":["答案1","答案2"]},{"title":"篇名","text":"...","ans":["..."]}],'
+   +'"G":{"title":"日記標題","bank0":"although ／ and ／ but ／ or ／ since ／ so ／ so that","text":"... [[1]] ...","ans":["..."]},'
+   +'"H":{"title":"題目","lead":"指示","scenes":["1. …","2. …","3. …","4. …"],"qs":["問題","問題","問題","問題"],"start":"開頭句","model":"範文"}}';
+}
+function schAiChkRead(o){
+  if(!o||(o.k!=='mag'&&o.k!=='blog'))return 'k 欄位錯';
+  if(typeof o.title!=='string'||!o.title.trim())return 'title 空';
+  if(!Array.isArray(o.paras)||o.paras.length<(o.k==='mag'?4:5))return 'paras 段數不足';
+  for(var i=0;i<o.paras.length;i++){ var p=o.paras[i]; if(!p||typeof p.t!=='string'||p.t.length<40)return 'paras['+i+'].t 太短'; if(o.k==='mag'&&!p.h)return 'paras['+i+'].h 缺'; }
+  if(!Array.isArray(o.mc)||o.mc.length!==6)return 'mc 必須 6 題';
+  for(var j=0;j<6;j++){ var m=o.mc[j]; if(!m||!m.q||!Array.isArray(m.o)||m.o.length!==4)return 'mc['+j+'] 選項非 4'; if(!(m.a>=0&&m.a<=3))return 'mc['+j+'].a 越界'; if(new Set(m.o).size!==4)return 'mc['+j+'] 選項重複'; }
+  if(!Array.isArray(o.sa)||o.sa.length!==2)return 'sa 必須 2 題';
+  for(var q=0;q<2;q++){ if(!o.sa[q]||!o.sa[q].q||!o.sa[q].m)return 'sa['+q+'] 缺欄位'; }
+  var n=o.note;
+  if(!n||!Array.isArray(n.parts)||n.parts.length!==3||!Array.isArray(n.ans)||n.ans.length!==2)return 'note 結構錯';
+  return '';
+}
+function schAiChkListen(o){
+  if(!o)return '空';
+  var t=o.talk,s2=o.story;
+  if(!t||t.k!=='talk'||!Array.isArray(t.script)||t.script.length<3||!Array.isArray(t.mc)||t.mc.length!==5)return 'talk 結構錯';
+  if(!s2||s2.k!=='story'||!Array.isArray(s2.script)||s2.script.length<4||!Array.isArray(s2.mc)||s2.mc.length!==7)return 'story 結構錯';
+  function okMc(mc){ for(var i=0;i<mc.length;i++){ var m=mc[i]; if(!m||!m.q||!Array.isArray(m.o)||m.o.length!==4||!(m.a>=0&&m.a<=3))return false; } return true; }
+  if(!okMc(t.mc))return 'talk.mc 欄位錯';
+  if(!okMc(s2.mc))return 'story.mc 欄位錯';
+  return '';
+}
+function schAiChkRest(o){
+  if(!o)return '空';
+  if(!Array.isArray(o.E)||o.E.length!==2)return 'E 必須 2 篇';
+  for(var i=0;i<2;i++){
+    var v=o.E[i];
+    if(!v||!v.title||typeof v.text!=='string')return 'E['+i+'] 缺欄位';
+    var nb=(v.text.match(/\[\[\d+\|[a-zA-Z ]+\]\]/g)||[]).length;
+    if(nb!==13)return 'E['+i+'] 空格 '+nb+' 個（要 13）';
+    if(!Array.isArray(v.ans)||v.ans.length!==13)return 'E['+i+'].ans 不是 13 個';
+  }
+  var g=o.G;
+  if(!g||!g.title||!g.bank0||typeof g.text!=='string')return 'G 缺欄位';
+  var gn=(g.text.match(/\[\[\d+\]\]/g)||[]).length;
+  if(gn!==7)return 'G 空格 '+gn+' 個（要 7）';
+  if(!Array.isArray(g.ans)||g.ans.length!==7)return 'G.ans 不是 7 個';
+  var w=o.H;
+  if(!w||!w.title||!w.lead||!w.start||!w.model)return 'H 缺欄位';
+  if(!Array.isArray(w.scenes)||w.scenes.length!==4||!Array.isArray(w.qs)||w.qs.length!==4)return 'H 四格／四問不符';
+  return '';
+}
+function schAiCall(cfg,prompt,ms){
+  var ctl=(typeof AbortController==='function')?new AbortController():null;
+  var timer=ctl?setTimeout(function(){try{ctl.abort();}catch(e){}},ms||90000):null;
+  var body={model:cfg.model,messages:[{role:'user',content:prompt}],response_format:{type:'json_object'},temperature:0.9};
+  function once(b){
+    return fetch(cfg.base.replace(/\/+$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},body:JSON.stringify(b),signal:ctl?ctl.signal:undefined})
+      .then(function(r){ if(!r.ok)throw new Error('HTTP '+r.status); return r.text(); })
+      .then(function(txt){
+        var j; try{ j=JSON.parse(txt); }catch(e){ throw new Error('接口回應非 JSON'); }
+        var c=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;
+        if(!c)throw new Error('回應缺少內容');
+        c=String(c).replace(/^\s*```(json)?/,'').replace(/```\s*$/,'').trim();
+        return JSON.parse(c);
+      });
+  }
+  return once(body).catch(function(e){
+    if(e&&e.name==='AbortError')throw e;
+    if(String(e.message||'').indexOf('HTTP 400')>=0){
+      var b2={model:cfg.model,messages:[{role:'user',content:prompt}],temperature:0.9};
+      return once(b2);
+    }
+    throw e;
+  }).then(function(v){ if(timer)clearTimeout(timer); return v; },function(e){ if(timer)clearTimeout(timer); throw e; });
+}
+function schAiJob(cfg,j){
+  return schAiCall(cfg,j.p).then(function(o){
+    var e=j.chk(o);
+    if(!e)return o;
+    return schAiCall(cfg,j.p+'（上一次輸出不合格：'+e+'，請嚴格按字段與數量重做）').then(function(o2){
+      var e2=j.chk(o2);
+      if(!e2)return o2;
+      throw new Error(e2);
+    });
+  });
+}
+function schAiGen(){
+  var btn=document.getElementById('schAiBtn');
+  var cfg=(typeof getAiCfg==='function')?getAiCfg():null;
+  if(!cfg||!cfg.base||!cfg.key||!cfg.model){
+    setSchAiMsg('先到「練習」頁頂部「⚙ AI 設置」填好接口（任何 OpenAI 相容接口），並按「🔌 測試連接」確認可用','#c0392b');
+    return;
+  }
+  var old=btn?btn.textContent:'';
+  if(btn){ btn.disabled=true; btn.textContent='AI 出卷中…（約 40–120 秒）'; }
+  setSchAiMsg('四路並行生成中：A 閱讀、B 閱讀、C·D 聽力、E·F·G·H…','#8a6d1f');
+  var jobs=[
+    {k:'A',n:'A 閱讀',p:schAiPromptRead('mag'),chk:schAiChkRead},
+    {k:'B',n:'B 閱讀',p:schAiPromptRead('blog'),chk:schAiChkRead},
+    {k:'CD',n:'C·D 聽力',p:schAiPromptListen(),chk:schAiChkListen},
+    {k:'REST',n:'E·F·G·H',p:schAiPromptRest(),chk:schAiChkRest}
+  ];
+  Promise.all(jobs.map(function(j){
+    return schAiJob(cfg,j).then(function(o){ return {k:j.k,o:o}; },function(e){ return {k:j.k,err:(e&&e.message)||'失敗'}; });
+  })).then(function(rs){
+    var st={id:Date.now(),ts:new Date().toISOString().slice(0,10),name:'AI 卷 '+Date.now()};
+    var bad=[];
+    rs.forEach(function(r){
+      if(r.err){ bad.push(r.k+'：'+r.err); return; }
+      if(r.k==='A')st.A=r.o;
+      else if(r.k==='B')st.B=r.o;
+      else if(r.k==='CD'){ st.C=r.o.talk; st.D=r.o.story; }
+      else { st.E=r.o.E; st.G=r.o.G; st.H=r.o.H; }
+    });
+    var miss=[]; ['A','B','C','D','E','G','H'].forEach(function(k){ if(!st[k])miss.push(k); });
+    if(miss.length===7){ setSchAiMsg('❌ 四部分全部失敗：'+bad.join('；'),'#c0392b'); return; }
+    var arr=schAiGet(); arr.push(st); if(arr.length>20)arr=arr.slice(arr.length-20);
+    schAiPut(arr);
+    curSchoolPaper=schFromAi(st); renderSchoolPaper();
+    if(schBatch.length){ schBatch=schBatchBuild(schBatch.length); renderSchBatch(); }
+    setSchAiMsg('✅ AI 卷已生成並打開'+(miss.length?('（'+miss.join('、')+' 由本地題池補齊）'):'')+'　·　請家長先過目，AI 出題可能有錯，答案以你自己判斷為準','#0b7a68');
+  }).catch(function(e){
+    setSchAiMsg('❌ 出卷失敗：'+((e&&e.message)||'未知錯誤'),'#c0392b');
+  })['finally'](function(){
+    if(btn){ btn.disabled=false; btn.textContent=old; }
+  });
+}
 window.__schTest={reading:SCH_READING,listen:SCH_LISTEN,verbs:SCH_VERBS,conn:SCH_CONN,write:SCH_WRITE,
-  gen:genSchoolPaper,grade:gradeSchoolPaper,cur:function(){return curSchoolPaper;}};
+  gen:genSchoolPaper,grade:gradeSchoolPaper,cur:function(){return curSchoolPaper;},
+  formalize:schFormalize,tenGen:genTenSchoolPapers,batch:function(){return schBatch;},
+  aiGet:schAiGet,aiPut:schAiPut,aiFrom:schFromAi,chkRead:schAiChkRead,chkListen:schAiChkListen,chkRest:schAiChkRest,
+  printHtml:schPrintHtml};
+try{ schAiStat(); }catch(e){}
 
 function printMathPaper(){
   if(!curMathPaper.length) genMathPaper();
@@ -53609,7 +53976,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.35',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.36',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
