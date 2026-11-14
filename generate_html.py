@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.34：葉工問「可以出得到帶圖的題目嗎」。落地＝①題庫加可選 fig 描述符，13 道題配圖：P1 時鐘、P2 分數圓餅、P3 長方形周界／面積、P4 直線兩角／農地、P5 三角形／平行四邊形／水箱、P6 圓／長方體／內角／無蓋盒；②新增 figSvg() 現場生成內聯 SVG，九種圖型（rect／para／tri／triang／ang／pie／cub／cir／clock），零外部資源、零版權風險，示意圖標注「不按比例」，未知圖型返回空串安全降級；③題卡 qzh 後插 .qfig（scoped #mathPaperBox，寬 170px 自適應），列印卷插 .eps-fig（115px）並在共用列印樣式注入；④AI 自訂卷 schema 不加圖（保持同構校驗），無 fig 老題零影響。版本串升 v2.34、verify2.js 換三種鎖並補 8 條 v2.34 專項斷言。零搬運、零新增 localStorage 鍵。
 v2.33：葉工出卷後說「一套試卷題量太少，起碼 15 題」。落地＝①`genMathPaper` 每套題量 8→**15**（`N=Math.min(15,pool.length)`，池不足 15 就出滿池）；②P1–P4 題庫各補 **6 道原創題**（10→16，達到 15 題門檻）：P1 補數列規律／幾個十／三位數讀寫／順數／加錢應用，P2 補 8×2／一週天數／45÷5／米厘米化聚／3/4 倍數／分袋除法應用，P3 補兩位×一位／等值分數／6×7／位值展開／長方形面積／經過時間應用，P4 補分數化小數／鈍角辨認／同分母加法／7×8／十位捨入／絲帶等分應用——全部英文題幹＋繁中對照＋（mc）opts/optszh、（fill）a/azh/alt、（word）model/modelzh，欄位同構；③word 上限 1/4（15 題→4 題）、P6 五部保底 60%（15 題→9 題）配額自動跟隨 N，邏輯零改動；④AI 讀卷出題（8 題）與英文卷（8 題）**不動**——本輪只按要求改數學卷。verify2 版本鎖三種寫法全換、v2.12 配額斷言 2→4／4→9 更新、新增 v2.33 專項 8 條。
 v2.32：葉工要求「數學卷每一道題旁邊加一個草稿板，且可以寫」。落地＝①每張題卡改兩欄網格：手機單列（題目在上、草稿板在下），≥821px 兩欄（題目左、草稿板右 300px）；題目內容原位包進 `.qbody`（零搬運），草稿板 `.qscratch` 為第二列，**不動全域 `.qcard` 樣式**（英文卷／中文卷／逐題卡共用），一律 scoped 到 `#mathPaperBox`；②草稿板＝canvas 手寫：pointerdown／move／up ＋ setPointerCapture，滑鼠與手指同一套碼，`touch-action:none` 防寫字時頁面滾動；筆跡按本題存內存（歸一化 0–1 坐標），DPR 上限 2 高清渲染，ResizeObserver 重排時矢量重繪——不糊、不丟；③清空兩段式（首擊變「確定清空」2.6 秒自動復原），避免小朋友誤觸擦掉算式；④換卷按題乾簽名比對自動清空舊筆跡，同卷內批改／切頁保留；⑤草稿板**不進列印**（列印卷本就另起 HTML，另加 @media print 隱藏保險）；零新增 localStorage 鍵——筆跡只在記憶體，刷新即清。版本串升 v2.32、verify2.js 換鎖並補 7 條 v2.32 專項斷言。
 v2.31：葉工報粵語道場「乱码」（實為崩潰頁：Unexpected Application Error removeChild）。CDP 雙域復現——首頁能渲染、點導航即崩；Network initiator 鐵證：**同一模塊被兩個 URL 各載一次**（HTML 靜態標籤帶 ?sharecode，而 bundle 內 from"./x.js"、import(`./x.js`)、__vite__mapDeps 數組全是裸路徑）→ React/jsx-runtime 雙實例 → 路由 context null → removeChild。Pages 域同樣崩（與 sharecode 閘無關）。修復＝`_yue/postprocess_yue.py` 加步驟④⑤：三類說明符統一加 query（靜態 284＋動態 23＋mapDeps 83，殘留 0），模塊單一 URL 單次執行。本地復測三路由切換 0 異常、請求全帶 query。上游重編譯後重跑 postprocess 即自動覆蓋。版本串升 v2.31、verify2.js 換鎖並補 yue 資產專項斷言。
@@ -615,6 +616,8 @@ details.gcard:not([open]):hover{border-color:var(--acc);box-shadow:var(--shadow-
 /* v2.32 數學卷每題草稿板（scoped 到 #mathPaperBox，全域 .qcard 一字不動） */
 #mathPaperBox .qcard{display:grid;grid-template-columns:1fr;gap:12px}
 #mathPaperBox .qbody{min-width:0}
+#mathPaperBox .qfig{margin:6px 0 2px}
+#mathPaperBox .qfig svg{width:170px;max-width:100%;height:auto;display:block}
 #mathPaperBox .qscratch{border:1px solid var(--line);border-radius:10px;background:#fbfdff;padding:6px 8px 8px;display:flex;flex-direction:column;gap:6px}
 #mathPaperBox .qscr-head{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);min-height:44px}
 #mathPaperBox .qscr-t{font-weight:700;color:#475069;font-size:12.5px}
@@ -667,6 +670,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
 /* v1.86：答題線改用 CSS 邊框畫「整寬橫線」，自動跟 A4 版心同寬（原本是固定長度下劃線字元，只有一小截） */
 .en-print .ansline{border-bottom:1px solid #444;height:22px;margin:6px 0 0;width:100%}
 .en-print .ansline.short{height:19px;margin-top:4px}
+.en-print .eps-fig{margin:2px 0}.en-print .eps-fig svg{width:115px;height:auto;max-width:100%}   /* v2.34 圖形題列印尺寸 */
 .en-print .ansline.lbl{display:flex;align-items:flex-end;gap:8px;border-bottom:none;height:auto;margin-top:8px}
 .en-print .ansline.lbl .al-t{flex:0 0 auto;font-size:14px;color:#333;line-height:19px}
 .en-print .ansline.lbl .al-l{flex:1 1 auto;border-bottom:1px solid #444;height:19px}
@@ -1236,13 +1240,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.33（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.34（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.33（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.34（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3674,7 +3678,7 @@ const MATH_QBANK = {
     {t:'fill',q:"What is 10 less than 46?",qzh:"46 減少 10 是多少？",a:"36",azh:"36"},
     {t:'mc',q:"Amy has one $1 coin and two $2 coins. How much money does she have?",qzh:"Amy 有 1 個 $1 硬幣和 2 個 $2 硬幣，她共有多少錢？",opts:["$5","$6","$4","$7"],optszh:["$5","$6","$4","$7"],a:1},
     {t:'word',q:"Sam has 18 sweets. He gives 5 sweets to his sister. How many sweets does Sam have left? Show your working.",qzh:"Sam 有 18 粒糖，他給了妹妹 5 粒。Sam 還剩下多少粒糖？請寫出計算過程。",model:"18 - 5 = 13. Sam has 13 sweets left.",modelzh:"18 − 5 = 13，Sam 剩下 13 粒糖。"},
-    {t:'mc',q:"The clock shows 3 o'clock. What time is it?",qzh:"時鐘顯示 3 點正，現在是幾點？",opts:["3:00","3:30","2:00","4:00"],optszh:["3:00","3:30","2:00","4:00"],a:0},
+    {t:'mc',q:"The clock shows 3 o'clock. What time is it?",qzh:"時鐘顯示 3 點正，現在是幾點？",opts:["3:00","3:30","2:00","4:00"],optszh:["3:00","3:30","2:00","4:00"],a:0,fig:{k:'clock',h:3,m:0}},
     {t:'fill',q:"Write the number 'seventy-two' in figures.",qzh:"把「七十二」寫成數字。",a:"72",azh:"72"},
     {t:'mc',q:"Which is the smallest number?",qzh:"下列哪一項數字最小？",opts:["25","52","35","45"],optszh:["25","52","35","45"],a:0},
     {t:'word',q:"There are 4 rows of chairs. Each row has 5 chairs. How many chairs are there in total?",qzh:"有 4 排椅子，每排 5 張。一共有多少張椅子？",model:"4 × 5 = 20 chairs.",modelzh:"4 × 5 = 20，共 20 張椅子。"},
@@ -3688,7 +3692,7 @@ const MATH_QBANK = {
   P2:[
     {t:'mc',q:"What is 6 × 7?",qzh:"6 × 7 等於多少？",opts:["42","36","48","40"],optszh:["42","36","48","40"],a:0},
     {t:'fill',q:"24 ÷ 4 = ____",qzh:"24 ÷ 4 = ____",a:"6",azh:"6"},
-    {t:'mc',q:"If 1 out of 4 equal parts is shaded, what fraction is shaded?",qzh:"若一個圖形 4 等分中 1 份塗上顏色，塗色部分是幾分之幾？",opts:["1/4","1/2","3/4","1/3"],optszh:["四分之一","二分之一","四分之三","三分之一"],a:0},
+    {t:'mc',q:"If 1 out of 4 equal parts is shaded, what fraction is shaded?",qzh:"若一個圖形 4 等分中 1 份塗上顏色，塗色部分是幾分之幾？",opts:["1/4","1/2","3/4","1/3"],optszh:["四分之一","二分之一","四分之三","三分之一"],a:0,fig:{k:'pie',n:1,d:4}},
     {t:'fill',q:"1 metre = ____ centimetres.",qzh:"1 米 = ____ 厘米。",a:"100",azh:"100"},
     {t:'mc',q:"A bag of rice weighs 2 kg. How many grams is that?",qzh:"一袋米重 2 公斤，即是多少克？",opts:["2000","200","20","20000"],optszh:["2000","200","20","20000"],a:0},
     {t:'word',q:"A book costs $28. Tom pays with a $50 note. How much change does he get?",qzh:"一本書售價 $28，Tom 用 $50 紙幣付款，他應找回多少零錢？",model:"$50 - $28 = $22. He gets $22 change.",modelzh:"50 − 28 = 22，找回 $22。"},
@@ -3707,7 +3711,7 @@ const MATH_QBANK = {
     {t:'mc',q:"What is 456 + 378?",qzh:"456 + 378 等於多少？",opts:["834","824","844","814"],optszh:["834","824","844","814"],a:0},
     {t:'fill',q:"0.6 + 0.4 = ____",qzh:"0.6 + 0.4 = ____",a:"1",azh:"1",alt:["1.0"]},
     {t:'mc',q:"Which is larger: 3/5 or 2/5?",qzh:"3/5 和 2/5 哪一個較大？",opts:["3/5","2/5","They are the same.","Cannot tell."],optszh:["3/5","2/5","兩者相同","無法判斷"],a:0},
-    {t:'fill',q:"Find the perimeter of a rectangle 6 cm by 4 cm. (Answer in cm)",qzh:"一個長方形長 6 厘米、寬 4 厘米，求周長（以厘米作答）。",a:"20",azh:"20",alt:["20 cm","20cm"]},
+    {t:'fill',q:"Find the perimeter of a rectangle 6 cm by 4 cm. (Answer in cm)",qzh:"一個長方形長 6 厘米、寬 4 厘米，求周長（以厘米作答）。",a:"20",azh:"20",alt:["20 cm","20cm"],fig:{k:'rect',w:6,h:4,u:'cm'}},
     {t:'mc',q:"What is 9 × 8?",qzh:"9 × 8 等於多少？",opts:["72","64","81","63"],optszh:["72","64","81","63"],a:0},
     {t:'word',q:"A box contains 120 sweets. They are shared equally among 6 children. How many sweets does each child get?",qzh:"一盒有 120 粒糖，平均分給 6 個小朋友，每人得多少粒？",model:"120 ÷ 6 = 20. Each child gets 20 sweets.",modelzh:"120 ÷ 6 = 20，每人 20 粒。"},
     {t:'mc',q:"What time is 14:30 in the afternoon?",qzh:"24 小時制 14:30 是下午幾點？",opts:["2:30 p.m.","1:30 p.m.","3:30 p.m.","12:30 p.m."],optszh:["下午 2:30","下午 1:30","下午 3:30","下午 12:30"],a:0},
@@ -3718,7 +3722,7 @@ const MATH_QBANK = {
     {t:'mc',q:"Which fraction is equivalent to 1/2?",qzh:"下列哪一個分數與 1/2 相等？",opts:["2/4","2/3","3/4","1/3"],optszh:["2/4","2/3","3/4","1/3"],a:0},
     {t:'fill',q:"6 × 7 = ____",qzh:"6 × 7 = ____",a:"42",azh:"42"},
     {t:'fill',q:"8000 + 300 + 60 + 1 = ____",qzh:"8000 + 300 + 60 + 1 = ____",a:"8361",azh:"8361"},
-    {t:'fill',q:"Find the area of a rectangle 5 cm by 3 cm. (Answer in cm²)",qzh:"一個長方形長 5 厘米、寬 3 厘米，求面積（以平方厘米作答）。",a:"15",azh:"15",alt:["15 cm²","15cm2"]},
+    {t:'fill',q:"Find the area of a rectangle 5 cm by 3 cm. (Answer in cm²)",qzh:"一個長方形長 5 厘米、寬 3 厘米，求面積（以平方厘米作答）。",a:"15",azh:"15",alt:["15 cm²","15cm2"],fig:{k:'rect',w:5,h:3,u:'cm'}},
     {t:'word',q:"A train leaves at 9:45 a.m. and arrives at 10:20 a.m. How long is the journey? Show your working.",qzh:"一班火車上午 9:45 開出，上午 10:20 到達，車程有多長？請寫出計算過程。",model:"10:20 - 9:45 = 35 minutes.",modelzh:"10:20 − 9:45 = 35 分鐘。"}
   ],
   P4:[
@@ -3727,8 +3731,8 @@ const MATH_QBANK = {
     {t:'mc',q:"3/8 + 2/8 = ?",qzh:"3/8 + 2/8 = ？",opts:["5/8","5/16","1/2","6/8"],optszh:["5/8","5/16","1/2","6/8"],a:0},
     {t:'fill',q:"How many right angles does a rectangle have?",qzh:"一個長方形有幾個直角？",a:"4",azh:"4"},
     {t:'mc',q:"Which number is a multiple of 6?",qzh:"下列哪一個數是 6 的倍數？",opts:["24","25","22","23"],optszh:["24","25","22","23"],a:0},
-    {t:'word',q:"A rectangular field is 50 m long and 30 m wide. Find its area.",qzh:"一塊長方形農地長 50 米、寬 30 米，求它的面積。",model:"50 × 30 = 1500 m².",modelzh:"50 × 30 = 1500 平方米。"},
-    {t:'mc',q:"Two angles on a straight line are 110° and ____. Find the missing angle.",qzh:"在一條直線上，兩個角分別是 110° 和 ____，求未知角。",opts:["70°","60°","80°","90°"],optszh:["70°","60°","80°","90°"],a:0},
+    {t:'word',q:"A rectangular field is 50 m long and 30 m wide. Find its area.",qzh:"一塊長方形農地長 50 米、寬 30 米，求它的面積。",model:"50 × 30 = 1500 m².",modelzh:"50 × 30 = 1500 平方米。",fig:{k:'rect',w:50,h:30,u:'m'}},
+    {t:'mc',q:"Two angles on a straight line are 110° and ____. Find the missing angle.",qzh:"在一條直線上，兩個角分別是 110° 和 ____，求未知角。",opts:["70°","60°","80°","90°"],optszh:["70°","60°","80°","90°"],a:0,fig:{k:'ang',a:110}},
     {t:'fill',q:"Give one factor of 12.",qzh:"寫出 12 的一個因數。",a:"3",azh:"3",alt:["1","2","4","6","12"]},
     {t:'mc',q:"How many lines of symmetry does an equilateral triangle have?",qzh:"一個等邊三角形有多少條對稱軸？",opts:["3","1","2","0"],optszh:["3","1","2","0"],a:0},
     {t:'word',q:"A bottle holds 1.5 L of water. How many millilitres is that?",qzh:"一個瓶子裝有 1.5 升水，即是多少毫升？",model:"1.5 L = 1500 mL.",modelzh:"1.5 升 = 1500 毫升。"},
@@ -3752,7 +3756,7 @@ const MATH_QBANK = {
     {t:'word',q:"The total of 5 numbers is 100. What is their average?",qzh:"5 個數的總和是 100，它們的平均數是多少？",model:"100 ÷ 5 = 20.",modelzh:"100 ÷ 5 = 20。"},
     /* ---- v1.94 補題 14 道（原創，與上方零重複）→ 池 10→24 ---- */
     {t:'mc',q:"What is 3/4 − 1/8?",qzh:"3/4 − 1/8 等於多少？",opts:["5/8","1/4","2/6","7/12"],optszh:["5/8","1/4","2/6","7/12"],a:0},
-    {t:'mc',q:"A triangle has a base of 8 cm and a height of 5 cm. What is its area?",qzh:"一個三角形底 8 厘米、高 5 厘米，它的面積是多少？",opts:["20 cm²","40 cm²","13 cm²","10 cm²"],optszh:["20 平方厘米","40 平方厘米","13 平方厘米","10 平方厘米"],a:0},
+    {t:'mc',q:"A triangle has a base of 8 cm and a height of 5 cm. What is its area?",qzh:"一個三角形底 8 厘米、高 5 厘米，它的面積是多少？",opts:["20 cm²","40 cm²","13 cm²","10 cm²"],optszh:["20 平方厘米","40 平方厘米","13 平方厘米","10 平方厘米"],a:0,fig:{k:'tri',b:8,h:5,u:'cm'}},
     {t:'mc',q:"Which decimal is the largest?",qzh:"下列哪一個小數最大？",opts:["0.45","0.4","0.405","0.04"],optszh:["0.45","0.4","0.405","0.04"],a:0},
     {t:'mc',q:"15% of the 40 pupils in a class walk to school. How many pupils walk to school?",qzh:"班上 40 名學生中 15% 步行上學，步行上學的有多少人？",opts:["6","4","8","15"],optszh:["6","4","8","15"],a:0},
     {t:'mc',q:"Simplify the ratio 18 : 24.",qzh:"把比 18 : 24 化簡。",opts:["3 : 4","2 : 3","9 : 12","6 : 8"],optszh:["3 : 4","2 : 3","9 : 12","6 : 8"],a:0},
@@ -3760,10 +3764,10 @@ const MATH_QBANK = {
     {t:'mc',q:"How many millilitres are there in 3.6 L?",qzh:"3.6 升等於多少毫升？",opts:["3600","360","36","36000"],optszh:["3600","360","36","36000"],a:0},
     {t:'fill',q:"What is 2/5 of 45?",qzh:"45 的 2/5 是多少？",a:"18",azh:"18"},
     {t:'fill',q:"Write 0.08 as a fraction in its simplest form.",qzh:"把 0.08 寫成最簡分數。",a:"2/25",azh:"2/25",alt:["2 / 25"]},
-    {t:'fill',q:"A parallelogram has a base of 9 cm and a height of 4 cm. Its area is ____ cm².",qzh:"一個平行四邊形底 9 厘米、高 4 厘米，面積是 ____ 平方厘米。",a:"36",azh:"36",alt:["36 cm²","36cm²"]},
+    {t:'fill',q:"A parallelogram has a base of 9 cm and a height of 4 cm. Its area is ____ cm².",qzh:"一個平行四邊形底 9 厘米、高 4 厘米，面積是 ____ 平方厘米。",a:"36",azh:"36",alt:["36 cm²","36cm²"],fig:{k:'para',b:9,h:4,u:'cm'}},
     {t:'fill',q:"The time is 09:45. How many minutes are there until 11:15?",qzh:"現在是 09:45，距離 11:15 還有多少分鐘？",a:"90",azh:"90"},
     {t:'word',q:"Kitty buys 3 notebooks at $8 each and 2 pens at $5 each. She pays with a $50 note. How much change does she get?",qzh:"Kitty 買 3 本筆記簿每本 $8，又買 2 支筆每支 $5，她用一張 $50 付款，應找回多少零錢？",model:"3 × $8 + 2 × $5 = $24 + $10 = $34; $50 − $34 = $16. She gets $16 change.",modelzh:"3 × 8 + 2 × 5 = 34，50 − 34 = 16，應找回 $16。"},
-    {t:'word',q:"A rectangular water tank is 30 cm long, 20 cm wide and 10 cm high. How much water can it hold when full? (Answer in cm³)",qzh:"一個長方形水箱長 30 厘米、闊 20 厘米、高 10 厘米，裝滿水時可容水多少？（以立方厘米作答）",model:"30 × 20 × 10 = 6000 cm³.",modelzh:"30 × 20 × 10 = 6000 立方厘米。"},
+    {t:'word',q:"A rectangular water tank is 30 cm long, 20 cm wide and 10 cm high. How much water can it hold when full? (Answer in cm³)",qzh:"一個長方形水箱長 30 厘米、闊 20 厘米、高 10 厘米，裝滿水時可容水多少？（以立方厘米作答）",model:"30 × 20 × 10 = 6000 cm³.",modelzh:"30 × 20 × 10 = 6000 立方厘米。",fig:{k:'cub',w:30,d:20,h:10,u:'cm'}},
     {t:'word',q:"John reads 15 pages every day. The book has 135 pages. How many days will he take to finish the book?",qzh:"John 每天看 15 頁，一本書共 135 頁，他要多少天才能看完？",model:"135 ÷ 15 = 9 days.",modelzh:"135 ÷ 15 = 9 天。"}
   ],
   P6:[
@@ -3774,14 +3778,14 @@ const MATH_QBANK = {
     {t:'mc',q:"A bag has 3 red and 2 blue balls. What is the probability of picking a red ball?",qzh:"袋中共有 3 個紅球和 2 個藍球，抽到紅球的概率是多少？",opts:["3/5","2/5","1/2","1/5"],optszh:["3/5","2/5","1/2","1/5"],a:0},
     {t:'word',q:"A shop buys a toy for $40 and sells it for $52. Find the profit and the profit percentage.",qzh:"一間店以 $40 買入一件玩具，以 $52 賣出。求利潤及利潤率。",model:"Profit = $52 - $40 = $12. Profit% = 12 / 40 × 100% = 30%.",modelzh:"利潤 = 52 − 40 = 12 元；利潤率 = 12 / 40 × 100% = 30%。"},
     {t:'mc',q:"What is -5 + 8?",qzh:"-5 + 8 等於多少？",opts:["3","-3","13","-13"],optszh:["3","-3","13","-13"],a:0},
-    {t:'fill',q:"Find the area of a circle with radius 7 cm. (Take π = 3.14)",qzh:"求半徑 7 厘米的圓的面積。（取 π = 3.14）",a:"153.86",azh:"153.86",alt:["153.86 cm²","153.86cm²"]},
-    {t:'mc',q:"A cuboid measures 4 cm by 3 cm by 2 cm. What is its volume?",qzh:"一個長方體長 4 厘米、闊 3 厘米、高 2 厘米，它的體積是多少？",opts:["24 cm³","18 cm³","26 cm³","12 cm³"],optszh:["24 立方厘米","18 立方厘米","26 立方厘米","12 立方厘米"],a:0},
+    {t:'fill',q:"Find the area of a circle with radius 7 cm. (Take π = 3.14)",qzh:"求半徑 7 厘米的圓的面積。（取 π = 3.14）",a:"153.86",azh:"153.86",alt:["153.86 cm²","153.86cm²"],fig:{k:'cir',r:7,u:'cm'}},
+    {t:'mc',q:"A cuboid measures 4 cm by 3 cm by 2 cm. What is its volume?",qzh:"一個長方體長 4 厘米、闊 3 厘米、高 2 厘米，它的體積是多少？",opts:["24 cm³","18 cm³","26 cm³","12 cm³"],optszh:["24 立方厘米","18 立方厘米","26 立方厘米","12 立方厘米"],a:0,fig:{k:'cub',w:4,d:3,h:2,u:'cm'}},
     {t:'word',q:"The ratio of flour to sugar is 2:1. If 300 g of flour is used, how much sugar is needed?",qzh:"麵粉與糖的比例是 2:1。若用了 300 克麵粉，需要多少克糖？",model:"300 ÷ 2 = 150 g of sugar.",modelzh:"300 ÷ 2 = 150 克糖。"},
     /* ---- v1.94 補題 14 道（原創，與上方零重複）→ 池 10→24 ---- */
     {t:'mc',q:"The price of a lamp rises from $80 to $92. What is the percentage increase?",qzh:"一盞燈的價格由 $80 升至 $92，增幅是百分之幾？",opts:["15%","12%","92%","8%"],optszh:["15%","12%","92%","8%"],a:0},
     {t:'mc',q:"A truck travels at 65 km/h for 4 hours. How far does it go?",qzh:"一輛貨車以每小時 65 公里行駛 4 小時，共行駛多少公里？",opts:["260 km","240 km","285 km","130 km"],optszh:["260 公里","240 公里","285 公里","130 公里"],a:0},
     {t:'mc',q:"A box contains 6 white and 4 black marbles. What is the probability of picking a white marble?",qzh:"盒中有 6 粒白珠和 4 粒黑珠，抽到白珠的概率是多少？",opts:["3/5","2/5","1/2","3/10"],optszh:["3/5","2/5","1/2","3/10"],a:0},
-    {t:'mc',q:"The interior angles of a triangle are x°, 55° and 95°. Find x.",qzh:"三角形三個內角分別是 x°、55° 和 95°，求 x。",opts:["30","40","50","140"],optszh:["30","40","50","140"],a:0},
+    {t:'mc',q:"The interior angles of a triangle are x°, 55° and 95°. Find x.",qzh:"三角形三個內角分別是 x°、55° 和 95°，求 x。",opts:["30","40","50","140"],optszh:["30","40","50","140"],a:0,fig:{k:'triang',a:'x°',b:'55°',c:'95°'}},
     {t:'mc',q:"Which of the following is the smallest?",qzh:"下列哪一個數最小？",opts:["−7","−2","0","−9"],optszh:["−7","−2","0","−9"],a:3},
     {t:'mc',q:"A TV costs $2400. It is sold at a 15% discount. What is the selling price?",qzh:"一部電視機售 $2400，以 15% 折扣出售，售價是多少？",opts:["$2040","$360","$2160","$2080"],optszh:["$2040","$360","$2160","$2080"],a:0},
     {t:'mc',q:"The mean of 4 numbers is 18. Three of them are 12, 20 and 25. Find the fourth number.",qzh:"4 個數的平均數是 18，其中三個是 12、20 和 25，求第四個數。",opts:["15","16","18","20"],optszh:["15","16","18","20"],a:0},
@@ -3791,7 +3795,7 @@ const MATH_QBANK = {
     {t:'fill',q:"The circumference of a circle is 31.4 cm. Find its diameter. (Take π = 3.14, answer in cm)",qzh:"一個圓的周長是 31.4 厘米，求它的直徑。（取 π = 3.14，以厘米作答）",a:"10",azh:"10",alt:["10 cm","10cm"]},
     {t:'word',q:"Ming cycles 18 km in 1 hour 30 minutes. Find his average speed in km/h.",qzh:"Ming 用 1 小時 30 分鐘踏單車行了 18 公里，求他的平均時速。",model:"1 h 30 min = 1.5 h; 18 ÷ 1.5 = 12 km/h.",modelzh:"1.5 小時行 18 公里，18 ÷ 1.5 = 12 公里/小時。"},
     {t:'word',q:"A vase costs $360 in a shop. During a sale it is sold at a 25% discount. Mary pays with two $200 notes. How much change does she get?",qzh:"一間店的花瓶售 $360，減價期間以 75 折（減 25%）出售。Mary 用兩張 $200 付款，應找回多少零錢？",model:"Discount = 25% × $360 = $90; $360 − $90 = $270; $400 − $270 = $130. She gets $130 change.",modelzh:"減價 $90，售價 $270；400 − 270 = 130，應找回 $130。"},
-    {t:'word',q:"An open rectangular box is 25 cm long, 16 cm wide and 12 cm high. Find its volume.",qzh:"一個無蓋長方體盒長 25 厘米、闊 16 厘米、高 12 厘米，求它的體積。",model:"25 × 16 × 12 = 4800 cm³.",modelzh:"25 × 16 × 12 = 4800 立方厘米。"},
+    {t:'word',q:"An open rectangular box is 25 cm long, 16 cm wide and 12 cm high. Find its volume.",qzh:"一個無蓋長方體盒長 25 厘米、闊 16 厘米、高 12 厘米，求它的體積。",model:"25 × 16 × 12 = 4800 cm³.",modelzh:"25 × 16 × 12 = 4800 立方厘米。",fig:{k:'cub',w:25,d:16,h:12,u:'cm'}},
     {t:'fill',q:"Work out 8.64 ÷ 1.2. Write the steps on paper, then fill in the final answer only.",qzh:"計算 8.64 ÷ 1.2，步驟寫在紙上，只填最後答案。",a:"7.2",azh:"7.2",alt:["7.20"],part:"甲",pname:"小數除法直式"},
     {t:'fill',q:"Work out 7.2 ÷ (2.4 − 0.9). Write the steps on paper, then fill in the final answer only.",qzh:"計算 7.2 ÷ (2.4 − 0.9)，步驟寫在紙上，只填最後答案。",a:"4.8",azh:"4.8",alt:["4.80"],part:"甲",pname:"小數四則混合"},
     {t:'fill',q:"Express 0.625 as a fraction in its simplest form.",qzh:"把 0.625 化成最簡分數。",a:"5/8",azh:"5/8",alt:["5 / 8"],part:"甲",pname:"小數化最簡分數"},
@@ -3979,18 +3983,91 @@ function mscrBindAll(){
     if(window.ResizeObserver){ try{ new ResizeObserver(function(){ fit(); }).observe(cv); }catch(_){} }
   });
 }
+/* v2.34：數學卷圖形題——題庫可選 fig 描述符，figSvg() 現場生成內聯 SVG。
+   九種圖型：rect 矩形標長寬／para 平行四邊形／tri 三角形標高／triang 三角形標角／
+   ang 直線兩角／pie 分數圓餅／cub 長方體／cir 圓標半徑／clock 鐘面。
+   零外部資源、零版權風險；示意圖不按比例（aria-label 已標注）；未知圖型返回空串安全降級。 */
+function figSvg(f){
+  try{
+    var ST='fill="none" stroke="#35618f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"';
+    var FL='fill="#dbe9f6" stroke="#35618f" stroke-width="2" stroke-linejoin="round"';
+    var TX='font-size="13" fill="#33465e"';
+    var D='stroke="#8aa8c9" stroke-width="1.5" stroke-dasharray="4 3" fill="none"';
+    var s='',vb='0 0 220 140',lbl='';
+    function T(x,y,t,anch){return '<text x="'+x+'" y="'+y+'" '+TX+' text-anchor="'+(anch||'middle')+'">'+t+'</text>';}
+    var k=f.k;
+    if(k==='rect'){vb='0 0 230 140';
+      s='<rect x="30" y="16" width="150" height="94" '+FL+'/>'
+       +T(105,132,f.w+' '+f.u)+T(196,68,f.h+' '+f.u,'start');
+      lbl='\u9577\u65b9\u5f62\u793a\u610f\u5716\uff08\u4e0d\u6309\u6bd4\u4f8b\uff09';
+    }else if(k==='para'){vb='0 0 230 140';
+      s='<polygon points="45,108 195,108 175,28 25,28" '+FL+'/>'
+       +'<line x1="120" y1="28" x2="120" y2="108" '+D+'/>'
+       +T(120,128,f.b+' '+f.u)+T(128,72,f.h+' '+f.u,'start');
+      lbl='\u5e73\u884c\u56db\u908a\u5f62\u793a\u610f\u5716\uff08\u4e0d\u6309\u6bd4\u4f8b\uff09';
+    }else if(k==='tri'){vb='0 0 230 145';
+      s='<polygon points="110,20 25,115 195,115" '+FL+'/>'
+       +'<line x1="110" y1="20" x2="110" y2="115" '+D+'/>'
+       +'<polyline points="110,103 122,103 122,115" fill="none" stroke="#8aa8c9" stroke-width="1.5"/>'
+       +T(110,138,f.b+' '+f.u)+T(120,72,f.h+' '+f.u,'start');
+      lbl='\u4e09\u89d2\u5f62\u793a\u610f\u5716\uff08\u4e0d\u6309\u6bd4\u4f8b\uff09';
+    }else if(k==='triang'){vb='0 0 230 140';
+      s='<polygon points="110,24 25,112 195,112" '+FL+'/>'
+       +T(110,52,f.a)+T(58,104,f.b)+T(164,104,f.c);
+      lbl='\u4e09\u89d2\u5f62\u5167\u89d2\u793a\u610f\u5716';
+    }else if(k==='ang'){vb='0 0 230 130';
+      s='<line x1="25" y1="95" x2="205" y2="95" stroke="#35618f" stroke-width="2"/>'
+       +'<line x1="115" y1="95" x2="196" y2="38" stroke="#35618f" stroke-width="2"/>'
+       +'<path d="M 139 95 A 24 24 0 0 0 134.7 81.2" '+D+'/>'
+       +T(152,80,f.a+'\u00b0','start')+T(86,78,'?');
+      lbl='\u76f4\u7dda\u4e0a\u7684\u89d2\u793a\u610f\u5716';
+    }else if(k==='pie'){vb='0 0 130 130';
+      var cx=65,cy=65,r=48,i,an1,an2,x1,y1,x2,y2;
+      for(i=0;i<f.d;i++){
+        an1=-Math.PI/2+i*2*Math.PI/f.d; an2=-Math.PI/2+(i+1)*2*Math.PI/f.d;
+        x1=cx+r*Math.cos(an1); y1=cy+r*Math.sin(an1); x2=cx+r*Math.cos(an2); y2=cy+r*Math.sin(an2);
+        s+='<path d="M '+cx+' '+cy+' L '+x1.toFixed(1)+' '+y1.toFixed(1)+' A '+r+' '+r+' 0 0 1 '+x2.toFixed(1)+' '+y2.toFixed(1)+' Z" fill="'+(i<f.n?'#f6c46a':'#ffffff')+'" stroke="#35618f" stroke-width="2"/>';
+      }
+      lbl='\u5206\u6578\u793a\u610f\u5716\uff08'+f.n+'/'+f.d+' \u5857\u8272\uff09';
+    }else if(k==='cub'){vb='0 0 235 150';
+      s='<polygon points="35,50 70,22 180,22 145,50" '+FL+'/>'
+       +'<polygon points="145,50 180,22 180,95 145,123" '+FL+'/>'
+       +'<rect x="35" y="50" width="110" height="73" '+FL+'/>'
+       +T(90,140,f.w+' '+f.u)+T(24,92,f.h+' '+f.u)+T(190,16,f.d+' '+f.u,'start');
+      lbl='\u9577\u65b9\u9ad4\u793a\u610f\u5716\uff08\u4e0d\u6309\u6bd4\u4f8b\uff09';
+    }else if(k==='cir'){vb='0 0 130 130';
+      s='<circle cx="65" cy="65" r="48" '+FL+'/>'
+       +'<line x1="65" y1="65" x2="113" y2="65" stroke="#35618f" stroke-width="2"/>'
+       +'<circle cx="65" cy="65" r="2.5" fill="#35618f"/>'
+       +T(88,58,f.r+' '+f.u);
+      lbl='\u5713\u5f62\u793a\u610f\u5716';
+    }else if(k==='clock'){vb='0 0 130 130';
+      var hcx=65,hcy=65,i2,ang2,tx,ty;
+      for(i2=0;i2<12;i2++){ang2=i2*Math.PI/6;
+        s+='<line x1="'+(hcx+38*Math.sin(ang2)).toFixed(1)+'" y1="'+(hcy-38*Math.cos(ang2)).toFixed(1)+'" x2="'+(hcx+44*Math.sin(ang2)).toFixed(1)+'" y2="'+(hcy-44*Math.cos(ang2)).toFixed(1)+'" stroke="#8aa8c9" stroke-width="2"/>';}
+      var ha=((f.h%12)+(f.m||0)/60)*Math.PI/6, ma=(f.m||0)*Math.PI/30;
+      s+='<circle cx="'+hcx+'" cy="'+hcy+'" r="48" '+ST+'/>'
+       +'<line x1="'+hcx+'" y1="'+hcy+'" x2="'+(hcx+24*Math.sin(ha)).toFixed(1)+'" y2="'+(hcy-24*Math.cos(ha)).toFixed(1)+'" stroke="#33465e" stroke-width="4" stroke-linecap="round"/>'
+       +'<line x1="'+hcx+'" y1="'+hcy+'" x2="'+(hcx+38*Math.sin(ma)).toFixed(1)+'" y2="'+(hcy-38*Math.cos(ma)).toFixed(1)+'" stroke="#33465e" stroke-width="2" stroke-linecap="round"/>'
+       +'<circle cx="'+hcx+'" cy="'+hcy+'" r="3" fill="#33465e"/>';
+      lbl='\u6642\u9418\u793a\u610f\u5716';
+    }else{return '';}
+    return '<svg class="qfigsvg" viewBox="'+vb+'" role="img" aria-label="'+lbl+'">'+s+'</svg>';
+  }catch(e){return '';}
+}
 function mathCardHtml(q,i){
   const TL={mc:"選擇題",fill:"填空題",word:"應用題"};
   const tag=q.part?(q.part==='自訂'?(' · 自訂 · '+(q.pname||'')):(' · '+q.part+'部 · '+(q.pname||''))):'';
   let h='<div class="qcard" data-qi="'+i+'"><div class="qbody"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span><span class="qtype">'+(TL[q.t]||"")+tag+'</span></div>';
+  const FGH=q.fig?figSvg(q.fig):'';   /* v2.34 圖形題 */
   if(q.t==='mc'){
-    h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="qopts">';
+    h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div>'+(FGH?'<div class="qfig">'+FGH+'</div>':'')+'<div class="qopts">';
     q.opts.forEach(function(o,k){ h+='<label class="qopt"><input type="radio" name="mq'+i+'" value="'+k+'"> '+LAB_M[k]+'. '+o+' <span class="qzh">('+q.optszh[k]+')</span></label>'; });
     h+='</div>';
   }else if(q.t==='fill'){
-    h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><input class="qfill" id="mqf'+i+'" placeholder="填答案">';
+    h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div>'+(FGH?'<div class="qfig">'+FGH+'</div>':'')+'<input class="qfill" id="mqf'+i+'" placeholder="填答案">';
   }else if(q.t==='word'){
-    h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="qwrite"><textarea id="mqf'+i+'" placeholder="寫下你的算式與答案…"></textarea></div>';
+    h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div>'+(FGH?'<div class="qfig">'+FGH+'</div>':'')+'<div class="qwrite"><textarea id="mqf'+i+'" placeholder="寫下你的算式與答案…"></textarea></div>';
   }
   h+='</div>';  /* /qbody */
   h+='<div class="qscratch" data-scratch="'+i+'"><div class="qscr-head"><span class="qscr-t">\u270f\ufe0f 草稿板</span><span class="qscr-hint">手指或滑鼠書寫</span><button type="button" class="qscr-clear" aria-label="清空第'+(i+1)+'題草稿">清空</button></div><div class="qscr-wrap"><canvas class="qscr-cv" aria-label="第'+(i+1)+'題草稿板，可用手指或滑鼠書寫"></canvas></div></div>';
@@ -4070,11 +4147,11 @@ function printMathPaper(){
   curMathPaper.forEach(function(q,i){
     h+='<div class="eps-q"><div class="eps-qh">Q'+(i+1)+'. （'+(TL[q.t]||'')+(q.part?(q.part==='自訂'?(' · 自訂 · '+(q.pname||'')):(' · '+q.part+'部 · '+(q.pname||''))):'')+'）</div>';
     if(q.t==='mc'){
-      h+='<div class="eps-text">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="eps-opts">'+optsLine(q.opts,q.optszh)+'</div><div class="ansline lbl"><span class="al-t">答：</span><span class="al-l"></span></div>';
+      h+='<div class="eps-text">'+q.q+'</div><div class="qzh">'+q.qzh+'</div>'+(q.fig?'<div class="eps-fig">'+figSvg(q.fig)+'</div>':'')+'<div class="eps-opts">'+optsLine(q.opts,q.optszh)+'</div><div class="ansline lbl"><span class="al-t">答：</span><span class="al-l"></span></div>';
     }else if(q.t==='fill'){
-      h+='<div class="eps-text">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="ansline lbl"><span class="al-t">答：</span><span class="al-l"></span></div>';
+      h+='<div class="eps-text">'+q.q+'</div><div class="qzh">'+q.qzh+'</div>'+(q.fig?'<div class="eps-fig">'+figSvg(q.fig)+'</div>':'')+'<div class="ansline lbl"><span class="al-t">答：</span><span class="al-l"></span></div>';
     }else if(q.t==='word'){
-      h+='<div class="eps-text">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="ansbox"><div class="ansline"></div><div class="ansline"></div><div class="ansline"></div></div>';
+      h+='<div class="eps-text">'+q.q+'</div><div class="qzh">'+q.qzh+'</div>'+(q.fig?'<div class="eps-fig">'+figSvg(q.fig)+'</div>':'')+'<div class="ansbox"><div class="ansline"></div><div class="ansline"></div><div class="ansline"></div></div>';
     }
     h+='</div>';
   });
@@ -4118,6 +4195,7 @@ function hkkPrintSheet(id,html){
    否則 HTML 用了新類名卻沒有樣式＝線條全裸。這裡抽出來共用，杜絕漏改。 */
 var EPS_SHARED_CSS=
     '.eps-text{font-size:14px}.eps-opts{font-size:13.5px;margin:6px 0}.eps-ans{font-size:13.5px;color:#333;margin-top:4px}'
+    +'.eps-fig{margin:2px 0}.eps-fig svg{width:115px;height:auto}'
     +'/* v1.86：答題線改用 CSS 邊框畫「整寬橫線」，自動跟 A4 版心同寬（原本是固定長度下劃線字元，只有一小截） */'
     +'.ansline{border-bottom:1px solid #444;height:22px;margin:6px 0 0;width:100%}'
     +'.ansline.short{height:19px;margin-top:4px}'
@@ -4415,6 +4493,7 @@ function printCnPaper(){
     +'.cnsec{font-size:15px;font-weight:800;margin:18px 0 10px;padding:5px 10px;background:#f1fbf8;border-left:4px solid #0f8a74}'
     +'.eps-q{margin:0 0 14px;page-break-inside:avoid}.eps-qh{font-size:12.5px;color:#666;margin-bottom:4px}'
     +'.eps-text{font-size:14px}.eps-opts{font-size:13.5px;margin:6px 0}.eps-ans{font-size:13.5px;color:#333;margin-top:4px}'
+    +'.eps-fig{margin:2px 0}.eps-fig svg{width:115px;height:auto}'
     +'/* v1.86：答題線改用 CSS 邊框畫「整寬橫線」，自動跟 A4 版心同寬（原本是固定長度下劃線字元，只有一小截） */'
     +EPS_SHARED_CSS
     +'.qzh{font-size:13.5px;color:#666;margin-top:3px}'
@@ -8735,7 +8814,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.33',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.34',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
