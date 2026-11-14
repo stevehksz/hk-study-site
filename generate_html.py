@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.35：葉工上傳校內英文測驗卷（Cathy 1114，12 頁全卷），要求「放到英語練習的試卷裡，新建一個試卷子目錄，可以根據這套試卷生成類似的卷子」。⚠️ 版權紅線：原卷文章／題目／圖片一律不入公開站（倉庫公開＝公開發行），只取題型骨架。落地＝①英文練習新增第 11 子頁籤「校卷題型」（插在呈分試卷之後、時態與題型之前），新增 `#schoolView` 與頂層 `#schPrintSheet`（列印白名單同步）；②骨架完全對齊原卷八部分：A 閱讀四欄雜誌文（6 選擇含指代／組合選項／NOT 題＋2 全句＋短訊填空 2 空）、B 閱讀 blog（6 選擇含**文字版事件排序**替代原卷圖片排序＋2 全句＋便條 2 空）、C·D 聽力（5＋7 選擇，站內無音頻，附**家長朗讀稿**可折疊）、E·F 動詞正確形式（各 13 空）、G 連接詞日記（7 空）、H 看圖寫故事（四格改**文字場景＋提示問題**，約 100 字，無插圖）；③題庫全部原創：閱讀 3 篇（2 雜誌式＋1 blog）、聽力 2 篇（talk 5 題＋story 7 題）、動詞 3 篇（各 13 空）、連接詞 2 篇（各 7 空）、寫作 2 題（含參考範文），每套抽 2 閱讀＋2 動詞＋1 連接詞＋1 寫作；④批改：選擇題與單詞填空自動判分（大小寫／首尾空格／標點容錯、`alt` 容錯表），全句作答與寫作給參考答案自評；⑤列印：`hkkPrintSheet('schPrintSheet')` 統一入口，含答案版可選、朗讀稿可選；⑥零新增 localStorage 鍵、零外鏈、零圖片、零第三方原文；`ai_kb.py` 只抽 faqView／timelineView／policyView＋學校名冊，本頁在 enPracView 內天然不入 KB。版本串升 v2.35、verify2.js 換三種鎖並補 12 條 v2.35 專項斷言。
 v2.34：葉工問「可以出得到帶圖的題目嗎」。落地＝①題庫加可選 fig 描述符，13 道題配圖：P1 時鐘、P2 分數圓餅、P3 長方形周界／面積、P4 直線兩角／農地、P5 三角形／平行四邊形／水箱、P6 圓／長方體／內角／無蓋盒；②新增 figSvg() 現場生成內聯 SVG，九種圖型（rect／para／tri／triang／ang／pie／cub／cir／clock），零外部資源、零版權風險，示意圖標注「不按比例」，未知圖型返回空串安全降級；③題卡 qzh 後插 .qfig（scoped #mathPaperBox，寬 170px 自適應），列印卷插 .eps-fig（115px）並在共用列印樣式注入；④AI 自訂卷 schema 不加圖（保持同構校驗），無 fig 老題零影響。版本串升 v2.34、verify2.js 換三種鎖並補 8 條 v2.34 專項斷言。零搬運、零新增 localStorage 鍵。
 v2.33：葉工出卷後說「一套試卷題量太少，起碼 15 題」。落地＝①`genMathPaper` 每套題量 8→**15**（`N=Math.min(15,pool.length)`，池不足 15 就出滿池）；②P1–P4 題庫各補 **6 道原創題**（10→16，達到 15 題門檻）：P1 補數列規律／幾個十／三位數讀寫／順數／加錢應用，P2 補 8×2／一週天數／45÷5／米厘米化聚／3/4 倍數／分袋除法應用，P3 補兩位×一位／等值分數／6×7／位值展開／長方形面積／經過時間應用，P4 補分數化小數／鈍角辨認／同分母加法／7×8／十位捨入／絲帶等分應用——全部英文題幹＋繁中對照＋（mc）opts/optszh、（fill）a/azh/alt、（word）model/modelzh，欄位同構；③word 上限 1/4（15 題→4 題）、P6 五部保底 60%（15 題→9 題）配額自動跟隨 N，邏輯零改動；④AI 讀卷出題（8 題）與英文卷（8 題）**不動**——本輪只按要求改數學卷。verify2 版本鎖三種寫法全換、v2.12 配額斷言 2→4／4→9 更新、新增 v2.33 專項 8 條。
 v2.32：葉工要求「數學卷每一道題旁邊加一個草稿板，且可以寫」。落地＝①每張題卡改兩欄網格：手機單列（題目在上、草稿板在下），≥821px 兩欄（題目左、草稿板右 300px）；題目內容原位包進 `.qbody`（零搬運），草稿板 `.qscratch` 為第二列，**不動全域 `.qcard` 樣式**（英文卷／中文卷／逐題卡共用），一律 scoped 到 `#mathPaperBox`；②草稿板＝canvas 手寫：pointerdown／move／up ＋ setPointerCapture，滑鼠與手指同一套碼，`touch-action:none` 防寫字時頁面滾動；筆跡按本題存內存（歸一化 0–1 坐標），DPR 上限 2 高清渲染，ResizeObserver 重排時矢量重繪——不糊、不丟；③清空兩段式（首擊變「確定清空」2.6 秒自動復原），避免小朋友誤觸擦掉算式；④換卷按題乾簽名比對自動清空舊筆跡，同卷內批改／切頁保留；⑤草稿板**不進列印**（列印卷本就另起 HTML，另加 @media print 隱藏保險）；零新增 localStorage 鍵——筆跡只在記憶體，刷新即清。版本串升 v2.32、verify2.js 換鎖並補 7 條 v2.32 專項斷言。
@@ -618,6 +619,34 @@ details.gcard:not([open]):hover{border-color:var(--acc);box-shadow:var(--shadow-
 #mathPaperBox .qbody{min-width:0}
 #mathPaperBox .qfig{margin:6px 0 2px}
 #mathPaperBox .qfig svg{width:170px;max-width:100%;height:auto;display:block}
+/* v2.35 校卷題型（全部 scoped #schoolView，不動全域 .ex-*） */
+#schoolView .sch-pass{border:1px solid #dde6ef;border-radius:10px;padding:10px 12px;margin:8px 0;background:#fbfdff}
+#schoolView .sch-mag{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#schoolView .sch-mag > div{border:1px solid #e2ebf4;border-radius:8px;padding:8px 10px;background:#fff}
+#schoolView .sch-mag h4{margin:0 0 4px;font-size:14px;color:#1f4e79}
+#schoolView .sch-mag p{margin:0;font-size:13.5px;line-height:1.65}
+@media(max-width:640px){#schoolView .sch-mag{grid-template-columns:1fr}}
+#schoolView .sch-sec{margin:16px 0 22px}
+#schoolView .sch-h{font-weight:800;font-size:15px;margin:0 0 6px;color:#1f3b5a}
+#schoolView .sch-qi{margin:10px 0 2px;font-size:14px}
+#schoolView .ex-mc{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px;margin:2px 0 4px}
+@media(max-width:640px){#schoolView .ex-mc{grid-template-columns:1fr}}
+#schoolView .sch-inp{width:110px;border:none;border-bottom:1.5px solid #7b93ad;background:transparent;font:inherit;padding:1px 4px;margin:0 2px}
+#schoolView .sch-inp:focus{outline:none;border-color:#1f6fb2;background:#f2f8ff}
+#schoolView .sch-hint{color:#8a8aa0;font-size:12.5px}
+#schoolView .sch-sa{display:block;width:100%;margin:4px 0 10px;min-height:44px;border:1px solid #cfd9e4;border-radius:8px;padding:6px 8px;font:inherit}
+#schoolView details.sch-script{margin:8px 0;border:1px dashed #b9cbe0;border-radius:8px;padding:6px 10px;background:#f7fbff}
+#schoolView details.sch-script summary{cursor:pointer;font-weight:700;color:#1f4e79;font-size:13.5px}
+#schoolView details.sch-script p{font-size:13px;line-height:1.7;margin:6px 0}
+#schoolView .sch-res{margin:10px 0;padding:10px 12px;border-radius:10px;background:#eef7fd;font-size:14px}
+#schoolView .sch-res b{font-size:17px;color:#1f6fb2}
+#schoolView .sch-wrong{margin:6px 0;font-size:13px;color:#8a3b3b}
+#schoolView .sch-model{margin:8px 0;padding:8px 10px;border-left:3px solid #9ec7e8;background:#f7fbff;font-size:13.5px;line-height:1.7}
+#schoolView .sch-wt{width:100%;min-height:120px;border:1px solid #cfd9e4;border-radius:8px;padding:8px;font:inherit}
+#schoolView .sch-scenes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0}
+@media(max-width:640px){#schoolView .sch-scenes{grid-template-columns:1fr}}
+#schoolView .sch-scenes div{border:1px solid #e2ebf4;border-radius:8px;padding:6px 8px;font-size:13px;background:#fff}
+#schoolView .sch-words{font-size:12.5px;color:#8a8aa0}
 #mathPaperBox .qscratch{border:1px solid var(--line);border-radius:10px;background:#fbfdff;padding:6px 8px 8px;display:flex;flex-direction:column;gap:6px}
 #mathPaperBox .qscr-head{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);min-height:44px}
 #mathPaperBox .qscr-t{font-weight:700;color:#475069;font-size:12.5px}
@@ -1240,13 +1269,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.34（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.35（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.34（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.35（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1614,6 +1643,8 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
       <button data-es="paper">英文卷</button>
       <button data-es="exam">呈分試卷</button>
       <!-- v1.89：時態與題型——補「過去式反覆練＋香港常見題型首次見面」，插在筆試輸出（卷）之後、口語輸出（面試）之前 -->
+      <!-- v2.35：校卷題型——按校內測驗卷骨架出全卷（原創題），插在呈分試卷之後 -->
+      <button data-es="school">校卷題型</button>
       <button data-es="drill">時態與題型</button>
       <button data-es="iv">升中面試</button>
     </div>
@@ -1990,6 +2021,24 @@ Thank you for your time.</div>
       <div id="examPaperBox"></div>
       <div id="examPaperResult"></div>
       <div class="en-src-note"><b>說明：</b>題型版式取自家長提供的坊間呈分試模擬卷樣式（2026-10-31 兩批樣張，僅取版式與分值結構，不取內容）：第二批樣張的海報閱讀、since/therefore、電影職業、習語等題型已對應併入 (I)(J)(D)(B)；題目內容全部原創仿編。「🤖 AI 出新卷」需先在「練習」頁頂部「⚙ AI 設置」填好接口（僅存本瀏覽器），AI 生成的整卷經結構校驗後才替換當前卷，卷頭標 AI 生成。年級難度以 P5–P6 呈分試常見水平估算，以學校課本為準。</div>
+    </div>
+
+    <!-- v2.35 校卷題型：骨架取自 2026-11-14 家長提供的校內英文測驗卷（A 閱讀雜誌文／B 閱讀 blog／C·D 聽力／E·F 動詞形式／G 連接詞／H 看圖寫故事），
+         只取題型與分部順序，文章與題目全部本站原創編寫，零原文轉載。C·D 為聽力，站內無音頻，附家長朗讀稿。 -->
+    <div class="wrap gsec" id="schoolView" style="display:none">
+      <div class="gtitle">校卷題型 · 英文全卷模擬（按校內測驗卷骨架 · 原創題）</div>
+      <span class="folk">骨架取自 2026-11-14 家長提供的校內英文測驗卷：A 閱讀（四欄雜誌文）→ B 閱讀（blog 記敘）→ C·D 聽力 → E·F 動詞正確形式 → G 連接詞 → H 看圖寫故事。只取「題型與分部順序」，文章與題目全部本站原創編寫，零原文轉載、零外鏈。C·D 站內無音頻，卷後附家長朗讀稿（勾「顯示朗讀稿」可邊讀邊做）。</span>
+      <div class="enpaper-actions">
+        <button class="btn" id="schNewPaper" onclick="genSchoolPaper()">🎲 出新卷</button>
+        <button class="btn" id="schSubmit" onclick="gradeSchoolPaper()">✅ 交卷批改</button>
+        <button class="btn" onclick="printSchoolPaper()">🖨 列印</button>
+        <label class="print-ans-toggle"><input type="checkbox" id="schPrintAns"> 含答案版</label>
+        <label class="print-ans-toggle"><input type="checkbox" id="schShowScript" onchange="schToggleScript()"> 顯示朗讀稿</label>
+        <span class="enpaper-stat" id="schStat">共 8 部分</span>
+      </div>
+      <div id="schPaperBox"></div>
+      <div id="schPaperResult"></div>
+      <div class="en-src-note"><b>說明：</b>題型骨架來自校內測驗卷（版權歸原校），本頁只沿用分部與題型順序；全部文章、題目、朗讀稿、參考答案均為本站原創編寫，不轉載任何原文。站內批改只判選擇題與單詞填空（大小寫、首尾空格容錯），全句作答與寫作給參考答案自評。寫作提示四格為文字描述（無插圖），可讓孩子先口述再動筆。</div>
     </div>
 
     <!-- v1.89 時態與題型：葉工女兒做站內打印卷時暴露兩個缺口——①一般過去式同一知識點連錯 6 題；②習語／since 句／短語動詞／開放題整題空白（不是不會，是沒見過）。
@@ -3255,6 +3304,7 @@ Thank you for your time.</div>
 <div id="enPrintSheet" class="en-print"></div>
 <div id="drillPrintSheet" class="en-print"></div>
 <div id="mathPrintSheet" class="en-print"></div>
+<div id="schPrintSheet" class="en-print"></div>
 <div id="rdArtPrintSheet" class="en-print"></div>
 <div id="examPrintSheet" class="en-print"></div>
 
@@ -4134,6 +4184,373 @@ function showMathStat(){
   const v=best[curMathGrade];
   document.getElementById('mathStat').textContent='本級最佳：'+(v!==undefined?v+'%':'—');
 }
+/* v2.35 校卷題型 · 英文全卷模擬
+   ⚠️ 版權：骨架取自 2026-11-14 家長提供的校內英文測驗卷（A 閱讀雜誌文／B 閱讀 blog／C·D 聽力／
+   E·F 動詞形式／G 連接詞／H 看圖寫故事），只沿用分部與題型順序；以下全部文章、題目、朗讀稿、
+   參考答案均為本站原創編寫，零原文轉載、零外鏈、零圖片。C·D 站內無音頻，附家長朗讀稿。 */
+var SCH_READING=[
+ {k:'mag',title:'Four Unusual Homes',
+  paras:[
+   {h:'The Tree House Hotel',t:'The Tree House Hotel is built twelve metres up in a big forest in New Zealand. Guests walk across a rope bridge to get to their rooms. There is no television, because the owner wants guests to listen to the birds and look at the stars.'},
+   {h:'A Houseboat Home',t:'The Chan family live on a houseboat. Their home moves along the river every two weeks. The kitchen is very small, but the family says the view is the best in the world. Their dog likes swimming in the river every morning.'},
+   {h:'Sleeping in Ice',t:'Every winter, workers build a hotel out of ice and snow in Sweden. Everything inside, even the beds, is made of ice. Guests sleep in thick sleeping bags. In spring, the ice melts and the hotel disappears. Workers must build it again the next winter.'},
+   {h:'A Very Small Home',t:'In Japan, some people live in capsule homes. A capsule is only two metres long and one metre wide. It is cheap, but there is no kitchen. People who live there share a bathroom with everyone on the same floor.'}
+  ],
+  mc:[
+   {q:'Guests at the Tree House Hotel get to their rooms by        .',o:['lift','rope bridge','boat','stairs'],a:1},
+   {q:'The Chan family\u2019s home        .',o:['stays in one place','moves every two weeks','is very big','has a large kitchen'],a:1},
+   {q:'Which two homes are made of things that melt or must be built again?<br>1. the tree house\u3000 2. the houseboat\u3000 3. the ice hotel\u3000 4. the capsule',o:['1 and 2','2 and 3','3 only','1 and 4'],a:2},
+   {q:'Read this line: \u2018It is cheap, but there is no kitchen.\u2019 The word \u2018cheap\u2019 is closest in meaning to        .',o:['not expensive','very small','very old','easy to find'],a:0},
+   {q:'Which of the following is NOT true about the ice hotel?',o:['It is built in Sweden.','Guests sleep in sleeping bags.','It stays open all year.','It is rebuilt every winter.'],a:2},
+   {q:'Read: \u2018People who live there share a bathroom with everyone on the same floor.\u2019 The word \u2018there\u2019 refers to        .',o:['the ice hotel','the capsule homes','the tree house','the houseboat'],a:1}
+  ],
+  sa:[
+   {q:'Why does the owner of the Tree House Hotel not have a television there?',m:'Because he wants guests to listen to the birds and look at the stars.'},
+   {q:'What happens to the ice hotel in spring?',m:'The ice melts and the hotel disappears.'}
+  ],
+  note:{intro:'Jack is writing a text message to his friend. Complete the text message. Use only ONE word for each blank. Make sure your answers are grammatically correct.',
+   parts:['Hi Sam,\nI read about four unusual homes today. My favourite is the ice hotel in ','. Guests sleep in thick sleeping bags because everything inside is made of ice. Would you like to ',' there one day?\nJack'],
+   ans:['Sweden','stay'],alt:[['sweden'],['visit','sleep']],sign:'Jack'}
+ },
+ {k:'mag',title:'Four Ways to Help Our Planet',
+  paras:[
+   {h:'Recycle Right',t:'Every day our school throws away paper, cans and plastic bottles. Put them in the right bins and they can be made into new things. One school in Tuen Mun turned old bottles into flower pots for the playground.'},
+   {h:'Walk or Take the Bus',t:'Cars make a lot of smoke. If you walk, cycle or take the bus to school, you help the air stay clean. Students in one primary school started a \u2018Walk to School Wednesday\u2019 and 120 families joined.'},
+   {h:'Save Water',t:'Turn off the tap when you brush your teeth. A running tap can waste six litres of water a minute. Fixing a leaking tap saves even more.'},
+   {h:'Plant a Tree',t:'Trees give us clean air and shade. Our class planted ten small trees behind the playground last month. We water them every Monday and Friday.'}
+  ],
+  mc:[
+   {q:'What did one school in Tuen Mun do with old bottles?',o:['sold them','made them into flower pots','threw them away','gave them to shops'],a:1},
+   {q:'How many families joined \u2018Walk to School Wednesday\u2019?',o:['12','20','100','120'],a:3},
+   {q:'Which two tips help save water?<br>1. turn off the tap\u3000 2. plant trees\u3000 3. fix a leaking tap\u3000 4. take the bus',o:['1 and 3','2 and 4','1 and 2','3 and 4'],a:0},
+   {q:'Read: \u2018A running tap can waste six litres of water a minute.\u2019 What does \u2018waste\u2019 mean?',o:['save','use badly','clean','carry'],a:1},
+   {q:'Which is NOT something the class does for the new trees?',o:['water them','plant them','sell them','choose a place behind the playground'],a:2},
+   {q:'Read: \u2018Put them in the right bins and they can be made into new things.\u2019 The word \u2018they\u2019 refers to        .',o:['the bins','paper, cans and plastic bottles','new things','the students'],a:1}
+  ],
+  sa:[
+   {q:'Why should we walk, cycle or take the bus to school?',m:'Because cars make a lot of smoke, and walking, cycling or taking the bus helps the air stay clean.'},
+   {q:'When does the class water the new trees?',m:'Every Monday and Friday.'}
+  ],
+  note:{intro:'Kit is writing a text message to her friend. Complete the text message. Use only ONE word for each blank. Make sure your answers are grammatically correct.',
+   parts:['Hi Amy,\nOur class planted ten trees behind the playground. We water them twice a ','. Miss Lee says trees give us clean ',' and shade. Come and see them!\nKit'],
+   ans:['week','air'],alt:[['weeks'],[]],sign:'Kit'}
+ },
+ {k:'blog',title:'Our Class Cooking Day',
+  paras:[
+   {t:'Today was the best day at school. Our class had a cooking lesson in the school kitchen. Miss Lau gave each group a basket of vegetables, some eggs and a bag of flour.'},
+   {t:'My group decided to make vegetable soup. First, we washed the vegetables and cut them into small pieces. Ken cut the carrots and I cut the tomatoes. It was harder than it looks!'},
+   {t:'Next, we put everything into a big pot with water. While the soup was cooking, Miss Lau showed us how to make small bread rolls. We had to wait twenty minutes for the bread to rise.'},
+   {t:'At last, the soup was ready. It smelled wonderful. We carried our bowls to the playground and ate outside in the sun. Everyone said our soup was delicious. Even the headmaster came to try some!'},
+   {t:'Cleaning up was not fun, but we finished quickly because we worked as a team. I can\u2019t wait for the next cooking lesson. Maybe we can make dumplings!'}
+  ],
+  mc:[
+   {q:'What did Miss Lau give each group?',o:['a basket of fruit','vegetables, eggs and flour','some soup','a big pot'],a:1},
+   {q:'What did Ken cut?',o:['the tomatoes','the carrots','the bread','the onions'],a:1},
+   {q:'Put the events in the correct order.<br>1. ate outside\u3000 2. cut the vegetables\u3000 3. made bread rolls\u3000 4. cleaned up',o:['2 \u2192 3 \u2192 1 \u2192 4','3 \u2192 2 \u2192 4 \u2192 1','2 \u2192 1 \u2192 3 \u2192 4','1 \u2192 2 \u2192 3 \u2192 4'],a:0},
+   {q:'Why did the class finish cleaning up quickly?',o:['Miss Lau helped them.','They worked as a team.','The soup was ready.','The headmaster came.'],a:1},
+   {q:'What does the last paragraph tell us?',o:['The writer wants to have another cooking lesson.','Dumplings are easy to make.','Cleaning up is fun.','The class will make soup again.'],a:0},
+   {q:'From the blog, the writer thinks cooking is        .',o:['easy and boring','hard but fun','quick and quiet','tiring and sad'],a:1}
+  ],
+  sa:[
+   {q:'Where did the class eat their soup?',m:'They ate outside in the playground, in the sun.'},
+   {q:'What did Miss Lau show the class while the soup was cooking?',m:'She showed them how to make small bread rolls.'}
+  ],
+  note:{intro:'Jen is writing a text message to her friend. Complete the text message. Use only ONE word for each blank. Make sure your answers are grammatically correct.',
+   parts:['Hi Chris,\nToday we had a cooking lesson. My group made vegetable ','. We cut the vegetables first and then cooked them in a big pot. At last we ate outside. Everyone said it was ','!\nJen'],
+   ans:['soup','delicious'],alt:[['soups'],['tasty','good','nice','yummy']],sign:'Jen'}
+ }
+];
+
+var SCH_LISTEN=[
+ {k:'talk',title:'A talk by Miss Ho, the school librarian',
+  script:['Good morning, boys and girls. I am Miss Ho, the librarian. I work in the school library every day except Sunday. I start work at half past seven, before the first bell, because many students like to read in the quiet morning.','My job is not only about books. I repair damaged books, help students find the right books and read stories to the younger classes on Fridays. The best part of my job is when a student tells me, \u2018This book is the best one I have ever read!\u2019','If you want to join the library helpers, come to the library after school on Tuesday. You need to love books and be ready to work in a team.'],
+  mc:[
+   {q:'Miss Ho works in the library        .',o:['every day','every day except Sunday','only on Fridays','twice a week'],a:1},
+   {q:'Miss Ho starts work at        .',o:['7:00','7:30','8:00','8:30'],a:1},
+   {q:'Which is NOT part of Miss Ho\u2019s job?',o:['repairing books','reading stories to younger classes','teaching Maths','helping students find books'],a:2},
+   {q:'Miss Ho\u2019s favourite part of her job is        .',o:['the quiet morning','repairing damaged books','when students love a book she gave them','working with library helpers'],a:2},
+   {q:'To join the library helpers, students should        .',o:['be good at Maths','go to the library on Tuesday after school','be in the younger classes','bring a book from home'],a:1}
+  ]},
+ {k:'story',title:'The Lost Wallet',
+  script:['On his way home from school, Tom saw something brown on the pavement. It was a wallet! He picked it up and opened it. Inside there were two hundred dollars and a photo of an old man with a little girl.','Tom looked around, but the street was empty. \u2018Someone must be very worried,\u2019 he thought. He remembered a police station near the market, so he ran there.','At the police station, a kind officer took the wallet. Ten minutes later, an old man hurried in. He was the man in the photo, and he was shaking. \u2018That is my wallet! The photo is the only picture of my granddaughter,\u2019 he said.','The old man wanted to give Tom fifty dollars, but Tom did not take it. \u2018My mum says we should always return things that are not ours,\u2019 Tom said. The officer smiled and said, \u2018You did the right thing, Tom.\u2019','That night, Tom told his family the story. His little sister asked, \u2018Were you not sad to lose the money?\u2019 Tom laughed. \u2018It was never mine,\u2019 he said. \u2018But I feel much richer now.\u2019'],
+  mc:[
+   {q:'Where did Tom find the wallet?',o:['in the market','at school','on the pavement','at the police station'],a:2},
+   {q:'What was inside the wallet?',o:['a phone','money and a photo','a ticket','some keys'],a:1},
+   {q:'How much money was in the wallet?',o:['$20','$50','$100','$200'],a:3},
+   {q:'The old man was shaking because        .',o:['he was cold','he was angry','he was worried and excited about his wallet','he was ill'],a:2},
+   {q:'What did the old man want to do?',o:['call the police','give Tom some money','take a photo of Tom','buy Tom dinner'],a:1},
+   {q:'Tom did NOT take the money because        .',o:['it was not enough','his mother taught him to return things that are not his','the officer said no','the old man needed it more'],a:1},
+   {q:'What does this story teach us?',o:['Money can buy happiness.','Police officers are always kind.','Be honest and return what is not yours.','Always carry a wallet with you.'],a:2}
+  ]}
+];
+
+var SCH_VERBS=[
+ {title:'A letter about Fun Day',
+  text:'Our school [[1|hold]] a Fun Day every year. Last year, the Fun Day [[2|be]] on 5th May and everyone [[3|enjoy]] it very much. This year, the Fun Day [[4|come]] on 20th April. We [[5|need]] your help to make it a big success!\n\nThere [[6|be]] many games and food stalls in the playground. If your class [[7|want]] a stall, please tell Miss Chan before Friday. Each class [[8|make]] one kind of food. Last year, Class 5A [[9|make]] egg tarts and they were sold out in ten minutes!\n\nRight now, the teachers [[10|prepare]] the games. Look! Mr Wong [[11|carry]] some boxes into the hall. We [[12|hope]] you can come with your family. If it [[13|rain]] that day, we will move everything into the hall. Come and have fun with us!',
+  ans:['holds','was','enjoyed','comes','need','will be','wants','makes','made','are preparing','is carrying','hope','rains'],
+  alt:[[],['were'],['enjoys'],[],['needs'],['are'],['want'],['is making','will make'],[],['prepare','are preparing'],['carries'],[],['will rain']]},
+ {title:'A camping diary',
+  text:'Dear Diary,\n\nI [[1|be]] very excited all week because our family [[2|plan]] a camping trip. We [[3|leave]] home at six in the morning and [[4|drive]] to Sai Kung. It was the first time I [[5|see]] the sea so early in the morning!\n\nDad [[6|put]] up the tent while Mum [[7|cook]] lunch. In the afternoon, we [[8|walk]] to the beach and I [[9|find]] a beautiful shell. Since then, I [[10|keep]] it in my pocket.\n\nAt night, the sky [[11|be]] full of stars. We [[12|count]] forty stars before I fell asleep. I [[13|feel]] so happy. I hope we can come again next year.',
+  ans:['have been','planned','left','drove','saw','put','cooked','walked','found','have kept','was','counted','felt'],
+  alt:[['was'],['plans'],[],['driven'],[],['putted'],[],['walk'],['finded'],['kept'],['were'],['count'],['fell']]},
+ {title:'A visit to the farm (If ... )',
+  text:'Our class is going to visit a farm next month. If the weather [[1|be]] fine, we [[2|walk]] there. If it [[3|rain]], we [[4|take]] a bus instead.\n\nMiss Lam says, \u2018If you [[5|wear]] comfortable shoes, your feet [[6|not hurt]].\u2019 At the farm, we [[7|see]] cows, sheep and hens. The farmer [[8|teach]] us how to pick vegetables.\n\nIf we [[9|finish]] our work early, we [[10|have]] a picnic by the river. Please bring a hat. If the sun [[11|be]] strong, we [[12|need]] it. Everyone [[13|hope]] the weather will be good!',
+  ans:['is','will walk','rains','will take','wear','will not hurt','will see','will teach','finish','will have','is','will need','hopes'],
+  alt:[[],['will go','walk'],['will rain'],['take'],[],['won\u2019t hurt','do not hurt','don\u2019t hurt'],['see'],['teaches'],[],['have'],['will be'],['need'],['hope']]}
+];
+
+var SCH_CONN=[
+ {title:'Sports Day diary',bank0:'although ／ and ／ but ／ or ／ since ／ so ／ so that',
+  text:'1st November (Saturday)\n\nToday was our school Sports Day. I was very nervous [[1]] I had never run in a race before. My best friend Ken [[2]] I signed up for the 100-metre race together. We practised every day after school [[3]] we could run faster.\n\nOn the day, it was very hot, [[4]] I still felt excited. Ken asked me, \u2018Do you want to start fast [[5]] save your energy?\u2019 [[6]] I did not win, I was happy for Ken because he came second. We took a photo together [[7]] we went home. It was a tiring day, but I loved it.',
+  ans:['since','and','so that','but','or','Although','and'],
+  alt:[['because'],['with'],[],['and'],['and'],['Though','though'],['before']]},
+ {title:'A visit to Grandma and Grandpa',bank0:'although ／ and ／ but ／ or ／ since ／ so ／ so that',
+  text:'15th December (Sunday)\n\nToday we visited Grandma and Grandpa. We took a bus [[1]] it was raining heavily. Grandma had cooked our favourite soup, [[2]] we ate two bowls each!\n\n[[3]] Grandpa cannot walk well, he took us to the park near his flat. He told us stories about his school days [[4]] we listened on the bench. My sister could not decide whether to ask for Grandpa\u2019s old watch [[5]] the old photo. He gave her the watch [[6]] she would remember him.\n\nWe did not want to leave, [[7]] it was already dark. I hope we can visit them again next month.',
+  ans:['since','so','Although','and','or','so that','but'],
+  alt:[['because'],['and'],['Though','though'],[],['and'],['so'],['and']]}
+];
+
+var SCH_WRITE=[
+ {title:'A Lost Dog',lead:'May is going to write a story about her dog Coco. Use the notes below to write the story in about 100 words.',
+  scenes:['1. It was a sunny Saturday morning. May and her dog Coco were in the park.','2. Suddenly Coco ran after a bird. May could not find him.','3. May looked for Coco everywhere. She asked a park keeper for help.','4. The keeper found Coco near the gate. May was very happy.'],
+  qs:['What was May doing when Coco ran away?','How did May feel? What did she do?','Who helped May? What did the keeper do?','What happened in the end? How did May and Coco feel?'],
+  start:'It was a sunny Saturday morning.',
+  model:'It was a sunny Saturday morning. May and her dog Coco were playing in the park. Suddenly Coco saw a bird and ran after it. May called his name again and again, but Coco did not come back. May was worried and she started to cry. She looked for Coco everywhere. Then she asked a park keeper for help. The keeper walked around the park with May. At last, he found Coco near the gate. Coco was tired and hungry. May held him tightly and said, \u2018Never run away again!\u2019 Both of them were very happy.'},
+ {title:'The School Picnic',lead:'Ken is going to write a story about his class picnic. Use the notes below to write the story in about 100 words.',
+  scenes:['1. Our class went on a picnic at the beach. We took sandwiches and drinks.','2. After lunch, the sky turned dark and the wind became strong.','3. It started to rain. We ran to a shelter and shared our umbrellas.','4. The rain stopped and a rainbow appeared. We took a class photo.'],
+  qs:['Where did the class go? What did they take?','What happened after lunch? How did the students feel?','What did the class do when it started to rain?','What happened in the end? What did the class do?'],
+  start:'Last Friday was our class picnic.',
+  model:'Last Friday was our class picnic. Our class went to the beach and we took sandwiches, fruit and drinks. We played games and had a wonderful time. After lunch, the sky turned dark and the wind became strong. The students felt worried. Soon it started to rain heavily. We ran to a shelter and shared our umbrellas. We sang songs and told jokes while we waited. After twenty minutes, the rain stopped and a beautiful rainbow appeared in the sky. Everyone was excited. We took a class photo in front of the rainbow. It was a special day for our class.'}
+];
+
+var curSchoolPaper=null;
+
+function schPick(a,n){
+  var b=a.slice(),i,j,t;
+  for(i=b.length-1;i>0;i--){ j=Math.floor(Math.random()*(i+1)); t=b[i]; b[i]=b[j]; b[j]=t; }
+  return b.slice(0,n);
+}
+function genSchoolPaper(){
+  var mags=SCH_READING.filter(function(r){return r.k==='mag';});
+  var blogs=SCH_READING.filter(function(r){return r.k==='blog';});
+  var talks=SCH_LISTEN.filter(function(r){return r.k==='talk';});
+  var stories=SCH_LISTEN.filter(function(r){return r.k==='story';});
+  curSchoolPaper={
+    A:schPick(mags,1)[0],
+    B:schPick(blogs.length?blogs:SCH_READING,1)[0],
+    C:schPick(talks.length?talks:SCH_LISTEN,1)[0],
+    D:schPick(stories.length?stories:SCH_LISTEN,1)[0],
+    E:schPick(SCH_VERBS,2),
+    G:schPick(SCH_CONN,1)[0],
+    H:schPick(SCH_WRITE,1)[0]
+  };
+  renderSchoolPaper();
+}
+function schMcHtml(m,sec,i){
+  var h='<p class="sch-qi">'+(i+1)+' '+m.q+'</p><div class="ex-mc">';
+  m.o.forEach(function(o,j){
+    h+='<label class="ex-opt"><input type="radio" name="sch_'+sec+'_mc'+i+'" value="'+j+'"> '+LAB_M[j]+'. '+o+'</label>';
+  });
+  return h+'</div>';
+}
+function schReadHtml(r,sec){
+  var h='<div class="sch-pass">';
+  if(r.k==='mag'){
+    h+='<div class="sch-mag">';
+    r.paras.forEach(function(p){ h+='<div><h4>'+p.h+'</h4><p>'+p.t+'</p></div>'; });
+    h+='</div>';
+  }else{
+    r.paras.forEach(function(p){ h+='<p>'+p.t+'</p>'; });
+  }
+  h+='</div>';
+  r.mc.forEach(function(m,i){ h+=schMcHtml(m,sec,i); });
+  h+='<p class="sch-qi"><b>Answer the questions in complete sentences.</b></p>';
+  r.sa.forEach(function(x,i){
+    h+='<p class="sch-qi">'+(i+7)+' '+x.q+'</p><textarea class="sch-sa" id="sch_'+sec+'_sa'+i+'" rows="2" spellcheck="false"></textarea>';
+  });
+  var n=r.note;
+  h+='<p class="sch-qi">9 '+n.intro+'</p><div class="sch-pass"><p>';
+  h+='<span style="white-space:pre-line">'+n.parts[0]+'</span>';
+  h+='<input class="sch-inp" id="sch_'+sec+'_note0" autocomplete="off"><span style="white-space:pre-line">'+n.parts[1]+'</span>';
+  if(n.parts.length>2){
+    h+='<input class="sch-inp" id="sch_'+sec+'_note1" autocomplete="off"><span style="white-space:pre-line">'+n.parts[2]+'</span>';
+  }
+  return h+'</p></div>';
+}
+function schTokHtml(txt,pre){
+  return txt.replace(/\[\[(\d+)\|([a-zA-Z ]+)\]\]/g,function(_,num,w){
+    return '('+num+') <input class="sch-inp" id="'+pre+(parseInt(num,10)-1)+'" autocomplete="off"> <span class="sch-hint">('+w+')</span>';
+  });
+}
+function schConnHtml(txt,pre){
+  var i=0;
+  return txt.replace(/\[\[(\d+)\]\]/g,function(){
+    var h='('+(i+1)+') <input class="sch-inp" id="'+pre+i+'" autocomplete="off">';
+    i++;
+    return h;
+  });
+}
+function renderSchoolPaper(){
+  var p=curSchoolPaper;
+  var h='<div class="ex-head"><span class="ex-code">PRIMARY ENGLISH · 校內卷題型模擬卷（P5）</span><span class="ex-nd">NAME: ____________　DATE: ____________　CLASS: ______</span></div>';
+  h+='<p class="ex-lead"><b>Read the instructions carefully. Answer ALL questions.</b></p>';
+  h+='<div class="sch-sec"><p class="sch-h">A. Jack is reading a magazine article about four unusual homes. Read the article and answer the questions.</p>';
+  h+='<p class="sch-qi"><b>Blacken \u25cf the circle next to the correct answer.</b></p>';
+  h+=schReadHtml(p.A,'A')+'</div>';
+  h+='<div class="sch-sec"><p class="sch-h">B. Sam is reading a blog. Read the blog and answer the questions.</p>';
+  h+='<p class="sch-qi"><b>Blacken \u25cf the circle next to the correct answer.</b></p>';
+  h+=schReadHtml(p.B,'B')+'</div>';
+  h+='<div class="sch-sec"><p class="sch-h">C. Tom is listening to a talk given by Miss Ho, the school librarian. Listen carefully and choose the best answers for Questions 1\u20135.</p>';
+  p.C.mc.forEach(function(m,i){ h+=schMcHtml(m,'C',i); });
+  h+='</div>';
+  h+='<div class="sch-sec"><p class="sch-h">D. Miss Chan is telling a story to her students. Listen to the story. Choose the best answer by blackening \u25cf the circle.</p>';
+  p.D.mc.forEach(function(m,i){ h+=schMcHtml(m,'D',i); });
+  h+='</div>';
+  h+='<div class="sch-sec"><p class="sch-h">E. Finish the passage with the correct form of the verbs given.</p>';
+  h+='<div class="sch-pass"><p class="sch-hint" style="margin:0 0 4px"><b>'+p.E[0].title+'</b></p><p style="white-space:pre-line;line-height:2">'+schTokHtml(p.E[0].text,'sch_E_')+'</p></div></div>';
+  h+='<div class="sch-sec"><p class="sch-h">F. Finish the passage with the correct form of the verbs given.</p>';
+  h+='<div class="sch-pass"><p class="sch-hint" style="margin:0 0 4px"><b>'+p.E[1].title+'</b></p><p style="white-space:pre-line;line-height:2">'+schTokHtml(p.E[1].text,'sch_F_')+'</p></div></div>';
+  h+='<div class="sch-sec"><p class="sch-h">G. Finish the diary entry with the correct connectives given.</p>';
+  h+='<div class="sch-pass"><p class="sch-hint" style="margin:0 0 6px"><b>'+p.G.title+'</b></p>';
+  h+='<p class="sch-hint" style="margin:0 0 4px;font-size:13.5px"><b>'+p.G.bank0+'</b></p>';
+  h+='<p style="white-space:pre-line;line-height:2">'+schConnHtml(p.G.text,'sch_G_')+'</p></div></div>';
+  h+='<div class="sch-sec"><p class="sch-h">H. '+p.H.lead+'</p><div class="sch-scenes">';
+  p.H.scenes.forEach(function(sc){ h+='<div>'+sc+'</div>'; });
+  h+='</div><p class="sch-hint" style="margin:4px 0">\u2022 '+p.H.qs.join('<br>\u2022 ')+'</p>';
+  h+='<p class="sch-qi"><b>'+p.H.start+'</b></p>';
+  h+='<textarea class="sch-wt" id="sch_H_write" rows="8" spellcheck="false" aria-label="作文作答區"></textarea>';
+  h+='<p class="sch-words">\u2248 100 words</p></div>';
+  h+='<div id="schScriptWrap" style="display:none">';
+  h+='<details class="sch-script" open><summary>C. 朗讀稿（家長讀 1\u20132 次）· '+p.C.title+'</summary>';
+  p.C.script.forEach(function(t){ h+='<p>'+t+'</p>'; });
+  h+='</details>';
+  h+='<details class="sch-script" open><summary>D. 朗讀稿（家長讀 1\u20132 次）· '+p.D.title+'</summary>';
+  p.D.script.forEach(function(t){ h+='<p>'+t+'</p>'; });
+  h+='</details></div>';
+  document.getElementById('schPaperBox').innerHTML=h;
+  document.getElementById('schPaperResult').innerHTML='';
+  var cb=document.getElementById('schShowScript');
+  if(cb&&cb.checked) document.getElementById('schScriptWrap').style.display='block';
+}
+function schToggleScript(){
+  var w=document.getElementById('schScriptWrap');
+  if(!w)return;
+  w.style.display=document.getElementById('schShowScript').checked?'block':'none';
+}
+function gradeSchoolPaper(){
+  if(!curSchoolPaper){ genSchoolPaper(); return; }
+  var p=curSchoolPaper, got=0, total=0, wrongs=[];
+  function NM(v){ return String(v==null?'':v).trim().toLowerCase().replace(/[\u2019']/g,'\u2019').replace(/[.!?]$/,''); }
+  function markMc(list,sec){
+    list.forEach(function(m,i){
+      total++;
+      var name='sch_'+sec+'_mc'+i;
+      var sel=document.querySelector('input[name="'+name+'"]:checked');
+      var ok=!!sel&&parseInt(sel.value,10)===m.a;
+      if(ok) got++; else wrongs.push({label:sec+(i+1),ans:LAB_M[m.a]+'. '+m.o[m.a]});
+      document.querySelectorAll('input[name="'+name+'"]').forEach(function(r){
+        r.disabled=true;
+        var lab=r.closest('.ex-opt');
+        if(lab){ if(parseInt(r.value,10)===m.a) lab.classList.add('ex-ok'); else if(r.checked) lab.classList.add('ex-bad'); }
+      });
+    });
+  }
+  function markInp(id,accs,label){
+    if(!accs||!accs.length)return;
+    total++;
+    var el=document.getElementById(id);
+    var ok=!!el&&accs.some(function(a){return NM(el.value)===NM(a);});
+    if(ok) got++; else wrongs.push({label:label,ans:accs[0]});
+    if(el){ el.disabled=true; el.classList.add(ok?'ex-ok':'ex-bad'); }
+  }
+  markMc(p.A.mc,'A'); markMc(p.B.mc,'B'); markMc(p.C.mc,'C'); markMc(p.D.mc,'D');
+  ['A','B'].forEach(function(sec){
+    var n=p[sec].note;
+    markInp('sch_'+sec+'_note0',[n.ans[0]].concat(n.alt?n.alt[0]||[]:[]),sec+'9(i)');
+    if(n.ans[1]!==undefined) markInp('sch_'+sec+'_note1',[n.ans[1]].concat(n.alt?n.alt[1]||[]:[]),sec+'9(ii)');
+  });
+  p.E.forEach(function(v,si){
+    var sec=si===0?'E':'F';
+    v.ans.forEach(function(a,i){
+      var accs=[a].concat(v.alt&&v.alt[i]?v.alt[i]:[]);
+      markInp('sch_'+sec+'_'+i,accs,sec+(i+1));
+    });
+  });
+  p.G.ans.forEach(function(a,i){
+    markInp('sch_G_'+i,[a].concat((p.G.alt&&p.G.alt[i])?p.G.alt[i]:[]),'G'+(i+1));
+  });
+  var wt=document.getElementById('sch_H_write'); if(wt) wt.disabled=false;
+  var res='<div class="sch-res">自動批改（選擇題＋單詞填空）：<b>'+got+' / '+total+'</b> 題正確。全句作答與寫作請對照下方參考答案自評。</div>';
+  if(wrongs.length){
+    res+='<div class="sch-wrong"><b>錯題與正確答案：</b><br>'+wrongs.map(function(w){return w.label+' \u2192 '+w.ans;}).join('<br>')+'</div>';
+  }
+  res+='<div class="sch-model"><b>參考答案 · A/B 全句作答</b><br>';
+  ['A','B'].forEach(function(sec){ p[sec].sa.forEach(function(x,i){ res+=sec+(i+7)+' '+x.m+'<br>'; }); });
+  res+='</div><div class="sch-model"><b>參考答案 · H 寫作</b><br>'+p.H.model+'</div>';
+  document.getElementById('schPaperResult').innerHTML=res;
+  var st=document.getElementById('schStat'); if(st) st.textContent='本次：'+got+' / '+total;
+}
+function printSchoolPaper(){
+  if(!curSchoolPaper) genSchoolPaper();
+  var p=curSchoolPaper;
+  var withAns=document.getElementById('schPrintAns')&&document.getElementById('schPrintAns').checked;
+  var withScript=document.getElementById('schShowScript')&&document.getElementById('schShowScript').checked;
+  var h='<div class="eps-head"><div class="eps-title">PRIMARY ENGLISH · 校內卷題型模擬卷'+(withAns?'（答案版）':'')+'</div>';
+  h+='<div class="eps-meta">年級：<b>P5</b>　　姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span>　　班別：<span class="al-tbl"></span></div></div>';
+  function pass(txt){ return '<div class="sch-pass" style="border:1px solid #ddd;padding:6px 8px;margin:4px 0">'+txt+'</div>'; }
+  function mcq(m,sec,i){
+    var s='<div class="eps-q"><div class="eps-qh">'+(i+1)+'</div><div class="eps-text">'+m.q+'</div><div style="font-size:13.5px;line-height:1.9">';
+    m.o.forEach(function(o,j){ s+='\u25cb '+LAB_M[j]+'. '+o+'　　'; });
+    return s+'</div></div>';
+  }
+  h+='<div class="eps-q"><div class="eps-text"><b>A. Read the article about four unusual homes and answer the questions.</b></div>';
+  var pa='';
+  if(p.A.k==='mag'){ p.A.paras.forEach(function(x){ pa+='<p><b>'+x.h+'</b><br>'+x.t+'</p>'; }); }
+  else { p.A.paras.forEach(function(x){ pa+='<p>'+x.t+'</p>'; }); }
+  h+=pass(pa)+'</div>';
+  p.A.mc.forEach(function(m,i){ h+=mcq(m,'A',i+1); });
+  p.A.sa.forEach(function(x,i){ h+='<div class="eps-q"><div class="eps-text">'+(i+7)+' '+x.q+'</div><div class="ansline"></div><div class="ansline"></div></div>'; });
+  h+='<div class="eps-q"><div class="eps-text">9 '+p.A.note.parts[0]+' ＿＿＿＿＿＿＿＿'+p.A.note.parts[1]+(p.A.note.parts[2]?(' ＿＿＿＿＿＿＿＿'+p.A.note.parts[2]):'')+'</div></div>';
+  h+='<div class="eps-q"><div class="eps-text"><b>B. Read the blog and answer the questions.</b></div>';
+  var pb=''; p.B.paras.forEach(function(x){ pb+='<p>'+x.t+'</p>'; });
+  h+=pass(pb)+'</div>';
+  p.B.mc.forEach(function(m,i){ h+=mcq(m,'B',i+1); });
+  p.B.sa.forEach(function(x,i){ h+='<div class="eps-q"><div class="eps-text">'+(i+7)+' '+x.q+'</div><div class="ansline"></div><div class="ansline"></div></div>'; });
+  h+='<div class="eps-q"><div class="eps-text">9 '+p.B.note.parts[0]+' ＿＿＿＿＿＿＿＿'+p.B.note.parts[1]+(p.B.note.parts[2]?(' ＿＿＿＿＿＿＿＿'+p.B.note.parts[2]):'')+'</div></div>';
+  if(withScript){
+    h+='<div class="eps-q"><div class="eps-text"><b>C. 朗讀稿</b></div>'+pass(p.C.script.join('<br><br>'))+'</div>';
+    h+='<div class="eps-q"><div class="eps-text"><b>D. 朗讀稿</b></div>'+pass(p.D.script.join('<br><br>'))+'</div>';
+  }
+  h+='<div class="eps-q"><div class="eps-text"><b>C. Listening</b>（家長朗讀後作答）</div></div>';
+  p.C.mc.forEach(function(m,i){ h+=mcq(m,'C',i+1); });
+  h+='<div class="eps-q"><div class="eps-text"><b>D. Listening</b>（家長朗讀後作答）</div></div>';
+  p.D.mc.forEach(function(m,i){ h+=mcq(m,'D',i+1); });
+  h+='<div class="eps-q"><div class="eps-text"><b>E. '+p.E[0].title+'</b> — Fill in the blanks with the correct form of the verbs.</div>';
+  h+=pass(p.E[0].text.replace(/\[\[(\d+)\|([a-zA-Z ]+)\]\]/g,function(_,n,w){return '('+n+') ＿＿＿＿＿＿＿ ('+w+')';}))+'</div>';
+  h+='<div class="eps-q"><div class="eps-text"><b>F. '+p.E[1].title+'</b> — Fill in the blanks with the correct form of the verbs.</div>';
+  h+=pass(p.E[1].text.replace(/\[\[(\d+)\|([a-zA-Z ]+)\]\]/g,function(_,n,w){return '('+n+') ＿＿＿＿＿＿＿ ('+w+')';}))+'</div>';
+  h+='<div class="eps-q"><div class="eps-text"><b>G. '+p.G.title+'</b> — '+p.G.bank0+'</div>';
+  h+=pass(p.G.text.replace(/\[\[(\d+)\]\]/g,function(_,n){return '('+n+') ＿＿＿＿＿＿＿';}))+'</div>';
+  h+='<div class="eps-q"><div class="eps-text"><b>H. '+p.H.lead+'</b></div><div class="eps-text">'+p.H.scenes.join('　｜　')+'</div>';
+  h+='<div class="eps-text">'+p.H.qs.map(function(q){return '\u2022 '+q;}).join('<br>')+'</div>';
+  h+='<div class="eps-text"><b>'+p.H.start+'</b></div><div class="ansbox"><div class="ansline"></div><div class="ansline"></div><div class="ansline"></div><div class="ansline"></div><div class="ansline"></div><div class="ansline"></div><div class="ansline"></div><div class="ansline"></div></div></div>';
+  if(withAns){
+    h+='<div class="eps-aksheet"><div class="eps-ak-title">答案卷</div>';
+    h+='<div class="eps-ak-row"><b>A.</b> '+p.A.mc.map(function(m,i){return (i+1)+'.'+LAB_M[m.a];}).join('　')+'　｜ 7/8 參考：'+p.A.sa.map(function(x){return x.m;}).join(' ／ ')+'　｜ 9. '+p.A.note.ans.join(' , ')+'</div>';
+    h+='<div class="eps-ak-row"><b>B.</b> '+p.B.mc.map(function(m,i){return (i+1)+'.'+LAB_M[m.a];}).join('　')+'　｜ 7/8 參考：'+p.B.sa.map(function(x){return x.m;}).join(' ／ ')+'　｜ 9. '+p.B.note.ans.join(' , ')+'</div>';
+    h+='<div class="eps-ak-row"><b>C.</b> '+p.C.mc.map(function(m,i){return (i+1)+'.'+LAB_M[m.a];}).join('　')+'</div>';
+    h+='<div class="eps-ak-row"><b>D.</b> '+p.D.mc.map(function(m,i){return (i+1)+'.'+LAB_M[m.a];}).join('　')+'</div>';
+    h+='<div class="eps-ak-row"><b>E.</b> '+p.E[0].ans.join(' , ')+'</div>';
+    h+='<div class="eps-ak-row"><b>F.</b> '+p.E[1].ans.join(' , ')+'</div>';
+    h+='<div class="eps-ak-row"><b>G.</b> '+p.G.ans.join(' , ')+'</div>';
+    h+='<div class="eps-ak-row"><b>H.</b> 參考範文：'+p.H.model+'</div>';
+    h+='</div>';
+  }
+  hkkPrintSheet('schPrintSheet',h);
+}
+window.__schTest={reading:SCH_READING,listen:SCH_LISTEN,verbs:SCH_VERBS,conn:SCH_CONN,write:SCH_WRITE,
+  gen:genSchoolPaper,grade:gradeSchoolPaper,cur:function(){return curSchoolPaper;}};
+
 function printMathPaper(){
   if(!curMathPaper.length) genMathPaper();
   if(!curMathPaper.length){ alert('題庫暫時無法出卷。'); return; }
@@ -4174,7 +4591,7 @@ function printMathPaper(){
    ⚠️ 根因：舊版六個 print 函數各自填自己的 sheet，但 @media print 把五張 sheet 全部設為可見，
    afterprint 又只移除 class、不清內容 → 同頁先印英文卷再印數學卷，英文卷會排在前一起印出。
    這裡改成「只給目標 sheet 加 print-active，其餘清空並隱藏」，六處共用，杜絕漏改。 */
-var HKK_PRINT_SHEETS=['enPrintSheet','drillPrintSheet','mathPrintSheet','rdArtPrintSheet','examPrintSheet'];
+var HKK_PRINT_SHEETS=['enPrintSheet','drillPrintSheet','mathPrintSheet','rdArtPrintSheet','examPrintSheet','schPrintSheet'];
 var _hkkPrintBound=false;
 function hkkPrintSheet(id,html){
   HKK_PRINT_SHEETS.forEach(function(x){
@@ -7849,8 +8266,9 @@ document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
     sw('hkView',es==='hk'); sw('vocabView',es==='vocab'); sw('ivView',es==='iv');
     sw('paperView',es==='paper'); sw('goalView',es==='goal'); sw('examView',es==='exam');
     sw('myWordsView',es==='mywords'); sw('wbView',es==='wb'); sw('drillView',es==='drill');
+    sw('schoolView',es==='school');
     sw('textView',es==='text');
-    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(es==='drill')drTapTo(drTap); else if(es==='text'&&window.__txTest)window.__txTest.render(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper();
+    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(es==='drill')drTapTo(drTap); else if(es==='text'&&window.__txTest)window.__txTest.render(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper(); else if(es==='school' && !curSchoolPaper) genSchoolPaper();
   }catch(e){ console.error('切換視圖失敗：',e); }
 });
 // v1.69：路線圖頁的動線按鈕——複用同一套切換邏輯，避免另寫一份顯隱代碼
@@ -8814,7 +9232,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.34',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.35',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
