@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.37：葉工問「網站裡面的練習只能做一套，再做就要收錢，怎麼實現」——先講清前提：本站是純靜態單檔，任何限制都在前端，清 localStorage／開無痕／讀源碼都能繞過，這是要不要付這個代價的架構事實，不是實作偷懶。四項拍板＝①A 檔（前端軟限制，不做雲端硬限制）②每模塊各送 1 套（五類：數學卷／英文卷／呈分試卷／中文試卷／卷題型）③只算出卷（批改、看答案、列印、草稿板永久免費）④微信人工收款發碼。落地＝①`LIC_MODS` 五模塊登記表（k/n/box），狀態存 `hkk_lic_v0`（`{used:{模塊:次數},code,exp}`，`hkk_` 前綴天然受 v1.33 賬號隔離，多孩子各一份額度）；②出卷入口統一 `licPass(k)` 計次守門（五個 gen*Paper 各插一行），批量十套與 AI 出卷走 `licNeed()` 要求已解鎖；**進頁面的自動出卷同樣計次**——否則刷新就重置記憶體狀態等於無限白拿，這是本版最容易漏的洞；③額度用完不彈窗糊臉，改在卷區渲染 `.lic-ph` 占位卡（標題＋說明＋「🔑 輸入授權碼」），點卡才開 `#licMask` 解鎖彈窗 —— 因為五個出卷函數被 9 處懶初始化／切年級／切頁籤內部呼叫，直上彈窗會一進頁面就被擋；④授權碼 `HKSS-YYYYMMDD-XXXXXXXX`（到期日＋`licSha256(公開鹽|到期日)` 前 8 位），沿用 v1.21 的格式與 `gen_license.py` 發碼流程，但鹽改為本站專用 `LIC_PUB_SALT`，與 `license_secret.txt` 不同一把，避免把其他用途的密鑰一併暴露；`licActive()` 同時驗格式＋簽名＋exp 三者自洽且未過期（防手改 exp 續期這種最懶的繞過）；⑤`licSha256()` 自寫同步實現——站內既有的 SHA-256 走 `crypto.subtle`（async），同步出卷鏈路用不了，已用 12 個用例（含 55/56/63/64/65/119 邊界）與 Node crypto 逐位對齊驗證、並驗證 h/k 緩存複用不污染結果；⑥本地豁免 `licOnline()`（file://／localhost／127.／192.168. 不計次不攔截，與 v1.33 `AUTH_FORCE` 同語義但自包含），線上兩域（Pages 與 workbuddy）都計次；⑦彈窗複用 `.mask/.modal` 骨架，內含五模塊額度狀態表、授權碼輸入（Enter 可直接送出）、加微信開通、稍後再說；**價格一律不寫死**（「請加微信確認」），不編造未經拍板的數字；零外鏈零圖片零新增請求、不動全域 `.modal/.btn/.mask`。⚠️ 如實標註：本層是君子協定，真正的配額必須雲端側控制（路線 B，且要放棄 GitHub Pages 只留一個域），v2.37 未做。
 v2.36：葉工「給我出10套卷子，最好可以AI出卷子」——①校卷題型頁新增「📋 一次出 10 套」：`schBatchBuild(10)` 先用 AI 卷池、再用本地池補，按「A/B/C/D 閱讀聽力簽名」硬去重（同一簽名不重複）、「E/G/H 簽名」盡量不重複（湊不滿時自動放寬），確定性可測；批次表列出每套的 A/B/C/D/G 篇目，「📄 打開」即載入下方作答、「📖 答案」自動填全部選擇題與 61 項填空並批改；「🖨 列印這 10 套」一次輸出 10 份卷（每套 `page-break-before` 分頁、答案版與朗讀稿沿用勾選）。②「🤖 AI 出卷」：四路並行（A 閱讀雜誌／B 閱讀 blog／C·D 聽力＋朗讀稿／E·F 動詞＋G 連接詞＋H 寫作），走 `hkk_ai_cfg` 的 OpenAI 相容接口、`response_format:json_object`（HTTP 400 時自動去掉該欄重試），每路輸出過 `schAiChkRead/schAiChkListen/schAiChkRest` 結構校驗（段數、6 選擇四選項互異且索引合法、13 空與 13 答案對齊、7 空連接詞、寫作四格四問），不合格自動帶錯誤原因重試一次；四路中任一路仍失敗則該部分由本地題池補齊並在提示裡標明，全失敗才報錯；通過的整卷存 `hkk_schai_v0`（上限 20 套）並立即可作答，批次出卷優先吃 AI 卷。③`printSchoolPaper` 重構為 `schPrintHtml(p,ans,script,no)`＋薄包裝，卷頭可標「第 N 套」（單套列印行為與文案不變）。④題池擴充：閱讀 +2 篇雜誌（上學方式、著名橋樑）＋1 篇 blog（停電日）、聽力 +1 段 talk（運動會廣播）＋1 個 story（新同學），全部原創；mag 4／blog 2／talk 2／story 2 → 32 種閱讀聽力組合，10 套必不重樣。零新增 npm 依賴、零外鏈、零圖片；AI 只送 prompt 不送任何卷面截圖，提示詞明令原創不得抄襲。
 v2.35：葉工上傳校內英文測驗卷（Cathy 1114，12 頁全卷），要求「放到英語練習的試卷裡，新建一個試卷子目錄，可以根據這套試卷生成類似的卷子」。⚠️ 版權紅線：原卷文章／題目／圖片一律不入公開站（倉庫公開＝公開發行），只取題型骨架。落地＝①英文練習新增第 11 子頁籤「校卷題型」（插在呈分試卷之後、時態與題型之前），新增 `#schoolView` 與頂層 `#schPrintSheet`（列印白名單同步）；②骨架完全對齊原卷八部分：A 閱讀四欄雜誌文（6 選擇含指代／組合選項／NOT 題＋2 全句＋短訊填空 2 空）、B 閱讀 blog（6 選擇含**文字版事件排序**替代原卷圖片排序＋2 全句＋便條 2 空）、C·D 聽力（5＋7 選擇，站內無音頻，附**家長朗讀稿**可折疊）、E·F 動詞正確形式（各 13 空）、G 連接詞日記（7 空）、H 看圖寫故事（四格改**文字場景＋提示問題**，約 100 字，無插圖）；③題庫全部原創：閱讀 3 篇（2 雜誌式＋1 blog）、聽力 2 篇（talk 5 題＋story 7 題）、動詞 3 篇（各 13 空）、連接詞 2 篇（各 7 空）、寫作 2 題（含參考範文），每套抽 2 閱讀＋2 動詞＋1 連接詞＋1 寫作；④批改：選擇題與單詞填空自動判分（大小寫／首尾空格／標點容錯、`alt` 容錯表），全句作答與寫作給參考答案自評；⑤列印：`hkkPrintSheet('schPrintSheet')` 統一入口，含答案版可選、朗讀稿可選；⑥零新增 localStorage 鍵、零外鏈、零圖片、零第三方原文；`ai_kb.py` 只抽 faqView／timelineView／policyView＋學校名冊，本頁在 enPracView 內天然不入 KB。版本串升 v2.35、verify2.js 換三種鎖並補 12 條 v2.35 專項斷言。
 v2.34：葉工問「可以出得到帶圖的題目嗎」。落地＝①題庫加可選 fig 描述符，13 道題配圖：P1 時鐘、P2 分數圓餅、P3 長方形周界／面積、P4 直線兩角／農地、P5 三角形／平行四邊形／水箱、P6 圓／長方體／內角／無蓋盒；②新增 figSvg() 現場生成內聯 SVG，九種圖型（rect／para／tri／triang／ang／pie／cub／cir／clock），零外部資源、零版權風險，示意圖標注「不按比例」，未知圖型返回空串安全降級；③題卡 qzh 後插 .qfig（scoped #mathPaperBox，寬 170px 自適應），列印卷插 .eps-fig（115px）並在共用列印樣式注入；④AI 自訂卷 schema 不加圖（保持同構校驗），無 fig 老題零影響。版本串升 v2.34、verify2.js 換三種鎖並補 8 條 v2.34 專項斷言。零搬運、零新增 localStorage 鍵。
@@ -739,7 +740,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   header h1,header p{color:#1b2435!important;text-shadow:none!important}
   header::before,header::after{display:none!important}
   nav,.subnav{display:none!important}
-  body.printing-paper nav,body.printing-paper .subnav,body.printing-paper header,body.printing-paper #guideView,body.printing-paper #practiceView,body.printing-paper #progressView,body.printing-paper #funView,body.printing-paper #mask,body.printing-paper footer,body.printing-paper .folk{display:none!important}
+  body.printing-paper nav,body.printing-paper .subnav,body.printing-paper header,body.printing-paper #guideView,body.printing-paper #practiceView,body.printing-paper #progressView,body.printing-paper #funView,body.printing-paper #mask,body.printing-paper #licMask,body.printing-paper footer,body.printing-paper .folk{display:none!important}
   /* v2.23：列印隔離改白名單——只顯示本輪目標 sheet，杜絕「先印英文卷、再印數學卷」時英文卷殘留一起印出 */
   body.printing-paper .en-print{display:none!important}
   body.printing-paper .en-print.print-active{display:block!important;position:static;width:100%}
@@ -1031,6 +1032,30 @@ header{position:relative}
   .cta-strip{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;background:linear-gradient(135deg,#f0f8fd,#eefaf8);border:1px solid #cfe4f7;border-radius:14px;padding:14px 16px;margin:20px 0 4px}
   .cta-strip p{margin:0;font-size:13.5px;line-height:1.75;color:#2b3a4f;flex:1 1 280px}
   .cta-strip .btn{flex:0 0 auto;background:#0369a1;border-color:#0369a1;color:#fff;font-weight:700}
+  /* v2.37 免費額度占位卡與解鎖彈窗（scoped .lic-ph / #licMask，不動全域 .modal/.btn/.mask） */
+  .lic-ph{background:#fffdf5;border:1px dashed #e3c88c;border-radius:14px;padding:24px 20px;margin:16px 0;text-align:center}
+  .lic-ph b{display:block;font-size:15px;color:#8a5a00;margin-bottom:9px;line-height:1.6}
+  .lic-ph p{margin:0 auto 15px;font-size:13px;line-height:1.9;color:#6b5a3a;max-width:520px}
+  .lic-ph .lic-ph-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .lic-ph .btn{min-height:44px}
+  #licMask .modal{max-width:560px}
+  #licMask h2{margin:0 0 8px;font-size:19px;color:#1f2a3d}
+  #licMask .lic-sub{margin:0 0 15px;font-size:13px;line-height:1.85;color:#5a6478}
+  .lic-tbl{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:13px}
+  .lic-tbl th,.lic-tbl td{border:1px solid #e6ebf3;padding:8px 10px;text-align:left;line-height:1.6}
+  .lic-tbl th{background:#f6f9fd;color:#3a4a63;font-weight:700}
+  .lic-tbl td.st-ok{color:#18794e;font-weight:700}
+  .lic-tbl td.st-no{color:#b4530a;font-weight:700}
+  .lic-in{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 10px}
+  .lic-in input{flex:1 1 220px;min-height:44px;padding:0 12px;border:1px solid #cfd8e6;border-radius:9px;font-size:14px;font-family:inherit;letter-spacing:.4px}
+  .lic-in .btn{min-height:44px}
+  .lic-msg{min-height:20px;font-size:12.5px;line-height:1.75;margin:0 0 13px;color:#7a8497}
+  .lic-msg.ok{color:#18794e;font-weight:700}
+  .lic-msg.err{color:#c0392b;font-weight:700}
+  .lic-acts{display:flex;gap:10px;flex-wrap:wrap}
+  .lic-acts .btn{min-height:44px}
+  .lic-note{font-size:12px;color:#7a8497;line-height:1.8;margin:14px 0 0}
+  @media(max-width:520px){.lic-ph{padding:20px 15px}.lic-ph .lic-ph-btns{flex-direction:column}.lic-ph .btn{width:100%}.lic-acts{flex-direction:column}.lic-acts .btn{width:100%}}
   .cta-strip .btn:hover{background:#075985;border-color:#075985;color:#fff}
   @media screen and (max-width:640px){
     .cta-flex{flex-direction:column;gap:10px;margin:10px 0 4px}
@@ -1277,13 +1302,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.36（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.37（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.36（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.37（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3367,7 +3392,27 @@ Thank you for your time.</div>
     </div>
   </div>
 </div>
-<div class="mask" id="ctaMask">
+  <!-- v2.37 免費額度用完 → 解鎖／購買彈窗（複用 .mask/.modal 骨架；零外鏈、零圖片、零新增請求） -->
+  <div class="mask" id="licMask">
+    <div class="modal">
+      <span class="x" id="licClose">×</span>
+      <h2>🔑 解鎖練習額度</h2>
+      <p class="lic-sub" id="licSub">本站每類練習免費送 1 套，用完後輸入授權碼或加微信開通。</p>
+      <table class="lic-tbl"><thead><tr><th>練習模塊</th><th>額度狀態</th></tr></thead><tbody id="licTbody"></tbody></table>
+      <div class="lic-in">
+        <input id="licCode" type="text" placeholder="HKSS-20261231-XXXXXXXX" autocomplete="off" spellcheck="false" aria-label="授權碼">
+        <button class="btn" type="button" id="licGo">啟用</button>
+      </div>
+      <p class="lic-msg" id="licMsg"></p>
+      <div class="lic-acts">
+        <button class="btn" type="button" id="licBuy">💬 加微信開通</button>
+        <button class="btn" type="button" id="licLater">稍後再說</button>
+      </div>
+      <p class="lic-note">授權碼離線校驗、有效期內五類練習無限出卷；批改、看答案、列印一直免費。換裝置或清除瀏覽器資料需重新輸入。價格與開通方式請加微信確認。</p>
+    </div>
+  </div>
+
+  <div class="mask" id="ctaMask">
   <div class="modal" id="ctaModal">
     <span class="x" id="ctaClose">×</span>
     <h2>加微信 · 進插班家長群</h2>
@@ -3929,6 +3974,7 @@ function pickMathN(pool,N){
   return picked;
 }
 function genMathPaper(){
+  if(!licPass('math'))return;   /* v2.37 每模塊免費 1 套 */
   const pool=mathPoolFor();
   if(!pool.length){alert(curMathPart==='自訂'?'自訂題庫還沒有題：先在下方「🤖 按學校卷子出題」生成。':'該年級題庫暫空。');return;}
   const N=Math.min(15,pool.length);  /* v2.33：葉工要求每套起碼 15 題（池不足就出滿池） */
@@ -4458,6 +4504,7 @@ function schFormalize(){
   };
 }
 function genSchoolPaper(){
+  if(!licPass('school'))return;   /* v2.37 每模塊免費 1 套 */
   curSchoolPaper=schFormalize();
   renderSchoolPaper();
 }
@@ -4702,6 +4749,7 @@ function schBatchBuild(n){
   return list;
 }
 function genTenSchoolPapers(){
+  if(!licNeed())return;   /* v2.37 批量出卷屬解鎖後功能 */
   schBatch=schBatchBuild(10);
   renderSchBatch();
   try{ document.getElementById('schBatchBox').scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){}
@@ -4872,6 +4920,7 @@ function schAiJob(cfg,j){
   });
 }
 function schAiGen(){
+  if(!licNeed())return;   /* v2.37 AI 出卷屬解鎖後功能 */
   var btn=document.getElementById('schAiBtn');
   var cfg=(typeof getAiCfg==='function')?getAiCfg():null;
   if(!cfg||!cfg.base||!cfg.key||!cfg.model){
@@ -5017,7 +5066,226 @@ function cnPick(arr,n){
   return a.slice(0,n);
 }
 function cnBank(g){ return (CN_QBANK&&CN_QBANK[g])||{mc:[],fill:[],read:[],write:[]}; }
+/* ======================= v2.37 免費額度 ＋ 授權碼解鎖 =======================
+   定位（A 檔：純前端軟限制）：
+     · 每類練習免費送 LIC_FREE 套（出卷即計次，含進頁面的自動出卷——否則刷新即可白拿新卷）。
+     · 批改、看答案、列印、草稿板永不計次（做完卷不給看分只會掉粉）。
+     · 用完後卷區顯示占位卡（不彈窗糊臉），點卡才開解鎖彈窗。
+   ⚠️ 如實標註：計數與校驗全在前端，清 localStorage、開無痕、讀源碼自造碼都可繞過。
+      這層的作用是讓正常家長「用完就停」並篩出願意付費的人，不是防破解。
+      真正的配額必須雲端側控制（v2.37 未做，見路線 B）。
+   ⚠️ LIC_PUB_SALT 是本站專用公開鹽，與 license_secret.txt 不是同一把：
+      公開站源碼本來就可見，用專鹽避免把其他用途的密鑰一併暴露出去。 */
+var LIC_PUB_SALT='hkk-lic-v237-2026-11', LIC_KEY='hkk_lic_v0', LIC_FREE=1;
+var LIC_MODS=[
+  {k:'math',  n:'數學卷',   box:'mathPaperBox'},
+  {k:'en',    n:'英文卷',   box:'enPaperBox'},
+  {k:'exam',  n:'呈分試卷', box:'examPaperBox'},
+  {k:'cn',    n:'中文試卷', box:'cnPaperBox'},
+  {k:'school',n:'卷題型',   box:'schPaperBox'}
+];
+var licCurMod='';
+
+/* 同步 SHA-256（crypto.subtle 是 async，出卷鏈路同步用不了；已與 Node crypto 逐位對齊驗證） */
+function licSha256(ascii){
+  function rightRotate(v,a){return (v>>>a)|(v<<(32-a));}
+  var mathPow=Math.pow,maxWord=mathPow(2,32),result='',words=[],asciiBitLength=ascii.length*8;
+  var hash=licSha256.h=licSha256.h||[],k=licSha256.k=licSha256.k||[],primeCounter=k.length;
+  var isComposite={};
+  for(var candidate=2;primeCounter<64;candidate++){
+    if(!isComposite[candidate]){
+      for(var i=0;i<313;i+=candidate){isComposite[i]=candidate;}
+      hash[primeCounter]=(mathPow(candidate,.5)*maxWord)|0;
+      k[primeCounter++]=(mathPow(candidate,1/3)*maxWord)|0;
+    }
+  }
+  ascii+='\x80';
+  while(ascii.length%64-56){ascii+='\x00';}
+  for(i=0;i<ascii.length;i++){
+    var j=ascii.charCodeAt(i);
+    if(j>>8){return '';}
+    words[i>>2]|=j<<((3-i)%4)*8;
+  }
+  words[words.length]=(asciiBitLength/maxWord)|0;
+  words[words.length]=asciiBitLength;
+  for(j=0;j<words.length;){
+    var w=words.slice(j,j+=16),oldHash=hash;
+    hash=hash.slice(0,8);
+    for(i=0;i<64;i++){
+      var w15=w[i-15],w2=w[i-2],a=hash[0],e=hash[4];
+      var temp1=hash[7]+(rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]
+        +(w[i]=(i<16)?w[i]:(w[i-16]+(rightRotate(w15,7)^rightRotate(w15,18)^(w15>>>3))+w[i-7]+(rightRotate(w2,17)^rightRotate(w2,19)^(w2>>>10)))|0);
+      var temp2=(rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash=[(temp1+temp2)|0].concat(hash);
+      hash[4]=(hash[4]+temp1)|0;
+    }
+    for(i=0;i<8;i++){hash[i]=(hash[i]+oldHash[i])|0;}
+  }
+  for(i=0;i<8;i++){
+    for(j=3;j+1;j--){
+      var b=(hash[i]>>(j*8))&255;
+      result+=((b<16)?0:'')+b.toString(16);
+    }
+  }
+  return result;
+}
+
+/* 是否線上（本地 file:// / localhost / 127. / 192.168. 豁免，方便葉工自用與測試）
+   與 v1.33 的 AUTH_FORCE 同一語義，但自包含、不依賴其執行順序 */
+function licOnline(){
+  try{
+    var h=location.hostname||'',p=location.protocol||'';
+    if(p!=='https:'){return false;}
+    if(!h){return false;}
+    if(h==='localhost'||h.indexOf('127.')===0||h.indexOf('192.168.')===0){return false;}
+    return true;
+  }catch(e){return false;}
+}
+function licCodeOf(ymd){return licSha256(LIC_PUB_SALT+'|'+ymd).slice(0,8).toUpperCase();}
+function licLoad(){
+  var o;
+  try{o=JSON.parse(localStorage.getItem(LIC_KEY)||'{}')||{};}catch(e){o={};}
+  if(!o.used||typeof o.used!=='object'){o.used={};}
+  LIC_MODS.forEach(function(m){if(typeof o.used[m.k]!=='number'||o.used[m.k]<0){o.used[m.k]=0;}});
+  if(typeof o.code!=='string'){o.code='';}
+  if(typeof o.exp!=='string'){o.exp='';}
+  return o;
+}
+function licSave(o){try{localStorage.setItem(LIC_KEY,JSON.stringify(o));}catch(e){}}
+/* 已解鎖判定：格式＋簽名＋exp 三者自洽且未過期（防手改 exp 續期這種最懶的繞過） */
+function licActive(o){
+  o=o||licLoad();
+  var m=/^HKSS-(\d{4})(\d{2})(\d{2})-([0-9A-F]{8})$/.exec(o.code||'');
+  if(!m){return false;}
+  var ymd=m[1]+m[2]+m[3],exp=m[1]+'-'+m[2]+'-'+m[3];
+  if(o.exp!==exp){return false;}
+  if(licCodeOf(ymd)!==m[4]){return false;}
+  var t=new Date(exp+'T23:59:59').getTime();
+  return isFinite(t)&&t>=Date.now();
+}
+function licCan(k){
+  if(!licOnline()){return true;}
+  var o=licLoad();
+  if(licActive(o)){return true;}
+  return (o.used[k]||0)<LIC_FREE;
+}
+function licSpend(k){
+  if(!licOnline()){return;}
+  var o=licLoad();
+  if(licActive(o)){return;}
+  o.used[k]=(o.used[k]||0)+1;
+  licSave(o);
+}
+/* 出卷入口統一走這裡：能出就出（計次），不能出就在卷區放占位卡並讓調用者 return */
+function licPass(k){
+  if(licCan(k)){licSpend(k);return true;}
+  licPlaceholder(k);
+  return false;
+}
+/* 批量／AI 等高級功能：要求已解鎖（不佔免費額度，直接開彈窗） */
+function licNeed(){
+  if(!licOnline()){return true;}
+  if(licActive(licLoad())){return true;}
+  licWall('batch');
+  return false;
+}
+function licModOf(k){
+  var out=null;
+  LIC_MODS.forEach(function(m){if(m.k===k){out=m;}});
+  return out;
+}
+function licPlaceholder(k){
+  var m=licModOf(k),box=m?document.getElementById(m.box):null;
+  if(!box){return;}
+  box.innerHTML='<div class="lic-ph"><b>「'+m.n+'」的免費額度已用完</b>'
+    +'<p>本站每類練習免費送 '+LIC_FREE+' 套，這個模塊已經用過了。輸入授權碼可無限出卷；<b style="display:inline;color:#6b5a3a">批改、看答案、列印一直免費</b>，不影響你手上這份卷。</p>'
+    +'<div class="lic-ph-btns"><button class="btn" type="button" data-lic="'+k+'">🔑 輸入授權碼 / 開通</button></div></div>';
+  var bs=box.querySelectorAll('.lic-ph [data-lic]');
+  for(var i=0;i<bs.length;i++){
+    bs[i].onclick=function(){licWall(this.getAttribute('data-lic'));};
+  }
+}
+function licRender(){
+  var tb=document.getElementById('licTbody');
+  if(!tb){return;}
+  var o=licLoad(),act=licActive(o),h='';
+  LIC_MODS.forEach(function(m){
+    var left=Math.max(0,LIC_FREE-(o.used[m.k]||0));
+    var txt=act?'✓ 已解鎖（不限套數）':(left>0?('免費剩 '+left+' 套'):'已用完');
+    h+='<tr><td>'+m.n+'</td><td class="'+((act||left>0)?'st-ok':'st-no')+'">'+txt+'</td></tr>';
+  });
+  tb.innerHTML=h;
+  var sub=document.getElementById('licSub');
+  if(sub){
+    if(act){
+      sub.textContent='已啟用至 '+o.exp+'：五類練習都可以無限出卷，批改與列印照舊免費。';
+    }else{
+      var m2=licModOf(licCurMod);
+      sub.textContent=m2
+        ? ('本站每類練習免費送 '+LIC_FREE+' 套，現在「'+m2.n+'」的免費額度已用完。輸入授權碼可無限出卷；批改、看答案、列印一直免費。')
+        : ('本站每類練習免費送 '+LIC_FREE+' 套。批量出 10 套與 AI 出卷屬解鎖後功能，輸入授權碼即可使用。');
+    }
+  }
+}
+function licWall(k){
+  var mask=document.getElementById('licMask');
+  if(!mask){return;}
+  licCurMod=k||'';
+  licRender();
+  var msg=document.getElementById('licMsg');
+  if(msg){msg.textContent='';msg.className='lic-msg';}
+  mask.classList.add('show');
+  document.body.classList.add('cta-open');
+  try{var inp=document.getElementById('licCode');if(inp&&licOnline()){inp.focus();}}catch(e){}
+}
+function licClose(){
+  var mask=document.getElementById('licMask');
+  if(mask){mask.classList.remove('show');}
+  document.body.classList.remove('cta-open');
+}
+function licActivate(){
+  var inp=document.getElementById('licCode'),msg=document.getElementById('licMsg');
+  if(!inp||!msg){return false;}
+  var raw=String(inp.value||'').toUpperCase().replace(/\s+/g,'');
+  if(!raw){msg.className='lic-msg err';msg.textContent='請先輸入授權碼。';return false;}
+  var m=/^HKSS-(\d{4})(\d{2})(\d{2})-([0-9A-F]{8})$/.exec(raw);
+  if(!m){msg.className='lic-msg err';msg.textContent='格式不對：應為 HKSS-到期日-8 位驗證碼，例如 HKSS-20261231-1A2B3C4D。';return false;}
+  var ymd=m[1]+m[2]+m[3],exp=m[1]+'-'+m[2]+'-'+m[3];
+  if(m[4]!==licCodeOf(ymd)){msg.className='lic-msg err';msg.textContent='授權碼無效，請核對後重試（注意數字 0 與字母 O）。';return false;}
+  var t=new Date(exp+'T23:59:59').getTime();
+  if(!isFinite(t)||t<Date.now()){msg.className='lic-msg err';msg.textContent='這張授權碼已於 '+exp+' 到期，請向發碼人索取新碼。';return false;}
+  var o=licLoad();
+  o.code=raw;o.exp=exp;
+  licSave(o);
+  msg.className='lic-msg ok';
+  msg.textContent='✓ 啟用成功，有效期至 '+exp+'。可以關閉這個視窗繼續出卷。';
+  inp.value='';
+  licRender();
+  return true;
+}
+/* 存取點：HTML onclick 與外部（測試）都走 window，避免作用域意外 */
+window.licPass=licPass; window.licNeed=licNeed; window.licWall=licWall; window.licClose=licClose;
+window.licActivate=licActivate; window.licRender=licRender; window.licPlaceholder=licPlaceholder;
+(function(){
+  var mask=document.getElementById('licMask');
+  if(!mask){return;}
+  var x=document.getElementById('licClose'),go=document.getElementById('licGo'),
+      buy=document.getElementById('licBuy'),later=document.getElementById('licLater'),
+      inp=document.getElementById('licCode');
+  if(x){x.onclick=licClose;}
+  if(later){later.onclick=licClose;}
+  if(go){go.onclick=function(){licActivate();};}
+  if(inp){inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();licActivate();}};}
+  if(buy){buy.onclick=function(){licClose();if(typeof window.openCta==='function'){window.openCta();}};}
+  mask.onclick=function(e){if(e.target===mask){licClose();}};
+})();
+try{licRender();}catch(e){}
+window.__licTest={mods:LIC_MODS,load:licLoad,save:licSave,active:licActive,can:licCan,spend:licSpend,
+  pass:licPass,need:licNeed,wall:licWall,close:licClose,activate:licActivate,render:licRender,
+  online:licOnline,sha:licSha256,codeOf:licCodeOf,salt:LIC_PUB_SALT,free:LIC_FREE,key:LIC_KEY};
+
 function genCnPaper(){
+  if(!licPass('cn'))return;   /* v2.37 每模塊免費 1 套 */
   const b=cnBank(curCnGrade);
   if(!b.mc.length&&!b.read.length){alert('該年級題庫暫空。');return;}
   // 每級：基礎題（mc+fill）＋ 篇章閱讀 ＋ 寫作題
@@ -5496,6 +5764,7 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function prepMc(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);const opts=sh.map(i=>q.opts[i]);return Object.assign({},q,{opts:opts,a:sh.indexOf(q.a)});}
 function prepRead(q){return Object.assign({},q,{qs:q.qs.map(prepMc)});}
 function genEnPaper(){
+  if(!licPass('en'))return;   /* v2.37 每模塊免費 1 套 */
   let picked;
   if(curEnGrade==='ALL'){
     picked=[];
@@ -8330,6 +8599,7 @@ function exTxt(s,pre){return s.replace(/\{(\d+)\}/g,function(m,n){return exInp(p
 function exNorm(s){return (s||'').toLowerCase().replace(/[’']/g,'’').replace(/[，、。！？,.!?:;；()（）"'’]/g,'').replace(/\s+/g,' ').trim();}
 function exBankTable(rows){return '<table class="ex-bank">'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</table>';}
 function genExamPaper(){
+  if(!licPass('exam'))return;   /* v2.37 每模塊免費 1 套 */
   const B=EXAM_QBANK[curExamGrade];
   curTenNo=0;
   curExamPaper={head:exPick(B.heads),A:exPick(B.A),B:exPick(B.B),C:exPick(B.C),D:exPick(B.D),E:exPick(B.E),F:exPick(B.F),G:exPick(B.G),H:exPick(B.H),I:exPick(B.I),J:exPick(B.J)};
@@ -8509,6 +8779,7 @@ function printExamPaper(){
 }
 // ---- v1.28 一次出 10 套（去重組卷 + 目錄卡 + 整冊打印） ----
 function genTenExamPapers(){
+  if(!licNeed())return;   /* v2.37 批量出卷屬解鎖後功能 */
   const B=EXAM_QBANK[curExamGrade];
   const seen={},pairs={},list=[];
   for(let tries=0;tries<800&&list.length<10;tries++){
@@ -9600,7 +9871,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.36',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.37',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

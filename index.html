@@ -617,7 +617,7 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   header h1,header p{color:#1b2435!important;text-shadow:none!important}
   header::before,header::after{display:none!important}
   nav,.subnav{display:none!important}
-  body.printing-paper nav,body.printing-paper .subnav,body.printing-paper header,body.printing-paper #guideView,body.printing-paper #practiceView,body.printing-paper #progressView,body.printing-paper #funView,body.printing-paper #mask,body.printing-paper footer,body.printing-paper .folk{display:none!important}
+  body.printing-paper nav,body.printing-paper .subnav,body.printing-paper header,body.printing-paper #guideView,body.printing-paper #practiceView,body.printing-paper #progressView,body.printing-paper #funView,body.printing-paper #mask,body.printing-paper #licMask,body.printing-paper footer,body.printing-paper .folk{display:none!important}
   /* v2.23：列印隔離改白名單——只顯示本輪目標 sheet，杜絕「先印英文卷、再印數學卷」時英文卷殘留一起印出 */
   body.printing-paper .en-print{display:none!important}
   body.printing-paper .en-print.print-active{display:block!important;position:static;width:100%}
@@ -909,6 +909,30 @@ header{position:relative}
   .cta-strip{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;background:linear-gradient(135deg,#f0f8fd,#eefaf8);border:1px solid #cfe4f7;border-radius:14px;padding:14px 16px;margin:20px 0 4px}
   .cta-strip p{margin:0;font-size:13.5px;line-height:1.75;color:#2b3a4f;flex:1 1 280px}
   .cta-strip .btn{flex:0 0 auto;background:#0369a1;border-color:#0369a1;color:#fff;font-weight:700}
+  /* v2.37 免費額度占位卡與解鎖彈窗（scoped .lic-ph / #licMask，不動全域 .modal/.btn/.mask） */
+  .lic-ph{background:#fffdf5;border:1px dashed #e3c88c;border-radius:14px;padding:24px 20px;margin:16px 0;text-align:center}
+  .lic-ph b{display:block;font-size:15px;color:#8a5a00;margin-bottom:9px;line-height:1.6}
+  .lic-ph p{margin:0 auto 15px;font-size:13px;line-height:1.9;color:#6b5a3a;max-width:520px}
+  .lic-ph .lic-ph-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .lic-ph .btn{min-height:44px}
+  #licMask .modal{max-width:560px}
+  #licMask h2{margin:0 0 8px;font-size:19px;color:#1f2a3d}
+  #licMask .lic-sub{margin:0 0 15px;font-size:13px;line-height:1.85;color:#5a6478}
+  .lic-tbl{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:13px}
+  .lic-tbl th,.lic-tbl td{border:1px solid #e6ebf3;padding:8px 10px;text-align:left;line-height:1.6}
+  .lic-tbl th{background:#f6f9fd;color:#3a4a63;font-weight:700}
+  .lic-tbl td.st-ok{color:#18794e;font-weight:700}
+  .lic-tbl td.st-no{color:#b4530a;font-weight:700}
+  .lic-in{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 10px}
+  .lic-in input{flex:1 1 220px;min-height:44px;padding:0 12px;border:1px solid #cfd8e6;border-radius:9px;font-size:14px;font-family:inherit;letter-spacing:.4px}
+  .lic-in .btn{min-height:44px}
+  .lic-msg{min-height:20px;font-size:12.5px;line-height:1.75;margin:0 0 13px;color:#7a8497}
+  .lic-msg.ok{color:#18794e;font-weight:700}
+  .lic-msg.err{color:#c0392b;font-weight:700}
+  .lic-acts{display:flex;gap:10px;flex-wrap:wrap}
+  .lic-acts .btn{min-height:44px}
+  .lic-note{font-size:12px;color:#7a8497;line-height:1.8;margin:14px 0 0}
+  @media(max-width:520px){.lic-ph{padding:20px 15px}.lic-ph .lic-ph-btns{flex-direction:column}.lic-ph .btn{width:100%}.lic-acts{flex-direction:column}.lic-acts .btn{width:100%}}
   .cta-strip .btn:hover{background:#075985;border-color:#075985;color:#fff}
   @media screen and (max-width:640px){
     .cta-flex{flex-direction:column;gap:10px;margin:10px 0 4px}
@@ -1155,13 +1179,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.36（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.37（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.36（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.37（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3245,7 +3269,27 @@ Thank you for your time.</div>
     </div>
   </div>
 </div>
-<div class="mask" id="ctaMask">
+  <!-- v2.37 免費額度用完 → 解鎖／購買彈窗（複用 .mask/.modal 骨架；零外鏈、零圖片、零新增請求） -->
+  <div class="mask" id="licMask">
+    <div class="modal">
+      <span class="x" id="licClose">×</span>
+      <h2>🔑 解鎖練習額度</h2>
+      <p class="lic-sub" id="licSub">本站每類練習免費送 1 套，用完後輸入授權碼或加微信開通。</p>
+      <table class="lic-tbl"><thead><tr><th>練習模塊</th><th>額度狀態</th></tr></thead><tbody id="licTbody"></tbody></table>
+      <div class="lic-in">
+        <input id="licCode" type="text" placeholder="HKSS-20261231-XXXXXXXX" autocomplete="off" spellcheck="false" aria-label="授權碼">
+        <button class="btn" type="button" id="licGo">啟用</button>
+      </div>
+      <p class="lic-msg" id="licMsg"></p>
+      <div class="lic-acts">
+        <button class="btn" type="button" id="licBuy">💬 加微信開通</button>
+        <button class="btn" type="button" id="licLater">稍後再說</button>
+      </div>
+      <p class="lic-note">授權碼離線校驗、有效期內五類練習無限出卷；批改、看答案、列印一直免費。換裝置或清除瀏覽器資料需重新輸入。價格與開通方式請加微信確認。</p>
+    </div>
+  </div>
+
+  <div class="mask" id="ctaMask">
   <div class="modal" id="ctaModal">
     <span class="x" id="ctaClose">×</span>
     <h2>加微信 · 進插班家長群</h2>
@@ -48305,6 +48349,7 @@ function pickMathN(pool,N){
   return picked;
 }
 function genMathPaper(){
+  if(!licPass('math'))return;   /* v2.37 每模塊免費 1 套 */
   const pool=mathPoolFor();
   if(!pool.length){alert(curMathPart==='自訂'?'自訂題庫還沒有題：先在下方「🤖 按學校卷子出題」生成。':'該年級題庫暫空。');return;}
   const N=Math.min(15,pool.length);  /* v2.33：葉工要求每套起碼 15 題（池不足就出滿池） */
@@ -48834,6 +48879,7 @@ function schFormalize(){
   };
 }
 function genSchoolPaper(){
+  if(!licPass('school'))return;   /* v2.37 每模塊免費 1 套 */
   curSchoolPaper=schFormalize();
   renderSchoolPaper();
 }
@@ -49078,6 +49124,7 @@ function schBatchBuild(n){
   return list;
 }
 function genTenSchoolPapers(){
+  if(!licNeed())return;   /* v2.37 批量出卷屬解鎖後功能 */
   schBatch=schBatchBuild(10);
   renderSchBatch();
   try{ document.getElementById('schBatchBox').scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){}
@@ -49248,6 +49295,7 @@ function schAiJob(cfg,j){
   });
 }
 function schAiGen(){
+  if(!licNeed())return;   /* v2.37 AI 出卷屬解鎖後功能 */
   var btn=document.getElementById('schAiBtn');
   var cfg=(typeof getAiCfg==='function')?getAiCfg():null;
   if(!cfg||!cfg.base||!cfg.key||!cfg.model){
@@ -49393,7 +49441,226 @@ function cnPick(arr,n){
   return a.slice(0,n);
 }
 function cnBank(g){ return (CN_QBANK&&CN_QBANK[g])||{mc:[],fill:[],read:[],write:[]}; }
+/* ======================= v2.37 免費額度 ＋ 授權碼解鎖 =======================
+   定位（A 檔：純前端軟限制）：
+     · 每類練習免費送 LIC_FREE 套（出卷即計次，含進頁面的自動出卷——否則刷新即可白拿新卷）。
+     · 批改、看答案、列印、草稿板永不計次（做完卷不給看分只會掉粉）。
+     · 用完後卷區顯示占位卡（不彈窗糊臉），點卡才開解鎖彈窗。
+   ⚠️ 如實標註：計數與校驗全在前端，清 localStorage、開無痕、讀源碼自造碼都可繞過。
+      這層的作用是讓正常家長「用完就停」並篩出願意付費的人，不是防破解。
+      真正的配額必須雲端側控制（v2.37 未做，見路線 B）。
+   ⚠️ LIC_PUB_SALT 是本站專用公開鹽，與 license_secret.txt 不是同一把：
+      公開站源碼本來就可見，用專鹽避免把其他用途的密鑰一併暴露出去。 */
+var LIC_PUB_SALT='hkk-lic-v237-2026-11', LIC_KEY='hkk_lic_v0', LIC_FREE=1;
+var LIC_MODS=[
+  {k:'math',  n:'數學卷',   box:'mathPaperBox'},
+  {k:'en',    n:'英文卷',   box:'enPaperBox'},
+  {k:'exam',  n:'呈分試卷', box:'examPaperBox'},
+  {k:'cn',    n:'中文試卷', box:'cnPaperBox'},
+  {k:'school',n:'卷題型',   box:'schPaperBox'}
+];
+var licCurMod='';
+
+/* 同步 SHA-256（crypto.subtle 是 async，出卷鏈路同步用不了；已與 Node crypto 逐位對齊驗證） */
+function licSha256(ascii){
+  function rightRotate(v,a){return (v>>>a)|(v<<(32-a));}
+  var mathPow=Math.pow,maxWord=mathPow(2,32),result='',words=[],asciiBitLength=ascii.length*8;
+  var hash=licSha256.h=licSha256.h||[],k=licSha256.k=licSha256.k||[],primeCounter=k.length;
+  var isComposite={};
+  for(var candidate=2;primeCounter<64;candidate++){
+    if(!isComposite[candidate]){
+      for(var i=0;i<313;i+=candidate){isComposite[i]=candidate;}
+      hash[primeCounter]=(mathPow(candidate,.5)*maxWord)|0;
+      k[primeCounter++]=(mathPow(candidate,1/3)*maxWord)|0;
+    }
+  }
+  ascii+='\x80';
+  while(ascii.length%64-56){ascii+='\x00';}
+  for(i=0;i<ascii.length;i++){
+    var j=ascii.charCodeAt(i);
+    if(j>>8){return '';}
+    words[i>>2]|=j<<((3-i)%4)*8;
+  }
+  words[words.length]=(asciiBitLength/maxWord)|0;
+  words[words.length]=asciiBitLength;
+  for(j=0;j<words.length;){
+    var w=words.slice(j,j+=16),oldHash=hash;
+    hash=hash.slice(0,8);
+    for(i=0;i<64;i++){
+      var w15=w[i-15],w2=w[i-2],a=hash[0],e=hash[4];
+      var temp1=hash[7]+(rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]
+        +(w[i]=(i<16)?w[i]:(w[i-16]+(rightRotate(w15,7)^rightRotate(w15,18)^(w15>>>3))+w[i-7]+(rightRotate(w2,17)^rightRotate(w2,19)^(w2>>>10)))|0);
+      var temp2=(rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash=[(temp1+temp2)|0].concat(hash);
+      hash[4]=(hash[4]+temp1)|0;
+    }
+    for(i=0;i<8;i++){hash[i]=(hash[i]+oldHash[i])|0;}
+  }
+  for(i=0;i<8;i++){
+    for(j=3;j+1;j--){
+      var b=(hash[i]>>(j*8))&255;
+      result+=((b<16)?0:'')+b.toString(16);
+    }
+  }
+  return result;
+}
+
+/* 是否線上（本地 file:// / localhost / 127. / 192.168. 豁免，方便葉工自用與測試）
+   與 v1.33 的 AUTH_FORCE 同一語義，但自包含、不依賴其執行順序 */
+function licOnline(){
+  try{
+    var h=location.hostname||'',p=location.protocol||'';
+    if(p!=='https:'){return false;}
+    if(!h){return false;}
+    if(h==='localhost'||h.indexOf('127.')===0||h.indexOf('192.168.')===0){return false;}
+    return true;
+  }catch(e){return false;}
+}
+function licCodeOf(ymd){return licSha256(LIC_PUB_SALT+'|'+ymd).slice(0,8).toUpperCase();}
+function licLoad(){
+  var o;
+  try{o=JSON.parse(localStorage.getItem(LIC_KEY)||'{}')||{};}catch(e){o={};}
+  if(!o.used||typeof o.used!=='object'){o.used={};}
+  LIC_MODS.forEach(function(m){if(typeof o.used[m.k]!=='number'||o.used[m.k]<0){o.used[m.k]=0;}});
+  if(typeof o.code!=='string'){o.code='';}
+  if(typeof o.exp!=='string'){o.exp='';}
+  return o;
+}
+function licSave(o){try{localStorage.setItem(LIC_KEY,JSON.stringify(o));}catch(e){}}
+/* 已解鎖判定：格式＋簽名＋exp 三者自洽且未過期（防手改 exp 續期這種最懶的繞過） */
+function licActive(o){
+  o=o||licLoad();
+  var m=/^HKSS-(\d{4})(\d{2})(\d{2})-([0-9A-F]{8})$/.exec(o.code||'');
+  if(!m){return false;}
+  var ymd=m[1]+m[2]+m[3],exp=m[1]+'-'+m[2]+'-'+m[3];
+  if(o.exp!==exp){return false;}
+  if(licCodeOf(ymd)!==m[4]){return false;}
+  var t=new Date(exp+'T23:59:59').getTime();
+  return isFinite(t)&&t>=Date.now();
+}
+function licCan(k){
+  if(!licOnline()){return true;}
+  var o=licLoad();
+  if(licActive(o)){return true;}
+  return (o.used[k]||0)<LIC_FREE;
+}
+function licSpend(k){
+  if(!licOnline()){return;}
+  var o=licLoad();
+  if(licActive(o)){return;}
+  o.used[k]=(o.used[k]||0)+1;
+  licSave(o);
+}
+/* 出卷入口統一走這裡：能出就出（計次），不能出就在卷區放占位卡並讓調用者 return */
+function licPass(k){
+  if(licCan(k)){licSpend(k);return true;}
+  licPlaceholder(k);
+  return false;
+}
+/* 批量／AI 等高級功能：要求已解鎖（不佔免費額度，直接開彈窗） */
+function licNeed(){
+  if(!licOnline()){return true;}
+  if(licActive(licLoad())){return true;}
+  licWall('batch');
+  return false;
+}
+function licModOf(k){
+  var out=null;
+  LIC_MODS.forEach(function(m){if(m.k===k){out=m;}});
+  return out;
+}
+function licPlaceholder(k){
+  var m=licModOf(k),box=m?document.getElementById(m.box):null;
+  if(!box){return;}
+  box.innerHTML='<div class="lic-ph"><b>「'+m.n+'」的免費額度已用完</b>'
+    +'<p>本站每類練習免費送 '+LIC_FREE+' 套，這個模塊已經用過了。輸入授權碼可無限出卷；<b style="display:inline;color:#6b5a3a">批改、看答案、列印一直免費</b>，不影響你手上這份卷。</p>'
+    +'<div class="lic-ph-btns"><button class="btn" type="button" data-lic="'+k+'">🔑 輸入授權碼 / 開通</button></div></div>';
+  var bs=box.querySelectorAll('.lic-ph [data-lic]');
+  for(var i=0;i<bs.length;i++){
+    bs[i].onclick=function(){licWall(this.getAttribute('data-lic'));};
+  }
+}
+function licRender(){
+  var tb=document.getElementById('licTbody');
+  if(!tb){return;}
+  var o=licLoad(),act=licActive(o),h='';
+  LIC_MODS.forEach(function(m){
+    var left=Math.max(0,LIC_FREE-(o.used[m.k]||0));
+    var txt=act?'✓ 已解鎖（不限套數）':(left>0?('免費剩 '+left+' 套'):'已用完');
+    h+='<tr><td>'+m.n+'</td><td class="'+((act||left>0)?'st-ok':'st-no')+'">'+txt+'</td></tr>';
+  });
+  tb.innerHTML=h;
+  var sub=document.getElementById('licSub');
+  if(sub){
+    if(act){
+      sub.textContent='已啟用至 '+o.exp+'：五類練習都可以無限出卷，批改與列印照舊免費。';
+    }else{
+      var m2=licModOf(licCurMod);
+      sub.textContent=m2
+        ? ('本站每類練習免費送 '+LIC_FREE+' 套，現在「'+m2.n+'」的免費額度已用完。輸入授權碼可無限出卷；批改、看答案、列印一直免費。')
+        : ('本站每類練習免費送 '+LIC_FREE+' 套。批量出 10 套與 AI 出卷屬解鎖後功能，輸入授權碼即可使用。');
+    }
+  }
+}
+function licWall(k){
+  var mask=document.getElementById('licMask');
+  if(!mask){return;}
+  licCurMod=k||'';
+  licRender();
+  var msg=document.getElementById('licMsg');
+  if(msg){msg.textContent='';msg.className='lic-msg';}
+  mask.classList.add('show');
+  document.body.classList.add('cta-open');
+  try{var inp=document.getElementById('licCode');if(inp&&licOnline()){inp.focus();}}catch(e){}
+}
+function licClose(){
+  var mask=document.getElementById('licMask');
+  if(mask){mask.classList.remove('show');}
+  document.body.classList.remove('cta-open');
+}
+function licActivate(){
+  var inp=document.getElementById('licCode'),msg=document.getElementById('licMsg');
+  if(!inp||!msg){return false;}
+  var raw=String(inp.value||'').toUpperCase().replace(/\s+/g,'');
+  if(!raw){msg.className='lic-msg err';msg.textContent='請先輸入授權碼。';return false;}
+  var m=/^HKSS-(\d{4})(\d{2})(\d{2})-([0-9A-F]{8})$/.exec(raw);
+  if(!m){msg.className='lic-msg err';msg.textContent='格式不對：應為 HKSS-到期日-8 位驗證碼，例如 HKSS-20261231-1A2B3C4D。';return false;}
+  var ymd=m[1]+m[2]+m[3],exp=m[1]+'-'+m[2]+'-'+m[3];
+  if(m[4]!==licCodeOf(ymd)){msg.className='lic-msg err';msg.textContent='授權碼無效，請核對後重試（注意數字 0 與字母 O）。';return false;}
+  var t=new Date(exp+'T23:59:59').getTime();
+  if(!isFinite(t)||t<Date.now()){msg.className='lic-msg err';msg.textContent='這張授權碼已於 '+exp+' 到期，請向發碼人索取新碼。';return false;}
+  var o=licLoad();
+  o.code=raw;o.exp=exp;
+  licSave(o);
+  msg.className='lic-msg ok';
+  msg.textContent='✓ 啟用成功，有效期至 '+exp+'。可以關閉這個視窗繼續出卷。';
+  inp.value='';
+  licRender();
+  return true;
+}
+/* 存取點：HTML onclick 與外部（測試）都走 window，避免作用域意外 */
+window.licPass=licPass; window.licNeed=licNeed; window.licWall=licWall; window.licClose=licClose;
+window.licActivate=licActivate; window.licRender=licRender; window.licPlaceholder=licPlaceholder;
+(function(){
+  var mask=document.getElementById('licMask');
+  if(!mask){return;}
+  var x=document.getElementById('licClose'),go=document.getElementById('licGo'),
+      buy=document.getElementById('licBuy'),later=document.getElementById('licLater'),
+      inp=document.getElementById('licCode');
+  if(x){x.onclick=licClose;}
+  if(later){later.onclick=licClose;}
+  if(go){go.onclick=function(){licActivate();};}
+  if(inp){inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();licActivate();}};}
+  if(buy){buy.onclick=function(){licClose();if(typeof window.openCta==='function'){window.openCta();}};}
+  mask.onclick=function(e){if(e.target===mask){licClose();}};
+})();
+try{licRender();}catch(e){}
+window.__licTest={mods:LIC_MODS,load:licLoad,save:licSave,active:licActive,can:licCan,spend:licSpend,
+  pass:licPass,need:licNeed,wall:licWall,close:licClose,activate:licActivate,render:licRender,
+  online:licOnline,sha:licSha256,codeOf:licCodeOf,salt:LIC_PUB_SALT,free:LIC_FREE,key:LIC_KEY};
+
 function genCnPaper(){
+  if(!licPass('cn'))return;   /* v2.37 每模塊免費 1 套 */
   const b=cnBank(curCnGrade);
   if(!b.mc.length&&!b.read.length){alert('該年級題庫暫空。');return;}
   // 每級：基礎題（mc+fill）＋ 篇章閱讀 ＋ 寫作題
@@ -49872,6 +50139,7 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function prepMc(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);const opts=sh.map(i=>q.opts[i]);return Object.assign({},q,{opts:opts,a:sh.indexOf(q.a)});}
 function prepRead(q){return Object.assign({},q,{qs:q.qs.map(prepMc)});}
 function genEnPaper(){
+  if(!licPass('en'))return;   /* v2.37 每模塊免費 1 套 */
   let picked;
   if(curEnGrade==='ALL'){
     picked=[];
@@ -52706,6 +52974,7 @@ function exTxt(s,pre){return s.replace(/\{(\d+)\}/g,function(m,n){return exInp(p
 function exNorm(s){return (s||'').toLowerCase().replace(/[’']/g,'’').replace(/[，、。！？,.!?:;；()（）"'’]/g,'').replace(/\s+/g,' ').trim();}
 function exBankTable(rows){return '<table class="ex-bank">'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</table>';}
 function genExamPaper(){
+  if(!licPass('exam'))return;   /* v2.37 每模塊免費 1 套 */
   const B=EXAM_QBANK[curExamGrade];
   curTenNo=0;
   curExamPaper={head:exPick(B.heads),A:exPick(B.A),B:exPick(B.B),C:exPick(B.C),D:exPick(B.D),E:exPick(B.E),F:exPick(B.F),G:exPick(B.G),H:exPick(B.H),I:exPick(B.I),J:exPick(B.J)};
@@ -52885,6 +53154,7 @@ function printExamPaper(){
 }
 // ---- v1.28 一次出 10 套（去重組卷 + 目錄卡 + 整冊打印） ----
 function genTenExamPapers(){
+  if(!licNeed())return;   /* v2.37 批量出卷屬解鎖後功能 */
   const B=EXAM_QBANK[curExamGrade];
   const seen={},pairs={},list=[];
   for(let tries=0;tries<800&&list.length<10;tries++){
@@ -53976,7 +54246,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.36',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.37',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
