@@ -1037,10 +1037,27 @@ header{position:relative}
 .ivq-body{padding:10px 14px;border-top:1px solid #e3eef7;background:#fff;font-size:14px;line-height:1.8;color:#33475b}
 @media screen and (max-width:640px){#tutorView details.gsec.fold>summary.gsec-h{font-size:14.5px;padding:12px 12px;letter-spacing:0}#ivList details.ivq>summary.ivq-h{font-size:13.5px;padding:9px 10px;gap:8px}}
 @media print{#tutorView details.gsec.fold>summary.gsec-h{background:#eef4f9!important;color:#0b3a5c!important;border-left:4px solid #0369a1!important;box-shadow:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}#tutorView details.gsec.fold>summary.gsec-h::after{color:#8a8aa0}#ivList details.ivq>summary.ivq-h{background:#f8fbfe!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+/* ===== v2.27 UX：焦點可見＋觸控目標＋手機導航單行＋reduced-motion＋渲染性能 ===== */
+:focus-visible{outline:3px solid #0284c7;outline-offset:2px;border-radius:4px}
+nav button:focus-visible,.subnav button:focus-visible{outline-offset:-2px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+div[id$="View"]{content-visibility:auto;contain-intrinsic-size:auto 1200px}
+@media print{div[id$="View"]{content-visibility:visible!important}}
+@media screen and (max-width:640px){
+nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;min-height:44px;padding:10px 16px}
+.subnav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start;scrollbar-width:none}
+.subnav::-webkit-scrollbar{display:none}
+.subnav button{flex:0 0 auto;min-height:44px;padding:10px 16px}
+#userChip button{min-height:44px;min-width:44px;padding:6px 14px;font-size:13px}
+header{padding:20px 14px 16px}
+header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+}
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
-<script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js"></script>
-<script>try{LA.init({id:"3RhjH055gOjxA8UA",ck:"3RhjH055gOjxA8UA"})}catch(e){}</script>
+<script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js" defer></script>
+<script>window.addEventListener('load',function(){try{LA.init({id:"3RhjH055gOjxA8UA",ck:"3RhjH055gOjxA8UA"})}catch(e){}})</script>
 </head>
 <body>
 <!-- ============ 登录注册页（v1.33）：線上強制登入，本地直開免登入 ============ -->
@@ -1081,13 +1098,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.26（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.27（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.26（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.27（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -52955,7 +52972,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.26',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.27',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
