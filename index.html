@@ -1098,13 +1098,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.27（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.28（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.27（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.28（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2671,7 +2671,7 @@ Thank you for your time.</div>
       </details>
             <details class="gcard fold" open>
         <summary>口岸 → 學校 通勤估算（選口岸即重算單程時間）</summary>
-        <p class="src" style="margin:0 0 8px">選一個口岸，看它到北區各中學的單程估算。<b>不含過關排隊</b>；算法＝口岸至上水／粉嶺站的車程 ＋ 站到校直線距離 ×1.35÷80 米/分。直線距離非實際步行路線，<b>估算僅供篩選</b>，實際通勤以試跑為準。</p>
+        <p class="src" style="margin:0 0 8px">選一個口岸，看它到北區各中學的單程估算。<b>不含過關排隊</b>；算法＝口岸至上水／粉嶺站的車程 ＋ 站到校直線距離 ×1.35÷80 米/分。直線距離非實際步行路線，<b>估算僅供篩選</b>，實際通勤以試跑為準。<b>按最早可能到達時間排序</b>。</p>
         <div class="pg-chips" id="portChips">
           <span class="chip on" data-port="羅湖">羅湖口岸（東鐵）</span>
           <span class="chip" data-port="福田">福田口岸（東鐵）</span>
@@ -50916,12 +50916,12 @@ function portRows(){
     let best=null;
     list.forEach(h=>{
       const d=portDist([g.lat,g.lng],[h.lat,h.lng]);
-      const w=portWalk(d), mid=(h.lo+h.hi)/2+w;
-      if(!best||mid<best.mid) best={hub:h.hub,mode:h.mode,lo:h.lo,hi:h.hi,d:d,w:w,mid:mid};
+      const w=portWalk(d), k1=h.lo+w, k2=h.hi+w;
+      if(!best||k1<best.k1||(k1===best.k1&&k2<best.k2)) best={hub:h.hub,mode:h.mode,lo:h.lo,hi:h.hi,d:d,w:w,k1:k1,k2:k2};
     });
     rows.push({name:name,b:best});
   });
-  rows.sort((x,y)=>(x.b?x.b.mid:1e9)-(y.b?y.b.mid:1e9));
+  rows.sort((x,y)=>(x.b?x.b.k1:1e9)-(y.b?y.b.k1:1e9)||(x.b?x.b.k2:1e9)-(y.b?y.b.k2:1e9));
   return rows;
 }
 function renderPort(){
@@ -52972,7 +52972,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.27',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.28',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
