@@ -1098,13 +1098,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.28（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.29（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.28（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.29（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2680,7 +2680,7 @@ Thank you for your time.</div>
         </div>
         <div class="scroll-x">
           <table class="mtable" id="portTable">
-            <thead><tr><th>學校</th><th>落車樞紐</th><th>接駁</th><th>車程</th><th>站至校步行</th><th>合計估算</th></tr></thead>
+            <thead><tr><th>學校</th><th>Band參考<br><span style="font-weight:400;color:#a33">非官方</span></th><th>落車樞紐</th><th>接駁</th><th>車程</th><th>站至校步行</th><th>合計估算</th></tr></thead>
             <tbody id="portBody"></tbody>
           </table>
         </div>
@@ -50910,8 +50910,8 @@ function portRows(){
   const list=PORT_HUB[curPort]||[];
   const rows=[];
   document.querySelectorAll('#ssTable tbody tr').forEach(tr=>{
-    const c=tr.querySelector('td'); if(!c)return;
-    const name=c.textContent.trim(), g=geo[name];
+    const tds=tr.querySelectorAll('td'); if(!tds.length)return;
+    const name=tds[0].textContent.trim(), g=geo[name], band=(tds[6]&&tds[6].textContent.trim())||'';
     if(!g)return;
     let best=null;
     list.forEach(h=>{
@@ -50919,7 +50919,7 @@ function portRows(){
       const w=portWalk(d), k1=h.lo+w, k2=h.hi+w;
       if(!best||k1<best.k1||(k1===best.k1&&k2<best.k2)) best={hub:h.hub,mode:h.mode,lo:h.lo,hi:h.hi,d:d,w:w,k1:k1,k2:k2};
     });
-    rows.push({name:name,b:best});
+    rows.push({name:name,b:best,band:band});
   });
   rows.sort((x,y)=>(x.b?x.b.k1:1e9)-(y.b?y.b.k1:1e9)||(x.b?x.b.k2:1e9)-(y.b?y.b.k2:1e9));
   return rows;
@@ -50928,14 +50928,14 @@ function renderPort(){
   const tb=document.getElementById('portBody'); if(!tb)return;
   const rows=portRows();
   if(!rows.length||!rows[0].b){
-    tb.innerHTML='<tr><td colspan="6">此口岸無直達北區的公共交通路線，建議改用羅湖／福田／蓮塘口岸。</td></tr>';
+    tb.innerHTML='<tr><td colspan="7">此口岸無直達北區的公共交通路線，建議改用羅湖／福田／蓮塘口岸。</td></tr>';
     return;
   }
   let h='';
   rows.forEach(r=>{
     const b=r.b;
     const pspan=(x1,x2)=>(x1===x2?('約 '+x1+' 分'):('約 '+x1+'–'+x2+' 分'));
-    h+='<tr><td>'+r.name+'</td><td>'+b.hub+'</td><td>'+b.mode+'</td><td>'+pspan(b.lo,b.hi)+'</td><td>約 '+b.w+' 分（'+Math.round(b.d)+' 米直線）</td><td><b>'+pspan(b.lo+b.w,b.hi+b.w)+'</b></td></tr>';
+    h+='<tr><td>'+r.name+'</td><td>'+(r.band||'—')+'</td><td>'+b.hub+'</td><td>'+b.mode+'</td><td>'+pspan(b.lo,b.hi)+'</td><td>約 '+b.w+' 分（'+Math.round(b.d)+' 米直線）</td><td><b>'+pspan(b.lo+b.w,b.hi+b.w)+'</b></td></tr>';
   });
   tb.innerHTML=h;
 }
@@ -52972,7 +52972,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.28',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.29',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
