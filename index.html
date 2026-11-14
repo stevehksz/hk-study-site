@@ -1117,13 +1117,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.32（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.33（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.32（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.33（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -48056,7 +48056,13 @@ const MATH_QBANK = {
     {t:'mc',q:"The clock shows 3 o'clock. What time is it?",qzh:"時鐘顯示 3 點正，現在是幾點？",opts:["3:00","3:30","2:00","4:00"],optszh:["3:00","3:30","2:00","4:00"],a:0},
     {t:'fill',q:"Write the number 'seventy-two' in figures.",qzh:"把「七十二」寫成數字。",a:"72",azh:"72"},
     {t:'mc',q:"Which is the smallest number?",qzh:"下列哪一項數字最小？",opts:["25","52","35","45"],optszh:["25","52","35","45"],a:0},
-    {t:'word',q:"There are 4 rows of chairs. Each row has 5 chairs. How many chairs are there in total?",qzh:"有 4 排椅子，每排 5 張。一共有多少張椅子？",model:"4 × 5 = 20 chairs.",modelzh:"4 × 5 = 20，共 20 張椅子。"}
+    {t:'word',q:"There are 4 rows of chairs. Each row has 5 chairs. How many chairs are there in total?",qzh:"有 4 排椅子，每排 5 張。一共有多少張椅子？",model:"4 × 5 = 20 chairs.",modelzh:"4 × 5 = 20，共 20 張椅子。"},
+    {t:'mc',q:"What comes next: 2, 4, 6, 8, ____?",qzh:"接下去：2、4、6、8、____？",opts:["10","9","12","7"],optszh:["10","9","12","7"],a:0},
+    {t:'mc',q:"How many tens are there in 80?",qzh:"80 裏面有幾個十？",opts:["8","80","18","10"],optszh:["8","80","18","10"],a:0},
+    {t:'fill',q:"15 - 9 = ____",qzh:"15 - 9 = ____",a:"6",azh:"6"},
+    {t:'fill',q:"Write the number 'one hundred and five' in figures.",qzh:"把「一百零五」寫成數字。",a:"105",azh:"105"},
+    {t:'fill',q:"Count on: 2, 5, 8, 11, ____",qzh:"順序數：2、5、8、11、____",a:"14",azh:"14"},
+    {t:'word',q:"Ann buys a pencil for $6 and an eraser for $3. How much does she pay altogether? Show your working.",qzh:"Ann 買一枝 $6 鉛筆和一塊 $3 擦膠，她一共要付多少錢？請寫出計算過程。",model:"$6 + $3 = $9. She pays $9 altogether.",modelzh:"6 + 3 = 9，一共付 $9。"}
   ],
   P2:[
     {t:'mc',q:"What is 6 × 7?",qzh:"6 × 7 等於多少？",opts:["42","36","48","40"],optszh:["42","36","48","40"],a:0},
@@ -48068,7 +48074,13 @@ const MATH_QBANK = {
     {t:'mc',q:"The time is 20 minutes past 4. What is it in digital form?",qzh:"時間是 4 點 20 分，用數字表示是？",opts:["4:20","4:40","3:20","4:05"],optszh:["4:20","4:40","3:20","4:05"],a:0},
     {t:'fill',q:"What is 1/2 of 18?",qzh:"18 的一半是多少？",a:"9",azh:"9"},
     {t:'mc',q:"Which solid has a circular base?",qzh:"下列哪一個立體有圓形的底面？",opts:["Cylinder","Cube","Cuboid","Pyramid"],optszh:["圓柱","立方體","長方體","角錐"],a:0},
-    {t:'word',q:"There are 3 packets of biscuits. Each packet has 8 biscuits. How many biscuits are there altogether?",qzh:"有 3 包餅乾，每包 8 块。一共有多少塊餅乾？",model:"3 × 8 = 24 biscuits.",modelzh:"3 × 8 = 24，共 24 塊餅乾。"}
+    {t:'word',q:"There are 3 packets of biscuits. Each packet has 8 biscuits. How many biscuits are there altogether?",qzh:"有 3 包餅乾，每包 8 块。一共有多少塊餅乾？",model:"3 × 8 = 24 biscuits.",modelzh:"3 × 8 = 24，共 24 塊餅乾。"},
+    {t:'mc',q:"What is 8 × 2?",qzh:"8 × 2 等於多少？",opts:["16","10","18","12"],optszh:["16","10","18","12"],a:0},
+    {t:'mc',q:"How many days are there in a week?",qzh:"一個星期有多少天？",opts:["7","30","24","12"],optszh:["7","30","24","12"],a:0},
+    {t:'fill',q:"45 ÷ 5 = ____",qzh:"45 ÷ 5 = ____",a:"9",azh:"9"},
+    {t:'fill',q:"2 m = ____ cm",qzh:"2 米 = ____ 厘米",a:"200",azh:"200"},
+    {t:'fill',q:"What is 3/4 of 12?",qzh:"12 的四分之三是多少？",a:"9",azh:"9"},
+    {t:'word',q:"There are 24 apples. They are put into bags of 4 apples each. How many bags are there?",qzh:"有 24 個蘋果，每 4 個裝一袋，可以裝多少袋？",model:"24 ÷ 4 = 6 bags.",modelzh:"24 ÷ 4 = 6，共 6 袋。"}
   ],
   P3:[
     {t:'mc',q:"What is 456 + 378?",qzh:"456 + 378 等於多少？",opts:["834","824","844","814"],optszh:["834","824","844","814"],a:0},
@@ -48080,7 +48092,13 @@ const MATH_QBANK = {
     {t:'mc',q:"What time is 14:30 in the afternoon?",qzh:"24 小時制 14:30 是下午幾點？",opts:["2:30 p.m.","1:30 p.m.","3:30 p.m.","12:30 p.m."],optszh:["下午 2:30","下午 1:30","下午 3:30","下午 12:30"],a:0},
     {t:'fill',q:"1 kg = ____ g",qzh:"1 公斤 = ____ 克",a:"1000",azh:"1000"},
     {t:'mc',q:"Which unit is used to measure area?",qzh:"量度面積應使用下列哪一個單位？",opts:["cm²","cm","mL","g"],optszh:["平方厘米","厘米","毫升","克"],a:0},
-    {t:'word',q:"Mei saves $15 each week. How much does she save in 8 weeks?",qzh:"Mei 每週儲蓄 $15，8 週共儲了多少？",model:"8 × $15 = $120.",modelzh:"8 × 15 = 120，共儲 $120。"}
+    {t:'word',q:"Mei saves $15 each week. How much does she save in 8 weeks?",qzh:"Mei 每週儲蓄 $15，8 週共儲了多少？",model:"8 × $15 = $120.",modelzh:"8 × 15 = 120，共儲 $120。"},
+    {t:'mc',q:"What is 27 × 3?",qzh:"27 × 3 等於多少？",opts:["81","72","87","78"],optszh:["81","72","87","78"],a:0},
+    {t:'mc',q:"Which fraction is equivalent to 1/2?",qzh:"下列哪一個分數與 1/2 相等？",opts:["2/4","2/3","3/4","1/3"],optszh:["2/4","2/3","3/4","1/3"],a:0},
+    {t:'fill',q:"6 × 7 = ____",qzh:"6 × 7 = ____",a:"42",azh:"42"},
+    {t:'fill',q:"8000 + 300 + 60 + 1 = ____",qzh:"8000 + 300 + 60 + 1 = ____",a:"8361",azh:"8361"},
+    {t:'fill',q:"Find the area of a rectangle 5 cm by 3 cm. (Answer in cm²)",qzh:"一個長方形長 5 厘米、寬 3 厘米，求面積（以平方厘米作答）。",a:"15",azh:"15",alt:["15 cm²","15cm2"]},
+    {t:'word',q:"A train leaves at 9:45 a.m. and arrives at 10:20 a.m. How long is the journey? Show your working.",qzh:"一班火車上午 9:45 開出，上午 10:20 到達，車程有多長？請寫出計算過程。",model:"10:20 - 9:45 = 35 minutes.",modelzh:"10:20 − 9:45 = 35 分鐘。"}
   ],
   P4:[
     {t:'mc',q:"What is 2.5 × 4?",qzh:"2.5 × 4 等於多少？",opts:["10","9","8","11"],optszh:["10","9","8","11"],a:0},
@@ -48092,7 +48110,13 @@ const MATH_QBANK = {
     {t:'mc',q:"Two angles on a straight line are 110° and ____. Find the missing angle.",qzh:"在一條直線上，兩個角分別是 110° 和 ____，求未知角。",opts:["70°","60°","80°","90°"],optszh:["70°","60°","80°","90°"],a:0},
     {t:'fill',q:"Give one factor of 12.",qzh:"寫出 12 的一個因數。",a:"3",azh:"3",alt:["1","2","4","6","12"]},
     {t:'mc',q:"How many lines of symmetry does an equilateral triangle have?",qzh:"一個等邊三角形有多少條對稱軸？",opts:["3","1","2","0"],optszh:["3","1","2","0"],a:0},
-    {t:'word',q:"A bottle holds 1.5 L of water. How many millilitres is that?",qzh:"一個瓶子裝有 1.5 升水，即是多少毫升？",model:"1.5 L = 1500 mL.",modelzh:"1.5 升 = 1500 毫升。"}
+    {t:'word',q:"A bottle holds 1.5 L of water. How many millilitres is that?",qzh:"一個瓶子裝有 1.5 升水，即是多少毫升？",model:"1.5 L = 1500 mL.",modelzh:"1.5 升 = 1500 毫升。"},
+    {t:'mc',q:"Which is 3/10 written as a decimal?",qzh:"3/10 寫成小數是多少？",opts:["0.3","3.0","0.03","1.3"],optszh:["0.3","3.0","0.03","1.3"],a:0},
+    {t:'mc',q:"Which angle is greater than a right angle?",qzh:"下列哪一種角比直角大？",opts:["An obtuse angle","An acute angle","A right angle","A zero angle"],optszh:["鈍角","銳角","直角","零角"],a:0},
+    {t:'fill',q:"1/4 + 2/4 = ____",qzh:"1/4 + 2/4 = ____",a:"3/4",azh:"3/4"},
+    {t:'fill',q:"7 × 8 = ____",qzh:"7 × 8 = ____",a:"56",azh:"56"},
+    {t:'fill',q:"Round 56 to the nearest ten.",qzh:"把 56 捨入至最接近的十位。",a:"60",azh:"60"},
+    {t:'word',q:"A ribbon is 2.4 m long. It is cut into 6 equal pieces. How long is each piece? (Answer in cm) Show your working.",qzh:"一條絲帶長 2.4 米，剪成 6 等份，每份多長？（以厘米作答）請寫出計算過程。",model:"2.4 m = 240 cm; 240 ÷ 6 = 40 cm.",modelzh:"2.4 米 = 240 厘米；240 ÷ 6 = 40 厘米。"}
   ],
   P5:[
     {t:'mc',q:"What is 1/2 + 1/3?",qzh:"1/2 + 1/3 等於多少？",opts:["5/6","2/5","1/6","3/5"],optszh:["5/6","2/5","1/6","3/5"],a:0},
@@ -48191,10 +48215,10 @@ function mathPoolFor(){
   return pool;
 }
 /* v2.12：抽題配額，兩條同時管。
-   ① word 型（多小問／說理）不自動判分——純隨機會令一套 8 題有 4 題交卷後看不到分數，
-      故 word 上限取 1/4（8 題→2 題），且優先取有五部標籤的題。
+   ① word 型（多小問／說理）不自動判分——純隨機會令一套卷有過多交卷後看不到分數的題，
+      故 word 上限取 1/4（v2.33 起 N=15 → 4 題），且優先取有五部標籤的題。
    ② P6 全庫 54 題裡只有 30 題帶 part；純隨機一套 8 題期望只 4.4 題是新題，
-      而且可能整套舊題（等於這一版白做），故 part 題保底佔 60%（8 題→5 題）。
+      而且可能整套舊題（等於這一版白做），故 part 題保底佔 60%（15 題→9 題）。
    兩條在 P1–P5 完全無副作用（那幾級沒有 part 題，池子只有 word 配額生效）。 */
 function pickMathN(pool,N){
   const w=pool.filter(function(q){return q.t==='word';});
@@ -48219,7 +48243,7 @@ function pickMathN(pool,N){
 function genMathPaper(){
   const pool=mathPoolFor();
   if(!pool.length){alert(curMathPart==='自訂'?'自訂題庫還沒有題：先在下方「🤖 按學校卷子出題」生成。':'該年級題庫暫空。');return;}
-  const N=Math.min(8,pool.length);
+  const N=Math.min(15,pool.length);  /* v2.33：葉工要求每套起碼 15 題（池不足就出滿池） */
   /* v1.94：與上一套比對，重合 ≥75% 就重抽（至多 4 次），池大時基本一次過；
      指紋用題幹前 48 字，只存內存不落盤——刷新後重新允許重複，屬預期。 */
   const key=q=>q.q.slice(0,48);
@@ -53090,7 +53114,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.32',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.33',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

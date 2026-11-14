@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.33：葉工出卷後說「一套試卷題量太少，起碼 15 題」。落地＝①`genMathPaper` 每套題量 8→**15**（`N=Math.min(15,pool.length)`，池不足 15 就出滿池）；②P1–P4 題庫各補 **6 道原創題**（10→16，達到 15 題門檻）：P1 補數列規律／幾個十／三位數讀寫／順數／加錢應用，P2 補 8×2／一週天數／45÷5／米厘米化聚／3/4 倍數／分袋除法應用，P3 補兩位×一位／等值分數／6×7／位值展開／長方形面積／經過時間應用，P4 補分數化小數／鈍角辨認／同分母加法／7×8／十位捨入／絲帶等分應用——全部英文題幹＋繁中對照＋（mc）opts/optszh、（fill）a/azh/alt、（word）model/modelzh，欄位同構；③word 上限 1/4（15 題→4 題）、P6 五部保底 60%（15 題→9 題）配額自動跟隨 N，邏輯零改動；④AI 讀卷出題（8 題）與英文卷（8 題）**不動**——本輪只按要求改數學卷。verify2 版本鎖三種寫法全換、v2.12 配額斷言 2→4／4→9 更新、新增 v2.33 專項 8 條。
 v2.32：葉工要求「數學卷每一道題旁邊加一個草稿板，且可以寫」。落地＝①每張題卡改兩欄網格：手機單列（題目在上、草稿板在下），≥821px 兩欄（題目左、草稿板右 300px）；題目內容原位包進 `.qbody`（零搬運），草稿板 `.qscratch` 為第二列，**不動全域 `.qcard` 樣式**（英文卷／中文卷／逐題卡共用），一律 scoped 到 `#mathPaperBox`；②草稿板＝canvas 手寫：pointerdown／move／up ＋ setPointerCapture，滑鼠與手指同一套碼，`touch-action:none` 防寫字時頁面滾動；筆跡按本題存內存（歸一化 0–1 坐標），DPR 上限 2 高清渲染，ResizeObserver 重排時矢量重繪——不糊、不丟；③清空兩段式（首擊變「確定清空」2.6 秒自動復原），避免小朋友誤觸擦掉算式；④換卷按題乾簽名比對自動清空舊筆跡，同卷內批改／切頁保留；⑤草稿板**不進列印**（列印卷本就另起 HTML，另加 @media print 隱藏保險）；零新增 localStorage 鍵——筆跡只在記憶體，刷新即清。版本串升 v2.32、verify2.js 換鎖並補 7 條 v2.32 專項斷言。
 v2.31：葉工報粵語道場「乱码」（實為崩潰頁：Unexpected Application Error removeChild）。CDP 雙域復現——首頁能渲染、點導航即崩；Network initiator 鐵證：**同一模塊被兩個 URL 各載一次**（HTML 靜態標籤帶 ?sharecode，而 bundle 內 from"./x.js"、import(`./x.js`)、__vite__mapDeps 數組全是裸路徑）→ React/jsx-runtime 雙實例 → 路由 context null → removeChild。Pages 域同樣崩（與 sharecode 閘無關）。修復＝`_yue/postprocess_yue.py` 加步驟④⑤：三類說明符統一加 query（靜態 284＋動態 23＋mapDeps 83，殘留 0），模塊單一 URL 單次執行。本地復測三路由切換 0 異常、請求全帶 query。上游重編譯後重跑 postprocess 即自動覆蓋。版本串升 v2.31、verify2.js 換鎖並補 yue 資產專項斷言。
 v2.30：葉工問「数学卷子的中文字体可以大一点吗」。中文譯文行 .qzh 三處提字號——屏幕 12→14px（題幹 15px，只小一號）、英文卷列印 .en-print .qzh 12→13.5px、出題列印表 12.5→13.5px；色彩與行高不動。版本串升 v2.30、verify2.js 換鎖並補三處字號專項斷言。零結構、零新 localStorage 鍵。
@@ -1235,13 +1236,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.32（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.33（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.32（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.33（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3676,7 +3677,13 @@ const MATH_QBANK = {
     {t:'mc',q:"The clock shows 3 o'clock. What time is it?",qzh:"時鐘顯示 3 點正，現在是幾點？",opts:["3:00","3:30","2:00","4:00"],optszh:["3:00","3:30","2:00","4:00"],a:0},
     {t:'fill',q:"Write the number 'seventy-two' in figures.",qzh:"把「七十二」寫成數字。",a:"72",azh:"72"},
     {t:'mc',q:"Which is the smallest number?",qzh:"下列哪一項數字最小？",opts:["25","52","35","45"],optszh:["25","52","35","45"],a:0},
-    {t:'word',q:"There are 4 rows of chairs. Each row has 5 chairs. How many chairs are there in total?",qzh:"有 4 排椅子，每排 5 張。一共有多少張椅子？",model:"4 × 5 = 20 chairs.",modelzh:"4 × 5 = 20，共 20 張椅子。"}
+    {t:'word',q:"There are 4 rows of chairs. Each row has 5 chairs. How many chairs are there in total?",qzh:"有 4 排椅子，每排 5 張。一共有多少張椅子？",model:"4 × 5 = 20 chairs.",modelzh:"4 × 5 = 20，共 20 張椅子。"},
+    {t:'mc',q:"What comes next: 2, 4, 6, 8, ____?",qzh:"接下去：2、4、6、8、____？",opts:["10","9","12","7"],optszh:["10","9","12","7"],a:0},
+    {t:'mc',q:"How many tens are there in 80?",qzh:"80 裏面有幾個十？",opts:["8","80","18","10"],optszh:["8","80","18","10"],a:0},
+    {t:'fill',q:"15 - 9 = ____",qzh:"15 - 9 = ____",a:"6",azh:"6"},
+    {t:'fill',q:"Write the number 'one hundred and five' in figures.",qzh:"把「一百零五」寫成數字。",a:"105",azh:"105"},
+    {t:'fill',q:"Count on: 2, 5, 8, 11, ____",qzh:"順序數：2、5、8、11、____",a:"14",azh:"14"},
+    {t:'word',q:"Ann buys a pencil for $6 and an eraser for $3. How much does she pay altogether? Show your working.",qzh:"Ann 買一枝 $6 鉛筆和一塊 $3 擦膠，她一共要付多少錢？請寫出計算過程。",model:"$6 + $3 = $9. She pays $9 altogether.",modelzh:"6 + 3 = 9，一共付 $9。"}
   ],
   P2:[
     {t:'mc',q:"What is 6 × 7?",qzh:"6 × 7 等於多少？",opts:["42","36","48","40"],optszh:["42","36","48","40"],a:0},
@@ -3688,7 +3695,13 @@ const MATH_QBANK = {
     {t:'mc',q:"The time is 20 minutes past 4. What is it in digital form?",qzh:"時間是 4 點 20 分，用數字表示是？",opts:["4:20","4:40","3:20","4:05"],optszh:["4:20","4:40","3:20","4:05"],a:0},
     {t:'fill',q:"What is 1/2 of 18?",qzh:"18 的一半是多少？",a:"9",azh:"9"},
     {t:'mc',q:"Which solid has a circular base?",qzh:"下列哪一個立體有圓形的底面？",opts:["Cylinder","Cube","Cuboid","Pyramid"],optszh:["圓柱","立方體","長方體","角錐"],a:0},
-    {t:'word',q:"There are 3 packets of biscuits. Each packet has 8 biscuits. How many biscuits are there altogether?",qzh:"有 3 包餅乾，每包 8 块。一共有多少塊餅乾？",model:"3 × 8 = 24 biscuits.",modelzh:"3 × 8 = 24，共 24 塊餅乾。"}
+    {t:'word',q:"There are 3 packets of biscuits. Each packet has 8 biscuits. How many biscuits are there altogether?",qzh:"有 3 包餅乾，每包 8 块。一共有多少塊餅乾？",model:"3 × 8 = 24 biscuits.",modelzh:"3 × 8 = 24，共 24 塊餅乾。"},
+    {t:'mc',q:"What is 8 × 2?",qzh:"8 × 2 等於多少？",opts:["16","10","18","12"],optszh:["16","10","18","12"],a:0},
+    {t:'mc',q:"How many days are there in a week?",qzh:"一個星期有多少天？",opts:["7","30","24","12"],optszh:["7","30","24","12"],a:0},
+    {t:'fill',q:"45 ÷ 5 = ____",qzh:"45 ÷ 5 = ____",a:"9",azh:"9"},
+    {t:'fill',q:"2 m = ____ cm",qzh:"2 米 = ____ 厘米",a:"200",azh:"200"},
+    {t:'fill',q:"What is 3/4 of 12?",qzh:"12 的四分之三是多少？",a:"9",azh:"9"},
+    {t:'word',q:"There are 24 apples. They are put into bags of 4 apples each. How many bags are there?",qzh:"有 24 個蘋果，每 4 個裝一袋，可以裝多少袋？",model:"24 ÷ 4 = 6 bags.",modelzh:"24 ÷ 4 = 6，共 6 袋。"}
   ],
   P3:[
     {t:'mc',q:"What is 456 + 378?",qzh:"456 + 378 等於多少？",opts:["834","824","844","814"],optszh:["834","824","844","814"],a:0},
@@ -3700,7 +3713,13 @@ const MATH_QBANK = {
     {t:'mc',q:"What time is 14:30 in the afternoon?",qzh:"24 小時制 14:30 是下午幾點？",opts:["2:30 p.m.","1:30 p.m.","3:30 p.m.","12:30 p.m."],optszh:["下午 2:30","下午 1:30","下午 3:30","下午 12:30"],a:0},
     {t:'fill',q:"1 kg = ____ g",qzh:"1 公斤 = ____ 克",a:"1000",azh:"1000"},
     {t:'mc',q:"Which unit is used to measure area?",qzh:"量度面積應使用下列哪一個單位？",opts:["cm²","cm","mL","g"],optszh:["平方厘米","厘米","毫升","克"],a:0},
-    {t:'word',q:"Mei saves $15 each week. How much does she save in 8 weeks?",qzh:"Mei 每週儲蓄 $15，8 週共儲了多少？",model:"8 × $15 = $120.",modelzh:"8 × 15 = 120，共儲 $120。"}
+    {t:'word',q:"Mei saves $15 each week. How much does she save in 8 weeks?",qzh:"Mei 每週儲蓄 $15，8 週共儲了多少？",model:"8 × $15 = $120.",modelzh:"8 × 15 = 120，共儲 $120。"},
+    {t:'mc',q:"What is 27 × 3?",qzh:"27 × 3 等於多少？",opts:["81","72","87","78"],optszh:["81","72","87","78"],a:0},
+    {t:'mc',q:"Which fraction is equivalent to 1/2?",qzh:"下列哪一個分數與 1/2 相等？",opts:["2/4","2/3","3/4","1/3"],optszh:["2/4","2/3","3/4","1/3"],a:0},
+    {t:'fill',q:"6 × 7 = ____",qzh:"6 × 7 = ____",a:"42",azh:"42"},
+    {t:'fill',q:"8000 + 300 + 60 + 1 = ____",qzh:"8000 + 300 + 60 + 1 = ____",a:"8361",azh:"8361"},
+    {t:'fill',q:"Find the area of a rectangle 5 cm by 3 cm. (Answer in cm²)",qzh:"一個長方形長 5 厘米、寬 3 厘米，求面積（以平方厘米作答）。",a:"15",azh:"15",alt:["15 cm²","15cm2"]},
+    {t:'word',q:"A train leaves at 9:45 a.m. and arrives at 10:20 a.m. How long is the journey? Show your working.",qzh:"一班火車上午 9:45 開出，上午 10:20 到達，車程有多長？請寫出計算過程。",model:"10:20 - 9:45 = 35 minutes.",modelzh:"10:20 − 9:45 = 35 分鐘。"}
   ],
   P4:[
     {t:'mc',q:"What is 2.5 × 4?",qzh:"2.5 × 4 等於多少？",opts:["10","9","8","11"],optszh:["10","9","8","11"],a:0},
@@ -3712,7 +3731,13 @@ const MATH_QBANK = {
     {t:'mc',q:"Two angles on a straight line are 110° and ____. Find the missing angle.",qzh:"在一條直線上，兩個角分別是 110° 和 ____，求未知角。",opts:["70°","60°","80°","90°"],optszh:["70°","60°","80°","90°"],a:0},
     {t:'fill',q:"Give one factor of 12.",qzh:"寫出 12 的一個因數。",a:"3",azh:"3",alt:["1","2","4","6","12"]},
     {t:'mc',q:"How many lines of symmetry does an equilateral triangle have?",qzh:"一個等邊三角形有多少條對稱軸？",opts:["3","1","2","0"],optszh:["3","1","2","0"],a:0},
-    {t:'word',q:"A bottle holds 1.5 L of water. How many millilitres is that?",qzh:"一個瓶子裝有 1.5 升水，即是多少毫升？",model:"1.5 L = 1500 mL.",modelzh:"1.5 升 = 1500 毫升。"}
+    {t:'word',q:"A bottle holds 1.5 L of water. How many millilitres is that?",qzh:"一個瓶子裝有 1.5 升水，即是多少毫升？",model:"1.5 L = 1500 mL.",modelzh:"1.5 升 = 1500 毫升。"},
+    {t:'mc',q:"Which is 3/10 written as a decimal?",qzh:"3/10 寫成小數是多少？",opts:["0.3","3.0","0.03","1.3"],optszh:["0.3","3.0","0.03","1.3"],a:0},
+    {t:'mc',q:"Which angle is greater than a right angle?",qzh:"下列哪一種角比直角大？",opts:["An obtuse angle","An acute angle","A right angle","A zero angle"],optszh:["鈍角","銳角","直角","零角"],a:0},
+    {t:'fill',q:"1/4 + 2/4 = ____",qzh:"1/4 + 2/4 = ____",a:"3/4",azh:"3/4"},
+    {t:'fill',q:"7 × 8 = ____",qzh:"7 × 8 = ____",a:"56",azh:"56"},
+    {t:'fill',q:"Round 56 to the nearest ten.",qzh:"把 56 捨入至最接近的十位。",a:"60",azh:"60"},
+    {t:'word',q:"A ribbon is 2.4 m long. It is cut into 6 equal pieces. How long is each piece? (Answer in cm) Show your working.",qzh:"一條絲帶長 2.4 米，剪成 6 等份，每份多長？（以厘米作答）請寫出計算過程。",model:"2.4 m = 240 cm; 240 ÷ 6 = 40 cm.",modelzh:"2.4 米 = 240 厘米；240 ÷ 6 = 40 厘米。"}
   ],
   P5:[
     {t:'mc',q:"What is 1/2 + 1/3?",qzh:"1/2 + 1/3 等於多少？",opts:["5/6","2/5","1/6","3/5"],optszh:["5/6","2/5","1/6","3/5"],a:0},
@@ -3811,10 +3836,10 @@ function mathPoolFor(){
   return pool;
 }
 /* v2.12：抽題配額，兩條同時管。
-   ① word 型（多小問／說理）不自動判分——純隨機會令一套 8 題有 4 題交卷後看不到分數，
-      故 word 上限取 1/4（8 題→2 題），且優先取有五部標籤的題。
+   ① word 型（多小問／說理）不自動判分——純隨機會令一套卷有過多交卷後看不到分數的題，
+      故 word 上限取 1/4（v2.33 起 N=15 → 4 題），且優先取有五部標籤的題。
    ② P6 全庫 54 題裡只有 30 題帶 part；純隨機一套 8 題期望只 4.4 題是新題，
-      而且可能整套舊題（等於這一版白做），故 part 題保底佔 60%（8 題→5 題）。
+      而且可能整套舊題（等於這一版白做），故 part 題保底佔 60%（15 題→9 題）。
    兩條在 P1–P5 完全無副作用（那幾級沒有 part 題，池子只有 word 配額生效）。 */
 function pickMathN(pool,N){
   const w=pool.filter(function(q){return q.t==='word';});
@@ -3839,7 +3864,7 @@ function pickMathN(pool,N){
 function genMathPaper(){
   const pool=mathPoolFor();
   if(!pool.length){alert(curMathPart==='自訂'?'自訂題庫還沒有題：先在下方「🤖 按學校卷子出題」生成。':'該年級題庫暫空。');return;}
-  const N=Math.min(8,pool.length);
+  const N=Math.min(15,pool.length);  /* v2.33：葉工要求每套起碼 15 題（池不足就出滿池） */
   /* v1.94：與上一套比對，重合 ≥75% 就重抽（至多 4 次），池大時基本一次過；
      指紋用題幹前 48 字，只存內存不落盤——刷新後重新允許重複，屬預期。 */
   const key=q=>q.q.slice(0,48);
@@ -8710,7 +8735,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.32',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.33',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
