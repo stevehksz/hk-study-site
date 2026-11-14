@@ -1,1 +1,1 @@
-import{d as e}from"./index-DFqwHsrN.js";var t=class extends e{async show(e){}async hide(e){}};export{t as SplashScreenWeb};
+import{d as e}from"./index-DFqwHsrN.js?sharecode=45B2W7AOKI";var t=class extends e{async show(e){}async hide(e){}};export{t as SplashScreenWeb};
