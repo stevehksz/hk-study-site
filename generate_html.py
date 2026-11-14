@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.26：葉工問「可以把口岸到學校的時間放進網站嗎」。落地＝①新增「口岸 → 學校 通勤估算」卡（#schTabSec 內、北區中學表之後）：口岸 chips（羅湖／福田／蓮塘·香園圍／深圳灣）切換即重算，表格列 學校／落車樞紐／接駁／車程／站至校步行／合計估算，按合計時間排序；②算法＝口岸至樞紐車程（羅湖東鐵 1 站 7 分、福田 10 分、蓮塘 B7 至粉嶺站 20–27 分／59S 至上水站 25–36 分，2026-11-14 檢索，非官方）＋站至校直線距離 ×1.35÷80 米/分（向上取整），直線距離非實際步行路線；③零新增外鏈、零新增 CSS，複用 .mtable／.pg-chips／.chip／.src；④深圳灣口岸無直達北區路線 → 顯示「不適用」降級提示；⑤版本串升 v2.26、verify2.js 換鎖並補 v2.26 專項斷言。
 v2.23：葉工貼列印預覽截圖——「打印数学打的确实英语，检查一遍」。先做只讀 CDP 複現再動手，查出兩條根因：①六個 print 函數各自把卷面寫進自己的 .en-print sheet，但 @media print 裡那條白名單把五張 sheet 全部設成 display:block，且 afterprint 只移除 printing-paper 類、不清 sheet 內容 → 同一頁先印過英文卷再印數學卷時，英文卷內容永久殘留，而 enPrintSheet 在 DOM 裡排在 mathPrintSheet 前面，預覽第一頁就是「香港小學英文練習卷」（實測 en 殘留 2,082 字元、math 2,895 字元、五張 sheet 全為 block）。②列印態下 planView／aboutView／fbFab 等 body 直屬區塊仍 display:block，會跟著多印雜頁（截圖「6 張紙」由此而來）。落地：①新增全站唯一列印入口 hkkPrintSheet(id,html)——只給目標 sheet 寫內容並加 .print-active，其餘四張清空並移除標記，順手移除 lwte-printing 避免兩套隔離打架；六處（英文卷／數學卷／時態題型／泛讀文章／呈分試卷單套／呈分試卷十套）全部改接，不再各寫一份 afterprint。②CSS 白名單改為 body.printing-paper .en-print 全隱藏、只有 .en-print.print-active 顯示；再加 body.printing-paper > *:not(.en-print) 隱藏其餘頂層區塊（保留既有 id 級規則壓住 @media print 對 guideView／practiceView／progressView 的 display:block）。③不改任何題庫、卷面版式、答案版分頁、中文卷新視窗列印、詞卡 lwte 列印、古詩與術語表的整頁列印——這幾條路徑實測不受影響。④版本串升 v2.23、changelog 置頂、verify2.js 全量換鎖、改寫 v2.14 白名單正則並補 12 條專項斷言（含「先印英文再印數學」的回歸）。零搬運、零新增 localStorage 鍵、零外部依賴。
 
 同版第二件事：葉工給三條香港中文大學 ILC 粵語資源網址（粵語拼音速遞／粵語網路課堂／港式粵語速遞），要求「放到我网站里面，可以跳轉」。落地＝「補習材料」⑧ 外部資源導航之後新增靜態卡 #yueResCard「粵語自學 · 官方資源（香港中文大學 ILC）」，三條 a 標籤原樣照錄網址、target=_blank＋rel=noopener noreferrer，點開即跳；只寫「入口名稱＋本站自寫的一句話說明」，不轉載任何拼音表、課堂內容、詞表、截圖或音檔。⚠️ 本機 curl 帶瀏覽器 UA 實測三條皆回 202／0 位元組、站根 403／919 位元組（沙箱代理未取到頁面內容），故不對頁面內容作任何事實描述，卡上明寫「連結由葉工提供，本站未核實頁面內容，以原站為準」。落位刻意用靜態 div.gcard 而非 details.gsec.fold：tutorView 的 10 塊折疊計數、⑧ 的 4 條外鏈計數、⑨／⑩ 索引全部零改動；cuhk.edu.hk 命中 v2.03 既有外鏈白名單的 .edu.hk，白名單正則一字不改。
@@ -1192,13 +1193,13 @@ header{position:relative}
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.25（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.26（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.25（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.26（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2762,6 +2763,23 @@ Thank you for your time.</div>
         </table>
         </div>
         <p class="src">事實欄（種類/宗教/性別/語言/地址）：多源公開資料 2026-10-31 核對＋教育局中學概覽；英中判定以教育局名單為準；Band＝坊間非官方估計；電話：各校公開聯絡資料 2026-11-02 逐一核對。</p>
+      </details>
+            <details class="gcard fold" open>
+        <summary>口岸 → 學校 通勤估算（選口岸即重算單程時間）</summary>
+        <p class="src" style="margin:0 0 8px">選一個口岸，看它到北區各中學的單程估算。<b>不含過關排隊</b>；算法＝口岸至上水／粉嶺站的車程 ＋ 站到校直線距離 ×1.35÷80 米/分。直線距離非實際步行路線，<b>估算僅供篩選</b>，實際通勤以試跑為準。</p>
+        <div class="pg-chips" id="portChips">
+          <span class="chip on" data-port="羅湖">羅湖口岸（東鐵）</span>
+          <span class="chip" data-port="福田">福田口岸（東鐵）</span>
+          <span class="chip" data-port="蓮塘">蓮塘／香園圍</span>
+          <span class="chip" data-port="深圳灣">深圳灣</span>
+        </div>
+        <div class="scroll-x">
+          <table class="mtable" id="portTable">
+            <thead><tr><th>學校</th><th>落車樞紐</th><th>接駁</th><th>車程</th><th>站至校步行</th><th>合計估算</th></tr></thead>
+            <tbody id="portBody"></tbody>
+          </table>
+        </div>
+        <p class="src">車程來源：騰訊地圖路徑規劃 2026-11-14 檢索（非官方）；蓮塘口岸＝香園圍口岸，B7／59S 班次以城巴及運輸署公告為準；站點坐標為地圖近似值，步行分鐘數按直線距離推算、非實際路線。深圳灣口岸無直達北區路線，故不列表。</p>
       </details>
       <details class="gcard fold" open>
         <summary>東鐵沿線備選：大埔區中學 20 所（太和 / 大埔墟站）</summary>
@@ -6468,6 +6486,64 @@ function collectMapSchools(){
 const SCHOOL_GEO=DATA.school_geo||{}; // v1.57：教育局官方坐標（SCH_LOC_EDB.csv，已轉 GCJ-02），內置零運行時解析
 window.__mapSchoolsTest=()=>collectMapSchools().length;
 window.__schoolGeoTest=()=>SCHOOL_GEO; // v1.57 測試鉤子
+// ---- v2.26：口岸 → 學校 通勤估算（車程 2026-11-14 檢索、非官方；步行按直線距離推算） ----
+const PORT_HUB={
+  '羅湖':[{hub:'上水站',lat:22.5014,lng:114.1277,mode:'東鐵 1 站',lo:7,hi:7}],
+  '福田':[{hub:'上水站',lat:22.5014,lng:114.1277,mode:'東鐵 1 站',lo:10,hi:10}],
+  '蓮塘':[{hub:'粉嶺站',lat:22.4922,lng:114.1385,mode:'城巴 B7',lo:20,hi:27},
+          {hub:'上水站',lat:22.5014,lng:114.1277,mode:'小巴 59S',lo:25,hi:36}],
+  '深圳灣':[]
+};
+let curPort='羅湖';
+function portDist(a,b){
+  const R=6371000,rad=x=>x*Math.PI/180;
+  const p1=rad(a[0]),p2=rad(b[0]),dp=p2-p1,dl=rad(b[1]-a[1]);
+  const h=Math.sin(dp/2)*Math.sin(dp/2)+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)*Math.sin(dl/2);
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+function portWalk(m){return Math.max(1,Math.ceil(m*1.35/80));}
+function portRows(){
+  const geo=(typeof SCHOOL_GEO!=='undefined'&&SCHOOL_GEO)?SCHOOL_GEO:((DATA&&DATA.school_geo)||{});
+  const list=PORT_HUB[curPort]||[];
+  const rows=[];
+  document.querySelectorAll('#ssTable tbody tr').forEach(tr=>{
+    const c=tr.querySelector('td'); if(!c)return;
+    const name=c.textContent.trim(), g=geo[name];
+    if(!g)return;
+    let best=null;
+    list.forEach(h=>{
+      const d=portDist([g.lat,g.lng],[h.lat,h.lng]);
+      const w=portWalk(d), mid=(h.lo+h.hi)/2+w;
+      if(!best||mid<best.mid) best={hub:h.hub,mode:h.mode,lo:h.lo,hi:h.hi,d:d,w:w,mid:mid};
+    });
+    rows.push({name:name,b:best});
+  });
+  rows.sort((x,y)=>(x.b?x.b.mid:1e9)-(y.b?y.b.mid:1e9));
+  return rows;
+}
+function renderPort(){
+  const tb=document.getElementById('portBody'); if(!tb)return;
+  const rows=portRows();
+  if(!rows.length||!rows[0].b){
+    tb.innerHTML='<tr><td colspan="6">此口岸無直達北區的公共交通路線，建議改用羅湖／福田／蓮塘口岸。</td></tr>';
+    return;
+  }
+  let h='';
+  rows.forEach(r=>{
+    const b=r.b;
+    const pspan=(x1,x2)=>(x1===x2?('約 '+x1+' 分'):('約 '+x1+'–'+x2+' 分'));
+    h+='<tr><td>'+r.name+'</td><td>'+b.hub+'</td><td>'+b.mode+'</td><td>'+pspan(b.lo,b.hi)+'</td><td>約 '+b.w+' 分（'+Math.round(b.d)+' 米直線）</td><td><b>'+pspan(b.lo+b.w,b.hi+b.w)+'</b></td></tr>';
+  });
+  tb.innerHTML=h;
+}
+document.querySelectorAll('#portChips .chip').forEach(c=>c.onclick=()=>{
+  curPort=c.dataset.port;
+  document.querySelectorAll('#portChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  renderPort();
+});
+renderPort();
+window.__portTest={ports:()=>Object.keys(PORT_HUB),rows:portRows,cur:()=>curPort,set:p=>{curPort=p;renderPort();}};
+
 function loadTMapSdk(done){
   if(window.TMap)return done(true);
   const ensure=()=>{let n=0;const t=setInterval(()=>{if(window.TMap){clearInterval(t);done(true)}else if(++n>60){clearInterval(t);done(false)}},200);};
@@ -8493,7 +8569,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.25',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.26',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
