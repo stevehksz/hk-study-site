@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.32：葉工要求「數學卷每一道題旁邊加一個草稿板，且可以寫」。落地＝①每張題卡改兩欄網格：手機單列（題目在上、草稿板在下），≥821px 兩欄（題目左、草稿板右 300px）；題目內容原位包進 `.qbody`（零搬運），草稿板 `.qscratch` 為第二列，**不動全域 `.qcard` 樣式**（英文卷／中文卷／逐題卡共用），一律 scoped 到 `#mathPaperBox`；②草稿板＝canvas 手寫：pointerdown／move／up ＋ setPointerCapture，滑鼠與手指同一套碼，`touch-action:none` 防寫字時頁面滾動；筆跡按本題存內存（歸一化 0–1 坐標），DPR 上限 2 高清渲染，ResizeObserver 重排時矢量重繪——不糊、不丟；③清空兩段式（首擊變「確定清空」2.6 秒自動復原），避免小朋友誤觸擦掉算式；④換卷按題乾簽名比對自動清空舊筆跡，同卷內批改／切頁保留；⑤草稿板**不進列印**（列印卷本就另起 HTML，另加 @media print 隱藏保險）；零新增 localStorage 鍵——筆跡只在記憶體，刷新即清。版本串升 v2.32、verify2.js 換鎖並補 7 條 v2.32 專項斷言。
 v2.31：葉工報粵語道場「乱码」（實為崩潰頁：Unexpected Application Error removeChild）。CDP 雙域復現——首頁能渲染、點導航即崩；Network initiator 鐵證：**同一模塊被兩個 URL 各載一次**（HTML 靜態標籤帶 ?sharecode，而 bundle 內 from"./x.js"、import(`./x.js`)、__vite__mapDeps 數組全是裸路徑）→ React/jsx-runtime 雙實例 → 路由 context null → removeChild。Pages 域同樣崩（與 sharecode 閘無關）。修復＝`_yue/postprocess_yue.py` 加步驟④⑤：三類說明符統一加 query（靜態 284＋動態 23＋mapDeps 83，殘留 0），模塊單一 URL 單次執行。本地復測三路由切換 0 異常、請求全帶 query。上游重編譯後重跑 postprocess 即自動覆蓋。版本串升 v2.31、verify2.js 換鎖並補 yue 資產專項斷言。
 v2.30：葉工問「数学卷子的中文字体可以大一点吗」。中文譯文行 .qzh 三處提字號——屏幕 12→14px（題幹 15px，只小一號）、英文卷列印 .en-print .qzh 12→13.5px、出題列印表 12.5→13.5px；色彩與行高不動。版本串升 v2.30、verify2.js 換鎖並補三處字號專項斷言。零結構、零新 localStorage 鍵。
 v2.29：葉工貼口岸表截圖「把学校排名加上」。口岸通勤表加「Band參考（非官方）」列（緊隨學校列），數據直取 #ssTable 同行第 7 格、單一來源不重錄；排序鍵不變（仍按合計下界）；空態 colspan 6→7。表頭標「非官方」紅字，與北區總表同一口徑；版本串升 v2.29、verify2.js 換鎖並補 Band 列專項斷言。零 CSS、零新 localStorage 鍵。
@@ -610,6 +611,23 @@ details.gcard:not([open]):hover{border-color:var(--acc);box-shadow:var(--shadow-
 .paper .tmpl{background:linear-gradient(135deg,#f4f9fd,#eaf4fc);border-left:3px solid var(--acc);padding:12px 14px;border-radius:8px;font-size:13px;white-space:pre-wrap;line-height:1.7}
 .qcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:.2s}
 .qcard:hover{box-shadow:var(--shadow-md)}
+/* v2.32 數學卷每題草稿板（scoped 到 #mathPaperBox，全域 .qcard 一字不動） */
+#mathPaperBox .qcard{display:grid;grid-template-columns:1fr;gap:12px}
+#mathPaperBox .qbody{min-width:0}
+#mathPaperBox .qscratch{border:1px solid var(--line);border-radius:10px;background:#fbfdff;padding:6px 8px 8px;display:flex;flex-direction:column;gap:6px}
+#mathPaperBox .qscr-head{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);min-height:44px}
+#mathPaperBox .qscr-t{font-weight:700;color:#475069;font-size:12.5px}
+#mathPaperBox .qscr-hint{font-size:11px;color:#8a93a6}
+#mathPaperBox .qscr-clear{margin-left:auto;min-height:44px;min-width:64px;padding:0 12px;border:1px solid var(--line);background:#fff;border-radius:8px;font-size:12.5px;font-weight:600;color:#475069;cursor:pointer;font-family:inherit;transition:.18s}
+#mathPaperBox .qscr-clear:hover{border-color:var(--acc);color:var(--acc)}
+#mathPaperBox .qscr-clear.arm{background:#fdf1e6;border-color:#f3cdb0;color:#b4530a}
+#mathPaperBox .qscr-wrap{position:relative;height:170px;border:1px solid #e8eef7;border-radius:8px;background-color:#fff;background-image:linear-gradient(#eaf0f9 1px,transparent 1px),linear-gradient(90deg,#eaf0f9 1px,transparent 1px);background-size:18px 18px}
+#mathPaperBox .qscr-cv{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;border-radius:8px}
+#mathPaperBox .qscr-cv:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+@media (min-width:821px){
+  #mathPaperBox .qcard{grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+  #mathPaperBox .qscr-wrap{height:210px}
+}
 .qopt{border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14px;transition:.15s}
 .qopt:hover{background:#f4f6ff;border-color:var(--acc)}
 .qfill,.qwrite textarea{border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:15px;transition:.15s}
@@ -1160,6 +1178,8 @@ nav button:focus-visible,.subnav button:focus-visible{outline-offset:-2px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 div[id$="View"]{content-visibility:auto;contain-intrinsic-size:auto 1200px}
 @media print{div[id$="View"]{content-visibility:visible!important}}
+/* v2.32：草稿板只在屏幕上用，列印卷另起 HTML，這裡再加一道保險 */
+@media print{#mathPaperBox .qscratch{display:none!important}}
 @media screen and (max-width:640px){
 nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start;scrollbar-width:none}
 nav::-webkit-scrollbar{display:none}
@@ -1215,13 +1235,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.31（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.32（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.31（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.32（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3839,10 +3859,105 @@ function genMathPaper(){
   showMathStat();
 }
 const LAB_M=['A','B','C','D','E','F'];
+/* v2.32：數學卷草稿板引擎。
+   為什麼自己寫 canvas 而不用現成庫：只有「畫線＋清空」兩個動作，引入庫反而多一份外部依賴與載入失敗風險。
+   筆跡存記憶體不落盤——小學生算式不是資產，寫進 localStorage 只會撞 5MB 配額，
+   而且換卷後舊筆跡對不上新題，留著只會誤導。 */
+var MSCR={store:{},sig:'',fits:[],resizeBound:false};
+function mscrSig(paper){ return (paper||[]).map(function(q){return (q&&q.q?q.q:'').slice(0,32);}).join('|'); }
+function mscrEnsureSig(){
+  var sig=mscrSig(curMathPaper);
+  if(MSCR.sig!==sig){ MSCR.sig=sig; MSCR.store={}; }
+}
+function mathBody(card){ return card.querySelector('.qbody')||card; }   /* v2.32 批改結果留在題目欄，不落到草稿板右側 */
+function mscrBindAll(){
+  var box=document.getElementById('mathPaperBox'); if(!box)return;
+  MSCR.fits=[];
+  if(!MSCR.resizeBound){
+    MSCR.resizeBound=true;
+    window.addEventListener('resize',function(){ MSCR.fits.forEach(function(f){ try{f();}catch(e){} }); });
+  }
+  var wraps=box.querySelectorAll('.qscratch');
+  Array.prototype.forEach.call(wraps,function(w){
+    if(w.getAttribute('data-bound')==='1')return;
+    w.setAttribute('data-bound','1');
+    var i=parseInt(w.getAttribute('data-scratch'),10)||0;
+    var cv=w.querySelector('canvas'); if(!cv)return;
+    var clr=w.querySelector('.qscr-clear');
+    var ctx=null; try{ ctx=cv.getContext('2d'); }catch(e){ ctx=null; }
+    if(!ctx){ if(clr){clr.disabled=true;clr.textContent='此裝置不支援';} return; }  /* jsdom／極舊瀏覽器降級 */
+    var W=0,H=0,dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+    function paint(){
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      ctx.clearRect(0,0,W,H);
+      ctx.lineWidth=2.4; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.strokeStyle='#14243f'; ctx.fillStyle='#14243f';
+      (MSCR.store[i]||[]).forEach(function(st){
+        if(!st.length)return;
+        if(st.length===1){ ctx.beginPath(); ctx.arc(st[0].x*W,st[0].y*H,1.5,0,Math.PI*2); ctx.fill(); return; }
+        ctx.beginPath();
+        for(var k=0;k<st.length;k++){ var x=st[k].x*W,y=st[k].y*H; if(!k)ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+        ctx.stroke();
+      });
+      w.classList.toggle('has-ink',!!(MSCR.store[i]||[]).length);
+    }
+    function fit(){
+      var r=cv.getBoundingClientRect();
+      var cw=Math.round(r.width), ch=Math.round(r.height);
+      if(!cw||!ch)return;                       /* 未佈局（切走的頁籤／content-visibility）——等下次 ResizeObserver */
+      var nd=Math.max(1,Math.min(2,window.devicePixelRatio||1));  /* 旋轉／縮放／換屏後重取，否則位圖按舊 dpr 放大會糊 */
+      if(cw===W&&ch===H&&nd===dpr)return;
+      dpr=nd; W=cw; H=ch;
+      cv.width=Math.round(cw*dpr); cv.height=Math.round(ch*dpr);
+      paint();                                  /* 位圖被重置，必須按矢量重繪 */
+    }
+    function pt(e){
+      var r=cv.getBoundingClientRect();
+      return {x:(e.clientX-r.left)/Math.max(1,r.width), y:(e.clientY-r.top)/Math.max(1,r.height)};
+    }
+    var cur=null;
+    cv.addEventListener('pointerdown',function(e){
+      if(e.pointerType==='mouse'&&e.button!==0)return;
+      e.preventDefault();
+      try{ cv.setPointerCapture(e.pointerId); }catch(_){}
+      if(!MSCR.store[i])MSCR.store[i]=[];
+      cur=[pt(e)];
+      MSCR.store[i].push(cur);
+      w.classList.add('has-ink');
+      ctx.beginPath(); ctx.arc(cur[0].x*W,cur[0].y*H,1.5,0,Math.PI*2); ctx.fill();
+    });
+    cv.addEventListener('pointermove',function(e){
+      if(!cur)return;
+      e.preventDefault();
+      var p=pt(e), last=cur[cur.length-1];
+      if(Math.abs((p.x-last.x)*W)<0.7&&Math.abs((p.y-last.y)*H)<0.7)return;  /* 抖動過濾，省筆跡體積 */
+      cur.push(p);
+      ctx.beginPath(); ctx.moveTo(last.x*W,last.y*H); ctx.lineTo(p.x*W,p.y*H); ctx.stroke();
+    });
+    function endStroke(){ cur=null; }
+    cv.addEventListener('pointerup',endStroke);
+    cv.addEventListener('pointercancel',endStroke);
+    if(clr){
+      var armTimer=0;
+      clr.addEventListener('click',function(){
+        if(!armTimer){
+          clr.textContent='確定清空'; clr.classList.add('arm');
+          armTimer=setTimeout(function(){ armTimer=0; clr.textContent='清空'; clr.classList.remove('arm'); },2600);
+          return;
+        }
+        clearTimeout(armTimer); armTimer=0;
+        clr.textContent='清空'; clr.classList.remove('arm');
+        MSCR.store[i]=[]; paint();
+      });
+    }
+    MSCR.fits.push(fit);
+    fit();
+    if(window.ResizeObserver){ try{ new ResizeObserver(function(){ fit(); }).observe(cv); }catch(_){} }
+  });
+}
 function mathCardHtml(q,i){
   const TL={mc:"選擇題",fill:"填空題",word:"應用題"};
   const tag=q.part?(q.part==='自訂'?(' · 自訂 · '+(q.pname||'')):(' · '+q.part+'部 · '+(q.pname||''))):'';
-  let h='<div class="qcard" data-qi="'+i+'"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span><span class="qtype">'+(TL[q.t]||"")+tag+'</span></div>';
+  let h='<div class="qcard" data-qi="'+i+'"><div class="qbody"><div class="qhead"><span class="qn">Q'+(i+1)+'.</span><span class="qtype">'+(TL[q.t]||"")+tag+'</span></div>';
   if(q.t==='mc'){
     h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="qopts">';
     q.opts.forEach(function(o,k){ h+='<label class="qopt"><input type="radio" name="mq'+i+'" value="'+k+'"> '+LAB_M[k]+'. '+o+' <span class="qzh">('+q.optszh[k]+')</span></label>'; });
@@ -3852,13 +3967,17 @@ function mathCardHtml(q,i){
   }else if(q.t==='word'){
     h+='<div class="qtext">'+q.q+'</div><div class="qzh">'+q.qzh+'</div><div class="qwrite"><textarea id="mqf'+i+'" placeholder="寫下你的算式與答案…"></textarea></div>';
   }
+  h+='</div>';  /* /qbody */
+  h+='<div class="qscratch" data-scratch="'+i+'"><div class="qscr-head"><span class="qscr-t">\u270f\ufe0f 草稿板</span><span class="qscr-hint">手指或滑鼠書寫</span><button type="button" class="qscr-clear" aria-label="清空第'+(i+1)+'題草稿">清空</button></div><div class="qscr-wrap"><canvas class="qscr-cv" aria-label="第'+(i+1)+'題草稿板，可用手指或滑鼠書寫"></canvas></div></div>';
   h+='</div>';
   return h;
 }
 function renderMathPaper(){
   const box=document.getElementById('mathPaperBox');
   if(!curMathPaper.length){box.innerHTML='<div class="qtip">選年級後按「🎲 出新卷」生成練習卷。</div>';return;}
+  mscrEnsureSig();                       /* v2.32：換卷清筆跡、同卷保留 */
   box.innerHTML=curMathPaper.map(mathCardHtml).join('');
+  mscrBindAll();
 }
 /* v1.88：四種卷批改後的「錯題回頭查」共用一份文案與跳轉表。
    為什麼抽出來：四個 grade 函數各寫一份，改文案時必然漏一處（v1.86 打印樣式漏改的教訓）。
@@ -3890,16 +4009,16 @@ function gradeMathPaper(){
       const sel=card.querySelector('input[name="mq'+i+'"]:checked');
       scored++; const ok=sel&&+sel.value===q.a; if(ok)correct++;
       card.querySelectorAll('.qopt').forEach(function(op,k){ if(k===q.a)op.classList.add('correct'); else if(sel&&+sel.value===k)op.classList.add('wrong'); });
-      card.insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+q.opts[q.a]+'（'+q.optszh[q.a]+'）</span></div>');
+      mathBody(card).insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+q.opts[q.a]+'（'+q.optszh[q.a]+'）</span></div>');
       if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'math',src:'數學練習卷',g:curMathGrade,q:q.q,mine:(sel?q.opts[+sel.value]:'（未作答）'),key:wrongKeyPair(q.opts[q.a],q.optszh[q.a])});
     }else if(q.t==='fill'){
       const inp=document.getElementById('mqf'+i); const v=norm(inp.value);
       scored++; const ok=v===norm(q.a)||(q.alt&&q.alt.some(function(x){return norm(x)===v;})); if(ok)correct++;
       inp.classList.add(ok?'correct':'wrong');
-      card.insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+(q.a||'')+(q.azh?('（'+q.azh+'）'):'')+'</span></div>');
+      mathBody(card).insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+(q.a||'')+(q.azh?('（'+q.azh+'）'):'')+'</span></div>');
       if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'math',src:'數學練習卷',g:curMathGrade,q:q.q,mine:inp.value,key:wrongKeyPair(q.a,q.azh)});
     }else if(q.t==='word'){
-      card.insertAdjacentHTML('beforeend','<div class="qans"><span class="no">✎ 應用題（不計分，對照參考答案自評）</span><br>參考：'+(q.model||'')+'<br><span class="qzh">'+(q.modelzh||'')+'</span></div>');
+      mathBody(card).insertAdjacentHTML('beforeend','<div class="qans"><span class="no">✎ 應用題（不計分，對照參考答案自評）</span><br>參考：'+(q.model||'')+'<br><span class="qzh">'+(q.modelzh||'')+'</span></div>');
     }
   });
   const pct=scored?Math.round(correct/scored*100):0;
@@ -8591,7 +8710,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.31',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.32',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
