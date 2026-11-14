@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.30：葉工問「数学卷子的中文字体可以大一点吗」。中文譯文行 .qzh 三處提字號——屏幕 12→14px（題幹 15px，只小一號）、英文卷列印 .en-print .qzh 12→13.5px、出題列印表 12.5→13.5px；色彩與行高不動。版本串升 v2.30、verify2.js 換鎖並補三處字號專項斷言。零結構、零新 localStorage 鍵。
 v2.29：葉工貼口岸表截圖「把学校排名加上」。口岸通勤表加「Band參考（非官方）」列（緊隨學校列），數據直取 #ssTable 同行第 7 格、單一來源不重錄；排序鍵不變（仍按合計下界）；空態 colspan 6→7。表頭標「非官方」紅字，與北區總表同一口徑；版本串升 v2.29、verify2.js 換鎖並補 Band 列專項斷言。零 CSS、零新 localStorage 鍵。
 v2.28：葉工貼蓮塘口岸表截圖「学校最好可以按交通时间顺序排序」。查出排序鍵＝車程區間中點（基新 32.5 排在上水官立 33.5 前），但「合計估算」列首段顯示的是最早可能時間（28 < 29）→ 所見非所排。修正＝排序鍵與顯示一致：主鍵合計下界（lo+步行）、次鍵上界（hi+walk）字典序，樞紐選擇同步改鍵；卡片說明補「按最早可能到達時間排序」。羅湖首行上水官立、蓮塘首行聖芳濟各均不變；版本串升 v2.28、verify2.js 換鎖並補排序單調性專項斷言。零 CSS、零結構、零新 localStorage 鍵。
 v2.27：葉工要求「分析插班网站优化的方案有哪些，再动手」。CDP 真瀏覽器體檢（390px/1280px 雙視口）後落地三組——A 手機導航區壓縮：一級 nav 與 .subnav 改單行橫向滑動（flex-wrap:nowrap＋overflow-x:auto，隱捲軸），手機端按鈕 min-height 44px、header p 兩行截斷＋padding 壓縮，首屏正文提前約 200px；B 無障礙達標：全域 :focus-visible 焦點環（修 WCAG 2.2 §2.4.7 硬傷）、#userChip 退出鍵 44px、@media (prefers-reduced-motion: reduce) 全域降動效；C 渲染小優化：div[id$="View"] 加 content-visibility:auto（contain-intrinsic-size 佔位 1200px，頁籤切換 146ms 卡頓源頭——display 切換全子樹重排——得以跳過視口外渲染），@media print 強制 content-visibility:visible，51.la 統計外鏈加 defer、LA.init 移入 load 事件（原內聯先於 defer 腳本執行必 catch 落空）；④版本串升 v2.27、verify2.js 換鎖並補 v2.27 專項斷言。零新增 local 存儲鍵、零 HTML 結構搬運。
@@ -804,9 +805,9 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   .sdkCell.bb{border-bottom:2px solid #444}
   .ok{color:#1a8a4a;font-weight:700}
   .hk-actions{display:flex;gap:6px;align-self:center}
-  .qzh{font-size:12px;color:#6b7280;margin:2px 0 6px;line-height:1.5}
+  .qzh{font-size:14px;color:#6b7280;margin:2px 0 6px;line-height:1.5}
   .qopt .qzh{display:inline}
-  .en-print .qzh{font-size:12px;color:#555;margin:2px 0 6px}
+  .en-print .qzh{font-size:13.5px;color:#555;margin:2px 0 6px}
   .hk-actions button{font-size:12px;line-height:1;padding:5px 11px;border:1px solid var(--accent,#0369a1);background:#fff;color:var(--accent,#0369a1);border-radius:14px;cursor:pointer;transition:.15s}
   .hk-actions button:hover{background:var(--accent,#0369a1);color:#fff}
 /* ---- v1.24 呈分試卷 ---- */
@@ -1213,13 +1214,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.29（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.30（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.29（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.30（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -4271,7 +4272,7 @@ function printCnPaper(){
     +'.eps-text{font-size:14px}.eps-opts{font-size:13.5px;margin:6px 0}.eps-ans{font-size:13.5px;color:#333;margin-top:4px}'
     +'/* v1.86：答題線改用 CSS 邊框畫「整寬橫線」，自動跟 A4 版心同寬（原本是固定長度下劃線字元，只有一小截） */'
     +EPS_SHARED_CSS
-    +'.qzh{font-size:12.5px;color:#666;margin-top:3px}'
+    +'.qzh{font-size:13.5px;color:#666;margin-top:3px}'
     +'.cnread{border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin:0 0 14px;background:#fcfcfc;page-break-inside:avoid}'
     +'.cnread-h{font-size:14.5px;font-weight:800;margin-bottom:6px}.cnread-p{font-size:13.5px;margin:0 0 6px}'
     +'.cnprint-tbl{font-size:13.5px;margin-top:4px}'
@@ -8589,7 +8590,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.29',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.30',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
