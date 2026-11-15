@@ -461,7 +461,7 @@ table.rdtable td:first-child{font-weight:800;color:#334155;white-space:nowrap}
   .mwtop .mwdate{margin-left:0}
 }
 /* 跳轉後 scrollIntoView 會把標題推到吸頂導航底下，留足偏移（沿用 v1.73 詩詞彈窗的 110px） */
-#tutorView details.gsec.fold{scroll-margin-top:110px}
+#tutorView details.gsec.fold,#cnTradView details.gsec.fold{scroll-margin-top:110px}
 .gcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:.2s;border-left:4px solid var(--math)}
 /* v1.65 擇校分檔折疊目錄：gcard 轉 details.fold，summary 即標題條 */
 details.gcard>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-weight:700;font-size:16.5px;user-select:none}
@@ -1121,11 +1121,11 @@ header{position:relative}
   .tx-passage p:last-child{margin-bottom:0}
   @media screen and (max-width:640px){.tx-passage{padding-left:9px}.tx-passage p{font-size:14px;line-height:1.8}}
 /* v2.20：補習材料①–⑩ 分區頭 與 ③ 面試題條 拆成兩個視覺層級（原本同款 .gsec-h 難辨層級） */
-#tutorView details.gsec.fold>summary.gsec-h{background:linear-gradient(100deg,#0d4a75 0%,#0369a1 100%);color:#fff;font-size:16px;font-weight:700;letter-spacing:.4px;border-left:0;padding:13px 16px;min-height:48px;box-shadow:inset 0 -2px 0 rgba(255,255,255,.16)}
-#tutorView details.gsec.fold>summary.gsec-h::after{content:'▾';margin-left:auto;font-size:13px;color:#e8f4ff}
-#tutorView details.gsec.fold[open]>summary.gsec-h::after{content:'▴'}
-#tutorView details.gsec.fold:not([open])>summary.gsec-h:hover{background:linear-gradient(100deg,#0e5687 0%,#0479b9 100%)}
-#tutorView details.gsec.fold[open]>summary.gsec-h{border-bottom:1px solid rgba(255,255,255,.2)}
+#tutorView details.gsec.fold>summary.gsec-h,#cnTradView details.gsec.fold>summary.gsec-h{background:linear-gradient(100deg,#0d4a75 0%,#0369a1 100%);color:#fff;font-size:16px;font-weight:700;letter-spacing:.4px;border-left:0;padding:13px 16px;min-height:48px;box-shadow:inset 0 -2px 0 rgba(255,255,255,.16)}
+#tutorView details.gsec.fold>summary.gsec-h::after,#cnTradView details.gsec.fold>summary.gsec-h::after{content:'▾';margin-left:auto;font-size:13px;color:#e8f4ff}
+#tutorView details.gsec.fold[open]>summary.gsec-h::after,#cnTradView details.gsec.fold[open]>summary.gsec-h::after{content:'▴'}
+#tutorView details.gsec.fold:not([open])>summary.gsec-h:hover,#cnTradView details.gsec.fold:not([open])>summary.gsec-h:hover{background:linear-gradient(100deg,#0e5687 0%,#0479b9 100%)}
+#tutorView details.gsec.fold[open]>summary.gsec-h,#cnTradView details.gsec.fold[open]>summary.gsec-h{border-bottom:1px solid rgba(255,255,255,.2)}
 #ivList details.ivq{border:1px solid #d7e6f1;border-radius:9px;background:#fff;margin:8px 0;overflow:hidden}
 #ivList details.ivq>summary.ivq-h{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f8fbfe;border:0;color:#0b3a5c;font-size:14px;font-weight:600;line-height:1.5;min-height:40px}
 #ivList details.ivq>summary.ivq-h::-webkit-details-marker{display:none}
@@ -1135,8 +1135,8 @@ header{position:relative}
 .ivq-n{flex:0 0 auto;min-width:32px;text-align:center;background:#e4f1fa;border:1px solid #cbe4f5;border-radius:6px;padding:2px 6px;font-size:12px;font-weight:700;color:#0369a1}
 .ivq-t{flex:1 1 auto;min-width:0}
 .ivq-body{padding:10px 14px;border-top:1px solid #e3eef7;background:#fff;font-size:14px;line-height:1.8;color:#33475b}
-@media screen and (max-width:640px){#tutorView details.gsec.fold>summary.gsec-h{font-size:14.5px;padding:12px 12px;letter-spacing:0}#ivList details.ivq>summary.ivq-h{font-size:13.5px;padding:9px 10px;gap:8px}}
-@media print{#tutorView details.gsec.fold>summary.gsec-h{background:#eef4f9!important;color:#0b3a5c!important;border-left:4px solid #0369a1!important;box-shadow:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}#tutorView details.gsec.fold>summary.gsec-h::after{color:#8a8aa0}#ivList details.ivq>summary.ivq-h{background:#f8fbfe!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media screen and (max-width:640px){#tutorView details.gsec.fold>summary.gsec-h,#cnTradView details.gsec.fold>summary.gsec-h{font-size:14.5px;padding:12px 12px;letter-spacing:0}#ivList details.ivq>summary.ivq-h{font-size:13.5px;padding:9px 10px;gap:8px}}
+@media print{#tutorView details.gsec.fold>summary.gsec-h,#cnTradView details.gsec.fold>summary.gsec-h{background:#eef4f9!important;color:#0b3a5c!important;border-left:4px solid #0369a1!important;box-shadow:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}#tutorView details.gsec.fold>summary.gsec-h::after,#cnTradView details.gsec.fold>summary.gsec-h::after{color:#8a8aa0}#ivList details.ivq>summary.ivq-h{background:#f8fbfe!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 /* ===== v2.27 UX：焦點可見＋觸控目標＋手機導航單行＋reduced-motion＋渲染性能 ===== */
 :focus-visible{outline:3px solid #0284c7;outline-offset:2px;border-radius:4px}
 nav button:focus-visible,.subnav button:focus-visible{outline-offset:-2px}
@@ -1200,13 +1200,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.43
+    © 叶工 SteveHKSZ · 公開版 v2.44
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.43</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.44</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1270,8 +1270,8 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
         <li>讀得動之後才做卷，做卷直接切「中文試卷」。</li>
       </ol>
       <div class="ns-btns">
-        <button class="btn" type="button" onclick="__hkkGo('t:4')">繁體認讀翻卡（100 字）</button>
-        <button class="btn" type="button" onclick="__hkkGo('t:5')">官方字表</button>
+        <button class="btn" type="button" onclick="__hkkGo('p:cn:cntrad')">繁體認讀翻卡（100 字）</button>
+        <button class="btn" type="button" onclick="__hkkGo('p:cn:cntrad')">官方字表</button>
         <button class="btn" type="button" onclick="__hkkGo('p:cn:cnpaper')">中文試卷</button>
       </div>
     </div>
@@ -1442,6 +1442,8 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
       <button data-cs="zibook">我的生字本</button>
       <!-- v2.21：繁體對照由速覽指南整體遷入，沿用 v1.9 英文卷遷移模式 -->
       <button data-cs="ft">繁體對照</button>
+      <!-- v2.44：繁體認讀（翻卡＋官方字表）由補習材料遷入 -->
+      <button data-cs="cntrad">繁體認讀</button>
     </div>
     <!-- v2.21：說明隨子頁籤切換，切到對照表時不再看到寫死給「背古詩」的說明 -->
     <div id="cnPracTips">
@@ -1449,7 +1451,8 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
       <p class="tip" data-cstip="cnpaper" style="margin:0 0 10px;display:none">「中文試卷」＝<b>本站原創仿題型</b>（小二／小五／小六），可出新卷、AI 出新卷、交卷批改；題目、篇章、選項與答案全部本站原創，非任何機構真卷。</p>
       <p class="tip" data-cstip="cnschool" style="margin:0 0 10px;display:none">「校卷題型」＝<b>小六十部分全卷模擬</b>（填充→成語→標點→排句→改寫→標點選→修辭→縮句→段義→閱讀甲乙），可出新卷、交卷批改、列印含答案版；題目與篇章全部本站原創，非任何學校真卷。</p><p class="tip" data-cstip="cnps" style="margin:0 0 10px;display:none">「呈分模擬」＝<b>小六中文呈分試模擬 · 5 套固定卷</b>（甲部兩篇章閱讀＋乙部語文基礎十小節），每套附<b>參考答案</b>，可交卷批改（機改 56 分）、列印含答案版（自評 44 分由家長對照評分）；題目與篇章全部本站原創，非任何學校真卷。</p>
       <p class="tip" data-cstip="zibook" style="margin:0 0 10px;display:none">「我的生字本」＝把不會認的繁體字收進來，切「翻卡複習」遮著認、認得打勾；<b>只存本瀏覽器、跟賬號走，不會上傳</b>。</p>
-      <p class="tip" data-cstip="ft" style="margin:0 0 10px;display:none">「繁體對照」＝<b>簡→繁高頻對照表</b>（分 P1–P6），用來查字、不用來背；一簡對多繁（发→發/髮、里→裡/裏）按詞義選。想練「認得快」用「補習材料 → ⑤ 繁體翻卡」。</p>
+      <p class="tip" data-cstip="ft" style="margin:0 0 10px;display:none">「繁體對照」＝<b>簡→繁高頻對照表</b>（分 P1–P6），用來查字、不用來背；一簡對多繁（发→發/髮、里→裡/裏）按詞義選。想練「認得快」用隔壁「繁體認讀」的翻卡。</p>
+      <p class="tip" data-cstip="cntrad" style="margin:0 0 10px;display:none">「繁體認讀」＝<b>認讀翻卡 100 字</b>（簡→繁，每天一組，翻面對答案）＋<b>教育局官方字表 3,171 字</b>（筆畫序；可搜字驗證、今日認讀 20 字、全表瀏覽）。兩塊原在「補習材料 ⑤⑥」，v2.44 整體遷入本頁，全站只此一份。</p>
     </div>
     <div id="cnStarView">
     <!-- v1.73 背詩星圖：185 首按 7 段點亮，全部數據取自現成 POEMS，不新造素材 -->
@@ -1543,7 +1546,7 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
     <!-- v1.97 我的生字本：純本地增刪改查。公開 HTML 只有空結構，零預置生字 -->
     <div id="ziBookView" style="display:none">
       <div class="gtitle">我的生字本（不會的繁體字自己收 · 只存這台設備）</div>
-      <p class="tip">在「補習材料 → ⑤ 繁體翻卡／⑥ 官方字表」或「練習 → 中文 → 繁體對照」看到不會認的字，點卡片上的「＋本」收進來，也可以在下面自己輸入。以後切到「翻卡複習」遮著認，認得了打個勾。<b>資料只存本瀏覽器、跟賬號走，不會上傳</b>；清快取或換設備前請先「導出生字本」。</p>
+      <p class="tip">在「練習 → 中文 → 繁體認讀」或「練習 → 中文 → 繁體對照」看到不會認的字，點卡片上的「＋本」收進來，也可以在下面自己輸入。以後切到「翻卡複習」遮著認，認得了打個勾。<b>資料只存本瀏覽器、跟賬號走，不會上傳</b>；清快取或換設備前請先「導出生字本」。</p>
       <div class="mwform">
         <label>繁體字／詞（必填）<input id="ziW" maxlength="40" placeholder="例：讀（或整個詞：功課）"></label>
         <label>簡體對照（選填）<input id="ziS" maxlength="40" placeholder="例：读"></label>
@@ -1590,13 +1593,53 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
       <ol>
         <li>一簡對多繁（发→發/髮、里→裡/裏）按詞義選；查不到就看課本原文怎麼寫。</li>
         <li>練「認得快」用翻卡；練「寫得對」用格紙抄寫。</li>
-        <li>正式字表在「補習材料 → ⑥ 官方字表」（筆畫序），以教育局公布為準。</li>
+        <li>正式字表在旁邊「繁體認讀 → ② 教育局官方字表」（筆畫序），以教育局公布為準。</li>
       </ol>
       <div class="ns-btns">
-        <button class="btn" type="button" onclick="__hkkGo('t:4')">繁體認讀翻卡（100 字）</button>
-        <button class="btn" type="button" onclick="__hkkGo('t:5')">官方字表</button>
+        <button class="btn" type="button" onclick="__hkkGo('p:cn:cntrad')">繁體認讀翻卡（100 字）</button>
+        <button class="btn" type="button" onclick="__hkkGo('p:cn:cntrad')">官方字表</button>
       </div>
     </div>
+  </div>
+  <div id="cnTradView" style="display:none">
+    <!-- v2.44：補習材料 ⑤⑥ 整體遷入（葉工指令「繁體認讀相關內容全部放到中文子目錄」），全站只此一份 -->
+    <div class="gtitle">繁體認讀（認讀翻卡 100 字 ＋ 教育局官方字表 3,171 字）</div>
+    <span class="folk">兩塊內容由「補習材料 ⑤⑥」整體遷入，全站只此一份：翻卡練「認得快」，字表查「在不在官方範圍」。看到不會認的字，點卡片上的「＋本」收進「我的生字本」。</span>
+<details class="gsec fold">
+      <summary class="gsec-h">① 繁體認讀翻卡（100 字 · 簡→繁）</summary>
+      <p class="tip">每天 10 分鐘翻一組：看簡體想繁體，翻開對答案。全部認熟後換書本認讀（教育局《香港小學學習字詞表》）。</p>
+      <div class="fgrid" id="ftGrid"></div>
+      <p style="padding:0 12px"><button id="ftFlipAll">全部翻開</button> <button id="ftFlipNone">全部蓋回</button></p>
+      <div class="src">自建常用簡繁對照（學習用，非官方字表）；「干→乾」「面→麵」等一字多繁情形附備註</div>
+    </details>
+
+    <details class="gsec fold" id="lexCard">
+      <summary class="gsec-h">② 教育局官方字表（3,171 字 · 筆畫序）</summary>
+      <p class="tip">來源：教育局《香港小學學習字詞表》(2007) 小學用字一覽表——共 3,171 字（第一學習階段小一至小三 2,169 字＋第二學習階段小四至小六 1,002 字），按筆畫序，異體字算一字。三種用法：搜字驗證、今日認讀推進、全表瀏覽。</p>
+      <div style="display:flex;gap:10px;padding:0 12px;flex-wrap:wrap;align-items:center">
+        <input id="lexQ" placeholder="輸入漢字查是否在官方字表（可粘貼多個）" style="flex:1;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px">
+        <button id="lexGo">🔍 查字</button>
+      </div>
+      <div id="lexQMsg" class="tip" style="padding:6px 12px;min-height:18px"></div>
+      <div class="fgrid" id="lexQRes" style="display:none"></div>
+      <div class="gcard" style="margin:10px 12px">
+        <h3>今日認讀 · 第 <span id="lexGroupN">1</span> 組（每天 20 字，認完點下一組）<span id="lexSameN" class="tip" style="margin-left:8px;font-weight:400"></span></h3>
+        <div class="fgrid" id="lexToday"></div>
+        <p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 4px">
+          <button type="button" id="lexDirBtn">🔁 方向：繁 → 簡</button>
+          <button type="button" id="lexFlipAll">全部翻開</button>
+          <button type="button" id="lexFlipNone">全部蓋回</button>
+          <span class="tip" style="margin:0">每卡大字旁的藍色「繁」標＝字表原字（繁體），翻面變綠色「簡」；「全部翻開／蓋回」只作用今日這 20 字</span>
+        </p>
+        <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button> <button id="lexReset">↺ 進度清零</button></p>
+        <p class="tip" style="margin:4px 0 0">每天 20 字 × 3,171 字 ≈ 159 天（約 5 個月），剛好覆蓋 35 週路線裏的繁體認讀線；配合上方①的簡→繁翻卡一起用。<b>v2.22 說明：⑥ 這 3,171 字全部是繁體標準字形</b>，其中 <span id="lexSameTotal"></span> 字跟簡體寫法一模一樣（如「工、己、中、云」），所以前幾組看起來像簡體，其實沒有被轉成簡體；翻面時大字不變是正常的，卡上會標「簡繁同形」。想一次看到字形不同的字，點下方全表瀏覽的「🔎 只看繁簡差異」。「云→雲」「干→乾」「面→麵」這類一字多繁，上方①的人工校過對照表附了備註，一字多義以課本為準。</p>
+      </div>
+      <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）　<button type="button" id="lexDiffBtn">🔎 只看繁簡差異</button> <span id="lexDiffN" class="tip"></span></p>
+      <div class="fgrid" id="lexAll"></div>
+      <div class="src">數據：教育局《香港小學學習字詞表》小學用字一覽表 3,171 字（文本轉錄 GitHub huwan/HKCLL4PL，字數與教育局官方簡介 PDF 一致，2026-11-05 核實）；含粵普發音＋筆順動畫的官方電子檢索版：<a href="https://www.edbchinese.hk/lexlist_ch/index.jsp" target="_blank" rel="noopener">edbchinese.hk/lexlist_ch</a>（逐字查詢）；簡體對照：OpenCC 開源轉換表 t2s 機械生成（非教育局官方對照，部分為香港／內地字形差異或異體歸併，一字多義以課本為準）</div>
+    </details>
+
+    
   </div>
   </div>
   <div class="wrap" id="enPracView" style="display:none">
@@ -2127,7 +2170,7 @@ Thank you for your time.</div>
     <div class="gsec">
       <h2>補習材料（插中一 · 35 週減壓版）</h2>
       <p class="tip">適用：小六英文中上、每週 ≤3 小時（英文約 2h＋繁體粵語約 1h），2026.11 → 2027.7.6 叩門。設計原則：<b>不背單詞</b>——詞彙靠興趣泛讀自然復現，不查詞典、不考核；「課外知識」藏進每週 90 秒口頭分享。排期框架來自機構推文（非學術），教材級別為坊間整理——起點以定級三連測為準。</p>
-      <p class="tip" style="background:#eef7fd;color:#075985;border:1px solid #d5e8f6">👇 下面 10 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑥⑦，⑧ 是入學後的資源書籤，<b>⑨ 不知道從哪開始先看它</b>，<b>⑩ 按年級找本站原創卷</b>；課本詞彙打卡在<b>「練習 → 英文 → 某文單詞本」</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
+      <p class="tip" style="background:#eef7fd;color:#075985;border:1px solid #d5e8f6">👇 下面 8 個模塊已折疊，<b>點標題條展開</b>；①排期表默認展開，日常打卡用 ③⑤，⑥ 是入學後的資源書籤，<b>⑦ 不知道從哪開始先看它</b>，<b>⑧ 按年級找本站原創卷</b>；繁體認讀已移到<b>「練習 → 中文 → 繁體認讀」</b>；課本詞彙打卡在<b>「練習 → 英文 → 某文單詞本」</b>。 <button class="btn" type="button" id="mapOpenBtn">🗺 打開備考地圖</button></p>
     </div>
 
     <details class="gsec fold" open>
@@ -2147,11 +2190,11 @@ Thank you for your time.</div>
       <table class="mtable" id="wkTable">
         <thead><tr><th>項目</th><th style="width:110px">頻率</th><th style="width:100px">時長</th><th>對應</th></tr></thead>
         <tbody>
-          <tr data-wkrow="read"><td>興趣泛讀（不查詞典、不考核）</td><td>每天</td><td>20 分鐘</td><td><button type="button" class="wkgo" data-wkgo="t:6" data-wkrow="read">⑦ 泛讀打卡 ↗</button><span class="wknote">本頁 · 做完點一格</span></td></tr>
+          <tr data-wkrow="read"><td>興趣泛讀（不查詞典、不考核）</td><td>每天</td><td>20 分鐘</td><td><button type="button" class="wkgo" data-wkgo="t:4" data-wkrow="read">⑦ 泛讀打卡 ↗</button><span class="wknote">本頁 · 做完點一格</span></td></tr>
           <tr data-wkrow="write"><td>寫作（Great Writing 教材）</td><td>每週 2 次</td><td>各 30 分鐘</td><td><button type="button" class="wkgo" data-wkgo="t:1" data-wkrow="write">② 教材清單 ↗</button><span class="wknote">只買兩本，其餘免費</span></td></tr>
           <tr data-wkrow="oral"><td>口頭分享／面試練習</td><td>每週 1 次</td><td>30 分鐘</td><td><button type="button" class="wkgo" data-wkgo="t:2" data-wkrow="oral">③ 面試話題庫 ↗</button><span class="wknote">本頁 · 附 90 秒計時器</span></td></tr>
           <tr data-wkrow="mterm"><td>數學英文術語翻卡</td><td>每週 1 次</td><td>20 分鐘</td><td><button type="button" class="wkgo" data-wkgo="t:3" data-wkrow="mterm">④ 數學術語翻卡 ↗</button><span class="wknote">本頁（2027.2 起）</span></td></tr>
-          <tr data-wkrow="trad"><td>繁體字認讀</td><td>每天</td><td>10 分鐘</td><td><button type="button" class="wkgo" data-wkgo="t:4" data-wkrow="trad">⑤ 繁體翻卡 ↗</button><button type="button" class="wkgo" data-wkgo="t:5" data-wkrow="trad">⑥ 官方字表 ↗</button><span class="wknote">本頁 · 兩組字卡任選</span></td></tr>
+          <tr data-wkrow="trad"><td>繁體字認讀</td><td>每天</td><td>10 分鐘</td><td><button type="button" class="wkgo" data-wkgo="p:cn:cntrad" data-wkrow="trad">⑤ 繁體翻卡 ↗</button><button type="button" class="wkgo" data-wkgo="p:cn:cntrad" data-wkrow="trad">⑥ 官方字表 ↗</button><span class="wknote">練習 → 中文 · 繁體認讀</span></td></tr>
           <tr data-wkrow="yue"><td>粵語磨耳朵（RTHK 兒童節目）</td><td>每天</td><td>10 分鐘</td><td><button type="button" class="wkgo" data-wkgo="p:sched" data-wkrow="yue">今日課表打勾 ↗</button><span class="wknote">只聽不跟讀</span></td></tr>
         </tbody>
       </table>
@@ -2169,7 +2212,7 @@ Thank you for your time.</div>
           <tr><td>泛讀堆量</td><td>① 手頭已有<b>牛津閱讀樹/TreeTops</b> ② 圖書館／電商按藍思值自選：橋梁書起步，中後期進英文兒童非虛構（選她感興趣的主題）</td><td>免費（已有＋圖書館）</td></tr>
           <tr><td>面試／口語</td><td>本頁面試話題庫＋90 秒計時器，不用買書</td><td>免費</td></tr>
           <tr><td>數學題幹</td><td>本頁數學英文術語翻卡 60 詞（6 週）</td><td>免費</td></tr>
-          <tr><td>繁體字</td><td>教育局《香港小學學習字詞表》（官方文件）＋本頁繁體翻卡 100 字</td><td>免費</td></tr>
+          <tr><td>繁體字</td><td>教育局《香港小學學習字詞表》（官方文件）＋練習→中文「繁體認讀」翻卡 100 字</td><td>免費</td></tr>
           <tr><td>粵語聽力</td><td>RTHK（香港電台）兒童節目／粵語配音動畫</td><td>免費</td></tr>
         </tbody>
       </table>
@@ -2215,45 +2258,9 @@ Thank you for your time.</div>
       <div class="src">自建通用數學英文術語（坊間整理非官方詞單）；正式題幹訓練 2027.2 後再啟動</div>
     </details>
 
-    <details class="gsec fold">
-      <summary class="gsec-h">⑤ 繁體認讀翻卡（100 字 · 簡→繁）</summary>
-      <div class="wkback" data-wkback="t:4"><button type="button" data-wkback-go>↩ 返回每週課表</button><span>做完這項，按這裡回去對照表格</span></div>
-      <p class="tip">每天 10 分鐘翻一組：看簡體想繁體，翻開對答案。全部認熟後換書本認讀（教育局《香港小學學習字詞表》）。</p>
-      <div class="fgrid" id="ftGrid"></div>
-      <p style="padding:0 12px"><button id="ftFlipAll">全部翻開</button> <button id="ftFlipNone">全部蓋回</button></p>
-      <div class="src">自建常用簡繁對照（學習用，非官方字表）；「干→乾」「面→麵」等一字多繁情形附備註</div>
-    </details>
-
-    <details class="gsec fold" id="lexCard">
-      <summary class="gsec-h">⑥ 教育局官方字表（3,171 字 · 筆畫序）</summary>
-      <div class="wkback" data-wkback="t:5"><button type="button" data-wkback-go>↩ 返回每週課表</button><span>做完這項，按這裡回去對照表格</span></div>
-      <p class="tip">來源：教育局《香港小學學習字詞表》(2007) 小學用字一覽表——共 3,171 字（第一學習階段小一至小三 2,169 字＋第二學習階段小四至小六 1,002 字），按筆畫序，異體字算一字。三種用法：搜字驗證、今日認讀推進、全表瀏覽。</p>
-      <div style="display:flex;gap:10px;padding:0 12px;flex-wrap:wrap;align-items:center">
-        <input id="lexQ" placeholder="輸入漢字查是否在官方字表（可粘貼多個）" style="flex:1;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px">
-        <button id="lexGo">🔍 查字</button>
-      </div>
-      <div id="lexQMsg" class="tip" style="padding:6px 12px;min-height:18px"></div>
-      <div class="fgrid" id="lexQRes" style="display:none"></div>
-      <div class="gcard" style="margin:10px 12px">
-        <h3>今日認讀 · 第 <span id="lexGroupN">1</span> 組（每天 20 字，認完點下一組）<span id="lexSameN" class="tip" style="margin-left:8px;font-weight:400"></span></h3>
-        <div class="fgrid" id="lexToday"></div>
-        <p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 4px">
-          <button type="button" id="lexDirBtn">🔁 方向：繁 → 簡</button>
-          <button type="button" id="lexFlipAll">全部翻開</button>
-          <button type="button" id="lexFlipNone">全部蓋回</button>
-          <span class="tip" style="margin:0">每卡大字旁的藍色「繁」標＝字表原字（繁體），翻面變綠色「簡」；「全部翻開／蓋回」只作用今日這 20 字</span>
-        </p>
-        <p><b id="lexProg"></b> <button id="lexNext">✅ 這組認完，下一組</button> <button id="lexBack">◀ 回上一組</button> <button id="lexReset">↺ 進度清零</button></p>
-        <p class="tip" style="margin:4px 0 0">每天 20 字 × 3,171 字 ≈ 159 天（約 5 個月），剛好覆蓋 35 週路線裏的繁體認讀線；配合上方⑤的簡→繁翻卡一起用。<b>v2.22 說明：⑥ 這 3,171 字全部是繁體標準字形</b>，其中 <span id="lexSameTotal"></span> 字跟簡體寫法一模一樣（如「工、己、中、云」），所以前幾組看起來像簡體，其實沒有被轉成簡體；翻面時大字不變是正常的，卡上會標「簡繁同形」。想一次看到字形不同的字，點下方全表瀏覽的「🔎 只看繁簡差異」。「云→雲」「干→乾」「面→麵」這類一字多繁，上方⑤的人工校過對照表附了備註，一字多義以課本為準。</p>
-      </div>
-      <p style="padding:0 12px">全表瀏覽：第 <select id="lexPageSel"></select> 頁（每頁 60 字，按筆畫序）　<button type="button" id="lexDiffBtn">🔎 只看繁簡差異</button> <span id="lexDiffN" class="tip"></span></p>
-      <div class="fgrid" id="lexAll"></div>
-      <div class="src">數據：教育局《香港小學學習字詞表》小學用字一覽表 3,171 字（文本轉錄 GitHub huwan/HKCLL4PL，字數與教育局官方簡介 PDF 一致，2026-11-05 核實）；含粵普發音＋筆順動畫的官方電子檢索版：<a href="https://www.edbchinese.hk/lexlist_ch/index.jsp" target="_blank" rel="noopener">edbchinese.hk/lexlist_ch</a>（逐字查詢）；簡體對照：OpenCC 開源轉換表 t2s 機械生成（非教育局官方對照，部分為香港／內地字形差異或異體歸併，一字多義以課本為準）</div>
-    </details>
-
     <details class="gsec fold" id="readHub">
-      <summary class="gsec-h">⑦ 泛讀打卡（21 天挑戰）</summary>
-      <div class="wkback" data-wkback="t:6"><button type="button" data-wkback-go>↩ 返回每週課表</button><span>做完這項，按這裡回去對照表格</span></div>
+      <summary class="gsec-h">⑤ 泛讀打卡（21 天挑戰）</summary>
+      <div class="wkback" data-wkback="t:4"><button type="button" data-wkback-go>↩ 返回每週課表</button><span>做完這項，按這裡回去對照表格</span></div>
       <p class="tip">規則只有一條：每天碰英文 20 分鐘（漫畫/故事/科普視頻都算），做完點一格。不查詞典、不寫讀後感、不考核——打卡本身就是全部任務。數據保存在本設備、跟賬號走。</p>
 
       <!-- v1.79 泛讀重點子目錄：只在 ⑦ 內部切換，不新增折疊塊、不改主導航、不新造學習素材 -->
@@ -2281,7 +2288,7 @@ Thank you for your time.</div>
             <h3>想多學一點才點 · 本站重點學習件</h3>
             <p class="rdnote">按「先認字 → 再看該背多少 → 想練才出卷 → 想講才計時」排，全部是站內既有練習。泛讀 20 分鐘做完就夠，下面只是自選；點了會跳去該模塊，回來按上方 ⑦ 標題條。</p>
             <div class="rdgo-row">
-              <button type="button" class="rdgo" data-go="t:5">今日認讀 20 字</button>
+              <button type="button" class="rdgo" data-go="p:cn:cntrad">今日認讀 20 字</button>
               <button type="button" class="rdgo" data-go="p:en:goal">詞彙路線圖</button>
               <button type="button" class="rdgo" data-go="p:en:paper">出一份英文卷</button>
               <button type="button" class="rdgo" data-go="t:2">90 秒計時</button>
@@ -2317,7 +2324,7 @@ Thank you for your time.</div>
             </ul>
             <div class="rdgo-row">
               <button type="button" class="rdgo" data-go="t:1">去 ② 教材與資源清單</button>
-              <button type="button" class="rdgo" data-go="t:7">去 ⑧ 中學英文導航</button>
+              <button type="button" class="rdgo" data-go="t:5">去 ⑧ 中學英文導航</button>
             </div>
           </div>
           <div class="rdcard warn">
@@ -2345,7 +2352,7 @@ Thank you for your time.</div>
             <p class="rdnote"><b>選書五指法則</b>：隨便翻一頁，不認識的詞有幾個就數幾根手指——超過 5 個太深、0 個太淺，1–3 個剛剛好。實體書同理：圖畫多、句子短、成套的橋梁書最容易讀進去。</p>
             <p class="rdnote">規則不變：不查詞典、不考核、讀完喜歡就算數。</p>
             <div class="rdgo-row">
-              <button type="button" class="rdgo" data-go="t:6">去 21 天打卡格</button>
+              <button type="button" class="rdgo" data-go="t:4">去 21 天打卡格</button>
               <button type="button" class="rdgo" data-go="t:1">去 ② 教材與資源清單</button>
             </div>
           </div>
@@ -2392,8 +2399,8 @@ Thank you for your time.</div>
 
     <!-- v1.72 中學英文資源導航：只列入口與本站自寫說明，不轉載任何第三方內容 -->
     <details class="gsec fold" id="secResNav">
-      <summary class="gsec-h">⑧ 中學英文 · 外部資源導航（只列入口，不轉載內容）</summary>
-      <p class="tip">①–⑦ 是小六衝刺用，⑧ 是<b>入學之後</b>的延伸書籤。下面只放「機構名稱＋官方入口＋本站自寫的一句話說明」；試卷、答案、評卷參考、教材內頁、機構文章原文與搜尋摘要，本站一律<b>不存放、不轉載、不爬取</b>。</p>
+      <summary class="gsec-h">⑥ 中學英文 · 外部資源導航（只列入口，不轉載內容）</summary>
+      <p class="tip">①–⑤ 是小六衝刺用，⑥ 是<b>入學之後</b>的延伸書籤。下面只放「機構名稱＋官方入口＋本站自寫的一句話說明」；試卷、答案、評卷參考、教材內頁、機構文章原文與搜尋摘要，本站一律<b>不存放、不轉載、不爬取</b>。</p>
       <span class="folk">依公開資料整理，連結 2026-11-06 核對；外鏈版權歸原站，本站與之無合作或背書關係，以各站最新公告為準</span>
 
       <h3>A. 官方／免費自學（可放心用，本站只給入口）</h3>
@@ -2449,7 +2456,7 @@ Thank you for your time.</div>
 
     <!-- v1.75 備考地圖：只借「按科目 × 動作整理」的架構，文字全部本站重寫，零第三方內容、零新造學習素材 -->
     <details class="gsec fold" id="examMap">
-      <summary class="gsec-h">⑨ 備考地圖 · 把 ①–⑧ 串起來（不知道從哪開始先看這張）</summary>
+      <summary class="gsec-h">⑦ 備考地圖 · 把 ①–⑥ 串起來（不知道從哪開始先看這張）</summary>
       <p class="tip">站裏工具多，容易不知道今天該開哪一個。這張圖按「<b>科目 × 輸入／輸出／複盤</b>」把上面 8 個模塊和練習區現成功能串成一條線，每格一個按鈕，點了直接跳過去。<b>不新增任何學習內容</b>，只是一張索引。</p>
       <span class="folk">本站自寫的整理框架（坊間整理，非官方）；各校筆面試形式自定，以目標校當年公告及教育局為準</span>
 
@@ -2460,15 +2467,15 @@ Thank you for your time.</div>
         <tbody>
           <tr>
             <td><b>中文</b></td>
-            <td>繁體先過認讀關，古詩詞用聽讀起步<br><button class="mapgo" type="button" data-go="t:4">⑤ 繁體翻卡</button><button class="mapgo" type="button" data-go="p:cn">練習 → 中文（星圖／聽讀）</button></td>
+            <td>繁體先過認讀關，古詩詞用聽讀起步<br><button class="mapgo" type="button" data-go="p:cn:cntrad">⑤ 繁體翻卡</button><button class="mapgo" type="button" data-go="p:cn">練習 → 中文（星圖／聽讀）</button></td>
             <td>遮字背誦、把句子寫成段落，別只停在「看過」<br><button class="mapgo" type="button" data-go="p:cn">練習 → 中文（默寫／抽查）</button></td>
-            <td>用官方字表逐字驗收，認不出來的回 ⑤ 再翻<br><button class="mapgo" type="button" data-go="t:5">⑥ 今日認讀 20 字</button></td>
+            <td>用官方字表逐字驗收，認不出來的回 ⑤ 再翻<br><button class="mapgo" type="button" data-go="p:cn:cntrad">⑥ 今日認讀 20 字</button></td>
           </tr>
           <tr>
             <td><b>英文</b></td>
             <td>先知道該背多少、怎麼背，再碰分級詞卡<br><button class="mapgo" type="button" data-go="p:en:goal">詞彙路線圖</button><button class="mapgo" type="button" data-go="p:en:hk">港小生字</button><button class="mapgo" type="button" data-go="p:en:vocab">詞表</button></td>
             <td>限時做整套卷、按格式寫，口語也要出聲<br><button class="mapgo" type="button" data-go="p:en:paper">英文卷</button><button class="mapgo" type="button" data-go="p:en:exam">呈分試卷</button><button class="mapgo" type="button" data-go="p:en:iv">升中面試</button></td>
-            <td>每天碰一點英文累積量，入學後再看官方資源<br><button class="mapgo" type="button" data-go="t:6">⑦ 泛讀打卡</button><button class="mapgo" type="button" data-go="t:7">⑧ 中學英文導航</button></td>
+            <td>每天碰一點英文累積量，入學後再看官方資源<br><button class="mapgo" type="button" data-go="t:4">⑦ 泛讀打卡</button><button class="mapgo" type="button" data-go="t:5">⑧ 中學英文導航</button></td>
           </tr>
           <tr>
             <td><b>數學</b></td>
@@ -2490,7 +2497,7 @@ Thank you for your time.</div>
       <h3>B. 香港插班常見題型 · 出發前自查（勾選會記在本設備）</h3>
       <div class="mapbar"><span id="mapChkStat">已確認 0 / 8</span><button class="btn" type="button" id="mapChkReset">清空勾選</button></div>
       <div id="mapChkList">
-        <label class="mapchk" data-chk-row="c1"><input type="checkbox" data-chk="c1"><span><b>繁體中文卷看得完嗎</b> —— 站裏 ⑤ 繁體翻卡、⑥ 官方字表、速覽→中文都為這條準備。</span></label>
+        <label class="mapchk" data-chk-row="c1"><input type="checkbox" data-chk="c1"><span><b>繁體中文卷看得完嗎</b> —— 站裏「練習 → 中文 → 繁體認讀」的翻卡與官方字表、速覽→中文都為這條準備。</span></label>
         <label class="mapchk" data-chk-row="c2"><input type="checkbox" data-chk="c2"><span><b>英文題幹的數學題讀得懂嗎</b> —— ④ 術語翻卡 60 詞＋練習→數學雙語卷。</span></label>
         <label class="mapchk" data-chk-row="c3"><input type="checkbox" data-chk="c3"><span><b>開放題會把理由寫出來嗎</b> —— 數學卷應用題附參考答案，重點是步驟不是只填數。</span></label>
         <label class="mapchk" data-chk-row="c4"><input type="checkbox" data-chk="c4"><span><b>英文寫作知道常見格式嗎</b> —— 練習→英文的英文卷、呈分試卷，題目全部站內原創仿編。</span></label>
@@ -2517,12 +2524,12 @@ Thank you for your time.</div>
         <p><b>不提供分檔資料。</b>教育局不公佈官方 Banding，本站沒有、也不做「分檔詞表」「分檔考題庫」；坊間分檔只作非官方參考。</p>
         <p><b>第三方具名素材只提類型。</b>報章社論、政府統計數據、廣播錄音、出版社詞表等，本站不搬內容、不設外鏈；需要請回原站按其條款取用。</p>
       </div>
-      <div class="src">整理依據：站內既有模塊 ①–⑧ 與練習／升學規劃各子頁（2026-11-07 盤點）｜本區全部文字為本站重寫，未引用任何第三方原文；自查清單為學習提示，非官方考核項目</div>
+      <div class="src">整理依據：站內既有模塊 ①–⑥ 與練習／升學規劃各子頁（2026-11-07 盤點）｜本區全部文字為本站重寫，未引用任何第三方原文；自查清單為學習提示，非官方考核項目</div>
     </details>
 
     <!-- v1.77 本站原創試卷總覽：只借第三方試卷庫「年級 × 科目」的組織方式，不搬任何一份卷 -->
     <details class="gsec fold" id="paperHub">
-      <summary class="gsec-h">⑩ 本站原創試卷 · 按年級找（英文／數學／呈分試）</summary>
+      <summary class="gsec-h">⑧ 本站原創試卷 · 按年級找（英文／數學／呈分試）</summary>
       <div class="gcard">
         <p class="tip" style="background:#eef7fd;color:#075985;border:1px solid #d5e8f6">這裡每一份卷都由<b>站內引擎即時原創仿編</b>：按一次出一份，可反覆出卷、交卷批改、列印。不是任何學校／評估局／補習社的真卷，本站也不存放任何第三方試卷檔案。</p>
         <div class="phub-wrap">
@@ -3152,9 +3159,9 @@ Thank you for your time.</div>
       <div class="gcard"><h3>5 · 只剩半年到一年，還來得及嗎？</h3><p>站內兩份排期就是按 6–12 個月窗口設計的：學習路線有「8 個月壓縮排期」，總預算約 36 週 × 6.5 小時 ≈ <b>230 小時</b>（估算）；補習材料是 35 週減壓版、每週 ≤3 小時。前提是<b>真的排得進去</b>，不是排一張讀不完的表。時間更短就先砍能力線的廣度，保住應試線——考前 8–10 週一定要切題型與面試。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:study')">學習路線（8 個月排期）</a><a href="javascript:void(0)" onclick="__hkkGo('t:0')">35 週減壓版</a></p></div>
 
       <h3 class="faq-grp">三、考什麼、怎麼備</h3>
-      <div class="gcard"><h3>6 · 插班考什麼？怎麼準備？</h3><p>筆試（中英數，英文最關鍵）＋面試（可能粵語/英語作答）。直資校自主命題，各校題型不同；官津多看成績表＋隨機測。考前 8–10 週切題型與面試模擬，別裸考。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('p:en:paper')">英文卷</a><a href="javascript:void(0)" onclick="__hkkGo('p:en:iv')">升中面試</a><a href="javascript:void(0)" onclick="__hkkGo('t:9')">按年級找卷</a></p></div>
+      <div class="gcard"><h3>6 · 插班考什麼？怎麼準備？</h3><p>筆試（中英數，英文最關鍵）＋面試（可能粵語/英語作答）。直資校自主命題，各校題型不同；官津多看成績表＋隨機測。考前 8–10 週切題型與面試模擬，別裸考。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('p:en:paper')">英文卷</a><a href="javascript:void(0)" onclick="__hkkGo('p:en:iv')">升中面試</a><a href="javascript:void(0)" onclick="__hkkGo('t:7')">按年級找卷</a></p></div>
       <div class="gcard"><h3>7 · 英文要到什麼水平？</h3><p>英文決定你能進<b>英中還是中中</b>，是最重的一項。先做定級（閱讀/寫作/口語），再按「80% 建能力 + 20% 熟題型」排計劃（見「學習路線」子頁）。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:study')">學習路線（定級三連測）</a><a href="javascript:void(0)" onclick="__hkkGo('p:en:goal')">詞彙路線圖</a></p></div>
-      <div class="gcard"><h3>8 · 孩子聽不懂粵語、繁體也看不慣，會不會跟不上？</h3><p>站內排期把「繁體字＋粵語聽力」放在 <b>P1 平行線</b>：每天額外 15–20 分鐘，不佔英文預算。順序是「先讀得完卷，再求說得好」——繁體認讀用 100 字翻卡過常用字，再到官方字表；粵語靠日常聽與面試練習。不必等學好才插，插進去才是真環境；面試語言各校不同，先問校務處。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('t:4')">繁體認讀翻卡</a><a href="javascript:void(0)" onclick="__hkkGo('t:5')">官方字表</a><a href="javascript:void(0)" onclick="__hkkGo('t:2')">面試話題庫（粵語練）</a></p></div>
+      <div class="gcard"><h3>8 · 孩子聽不懂粵語、繁體也看不慣，會不會跟不上？</h3><p>站內排期把「繁體字＋粵語聽力」放在 <b>P1 平行線</b>：每天額外 15–20 分鐘，不佔英文預算。順序是「先讀得完卷，再求說得好」——繁體認讀用 100 字翻卡過常用字，再到官方字表；粵語靠日常聽與面試練習。不必等學好才插，插進去才是真環境；面試語言各校不同，先問校務處。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('p:cn:cntrad')">繁體認讀翻卡</a><a href="javascript:void(0)" onclick="__hkkGo('p:cn:cntrad')">官方字表</a><a href="javascript:void(0)" onclick="__hkkGo('t:2')">面試話題庫（粵語練）</a></p></div>
       <div class="gcard"><h3>9 · 孩子內向、面試一開口就卡怎麼辦？</h3><p>把「形容詞」換成「一件事」：講一次做過的事、卡在哪、怎麼解決，比說「我很用功」有效。站內兩處可練：補習材料 ③ 話題庫 10 題配 90 秒計時器；練習 → 英文 → 升中面試有答題結構與小組討論練習（不必搶當主持也能貢獻）。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('t:2')">話題庫＋90 秒計時</a><a href="javascript:void(0)" onclick="__hkkGo('p:en:iv')">升中面試</a></p></div>
       <div class="gcard"><h3>10 · 呈分試和 Banding 是什麼？</h3><p>呈分試＝小五下學期起的三次校內考，成績直接影響升中派位組別；Band 1–3 組別由派位結果反推，<b>教育局不公布官方 Banding</b>，坊間版本僅作參考。</p><p class="nx">下一步 → <a href="javascript:void(0)" onclick="__hkkGo('plan:schools')">擇校分檔（Band 均標非官方）</a></p></div>
 
@@ -48635,13 +48642,13 @@ function nsWrongLine(kind){
     en:'錯的詞先收進「我的單詞本」，明天回頭抽查；整句看不懂，回「詞彙路線圖」確認是不是級別選高了。',
     exam:'錯的詞同上收進「我的單詞本」；開放題失分多是沒把理由寫出來，回「升中面試」看答題結構。',
     math:'題幹讀不懂先去「數學術語表」；算錯就再出一套，只回看錯的那幾題。',
-    cn:'字認不過來去「繁體翻卡」；正式字表在「補習材料 → ⑥ 官方字表」。'
+    cn:'字認不過來去「繁體認讀」的翻卡；正式字表在同一頁的「② 教育局官方字表」。'
   };
   var to={
     en:[['p:en:mywords','我的單詞本'],['p:en:goal','詞彙路線圖']],
     exam:[['p:en:mywords','我的單詞本'],['p:en:iv','升中面試']],
     math:[['p:math:mterms','數學術語表'],['p:math:mpaper','再出一套']],
-    cn:[['t:4','繁體翻卡'],['t:5','官方字表']]
+    cn:[['p:cn:cntrad','繁體翻卡'],['p:cn:cntrad','官方字表']]
   };
   var links=(to[kind]||[]).map(function(x){
     return '<a href="javascript:void(0)" onclick="__hkkGo(\''+x[0]+'\')">'+x[1]+'</a>';
@@ -52756,7 +52763,7 @@ document.querySelectorAll('#cnPracSub button').forEach(b=>b.onclick=()=>{
   const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
   try{
     document.querySelectorAll('#cnPracSub button').forEach(x=>x.classList.toggle('on',x===b));
-    sw('cnStarView',cs==='star'); sw('cnPaperView',cs==='cnpaper'); sw('cnschoolView',cs==='cnschool'); sw('cnpsView',cs==='cnps'); sw('ziBookView',cs==='zibook'); sw('ftView',cs==='ft');
+    sw('cnStarView',cs==='star'); sw('cnPaperView',cs==='cnpaper'); sw('cnschoolView',cs==='cnschool'); sw('cnpsView',cs==='cnps'); sw('ziBookView',cs==='zibook'); sw('ftView',cs==='ft'); sw('cnTradView',cs==='cntrad');
     document.querySelectorAll('#cnPracTips [data-cstip]').forEach(function(p){p.style.display=p.dataset.cstip===cs?'block':'none';});
     // v2.21：一級 #practiceSub 是 sticky，滾動後會蓋住 static 的二級頁籤；點頁籤時把它滾回一級下方。
     // 只在本頁且真的被蓋時觸發，不改全域 .subnav 定位（其它二級頁籤共用，改全域必誤傷）。
@@ -52776,8 +52783,8 @@ document.querySelectorAll('#cngChips .chip').forEach(c=>c.onclick=()=>{
 // ---- v1.90 今日課表：按天顯示＋打勾（hkk_sched_v0，跟賬號隔離）＋直達對應練習 ----
 var SCHED_KEY='hkk_sched_v0';
 var SCH_ITEMS={
-  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:6:res',btn:'免費電子書清單',d:'讀孩子自己喜歡的書：隨手翻一頁生詞超過 5 個就換簡單些的；讀完回「泛讀打卡」格點一天，湊 21 天連續。'},
-  trad:{n:'繁體字認讀（官方字表）',m:10,go:'t:5',btn:'去今日認讀',d:'翻卡認讀簡→繁常用字，認出就翻面對答案；今天不會的字明天還會再見到。'},
+  read:{n:'興趣泛讀（不查詞典、不考核）',m:20,go:'t:4:res',btn:'免費電子書清單',d:'讀孩子自己喜歡的書：隨手翻一頁生詞超過 5 個就換簡單些的；讀完回「泛讀打卡」格點一天，湊 21 天連續。'},
+  trad:{n:'繁體字認讀（官方字表）',m:10,go:'p:cn:cntrad',btn:'去今日認讀',d:'翻卡認讀簡→繁常用字，認出就翻面對答案；今天不會的字明天還會再見到。'},
   yue:{n:'粵語磨耳朵（RTHK 兒童節目）',m:10,go:'',btn:'',tip:'只聽不跟讀',d:'RTHK 兒童節目當背景音放，只聽不跟讀、不考核；聽懂大意就算完成。'},
   write:{n:'寫作（Great Writing 教材）',m:30,go:'t:1',btn:'看教材清單',d:'教材按單元推進，一次一小節；寫完不必批改，第二天回看一眼即可。'},
   oral:{n:'口頭分享／面試練習',m:30,go:'t:2',btn:'去面試話題庫',d:'從話題庫抽一題口頭講 90 秒（頁內有可停計時器）；家長只當聽眾，不用糾錯。'},
@@ -55101,7 +55108,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.43',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.44',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -55753,7 +55760,7 @@ authBoot();
   if(op)op.onclick=function(){
     click('nav button[data-tab="practice"]');
     click('#practiceSub button[data-sub="tutor"]');
-    fold(8);
+    fold(6);
   };
   render();
   window.__mapTest={go:go,get:get,set:set,render:render,fold:fold,key:CHK};
@@ -55784,7 +55791,8 @@ authBoot();
       var g=b.getAttribute('data-wkgo'),k=b.getAttribute('data-wkrow')||'';
       store(k);
       if(window.__hkkGo)window.__hkkGo(g);
-      show(true);
+      // v2.44：跳去中文區（p:…）時不顯示返回條，返回條只服務補習材料內的折疊塊
+      if(g.indexOf('t:')===0)show(true);
       toEl(document.querySelector('.wkback[data-wkback="'+g+'"]'));
     };
   });
