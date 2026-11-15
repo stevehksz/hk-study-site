@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.40：葉工要求「把全站免費字眼去掉」。界定範圍＝只清**站方自我宣稱**，第三方平台與官津學費的客觀「免費」保留（Oxford Owl 免費電子書庫、學友社免費公開模擬卷、官立免費、學費全免等——刪咗會令家長誤判要唔要畀錢）。落地＝①頁腳兩處「公開版 vX.XX（全站免費）」→「公開版 vX.XX」；②meta description／og:description 去「全站免費」「免費使用」；③hero 副標「升學規劃（免費）」→「升學規劃」；④使用條款「本站為免費學習站」整句移除；⑤授權彈窗與占位卡：「每類練習免費送 N 套」→「可先試 N 套」、「免費額度已用完」→「可試套數已用完」、「批改看答案列印一直免費」→「不設限制」、「免費剩 N 套」→「可試 N 套」、「五類」→「各類」（實際已 7 模塊）；⑥顧問話術「免費回答」→「直接回答」、「現免費開放」→「現開放」；⑦源碼註釋同步。verify2.js：footer 版本斷言改為匹配「公開版 vX.XX」兩處一致（去掉「（全站免費）」後綴依賴）、顧問話術斷言改 /不推銷課程/、三把版本鎖全換 v2.40。零功能改動、零新增鍵。
 v2.39：葉工上傳 P6 中文呈分加強班卷（11 頁，有文字層），要求「加一個子目錄，並增加 5 套卷子和答案」。落地＝①中文區新增第 4 顆子頁籤「呈分模擬」（`data-cs="cnps"`）＋`#cnpsView`；②**5 套固定卷**（非隨機生成）：每套甲部兩篇章（記敘＋說明，各 8／7 題：找詞填充×3、修辭與內容 MC×4、段意關鍵詞短答、開放題自評）＋乙部十小節（標點段 10 分自評／修辭辨識 A–H 六題不可重複／句義 2／排句 2 組／段義 2／詞義 2／改寫 2／重組 2／擴張 1／關聯詞造句 2），全卷 100 分＝機改 56＋自評 44；③五套篇章題材互異（蒲扇／路口義工／舊單車／接力賽／便利店；茶樓點心／蜜蜂授粉／颱風名字／文房四寶／米埔候鳥），全部原創；④列印 `cnpsPrintSheet` 入 `HKK_PRINT_SHEETS`（七處）含答案版；⑤`LIC_MODS` 加 `{k:'cnps'}`（6→7 模塊，進頁自動開第一套同樣計次）；⑥版權自檢：原卷特徵短語（書籤阿靜／橫瀾島燈塔／鳳凰木等）0 命中；⑦斷言 1510→+v2.39 專項，tip 5→6 段、lic 表 6→7 行同步。版本升 v2.39（三把鎖全換）。
 v2.38：葉工上傳校內中文科 P6 測驗卷（14 頁掃描版：7 頁卷＋7 頁答案，零文字層），要求「給我出類似的」。⚠️ 版權紅線同 v2.35：掃描原卷零原文入庫（原 PDF 與逐頁圖留 `_private/`），只取**題型骨架**——(一)填充 7 題@2%／(二)成語運用 10 選 3／(三)標點符號段落 6 分／(四)排句成段 3 組@2%／(五)改寫句子 2 題@3%／(六)標點符號填句 4 選 1@2%／(七)修辭辨析@2%／(八)縮寫句子 4 選 1@2%／(九)段義理解@2%／(十)閱讀理解甲（記敘）乙（說明）各 14%。落地＝①「練習→中文」新增第 3 顆子頁籤「校卷題型」（`data-cs="cnschool"`，插在中文試卷之後，4→5 顆）＋`#cnschoolView`（緊跟 #cnPaperView 為兄弟 pane）＋tip 一段；②原創題池：填充 14／成語箱 3 套（各 10 成語＋3 句）／標點段 3／排句 6 組（各 5 句）／改寫 4（雙重否定・與其不如・被字句・誇張，附例句示範）／標點選 4／修辭 4／縮句 4／段義 4／閱讀甲 2 篇（記敘）＋乙 2 篇（說明），每套固定抽 7+3+1+3+2+2+2+3+3+1+1；③判分：機改 72 分（填充／成語比詞、排句比字母序、選擇比字母、改寫與篇章短答按關鍵詞命中 kwMin），自評 14 分（(三)標點段 6＋甲乙開放題各 4，「顯示參考答案」按鈕），卷面共 86 分，分值照原卷；④列印 `cnschPrintSheet` 入 `HKK_PRINT_SHEETS` 白名單，復用 v1.82 中文卷列印樣式（.cnsec/.cnread），含答案版可選；⑤額度：`LIC_MODS` 新增 `{k:'cnschool',n:'中文校卷'}`（5→6 模塊，進頁自動出卷同樣計次，v2.37 教訓）；⑥零新增 localStorage 鍵、零外鏈、零圖片，原卷特徵短語（鯉魚門／太田公司／徐特立等）自檢 0 命中；`ai_kb.py` 四來源不含本頁，KB 不變。verify2.js 舊斷言同步（子頁籤 4→5 三處、lic 鉤子 5→6 模塊、彈窗表 5→6 行）＋新增 v2.38 專項；版本串升 v2.38（三把鎖全換）。
 
@@ -130,9 +131,9 @@ TEMPLATE = r'''<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>香港插班擇校 · 北區中小學名單＋申請時間線｜葉工</title>
-<meta name="description" content="香港新界北區跨境學童插班指南：北區小學 30 所／中學 20 所名單（電話·校網·檔位篩選）、申請時間線、材料清單、中英數練習。葉工整理，全站免費。">
+<meta name="description" content="香港新界北區跨境學童插班指南：北區小學 30 所／中學 20 所名單（電話·校網·檔位篩選）、申請時間線、材料清單、中英數練習。葉工整理。">
 <meta property="og:title" content="香港插班擇校 · 北區中小學名單＋申請時間線｜葉工">
-<meta property="og:description" content="北區小學 30 所／中學 20 所（電話·校網·檔位篩選）＋插班時間線＋材料清單＋中英數練習，跨境學童家長免費使用。">
+<meta property="og:description" content="北區小學 30 所／中學 20 所（電話·校網·檔位篩選）＋插班時間線＋材料清單＋中英數練習，供跨境學童家長使用。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://stevehksz.github.io/hk-study-site/">
 <style>
@@ -1056,7 +1057,7 @@ header{position:relative}
   .cta-strip{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;background:linear-gradient(135deg,#f0f8fd,#eefaf8);border:1px solid #cfe4f7;border-radius:14px;padding:14px 16px;margin:20px 0 4px}
   .cta-strip p{margin:0;font-size:13.5px;line-height:1.75;color:#2b3a4f;flex:1 1 280px}
   .cta-strip .btn{flex:0 0 auto;background:#0369a1;border-color:#0369a1;color:#fff;font-weight:700}
-  /* v2.37 免費額度占位卡與解鎖彈窗（scoped .lic-ph / #licMask，不動全域 .modal/.btn/.mask） */
+  /* v2.37 試用額度占位卡與解鎖彈窗（scoped .lic-ph / #licMask，不動全域 .modal/.btn/.mask） */
   .lic-ph{background:#fffdf5;border:1px dashed #e3c88c;border-radius:14px;padding:24px 20px;margin:16px 0;text-align:center}
   .lic-ph b{display:block;font-size:15px;color:#8a5a00;margin-bottom:9px;line-height:1.6}
   .lic-ph p{margin:0 auto 15px;font-size:13px;line-height:1.9;color:#6b5a3a;max-width:520px}
@@ -1292,7 +1293,7 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
 <div id="authGate">
   <div class="authHero">
     <div class="logo">香港插班<span class="hl">學習站</span></div>
-    <div class="sub">中英數練習 · 呈分試模擬卷 · 升學規劃（免費）</div>
+    <div class="sub">中英數練習 · 呈分試模擬卷 · 升學規劃</div>
   </div>
   <div class="authCard">
     <div class="authTabs">
@@ -1324,15 +1325,15 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
     </details>
   </div>
   <div class="authFoot">
-    <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
+    <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.39（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.40
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.39（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.40</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3458,12 +3459,12 @@ Thank you for your time.</div>
     </div>
   </div>
 </div>
-  <!-- v2.37 免費額度用完 → 解鎖／購買彈窗（複用 .mask/.modal 骨架；零外鏈、零圖片、零新增請求） -->
+  <!-- v2.37 試用額度用完 → 解鎖／購買彈窗（複用 .mask/.modal 骨架；零外鏈、零圖片、零新增請求） -->
   <div class="mask" id="licMask">
     <div class="modal">
       <span class="x" id="licClose">×</span>
       <h2>🔑 解鎖練習額度</h2>
-      <p class="lic-sub" id="licSub">本站每類練習免費送 1 套，用完後輸入授權碼或加微信開通。</p>
+      <p class="lic-sub" id="licSub">本站每類練習可先試 1 套，用完後輸入授權碼或加微信開通。</p>
       <table class="lic-tbl"><thead><tr><th>練習模塊</th><th>額度狀態</th></tr></thead><tbody id="licTbody"></tbody></table>
       <div class="lic-in">
         <input id="licCode" type="text" placeholder="HKSS-20261231-XXXXXXXX" autocomplete="off" spellcheck="false" aria-label="授權碼">
@@ -3474,7 +3475,7 @@ Thank you for your time.</div>
         <button class="btn" type="button" id="licBuy">💬 加微信開通</button>
         <button class="btn" type="button" id="licLater">稍後再說</button>
       </div>
-      <p class="lic-note">授權碼離線校驗、有效期內五類練習無限出卷；批改、看答案、列印一直免費。換裝置或清除瀏覽器資料需重新輸入。價格與開通方式請加微信確認。</p>
+      <p class="lic-note">授權碼離線校驗、有效期內各類練習不限套數；批改、看答案、列印不設限制。換裝置或清除瀏覽器資料需重新輸入。價格與開通方式請加微信確認。</p>
     </div>
   </div>
 
@@ -3522,7 +3523,7 @@ Thank you for your time.</div>
       <h4>加進來能得到什麼</h4>
       <ul>
         <li>👥 <b>插班家長群</b>：同區同級家長互相對照，學校實際情況有人現身說法</li>
-        <li>💬 <b>問題直接問</b>：擇校、時間線、材料準備，免費回答，不推銷課程</li>
+        <li>💬 <b>問題直接問</b>：擇校、時間線、材料準備，直接回答，不推銷課程</li>
         <li>🔔 <b>政策與名額更新</b>：教育局時間表、學校開放插班的消息，群裡先說</li>
       </ul>
     </div>
@@ -3540,7 +3541,7 @@ Thank you for your time.</div>
 <div class="wrap" id="aboutView">
   <div class="gcard about-card">
     <h2>關於葉工 · 諮詢與合作</h2>
-    <p>葉工（公眾號「史蒂夫HKSZ」）：香港註冊專業工程師（RPE）、英國特許工程師（CEng）、香港科技大學碩士，深港雙城生活。本站為來港插班家庭整理的實用工具站，現免費開放給同路的內地家庭。</p>
+    <p>葉工（公眾號「史蒂夫HKSZ」）：香港註冊專業工程師（RPE）、英國特許工程師（CEng）、香港科技大學碩士，深港雙城生活。本站為來港插班家庭整理的實用工具站，現開放給同路的內地家庭。</p>
     <p>📧 <a href="mailto:hkeec2023@gmail.com">hkeec2023@gmail.com</a>（諮詢／合作／勘誤）　💬 微信號：<b>SteveHKSZ</b>（擇校諮詢直接加）　💬 公眾號搜「史蒂夫HKSZ」（插班乾貨更新）　🗓 或郵件留言（孩子年級／身份／目標），會回覆安排</p>
     <!-- TODO(v1.41+): 預約表單外鏈（騰訊問卷/金數據，待葉工開通帳號後填入）；數據埋點（51la/umami，同） -->
     <p class="folk">⚠️ 免責聲明：本站內容為公開資料整理與非官方參考（Band 組別等均非教育局公布），一切以學校官網、教育局、考評局當年公布為準；本站不構成任何升學承諾。</p>
@@ -4040,7 +4041,7 @@ function pickMathN(pool,N){
   return picked;
 }
 function genMathPaper(){
-  if(!licPass('math'))return;   /* v2.37 每模塊免費 1 套 */
+  if(!licPass('math'))return;   /* v2.37 每模塊可試 1 套 */
   const pool=mathPoolFor();
   if(!pool.length){alert(curMathPart==='自訂'?'自訂題庫還沒有題：先在下方「🤖 按學校卷子出題」生成。':'該年級題庫暫空。');return;}
   const N=Math.min(15,pool.length);  /* v2.33：葉工要求每套起碼 15 題（池不足就出滿池） */
@@ -4570,7 +4571,7 @@ function schFormalize(){
   };
 }
 function genSchoolPaper(){
-  if(!licPass('school'))return;   /* v2.37 每模塊免費 1 套 */
+  if(!licPass('school'))return;   /* v2.37 每模塊可試 1 套 */
   curSchoolPaper=schFormalize();
   renderSchoolPaper();
 }
@@ -5132,9 +5133,9 @@ function cnPick(arr,n){
   return a.slice(0,n);
 }
 function cnBank(g){ return (CN_QBANK&&CN_QBANK[g])||{mc:[],fill:[],read:[],write:[]}; }
-/* ======================= v2.37 免費額度 ＋ 授權碼解鎖 =======================
+/* ======================= v2.37 試用額度 ＋ 授權碼解鎖 =======================
    定位（A 檔：純前端軟限制）：
-     · 每類練習免費送 LIC_FREE 套（出卷即計次，含進頁面的自動出卷——否則刷新即可白拿新卷）。
+     · 每類練習可先試 LIC_FREE 套（出卷即計次，含進頁面的自動出卷——否則刷新即可白拿新卷）。
      · 批改、看答案、列印、草稿板永不計次（做完卷不給看分只會掉粉）。
      · 用完後卷區顯示占位卡（不彈窗糊臉），點卡才開解鎖彈窗。
    ⚠️ 如實標註：計數與校驗全在前端，清 localStorage、開無痕、讀源碼自造碼都可繞過。
@@ -5250,7 +5251,7 @@ function licPass(k){
   licPlaceholder(k);
   return false;
 }
-/* 批量／AI 等高級功能：要求已解鎖（不佔免費額度，直接開彈窗） */
+/* 批量／AI 等高級功能：要求已解鎖（不佔試用額度，直接開彈窗） */
 function licNeed(){
   if(!licOnline()){return true;}
   if(licActive(licLoad())){return true;}
@@ -5265,8 +5266,8 @@ function licModOf(k){
 function licPlaceholder(k){
   var m=licModOf(k),box=m?document.getElementById(m.box):null;
   if(!box){return;}
-  box.innerHTML='<div class="lic-ph"><b>「'+m.n+'」的免費額度已用完</b>'
-    +'<p>本站每類練習免費送 '+LIC_FREE+' 套，這個模塊已經用過了。輸入授權碼可無限出卷；<b style="display:inline;color:#6b5a3a">批改、看答案、列印一直免費</b>，不影響你手上這份卷。</p>'
+  box.innerHTML='<div class="lic-ph"><b>「'+m.n+'」的可試套數已用完</b>'
+    +'<p>本站每類練習可先試 '+LIC_FREE+' 套，這個模塊已經用過了。輸入授權碼可無限出卷；<b style="display:inline;color:#6b5a3a">批改、看答案、列印不設限制</b>，不影響你手上這份卷。</p>'
     +'<div class="lic-ph-btns"><button class="btn" type="button" data-lic="'+k+'">🔑 輸入授權碼 / 開通</button></div></div>';
   var bs=box.querySelectorAll('.lic-ph [data-lic]');
   for(var i=0;i<bs.length;i++){
@@ -5279,19 +5280,19 @@ function licRender(){
   var o=licLoad(),act=licActive(o),h='';
   LIC_MODS.forEach(function(m){
     var left=Math.max(0,LIC_FREE-(o.used[m.k]||0));
-    var txt=act?'✓ 已解鎖（不限套數）':(left>0?('免費剩 '+left+' 套'):'已用完');
+    var txt=act?'✓ 已解鎖（不限套數）':(left>0?('可試 '+left+' 套'):'已用完');
     h+='<tr><td>'+m.n+'</td><td class="'+((act||left>0)?'st-ok':'st-no')+'">'+txt+'</td></tr>';
   });
   tb.innerHTML=h;
   var sub=document.getElementById('licSub');
   if(sub){
     if(act){
-      sub.textContent='已啟用至 '+o.exp+'：五類練習都可以無限出卷，批改與列印照舊免費。';
+      sub.textContent='已啟用至 '+o.exp+'：各類練習都可以無限出卷，批改與列印不受影響。';
     }else{
       var m2=licModOf(licCurMod);
       sub.textContent=m2
-        ? ('本站每類練習免費送 '+LIC_FREE+' 套，現在「'+m2.n+'」的免費額度已用完。輸入授權碼可無限出卷；批改、看答案、列印一直免費。')
-        : ('本站每類練習免費送 '+LIC_FREE+' 套。批量出 10 套與 AI 出卷屬解鎖後功能，輸入授權碼即可使用。');
+        ? ('本站每類練習可先試 '+LIC_FREE+' 套，現在「'+m2.n+'」的可試套數已用完。輸入授權碼可無限出卷；批改、看答案、列印不設限制。')
+        : ('本站每類練習可先試 '+LIC_FREE+' 套。批量出 10 套與 AI 出卷屬解鎖後功能，輸入授權碼即可使用。');
     }
   }
 }
@@ -5353,7 +5354,7 @@ window.__licTest={mods:LIC_MODS,load:licLoad,save:licSave,active:licActive,can:l
   online:licOnline,sha:licSha256,codeOf:licCodeOf,salt:LIC_PUB_SALT,free:LIC_FREE,key:LIC_KEY};
 
 function genCnPaper(){
-  if(!licPass('cn'))return;   /* v2.37 每模塊免費 1 套 */
+  if(!licPass('cn'))return;   /* v2.37 每模塊可試 1 套 */
   const b=cnBank(curCnGrade);
   if(!b.mc.length&&!b.read.length){alert('該年級題庫暫空。');return;}
   // 每級：基礎題（mc+fill）＋ 篇章閱讀 ＋ 寫作題
@@ -5967,7 +5968,7 @@ function cnsNorm(t){return String(t||'').toLowerCase().replace(/[\s，。、；�
 function cnsSeqNorm(t){return String(t||'').toUpperCase().replace(/[^A-E]/g,'');}
 function cnsShuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function genCnSchoolPaper(){
-  if(!licPass('cnschool'))return;   /* v2.38 每模塊免費 1 套（進頁自動出卷同樣計次） */
+  if(!licPass('cnschool'))return;   /* v2.38 每模塊可試 1 套（進頁自動出卷同樣計次） */
   cnsPaper={
     fill:cnsShuffle(CNS_FILL).slice(0,7),
     idiom:CNS_IDIOM[Math.floor(Math.random()*CNS_IDIOM.length)],
@@ -6450,7 +6451,7 @@ function cnpsFlat(p){
   return f;
 }
 function cnpsOpen(i){
-  if(!licPass('cnps'))return;   /* v2.39 每模塊免費 1 套（進頁自動開第一套同樣計次） */
+  if(!licPass('cnps'))return;   /* v2.39 每模塊可試 1 套（進頁自動開第一套同樣計次） */
   cnpsCur=i; cnpsPaper=CNPS[i]; cnpsFlatItems=cnpsFlat(cnpsPaper);
   renderCnps();
   document.querySelectorAll('#cnpsView .enpaper-actions .chip').forEach(function(c,k){c.classList.toggle('on',k===i);});
@@ -6578,7 +6579,7 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function prepMc(q){const idx=q.opts.map((_,i)=>i);const sh=shuffle(idx);const opts=sh.map(i=>q.opts[i]);return Object.assign({},q,{opts:opts,a:sh.indexOf(q.a)});}
 function prepRead(q){return Object.assign({},q,{qs:q.qs.map(prepMc)});}
 function genEnPaper(){
-  if(!licPass('en'))return;   /* v2.37 每模塊免費 1 套 */
+  if(!licPass('en'))return;   /* v2.37 每模塊可試 1 套 */
   let picked;
   if(curEnGrade==='ALL'){
     picked=[];
@@ -9415,7 +9416,7 @@ function exTxt(s,pre){return s.replace(/\{(\d+)\}/g,function(m,n){return exInp(p
 function exNorm(s){return (s||'').toLowerCase().replace(/[’']/g,'’').replace(/[，、。！？,.!?:;；()（）"'’]/g,'').replace(/\s+/g,' ').trim();}
 function exBankTable(rows){return '<table class="ex-bank">'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</table>';}
 function genExamPaper(){
-  if(!licPass('exam'))return;   /* v2.37 每模塊免費 1 套 */
+  if(!licPass('exam'))return;   /* v2.37 每模塊可試 1 套 */
   const B=EXAM_QBANK[curExamGrade];
   curTenNo=0;
   curExamPaper={head:exPick(B.heads),A:exPick(B.A),B:exPick(B.B),C:exPick(B.C),D:exPick(B.D),E:exPick(B.E),F:exPick(B.F),G:exPick(B.G),H:exPick(B.H),I:exPick(B.I),J:exPick(B.J)};
@@ -10687,7 +10688,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.39',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.40',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
