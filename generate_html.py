@@ -1327,13 +1327,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.42
+    © 叶工 SteveHKSZ · 公開版 v2.43
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.42</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.43</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -6633,9 +6633,45 @@ function renderEnPaper(){
   box.innerHTML=html;
 }
 function norm(s){return (s||'').toString().trim().toLowerCase().replace(/\.+$/,'').replace(/\s+/g,' ');}
+/* ============ v2.43 錯詞自動收錄：英文卷答錯 → 正確答案裏的生詞自動進「我的單詞本」
+   取捨：①复用 v1.80 addFrom(kind='paper')，不另寫儲存邏輯；②只收「正確答案」裏的詞
+   （她答錯＝不認識該詞），不收題幹與干擾項，避免一次倒進半張卷；③停用詞表過濾功能詞；
+   ④每卷上限 8 詞；⑤去重由 addFrom 既有大小寫去重負責；⑥中文義留空，詞卡可自行補。 */
+var MW_STOP={a:1,an:1,the:1,and:1,or:1,but:1,if:1,so:1,because:1,although:1,though:1,when:1,while:1,before:1,after:1,until:1,since:1,as:1,than:1,then:1,that:1,this:1,these:1,those:1,there:1,here:1,it:1,its:1,he:1,she:1,they:1,them:1,their:1,his:1,her:1,him:1,we:1,us:1,our:1,you:1,your:1,i:1,my:1,me:1,is:1,am:1,are:1,was:1,were:1,be:1,been:1,being:1,do:1,does:1,did:1,done:1,have:1,has:1,had:1,not:1,no:1,yes:1,can:1,could:1,will:1,would:1,shall:1,should:1,may:1,might:1,must:1,to:1,of:1,in:1,on:1,at:1,for:1,with:1,by:1,from:1,into:1,about:1,over:1,under:1,up:1,down:1,out:1,off:1,all:1,any:1,some:1,more:1,most:1,much:1,many:1,very:1,too:1,also:1,only:1,just:1,said:1,says:1,say:1,one:1,two:1,three:1,first:1,next:1,last:1,every:1,each:1,other:1,another:1,such:1,own:1,same:1,how:1,what:1,which:1,who:1,whom:1,whose:1,why:1,where:1};
+function mwVocabFromText(t){
+  var out=[],seen={};
+  (String(t||'').toLowerCase().match(/[a-z][a-z'-]{2,}/g)||[]).forEach(function(w){
+    w=w.replace(/['-]+$/,'');if(!w||MW_STOP[w]||seen[w])return;seen[w]=1;out.push(w);
+  });
+  return out;
+}
+function mwAddPaperVocab(words,note){
+  if(!window.__myWordsTest||!words||!words.length)return null;
+  var a=0,d=0,f=0,list=[];
+  words.forEach(function(w){
+    var r=window.__myWordsTest.addFrom('paper',{w:w,note:note||''});
+    if(r&&r.ok){a++;list.push(w);}
+    else if(r&&/已在單詞本/.test(r.msg)){d++;}
+    else{f++;}
+  });
+  return {added:a,dup:d,fail:f,list:list};
+}
+function mwPaperLine(res){
+  if(!res||(!res.added&&!res.dup))return '';
+  var s='📥 錯題生詞自動收錄：新增 '+res.added+' 個';
+  if(res.dup)s+='（'+res.dup+' 個已在單詞本）';
+  if(res.list.length)s+='：'+res.list.join('、');
+  s+=' <button type="button" class="btn" onclick="__mwGotoPaperWords()">查看我的單詞本</button>';
+  return '<div class="qans"><span class="ok">'+s+'</span></div>';
+}
+function __mwGotoPaperWords(){
+  var h=document.querySelector('nav button[data-tab="practice"]');if(h)h.click();
+  var e=document.querySelector('#practiceSub button[data-sub="en"]');if(e)e.click();
+  var b=document.querySelector('#enPracSub button[data-es="mywords"]');if(b)b.click();
+}
 function gradeEnPaper(){
   if(!curEnPaper.length){alert('請先按「🎲 出新卷」生成練習卷。');return;}
-  let correct=0, scored=0;
+  let correct=0, scored=0, mw=[];
   curEnPaper.forEach((q,i)=>{
     const card=document.querySelector('#enPaperBox .qcard[data-qi="'+i+'"]');
     if(q.t==='mc'){
@@ -6644,6 +6680,7 @@ function gradeEnPaper(){
       card.querySelectorAll('.qopt').forEach((op,k)=>{if(k===q.a)op.classList.add('correct');else if(sel&&+sel.value===k)op.classList.add('wrong');});
       card.insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+q.opts[q.a]+'</span></div>');
       if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'en',src:'英文練習卷',g:curEnGrade,q:q.q,mine:(sel?q.opts[+sel.value]:'（未作答）'),key:q.opts[q.a]});
+      if(!ok){mw=mw.concat(mwVocabFromText(q.opts[q.a]));}
     }else if(q.t==='read'){
       q.qs.forEach((sub,j)=>{
         const subEl=card.querySelector('.qsub[data-sj="'+j+'"]');
@@ -6651,6 +6688,7 @@ function gradeEnPaper(){
         scored++;const ok=sel&&+sel.value===sub.a; if(ok)correct++;
         subEl.querySelectorAll('.qopt').forEach((op,k)=>{if(k===sub.a)op.classList.add('correct');else if(sel&&+sel.value===k)op.classList.add('wrong');});
         if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'en',src:'英文卷 · 閱讀理解',g:curEnGrade,q:sub.q,mine:(sel?sub.opts[+sel.value]:'（未作答）'),key:sub.opts[sub.a]});
+        if(!ok){mw=mw.concat(mwVocabFromText(sub.opts[sub.a]));}
       });
     }else if(q.t==='fill'){
       const inp=document.getElementById('qf'+i);const v=norm(inp.value);
@@ -6658,6 +6696,7 @@ function gradeEnPaper(){
       inp.classList.add(ok?'correct':'wrong');
       card.insertAdjacentHTML('beforeend', ok?'<div class="qans"><span class="ok">✓ 正確</span></div>':'<div class="qans"><span class="no">✗ 正確答案：'+q.a+'</span></div>');
       if(!ok&&typeof wrongAdd==='function')wrongAdd({sub:'en',src:'英文練習卷',g:curEnGrade,q:q.q,mine:inp.value,key:q.a});
+      if(!ok){mw=mw.concat(mwVocabFromText(q.a));}
     }else if(q.t==='open'){
       card.insertAdjacentHTML('beforeend','<div class="qans"><span class="no">✎ 開放題（不計分）</span> 參考：'+(q.model||'')+'</div>');
     }else if(q.t==='write'){
@@ -6665,7 +6704,9 @@ function gradeEnPaper(){
     }
   });
   const pct=scored?Math.round(correct/scored*100):0;
-  document.getElementById('enPaperResult').innerHTML='<div class="qtot">得分：'+correct+' / '+scored+' 題正確（'+pct+'%）</div><div class="qbar"><i style="width:'+pct+'%"></i></div>'+nsWrongLine('en');
+  var mwSeen={},mwList=[];mw.forEach(function(w){if(!mwSeen[w]&&mwList.length<8){mwSeen[w]=1;mwList.push(w);}});
+  var mwRes=mwAddPaperVocab(mwList,'英文卷錯詞 · '+(curEnGrade==='ALL'?'混合年級':curEnGrade));
+  document.getElementById('enPaperResult').innerHTML='<div class="qtot">得分：'+correct+' / '+scored+' 題正確（'+pct+'%）</div><div class="qbar"><i style="width:'+pct+'%"></i></div>'+mwPaperLine(mwRes)+nsWrongLine('en');
   const BK='hkk_enpaper_v0';let best=JSON.parse(localStorage.getItem(BK)||'{}');
   if(!(curEnGrade in best)||pct>best[curEnGrade]){best[curEnGrade]=pct;localStorage.setItem(BK,JSON.stringify(best));}
   showEnStat();
@@ -10218,6 +10259,8 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
     if(!o)return {ok:false,msg:'找不到這張詞卡'};
     var d=kind==='hk'
       ? {w:o.w,zh:o.zh,ph:o.ipa||'',src:'站內·中小學單詞',note:[o.grade,o.theme].filter(Boolean).join(' · ')}
+      : kind==='paper'
+      ? {w:o.w,zh:o.zh||'',ph:o.ph||'',src:'站內·練習卷錯詞',note:o.note||''}
       : {w:o.w,zh:o.zh,ph:o.ph||'',src:'站內·詞表',note:o.topic?('主題：'+o.topic):''};
     return add(d);
   }
@@ -10687,7 +10730,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.42',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.43',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
