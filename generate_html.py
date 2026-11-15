@@ -6,6 +6,8 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.38：葉工上傳校內中文科 P6 測驗卷（14 頁掃描版：7 頁卷＋7 頁答案，零文字層），要求「給我出類似的」。⚠️ 版權紅線同 v2.35：掃描原卷零原文入庫（原 PDF 與逐頁圖留 `_private/`），只取**題型骨架**——(一)填充 7 題@2%／(二)成語運用 10 選 3／(三)標點符號段落 6 分／(四)排句成段 3 組@2%／(五)改寫句子 2 題@3%／(六)標點符號填句 4 選 1@2%／(七)修辭辨析@2%／(八)縮寫句子 4 選 1@2%／(九)段義理解@2%／(十)閱讀理解甲（記敘）乙（說明）各 14%。落地＝①「練習→中文」新增第 3 顆子頁籤「校卷題型」（`data-cs="cnschool"`，插在中文試卷之後，4→5 顆）＋`#cnschoolView`（緊跟 #cnPaperView 為兄弟 pane）＋tip 一段；②原創題池：填充 14／成語箱 3 套（各 10 成語＋3 句）／標點段 3／排句 6 組（各 5 句）／改寫 4（雙重否定・與其不如・被字句・誇張，附例句示範）／標點選 4／修辭 4／縮句 4／段義 4／閱讀甲 2 篇（記敘）＋乙 2 篇（說明），每套固定抽 7+3+1+3+2+2+2+3+3+1+1；③判分：機改 72 分（填充／成語比詞、排句比字母序、選擇比字母、改寫與篇章短答按關鍵詞命中 kwMin），自評 14 分（(三)標點段 6＋甲乙開放題各 4，「顯示參考答案」按鈕），卷面共 86 分，分值照原卷；④列印 `cnschPrintSheet` 入 `HKK_PRINT_SHEETS` 白名單，復用 v1.82 中文卷列印樣式（.cnsec/.cnread），含答案版可選；⑤額度：`LIC_MODS` 新增 `{k:'cnschool',n:'中文校卷'}`（5→6 模塊，進頁自動出卷同樣計次，v2.37 教訓）；⑥零新增 localStorage 鍵、零外鏈、零圖片，原卷特徵短語（鯉魚門／太田公司／徐特立等）自檢 0 命中；`ai_kb.py` 四來源不含本頁，KB 不變。verify2.js 舊斷言同步（子頁籤 4→5 三處、lic 鉤子 5→6 模塊、彈窗表 5→6 行）＋新增 v2.38 專項；版本串升 v2.38（三把鎖全換）。
+
 v2.37：葉工問「網站裡面的練習只能做一套，再做就要收錢，怎麼實現」——先講清前提：本站是純靜態單檔，任何限制都在前端，清 localStorage／開無痕／讀源碼都能繞過，這是要不要付這個代價的架構事實，不是實作偷懶。四項拍板＝①A 檔（前端軟限制，不做雲端硬限制）②每模塊各送 1 套（五類：數學卷／英文卷／呈分試卷／中文試卷／卷題型）③只算出卷（批改、看答案、列印、草稿板永久免費）④微信人工收款發碼。落地＝①`LIC_MODS` 五模塊登記表（k/n/box），狀態存 `hkk_lic_v0`（`{used:{模塊:次數},code,exp}`，`hkk_` 前綴天然受 v1.33 賬號隔離，多孩子各一份額度）；②出卷入口統一 `licPass(k)` 計次守門（五個 gen*Paper 各插一行），批量十套與 AI 出卷走 `licNeed()` 要求已解鎖；**進頁面的自動出卷同樣計次**——否則刷新就重置記憶體狀態等於無限白拿，這是本版最容易漏的洞；③額度用完不彈窗糊臉，改在卷區渲染 `.lic-ph` 占位卡（標題＋說明＋「🔑 輸入授權碼」），點卡才開 `#licMask` 解鎖彈窗 —— 因為五個出卷函數被 9 處懶初始化／切年級／切頁籤內部呼叫，直上彈窗會一進頁面就被擋；④授權碼 `HKSS-YYYYMMDD-XXXXXXXX`（到期日＋`licSha256(公開鹽|到期日)` 前 8 位），沿用 v1.21 的格式與 `gen_license.py` 發碼流程，但鹽改為本站專用 `LIC_PUB_SALT`，與 `license_secret.txt` 不同一把，避免把其他用途的密鑰一併暴露；`licActive()` 同時驗格式＋簽名＋exp 三者自洽且未過期（防手改 exp 續期這種最懶的繞過）；⑤`licSha256()` 自寫同步實現——站內既有的 SHA-256 走 `crypto.subtle`（async），同步出卷鏈路用不了，已用 12 個用例（含 55/56/63/64/65/119 邊界）與 Node crypto 逐位對齊驗證、並驗證 h/k 緩存複用不污染結果；⑥本地豁免 `licOnline()`（file://／localhost／127.／192.168. 不計次不攔截，與 v1.33 `AUTH_FORCE` 同語義但自包含），線上兩域（Pages 與 workbuddy）都計次；⑦彈窗複用 `.mask/.modal` 骨架，內含五模塊額度狀態表、授權碼輸入（Enter 可直接送出）、加微信開通、稍後再說；**價格一律不寫死**（「請加微信確認」），不編造未經拍板的數字；零外鏈零圖片零新增請求、不動全域 `.modal/.btn/.mask`。⚠️ 如實標註：本層是君子協定，真正的配額必須雲端側控制（路線 B，且要放棄 GitHub Pages 只留一個域），v2.37 未做。
 v2.36：葉工「給我出10套卷子，最好可以AI出卷子」——①校卷題型頁新增「📋 一次出 10 套」：`schBatchBuild(10)` 先用 AI 卷池、再用本地池補，按「A/B/C/D 閱讀聽力簽名」硬去重（同一簽名不重複）、「E/G/H 簽名」盡量不重複（湊不滿時自動放寬），確定性可測；批次表列出每套的 A/B/C/D/G 篇目，「📄 打開」即載入下方作答、「📖 答案」自動填全部選擇題與 61 項填空並批改；「🖨 列印這 10 套」一次輸出 10 份卷（每套 `page-break-before` 分頁、答案版與朗讀稿沿用勾選）。②「🤖 AI 出卷」：四路並行（A 閱讀雜誌／B 閱讀 blog／C·D 聽力＋朗讀稿／E·F 動詞＋G 連接詞＋H 寫作），走 `hkk_ai_cfg` 的 OpenAI 相容接口、`response_format:json_object`（HTTP 400 時自動去掉該欄重試），每路輸出過 `schAiChkRead/schAiChkListen/schAiChkRest` 結構校驗（段數、6 選擇四選項互異且索引合法、13 空與 13 答案對齊、7 空連接詞、寫作四格四問），不合格自動帶錯誤原因重試一次；四路中任一路仍失敗則該部分由本地題池補齊並在提示裡標明，全失敗才報錯；通過的整卷存 `hkk_schai_v0`（上限 20 套）並立即可作答，批次出卷優先吃 AI 卷。③`printSchoolPaper` 重構為 `schPrintHtml(p,ans,script,no)`＋薄包裝，卷頭可標「第 N 套」（單套列印行為與文案不變）。④題池擴充：閱讀 +2 篇雜誌（上學方式、著名橋樑）＋1 篇 blog（停電日）、聽力 +1 段 talk（運動會廣播）＋1 個 story（新同學），全部原創；mag 4／blog 2／talk 2／story 2 → 32 種閱讀聽力組合，10 套必不重樣。零新增 npm 依賴、零外鏈、零圖片；AI 只送 prompt 不送任何卷面截圖，提示詞明令原創不得抄襲。
 v2.35：葉工上傳校內英文測驗卷（Cathy 1114，12 頁全卷），要求「放到英語練習的試卷裡，新建一個試卷子目錄，可以根據這套試卷生成類似的卷子」。⚠️ 版權紅線：原卷文章／題目／圖片一律不入公開站（倉庫公開＝公開發行），只取題型骨架。落地＝①英文練習新增第 11 子頁籤「校卷題型」（插在呈分試卷之後、時態與題型之前），新增 `#schoolView` 與頂層 `#schPrintSheet`（列印白名單同步）；②骨架完全對齊原卷八部分：A 閱讀四欄雜誌文（6 選擇含指代／組合選項／NOT 題＋2 全句＋短訊填空 2 空）、B 閱讀 blog（6 選擇含**文字版事件排序**替代原卷圖片排序＋2 全句＋便條 2 空）、C·D 聽力（5＋7 選擇，站內無音頻，附**家長朗讀稿**可折疊）、E·F 動詞正確形式（各 13 空）、G 連接詞日記（7 空）、H 看圖寫故事（四格改**文字場景＋提示問題**，約 100 字，無插圖）；③題庫全部原創：閱讀 3 篇（2 雜誌式＋1 blog）、聽力 2 篇（talk 5 題＋story 7 題）、動詞 3 篇（各 13 空）、連接詞 2 篇（各 7 空）、寫作 2 題（含參考範文），每套抽 2 閱讀＋2 動詞＋1 連接詞＋1 寫作；④批改：選擇題與單詞填空自動判分（大小寫／首尾空格／標點容錯、`alt` 容錯表），全句作答與寫作給參考答案自評；⑤列印：`hkkPrintSheet('schPrintSheet')` 統一入口，含答案版可選、朗讀稿可選；⑥零新增 localStorage 鍵、零外鏈、零圖片、零第三方原文；`ai_kb.py` 只抽 faqView／timelineView／policyView＋學校名冊，本頁在 enPracView 內天然不入 KB。版本串升 v2.35、verify2.js 換三種鎖並補 12 條 v2.35 專項斷言。
@@ -656,6 +658,27 @@ details.gcard:not([open]):hover{border-color:var(--acc);box-shadow:var(--shadow-
 #schoolView .sch-bank td:nth-child(1){white-space:nowrap}
 #schoolView .sch-ai-tag{display:inline-block;margin-left:4px;padding:0 5px;border-radius:6px;background:#eef7fd;color:#1f6fa8;font-size:11px}
 @media(max-width:640px){#schoolView .sch-bank{font-size:12px}#schoolView .sch-bank th:nth-child(4),#schoolView .sch-bank td:nth-child(4),#schoolView .sch-bank th:nth-child(5),#schoolView .sch-bank td:nth-child(5){display:none}}
+/* v2.38 中文校卷（全部 scoped #cnschoolView，不動全域 .ex-*/.cn-*） */
+#cnschoolView .cns-sec{margin:16px 0 22px}
+#cnschoolView .cns-h{font-weight:800;font-size:15px;margin:0 0 6px;color:#1f3b5a}
+#cnschoolView .cns-qi{margin:10px 0 2px;font-size:14px;line-height:1.8}
+#cnschoolView .cns-mark{display:inline-block;margin-left:6px;font-size:12px;color:#8a8aa0}
+#cnschoolView .cns-inp{width:120px;border:none;border-bottom:1.5px solid #7b93ad;background:transparent;font:inherit;padding:1px 4px;margin:0 2px;text-align:center}
+#cnschoolView .cns-inp:focus{outline:none;border-color:#1f6fb2;background:#f2f8ff}
+#cnschoolView .cns-opts{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px;margin:2px 0 4px;font-size:13.5px}
+@media(max-width:640px){#cnschoolView .cns-opts{grid-template-columns:1fr}}
+#cnschoolView .cns-opt{display:flex;align-items:flex-start;gap:4px;cursor:pointer;line-height:1.6}
+#cnschoolView .cns-sa{display:block;width:100%;margin:4px 0 10px;min-height:52px;border:1px solid #cfd9e4;border-radius:8px;padding:6px 8px;font:inherit}
+#cnschoolView .cns-para{letter-spacing:.4em;line-height:2.2;font-size:14px;border:1px dashed #b9cbe0;border-radius:8px;padding:8px 10px;background:#f7fbff;margin:6px 0}
+#cnschoolView .cns-rbtn{font-size:12.5px;padding:3px 10px}
+#cnschoolView .cns-rans{margin:6px 0 10px;padding:8px 10px;border-left:3px solid #9ec7e8;background:#f7fbff;font-size:13.5px;line-height:1.7}
+#cnschoolView .cns-read{border:1px solid #e2ebf4;border-radius:8px;padding:10px 12px;background:#fff;margin:8px 0}
+#cnschoolView .cns-read h4{margin:0 0 6px;font-size:14px;color:#1f4e79}
+#cnschoolView .cns-read p{font-size:13.5px;line-height:1.9;margin:6px 0}
+#cnschoolView .cns-res{margin:10px 0;padding:10px 12px;border-radius:10px;background:#eef7fd;font-size:14px}
+#cnschoolView .cns-res b{font-size:17px;color:#1f6fb2}
+#cnschoolView .cns-wrong{margin:6px 0;font-size:13px;color:#8a3b3b}
+
 #mathPaperBox .qscratch{border:1px solid var(--line);border-radius:10px;background:#fbfdff;padding:6px 8px 8px;display:flex;flex-direction:column;gap:6px}
 #mathPaperBox .qscr-head{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);min-height:44px}
 #mathPaperBox .qscr-t{font-weight:700;color:#475069;font-size:12.5px}
@@ -1302,13 +1325,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('本站為免費學習站。賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.37（全站免費）
+    © 叶工 SteveHKSZ · 公開版 v2.38（全站免費）
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.37（全站免費）</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.38（全站免費）</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1538,6 +1561,8 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
     <div class="subnav" id="cnPracSub" style="position:static;top:auto;margin:0 -16px 12px">
       <button data-cs="star" class="on">背古詩</button>
       <button data-cs="cnpaper">中文試卷</button>
+      <!-- v2.38：中文校卷——按校內中文測驗卷骨架出全卷（原創題），插在中文試卷之後 -->
+      <button data-cs="cnschool">校卷題型</button>
       <!-- v1.97 我的生字本：繁體字本地 CRUD（照 v1.80 我的單詞本模式） -->
       <button data-cs="zibook">我的生字本</button>
       <!-- v2.21：繁體對照由速覽指南整體遷入，沿用 v1.9 英文卷遷移模式 -->
@@ -1547,7 +1572,7 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
     <div id="cnPracTips">
       <p class="tip" data-cstip="star" style="margin:0 0 10px">「背古詩」＝<b>背詩星圖</b>（185 首按年級分 7 段點亮，看整體進度）＋<b>古詩詞列表</b>（繁體＋拼音＋粵拼全文）＋<b>一首詩四步</b>（聽讀 → 看譯文 → 遮字背誦 → 抽查）。想練做卷請切到「中文試卷」。</p>
       <p class="tip" data-cstip="cnpaper" style="margin:0 0 10px;display:none">「中文試卷」＝<b>本站原創仿題型</b>（小二／小五／小六），可出新卷、AI 出新卷、交卷批改；題目、篇章、選項與答案全部本站原創，非任何機構真卷。</p>
-      <p class="tip" data-cstip="zibook" style="margin:0 0 10px;display:none">「我的生字本」＝把不會認的繁體字收進來，切「翻卡複習」遮著認、認得打勾；<b>只存本瀏覽器、跟賬號走，不會上傳</b>。</p>
+      <p class="tip" data-cstip="cnschool" style="margin:0 0 10px;display:none">「校卷題型」＝<b>小六十部分全卷模擬</b>（填充→成語→標點→排句→改寫→標點選→修辭→縮句→段義→閱讀甲乙），可出新卷、交卷批改、列印含答案版；題目與篇章全部本站原創，非任何學校真卷。</p><p class="tip" data-cstip="zibook" style="margin:0 0 10px;display:none">「我的生字本」＝把不會認的繁體字收進來，切「翻卡複習」遮著認、認得打勾；<b>只存本瀏覽器、跟賬號走，不會上傳</b>。</p>
       <p class="tip" data-cstip="ft" style="margin:0 0 10px;display:none">「繁體對照」＝<b>簡→繁高頻對照表</b>（分 P1–P6），用來查字、不用來背；一簡對多繁（发→發/髮、里→裡/裏）按詞義選。想練「認得快」用「補習材料 → ⑤ 繁體翻卡」。</p>
     </div>
     <div id="cnStarView">
@@ -1603,6 +1628,23 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
         年級難度為依香港小學中文科教學進度的一般估算，<b>非官方分級</b>，實際以學校進度為準。
       </div>
     </div>
+    <!-- v2.38 中文校卷：骨架取自 2026-11-14 家長提供的校內中文測驗卷（(一)填充 → (十)閱讀甲乙，共十部分），
+         只取題型與分部順序，詞題／成語／標點段／排句／改寫／篇章全部本站原創編寫，零原文轉載。 -->
+    <div class="wrap gsec" id="cnschoolView" style="display:none">
+      <div class="gtitle">校卷題型 · 中文全卷模擬 · 小六（按校內測驗卷骨架 · 原創題）</div>
+      <span class="folk">骨架取自 2026-11-14 家長提供的校內中文科測驗卷：(一)填充 → (二)成語運用 → (三)標點符號 → (四)排句成段 → (五)改寫句子 → (六)標點符號填句 → (七)修辭辨析 → (八)縮寫句子 → (九)段義理解 → (十)閱讀理解（甲記敘＋乙說明）。只取「題型與分部順序」，題目與篇章全部本站原創編寫，零原文轉載、零外鏈。全卷 86 分＝機改 72 分＋自評 14 分（(三)標點段與甲乙各一道開放題）。</span>
+      <div class="enpaper-actions">
+        <button class="btn" id="cnschNew" onclick="genCnSchoolPaper()">🎲 出新卷</button>
+        <button class="btn" id="cnschSubmit" onclick="gradeCnSchoolPaper()">✅ 交卷批改</button>
+        <button class="btn" onclick="printCnSchoolPaper()">🖨 列印</button>
+        <label class="print-ans-toggle"><input type="checkbox" id="cnschPrintAns"> 含答案版</label>
+        <span class="enpaper-stat" id="cnschStat">共 10 部分</span>
+      </div>
+      <div id="cnschPaperBox"></div>
+      <div id="cnschResult"></div>
+      <div class="en-src-note"><b>說明：</b>題型骨架來自校內測驗卷（版權歸原校），本頁只沿用分部與題型順序；全部詞題、成語句、標點段、排句、改寫句、篇章與答案均為本站原創編寫，不轉載任何原文。(三)標點段落與閱讀甲乙的最後一道開放題由家長對照參考答案自評，不計入自動批改分數。</div>
+    </div>
+
     <!-- v1.97 我的生字本：純本地增刪改查。公開 HTML 只有空結構，零預置生字 -->
     <div id="ziBookView" style="display:none">
       <div class="gtitle">我的生字本（不會的繁體字自己收 · 只存這台設備）</div>
@@ -3345,6 +3387,7 @@ Thank you for your time.</div>
 <div id="schPrintSheet" class="en-print"></div>
 <div id="rdArtPrintSheet" class="en-print"></div>
 <div id="examPrintSheet" class="en-print"></div>
+<div id="cnschPrintSheet" class="en-print"></div>
 
 <!-- v1.48 悬浮咨询 -->
 <div id="ctaFab"><button id="ctaFabBtn">💬 加微信 · 進插班群</button></div>
@@ -5008,7 +5051,7 @@ function printMathPaper(){
    ⚠️ 根因：舊版六個 print 函數各自填自己的 sheet，但 @media print 把五張 sheet 全部設為可見，
    afterprint 又只移除 class、不清內容 → 同頁先印英文卷再印數學卷，英文卷會排在前一起印出。
    這裡改成「只給目標 sheet 加 print-active，其餘清空並隱藏」，六處共用，杜絕漏改。 */
-var HKK_PRINT_SHEETS=['enPrintSheet','drillPrintSheet','mathPrintSheet','rdArtPrintSheet','examPrintSheet','schPrintSheet'];
+var HKK_PRINT_SHEETS=['enPrintSheet','drillPrintSheet','mathPrintSheet','rdArtPrintSheet','examPrintSheet','schPrintSheet','cnschPrintSheet'];
 var _hkkPrintBound=false;
 function hkkPrintSheet(id,html){
   HKK_PRINT_SHEETS.forEach(function(x){
@@ -5082,7 +5125,8 @@ var LIC_MODS=[
   {k:'en',    n:'英文卷',   box:'enPaperBox'},
   {k:'exam',  n:'呈分試卷', box:'examPaperBox'},
   {k:'cn',    n:'中文試卷', box:'cnPaperBox'},
-  {k:'school',n:'卷題型',   box:'schPaperBox'}
+  {k:'school',n:'卷題型',   box:'schPaperBox'},
+  {k:'cnschool',n:'中文校卷', box:'cnschPaperBox'}
 ];
 var licCurMod='';
 
@@ -5758,6 +5802,327 @@ window.__cnPaperTest={gen:genCnPaper,render:renderCnPaper,gradePaper:gradeCnPape
   validate:cnValidate,prompt:cnAiPrompt,aiPaper:cnAiPaper,aiSwap:cnAiSwap,
   // 注意：grade 這個名字給「當前年級」getter 用，批改函式叫 gradePaper，兩者不可同名
   get grade(){return curCnGrade;},get paper(){return curCnPaper;},get read(){return curCnRead;},get write(){return curCnWrite;}};
+
+/* ======================= v2.38 中文校卷（P6 十部分全卷模擬） ======================= */
+var CNS_FILL=[
+ {s:'每次遇到困難，哥哥總是______面對，從不退縮。',a:'勇敢'},
+ {s:'弟弟做錯了事，主動向媽媽______錯誤。',a:'承認'},
+ {s:'老師提醒我們，考試前要______溫習，不能臨時抱佛腳。',a:'及早'},
+ {s:'颱風襲港當晚，天文台______發出八號風球，提醒市民做好防風措施。',a:'及時'},
+ {s:'他跑步時不小心扭傷了腳，同學們輪流______他回教室。',a:'攙扶'},
+ {s:'姐姐經過一年的努力，終於______了鋼琴八級考試。',a:'通過'},
+ {s:'這條山路十分陡峭，我們必須______前行，確保安全。',a:'小心'},
+ {s:'博物館裏陳列着許多______的文物，吸引不少市民參觀。',a:'珍貴'},
+ {s:'爸爸常常______我們要愛惜光陰，好好讀書。',a:'提醒'},
+ {s:'運動會當天，全場同學______地為參賽者打氣。',a:'熱烈'},
+ {s:'這家老字號的月餅遠近馳名，每年中秋都吸引市民______購買。',a:'爭相'},
+ {s:'義工們每星期到老人中心探訪，風雨無間，從不______。',a:'間斷'},
+ {s:'小明做事一向______，答應了別人的事一定會做到。',a:'守信'},
+ {s:'這本書內容十分有趣，我一連三晚便把它______了。',a:'讀完'}
+];
+var CNS_IDIOM=[
+ {box:['鴉雀無聲','語重心長','迫不及待','興高采烈','聚精會神','格格不入','名列前茅','盡善盡美','恍然大悟','足智多謀'],
+  qs:[{s:'上課鈴聲一響，課室裏頓時______，大家安靜地等候老師進來。',a:'鴉雀無聲'},
+      {s:'聽了老師一番______的話，我終於明白讀書是為了自己，不是為了應付父母。',a:'語重心長'},
+      {s:'弟弟一放學便______地打開電視，生怕錯過動畫片的開場。',a:'迫不及待'}]},
+ {box:['目不轉睛','一絲不苟','愛不釋手','汗流浹背','興致勃勃','無影無蹤','小心翼翼','目瞪口呆','十全十美','烏合之眾'],
+  qs:[{s:'魔術師手法奇妙，觀眾看得______，連眨眼也捨不得。',a:'目不轉睛'},
+      {s:'他做事向來______，連一個標點符號也不會寫錯。',a:'一絲不苟'},
+      {s:'這本故事書情節曲折，妹妹看得______，連吃飯也忘記了。',a:'愛不釋手'}]},
+ {box:['垂頭喪氣','川流不息','井井有條','全神貫注','手舞足蹈','名不虛傳','千鈞一髮','不自量力','七手八腳','喜出望外'],
+  qs:[{s:'比賽結果公布後，落敗的同學個個______，勝出的隊伍則歡呼起來。',a:'垂頭喪氣'},
+      {s:'旺角的行人路每天都是______，十分熱鬧。',a:'川流不息'},
+      {s:'陳同學平日把書包整理得______，找課本時一翻便到。',a:'井井有條'}]}
+];
+var CNS_PPARA=[
+ {raw:'每逢星期六上午 圖書館裏總是坐滿了人 有人埋頭看書 有人細聲討論 連平日最好動的弟弟 也安靜地翻着圖書 媽媽說 閱讀的習慣要從小培養 學會跟書本做朋友 一生受用',
+  ans:'每逢星期六上午，圖書館裏總是坐滿了人：有人埋頭看書，有人細聲討論，連平日最好動的弟弟，也安靜地翻着圖書。媽媽說：「閱讀的習慣要從小培養，學會跟書本做朋友，一生受用。」'},
+ {raw:'星期日下午 我和爸爸到海邊放風箏 風箏越飛越高 像一隻快樂的小鳥 爸爸問 你知道風箏為甚麼能飛上天嗎 我搖搖頭 爸爸笑着解釋 原來風和拉力配合得剛剛好 風箏便穩穩地留在空中',
+  ans:'星期日下午，我和爸爸到海邊放風箏。風箏越飛越高，像一隻快樂的小鳥。爸爸問：「你知道風箏為甚麼能飛上天嗎？」我搖搖頭。爸爸笑着解釋，原來風和拉力配合得剛剛好，風箏便穩穩地留在空中。'},
+ {raw:'春天來了 公園裏的花都開了 紅的 黃的 紫的 一片燦爛 遊人紛紛舉起相機 拍下這美麗的景色 園丁伯伯說 這些花兒經過整個冬天的準備 才開得這樣漂亮 做事也是一樣 要有耐性',
+  ans:'春天來了，公園裏的花都開了：紅的、黃的、紫的，一片燦爛。遊人紛紛舉起相機，拍下這美麗的景色。園丁伯伯說：「這些花兒經過整個冬天的準備，才開得這樣漂亮，做事也是一樣，要有耐性。」'}
+];
+var CNS_ORDER=[
+ {sen:['我們戴上手套，分工合作清理沙灘上的垃圾','最後，大家坐在乾淨的沙灘上，一邊休息一邊欣賞海景','上星期日，學校舉辦了一年一度的海灘清潔日','經過兩小時的努力，原本滿是垃圾的沙灘終於回復潔淨','到達後，老師先向我們講解安全須知，再分派工具'],key:'CEADB'},
+ {sen:['禮堂裏展出同學的書法和勞作作品，吸引了大批家長參觀','大家先到禮堂參觀，然後再到操場欣賞武術表演','上星期六是學校的開放日，校園到處擠滿了參觀的家長','武術隊的同學表演得有聲有色，贏得全場掌聲','活動結束時，家長們都稱讚學校辦得十分成功'],key:'CABDE'},
+ {sen:['接着，我每天放學都替它澆水，細心觀察它的變化','前幾天，老師派了每人一顆綠豆，讓我們帶回家種植','一星期後，綠豆終於長出了兩片嫩綠的葉子，我高興極了','我先找來一個小花盆，把綠豆小心地埋進泥土裏','這次種植讓我明白，只要有耐性，就能有所收穫'],key:'BDACE'},
+ {sen:['爸爸點起蠟燭，全家人圍坐在飯廳裏','那天晚上，大廈突然停電，屋裏一片漆黑','我們一邊吃，一邊聽爸爸講他小時候的故事，比看電視還有趣','媽媽提議趁着燭光吃餅乾，玩猜謎語','直到電力恢復，大家仍然捨不得結束這個特別的晚上'],key:'BADCE'},
+ {sen:['同學們有的表演唱歌，有的陪長者下棋，十分熱鬧','探訪結束時，一位婆婆拉着我的手，多謝我們的到訪','上星期五，我們全班到長者中心探訪','老師說，將來有機會一定要再來探望他們','抵達後，老師先把親手製作的賀卡送給每位長者'],key:'CEABD'},
+ {sen:['街上到處都是被吹斷的樹枝，清潔工人忙着清理','颱風過後的第一個早上，我和爸爸到樓下散步','爸爸說，大自然的威力真大，我們要學會敬畏它','這時，我看見鄰居的伯伯正在扶起倒下的單車，也上前幫忙','忙了半句鐘，看着回復整潔的街道，我們都累得滿頭大汗'],key:'BACDE'}
+];
+var CNS_REWRITE=[
+ {ex:'例句：我一定要說，這次活動的安排真是太好了。／改寫：我不能不說，這次活動的安排真是太好了。',
+  src:'原句：大家一定要承認，他的進步是全班最快的。',
+  ans:'大家不能不承認，他的進步是全班最快的。',kw:['不能不'],kwMin:1},
+ {ex:'例句：我們與其在考試前拼命上補習班，不如自己好好溫習。',
+  src:'原句：他與其整天呆在家裏玩遊戲機，沒有出外做運動。',
+  ans:'他與其整天呆在家裏玩遊戲機，不如出外做運動。',kw:['不如'],kwMin:1},
+ {ex:'例句：我把功課做完了。／改寫：功課被我做完了。',
+  src:'原句：大風把樹上的葉子吹得漫天飛舞。',
+  ans:'樹上的葉子被大風吹得漫天飛舞。',kw:['被大風'],kwMin:1},
+ {ex:'例句：禮堂裏靜得連一根針掉在地上也聽得見。（誇張）',
+  src:'原句：他跑得很快，一下子便到了終點。',
+  ans:'他跑得比風還快，一下子便到了終點。',kw:['比風還快','像風一樣'],kwMin:1}
+];
+var CNS_PM=[
+ {s:'這次旅行玩得多麼開心（　）大家都捨不得回家（　）',opts:['，！','。！','，。','！。'],a:0},
+ {s:'老師問（　）誰想出這個好辦法的（　）',opts:['，？','：？','：。','，。'],a:1},
+ {s:'媽媽買了蘋果（　）橙（　）和香蕉（　）',opts:['，、。','、，。','，，。','、、。'],a:0},
+ {s:'你喜歡吃蘋果（　）還是橙（　）',opts:['，？','，。','。？','、？'],a:0}
+];
+var CNS_RHET=[
+ {s:'「池塘裏的荷葉挨挨擠擠，像一個個碧綠的大圓盤。」',opts:['明喻','暗喻','擬人','排比'],a:0},
+ {s:'「春風輕輕地撫摸着孩子們的臉。」',opts:['明喻','暗喻','擬人','誇張'],a:2},
+ {s:'「書是人類進步的階梯。」',opts:['明喻','暗喻','排比','反復'],a:1},
+ {s:'「愛心是冬日的陽光，愛心是沙漠的清泉，愛心是黑夜的燈塔。」',opts:['排比','擬人','誇張','設問'],a:0}
+];
+var CNS_SHRINK=[
+ {s:'「勤勞的媽媽每天清晨都在廚房裏準備豐盛的早餐。」',opts:['媽媽準備早餐。','勤勞的媽媽準備早餐。','媽媽在廚房準備豐盛的早餐。','媽媽每天準備早餐。'],a:0},
+ {s:'「可愛的小貓在溫暖的陽光下懶洋洋地睡覺。」',opts:['可愛的小貓睡覺。','小貓在陽光下睡覺。','小貓睡覺。','小貓懶洋洋地睡覺。'],a:2},
+ {s:'「銀色的飛機緩緩地降落在寬闊的跑道上。」',opts:['飛機降落在跑道上。','銀色的飛機降落。','飛機緩緩地降落。','飛機降落。'],a:3},
+ {s:'「滿頭大汗的工人們正在熱鬧的地盤裏忙碌地搬運磚頭。」',opts:['工人們搬運磚頭。','工人們正在搬運磚頭。','滿頭大汗的工人們搬運磚頭。','工人們在地盤裏搬運磚頭。'],a:0}
+];
+var CNS_MAIN=[
+ {p:'上次同學取笑你的字寫得不夠工整，當時你又氣又委屈。其實，被人指出不足，正是改進的好機會。古人說：「有則改之，無則加勉。」能把別人的意見當作鏡子的人，往往進步得最快。',
+  opts:['寫字要工整。','被取笑要還嘴。','虛心接受意見有助進步。','不要相信別人的話。'],a:2},
+ {p:'小城的圖書館雖然只有兩層，藏書卻超過二十萬冊。館內設有兒童區、報章區和自修室，每逢週末都座無虛席。管理員說，最忙的日子不是考試前，而是每月一次的「故事日」——那天連門外的台階都坐滿了聽故事的孩子。',
+  opts:['圖書館常常爆滿，很受歡迎。','考試前自修室最擠。','圖書館有二十層。','管理員最忙。'],a:0},
+ {p:'雨點從烏雲裏跳下來，在屋頂上敲起小鼓；花兒張開嘴巴，貪心地喝着甜美的雨水；小草抖抖身子，把睡了一個冬天的懶腰伸直了。整個花園一下子熱鬧起來。',
+  opts:['用擬人手法寫出春雨後花園的生氣。','花園鬧旱災。','屋頂壞了。','小草睡着了。'],a:0},
+ {p:'釣魚看似清閒，其實最考耐性：魚竿要穩，眼神要專注，等魚上釣的一刻更要沉得住氣。新手往往不到十分鐘便收竿抱怨，老手卻能靜靜守上半天。有經驗的釣友常說，釣魚釣的不是魚，是心。',
+  opts:['釣魚是激烈的運動。','釣魚最講耐性與定力。','新手比老手更會釣魚。','釣魚一定要守半天。'],a:1}
+];
+var CNS_READA=[
+ {title:'一場誤會',text:['三月十四日　星期六　雨',
+  '早上的數學堂上，我發現新買的自動鉛筆不見了。那是爸爸送我的生日禮物，我着急得滿頭大汗，把書包和抽屜翻了又翻，還是找不到。',
+  '這時，我看見鄰座的俊文手上正握着一支一模一樣的自動鉛筆。我心裏「騰」地一下火起來：一定是他拿了我的筆！我一把搶過來，大聲說：「你為甚麼拿我的筆？」俊文愣住了，漲紅了臉說：「這是我自己買的！」我不理他，還說要報告老師。',
+  '小息的時候，我在體育館的座位底下發現了自己的鉛筆——原來昨天放學時，它從褲袋裏滑了出來。我拿着兩支一模一樣的筆，臉一下子紅到耳根，恨不得找個地洞鑽進去。',
+  '我鼓起勇氣向俊文道歉。他愣了一下，隨即笑着說：「找到了就好。」還替我把弄髒了的筆擦乾淨。我心裏又慚愧又感動。',
+  '回家後我把這件事告訴媽媽。她說，遇事先弄清真相，才不會冤枉好人；錯怪了別人，就要勇敢認錯。今天的教訓，我會一直記住。'],
+  qs:[{t:'fill',s:'本文屬於哪一類實用文體？',a:'日記'},
+      {t:'mc',s:'作者「恨不得找個地洞鑽進去」的主要原因是',opts:['找不到自動鉛筆。','發現自己錯怪了俊文，非常慚愧。','被老師當眾批評。','鉛筆被弄髒了。'],a:1},
+      {t:'mc',s:'下列哪一個詞語最能形容作者搶筆之前的心情？',opts:['着急。','興奮。','平靜。','輕鬆。'],a:0},
+      {t:'short',s:'為甚麼作者起初肯定是俊文拿了他的筆？試用完整句子回答。',ans:'因為他看見俊文手上握着一支與自己的鉛筆一模一樣的自動鉛筆。',kw:['一模一樣'],kwMin:1},
+      {t:'reveal',s:'如果你是俊文，被同學錯怪之後，你會怎樣做？為甚麼？',ans:'參考：先冷靜向對方解釋那是自己買的筆；若對方仍誤會，可以請老師或同學幫忙說明。事後不記仇，因為對方已經道歉；也提醒自己日後遇事先弄清真相，不隨便懷疑別人。'}]},
+ {title:'山頂的日出',text:['端午節那天，我們一家凌晨四時便起牀，跟着登山隊爬上飛鵝山看日出。',
+  '起初山路還有路燈，走到半山，燈就沒有了，只剩下頭燈照出的一小圈光。爸爸在前開路，我扶着欄杆一步一步往上爬。走到一半，我的腿又痠又軟，真想坐下來休息。隊裏的姐姐把水遞給我，說：「太陽不會等你，再堅持一會兒吧！」',
+  '天色由黑轉深藍，再由深藍轉成淺灰。我們終於在五時四十分登上山頂。山頂上已經站着幾十個人，人人都朝着東方張望。',
+  '六時零二分，天邊忽然裂開一道金縫，太陽一點一點地升起來：先是一條金線，接着是半個、一個，最後整個太陽跳出雲海，把海面染成一片金紅。山頂上響起一片歡呼聲，幾十部相機咔嚓咔嚓地響個不停。',
+  '下山的路上，我一點也不覺得累了。原來辛苦爬上山頂換來的景色，比任何電影都要好看。媽媽說，這就是「一分耕耘，一分收穫」。我望着遠處的太陽，用力地點了點頭。'],
+  qs:[{t:'fill',s:'本文是一篇記敘文還是說明文？',a:'記敘文'},
+      {t:'mc',s:'登山途中作者一度想休息，主要原因是',opts:['天色太黑。','腿又痠又軟。','突然下雨。','迷了路。'],a:1},
+      {t:'mc',s:'太陽「跳出雲海」的一刻，山頂上的反應是',opts:['鴉雀無聲。','響起一片歡呼聲。','大家各自下山。','繼續往上爬。'],a:1},
+      {t:'short',s:'隊裏的姐姐怎樣鼓勵作者？試用完整句子回答。',ans:'她把水遞給作者，說太陽不會等人，請作者再堅持一會兒。',kw:['太陽不會等你','堅持'],kwMin:1},
+      {t:'reveal',s:'你同意「一分耕耘，一分收穫」嗎？試舉一件自己經歷過的事說明。',ans:'參考：同意。例：為了默書滿分，每天默寫十個生詞，一星期後果然全對；堅持練琴半年，終於通過考級。先耕耘後收穫，付出多少努力，便有多少回報。'}]}
+];
+var CNS_READB=[
+ {title:'珍惜光陰',text:['常聽人說：「時間就是金錢。」其實時間比金錢更寶貴——錢花掉了可以再賺，光陰流走了卻永遠追不回來。',
+  '古人早就明白這個道理。晉朝的車胤家裏窮得點不起油燈，便捉來螢火蟲，裝進紗袋裏照明讀書；孫敬把頭髮綁在屋樑上，一打瞌睡便被扯醒，繼續苦讀。他們都能善用別人浪費的時間，最後成為有學問的人。',
+  '反觀今天的我們，上下課路上、飯後睡前，零零碎碎的時間其實不少。有人用來背十個單詞，一年便多背三千多個；有人只顧看短片，一年便悄悄溜走四百多個鐘頭。同樣是一年，收穫卻差天共地。',
+  '管理時間也有方法：第一，每天睡前列好明天的清單，重要的功課排在最前面；第二，把大任務切成小段，每做完一段便休息五分鐘，比一口氣苦熬有效得多；第三，學會說「不」——同學約你打遊戲機時，功課未做完就要懂得拒絕。',
+  '有人抱怨自己沒有天分，其實大多數人的差距，是在一個又一個被浪費的十分鐘裏拉開的。與其抱怨，不如從今晚的溫習清單開始。'],
+  qs:[{t:'mc',s:'第二至三段主要是說明',opts:['古人讀書很苦。','零碎時間善用與否，收穫差別很大。','時間就是金錢。','背單詞的技巧。'],a:1},
+      {t:'mc',s:'文章除了講道理外，還運用甚麼方法來證明論點？',opts:['列舉古今事例。','做問卷調查。','引用科學數據。','列出實驗結果。'],a:0},
+      {t:'fill',s:'從文中找出適當的詞語，填在橫線上：大家同樣溫習了一晚，成績卻______。',a:'差天共地'},
+      {t:'short',s:'根據文章內容，以完整句子回答：作者提出了哪三個管理時間的方法？',ans:'一是睡前列清單、重要的事排最前；二是把大任務切成小段，做完一段休息五分鐘；三是學會拒絕，功課未做完不玩遊戲機。',kw:['清單','小段','拒絕'],kwMin:2},
+      {t:'reveal',s:'你最常浪費時間的地方在哪裏？試用文中一個方法改善它。',ans:'參考：例：我最常在睡前看短片浪費半小時。我會用「列清單」的方法，每晚寫好明天要做的三件事，並把手機放在客廳充電，做完功課才看。'}]},
+ {title:'小小清潔工——蚯蚓',text:['說起蚯蚓，很多人覺得牠又細又滑，沒甚麼特別。其實，這位泥土裏的「小小清潔工」，是大自然不可缺少的功臣。',
+  '蚯蚓以落葉和枯草為食。牠們把這些廢物吞進肚裏，排出來的糞便含有豐富的養分，是上好的天然肥料。一條蚯蚓一天吃掉的落葉，可以達到自己體重的一半；一小片土地裏的蚯蚓，一年能把幾厘米厚的落葉層全部處理乾淨。',
+  '蚯蚓還是鬆土專家。牠們在泥土裏鑽來鑽去，挖出一條條細小的通道，讓空氣和雨水更容易進入土中。農夫都喜歡說：「一條蚯蚓，勝過一把鋤頭。」泥土疏鬆了，農作物的根才長得深、長得壯。',
+  '不過，蚯蚓的生活正面對威脅。農藥把牠們毒死，塑膠袋蓋住泥土令牠們窒息。科學家發現，有些果園因為蚯蚓大量減少，土壤變得又硬又瘦，收成一年不如一年。',
+  '下次在雨後的操場看見蚯蚓，不妨用樹枝輕輕把牠送回花槽的泥土裏。保護這位小小清潔工，其實就是保護我們腳下的土地。'],
+  qs:[{t:'mc',s:'第三段主要是說明',opts:['蚯蚓以落葉為食。','蚯蚓能鬆土，對農作物有益。','蚯蚓會毒死農作物。','蚯蚓喜歡下雨。'],a:1},
+      {t:'mc',s:'文章用甚麼方法說明蚯蚓的食量？',opts:['用牠與自己體重比較。','做問卷調查。','引用古詩。','列出比賽結果。'],a:0},
+      {t:'fill',s:'從文中找出適當的詞語，填在橫線上：長期不下雨，泥土變得又乾又______。',a:'硬'},
+      {t:'short',s:'農夫為甚麼說「一條蚯蚓，勝過一把鋤頭」？試用完整句子回答。',ans:'因為蚯蚓在泥土裏鑽出細小的通道，讓空氣和雨水容易進入，泥土變得疏鬆，作用就像鋤頭一樣。',kw:['通道','鬆土','疏鬆','空氣'],kwMin:1},
+      {t:'reveal',s:'文章提到哪些東西威脅蚯蚓的生活？我們可以怎樣幫助牠們？',ans:'參考：威脅＝農藥把牠們毒死、塑膠袋蓋住泥土令牠們窒息。幫助＝少用農藥、妥善處理塑膠垃圾，雨後見到蚯蚓用樹枝輕輕把牠送回泥土裏。'}]}
+];
+
+var cnsPaper=null;
+function cnsNorm(t){return String(t||'').toLowerCase().replace(/[\s，。、；：？！「」『』（）(),.?!:;'"\-＿·…]/g,'');}
+function cnsSeqNorm(t){return String(t||'').toUpperCase().replace(/[^A-E]/g,'');}
+function cnsShuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function genCnSchoolPaper(){
+  if(!licPass('cnschool'))return;   /* v2.38 每模塊免費 1 套（進頁自動出卷同樣計次） */
+  cnsPaper={
+    fill:cnsShuffle(CNS_FILL).slice(0,7),
+    idiom:CNS_IDIOM[Math.floor(Math.random()*CNS_IDIOM.length)],
+    ppara:CNS_PPARA[Math.floor(Math.random()*CNS_PPARA.length)],
+    order:cnsShuffle(CNS_ORDER).slice(0,3),
+    rewrite:cnsShuffle(CNS_REWRITE).slice(0,2),
+    pm:cnsShuffle(CNS_PM).slice(0,2),
+    rhet:cnsShuffle(CNS_RHET).slice(0,2),
+    shrink:cnsShuffle(CNS_SHRINK).slice(0,3),
+    main:cnsShuffle(CNS_MAIN).slice(0,3),
+    ra:CNS_READA[Math.floor(Math.random()*CNS_READA.length)],
+    rb:CNS_READB[Math.floor(Math.random()*CNS_READB.length)]
+  };
+  renderCnSchoolPaper();
+}
+/* 展平成判分清單（readhead 只作篇章標頭；reveal 自評不入機改分） */
+function cnsFlat(){
+  var p=cnsPaper; if(!p)return[]; var f=[],qi=0;
+  function push(o){o.qi=qi++;f.push(o);}
+  p.fill.forEach(function(q){push({part:'一',pt:'填充',type:'fill',a:q.a,m:2,ansText:q.a});});
+  p.idiom.qs.forEach(function(q){push({part:'二',pt:'成語運用',type:'fill',a:q.a,m:2,ansText:q.a});});
+  push({part:'三',pt:'標點符號',type:'reveal',m:6,ansText:p.ppara.ans,stem:'在下面段落中加入適當的標點符號（對照參考答案自評）。',para:p.ppara.raw});
+  p.order.forEach(function(q){push({part:'四',pt:'排句成段',type:'seq',a:q.key,m:2,ansText:q.key.split('').join(' → '),sen:q.sen});});
+  p.rewrite.forEach(function(q){push({part:'五',pt:'改寫句子',type:'short',a:q.ans,kw:q.kw,kwMin:q.kwMin||1,m:3,ansText:q.ans,ex:q.ex,src:q.src});});
+  p.pm.forEach(function(q){push({part:'六',pt:'標點符號填句',type:'mc',a:q.a,m:2,stem:q.s,opts:q.opts,ansText:['A','B','C','D'][q.a]+'（'+q.opts[q.a]+'）'});});
+  p.rhet.forEach(function(q){push({part:'七',pt:'修辭辨析',type:'mc',a:q.a,m:2,stem:q.s,opts:q.opts,ansText:['A','B','C','D'][q.a]+'（'+q.opts[q.a]+'）'});});
+  p.shrink.forEach(function(q){push({part:'八',pt:'縮寫句子',type:'mc',a:q.a,m:2,stem:q.s,opts:q.opts,ansText:['A','B','C','D'][q.a]+'（'+q.opts[q.a]+'）'});});
+  p.main.forEach(function(q){push({part:'九',pt:'段義理解',type:'mc',a:q.a,m:2,para:q.p,opts:q.opts,ansText:['A','B','C','D'][q.a]+'（'+q.opts[q.a]+'）'});});
+  push({part:'十',pt:'閱讀理解甲',type:'readhead',m:0,read:p.ra,lab:'甲'});
+  p.ra.qs.forEach(function(q,i){
+    var m=[2,2,2,4,4][i]||2;
+    if(q.t==='reveal')push({part:'十',pt:'閱讀甲',type:'reveal',m:m,ansText:q.ans,stem:q.s});
+    else push({part:'十',pt:'閱讀甲',type:q.t,a:q.a,stem:q.s,opts:q.opts,kw:q.kw,kwMin:q.kwMin||1,m:m,ansText:q.t==='mc'?['A','B','C','D'][q.a]+'（'+q.opts[q.a]+'）':q.ans});
+  });
+  push({part:'十',pt:'閱讀理解乙',type:'readhead',m:0,read:p.rb,lab:'乙'});
+  p.rb.qs.forEach(function(q,i){
+    var m=[2,2,2,4,4][i]||2;
+    if(q.t==='reveal')push({part:'十',pt:'閱讀乙',type:'reveal',m:m,ansText:q.ans,stem:q.s});
+    else push({part:'十',pt:'閱讀乙',type:q.t,a:q.a,stem:q.s,opts:q.opts,kw:q.kw,kwMin:q.kwMin||1,m:m,ansText:q.t==='mc'?['A','B','C','D'][q.a]+'（'+q.opts[q.a]+'）':q.ans});
+  });
+  return f;
+}
+var CN_LAB=['A','B','C','D','E'];
+function cnsRenderQ(it,n){
+  var h='<div class="qcard" data-qi="'+it.qi+'">';
+  var stem='';
+  if(it.type==='fill'){
+    var body='<span class="cns-blank"><input class="cns-inp" data-qi="'+it.qi+'" data-ct="fill" autocomplete="off"></span>';
+    stem=(it.stem||'');
+    if(stem.indexOf('______')>=0)stem=stem.replace('______',body); else stem=stem+'　'+body;
+  }else stem=it.stem||'';
+  h+='<div class="cns-qi">'+n+'. '+stem+'</div>';
+  if(it.type==='seq'){
+    it.sen.forEach(function(sn,k){h+='<div class="cns-qi" style="font-size:13.5px;margin:4px 0">('+CN_LAB[k]+') '+sn+'</div>';});
+    h+='<div class="cns-qi">答案：（<input class="cns-inp" data-qi="'+it.qi+'" data-ct="seq" style="width:150px" placeholder="例：CABED" autocomplete="off">）</div>';
+  }else if(it.type==='mc'){
+    h+='<div class="cns-opts">'+it.opts.map(function(o,k){return '<label class="cns-opt"><input type="radio" name="cnsq'+it.qi+'" value="'+k+'"> '+CN_LAB[k]+'. '+o+'</label>';}).join('')+'</div>';
+  }else if(it.type==='short'){
+    h+='<textarea class="cns-sa" data-qi="'+it.qi+'" data-ct="short" placeholder="用完整句子作答"></textarea>';
+  }
+  if(it.type==='reveal'){
+    h+='<div class="cns-reveal"><button type="button" class="btn cns-rbtn" onclick="cnsToggleReveal(this)">顯示參考答案</button><div class="cns-rans" style="display:none">'+(it.ansText||'')+'</div></div>';
+  }
+  h+='<span class="cns-mark">（'+it.m+' 分）</span></div>';
+  return h;
+}
+function cnsToggleReveal(btn){
+  var d=btn.nextElementSibling;if(!d)return;
+  var on=d.style.display==='none';
+  d.style.display=on?'block':'none';
+  btn.textContent=on?'隱藏參考答案':'顯示參考答案';
+}
+function cnsPartMarks(f,part){return f.filter(function(x){return x.part===part&&x.type!=='reveal'&&x.type!=='readhead';}).reduce(function(a,x){return a+x.m;},0);}
+var CNS_PART_H={'一':'填充：把適當的詞語填在橫線上。14%（每題 2 分）','二':'成語運用：從下列成語中選出適當的，把答案填在橫線上。6%（每題 2 分）','三':'標點符號：在段落中加入適當的標點符號。6%（自評）','四':'排句成段：請把下列句子排列成通順的段落，並把代表答案的英文字母填在橫線內。6%（每組 2 分）','五':'改寫句子：根據所提供的例句，改寫下面的原句。6%（每題 3 分）','六':'標點符號填句：把代表答案的英文字母填在橫線上。4%（每題 2 分）','七':'修辭辨析：依照提示，將代表答案的英文字母填在（　）內。4%（每題 2 分）','八':'縮寫句子：選出縮寫得最恰當的一句。6%（每題 2 分）','九':'段義理解：以上一段文字主要說明甚麼？把代表答案的英文字母填在（　）內。6%（每題 2 分）'};
+function renderCnSchoolPaper(){
+  var p=cnsPaper,f=cnsFlat(),box=document.getElementById('cnschPaperBox');
+  if(!box)return;
+  var h='',n=0,lastPart='',openSec=false;
+  f.forEach(function(it){
+    if(it.type==='readhead'){
+      if(openSec){h+='</div>';openSec=false;}
+      h+='<div class="cns-sec"><div class="cns-h">（'+it.pt+'）細心閱讀下面的文章，然後回答各題。（14 分，其中最後一題自評 4 分）</div>'
+        +'<div class="cns-read"><h4>'+it.read.title+'</h4>'+it.read.text.map(function(t){return '<p>'+t+'</p>';}).join('')+'</div>';
+      openSec=true;
+      return;
+    }
+    if(it.part!==lastPart){
+      if(!openSec){h+='<div class="cns-sec">';openSec=true;}
+      if(it.part!=='三'&&it.part!=='十')h+='<div class="cns-h">（'+it.part+'）'+CNS_PART_H[it.part]+'</div>';
+      if(it.part==='二'){
+        h+='<div class="cns-read" style="margin:6px 0"><div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;font-size:13px;text-align:center">'+p.idiom.box.map(function(x){return '<span>'+x+'</span>';}).join('')+'</div></div>';
+      }
+      lastPart=it.part;
+    }
+    if(it.part==='三'){
+      h+='<div class="cns-para">'+it.para+'</div>';
+    }
+    if(it.part==='五'&&it.ex){h+='<div class="cns-qi" style="font-size:13px;color:#4a5a6a;background:#f7fbff;border-radius:6px;padding:6px 8px">'+it.ex+'<br>'+it.src+'<br>改寫：</div>';}
+    if(it.part==='九'&&it.para){h+='<div class="cns-qi" style="font-size:13.5px;color:#33475b;background:#f7fbff;border-radius:6px;padding:6px 8px">'+it.para+'</div>';}
+    n++;h+=cnsRenderQ(it,n);
+  });
+  if(openSec)h+='</div>';
+  box.innerHTML=h;
+  var r=document.getElementById('cnschResult');if(r)r.innerHTML='';
+}
+function gradeCnSchoolPaper(){
+  var f=cnsFlat(),box=document.getElementById('cnschPaperBox');
+  if(!cnsPaper||!box||!box.children.length){genCnSchoolPaper();return;}
+  var got=0,tot=0,wrong=[];
+  f.forEach(function(it){
+    if(it.type==='reveal'||it.type==='readhead')return;
+    tot+=it.m;
+    var okq=false,you='';
+    if(it.type==='fill'){
+      var el=box.querySelector('.cns-inp[data-qi="'+it.qi+'"][data-ct="fill"]');
+      you=el?el.value:'';okq=cnsNorm(you)===cnsNorm(it.a);
+    }else if(it.type==='seq'){
+      var el2=box.querySelector('.cns-inp[data-qi="'+it.qi+'"][data-ct="seq"]');
+      you=el2?el2.value:'';okq=cnsSeqNorm(you)===cnsSeqNorm(it.a);
+    }else if(it.type==='mc'){
+      var ck=box.querySelector('input[name="cnsq'+it.qi+'"]:checked');
+      you=ck?CN_LAB[+ck.value]:'（未選）';okq=!!ck&&+ck.value===it.a;
+    }else if(it.type==='short'){
+      var ta=box.querySelector('.cns-sa[data-qi="'+it.qi+'"]');
+      you=ta?ta.value:'';var nt=cnsNorm(you),hits=(it.kw||[]).filter(function(k){return nt.indexOf(cnsNorm(k))>=0;}).length;
+      okq=hits>=(it.kwMin||1);
+    }
+    if(okq)got+=it.m;
+    else wrong.push({part:it.part,pt:it.pt,you:you,key:it.ansText});
+  });
+  var r=document.getElementById('cnschResult');
+  var rv=f.filter(function(x){return x.type==='reveal';}).reduce(function(a,x){return a+x.m;},0);
+  var h='<div class="cns-res"><b>'+got+' / '+tot+'</b> 分（機改部分）。另有 '+rv+' 分自評題（(三)標點段落與甲乙開放題），請點「顯示參考答案」由家長評分。</div>';
+  if(wrong.length){
+    h+='<div class="cns-res" style="background:#fdf3f3">';
+    wrong.forEach(function(w){h+='<div class="cns-wrong">✗（'+w.part+'）'+w.pt+'：你的答案「'+String(w.you).replace(/</g,'&lt;')+'」　正確答案：'+w.key+'</div>';});
+    h+='</div>';
+  }else{h+='<div class="cns-res" style="background:#eefaf0">全對！繼續保持。</div>';}
+  r.innerHTML=h;
+}
+function printCnSchoolPaper(){
+  if(!cnsPaper)genCnSchoolPaper();
+  if(!cnsPaper)return;
+  var withAns=document.getElementById('cnschPrintAns').checked;
+  var f=cnsFlat(),n=0,lastPart='',h='';
+  h='<div class="eps-head"><div class="eps-title">中文校卷 · 小六十部分模擬（本站原創）'+(withAns?'（答案版）':'')+'</div>'
+   +'<div class="eps-meta">姓名：<span class="al-tbl"></span>　　日期：<span class="al-tbl"></span>　　全卷 86 分（機改 72＋自評 14）</div></div>';
+  f.forEach(function(it){
+    if(it.type==='readhead'){
+      h+='<div class="cnsec">（'+it.pt+'）細心閱讀下面的文章，然後回答各題。14%</div>';
+      h+='<div class="cnread"><div class="cnread-h">'+it.read.title+'</div>'+it.read.text.map(function(t){return '<p class="cnread-p">'+t+'</p>';}).join('')+'</div>';
+      return;
+    }
+    if(it.part!==lastPart){
+      lastPart=it.part;
+      h+='<div class="cnsec">（'+it.part+'）'+CNS_PART_H[it.part]+'</div>';
+      if(it.part==='二')h+='<div class="cnread-p" style="text-align:center">'+cnsPaper.idiom.box.join('　')+'</div>';
+    }
+    n++;
+    h+='<div class="eps-q"><div class="eps-qh">'+n+'. </div><div class="eps-text">';
+    if(it.type==='fill'){h+=(it.stem||'').replace('______','＿＿＿＿＿＿＿');}
+    else if(it.type==='seq'){h+=it.sen.map(function(sn,k){return '('+CN_LAB[k]+') '+sn;}).join('　')+'　答：（　　　　）';}
+    else if(it.type==='mc'){h+=it.stem+'　'+it.opts.map(function(o,k){return CN_LAB[k]+'. '+o;}).join('　');}
+    else if(it.type==='short'){h+=it.stem;}
+    else if(it.type==='reveal'){h+=(it.part==='三'?'<span style="letter-spacing:.3em">'+it.para+'</span>':it.stem);}
+    h+='</div>';
+    if(it.type==='short'||it.type==='reveal'){h+='<div class="ansbox"><div class="ansline"></div><div class="ansline"></div></div>'+(withAns?'<div class="cnread-p"><b>參考答案：</b>'+it.ansText+'</div>':'');}
+    else if(it.type==='fill'){h+='<div class="ansline lbl"><span class="al-t">答：</span><span class="al-l"></span></div>'+(withAns?'<div class="cnread-p"><b>答案：</b>'+it.ansText+'</div>':'');}
+    else{h+='<div class="ansline lbl"><span class="al-t">答：</span><span class="al-l"></span></div>'+(withAns?'<div class="cnread-p"><b>答案：</b>'+it.ansText+'</div>':'');}
+    h+='</div>';
+  });
+  h+='<div class="eps-meta">本卷題型骨架取自校內測驗卷（版權歸原校），全部題目與篇章為本站原創，非任何學校真卷。</div>';
+  hkkPrintSheet('cnschPrintSheet',h);
+}
+window.__cnschoolTest={gen:genCnSchoolPaper,render:renderCnSchoolPaper,grade:gradeCnSchoolPaper,print:printCnSchoolPaper,
+  norm:cnsNorm,seqNorm:cnsSeqNorm,flat:cnsFlat,partMarks:cnsPartMarks,toggleReveal:cnsToggleReveal,
+  pools:{fill:CNS_FILL,idiom:CNS_IDIOM,ppara:CNS_PPARA,order:CNS_ORDER,rewrite:CNS_REWRITE,pm:CNS_PM,rhet:CNS_RHET,shrink:CNS_SHRINK,main:CNS_MAIN,readA:CNS_READA,readB:CNS_READB},
+  get paper(){return cnsPaper;}};
+
 
 let curEnGrade='P1', curEnPaper=[];
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
@@ -7530,7 +7895,7 @@ document.querySelectorAll('#cnPracSub button').forEach(b=>b.onclick=()=>{
   const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
   try{
     document.querySelectorAll('#cnPracSub button').forEach(x=>x.classList.toggle('on',x===b));
-    sw('cnStarView',cs==='star'); sw('cnPaperView',cs==='cnpaper'); sw('ziBookView',cs==='zibook'); sw('ftView',cs==='ft');
+    sw('cnStarView',cs==='star'); sw('cnPaperView',cs==='cnpaper'); sw('cnschoolView',cs==='cnschool'); sw('ziBookView',cs==='zibook'); sw('ftView',cs==='ft');
     document.querySelectorAll('#cnPracTips [data-cstip]').forEach(function(p){p.style.display=p.dataset.cstip===cs?'block':'none';});
     // v2.21：一級 #practiceSub 是 sticky，滾動後會蓋住 static 的二級頁籤；點頁籤時把它滾回一級下方。
     // 只在本頁且真的被蓋時觸發，不改全域 .subnav 定位（其它二級頁籤共用，改全域必誤傷）。
@@ -7538,6 +7903,7 @@ document.querySelectorAll('#cnPracSub button').forEach(b=>b.onclick=()=>{
     if(_ps&&_cs){var _r=_cs.getBoundingClientRect(), _b=_ps.getBoundingClientRect().bottom;
       if(_r.top<_b)window.scrollBy(0,_r.top-_b-8);}
     if(cs==='cnpaper' && !window.__cnPaperTest.paper.length && !window.__cnPaperTest.read.length) genCnPaper();
+    if(cs==='cnschool' && !window.__cnschoolTest.paper) genCnSchoolPaper();
   }catch(e){ console.error('中文區切換失敗：',e); }
 });
 document.querySelectorAll('#cngChips .chip').forEach(c=>c.onclick=()=>{
@@ -9871,7 +10237,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.37',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.38',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
