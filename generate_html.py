@@ -1327,13 +1327,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.40
+    © 叶工 SteveHKSZ · 公開版 v2.41
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.40</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.41</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -5988,8 +5988,8 @@ function genCnSchoolPaper(){
 function cnsFlat(){
   var p=cnsPaper; if(!p)return[]; var f=[],qi=0;
   function push(o){o.qi=qi++;f.push(o);}
-  p.fill.forEach(function(q){push({part:'一',pt:'填充',type:'fill',a:q.a,m:2,ansText:q.a});});
-  p.idiom.qs.forEach(function(q){push({part:'二',pt:'成語運用',type:'fill',a:q.a,m:2,ansText:q.a});});
+  p.fill.forEach(function(q){push({part:'一',pt:'填充',type:'fill',a:q.a,m:2,stem:q.s,ansText:q.a});});
+  p.idiom.qs.forEach(function(q){push({part:'二',pt:'成語運用',type:'fill',a:q.a,m:2,stem:q.s,ansText:q.a});});
   push({part:'三',pt:'標點符號',type:'reveal',m:6,ansText:p.ppara.ans,stem:'在下面段落中加入適當的標點符號（對照參考答案自評）。',para:p.ppara.raw});
   p.order.forEach(function(q){push({part:'四',pt:'排句成段',type:'seq',a:q.key,m:2,ansText:q.key.split('').join(' → '),sen:q.sen});});
   p.rewrite.forEach(function(q){push({part:'五',pt:'改寫句子',type:'short',a:q.ans,kw:q.kw,kwMin:q.kwMin||1,m:3,ansText:q.ans,ex:q.ex,src:q.src});});
@@ -10688,7 +10688,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.40',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.41',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
