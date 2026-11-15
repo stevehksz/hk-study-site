@@ -226,6 +226,11 @@ input[type=search],select{padding:9px 12px;border:1px solid var(--line);border-r
 .pcard:hover::before{opacity:1}
 .pcard .t{font-size:17px;font-weight:800;letter-spacing:.3px}
 .pcard .m{font-size:12px;color:var(--mut);margin-top:4px;line-height:1.5}
+/* v2.45：詩卡一鍵粵語朗讀（列表直聽，不必點開彈窗）；觸控目標 ≥40×44 */
+.pcard .pspk{position:absolute;top:10px;right:10px;z-index:2;min-width:44px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;padding:0 8px;font-size:16px;line-height:1;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);cursor:pointer;transition:.15s}
+.pcard .pspk:hover{border-color:var(--acc);color:var(--acc)}
+.pcard .pspk:active{transform:scale(.96)}
+.pcard .t{padding-right:50px}
 .tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:7px;background:#eaf4fc;color:var(--acc);margin-left:4px;font-weight:600}
 .tag.b{background:#fdf1e6;color:var(--jy)}
 .gtitle{font-size:20px;font-weight:800;margin:4px 0 8px;padding-left:15px;position:relative;color:var(--ink);letter-spacing:.3px}
@@ -1200,13 +1205,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.44
+    © 叶工 SteveHKSZ · 公開版 v2.45
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.44</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.45</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1478,6 +1483,7 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
       <span class="chip" data-g="初中">初中</span>
       <input type="search" id="poemSearch" placeholder="搜詩題 / 作者">
     </div>
+    <div class="sm-note" id="poemVoiceTip" style="display:none;margin:0 0 10px"></div>
     <div class="grid" id="poemGrid"></div>
     </div>
     <!-- v1.82 中文卷：題型結構仿評考局公開框架，題目全部本站原創 -->
@@ -52012,30 +52018,65 @@ function saveH(){localStorage.setItem(HKEY,JSON.stringify(hProg));}
 function saveM(){localStorage.setItem(MKEY,JSON.stringify(mProg));}
 
 // ---- 朗讀（Web Speech API） ----
+/* v2.45：語音清單是異步載入的——Chrome 首次 getVoices() 回空陣列，
+   不快取就會把「粵語包在、只是還沒載完」誤判成「沒有粵語包」而偷偷降級普通話。 */
+let __voiceCache=[];
+function hkkVoices(){
+  const ss=('speechSynthesis' in window)?window.speechSynthesis:null;
+  const vs=ss?(ss.getVoices()||[]):[];
+  if(vs.length)__voiceCache=vs;
+  return vs.length?vs:__voiceCache;
+}
+function hkkHasHK(){
+  return hkkVoices().some(function(v){return /^zh[-_](HK|Hant)/i.test(v.lang||'');});
+}
+if('speechSynthesis' in window){
+  try{window.speechSynthesis.onvoiceschanged=function(){hkkVoices();};}catch(e){}
+}
 function speak(text,lang){
   if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音朗讀');return;}
   try{
     window.speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(text); u.lang=lang||'en-US';
-    const vs=window.speechSynthesis.getVoices()||[];
-    if(lang==='zh-HK'){const v=vs.find(x=>x.lang==='zh-HK'||x.lang==='zh-Hant-HK');if(v)u.voice=v;}
+    const vs=hkkVoices();
+    if(lang==='zh-HK'){const v=vs.find(x=>/^zh[-_](HK|Hant)/i.test(x.lang||''));if(v)u.voice=v;}
     window.speechSynthesis.speak(u);
   }catch(e){}
 }
 // v1.73 四步①聽讀：粵／普雙語。粵語語音包不是每台裝置都有，缺了就降級普通話並明說，不假裝有。
 function speakPoemLang(lang){
   if(!curPoem)return;
-  const txt=curPoem.lines.map(function(l){return l.text;}).join('。');
+  const txt=poemSpeechText(curPoem);
   let use=lang, note='語音由瀏覽器／裝置提供，不同裝置的聲音與可用語言可能不同。';
   if(lang==='zh-HK'){
-    const vs=('speechSynthesis' in window)?(window.speechSynthesis.getVoices()||[]):[];
-    const has=vs.some(function(v){return /^zh[-_](HK|Hant)/i.test(v.lang||'');});
-    if(!has){use='zh-CN';note='⚠️ 這台裝置沒有粵語語音包，已改為普通話朗讀；想聽粵語可在系統設定加裝粵語語音。';}
+    if(!hkkHasHK()){use='zh-CN';note='⚠️ 這台裝置沒有粵語語音包，已改為普通話朗讀；想聽粵語可在系統設定加裝粵語語音。';}
   }
   speak(txt,use);
   const el=document.getElementById('pStepVoice');if(el)el.textContent=note;
 }
 function speakPoem(){speakPoemLang('zh-HK');}
+// ---- v2.45：詩列表直接聽（不必點開彈窗）----
+// 每行 text 自帶句末標點，所以直接串接；舊版用句號 join 會拼出「白玉盤。。又疑」雙句號。
+function poemSpeechText(p){
+  return (p&&p.lines?p.lines:[]).map(function(l){return l.text;}).join('');
+}
+function poemVoiceTip(t){
+  const el=document.getElementById('poemVoiceTip'); if(!el)return;
+  el.textContent=t||''; el.style.display=t?'block':'none';
+  clearTimeout(poemVoiceTip._t);
+  if(t)poemVoiceTip._t=setTimeout(function(){el.style.display='none';},8000);
+}
+function speakPoemById(id){
+  const p=POEMS.find(function(x){return x.id===id;}); if(!p)return;
+  if(!('speechSynthesis' in window)){poemVoiceTip('⚠️ 此瀏覽器不支援語音朗讀，建議換 Chrome／Safari，或用手機開。');return;}
+  const txt=poemSpeechText(p);
+  if(hkkHasHK()){
+    speak(txt,'zh-HK'); poemVoiceTip('🔊 粵語朗讀：'+p.title+'（聲音由這台裝置的粵語語音提供）');
+  }else{
+    speak(txt,'zh-CN');
+    poemVoiceTip('⚠️ 這台裝置沒有粵語語音包，已改為普通話朗讀。想聽粵語：Windows 設定→時間與語言→語言及地區→新增「中文（香港）」並安裝語音；Android／iOS 在系統設定→語言與輸入→文字轉語音 加裝粵語。');
+  }
+}
 
 // ---- 補習材料（v1.60：35週減壓排期＋面試庫＋術語/繁體翻卡＋泛讀打卡）----
 function hkEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
@@ -54281,6 +54322,13 @@ function renderPoemGrid(){
     const tick=(st.recite?'✓背 ':'')+(st.write?'✓默':'');
     d.innerHTML=`<div class="t">${p.title}</div><div class="m">〔${p.dynasty}〕${p.author} ${p.grades.map(x=>'<span class="tag'+(x===FOCUS_GRADE?' b':'')+'">'+x+'</span>').join('')} ${tick?'<span style="color:#1a8a4a">'+tick+'</span>':''}</div>`;
     d.onclick=()=>openPoem(p.id);
+    // v2.45：卡片右上角一鍵粵語朗讀；stopPropagation 防誤觸開彈窗
+    const sb=document.createElement('button');
+    sb.type='button'; sb.className='pspk'; sb.textContent='🔊';
+    sb.title='粵語朗讀：'+p.title;
+    sb.setAttribute('aria-label','粵語朗讀：'+p.title);
+    sb.onclick=function(e){e.stopPropagation();e.preventDefault();speakPoemById(p.id);};
+    d.appendChild(sb);
     g.appendChild(d);
   });
 }
@@ -55108,7 +55156,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.44',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.45',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.45：葉工說「中文裏面的古詩沒有粵語發音，加上粵語發音」。先只讀診斷再動手——實測彈窗「🔊 粵語朗讀」其實出得了聲（lang=zh-HK、voice=Google 粤語（香港）），真正的問題是**入口太少太深**：185 張詩卡（#poemGrid .pcard）零發音按鈕、彈窗只有第 1 步有朗讀、第 2/3/4 步切過去就聽不到。葉工拍板只做「詩列表直接聽」一項。落地：①每張詩卡右上角加 🔊（.pspk，絕對定位、44×40 觸控目標、stopPropagation 防誤觸開彈窗），點一下直接粵語讀整首，不用開彈窗；②新增 poemSpeechText／speakPoemById／poemVoiceTip 三函數，提示顯示在列表上方 #poemVoiceTip（8 秒自動收起）；③修兩個真 bug：(a) 語音清單異步載入——Chrome 首次 getVoices() 回空陣列，舊 speak()／speakPoemLang 拿它判定「有沒有粵語包」，會把「粵語包在、只是還沒載完」誤判成沒有而偷偷降級普通話；改為 __voiceCache＋hkkVoices() 快取＋onvoiceschanged 刷新，並把粵語判定放寬為 /^zh[-_](HK|Hant)/i（有的裝置報 zh_HK／zh-Hant-HK）；(b) 舊 speakPoemLang 用 lines.map(text).join("。")，而每行 text 自帶句末標點，會拼出「白玉盤。。又疑」雙句號，改為直接串接。④缺粵語包時不再靜默降級：列表提示逐端寫清加裝路徑（Windows 設定→時間與語言→語言及地區→新增「中文（香港）」並安裝語音；Android／iOS 設定→語言與輸入→文字轉語音）。⑤數據零改動：185 首的 py／jy、星圖、四步流程、localStorage 鍵全部不動。
 v2.40：葉工要求「把全站免費字眼去掉」。界定範圍＝只清**站方自我宣稱**，第三方平台與官津學費的客觀「免費」保留（Oxford Owl 免費電子書庫、學友社免費公開模擬卷、官立免費、學費全免等——刪咗會令家長誤判要唔要畀錢）。落地＝①頁腳兩處「公開版 vX.XX（全站免費）」→「公開版 vX.XX」；②meta description／og:description 去「全站免費」「免費使用」；③hero 副標「升學規劃（免費）」→「升學規劃」；④使用條款「本站為免費學習站」整句移除；⑤授權彈窗與占位卡：「每類練習免費送 N 套」→「可先試 N 套」、「免費額度已用完」→「可試套數已用完」、「批改看答案列印一直免費」→「不設限制」、「免費剩 N 套」→「可試 N 套」、「五類」→「各類」（實際已 7 模塊）；⑥顧問話術「免費回答」→「直接回答」、「現免費開放」→「現開放」；⑦源碼註釋同步。verify2.js：footer 版本斷言改為匹配「公開版 vX.XX」兩處一致（去掉「（全站免費）」後綴依賴）、顧問話術斷言改 /不推銷課程/、三把版本鎖全換 v2.40。零功能改動、零新增鍵。
 v2.39：葉工上傳 P6 中文呈分加強班卷（11 頁，有文字層），要求「加一個子目錄，並增加 5 套卷子和答案」。落地＝①中文區新增第 4 顆子頁籤「呈分模擬」（`data-cs="cnps"`）＋`#cnpsView`；②**5 套固定卷**（非隨機生成）：每套甲部兩篇章（記敘＋說明，各 8／7 題：找詞填充×3、修辭與內容 MC×4、段意關鍵詞短答、開放題自評）＋乙部十小節（標點段 10 分自評／修辭辨識 A–H 六題不可重複／句義 2／排句 2 組／段義 2／詞義 2／改寫 2／重組 2／擴張 1／關聯詞造句 2），全卷 100 分＝機改 56＋自評 44；③五套篇章題材互異（蒲扇／路口義工／舊單車／接力賽／便利店；茶樓點心／蜜蜂授粉／颱風名字／文房四寶／米埔候鳥），全部原創；④列印 `cnpsPrintSheet` 入 `HKK_PRINT_SHEETS`（七處）含答案版；⑤`LIC_MODS` 加 `{k:'cnps'}`（6→7 模塊，進頁自動開第一套同樣計次）；⑥版權自檢：原卷特徵短語（書籤阿靜／橫瀾島燈塔／鳳凰木等）0 命中；⑦斷言 1510→+v2.39 專項，tip 5→6 段、lic 表 6→7 行同步。版本升 v2.39（三把鎖全換）。
 v2.38：葉工上傳校內中文科 P6 測驗卷（14 頁掃描版：7 頁卷＋7 頁答案，零文字層），要求「給我出類似的」。⚠️ 版權紅線同 v2.35：掃描原卷零原文入庫（原 PDF 與逐頁圖留 `_private/`），只取**題型骨架**——(一)填充 7 題@2%／(二)成語運用 10 選 3／(三)標點符號段落 6 分／(四)排句成段 3 組@2%／(五)改寫句子 2 題@3%／(六)標點符號填句 4 選 1@2%／(七)修辭辨析@2%／(八)縮寫句子 4 選 1@2%／(九)段義理解@2%／(十)閱讀理解甲（記敘）乙（說明）各 14%。落地＝①「練習→中文」新增第 3 顆子頁籤「校卷題型」（`data-cs="cnschool"`，插在中文試卷之後，4→5 顆）＋`#cnschoolView`（緊跟 #cnPaperView 為兄弟 pane）＋tip 一段；②原創題池：填充 14／成語箱 3 套（各 10 成語＋3 句）／標點段 3／排句 6 組（各 5 句）／改寫 4（雙重否定・與其不如・被字句・誇張，附例句示範）／標點選 4／修辭 4／縮句 4／段義 4／閱讀甲 2 篇（記敘）＋乙 2 篇（說明），每套固定抽 7+3+1+3+2+2+2+3+3+1+1；③判分：機改 72 分（填充／成語比詞、排句比字母序、選擇比字母、改寫與篇章短答按關鍵詞命中 kwMin），自評 14 分（(三)標點段 6＋甲乙開放題各 4，「顯示參考答案」按鈕），卷面共 86 分，分值照原卷；④列印 `cnschPrintSheet` 入 `HKK_PRINT_SHEETS` 白名單，復用 v1.82 中文卷列印樣式（.cnsec/.cnread），含答案版可選；⑤額度：`LIC_MODS` 新增 `{k:'cnschool',n:'中文校卷'}`（5→6 模塊，進頁自動出卷同樣計次，v2.37 教訓）；⑥零新增 localStorage 鍵、零外鏈、零圖片，原卷特徵短語（鯉魚門／太田公司／徐特立等）自檢 0 命中；`ai_kb.py` 四來源不含本頁，KB 不變。verify2.js 舊斷言同步（子頁籤 4→5 三處、lic 鉤子 5→6 模塊、彈窗表 5→6 行）＋新增 v2.38 專項；版本串升 v2.38（三把鎖全換）。
@@ -353,6 +354,11 @@ input[type=search],select{padding:9px 12px;border:1px solid var(--line);border-r
 .pcard:hover::before{opacity:1}
 .pcard .t{font-size:17px;font-weight:800;letter-spacing:.3px}
 .pcard .m{font-size:12px;color:var(--mut);margin-top:4px;line-height:1.5}
+/* v2.45：詩卡一鍵粵語朗讀（列表直聽，不必點開彈窗）；觸控目標 ≥40×44 */
+.pcard .pspk{position:absolute;top:10px;right:10px;z-index:2;min-width:44px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;padding:0 8px;font-size:16px;line-height:1;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);cursor:pointer;transition:.15s}
+.pcard .pspk:hover{border-color:var(--acc);color:var(--acc)}
+.pcard .pspk:active{transform:scale(.96)}
+.pcard .t{padding-right:50px}
 .tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:7px;background:#eaf4fc;color:var(--acc);margin-left:4px;font-weight:600}
 .tag.b{background:#fdf1e6;color:var(--jy)}
 .gtitle{font-size:20px;font-weight:800;margin:4px 0 8px;padding-left:15px;position:relative;color:var(--ink);letter-spacing:.3px}
@@ -1327,13 +1333,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.44
+    © 叶工 SteveHKSZ · 公開版 v2.45
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.44</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.45</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1605,6 +1611,7 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
       <span class="chip" data-g="初中">初中</span>
       <input type="search" id="poemSearch" placeholder="搜詩題 / 作者">
     </div>
+    <div class="sm-note" id="poemVoiceTip" style="display:none;margin:0 0 10px"></div>
     <div class="grid" id="poemGrid"></div>
     </div>
     <!-- v1.82 中文卷：題型結構仿評考局公開框架，題目全部本站原創 -->
@@ -7641,30 +7648,65 @@ function saveH(){localStorage.setItem(HKEY,JSON.stringify(hProg));}
 function saveM(){localStorage.setItem(MKEY,JSON.stringify(mProg));}
 
 // ---- 朗讀（Web Speech API） ----
+/* v2.45：語音清單是異步載入的——Chrome 首次 getVoices() 回空陣列，
+   不快取就會把「粵語包在、只是還沒載完」誤判成「沒有粵語包」而偷偷降級普通話。 */
+let __voiceCache=[];
+function hkkVoices(){
+  const ss=('speechSynthesis' in window)?window.speechSynthesis:null;
+  const vs=ss?(ss.getVoices()||[]):[];
+  if(vs.length)__voiceCache=vs;
+  return vs.length?vs:__voiceCache;
+}
+function hkkHasHK(){
+  return hkkVoices().some(function(v){return /^zh[-_](HK|Hant)/i.test(v.lang||'');});
+}
+if('speechSynthesis' in window){
+  try{window.speechSynthesis.onvoiceschanged=function(){hkkVoices();};}catch(e){}
+}
 function speak(text,lang){
   if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音朗讀');return;}
   try{
     window.speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(text); u.lang=lang||'en-US';
-    const vs=window.speechSynthesis.getVoices()||[];
-    if(lang==='zh-HK'){const v=vs.find(x=>x.lang==='zh-HK'||x.lang==='zh-Hant-HK');if(v)u.voice=v;}
+    const vs=hkkVoices();
+    if(lang==='zh-HK'){const v=vs.find(x=>/^zh[-_](HK|Hant)/i.test(x.lang||''));if(v)u.voice=v;}
     window.speechSynthesis.speak(u);
   }catch(e){}
 }
 // v1.73 四步①聽讀：粵／普雙語。粵語語音包不是每台裝置都有，缺了就降級普通話並明說，不假裝有。
 function speakPoemLang(lang){
   if(!curPoem)return;
-  const txt=curPoem.lines.map(function(l){return l.text;}).join('。');
+  const txt=poemSpeechText(curPoem);
   let use=lang, note='語音由瀏覽器／裝置提供，不同裝置的聲音與可用語言可能不同。';
   if(lang==='zh-HK'){
-    const vs=('speechSynthesis' in window)?(window.speechSynthesis.getVoices()||[]):[];
-    const has=vs.some(function(v){return /^zh[-_](HK|Hant)/i.test(v.lang||'');});
-    if(!has){use='zh-CN';note='⚠️ 這台裝置沒有粵語語音包，已改為普通話朗讀；想聽粵語可在系統設定加裝粵語語音。';}
+    if(!hkkHasHK()){use='zh-CN';note='⚠️ 這台裝置沒有粵語語音包，已改為普通話朗讀；想聽粵語可在系統設定加裝粵語語音。';}
   }
   speak(txt,use);
   const el=document.getElementById('pStepVoice');if(el)el.textContent=note;
 }
 function speakPoem(){speakPoemLang('zh-HK');}
+// ---- v2.45：詩列表直接聽（不必點開彈窗）----
+// 每行 text 自帶句末標點，所以直接串接；舊版用句號 join 會拼出「白玉盤。。又疑」雙句號。
+function poemSpeechText(p){
+  return (p&&p.lines?p.lines:[]).map(function(l){return l.text;}).join('');
+}
+function poemVoiceTip(t){
+  const el=document.getElementById('poemVoiceTip'); if(!el)return;
+  el.textContent=t||''; el.style.display=t?'block':'none';
+  clearTimeout(poemVoiceTip._t);
+  if(t)poemVoiceTip._t=setTimeout(function(){el.style.display='none';},8000);
+}
+function speakPoemById(id){
+  const p=POEMS.find(function(x){return x.id===id;}); if(!p)return;
+  if(!('speechSynthesis' in window)){poemVoiceTip('⚠️ 此瀏覽器不支援語音朗讀，建議換 Chrome／Safari，或用手機開。');return;}
+  const txt=poemSpeechText(p);
+  if(hkkHasHK()){
+    speak(txt,'zh-HK'); poemVoiceTip('🔊 粵語朗讀：'+p.title+'（聲音由這台裝置的粵語語音提供）');
+  }else{
+    speak(txt,'zh-CN');
+    poemVoiceTip('⚠️ 這台裝置沒有粵語語音包，已改為普通話朗讀。想聽粵語：Windows 設定→時間與語言→語言及地區→新增「中文（香港）」並安裝語音；Android／iOS 在系統設定→語言與輸入→文字轉語音 加裝粵語。');
+  }
+}
 
 // ---- 補習材料（v1.60：35週減壓排期＋面試庫＋術語/繁體翻卡＋泛讀打卡）----
 function hkEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
@@ -9910,6 +9952,13 @@ function renderPoemGrid(){
     const tick=(st.recite?'✓背 ':'')+(st.write?'✓默':'');
     d.innerHTML=`<div class="t">${p.title}</div><div class="m">〔${p.dynasty}〕${p.author} ${p.grades.map(x=>'<span class="tag'+(x===FOCUS_GRADE?' b':'')+'">'+x+'</span>').join('')} ${tick?'<span style="color:#1a8a4a">'+tick+'</span>':''}</div>`;
     d.onclick=()=>openPoem(p.id);
+    // v2.45：卡片右上角一鍵粵語朗讀；stopPropagation 防誤觸開彈窗
+    const sb=document.createElement('button');
+    sb.type='button'; sb.className='pspk'; sb.textContent='🔊';
+    sb.title='粵語朗讀：'+p.title;
+    sb.setAttribute('aria-label','粵語朗讀：'+p.title);
+    sb.onclick=function(e){e.stopPropagation();e.preventDefault();speakPoemById(p.id);};
+    d.appendChild(sb);
     g.appendChild(d);
   });
 }
@@ -10737,7 +10786,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.44',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.45',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
