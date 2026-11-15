@@ -1200,13 +1200,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.41
+    © 叶工 SteveHKSZ · 公開版 v2.42
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.41</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.42</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1387,7 +1387,6 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
         <p><b>點用</b>：按下面個掣 → 另開新頁喺站內開，原頁面唔會走 → 每日 10 分鐘：聲調道場 5 分鐘 ＋ 生活課一節。手機用瀏覽器菜單「加到主屏幕」就當 App 用。同打卡表嘅「粵語磨耳朵」一齊做，一聽一講。</p>
         <p class="tip"><b>先講醜話</b>：聲調訓練要授權麥克風（錄音只喺你部機處理，唔會上傳，本站亦收唔到）；學習記錄存喺呢個網站嘅瀏覽器本機，清瀏覽器資料就會冇，進度頁可導出 JSON 備份、換機再導入；課程係生活粵語，唔係考試粵語，面試題型仍要跟站內「面試話題庫」練；微信內置瀏覽器如果打唔開，複製連結去 Safari／Chrome 再開。</p>
         <button class="btn" type="button" onclick="window.open('./yue/'+location.search,'_blank','noopener')">▶ 站內開始練（另開新頁）</button>
-        <span class="folk">站內版整合自開源項目 GitHub cheeryaudio/jyut-dojo（MIT，作者 cheeryaudio／benbox.dev），收錄上游 commit 5e6d719（v1.0.0，2026-11-01），2026-11-13 編譯上站。只改構建路徑與路由方式以適配子目錄，功能邏輯未動；不代收費、不收集你的學習記錄。原站 jyut.benbox.dev（含 Android APK）由作者自行維護。</span>
       </div>
       <div class="gcard" id="schWeekCard" style="display:none">
         <h3>本週一覽</h3>
@@ -55059,7 +55058,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.41',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.42',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
