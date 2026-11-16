@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.46：葉工貼申請記錄截圖（檔名記法：日期＋✏️筆試＋📢面試＋(人/郵/網)渠道＋✅❌棄waiting 狀態）要求「在擇校這裡做一個模組，填自己喜歡的學校、投遞情況、面試筆試情況、有沒有拿到 offer」。AskUserQuestion 三問拍板＝擇校分檔頁內卡片／與學校表聯動／導出 JSON＋Markdown。⚠️ 隱私紅線：站是公開的，子女申請記錄絕不寫進代碼——資料只存 localStorage hkk_track_v0（hkk_ 前綴受 v1.33 賬號隔離），公開 HTML 零預置記錄、不上傳、不進 ai_kb。落地＝①#schoolsView 內新增 #trackCard 折疊卡（默認收起，不動 v1.65 默認展開 6 斷言）：兩個孩子 chip（姐姐/妹妹）各一本賬、統計徽章行（Offer含註冊／筆試面試約／等通知／waiting／拒信／棄／總數）、新增表單（校名／分檔 衝刺穩妥保底／渠道 網人郵三勾／遞表筆試面試三個自由格式日期如「6/18 下午」／備註）、列表卡（狀態 select 十檔 待申請→已遞交→筆試約→面試約→waiting→Offer→已註冊→Offer已拒→拒信→棄，就地改就地存；編輯預填表單；刪除 confirm）、排序＝未完結在前按時間倒序；②聯動：injectSchBtns 四張表每行 🤍 後加「＋追」鈕，點了帶校名預填表單＋開卡＋滾動聚焦，已追蹤顯示「＋追 ✓」；③導出：JSON（{ver:'hkk_track_v1',cur,kids:{d1:[],d2:[]}}，URL.createObjectURL 降級 textarea）＋複製 Markdown 表格（clipboard API 降級 execCommand）＋匯入 JSON（confirm 後整體替換）＋清空本孩子（confirm）；全站「導出進度／匯入進度」補 track 欄；④XSS：列表渲染全走 schEsc()；⑤測試鉤子 window.__trackTest（get/add/update/setKid/addFromTable/exportData/importData/markdown/count）。斷言：舊 4 處改口徑（兩中學表按鈕 120→160、小學表 90→120、行內三鈕→四鈕、schoolsView folds 17→18）＋新增 v2.46 專項 16 項。
 v2.45：葉工說「中文裏面的古詩沒有粵語發音，加上粵語發音」。先只讀診斷再動手——實測彈窗「🔊 粵語朗讀」其實出得了聲（lang=zh-HK、voice=Google 粤語（香港）），真正的問題是**入口太少太深**：185 張詩卡（#poemGrid .pcard）零發音按鈕、彈窗只有第 1 步有朗讀、第 2/3/4 步切過去就聽不到。葉工拍板只做「詩列表直接聽」一項。落地：①每張詩卡右上角加 🔊（.pspk，絕對定位、44×40 觸控目標、stopPropagation 防誤觸開彈窗），點一下直接粵語讀整首，不用開彈窗；②新增 poemSpeechText／speakPoemById／poemVoiceTip 三函數，提示顯示在列表上方 #poemVoiceTip（8 秒自動收起）；③修兩個真 bug：(a) 語音清單異步載入——Chrome 首次 getVoices() 回空陣列，舊 speak()／speakPoemLang 拿它判定「有沒有粵語包」，會把「粵語包在、只是還沒載完」誤判成沒有而偷偷降級普通話；改為 __voiceCache＋hkkVoices() 快取＋onvoiceschanged 刷新，並把粵語判定放寬為 /^zh[-_](HK|Hant)/i（有的裝置報 zh_HK／zh-Hant-HK）；(b) 舊 speakPoemLang 用 lines.map(text).join("。")，而每行 text 自帶句末標點，會拼出「白玉盤。。又疑」雙句號，改為直接串接。④缺粵語包時不再靜默降級：列表提示逐端寫清加裝路徑（Windows 設定→時間與語言→語言及地區→新增「中文（香港）」並安裝語音；Android／iOS 設定→語言與輸入→文字轉語音）。⑤數據零改動：185 首的 py／jy、星圖、四步流程、localStorage 鍵全部不動。
 v2.40：葉工要求「把全站免費字眼去掉」。界定範圍＝只清**站方自我宣稱**，第三方平台與官津學費的客觀「免費」保留（Oxford Owl 免費電子書庫、學友社免費公開模擬卷、官立免費、學費全免等——刪咗會令家長誤判要唔要畀錢）。落地＝①頁腳兩處「公開版 vX.XX（全站免費）」→「公開版 vX.XX」；②meta description／og:description 去「全站免費」「免費使用」；③hero 副標「升學規劃（免費）」→「升學規劃」；④使用條款「本站為免費學習站」整句移除；⑤授權彈窗與占位卡：「每類練習免費送 N 套」→「可先試 N 套」、「免費額度已用完」→「可試套數已用完」、「批改看答案列印一直免費」→「不設限制」、「免費剩 N 套」→「可試 N 套」、「五類」→「各類」（實際已 7 模塊）；⑥顧問話術「免費回答」→「直接回答」、「現免費開放」→「現開放」；⑦源碼註釋同步。verify2.js：footer 版本斷言改為匹配「公開版 vX.XX」兩處一致（去掉「（全站免費）」後綴依賴）、顧問話術斷言改 /不推銷課程/、三把版本鎖全換 v2.40。零功能改動、零新增鍵。
 v2.39：葉工上傳 P6 中文呈分加強班卷（11 頁，有文字層），要求「加一個子目錄，並增加 5 套卷子和答案」。落地＝①中文區新增第 4 顆子頁籤「呈分模擬」（`data-cs="cnps"`）＋`#cnpsView`；②**5 套固定卷**（非隨機生成）：每套甲部兩篇章（記敘＋說明，各 8／7 題：找詞填充×3、修辭與內容 MC×4、段意關鍵詞短答、開放題自評）＋乙部十小節（標點段 10 分自評／修辭辨識 A–H 六題不可重複／句義 2／排句 2 組／段義 2／詞義 2／改寫 2／重組 2／擴張 1／關聯詞造句 2），全卷 100 分＝機改 56＋自評 44；③五套篇章題材互異（蒲扇／路口義工／舊單車／接力賽／便利店；茶樓點心／蜜蜂授粉／颱風名字／文房四寶／米埔候鳥），全部原創；④列印 `cnpsPrintSheet` 入 `HKK_PRINT_SHEETS`（七處）含答案版；⑤`LIC_MODS` 加 `{k:'cnps'}`（6→7 模塊，進頁自動開第一套同樣計次）；⑥版權自檢：原卷特徵短語（書籤阿靜／橫瀾島燈塔／鳳凰木等）0 命中；⑦斷言 1510→+v2.39 專項，tip 5→6 段、lic 表 6→7 行同步。版本升 v2.39（三把鎖全換）。
@@ -1333,13 +1334,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.45
+    © 叶工 SteveHKSZ · 公開版 v2.46
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.45</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.46</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2860,6 +2861,41 @@ Thank you for your time.</div>
         <summary>❤ 我的心水（收藏心儀學校）</summary>
         <p style="margin:4px 0 6px">在下面三張學校表每行點 <b>🤍</b> 收藏心儀學校（存本機、跟賬號隔離），收藏後集中在這裡查看：點名字直接開該校詳情，點 × 移除。搭配每行的「⚖️」可把 2–3 所並排對比。</p>
         <div id="favChips" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      </details>
+      <details class="gcard fold" id="trackCard">
+        <summary>📋 申請追蹤表（遞表／筆試／面試／Offer 一本賬 · 只存本機）</summary>
+        <p style="margin:4px 0 6px">記錄每所學校的申請進度：在下面學校表每行點 <b>＋追</b> 帶入校名，或手動新增；狀態從「待申請」一路推進到 Offer／已註冊，拒信、放棄也記一筆。<b>⚠️ 資料只存本瀏覽器、跟賬號走、不上傳伺服器、不進公開代碼</b>——清快取或換設備前先「導出 JSON」備份；「複製 Markdown」可直接貼進自己的筆記庫。</p>
+        <div class="pg-chips" id="trkKids" style="margin:6px 0">
+          <span class="chip on" data-tk="d1">👧 姐姐</span>
+          <span class="chip" data-tk="d2">👧 妹妹</span>
+        </div>
+        <div id="trkStats" style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0"></div>
+        <div id="trkForm" style="display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0;padding:10px;border:1px solid var(--line);border-radius:8px">
+          <input id="trkName" placeholder="學校名（可點下面表格行的「＋追」自動帶入）" style="padding:9px 10px;min-height:44px;border:1px solid var(--line);border-radius:6px;font-size:14px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <select id="trkTier" style="padding:9px;min-height:44px;border:1px solid var(--line);border-radius:6px"><option value="">分檔：不標</option><option>衝刺</option><option>穩妥</option><option>保底</option></select>
+            <label style="display:flex;align-items:center;gap:4px;font-size:13.5px"><input type="checkbox" id="trkChW">網申</label>
+            <label style="display:flex;align-items:center;gap:4px;font-size:13.5px"><input type="checkbox" id="trkChP">親身</label>
+            <label style="display:flex;align-items:center;gap:4px;font-size:13.5px"><input type="checkbox" id="trkChM">郵寄</label>
+          </div>
+          <input id="trkDApp" placeholder="遞表日期／方式（自由填，如 6/18 網申）" style="padding:9px 10px;min-height:44px;border:1px solid var(--line);border-radius:6px">
+          <input id="trkDTest" placeholder="筆試日期／成績（如 6/04 ✏️ 87 分）" style="padding:9px 10px;min-height:44px;border:1px solid var(--line);border-radius:6px">
+          <input id="trkDInt" placeholder="面試日期／表現（如 6/21 📢 順利）" style="padding:9px 10px;min-height:44px;border:1px solid var(--line);border-radius:6px">
+          <input id="trkNote" placeholder="備註（對比、感想、跟進事項）" style="padding:9px 10px;min-height:44px;border:1px solid var(--line);border-radius:6px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn" id="trkAddBtn" style="min-height:44px">＋ 加入追蹤</button>
+            <button type="button" class="btn" id="trkCancelBtn" style="min-height:44px;display:none">取消編輯</button>
+          </div>
+        </div>
+        <div id="trkList"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">
+          <button type="button" class="btn" id="trkExport">導出 JSON</button>
+          <button type="button" class="btn" id="trkMd">複製 Markdown</button>
+          <button type="button" class="btn" id="trkImportBtn">匯入 JSON</button>
+          <button type="button" class="btn" id="trkClearBtn">清空本孩子</button>
+        </div>
+        <input type="file" id="trkFile" accept=".json,application/json" style="display:none">
+        <p class="src">追蹤表是家長自己的申請記錄：內容只保存在本設備瀏覽器（hkk_track_v0，跟賬號隔離），本站不上傳、不統計、不展示給其他訪客；公開頁面零預置記錄。導出檔為純文字 JSON／Markdown，含子女申請歷程，請自行保管、勿公開分享。</p>
       </details>
       <details class="gcard fold" id="mapCard">
         <summary>🗺️ 校園地圖（騰訊地圖 · 實時）</summary>
@@ -8824,6 +8860,211 @@ if(mapLoadBtn)mapLoadBtn.onclick=initSchoolMap;
 const SCH_PROFILES=DATA.sch_profiles||{};
 const SCH_PRI_PROFILES=DATA.sch_pri_profiles||{};
 function schEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// ---- v2.46 📋 申請追蹤表（遞表/筆試/面試/Offer 一本賬；hkk_track_v0 跟賬號隔離；公開頁零預置記錄——家庭隱私不上站） ----
+var TRACK_KEY='hkk_track_v0';
+var TRACK_ST=['待申請','已遞交','筆試約','面試約','waiting','Offer','已註冊','Offer已拒','拒信','棄'];
+var TRACK_DONE={'已註冊':1,'Offer已拒':1,'拒信':1,'棄':1};
+var _trk=null,_trkKid='d1',_trkEdit=null,_trkLastBtn=null;
+function trkLoad(){
+  if(_trk)return _trk;
+  try{var d=JSON.parse(localStorage.getItem(TRACK_KEY)||'null');
+    _trk=(d&&d.kids&&d.kids.d1&&d.kids.d2)?d:{ver:1,cur:'d1',kids:{d1:[],d2:[]}};
+  }catch(e){_trk={ver:1,cur:'d1',kids:{d1:[],d2:[]}};}
+  _trkKid=_trk.cur||'d1';
+  return _trk;
+}
+function trkSave(){try{trkLoad();_trk.cur=_trkKid;localStorage.setItem(TRACK_KEY,JSON.stringify(_trk));}catch(e){}}
+function trkKidName(){return _trkKid==='d2'?'妹妹':'姐姐';}
+function trkHas(name){return trkLoad().kids[_trkKid].some(function(it){return it.name===name;});}
+function trkNorm(it){
+  it=it||{};
+  var st=TRACK_ST.indexOf(it.st)>=0?it.st:'待申請';
+  var tier=['衝刺','穩妥','保底'].indexOf(it.tier)>=0?it.tier:'';
+  var ch=Array.isArray(it.ch)?it.ch.filter(function(c){return c==='網'||c==='人'||c==='郵';}).slice(0,3):[];
+  return {id:String(it.id||('t'+Date.now()+Math.floor(Math.random()*10000))),
+    name:String(it.name||'').slice(0,40),tier:tier,ch:ch,
+    dApp:String(it.dApp||'').slice(0,30),dTest:String(it.dTest||'').slice(0,40),dInt:String(it.dInt||'').slice(0,40),
+    st:st,note:String(it.note||'').slice(0,200),ts:Number(it.ts)||Date.now()};
+}
+function trkAdd(f){var it=trkNorm(Object.assign({ts:Date.now()},f||{}));
+  if(!it.name)return{ok:false,msg:'請先填學校名'};
+  var a=trkLoad().kids[_trkKid];
+  if(a.some(function(x){return x.name===it.name;}))return{ok:false,msg:'「'+it.name+'」已在'+trkKidName()+'的追蹤表裡'};
+  a.unshift(it);if(a.length>120)a.length=120;
+  trkSave();trkRender();return{ok:true,id:it.id};}
+function trkUpdate(id,patch){var a=trkLoad().kids[_trkKid];var it=null;
+  for(var i=0;i<a.length;i++)if(a[i].id===id){it=a[i];break;}
+  if(!it)return{ok:false,msg:'記錄不存在'};
+  Object.assign(it,trkNorm(Object.assign({},it,patch||{},{id:it.id,ts:it.ts})));
+  trkSave();trkRender();return{ok:true};}
+function trkDel(id){var a=trkLoad().kids[_trkKid];var i=-1;
+  for(var j=0;j<a.length;j++)if(a[j].id===id){i=j;break;}
+  if(i<0)return;
+  if(!window.confirm('刪除「'+a[i].name+'」的追蹤記錄？'))return;
+  a.splice(i,1);trkSave();trkRender();}
+function trkBadge(st){
+  if(st==='Offer'||st==='已註冊')return 'background:#eaf3de;color:#27500a';
+  if(st==='面試約'||st==='筆試約')return 'background:#faeeda;color:#633806';
+  if(st==='拒信'||st==='Offer已拒')return 'background:#fcebeb;color:#791f1f';
+  if(st==='棄')return 'background:#f1efe8;color:#444441';
+  return 'background:#e6f1fb;color:#0c447c';
+}
+function trkSort(a){return a.slice().sort(function(x,y){
+  return (!!TRACK_DONE[x.st]-!!TRACK_DONE[y.st])||(y.ts-x.ts);});}
+function trkStats(){
+  var c={offer:0,intv:0,wait:0,waiting:0,rej:0,drop:0};
+  trkLoad().kids[_trkKid].forEach(function(it){
+    if(it.st==='Offer'||it.st==='已註冊')c.offer++;
+    else if(it.st==='面試約'||it.st==='筆試約')c.intv++;
+    else if(it.st==='waiting')c.waiting++;
+    else if(it.st==='拒信'||it.st==='Offer已拒')c.rej++;
+    else if(it.st==='棄')c.drop++;
+    else c.wait++;
+  });
+  return c;
+}
+function trkRender(){
+  var a=trkSort(trkLoad().kids[_trkKid]);
+  var st=document.getElementById('trkStats');
+  var c=trkStats();
+  if(st)st.innerHTML=
+    '<span class="chip" style="cursor:default;background:#eaf3de;color:#27500a">Offer '+c.offer+'</span>'
+   +'<span class="chip" style="cursor:default;background:#faeeda;color:#633806">筆試/面試約 '+c.intv+'</span>'
+   +'<span class="chip" style="cursor:default;background:#e6f1fb;color:#0c447c">等通知 '+c.wait+'</span>'
+   +'<span class="chip" style="cursor:default;background:#e6f1fb;color:#0c447c">waiting '+c.waiting+'</span>'
+   +'<span class="chip" style="cursor:default;background:#fcebeb;color:#791f1f">拒信 '+c.rej+'</span>'
+   +'<span class="chip" style="cursor:default;background:#f1efe8;color:#444441">棄 '+c.drop+'</span>'
+   +'<span class="chip on" style="cursor:default">共 '+a.length+'</span>';
+  var box=document.getElementById('trkList');if(!box)return;
+  if(!a.length){box.innerHTML='<p style="font-size:13px;color:#8a8aa0;margin:6px 0">「'+trkKidName()+'」還沒有記錄：在下面學校表每行點 ＋追，或在上面手動新增。</p>';return;}
+  box.innerHTML=a.map(function(it){
+    var q=String(it.id).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    var ch=it.ch&&it.ch.length?'渠道：'+schEsc(it.ch.join('＋')):'渠道：未填';
+    var meta=[it.dApp?'遞表 '+it.dApp:'',it.dTest?'筆試 '+it.dTest:'',it.dInt?'面試 '+it.dInt:''].filter(Boolean)
+      .map(function(m){return '<span style="background:var(--bg,#f5f5f7);padding:2px 7px;border-radius:5px;font-size:12px">'+schEsc(m)+'</span>';}).join(' ');
+    var opts=TRACK_ST.map(function(sname){return '<option'+(sname===it.st?' selected':'')+'>'+sname+'</option>';}).join('');
+    return '<div style="border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0">'
+      +'<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap">'
+      +'<b style="font-size:14.5px">'+schEsc(it.name)+(it.tier?' <span style="font-size:11px;padding:2px 6px;border-radius:4px;background:#cecbf6;color:#3c3489">'+it.tier+'</span>':'')+'</b>'
+      +'<span style="font-size:12px;padding:3px 10px;border-radius:6px;font-weight:700;'+trkBadge(it.st)+'">'+schEsc(it.st)+'</span>'
+      +'</div>'
+      +'<p style="font-size:12px;color:#666;margin:5px 0 4px">'+ch+'</p>'
+      +(meta?'<div style="display:flex;gap:6px;flex-wrap:wrap;margin:4px 0">'+meta+'</div>':'')
+      +(it.note?'<p style="font-size:12.5px;color:#444;margin:5px 0">📝 '+schEsc(it.note)+'</p>':'')
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px">'
+      +'<select onchange="trkUpdate(\''+q+'\',{st:this.value})" style="padding:6px;min-height:40px;border:1px solid var(--line);border-radius:6px;font-size:13px">'+opts+'</select>'
+      +'<button type="button" class="chip" onclick="trkEdit(\''+q+'\')">編輯</button>'
+      +'<button type="button" class="chip" onclick="trkDel(\''+q+'\')">刪除</button>'
+      +'</div></div>';
+  }).join('');
+}
+function trkFillForm(it){
+  it=it||{};
+  document.getElementById('trkName').value=it.name||'';
+  document.getElementById('trkTier').value=it.tier||'';
+  document.getElementById('trkChW').checked=!!(it.ch&&it.ch.indexOf('網')>=0);
+  document.getElementById('trkChP').checked=!!(it.ch&&it.ch.indexOf('人')>=0);
+  document.getElementById('trkChM').checked=!!(it.ch&&it.ch.indexOf('郵')>=0);
+  document.getElementById('trkDApp').value=it.dApp||'';
+  document.getElementById('trkDTest').value=it.dTest||'';
+  document.getElementById('trkDInt').value=it.dInt||'';
+  document.getElementById('trkNote').value=it.note||'';
+}
+function trkFormReset(){_trkEdit=null;trkFillForm({});
+  var cb=document.getElementById('trkCancelBtn');if(cb)cb.style.display='none';}
+function trkEdit(id){var it=null;var a=trkLoad().kids[_trkKid];
+  for(var i=0;i<a.length;i++)if(a[i].id===id){it=a[i];break;}
+  if(!it)return;
+  _trkEdit=id;trkFillForm(it);
+  var cb=document.getElementById('trkCancelBtn');if(cb)cb.style.display='';
+  var card=document.getElementById('trackCard');if(card)card.open=true;
+  var f=document.getElementById('trkForm');if(f)f.scrollIntoView({block:'center'});}
+function trkSubmit(){
+  var name=String(document.getElementById('trkName').value||'').trim();
+  if(!name){alert('請先填學校名');return;}
+  var ch=[];if(document.getElementById('trkChW').checked)ch.push('網');
+  if(document.getElementById('trkChP').checked)ch.push('人');
+  if(document.getElementById('trkChM').checked)ch.push('郵');
+  var f={name:name,tier:document.getElementById('trkTier').value,ch:ch,
+    dApp:document.getElementById('trkDApp').value.trim(),
+    dTest:document.getElementById('trkDTest').value.trim(),
+    dInt:document.getElementById('trkDInt').value.trim(),
+    note:document.getElementById('trkNote').value.trim()};
+  var r=_trkEdit?trkUpdate(_trkEdit,f):trkAdd(f);
+  if(!r.ok){alert(r.msg||'操作失敗');return;}
+  if(_trkLastBtn&&trkHas(name))_trkLastBtn.textContent='＋追 ✓';
+  trkFormReset();
+}
+function trkAddFromTable(name,btn){
+  _trkLastBtn=btn||null;_trkEdit=null;
+  var cb=document.getElementById('trkCancelBtn');if(cb)cb.style.display='none';
+  trkFillForm({name:name});
+  var card=document.getElementById('trackCard');if(card)card.open=true;
+  var f=document.getElementById('trkForm');if(f)f.scrollIntoView({block:'center'});
+  var inp=document.getElementById('trkName');if(inp)inp.focus();
+}
+function trkExportData(){trkLoad();
+  return JSON.parse(JSON.stringify({ver:'hkk_track_v1',cur:_trkKid,kids:_trk.kids}));}
+function trkImportData(d){
+  if(!d||!d.kids||!d.kids.d1||!d.kids.d2)throw new Error('bad');
+  var nk={d1:d.kids.d1.map(trkNorm),d2:d.kids.d2.map(trkNorm)};
+  if(!window.confirm('匯入會整體替換目前兩個孩子的追蹤表（現有 '+trkLoad().kids.d1.length+'＋'+trkLoad().kids.d2.length+' 條 → 新 '+nk.d1.length+'＋'+nk.d2.length+' 條），確定？'))return{ok:false,msg:'已取消'};
+  _trk={ver:1,cur:_trkKid,kids:nk};trkSave();trkRender();return{ok:true};
+}
+function trkCopyFallback(t){var d=document.createElement('textarea');d.value=t;
+  document.body.appendChild(d);d.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(d);}
+function trkMarkdown(){
+  var a=trkSort(trkLoad().kids[_trkKid]);
+  if(!a.length)return '';
+  var lines=['# 申請追蹤（'+trkKidName()+'） · '+new Date().toISOString().slice(0,10),'',
+    '| 學校 | 分檔 | 渠道 | 遞表 | 筆試 | 面試 | 狀態 | 備註 |','|---|---|---|---|---|---|---|---|'];
+  a.forEach(function(it){lines.push('| '+it.name+' | '+(it.tier||'')+' | '+(it.ch?it.ch.join('＋'):'')+' | '
+    +(it.dApp||'')+' | '+(it.dTest||'')+' | '+(it.dInt||'')+' | '+it.st+' | '+String(it.note||'').replace(/\|/g,'／')+' |');});
+  return lines.join('\n');
+}
+(function(){
+  function q(id){return document.getElementById(id);}
+  document.querySelectorAll('#trkKids .chip').forEach(function(ch){ch.addEventListener('click',function(){
+    document.querySelectorAll('#trkKids .chip').forEach(function(x){x.classList.remove('on');});
+    ch.classList.add('on');_trkKid=ch.getAttribute('data-tk');trkSave();trkRender();
+  });});
+  var ab=q('trkAddBtn');if(ab)ab.addEventListener('click',trkSubmit);
+  var cb2=q('trkCancelBtn');if(cb2)cb2.addEventListener('click',trkFormReset);
+  var ex=q('trkExport');if(ex)ex.addEventListener('click',function(){
+    try{
+      var blob=new Blob([JSON.stringify(trkExportData(),null,2)],{type:'application/json'});
+      var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_track.json';a.click();URL.revokeObjectURL(a.href);
+    }catch(e){
+      trkCopyFallback(JSON.stringify(trkExportData()));alert('下載不可用，已複製 JSON');
+    }
+  });
+  var md=q('trkMd');if(md)md.addEventListener('click',function(){
+    var t=trkMarkdown();if(!t){alert('追蹤表是空的');return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){alert('已複製 Markdown，可貼進筆記庫');},function(){trkCopyFallback(t);alert('已複製 Markdown');});}
+    else{trkCopyFallback(t);alert('已複製 Markdown');}
+  });
+  var ib=q('trkImportBtn');if(ib)ib.addEventListener('click',function(){q('trkFile').click();});
+  var fl=q('trkFile');if(fl)fl.addEventListener('change',function(e){
+    var f=e.target.files[0];if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){try{var r2=trkImportData(JSON.parse(r.result));if(r2&&r2.ok)alert('已匯入追蹤表');}catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
+    r.readAsText(f);e.target.value='';
+  });
+  var cl=q('trkClearBtn');if(cl)cl.addEventListener('click',function(){
+    var a=trkLoad().kids[_trkKid];
+    if(!a.length){alert('「'+trkKidName()+'」的追蹤表已是空的');return;}
+    if(window.confirm('清空「'+trkKidName()+'」全部 '+a.length+' 條追蹤記錄？不可恢復（建議先導出 JSON）。')){trkLoad().kids[_trkKid]=[];trkSave();trkRender();}
+  });
+  trkRender();
+})();
+window.__trackTest={get:function(){return JSON.parse(JSON.stringify(trkLoad()));},ST:TRACK_ST,
+  add:trkAdd,update:trkUpdate,render:trkRender,
+  setKid:function(k){_trkKid=k;trkSave();trkRender();},kid:function(){return _trkKid;},
+  addFromTable:trkAddFromTable,exportData:trkExportData,importData:trkImportData,
+  reset:function(){_trk=null;_trkEdit=null;try{localStorage.removeItem(TRACK_KEY);}catch(e){}trkRender();},
+  markdown:trkMarkdown,count:function(){return trkLoad().kids.d1.length+trkLoad().kids.d2.length;}};
 function injectSchBtns(){
   // v1.59：psTable 校名在第 2 列（第 1 列是檔位），故三張表分開處理
   // v1.66：每行操作格擴為 📄詳情 ＋ ⚖️對比（僅有官方檔案者）＋ 🤍心水（全部行）
@@ -8847,6 +9088,11 @@ function injectSchBtns(){
       f.textContent=favGet().indexOf(name)>=0?'❤️':'🤍';
       f.onclick=()=>{favToggle(name,f);};
       td.appendChild(f);
+      // v2.46：每行加「＋追」——點了帶校名預填申請追蹤表（hkk_track_v0，只存本機）
+      const tb=document.createElement('button');tb.className='chip';tb.title='加入申請追蹤表';tb.style.cursor='pointer';
+      tb.textContent=trkHas(name)?'＋追 ✓':'＋追';
+      tb.onclick=()=>{trkAddFromTable(name,tb);};
+      td.appendChild(tb);
       tr.appendChild(td);
     });
   });
@@ -10786,7 +11032,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),ver:'hkk_v2.45',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.46',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -10804,6 +11050,7 @@ document.getElementById('importFile').onchange=e=>{
     if(d.mCustom&&window.__mCustomTest){window.__mCustomTest.importData(d.mCustom);}
     if(Array.isArray(d.myWords)&&window.__myWordsTest){window.__myWordsTest.importData(d.myWords);}
     if(Array.isArray(d.ziWords)&&window.__ziTest){window.__ziTest.importData(d.ziWords);}
+    if(d.track&&window.__trackTest){try{window.__trackTest.importData(d.track);}catch(e){}}
     if(d.lwteWordProg&&window.__lwtePackTest){window.__lwtePackTest.setProg(d.lwteWordProg);}
     if(d.drillProg&&typeof drSaveProg==='function'){drSaveProg(d.drillProg);}
     if(d.sched&&typeof schSave==='function'){schSave(d.sched);if(typeof schRender==='function')schRender();}
@@ -10811,7 +11058,7 @@ document.getElementById('importFile').onchange=e=>{
     if(d.drillBest&&typeof drBest==='function'){try{localStorage.setItem(DRILL_BEST_KEY,JSON.stringify(d.drillBest));}catch(e){}}
     if(typeof drTapTo==='function'){drTapTo(drTap);}
     saveP();saveV();saveH();saveM();saveDone();renderPoemGrid();renderVocab();renderHk();renderMath();renderStarMap();renderProgress();
-    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查 / '+(window.__myWordsTest?window.__myWordsTest.count():0)+' 個自收詞 / '+(window.__ziTest?window.__ziTest.count():0)+' 個自收生字）');
+    alert('已匯入進度（'+Object.keys(pProg).length+' 詩 / '+Object.keys(poemDone).length+' 顆星 / '+Object.keys(hProg).length+' 港小詞 / '+Object.keys(mProg).length+' 數術語 / '+Object.keys(window.__mapTest?window.__mapTest.get():{}).length+' 項備考自查 / '+(window.__myWordsTest?window.__myWordsTest.count():0)+' 個自收詞 / '+(window.__ziTest?window.__ziTest.count():0)+' 個自收生字 / '+(window.__trackTest?window.__trackTest.count():0)+' 條申請追蹤）');
   }catch(err){alert('檔案格式錯誤，請選擇由本站匯出的 JSON');}};
   r.readAsText(f); e.target.value='';
 };
