@@ -1205,13 +1205,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.46
+    © 叶工 SteveHKSZ · 公開版 v2.47
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.46</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.47</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2735,11 +2735,8 @@ Thank you for your time.</div>
       </details>
       <details class="gcard fold" id="trackCard">
         <summary>📋 申請追蹤表（遞表／筆試／面試／Offer 一本賬 · 只存本機）</summary>
-        <p style="margin:4px 0 6px">記錄每所學校的申請進度：在下面學校表每行點 <b>＋追</b> 帶入校名，或手動新增；狀態從「待申請」一路推進到 Offer／已註冊，拒信、放棄也記一筆。<b>⚠️ 資料只存本瀏覽器、跟賬號走、不上傳伺服器、不進公開代碼</b>——清快取或換設備前先「導出 JSON」備份；「複製 Markdown」可直接貼進自己的筆記庫。</p>
-        <div class="pg-chips" id="trkKids" style="margin:6px 0">
-          <span class="chip on" data-tk="d1">👧 姐姐</span>
-          <span class="chip" data-tk="d2">👧 妹妹</span>
-        </div>
+        <p style="margin:4px 0 6px">記錄每所學校的申請進度：在下面學校表每行點 <b>＋追</b> 帶入校名，或手動新增；狀態從「待申請」一路推進到 Offer／已註冊，拒信、放棄也記一筆。<b>⚠️ 資料只存本瀏覽器、跟賬號走、不上傳伺服器、不進公開代碼</b>——清快取或換設備前先「導出 JSON」備份；「複製 Markdown」可直接貼進自己的筆記庫。孩子 chip 可自訂：點 <b>＋</b> 新增（姐姐／妹妹／哥哥／弟弟都行），再點當前孩子可改名，「🗑」刪除當前孩子（連同其記錄）。</p>
+        <div class="pg-chips" id="trkKids" style="margin:6px 0"></div>
         <div id="trkStats" style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0"></div>
         <div id="trkForm" style="display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0;padding:10px;border:1px solid var(--line);border-radius:8px">
           <input id="trkName" placeholder="學校名（可點下面表格行的「＋追」自動帶入）" style="padding:9px 10px;min-height:44px;border:1px solid var(--line);border-radius:6px;font-size:14px">
@@ -53237,14 +53234,17 @@ var _trk=null,_trkKid='d1',_trkEdit=null,_trkLastBtn=null;
 function trkLoad(){
   if(_trk)return _trk;
   try{var d=JSON.parse(localStorage.getItem(TRACK_KEY)||'null');
-    _trk=(d&&d.kids&&d.kids.d1&&d.kids.d2)?d:{ver:1,cur:'d1',kids:{d1:[],d2:[]}};
-  }catch(e){_trk={ver:1,cur:'d1',kids:{d1:[],d2:[]}};}
-  _trkKid=_trk.cur||'d1';
+    _trk=(d&&d.kids&&d.kids.d1&&d.kids.d2)?d:{ver:1,cur:'d1',kids:{d1:[],d2:[]},names:{d1:'姐姐',d2:'妹妹'}};
+  }catch(e){_trk={ver:1,cur:'d1',kids:{d1:[],d2:[]},names:{d1:'姐姐',d2:'妹妹'}};}
+  if(!_trk.names)_trk.names={d1:'姐姐',d2:'妹妹'};
+  _trkKid=(_trk.cur&&_trk.kids[_trk.cur])?_trk.cur:(Object.keys(_trk.kids)[0]||null);
   return _trk;
 }
 function trkSave(){try{trkLoad();_trk.cur=_trkKid;localStorage.setItem(TRACK_KEY,JSON.stringify(_trk));}catch(e){}}
-function trkKidName(){return _trkKid==='d2'?'妹妹':'姐姐';}
-function trkHas(name){return trkLoad().kids[_trkKid].some(function(it){return it.name===name;});}
+function trkKidName(){var t=trkLoad();return _trkKid?((t.names&&t.names[_trkKid])||(_trkKid==='d2'?'妹妹':'姐姐')):'';}
+function trkEmoji(n){return /哥|弟|仔/.test(n)?'👦':'👧';}
+function trkList(){var t=trkLoad();return (_trkKid&&t.kids[_trkKid])||[];}
+function trkHas(name){return trkList().some(function(it){return it.name===name;});}
 function trkNorm(it){
   it=it||{};
   var st=TRACK_ST.indexOf(it.st)>=0?it.st:'待申請';
@@ -53257,20 +53257,40 @@ function trkNorm(it){
 }
 function trkAdd(f){var it=trkNorm(Object.assign({ts:Date.now()},f||{}));
   if(!it.name)return{ok:false,msg:'請先填學校名'};
-  var a=trkLoad().kids[_trkKid];
+  if(!_trkKid)return{ok:false,msg:'請先點上方「＋」新增孩子'};
+  var a=trkList();
   if(a.some(function(x){return x.name===it.name;}))return{ok:false,msg:'「'+it.name+'」已在'+trkKidName()+'的追蹤表裡'};
   a.unshift(it);if(a.length>120)a.length=120;
   trkSave();trkRender();return{ok:true,id:it.id};}
-function trkUpdate(id,patch){var a=trkLoad().kids[_trkKid];var it=null;
+function trkUpdate(id,patch){var a=trkList();var it=null;
   for(var i=0;i<a.length;i++)if(a[i].id===id){it=a[i];break;}
   if(!it)return{ok:false,msg:'記錄不存在'};
   Object.assign(it,trkNorm(Object.assign({},it,patch||{},{id:it.id,ts:it.ts})));
   trkSave();trkRender();return{ok:true};}
-function trkDel(id){var a=trkLoad().kids[_trkKid];var i=-1;
+function trkDel(id){var a=trkList();var i=-1;
   for(var j=0;j<a.length;j++)if(a[j].id===id){i=j;break;}
   if(i<0)return;
   if(!window.confirm('刪除「'+a[i].name+'」的追蹤記錄？'))return;
   a.splice(i,1);trkSave();trkRender();}
+function trkAddKid(name){var t=trkLoad();
+  name=String(name||'').trim().slice(0,8);
+  if(!name)return{ok:false,msg:'請填孩子稱呼（最多 8 字）'};
+  for(var k in t.names)if(t.names[k]===name)return{ok:false,msg:'「'+name+'」已存在'};
+  var id='k'+Date.now().toString(36)+Math.floor(Math.random()*100);
+  t.kids[id]=[];t.names[id]=name;_trkKid=id;trkSave();trkRender();return{ok:true,id:id};}
+function trkRenameKid(id,name){var t=trkLoad();if(!t.kids[id])return{ok:false,msg:'孩子不存在'};
+  name=String(name||'').trim().slice(0,8);
+  if(!name)return{ok:false,msg:'名稱不能為空'};
+  for(var k in t.names)if(k!==id&&t.names[k]===name)return{ok:false,msg:'「'+name+'」已存在'};
+  t.names[id]=name;trkSave();trkRender();return{ok:true};}
+function trkDelKid(id){var t=trkLoad();if(!id||!t.kids[id])return{ok:false,msg:'孩子不存在'};
+  var nm=(t.names&&t.names[id])||id,c=t.kids[id].length;
+  if(!window.confirm('刪除「'+nm+'」'+(c?'（連同全部 '+c+' 條追蹤記錄）':'')+'？不可恢復，建議先「導出 JSON」。'))return{ok:false,msg:'已取消'};
+  delete t.kids[id];delete t.names[id];
+  if(_trkKid===id)_trkKid=Object.keys(t.kids)[0]||null;
+  trkSave();trkRender();return{ok:true};}
+function trkAddKidUI(){var n=window.prompt('新增孩子稱呼（例如：姐姐／妹妹／哥哥／弟弟，最多 8 字）：','');if(n==null)return;var r=trkAddKid(n);if(!r.ok&&r.msg)alert(r.msg);}
+function trkRenameKidUI(id){var t=trkLoad();var cur=(t.names&&t.names[id])||id;var n=window.prompt('把「'+cur+'」改名（留空取消）：',cur);if(n==null)return;var r=trkRenameKid(id,n);if(!r.ok&&r.msg)alert(r.msg);}
 function trkBadge(st){
   if(st==='Offer'||st==='已註冊')return 'background:#eaf3de;color:#27500a';
   if(st==='面試約'||st==='筆試約')return 'background:#faeeda;color:#633806';
@@ -53282,7 +53302,7 @@ function trkSort(a){return a.slice().sort(function(x,y){
   return (!!TRACK_DONE[x.st]-!!TRACK_DONE[y.st])||(y.ts-x.ts);});}
 function trkStats(){
   var c={offer:0,intv:0,wait:0,waiting:0,rej:0,drop:0};
-  trkLoad().kids[_trkKid].forEach(function(it){
+  trkList().forEach(function(it){
     if(it.st==='Offer'||it.st==='已註冊')c.offer++;
     else if(it.st==='面試約'||it.st==='筆試約')c.intv++;
     else if(it.st==='waiting')c.waiting++;
@@ -53293,7 +53313,17 @@ function trkStats(){
   return c;
 }
 function trkRender(){
-  var a=trkSort(trkLoad().kids[_trkKid]);
+  var kt=document.getElementById('trkKids');
+  if(kt){var th=trkLoad();
+    kt.innerHTML=Object.keys(th.kids).map(function(id){
+      var nm=(th.names&&th.names[id])||id;
+      return '<span class="chip'+(id===_trkKid?' on':'')+'" data-tk="'+id+'" title="點一下切換；再點當前孩子改名">'+trkEmoji(nm)+' '+schEsc(nm)+'</span>';
+    }).join('')
+    +'<span class="chip" data-tkadd="1" title="新增孩子（姐姐／妹妹／哥哥／弟弟）">＋</span>'
+    +(Object.keys(th.kids).length?'<span class="chip" data-tkdel="1" title="刪除當前孩子（連同其記錄）">🗑</span>':'');}
+  if(!_trkKid){var st0=document.getElementById('trkStats');if(st0)st0.innerHTML='';
+    var box0=document.getElementById('trkList');if(box0)box0.innerHTML='<p style="font-size:13px;color:#8a8aa0;margin:6px 0">先點上方「＋」新增孩子（例如姐姐／妹妹／哥哥／弟弟），再開始記錄。</p>';return;}
+  var a=trkSort(trkList());
   var st=document.getElementById('trkStats');
   var c=trkStats();
   if(st)st.innerHTML=
@@ -53341,7 +53371,7 @@ function trkFillForm(it){
 }
 function trkFormReset(){_trkEdit=null;trkFillForm({});
   var cb=document.getElementById('trkCancelBtn');if(cb)cb.style.display='none';}
-function trkEdit(id){var it=null;var a=trkLoad().kids[_trkKid];
+function trkEdit(id){var it=null;var a=trkList();
   for(var i=0;i<a.length;i++)if(a[i].id===id){it=a[i];break;}
   if(!it)return;
   _trkEdit=id;trkFillForm(it);
@@ -53373,19 +53403,23 @@ function trkAddFromTable(name,btn){
   var inp=document.getElementById('trkName');if(inp)inp.focus();
 }
 function trkExportData(){trkLoad();
-  return JSON.parse(JSON.stringify({ver:'hkk_track_v1',cur:_trkKid,kids:_trk.kids}));}
+  return JSON.parse(JSON.stringify({ver:'hkk_track_v1',cur:_trkKid,kids:_trk.kids,names:_trk.names}));}
 function trkImportData(d){
   if(!d||!d.kids||!d.kids.d1||!d.kids.d2)throw new Error('bad');
-  var nk={d1:d.kids.d1.map(trkNorm),d2:d.kids.d2.map(trkNorm)};
-  if(!window.confirm('匯入會整體替換目前兩個孩子的追蹤表（現有 '+trkLoad().kids.d1.length+'＋'+trkLoad().kids.d2.length+' 條 → 新 '+nk.d1.length+'＋'+nk.d2.length+' 條），確定？'))return{ok:false,msg:'已取消'};
-  _trk={ver:1,cur:_trkKid,kids:nk};trkSave();trkRender();return{ok:true};
+  var nk={},nn={},tot=0;
+  for(var k in d.kids){nk[k]=d.kids[k].map(trkNorm);tot+=nk[k].length;}
+  for(var k2 in d.kids)nn[k2]=(d.names&&d.names[k2])||(k2==='d1'?'姐姐':k2==='d2'?'妹妹':k2);
+  var old=trkLoad(),oldn=0;for(var k3 in old.kids)oldn+=old.kids[k3].length;
+  if(!window.confirm('匯入會整體替換目前追蹤表（現有 '+oldn+' 條 → 新 '+tot+' 條），確定？'))return{ok:false,msg:'已取消'};
+  if(_trkKid&&!nk[_trkKid])_trkKid=Object.keys(nk)[0]||null;
+  _trk={ver:1,cur:_trkKid,kids:nk,names:nn};trkSave();trkRender();return{ok:true};
 }
 function trkCopyFallback(t){var d=document.createElement('textarea');d.value=t;
   document.body.appendChild(d);d.select();
   try{document.execCommand('copy');}catch(e){}
   document.body.removeChild(d);}
 function trkMarkdown(){
-  var a=trkSort(trkLoad().kids[_trkKid]);
+  var a=trkSort(trkList());
   if(!a.length)return '';
   var lines=['# 申請追蹤（'+trkKidName()+'） · '+new Date().toISOString().slice(0,10),'',
     '| 學校 | 分檔 | 渠道 | 遞表 | 筆試 | 面試 | 狀態 | 備註 |','|---|---|---|---|---|---|---|---|'];
@@ -53395,10 +53429,13 @@ function trkMarkdown(){
 }
 (function(){
   function q(id){return document.getElementById(id);}
-  document.querySelectorAll('#trkKids .chip').forEach(function(ch){ch.addEventListener('click',function(){
-    document.querySelectorAll('#trkKids .chip').forEach(function(x){x.classList.remove('on');});
-    ch.classList.add('on');_trkKid=ch.getAttribute('data-tk');trkSave();trkRender();
-  });});
+  var kt=q('trkKids');if(kt)kt.addEventListener('click',function(e){
+    var el=e.target.closest('[data-tk],[data-tkadd],[data-tkdel]');if(!el)return;
+    if(el.hasAttribute('data-tkadd')){trkAddKidUI();return;}
+    if(el.hasAttribute('data-tkdel')){trkDelKid(_trkKid);return;}
+    var id=el.getAttribute('data-tk');
+    if(id===_trkKid){trkRenameKidUI(id);}else{_trkKid=id;trkSave();trkRender();}
+  });
   var ab=q('trkAddBtn');if(ab)ab.addEventListener('click',trkSubmit);
   var cb2=q('trkCancelBtn');if(cb2)cb2.addEventListener('click',trkFormReset);
   var ex=q('trkExport');if(ex)ex.addEventListener('click',function(){
@@ -53422,9 +53459,9 @@ function trkMarkdown(){
     r.readAsText(f);e.target.value='';
   });
   var cl=q('trkClearBtn');if(cl)cl.addEventListener('click',function(){
-    var a=trkLoad().kids[_trkKid];
+    var a=trkList();
     if(!a.length){alert('「'+trkKidName()+'」的追蹤表已是空的');return;}
-    if(window.confirm('清空「'+trkKidName()+'」全部 '+a.length+' 條追蹤記錄？不可恢復（建議先導出 JSON）。')){trkLoad().kids[_trkKid]=[];trkSave();trkRender();}
+    if(window.confirm('清空「'+trkKidName()+'」全部 '+a.length+' 條追蹤記錄？不可恢復（建議先導出 JSON）。')){var t=trkLoad();if(_trkKid)t.kids[_trkKid]=[];trkSave();trkRender();}
   });
   trkRender();
 })();
@@ -53433,7 +53470,9 @@ window.__trackTest={get:function(){return JSON.parse(JSON.stringify(trkLoad()));
   setKid:function(k){_trkKid=k;trkSave();trkRender();},kid:function(){return _trkKid;},
   addFromTable:trkAddFromTable,exportData:trkExportData,importData:trkImportData,
   reset:function(){_trk=null;_trkEdit=null;try{localStorage.removeItem(TRACK_KEY);}catch(e){}trkRender();},
-  markdown:trkMarkdown,count:function(){return trkLoad().kids.d1.length+trkLoad().kids.d2.length;}};
+  markdown:trkMarkdown,count:function(){var t=trkLoad(),n=0;for(var k in t.kids)n+=t.kids[k].length;return n;},
+  kids:function(){var t=trkLoad();return Object.keys(t.kids).map(function(id){return{id:id,name:(t.names&&t.names[id])||id};});},
+  addKid:trkAddKid,renameKid:trkRenameKid,delKid:trkDelKid};
 function injectSchBtns(){
   // v1.59：psTable 校名在第 2 列（第 1 列是檔位），故三張表分開處理
   // v1.66：每行操作格擴為 📄詳情 ＋ ⚖️對比（僅有官方檔案者）＋ 🤍心水（全部行）
@@ -55401,7 +55440,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.46',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.47',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
