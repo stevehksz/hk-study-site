@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.48：葉工「把朗文的單詞本也改成可以像有道背單詞那樣，或者在單詞本裏面可以加入不同年級、不同課本的單詞，或者可以自己批量倒入」。三件一次做完，一份引擎三處共用。⚠️ **版權紅線不動**：某文 1,024 詞條仍只存在使用者本機（v1.78/v1.85 定的「公開倉庫＝公開發行」），所以「按課本選詞」的前提是那台裝置先匯入詞庫包；站內自有的「中小學單詞」335 詞是公開資料，可直接按年級整批收。①**背單詞引擎**（`window.__mwStudy`，全局一份）：隊列式「會一個過一個」——卡片正面英文＋音標，點卡或按空白鍵翻面看中文義；「不認識」把詞放回**隊尾**（本輪結束前必須再過一遍，拍板選項），「識 · 過」出列；頂部進度條＋「第 N / M 詞 · 已過 X · 待複習 Y」；卡片出現自動讀一次（`speak(w,"en-US")`），可關；結束出統計（認得次數／卡住次數／一次過關率）＋「再來一輪／收工」；鍵盤 空白=翻面、→=識、←=不認識、Esc=退出。進度寫回交給呼叫方 `onKnow` 回調，引擎本身不碰任何存儲鍵。②**三處入口**（拍板「三處都加」）：我的單詞本「開始背單詞」（預設只背未掌握，全掌握則整本再過一遍）；某文單詞本「背本冊」＋每課「背本課」；中小學單詞每年級小節「背本年級」。寫回：單詞本標 `done`、某文標該詞三態的「已學」（`hkk_lwte_wordprog_v0`）、中小學標掌握（`hProg`）。③**批量收詞**：某文單詞本「本冊全部加入單詞本」＋每課「加入本課」；中小學單詞每年級「加入本年級」。已在單詞本的詞自動跳過，回報「新增 X / 已存在 Y」；走新增的 `addMany()` 一次性去重入庫（不再逐詞重繪，1,024 詞也不卡）。來源標籤 `本機詞庫·5A`（零「朗文」字樣）與 `站內·中小學單詞`。④**批量導入（貼文字）**：單詞本新增「批量導入」彈窗，一行一詞，`單詞`／`單詞, 中文`／`單詞 中文`／`單詞 | 中文 | 音標` 都認（逗號、Tab、分號、豎線、兩個以上空格為分隔；單空格靠「英文段＋非 ASCII 段」切）；行首編號（`1.` `1)` `1、`）自動剝掉；`#` 開頭當註釋跳過；空行跳過；可填來源標籤（如 `5A Unit 3`）。輸入即時預覽前 30 條＋回報「解析出 N 條 · 跳過 M 行」，再點「導入」合併去重。原有 JSON 導出／匯入保留不動。⑤**UI 對齊有道式樣（葉工看板後拍板）**：每輪 10/20/30 選卡、未掌握優先 chip（僅我的單詞本，切換即重開）、連對計數、卡面喇叭讀詞（en-US）、底部「今日已過 N 詞（hkk_mws_day_v0）／本輪唔識 N／詞源」資訊條、按鈕措辭「唔識／識 · 過」。⑥**驗收**：斷言 1579→1596（+17），CDP 真機全路徑（單詞本開背→翻面→不認識回隊尾→識·過→統計→自動標 done、某文背本冊→寫回已學、批量導入混合格式→解析 6 條跳 2 行→入庫）、桌面與 390px 窄屏截圖。版權紅線斷言（公開 HTML 零詞條／零「朗文」）照舊全綠。
 v2.47：葉工看追蹤表孩子 chip（姐姐/妹妹寫死）要求「自己可以自定義添加姐姐妹妹哥哥弟弟」。改動態渲染＋names 映射（老數據 trkLoad 自動遷移默認 d1=姐姐/d2=妹妹）：①chip 行 JS 渲染（trkRender 順手畫），孩子數量不限，emoji 按稱呼啟發（含哥/弟/仔→👦 否則👧）；②點「＋」prompt 新增（最多8字、重名拒絕），再點當前孩子 chip prompt 改名，「🗑」confirm 後刪除當前孩子連同其全部記錄（刪當前自動退回第一個孩子；全刪後空狀態引導先新增）；③事件改 #trkKids 委託（closest [data-tk]/[data-tkadd]/[data-tkdel]），不再逐 chip 綁定；④導出 JSON 補 names 欄、匯入兼容舊檔（無 names 按鍵名補默認）、count() 改遍歷全部孩子；⑤安全網：trkList() 統一取當前孩子列表（_trkKid 空回空數組）、trkAdd 無孩子時擋、trkLoad 對 cur 指向已刪孩子自動回落；⑥__trackTest 補 kids/addKid/renameKid/delKid。
 v2.46：葉工貼申請記錄截圖（檔名記法：日期＋✏️筆試＋📢面試＋(人/郵/網)渠道＋✅❌棄waiting 狀態）要求「在擇校這裡做一個模組，填自己喜歡的學校、投遞情況、面試筆試情況、有沒有拿到 offer」。AskUserQuestion 三問拍板＝擇校分檔頁內卡片／與學校表聯動／導出 JSON＋Markdown。⚠️ 隱私紅線：站是公開的，子女申請記錄絕不寫進代碼——資料只存 localStorage hkk_track_v0（hkk_ 前綴受 v1.33 賬號隔離），公開 HTML 零預置記錄、不上傳、不進 ai_kb。落地＝①#schoolsView 內新增 #trackCard 折疊卡（默認收起，不動 v1.65 默認展開 6 斷言）：兩個孩子 chip（姐姐/妹妹）各一本賬、統計徽章行（Offer含註冊／筆試面試約／等通知／waiting／拒信／棄／總數）、新增表單（校名／分檔 衝刺穩妥保底／渠道 網人郵三勾／遞表筆試面試三個自由格式日期如「6/18 下午」／備註）、列表卡（狀態 select 十檔 待申請→已遞交→筆試約→面試約→waiting→Offer→已註冊→Offer已拒→拒信→棄，就地改就地存；編輯預填表單；刪除 confirm）、排序＝未完結在前按時間倒序；②聯動：injectSchBtns 四張表每行 🤍 後加「＋追」鈕，點了帶校名預填表單＋開卡＋滾動聚焦，已追蹤顯示「＋追 ✓」；③導出：JSON（{ver:'hkk_track_v1',cur,kids:{d1:[],d2:[]}}，URL.createObjectURL 降級 textarea）＋複製 Markdown 表格（clipboard API 降級 execCommand）＋匯入 JSON（confirm 後整體替換）＋清空本孩子（confirm）；全站「導出進度／匯入進度」補 track 欄；④XSS：列表渲染全走 schEsc()；⑤測試鉤子 window.__trackTest（get/add/update/setKid/addFromTable/exportData/importData/markdown/count）。斷言：舊 4 處改口徑（兩中學表按鈕 120→160、小學表 90→120、行內三鈕→四鈕、schoolsView folds 17→18）＋新增 v2.46 專項 16 項。
 v2.45：葉工說「中文裏面的古詩沒有粵語發音，加上粵語發音」。先只讀診斷再動手——實測彈窗「🔊 粵語朗讀」其實出得了聲（lang=zh-HK、voice=Google 粤語（香港）），真正的問題是**入口太少太深**：185 張詩卡（#poemGrid .pcard）零發音按鈕、彈窗只有第 1 步有朗讀、第 2/3/4 步切過去就聽不到。葉工拍板只做「詩列表直接聽」一項。落地：①每張詩卡右上角加 🔊（.pspk，絕對定位、44×40 觸控目標、stopPropagation 防誤觸開彈窗），點一下直接粵語讀整首，不用開彈窗；②新增 poemSpeechText／speakPoemById／poemVoiceTip 三函數，提示顯示在列表上方 #poemVoiceTip（8 秒自動收起）；③修兩個真 bug：(a) 語音清單異步載入——Chrome 首次 getVoices() 回空陣列，舊 speak()／speakPoemLang 拿它判定「有沒有粵語包」，會把「粵語包在、只是還沒載完」誤判成沒有而偷偷降級普通話；改為 __voiceCache＋hkkVoices() 快取＋onvoiceschanged 刷新，並把粵語判定放寬為 /^zh[-_](HK|Hant)/i（有的裝置報 zh_HK／zh-Hant-HK）；(b) 舊 speakPoemLang 用 lines.map(text).join("。")，而每行 text 自帶句末標點，會拼出「白玉盤。。又疑」雙句號，改為直接串接。④缺粵語包時不再靜默降級：列表提示逐端寫清加裝路徑（Windows 設定→時間與語言→語言及地區→新增「中文（香港）」並安裝語音；Android／iOS 設定→語言與輸入→文字轉語音）。⑤數據零改動：185 首的 py／jy、星圖、四步流程、localStorage 鍵全部不動。
@@ -542,6 +543,74 @@ table.rdtable td:first-child{font-weight:800;color:#334155;white-space:nowrap}
 .mwstat{font-size:12.5px;font-weight:700;color:#0f766e}
 .mwcard{background:#fff;border:1px solid var(--line);border-left:4px solid var(--math);border-radius:10px;padding:11px 13px;margin:0 0 9px}
 .mwcard.done{border-left-color:#94a3b8;background:#f8fafc}
+/* v2.48 背單詞／批量導入／按冊收詞 */
+.mwact2{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
+.mwact2 .btn{min-height:44px}
+.mwact2 .mwstudy-go{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+.mwact2 .mwtip2{font-size:11.5px;color:var(--mut);line-height:1.5}
+.mws-mask{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(15,23,42,.62);display:none;align-items:flex-start;justify-content:center;overflow:auto;z-index:60;padding:20px 12px}
+.mws-box{background:#fff;border-radius:16px;max-width:560px;width:100%;padding:18px 20px 20px;box-shadow:0 24px 60px -12px rgba(16,24,40,.4);margin:auto 0}
+.mws-head{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.mws-title{font-size:15px;font-weight:700;color:var(--ink);flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mws-x{flex:0 0 auto;width:32px;height:32px;line-height:29px;text-align:center;font-size:19px;color:var(--mut);border:1px solid var(--line);border-radius:50%;background:#fff;cursor:pointer;padding:0}
+.mws-bar{height:5px;background:#eef2f7;border-radius:3px;overflow:hidden;margin:0 0 8px}
+.mws-bar-in{height:100%;width:0;background:#0b7a68;border-radius:3px;transition:width .2s}
+.mws-stat{font-size:12px;color:var(--mut);margin:0 0 12px;font-weight:700}
+.mws-chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+.mws-chip{border:1px solid #dbe3ee;background:#fff;border-radius:999px;padding:5px 13px;font-size:13px;cursor:pointer;color:#1e3a5f;font-weight:700}
+.mws-chip.on{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
+.mws-spk{border:0;background:none;cursor:pointer;font-size:17px;margin-left:8px;padding:2px 5px;vertical-align:middle}
+.mws-foot{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
+.mws-fchip{background:#eef2f7;border-radius:999px;padding:4px 11px;font-size:12px;color:#33475b}
+.mws-org{background:#fff;border:1px dashed #c9d4e2}
+.mws-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:22px 16px;text-align:center;cursor:pointer;min-height:186px;display:flex;flex-direction:column;justify-content:center;transition:border-color .15s}
+.mws-card:hover{border-color:#c7d2e0}
+.mws-card:focus{outline:none;border-color:var(--acc)}
+.mws-w{font-size:26px;font-weight:700;color:var(--ink);line-height:1.25;word-break:break-word}
+.mws-ph{font-size:13px;color:var(--mut);margin:4px 0 0;font-family:ui-monospace,Menlo,Consolas,monospace;min-height:17px}
+.mws-sep{height:1px;background:#e2e8f0;margin:14px auto;width:60%}
+.mws-zh{font-size:16px;color:var(--ink);line-height:1.6;visibility:hidden;word-break:break-word;min-height:26px}
+.mws-note{font-size:11.5px;color:#94a3b8;margin:6px 0 0;line-height:1.5;min-height:16px}
+.mws-hint{font-size:12px;color:#94a3b8;margin:12px 0 0}
+.mws-acts{display:flex;gap:10px;margin:14px 0 0}
+.mws-acts .btn{flex:1 1 0;min-height:46px;font-size:14px}
+.mws-no{border-color:#e5b4b4;color:#a32d2d;background:#fdf2f2}
+.mws-yes{background:#0b7a68;border-color:#0b7a68;color:#fff}
+.mws-done{display:none;text-align:center;padding:8px 0 0}
+.mws-done p{font-size:14px;color:var(--ink);line-height:1.8;margin:0 0 14px}
+.mws-rate{font-size:13px;color:#0b7a68;font-weight:700}
+.mws-done-acts{display:flex;gap:10px}
+.mws-done-acts .btn{flex:1 1 0;min-height:44px}
+body.mws-lock{overflow:hidden}
+.mwb-tip{font-size:12px;color:var(--mut);line-height:1.7;margin:0 0 10px}
+.mwb-tip code{background:#f1f5f9;padding:1px 4px;border-radius:4px;font-size:11.5px;font-family:ui-monospace,Menlo,Consolas,monospace}
+#mwBulkText{width:100%;min-height:150px;padding:10px;border:1px solid var(--line);border-radius:9px;font-size:13px;line-height:1.7;font-family:ui-monospace,Menlo,Consolas,monospace;resize:vertical;color:var(--ink);box-sizing:border-box}
+.mwb-prev{max-height:150px;overflow:auto;border:1px solid var(--line);border-radius:9px;margin:10px 0;font-size:12px;display:none}
+.mwb-prev .prow{display:flex;gap:8px;padding:5px 9px;border-bottom:1px solid #f1f5f9}
+.mwb-prev .prow:nth-child(odd){background:#f8fafc}
+.mwb-prev .pw{flex:1 1 0;font-weight:700;color:var(--ink);word-break:break-word}
+.mwb-prev .pz{flex:1 1 0;color:var(--mut);word-break:break-word}
+.mwb-foot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0}
+.mwb-src{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#475569;flex:1 1 170px;min-width:0}
+.mwb-src input{flex:1 1 90px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;font-size:13px;min-width:0}
+.mwb-msg{flex:1 1 100%;font-size:12px;color:#0b7a68;font-weight:700;min-height:17px}
+.mwb-msg.bad{color:#b45309}
+.mwb-foot .btn{min-height:42px}
+.hk-gact{display:flex;gap:8px;flex-wrap:wrap;padding:8px 10px;background:#f6f8fc;border-bottom:1px solid #e8eef6;margin:0 0 8px;border-radius:8px}
+.hk-gact .btn{min-height:38px;font-size:12.5px;padding:6px 12px}
+.hk-gact .gact-study{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+.hk-gact .gact-msg{font-size:12px;color:#0b7a68;font-weight:700;align-self:center;flex:1 1 100%}
+.lwb-cat-act{display:flex;gap:8px;flex-wrap:wrap;padding:7px 9px;background:#f6f8fc;border-bottom:1px solid #e8eef6;margin:0 0 8px;border-radius:8px}
+.lwb-cat-act .btn{min-height:36px;font-size:12.5px;padding:5px 11px}
+.lwb-cat-act .lwb-stdy{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+@media(max-width:520px){
+  .mws-box{padding:16px 14px 18px}
+  .mws-w{font-size:22px}
+  .mws-acts .btn{min-height:48px;font-size:15px}
+  .mwb-prev .pz{display:none}
+  .mwact2 .btn{flex:1 1 100%}
+}
+
 .mwtop{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
 .mwtop .mww{font-size:18px;font-weight:800;color:#1e293b}
 .mwtop .mwph{font-size:12.5px;color:#64748b}
@@ -1335,13 +1404,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.47
+    © 叶工 SteveHKSZ · 公開版 v2.48
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.47</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.48</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1844,6 +1913,11 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
         <label>備註／例句（選填）<input id="mwNote" maxlength="300" placeholder="例：I borrow books from the library."></label>
         <button type="button" class="btn mwaddbtn" id="mwAdd">加入單詞本</button>
       </div>
+      <div class="mwact2">
+        <button type="button" class="btn mwstudy-go" id="mwStudyBtn">開始背單詞（會一個過一個）</button>
+        <button type="button" class="btn" id="mwBulkBtn">批量導入（貼文字）</button>
+        <span class="mwtip2">背完「識 · 過」的詞會自動標為已掌握</span>
+      </div>
       <div class="mwmsg" id="mwMsg" role="status" aria-live="polite"></div>
       <div class="mwtools">
         <input type="search" id="mwSearch" placeholder="搜單詞 / 中文義 / 備註">
@@ -1873,6 +1947,8 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
         <div class="lhub-pack-act">
           <button class="btn" type="button" id="lwtePackBtn">選擇詞庫包檔案（.json）</button>
           <input type="file" id="lwtePackFile" accept="application/json,.json" style="display:none">
+          <button class="btn" type="button" id="lwteBulkAdd">本冊全部加入單詞本</button>
+          <button class="btn" type="button" id="lwteStudy">背本冊（會一個過一個）</button>
           <button class="btn" type="button" id="lwtePackPrint">印本冊詞表（含音標與中文義）</button>
           <button class="btn mwdanger" type="button" id="lwtePackClear">清除已匯入詞庫</button>
         </div>
@@ -3507,7 +3583,64 @@ Thank you for your time.</div>
   </div>
 </div>
   <!-- v2.37 試用額度用完 → 解鎖／購買彈窗（複用 .mask/.modal 骨架；零外鏈、零圖片、零新增請求） -->
-  <div class="mask" id="licMask">
+  <div class="mws-mask" id="mwStudyMask" role="dialog" aria-modal="true" aria-labelledby="mwsTitle">
+  <div class="mws-box">
+    <div class="mws-head">
+      <span class="mws-title" id="mwsTitle">背單詞</span>
+      <button type="button" class="mws-x" id="mwsClose" aria-label="關閉">×</button>
+    </div>
+    <div class="mws-chips" id="mwsSizes">
+      <button type="button" class="mws-chip on" data-size="10">每輪 10</button>
+      <button type="button" class="mws-chip" data-size="20">20</button>
+      <button type="button" class="mws-chip" data-size="30">30</button>
+      <button type="button" class="mws-chip" id="mwsPrio">未掌握優先</button>
+    </div>
+    <div class="mws-bar"><div class="mws-bar-in" id="mwsBarIn"></div></div>
+    <div class="mws-stat" id="mwsStat"></div>
+    <div class="mws-card" id="mwsCard" tabindex="0" role="button" aria-label="點一下看中文">
+      <div class="mws-w"><span id="mwsW"></span><button type="button" class="mws-spk" id="mwsSpeak" aria-label="讀一次">🔊</button></div>
+      <div class="mws-ph" id="mwsPh"></div>
+      <div class="mws-sep"></div>
+      <div class="mws-zh" id="mwsZh"></div>
+      <div class="mws-note" id="mwsNote"></div>
+      <div class="mws-hint" id="mwsHint">點卡片或按空白鍵看中文</div>
+    </div>
+    <div class="mws-acts" id="mwsActs">
+      <button type="button" class="btn mws-no" id="mwsNo">唔識</button>
+      <button type="button" class="btn mws-yes" id="mwsYes">識 · 過</button>
+    </div>
+    <div class="mws-foot">
+      <span class="mws-fchip" id="mwsDay">今日已過 0 詞</span>
+      <span class="mws-fchip" id="mwsNoCnt">本輪唔識 0</span>
+      <span class="mws-fchip mws-org" id="mwsOrigin"></span>
+    </div>
+    <div class="mws-done" id="mwsDone">
+      <p id="mwsDoneTxt"></p>
+      <div class="mws-done-acts">
+        <button type="button" class="btn" id="mwsAgain">再來一輪</button>
+        <button type="button" class="btn mws-yes" id="mwsExit">收工</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mws-mask" id="mwBulkMask" role="dialog" aria-modal="true" aria-labelledby="mwbTitle">
+  <div class="mws-box">
+    <div class="mws-head">
+      <span class="mws-title" id="mwbTitle">批量導入單詞</span>
+      <button type="button" class="mws-x" id="mwBulkClose" aria-label="關閉">×</button>
+    </div>
+    <p class="mwb-tip">一行一詞，直接從課本、筆記、Excel 貼過來就好：<code>word</code>／<code>word, 中文</code>／<code>word 中文 音標</code> 都認，逗號、Tab、分號、豎線、空格都是分隔符；行首編號（1. 2) 3、）自動去掉；<code>#</code> 開頭當註釋跳過。</p>
+    <textarea id="mwBulkText" rows="9" spellcheck="false" placeholder="library, 圖書館&#10;playground 操場&#10;1. borrow 借&#10;# 5A Unit 3&#10;notebook | 筆記本 | /ˈnəʊt.bʊk/"></textarea>
+    <div class="mwb-prev" id="mwBulkPrev"></div>
+    <div class="mwb-foot">
+      <label class="mwb-src">來源標籤<input id="mwBulkSrc" maxlength="20" placeholder="例：5A Unit 3（選填）"></label>
+      <button type="button" class="btn" id="mwBulkPreview">預覽</button>
+      <button type="button" class="btn mwaddbtn" id="mwBulkGo">導入</button>
+      <span class="mwb-msg" id="mwBulkMsg" role="status" aria-live="polite"></span>
+    </div>
+  </div>
+</div>
+<div class="mask" id="licMask">
     <div class="modal">
       <span class="x" id="licClose">×</span>
       <h2>🔑 解鎖練習額度</h2>
@@ -10486,6 +10619,7 @@ function hkRebuildThemes(){
   if(ts.includes(keep))sel.value=keep;
 }
 let hkCollapsed=new Set();
+let hkGMsg='';
 function renderHk(){
   const q=document.getElementById('hkSearch').value.trim().toLowerCase();
   const tp=document.getElementById('hkTheme').value;
@@ -10504,6 +10638,36 @@ function renderHk(){
     sum.innerHTML='<span class="gcode">'+code+'</span><span class="glabel">'+g+'</span><span class="gcount">'+words.length+' 詞</span>';
     sec.appendChild(sum);
     const body=document.createElement('div'); body.className='gsec-body';
+    const gitems=words.map(w=>({w:w.w,zh:w.zh,ph:w.ipa||'',note:w.grade+' · '+w.theme,src:'站內·中小學單詞',ref:w.id}));
+    const gact=document.createElement('div'); gact.className='hk-gact';
+    const gAdd=document.createElement('button'); gAdd.type='button'; gAdd.className='btn'; gAdd.textContent='加入本年級（'+words.length+' 詞）';
+    gAdd.onclick=ev=>{
+      ev.stopPropagation(); ev.preventDefault();
+      if(!window.__myWordsTest){hkGMsg='單詞本模塊未載入';renderHk();return;}
+      const r=window.__myWordsTest.bulkAdd(gitems.map(x=>({w:x.w,zh:x.zh,ph:x.ph,note:x.note})),'站內·中小學單詞');
+      hkGMsg='已加入 '+r.added+' 詞（跳過重複／超限 '+r.skipped+'），單詞本共 '+r.total+' 詞';
+      renderHk();
+    };
+    const gStd=document.createElement('button'); gStd.type='button'; gStd.className='btn gact-study'; gStd.textContent='背本年級';
+    gStd.onclick=ev=>{
+      ev.stopPropagation(); ev.preventDefault();
+      if(!window.__mwStudy){hkGMsg='背單詞模塊未載入';renderHk();return;}
+      hkGMsg='';
+      const r=window.__mwStudy.start(gitems,{
+        origin:'中小學單詞 · '+g+'（'+gitems.length+' 詞）',
+        onKnow:it=>{hProg[it.ref]=true;saveH();},
+        onExit:()=>{
+          renderHk();
+          const sh=document.getElementById('stHk');
+          if(sh)sh.textContent=Object.keys(hProg).filter(k=>hProg[k]).length;
+          if(typeof renderBadges==='function')renderBadges();
+        }
+      });
+      if(!r.ok){hkGMsg=r.msg;renderHk();}
+    };
+    gact.appendChild(gAdd); gact.appendChild(gStd);
+    if(hkGMsg){const gm=document.createElement('span'); gm.className='gact-msg'; gm.textContent=hkGMsg; gact.appendChild(gm);}
+    body.appendChild(gact);
     words.forEach(w=>{
       const known=!!hProg[w.id];
       const inBook=window.__myWordsTest?window.__myWordsTest.has(w.w):false;
@@ -10726,14 +10890,323 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
       list=[];save();render();msg('單詞本已清空');
     }
   };
+  // v2.48：批量導入（貼文字）與批量收詞
+  //   一行一詞，支援 word / word,中文 / word 中文 音標；逗號、Tab、分號、豎線、兩個以上空格都是分隔；
+  //   行首編號自動剝掉；# 開頭當註釋。單空格靠「英文段＋非 ASCII 段」切，中文義裏的半角逗號不會誤拆詞。
+  function splitBulkLine(ln){
+    var parts=ln.split(/\t+|\s{2,}|[,;，；|｜]+/).map(function(x){return x.trim();}).filter(Boolean);
+    if(parts.length>1)return parts;
+    var m=ln.match(/^([A-Za-z][A-Za-z0-9 '’.\-]*?)\s+([\s\S]+)$/);
+    if(!m)return [ln];
+    var rest=m[2].trim(), ph2='', zh2=rest;
+    var rm=rest.match(/^(.*?)\s+([\/\[][\s\S]*)$/);
+    if(rm&&/[\/\[]/.test(rm[2])){zh2=rm[1].trim();ph2=rm[2].trim();}
+    return [m[1].trim(),zh2].concat(ph2?[ph2]:[]);
+  }
+  function parseBulk(text){
+    var out=[],skip=0;
+    String(text==null?'':text).split(/\r?\n/).forEach(function(raw){
+      var ln=String(raw==null?'':raw).trim();
+      if(!ln){skip++;return;}
+      if(ln.charAt(0)==='#'){skip++;return;}
+      ln=ln.replace(/^\d+\s*[.)、:：]\s*/,'');
+      if(!ln){skip++;return;}
+      var parts=splitBulkLine(ln);
+      var w=String(parts[0]||'').trim();
+      if(!w){skip++;return;}
+      var zh='',ph='';
+      if(parts.length>=3&&/^[\/\[]/.test(parts[2])){zh=String(parts[1]||'').trim();ph=parts[2].trim();}
+      else if(parts.length>=2&&/^[\/\[]/.test(parts[1])&&!/[^\x00-\x7F]/.test(parts[1])){ph=parts[1].trim();}
+      else if(parts.length>=2){zh=parts.slice(1).join(' ').trim();}
+      out.push({w:w.slice(0,80),zh:zh.slice(0,200),ph:ph.slice(0,80)});
+    });
+    return {rows:out,skip:skip};
+  }
+  // 一次性去重入庫：不像 add() 那樣逐詞重繪，1,024 詞也不會卡
+  function addMany(arr,srcTag){
+    var have={},added=0,dup=0,src=String(srcTag||'').trim().slice(0,40)||'批量導入';
+    list.forEach(function(x){have[x.w.toLowerCase()]=1;});
+    (Array.isArray(arr)?arr:[]).forEach(function(r){
+      var c=clean({w:r&&r.w,zh:r&&r.zh,ph:r&&r.ph,note:r&&r.note,src:src},list.length);
+      if(!c){dup++;return;}
+      var k=c.w.toLowerCase();
+      if(have[k]||list.length>=MAX){dup++;return;}
+      have[k]=1;c.ts=todayFor();list.push(c);added++;
+    });
+    save();render();
+    return {added:added,skipped:dup,total:list.length};
+  }
+  function bulkMsg(t,bad){var m=document.getElementById('mwBulkMsg');if(m){m.textContent=t||'';m.className='mwb-msg'+(bad?' bad':'');}}
+  function bulkPreview(){
+    var r=parseBulk((document.getElementById('mwBulkText')||{}).value||'');
+    var box=document.getElementById('mwBulkPrev');
+    if(!r.rows.length){
+      if(box)box.style.display='none';
+      bulkMsg('還沒解析出詞。一行一詞，例：library, 圖書館',true);
+      return r;
+    }
+    if(box){
+      box.innerHTML=r.rows.slice(0,30).map(function(x){
+        return '<div class="prow"><span class="pw">'+esc(x.w)+'</span><span class="pz">'+esc(x.zh||'—')+'</span></div>';
+      }).join('');
+      box.style.display='block';
+    }
+    bulkMsg('解析出 '+r.rows.length+' 條'+(r.skip?' · 跳過 '+r.skip+' 行（空行／註釋）':'')+(r.rows.length>30?' · 只預覽前 30 條':''));
+    return r;
+  }
+  // 我的單詞本開背：預設只背未掌握；全掌握了就整本再過一遍
+  function startStudy(prio){
+    if(typeof prio!=='boolean')prio=true;
+    var pend=list.filter(function(x){return !x.done;});
+    var src=prio?(pend.length?pend:list.slice()):list.slice();
+    if(!src.length){msg('單詞本還是空的，先在下面輸入，或從「中小學單詞／詞表」點「＋ 單詞本」',true);return {ok:false};}
+    if(!window.__mwStudy)return {ok:false,msg:'背單詞模塊未載入'};
+    return window.__mwStudy.start(src.map(function(x){
+      return {w:x.w,zh:x.zh,ph:x.ph,note:x.note,src:x.src,ref:x.id};
+    }),{
+      origin:'我的單詞本（'+(prio&&pend.length?'未掌握 '+pend.length+' 詞':'全部 '+src.length+' 詞')+'）',
+      onScope:function(p){startStudy(p);},
+      onKnow:function(it){
+        for(var i=0;i<list.length;i++){if(list[i].id===it.ref&&!list[i].done){list[i].done=true;save();return;}}
+      },
+      onExit:function(r){
+        render();
+        msg('這輪認得 '+r.ok+' 次、卡住 '+r.no+' 次'+(r.ok?'，已標為已掌握':''));
+      }
+    });
+  }
+  var sb=document.getElementById('mwStudyBtn');
+  if(sb)sb.onclick=function(){
+    var p=true;
+    try{var st=window.__mwStudy&&window.__mwStudy.state();if(st&&typeof st.prio==='boolean')p=st.prio;}catch(e){}
+    var r=startStudy(p);
+    if(r&&!r.ok&&r.msg)msg(r.msg,true);
+  };
+  var bb=document.getElementById('mwBulkBtn');
+  if(bb)bb.onclick=function(){
+    var m=document.getElementById('mwBulkMask');
+    if(m)m.style.display='flex';
+    try{document.body.classList.add('mws-lock');}catch(e){}
+    var t=document.getElementById('mwBulkText');if(t)setTimeout(function(){t.focus();},60);
+    bulkPreview();
+  };
+  var bc=document.getElementById('mwBulkClose');
+  if(bc)bc.onclick=function(){
+    var m=document.getElementById('mwBulkMask');if(m)m.style.display='none';
+    try{document.body.classList.remove('mws-lock');}catch(e){}
+  };
+  var btx=document.getElementById('mwBulkText');
+  if(btx)btx.addEventListener('input',bulkPreview);
+  var bpv=document.getElementById('mwBulkPreview');
+  if(bpv)bpv.onclick=bulkPreview;
+  var bgo=document.getElementById('mwBulkGo');
+  if(bgo)bgo.onclick=function(){
+    var r=parseBulk((document.getElementById('mwBulkText')||{}).value||'');
+    if(!r.rows.length){bulkMsg('沒有可導入的詞',true);return;}
+    var tag=String((document.getElementById('mwBulkSrc')||{}).value||'').trim().slice(0,20);
+    var res=addMany(r.rows,tag?'批量導入·'+tag:'批量導入');
+    bulkMsg('已導入 '+res.added+' 詞，跳過重複／超限 '+res.skipped+' 詞；單詞本現共 '+res.total+' 詞');
+    msg('批量導入：新增 '+res.added+' 詞，現共 '+res.total+' 詞');
+  };
   window.__myWordsTest={
     key:KEY,max:MAX,get:function(){return list.map(function(x){return Object.assign({},x);});},
     set:function(a){list=normalize(a);save();render();},
     clear:function(){list=[];save();render();},
     add:add,addFrom:addFrom,has:has,render:render,normalize:normalize,
-    exportData:exportData,importData:importData,count:function(){return list.length;}
+    exportData:exportData,importData:importData,count:function(){return list.length;},
+    bulkAdd:addMany,parseBulk:parseBulk,startStudy:startStudy
   };
   list=load();render();
+})();
+
+/* ============ v2.48 背單詞引擎（會一個過一個 · 有道式樣） ============
+   一份引擎三處入口共用：我的單詞本／某文單詞本（按冊按課）／中小學單詞（按年級）。
+   引擎只負責排隊、翻面、統計與 UI；進度寫回交給呼叫方的 opts.onKnow(item)——
+   不同詞源的進度鍵（hkk_mywords_v0 的 done／hkk_lwte_wordprog_v0 的 learn／hProg）各自封閉，引擎不碰。
+   「唔識」把詞放回隊尾（本輪結束前必須再過一遍）。
+   UI 對齊有道背單詞：每輪 10/20/30 選卡、未掌握優先（僅我的單詞本）、連對計數、
+   卡面喇叭讀詞、底部「今日已過／本輪唔識／詞源」資訊條。
+   「未掌握優先」只改我的單詞本的出詞範圍（勾＝先背未掌握），切換即重開一輪；
+   某文單詞本／中小學單詞沒有掌握概念，chip 自動隱藏。 */
+(function(){
+  var DAY_KEY='hkk_mws_day_v0';
+  var ST={pool:[],rest:[],queue:[],cur:null,total:0,ok:0,no:0,streak:0,flip:false,origin:'',onKnow:null,onExit:null,onScope:null,autoSpeak:true,size:10,prio:true,day:0};
+  function el(id){return document.getElementById(id);}
+  function today(){try{return new Date().toISOString().slice(0,10);}catch(e){return '';}}
+  function dayLoad(){
+    try{var d=JSON.parse(localStorage.getItem(DAY_KEY)||'{}');if(d&&d.d===today())return d.n||0;}catch(e){}
+    return 0;
+  }
+  function dayBump(){
+    var d;
+    try{d=JSON.parse(localStorage.getItem(DAY_KEY)||'{}');}catch(e){d={};}
+    var t=today();
+    if(!d||d.d!==t){d={d:t,n:0};}
+    d.n=(d.n||0)+1;
+    try{localStorage.setItem(DAY_KEY,JSON.stringify(d));}catch(e){}
+    return d.n;
+  }
+  function show(on){
+    var m=el('mwStudyMask');if(!m)return;
+    m.style.display=on?'flex':'none';
+    try{if(on)document.body.classList.add('mws-lock');else document.body.classList.remove('mws-lock');}catch(e){}
+  }
+  function buildRound(){
+    var src=ST.rest.length?ST.rest:ST.pool.slice();
+    var take=src.slice(0,ST.size);
+    ST.rest=src.slice(take.length);
+    ST.queue=take.slice();
+    ST.total=take.length;
+    ST.ok=0;ST.no=0;ST.streak=0;ST.flip=false;
+  }
+  function paint(){
+    var c=ST.cur;if(!c)return;
+    if(el('mwsW'))el('mwsW').textContent=c.w;
+    if(el('mwsPh'))el('mwsPh').textContent=c.ph||'';
+    if(el('mwsZh')){el('mwsZh').textContent=ST.flip?(c.zh||'（這個詞還沒填中文義）'):'';el('mwsZh').style.visibility=ST.flip?'visible':'hidden';}
+    if(el('mwsNote'))el('mwsNote').textContent=ST.flip?(c.note||c.src||''):(c.src||'');
+    if(el('mwsHint'))el('mwsHint').textContent=ST.flip?'看完就點下面，或按 ← / → 鍵':'👍 認識就「識 · 過」，唔識自動排到本輪最後再見一次';
+    var passed=ST.total-ST.queue.length;
+    if(el('mwsBarIn'))el('mwsBarIn').style.width=(ST.total?Math.round(passed/ST.total*100):0)+'%';
+    if(el('mwsStat'))el('mwsStat').textContent='第 '+Math.min(passed+1,ST.total)+' / '+ST.total+' 詞 · 連對 '+ST.streak;
+    if(el('mwsDay'))el('mwsDay').textContent='今日已過 '+ST.day+' 詞';
+    if(el('mwsNoCnt'))el('mwsNoCnt').textContent='本輪唔識 '+ST.no;
+    if(el('mwsOrigin'))el('mwsOrigin').textContent='詞源：'+ST.origin;
+    var pr=el('mwsPrio');if(pr)pr.style.display=ST.onScope?'':'none';
+  }
+  function nextWord(){
+    ST.flip=false;
+    ST.cur=ST.queue.length?ST.queue[0]:null;
+    if(!ST.cur){finish();return;}
+    paint();
+    if(ST.autoSpeak){try{if(typeof speak==='function')speak(ST.cur.w,'en-US');}catch(e){}}
+  }
+  function paintChips(){
+    var row=el('mwsSizes');if(!row)return;
+    var bs=row.querySelectorAll('button[data-size]');
+    for(var i=0;i<bs.length;i++){bs[i].className='mws-chip'+(Number(bs[i].getAttribute('data-size'))===ST.size?' on':'');}
+    var pr=el('mwsPrio');if(pr)pr.className='mws-chip'+(ST.prio?' on':'');
+  }
+  function finish(){
+    ST.cur=null;
+    if(el('mwsCard'))el('mwsCard').style.display='none';
+    if(el('mwsActs'))el('mwsActs').style.display='none';
+    if(el('mwsBarIn'))el('mwsBarIn').style.width='100%';
+    var rate=ST.total?Math.round(ST.total/(ST.total+ST.no)*100):100;
+    var extra=ST.rest.length?'<br>仲有 '+ST.rest.length+' 詞未背，點「再來一輪」繼續':'';
+    if(el('mwsDoneTxt'))el('mwsDoneTxt').innerHTML='這一輪 '+ST.total+' 詞 · 認得 '+ST.ok+' 次 · 唔識 '+ST.no+' 次<br><span class="mws-rate">一次過關率 '+rate+'%</span>'+extra;
+    if(el('mwsStat'))el('mwsStat').textContent='本輪完成 · 今日已過 '+ST.day+' 詞';
+    if(el('mwsNoCnt'))el('mwsNoCnt').textContent='本輪唔識 '+ST.no;
+    if(el('mwsDone'))el('mwsDone').style.display='block';
+  }
+  function start(items,opts){
+    opts=opts||{};
+    var arr=[];
+    (items||[]).forEach(function(x){
+      if(!x)return;
+      var w=String(x.w==null?'':x.w).trim();
+      if(!w)return;
+      arr.push({w:w,zh:String(x.zh==null?'':x.zh),ph:String(x.ph==null?'':x.ph),note:String(x.note==null?'':x.note),src:String(x.src==null?'':x.src),ref:x.ref});
+    });
+    if(!arr.length)return {ok:false,msg:'沒有可背的詞'};
+    ST.pool=arr.slice();ST.rest=arr.slice();
+    buildRound();
+    ST.origin=opts.origin||'我的單詞本';
+    ST.onKnow=opts.onKnow||null;
+    ST.onExit=opts.onExit||null;
+    ST.onScope=opts.onScope||null;
+    ST.day=dayLoad();
+    if(typeof opts.autoSpeak==='boolean')ST.autoSpeak=opts.autoSpeak;
+    if(el('mwsTitle'))el('mwsTitle').textContent='背單詞 · '+ST.origin;
+    if(el('mwsDone'))el('mwsDone').style.display='none';
+    if(el('mwsCard'))el('mwsCard').style.display='';
+    if(el('mwsActs'))el('mwsActs').style.display='';
+    paintChips();
+    show(true);
+    nextWord();
+    return {ok:true,total:ST.total};
+  }
+  function doFlip(){if(!ST.cur)return;ST.flip=!ST.flip;paint();}
+  function know(){
+    if(!ST.cur)return;
+    var c=ST.queue.shift();
+    ST.ok++;ST.streak++;ST.day=dayBump();
+    if(ST.onKnow){try{ST.onKnow(c);}catch(e){}}
+    nextWord();
+  }
+  function dontKnow(){
+    if(!ST.cur)return;
+    ST.no++;ST.streak=0;
+    ST.queue.push(ST.queue.shift());
+    nextWord();
+    if(ST.total===1&&el('mwsHint'))el('mwsHint').textContent='只有一張卡，這一輪就是反覆過它';
+  }
+  function exit(){
+    show(false);
+    var r={ok:ST.ok,no:ST.no,total:ST.total,day:ST.day};
+    var cb=ST.onExit;
+    ST.queue=[];ST.pool=[];ST.rest=[];ST.cur=null;
+    if(cb){try{cb(r);}catch(e){}}
+  }
+  function again(){
+    if(!ST.pool.length&&!ST.rest.length)return;
+    buildRound();
+    if(el('mwsDone'))el('mwsDone').style.display='none';
+    if(el('mwsCard'))el('mwsCard').style.display='';
+    if(el('mwsActs'))el('mwsActs').style.display='';
+    paintChips();
+    nextWord();
+  }
+  var card=el('mwsCard');
+  if(card){
+    card.onclick=doFlip;
+    card.onkeydown=function(e){
+      if(e.key===' '||e.key==='Enter'){e.preventDefault();doFlip();}
+      else if(e.key==='ArrowRight'){e.preventDefault();know();}
+      else if(e.key==='ArrowLeft'){e.preventDefault();dontKnow();}
+    };
+  }
+  var by=el('mwsYes');if(by)by.onclick=know;
+  var bn=el('mwsNo');if(bn)bn.onclick=dontKnow;
+  var bx=el('mwsClose');if(bx)bx.onclick=exit;
+  var be=el('mwsExit');if(be)be.onclick=exit;
+  var ba=el('mwsAgain');if(ba)ba.onclick=again;
+  var spk=el('mwsSpeak');
+  if(spk)spk.onclick=function(e){
+    e.stopPropagation();
+    if(!ST.cur)return;
+    try{if(typeof speak==='function')speak(ST.cur.w,'en-US');}catch(e2){}
+  };
+  var row=el('mwsSizes');
+  if(row){
+    var bs=row.querySelectorAll('button[data-size]');
+    for(var bi=0;bi<bs.length;bi++){
+      bs[bi].onclick=function(e){
+        ST.size=Number(this.getAttribute('data-size'))||10;
+        paintChips();
+        if(ST.cur&&ST.queue.length&&el('mwsHint'))el('mwsHint').textContent='每輪 '+ST.size+' 詞，下一輪生效';
+      };
+    }
+    var pr=el('mwsPrio');
+    if(pr)pr.onclick=function(e){
+      ST.prio=!ST.prio;
+      paintChips();
+      if(ST.onScope)ST.onScope(ST.prio);
+    };
+  }
+  document.addEventListener('keydown',function(e){
+    var m=el('mwStudyMask');
+    if(!m||m.style.display==='none')return;
+    if(e.target&&e.target.tagName==='TEXTAREA')return;
+    if(e.key===' '){e.preventDefault();doFlip();}
+    else if(e.key==='ArrowRight'){e.preventDefault();know();}
+    else if(e.key==='ArrowLeft'){e.preventDefault();dontKnow();}
+    else if(e.key==='Escape'){exit();}
+  });
+  window.__mwStudy={
+    start:start,flip:doFlip,know:know,dontKnow:dontKnow,exit:exit,again:again,
+    state:function(){return {total:ST.total,ok:ST.ok,no:ST.no,streak:ST.streak,left:ST.queue.length,rest:ST.rest.length,size:ST.size,prio:ST.prio,day:ST.day,cur:ST.cur?ST.cur.w:null,flip:ST.flip,origin:ST.origin};}
+  };
 })();
 
 /* ============ v1.97 我的生字本：繁體字本地 CRUD ＋ 翻卡複習 ＋ 打勾 ============
@@ -11072,7 +11545,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.47',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.48',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -11972,6 +12445,10 @@ authBoot();
       html+='<details class="gsec lwb-cat" data-cat="'+esc2(c.cat)+'"'+(q?' open':'')+'>'
         +'<summary class="gsec-h"><span class="glabel">'+esc2(c.cat)+'</span>'
         +'<span class="gcount">'+catTotal+' 詞'+(catHit!==catTotal?' · 命中 '+catHit:'')+' · 已學 '+catLearned+'</span></summary>'
+        +'<div class="lwb-cat-act">'
+        +'<button type="button" class="btn lwb-addcat" data-addcat="'+esc2(c.cat)+'">加入本課（'+catTotal+' 詞）</button>'
+        +'<button type="button" class="btn lwb-stdy" data-stdycat="'+esc2(c.cat)+'">背本課</button>'
+        +'</div>'
         +'<div class="gsec-body">'+rows+'</div>'
         +'</details>';
     });
@@ -12090,6 +12567,63 @@ authBoot();
     renderPack();
     pkMsg('已清除。重新匯入詞庫包即可再看到完整詞表。');
   };
+  // v2.48：按冊／按課收詞與開背（詞條來自分機匯入的詞庫包，公開 HTML 仍零詞條）
+  function packItems(bk,cat){
+    var b=null,out=[];
+    var books=(PACK&&PACK.books)||[];
+    for(var i=0;i<books.length;i++){if(books[i].bk===bk){b=books[i];break;}}
+    if(!b)return out;
+    (b.cats||[]).forEach(function(c){
+      if(!c||!Array.isArray(c.items))return;
+      if(cat&&c.cat!==cat)return;
+      c.items.forEach(function(it){
+        if(!it||!String(it.w||'').trim())return;
+        out.push({w:it.w,zh:it.zh||'',ph:it.ipa||'',note:b.bk+' · '+c.cat,src:'本機詞庫·'+b.bk,ref:wkey(b.bk,c.cat,it.w)});
+      });
+    });
+    return out;
+  }
+  function studyPack(cat){
+    if(!PACK){pkMsg('先在上面匯入詞庫包，才能背裏面的詞',true);return {ok:false};}
+    if(!window.__mwStudy){pkMsg('背單詞模塊未載入',true);return {ok:false};}
+    var b=packBook(),items=packItems(b.bk,cat);
+    if(!items.length){pkMsg('這一'+(cat?'課':'冊')+'沒有詞',true);return {ok:false};}
+    var r=window.__mwStudy.start(items,{
+      origin:'某文單詞本 · '+b.bk+(cat?' · '+cat:' 全冊')+'（'+items.length+' 詞）',
+      onKnow:function(it){
+        var o=WP[it.ref];
+        if(!o){o={};WP[it.ref]=o;}
+        o.learn=1;wpSave();
+      },
+      onExit:function(r2){renderPack();pkMsg('這輪認得 '+r2.ok+' 次、卡住 '+r2.no+' 次，已標為已學');}
+    });
+    if(!r.ok)pkMsg(r.msg,true);
+    return r;
+  }
+  function bulkAddPack(cat){
+    if(!PACK){pkMsg('先在上面匯入詞庫包',true);return {added:0,skipped:0,total:0};}
+    if(!window.__myWordsTest){pkMsg('單詞本模塊未載入',true);return {added:0,skipped:0,total:0};}
+    var b=packBook(),items=packItems(b.bk,cat);
+    if(!items.length){pkMsg('這一'+(cat?'課':'冊')+'沒有詞',true);return {added:0,skipped:0,total:0};}
+    var res=window.__myWordsTest.bulkAdd(items.map(function(x){
+      return {w:x.w,zh:x.zh,ph:x.ph,note:x.note};
+    }),'本機詞庫·'+b.bk+(cat?' · '+cat:''));
+    pkMsg('已加入 '+res.added+' 詞，跳過重複／超限 '+res.skipped+' 詞；單詞本現共 '+res.total+' 詞');
+    renderPack();
+    return res;
+  }
+  var wlBox=document.getElementById('lwteWordList');
+  if(wlBox)wlBox.addEventListener('click',function(e){
+    var b=e.target.closest?e.target.closest('[data-addcat],[data-stdycat]'):null;
+    if(!b)return;
+    e.stopPropagation();
+    if(b.hasAttribute('data-addcat'))bulkAddPack(b.getAttribute('data-addcat'));
+    else studyPack(b.getAttribute('data-stdycat'));
+  });
+  var bsAdd=document.getElementById('lwteBulkAdd');
+  if(bsAdd)bsAdd.onclick=function(){bulkAddPack('');};
+  var bsStd=document.getElementById('lwteStudy');
+  if(bsStd)bsStd.onclick=function(){studyPack('');};
   window.__lwtePackTest={
     key:PACK_KEY,wordKey:WORD_KEY,
     get pack(){return PACK;},get prog(){return WP;},
