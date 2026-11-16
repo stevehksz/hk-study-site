@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.49：葉工圈著「批量導入（貼文字）」按鈕說「要可以直接導入本站的單詞本」——不用貼、不用跳頁，在批量導入彈窗裏直接把本站詞庫一鍵收進單詞本。①彈窗新增「從本站詞庫直接導入」區：中小學單詞各年級按鈕（P1（N 詞）…，排序照 HK_GRADE_RANK）＋「全部（N 詞）」，來源標籤 `站內·中小學單詞·P1` 等；某文詞庫包已匯入本機時逐冊出按鈕（`本機詞庫·書名`），未匯入顯提示。②復用 v2.48 `addMany()` 一次性去重入庫，回報「新增 X／跳過 Y（重複／上限）」。③`__lwtePackTest` 補 `books()`／`itemsOf(bk)`（PACK 在 wb IIFE 內部，引擎側只讀視圖）。④`__lwtePackTest` 補只讀視圖，站方 HTML 零任何某文詞條。⑤**驗收**：斷言 1596→1607（+11）；CDP 真機點年級收 73 詞／冊收 2 詞／全部 487 詞，src 標籤正確，桌面＋390px 截圖無溢出。⚠️ 某文 1,024 詞仍只存本機（v1.78 版權紅線不動）——直導區只是把**本機已匯入**的詞庫包收進單詞本，站方不分發任何詞條。
 v2.48：葉工「把朗文的單詞本也改成可以像有道背單詞那樣，或者在單詞本裏面可以加入不同年級、不同課本的單詞，或者可以自己批量倒入」。三件一次做完，一份引擎三處共用。⚠️ **版權紅線不動**：某文 1,024 詞條仍只存在使用者本機（v1.78/v1.85 定的「公開倉庫＝公開發行」），所以「按課本選詞」的前提是那台裝置先匯入詞庫包；站內自有的「中小學單詞」335 詞是公開資料，可直接按年級整批收。①**背單詞引擎**（`window.__mwStudy`，全局一份）：隊列式「會一個過一個」——卡片正面英文＋音標，點卡或按空白鍵翻面看中文義；「不認識」把詞放回**隊尾**（本輪結束前必須再過一遍，拍板選項），「識 · 過」出列；頂部進度條＋「第 N / M 詞 · 已過 X · 待複習 Y」；卡片出現自動讀一次（`speak(w,"en-US")`），可關；結束出統計（認得次數／卡住次數／一次過關率）＋「再來一輪／收工」；鍵盤 空白=翻面、→=識、←=不認識、Esc=退出。進度寫回交給呼叫方 `onKnow` 回調，引擎本身不碰任何存儲鍵。②**三處入口**（拍板「三處都加」）：我的單詞本「開始背單詞」（預設只背未掌握，全掌握則整本再過一遍）；某文單詞本「背本冊」＋每課「背本課」；中小學單詞每年級小節「背本年級」。寫回：單詞本標 `done`、某文標該詞三態的「已學」（`hkk_lwte_wordprog_v0`）、中小學標掌握（`hProg`）。③**批量收詞**：某文單詞本「本冊全部加入單詞本」＋每課「加入本課」；中小學單詞每年級「加入本年級」。已在單詞本的詞自動跳過，回報「新增 X / 已存在 Y」；走新增的 `addMany()` 一次性去重入庫（不再逐詞重繪，1,024 詞也不卡）。來源標籤 `本機詞庫·5A`（零「朗文」字樣）與 `站內·中小學單詞`。④**批量導入（貼文字）**：單詞本新增「批量導入」彈窗，一行一詞，`單詞`／`單詞, 中文`／`單詞 中文`／`單詞 | 中文 | 音標` 都認（逗號、Tab、分號、豎線、兩個以上空格為分隔；單空格靠「英文段＋非 ASCII 段」切）；行首編號（`1.` `1)` `1、`）自動剝掉；`#` 開頭當註釋跳過；空行跳過；可填來源標籤（如 `5A Unit 3`）。輸入即時預覽前 30 條＋回報「解析出 N 條 · 跳過 M 行」，再點「導入」合併去重。原有 JSON 導出／匯入保留不動。⑤**UI 對齊有道式樣（葉工看板後拍板）**：每輪 10/20/30 選卡、未掌握優先 chip（僅我的單詞本，切換即重開）、連對計數、卡面喇叭讀詞（en-US）、底部「今日已過 N 詞（hkk_mws_day_v0）／本輪唔識 N／詞源」資訊條、按鈕措辭「唔識／識 · 過」。⑥**驗收**：斷言 1579→1596（+17），CDP 真機全路徑（單詞本開背→翻面→不認識回隊尾→識·過→統計→自動標 done、某文背本冊→寫回已學、批量導入混合格式→解析 6 條跳 2 行→入庫）、桌面與 390px 窄屏截圖。版權紅線斷言（公開 HTML 零詞條／零「朗文」）照舊全綠。
 v2.47：葉工看追蹤表孩子 chip（姐姐/妹妹寫死）要求「自己可以自定義添加姐姐妹妹哥哥弟弟」。改動態渲染＋names 映射（老數據 trkLoad 自動遷移默認 d1=姐姐/d2=妹妹）：①chip 行 JS 渲染（trkRender 順手畫），孩子數量不限，emoji 按稱呼啟發（含哥/弟/仔→👦 否則👧）；②點「＋」prompt 新增（最多8字、重名拒絕），再點當前孩子 chip prompt 改名，「🗑」confirm 後刪除當前孩子連同其全部記錄（刪當前自動退回第一個孩子；全刪後空狀態引導先新增）；③事件改 #trkKids 委託（closest [data-tk]/[data-tkadd]/[data-tkdel]），不再逐 chip 綁定；④導出 JSON 補 names 欄、匯入兼容舊檔（無 names 按鍵名補默認）、count() 改遍歷全部孩子；⑤安全網：trkList() 統一取當前孩子列表（_trkKid 空回空數組）、trkAdd 無孩子時擋、trkLoad 對 cur 指向已刪孩子自動回落；⑥__trackTest 補 kids/addKid/renameKid/delKid。
 v2.46：葉工貼申請記錄截圖（檔名記法：日期＋✏️筆試＋📢面試＋(人/郵/網)渠道＋✅❌棄waiting 狀態）要求「在擇校這裡做一個模組，填自己喜歡的學校、投遞情況、面試筆試情況、有沒有拿到 offer」。AskUserQuestion 三問拍板＝擇校分檔頁內卡片／與學校表聯動／導出 JSON＋Markdown。⚠️ 隱私紅線：站是公開的，子女申請記錄絕不寫進代碼——資料只存 localStorage hkk_track_v0（hkk_ 前綴受 v1.33 賬號隔離），公開 HTML 零預置記錄、不上傳、不進 ai_kb。落地＝①#schoolsView 內新增 #trackCard 折疊卡（默認收起，不動 v1.65 默認展開 6 斷言）：兩個孩子 chip（姐姐/妹妹）各一本賬、統計徽章行（Offer含註冊／筆試面試約／等通知／waiting／拒信／棄／總數）、新增表單（校名／分檔 衝刺穩妥保底／渠道 網人郵三勾／遞表筆試面試三個自由格式日期如「6/18 下午」／備註）、列表卡（狀態 select 十檔 待申請→已遞交→筆試約→面試約→waiting→Offer→已註冊→Offer已拒→拒信→棄，就地改就地存；編輯預填表單；刪除 confirm）、排序＝未完結在前按時間倒序；②聯動：injectSchBtns 四張表每行 🤍 後加「＋追」鈕，點了帶校名預填表單＋開卡＋滾動聚焦，已追蹤顯示「＋追 ✓」；③導出：JSON（{ver:'hkk_track_v1',cur,kids:{d1:[],d2:[]}}，URL.createObjectURL 降級 textarea）＋複製 Markdown 表格（clipboard API 降級 execCommand）＋匯入 JSON（confirm 後整體替換）＋清空本孩子（confirm）；全站「導出進度／匯入進度」補 track 欄；④XSS：列表渲染全走 schEsc()；⑤測試鉤子 window.__trackTest（get/add/update/setKid/addFromTable/exportData/importData/markdown/count）。斷言：舊 4 處改口徑（兩中學表按鈕 120→160、小學表 90→120、行內三鈕→四鈕、schoolsView folds 17→18）＋新增 v2.46 專項 16 項。
@@ -593,6 +594,11 @@ body.mws-lock{overflow:hidden}
 .mwb-foot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0}
 .mwb-src{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#475569;flex:1 1 170px;min-width:0}
 .mwb-src input{flex:1 1 90px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;font-size:13px;min-width:0}
+.mwb-srcblk{border-top:1px dashed #dbe3ee;margin-top:12px;padding-top:10px}
+.mwb-srctitle{font-size:13px;font-weight:700;color:#1e3a5f;margin-bottom:8px}
+.mwb-srcrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.mwb-srcrow .btn{padding:6px 13px;font-size:13px}
+.mwb-srcmsg{font-size:12px;color:#33475b}
 .mwb-msg{flex:1 1 100%;font-size:12px;color:#0b7a68;font-weight:700;min-height:17px}
 .mwb-msg.bad{color:#b45309}
 .mwb-foot .btn{min-height:42px}
@@ -1404,13 +1410,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.48
+    © 叶工 SteveHKSZ · 公開版 v2.49
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.48</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.49</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3637,6 +3643,12 @@ Thank you for your time.</div>
       <button type="button" class="btn" id="mwBulkPreview">預覽</button>
       <button type="button" class="btn mwaddbtn" id="mwBulkGo">導入</button>
       <span class="mwb-msg" id="mwBulkMsg" role="status" aria-live="polite"></span>
+    </div>
+    <div class="mwb-srcblk">
+      <div class="mwb-srctitle">從本站詞庫直接導入（不用貼文字）</div>
+      <div class="mwb-srcrow" id="mwBulkHk"></div>
+      <div class="mwb-srcrow" id="mwBulkPackRow"></div>
+      <div class="mwb-msg" id="mwBulkSrcMsg" role="status" aria-live="polite"></div>
     </div>
   </div>
 </div>
@@ -10975,6 +10987,57 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
       }
     });
   }
+  // v2.49：從本站詞庫直接導入（中小學單詞按年級／全部＋某文詞庫包各冊）
+  function srcMsg(t){var m=document.getElementById('mwBulkSrcMsg');if(m){m.textContent=t||'';m.className='mwb-msg'+(t&&t.indexOf('已導入')===0?'':' bad');if(!t)m.style.color='';}}
+  function srcAdd(items,tag){
+    if(!items||!items.length){srcMsg('這一批沒有詞');return;}
+    var r=addMany(items,tag);
+    srcMsg('已導入 '+r.added+' 詞，跳過 '+r.skipped+' 詞（重複／上限）；單詞本現共 '+r.total+' 詞');
+    msg('詞庫直導：'+tag+' 新增 '+r.added+' 詞');
+  }
+  function renderSrc(){
+    var hk=document.getElementById('mwBulkHk');
+    if(hk){
+      hk.innerHTML='';
+      var grades=[],seen={};
+      HK.forEach(function(w){if(!seen[w.grade]){seen[w.grade]=1;grades.push(w.grade);}});
+      grades.sort(function(a,b){return ((window.HK_GRADE_RANK&&window.HK_GRADE_RANK[a]||99)-(window.HK_GRADE_RANK&&window.HK_GRADE_RANK[b]||99))||a.localeCompare(b,'zh-Hant');});
+      var code=function(g){return (window.HK_GRADE_CODE&&window.HK_GRADE_CODE[g])||g;};
+      grades.forEach(function(g){
+        var ws=HK.filter(function(w){return w.grade===g;});
+        var b=document.createElement('button');b.type='button';b.className='btn';
+        b.textContent=code(g)+'（'+ws.length+' 詞）';
+        b.onclick=function(){srcAdd(ws.map(function(w){return {w:w.w,zh:w.zh,ph:w.ipa||'',note:w.grade+' · '+w.theme,ref:w.id};}),'站內·中小學單詞·'+code(g));};
+        hk.appendChild(b);
+      });
+      var ba=document.createElement('button');ba.type='button';ba.className='btn mwaddbtn';
+      ba.textContent='全部（'+HK.length+' 詞）';
+      ba.onclick=function(){srcAdd(HK.map(function(w){return {w:w.w,zh:w.zh,ph:w.ipa||'',note:w.grade+' · '+w.theme,ref:w.id};}),'站內·中小學單詞');};
+      hk.appendChild(ba);
+    }
+    var pr=document.getElementById('mwBulkPackRow');
+    if(pr){
+      pr.innerHTML='';
+      var P=null;
+      try{P=(window.__lwtePackTest&&window.__lwtePackTest.books&&window.__lwtePackTest.books())||null;}catch(e){P=null;}
+      if(!P||!P.length){
+        var sp=document.createElement('span');sp.className='mwb-srcmsg';
+        sp.textContent='某文詞庫包：本機未匯入（在「某文單詞本」頁匯入後，這裏會出現各冊按鈕）';
+        pr.appendChild(sp);
+      }else{
+        P.forEach(function(bk){
+          var b=document.createElement('button');b.type='button';b.className='btn';
+          b.textContent=bk.bk+'（'+bk.count+' 詞）';
+          b.onclick=function(){
+            var items=[];
+            try{items=window.__lwtePackTest.itemsOf(bk.bk)||[];}catch(e){}
+            srcAdd(items,'本機詞庫·'+bk.bk);
+          };
+          pr.appendChild(b);
+        });
+      }
+    }
+  }
   var sb=document.getElementById('mwStudyBtn');
   if(sb)sb.onclick=function(){
     var p=true;
@@ -10989,6 +11052,7 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
     try{document.body.classList.add('mws-lock');}catch(e){}
     var t=document.getElementById('mwBulkText');if(t)setTimeout(function(){t.focus();},60);
     bulkPreview();
+    renderSrc();
   };
   var bc=document.getElementById('mwBulkClose');
   if(bc)bc.onclick=function(){
@@ -11545,7 +11609,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.48',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.49',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -12630,6 +12694,8 @@ authBoot();
     setPack:function(p){PACK=p;packSave(p);renderPack();},
     setProg:function(o){WP=o||{};wpSave();renderPack();},
     valid:packValid,count:packCount,render:renderPack,stat:wstat,
+    books:function(){return (PACK&&PACK.books||[]).map(function(b){var n=0;(b.cats||[]).forEach(function(c){n+=(c.items||[]).length;});return {bk:b.bk,count:n};});},
+    itemsOf:function(bk){return packItems(bk,null);},
     clear:function(){PACK=null;WP={};try{localStorage.removeItem(PACK_KEY);localStorage.removeItem(WORD_KEY);}catch(e){}renderPack();}
   };
   PACK=packLoad();WP=wpLoad();

@@ -462,6 +462,11 @@ body.mws-lock{overflow:hidden}
 .mwb-foot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0}
 .mwb-src{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#475569;flex:1 1 170px;min-width:0}
 .mwb-src input{flex:1 1 90px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;font-size:13px;min-width:0}
+.mwb-srcblk{border-top:1px dashed #dbe3ee;margin-top:12px;padding-top:10px}
+.mwb-srctitle{font-size:13px;font-weight:700;color:#1e3a5f;margin-bottom:8px}
+.mwb-srcrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.mwb-srcrow .btn{padding:6px 13px;font-size:13px}
+.mwb-srcmsg{font-size:12px;color:#33475b}
 .mwb-msg{flex:1 1 100%;font-size:12px;color:#0b7a68;font-weight:700;min-height:17px}
 .mwb-msg.bad{color:#b45309}
 .mwb-foot .btn{min-height:42px}
@@ -1273,13 +1278,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.48
+    © 叶工 SteveHKSZ · 公開版 v2.49
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.48</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.49</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3506,6 +3511,12 @@ Thank you for your time.</div>
       <button type="button" class="btn" id="mwBulkPreview">預覽</button>
       <button type="button" class="btn mwaddbtn" id="mwBulkGo">導入</button>
       <span class="mwb-msg" id="mwBulkMsg" role="status" aria-live="polite"></span>
+    </div>
+    <div class="mwb-srcblk">
+      <div class="mwb-srctitle">從本站詞庫直接導入（不用貼文字）</div>
+      <div class="mwb-srcrow" id="mwBulkHk"></div>
+      <div class="mwb-srcrow" id="mwBulkPackRow"></div>
+      <div class="mwb-msg" id="mwBulkSrcMsg" role="status" aria-live="polite"></div>
     </div>
   </div>
 </div>
@@ -55342,6 +55353,57 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
       }
     });
   }
+  // v2.49：從本站詞庫直接導入（中小學單詞按年級／全部＋某文詞庫包各冊）
+  function srcMsg(t){var m=document.getElementById('mwBulkSrcMsg');if(m){m.textContent=t||'';m.className='mwb-msg'+(t&&t.indexOf('已導入')===0?'':' bad');if(!t)m.style.color='';}}
+  function srcAdd(items,tag){
+    if(!items||!items.length){srcMsg('這一批沒有詞');return;}
+    var r=addMany(items,tag);
+    srcMsg('已導入 '+r.added+' 詞，跳過 '+r.skipped+' 詞（重複／上限）；單詞本現共 '+r.total+' 詞');
+    msg('詞庫直導：'+tag+' 新增 '+r.added+' 詞');
+  }
+  function renderSrc(){
+    var hk=document.getElementById('mwBulkHk');
+    if(hk){
+      hk.innerHTML='';
+      var grades=[],seen={};
+      HK.forEach(function(w){if(!seen[w.grade]){seen[w.grade]=1;grades.push(w.grade);}});
+      grades.sort(function(a,b){return ((window.HK_GRADE_RANK&&window.HK_GRADE_RANK[a]||99)-(window.HK_GRADE_RANK&&window.HK_GRADE_RANK[b]||99))||a.localeCompare(b,'zh-Hant');});
+      var code=function(g){return (window.HK_GRADE_CODE&&window.HK_GRADE_CODE[g])||g;};
+      grades.forEach(function(g){
+        var ws=HK.filter(function(w){return w.grade===g;});
+        var b=document.createElement('button');b.type='button';b.className='btn';
+        b.textContent=code(g)+'（'+ws.length+' 詞）';
+        b.onclick=function(){srcAdd(ws.map(function(w){return {w:w.w,zh:w.zh,ph:w.ipa||'',note:w.grade+' · '+w.theme,ref:w.id};}),'站內·中小學單詞·'+code(g));};
+        hk.appendChild(b);
+      });
+      var ba=document.createElement('button');ba.type='button';ba.className='btn mwaddbtn';
+      ba.textContent='全部（'+HK.length+' 詞）';
+      ba.onclick=function(){srcAdd(HK.map(function(w){return {w:w.w,zh:w.zh,ph:w.ipa||'',note:w.grade+' · '+w.theme,ref:w.id};}),'站內·中小學單詞');};
+      hk.appendChild(ba);
+    }
+    var pr=document.getElementById('mwBulkPackRow');
+    if(pr){
+      pr.innerHTML='';
+      var P=null;
+      try{P=(window.__lwtePackTest&&window.__lwtePackTest.books&&window.__lwtePackTest.books())||null;}catch(e){P=null;}
+      if(!P||!P.length){
+        var sp=document.createElement('span');sp.className='mwb-srcmsg';
+        sp.textContent='某文詞庫包：本機未匯入（在「某文單詞本」頁匯入後，這裏會出現各冊按鈕）';
+        pr.appendChild(sp);
+      }else{
+        P.forEach(function(bk){
+          var b=document.createElement('button');b.type='button';b.className='btn';
+          b.textContent=bk.bk+'（'+bk.count+' 詞）';
+          b.onclick=function(){
+            var items=[];
+            try{items=window.__lwtePackTest.itemsOf(bk.bk)||[];}catch(e){}
+            srcAdd(items,'本機詞庫·'+bk.bk);
+          };
+          pr.appendChild(b);
+        });
+      }
+    }
+  }
   var sb=document.getElementById('mwStudyBtn');
   if(sb)sb.onclick=function(){
     var p=true;
@@ -55356,6 +55418,7 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
     try{document.body.classList.add('mws-lock');}catch(e){}
     var t=document.getElementById('mwBulkText');if(t)setTimeout(function(){t.focus();},60);
     bulkPreview();
+    renderSrc();
   };
   var bc=document.getElementById('mwBulkClose');
   if(bc)bc.onclick=function(){
@@ -55912,7 +55975,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.48',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.49',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -57593,6 +57656,8 @@ authBoot();
     setPack:function(p){PACK=p;packSave(p);renderPack();},
     setProg:function(o){WP=o||{};wpSave();renderPack();},
     valid:packValid,count:packCount,render:renderPack,stat:wstat,
+    books:function(){return (PACK&&PACK.books||[]).map(function(b){var n=0;(b.cats||[]).forEach(function(c){n+=(c.items||[]).length;});return {bk:b.bk,count:n};});},
+    itemsOf:function(bk){return packItems(bk,null);},
     clear:function(){PACK=null;WP={};try{localStorage.removeItem(PACK_KEY);localStorage.removeItem(WORD_KEY);}catch(e){}renderPack();}
   };
   PACK=packLoad();WP=wpLoad();
