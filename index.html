@@ -413,6 +413,11 @@ table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac
 .rdaw-add:hover{background:#d7f2eb;border-color:#0d9488}
 .rdaw-add:disabled{opacity:.6;cursor:default}
 .rdaw-ok{color:#0d9488}
+.rdaw-w{cursor:pointer;border-bottom:1px dotted #9bb7b1}
+.rdaw-w:hover{background:#fff2c9;border-bottom-color:#d99b22}
+.rdaw-w.rdaw-done{border-bottom:1px solid #0d9488;background:#eaf7f3;color:#0b6b5c}
+.rdpick-tog{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#52677a;margin-top:6px;cursor:pointer}
+.rdpick-tog input{width:15px;height:15px}
 .rdart-q{margin:4px 0;color:#2a3d4d;line-height:1.7}
 .rdart-btn{min-height:44px;padding:9px 13px;border:1px solid var(--line);background:#f8fafc;border-radius:9px;font-size:12.5px;font-weight:700;color:#0b7a68;cursor:pointer;line-height:1.5}
 .rdart-btn:hover{border-color:var(--math);background:#e6fbf5}
@@ -1333,13 +1338,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.52
+    © 叶工 SteveHKSZ · 公開版 v2.53
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.52</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.53</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2553,7 +2558,8 @@ Thank you for your time.</div>
               <button type="button" class="rdart-btn" id="rdArtPrintBtn">打印這篇</button>
             </div>
             <input id="rdArtTopic" type="text" maxlength="40" placeholder="（選填）想讀的主題，如：籃球／恐龍／海洋——留空讓 AI 自選" style="margin-top:8px">
-            <p class="rdnote" id="rdArtMsg" style="margin-top:6px">十六篇本站原創短文按級別分四檔，只在本設備與打印紙上出現，不設下載不進 AI 知識庫。生詞旁的「＋詞本」可把不懂的詞收進「我的單詞本」，稍後用有道式背詞過一遍。</p>
+            <p class="rdnote" id="rdArtMsg" style="margin-top:6px">十六篇本站原創短文按級別分四檔，只在本設備與打印紙上出現，不設下載不進 AI 知識庫。正文任何單詞都能點一下收進「我的單詞本」，稍後用有道式背詞過一遍。</p>
+            <label class="rdpick-tog"><input type="checkbox" id="rdArtPickOn" checked> 點詞收詞：開（點正文英文單詞即收；中文義取自本站詞庫，查不到可稍後在詞卡補）</label>
           </div>
           <span class="folk">文章為本站原創編寫（AI 生成稿已標注，請家長把關）；分級對照牛津閱讀樹四階段屬坊間整理，以孩子實際讀感為準</span>
         </div>
@@ -52059,8 +52065,38 @@ const RD_ART=[
   words:[['roof','天台'],['pots','花盆'],['forehead','額頭'],['earth','泥土'],['simply','就這樣；純粹']],
   qs:['你家附近有沒有沒人管的植物或東西？有人照顧它嗎？','「沒有人要求，但有人去做」——你身邊有這樣的人嗎？講一件。']}
 ];
+// v2.53 正文點詞：中文義只取站內既有詞庫精確匹配（含簡單詞形還原），查不到留空不臆造
+const RD_WORD_IDX=(function(){var m={};
+  (HK||[]).forEach(function(x){var k=String(x.w||'').toLowerCase();if(k&&!m[k])m[k]={zh:x.zh||'',ph:x.ipa||''};});
+  (VOCAB||[]).forEach(function(v){var k=String(v.w||'').toLowerCase();if(k&&!m[k])m[k]={zh:v.zh||'',ph:v.ph||v.ipa||''};});
+  return m;})();
+function rdArtWordInfo(w){
+  var k=String(w||'').toLowerCase().replace(/[^a-z'-]/g,'');
+  if(!k)return {zh:'',ph:''};
+  var cands=[k];
+  if(/ies$/.test(k))cands.push(k.slice(0,-3)+'y');
+  if(/es$/.test(k))cands.push(k.slice(0,-2),k.slice(0,-1));
+  if(/s$/.test(k))cands.push(k.slice(0,-1));
+  if(/ed$/.test(k))cands.push(k.slice(0,-2),k.slice(0,-1));
+  if(/ing$/.test(k))cands.push(k.slice(0,-3),k.slice(0,-3)+'e');
+  for(var i=0;i<cands.length;i++){var hit=RD_WORD_IDX[cands[i]];if(hit)return {zh:hit.zh||'',ph:hit.ph||''};}
+  return {zh:'',ph:''};
+}
+function rdArtParaHtml(p,forPrint){
+  var s=String(p||'');
+  if(forPrint)return '<p class="rdart-p">'+rdArtEsc(s)+'</p>';
+  var done={};
+  try{(window.__myWordsTest&&window.__myWordsTest.get()||[]).forEach(function(x){done[String(x.w||'').toLowerCase()]=1;});}catch(e){}
+  var parts=s.split(/([A-Za-z]+(?:[-'][A-Za-z]+)*)/);
+  var h=parts.map(function(seg,i){
+    if(i%2===0)return rdArtEsc(seg);
+    var info=rdArtWordInfo(seg),inb=!!done[seg.toLowerCase()];
+    return '<span class="rdaw-w'+(inb?' rdaw-done':'')+'" data-w="'+rdArtEsc(seg)+'" data-zh="'+rdArtEsc(info.zh)+'" data-ph="'+rdArtEsc(info.ph)+'" title="'+(inb?'已在單詞本':'點一下收進單詞本')+'">'+rdArtEsc(seg)+'</span>';
+  }).join('');
+  return '<p class="rdart-p">'+h+'</p>';
+}
 const RD_ART_KEY='hkk_rdart_v0';
-let curRdArtLv='L1',curRdArt=null,curRdArtPrev=-1;
+let curRdArtLv='L1',curRdArt=null,curRdArtPrev=-1,rdArtPickMode=true;
 function rdArtLoad(){try{return JSON.parse(localStorage.getItem(RD_ART_KEY)||'{}')||{};}catch(e){return {};}}
 function rdArtSave(o){try{localStorage.setItem(RD_ART_KEY,JSON.stringify(o||{}));}catch(e){}}
 function rdArtEsc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -52071,7 +52107,7 @@ function rdArtHtml(a,forPrint){
   let h='<div class="rdart-h"><span class="rdart-t">'+rdArtEsc(a.title)+'</span>'
     +'<span class="rdart-lv">'+rdArtEsc(lv.name)+' · '+rdArtEsc(lv.tag)+'</span>'+src+'</div>';
   if(a.ai&&a.topic)h+='<div class="rdnote">主題：'+rdArtEsc(a.topic)+'</div>';
-  h+=a.paras.map(function(p){return '<p class="rdart-p">'+rdArtEsc(p)+'</p>';}).join('');
+  h+=a.paras.map(function(p){return rdArtParaHtml(p,forPrint);}).join('');
   h+='<div class="rdart-sec">生詞（先猜，再對照）</div>';
   h+='<div>'+a.words.map(function(w){
     var wd=rdArtEsc(w[0]),zn=rdArtEsc(w[1]);
@@ -52091,7 +52127,7 @@ function rdArtRender(){
     return '<button type="button" class="'+(l.id===curRdArtLv?'on':'')+'" data-rdlv="'+l.id+'">'+l.name+'（'+l.tag.split(' · ')[0].replace('牛津閱讀樹 ','')+'）</button>';
   }).join('');
   chips.querySelectorAll('[data-rdlv]').forEach(function(b){
-    b.onclick=function(){curRdArtLv=b.getAttribute('data-rdlv');curRdArtPrev=-1;rdArtPick();rdArtSave({lv:curRdArtLv,last:rdArtLoad().last});};
+    b.onclick=function(){curRdArtLv=b.getAttribute('data-rdlv');curRdArtPrev=-1;rdArtPick();rdArtSave({lv:curRdArtLv,last:rdArtLoad().last,pick:rdArtPickMode});};
   });
   const msg=document.getElementById('rdArtMsg');
   if(msg&&!curRdArt.ai)msg.textContent='本篇約 '+rdArtCountWords(curRdArt)+' 詞 · '+RD_ART_LEVELS.find(function(x){return x.id===curRdArt.lv;}).target;
@@ -52135,7 +52171,7 @@ async function rdArtAI(){
     if(!Array.isArray(obj.words)||obj.words.length<3||obj.words.length>6||!obj.words.every(function(w){return Array.isArray(w)&&w.length>=2&&String(w[0]).trim()&&String(w[1]).trim();}))throw new Error('words');
     if(!Array.isArray(obj.qs)||obj.qs.length<1||obj.qs.length>3)throw new Error('qs');
     curRdArt={lv:curRdArtLv,title:obj.title.trim(),paras:obj.paras,words:obj.words.slice(0,6).map(function(w){return [String(w[0]).trim(),String(w[1]).trim()];}),qs:obj.qs.slice(0,3).map(function(q){return String(q).trim();}),ai:true,topic:topic};
-    rdArtSave({lv:curRdArtLv,last:curRdArt});
+    rdArtSave({lv:curRdArtLv,last:curRdArt,pick:rdArtPickMode});
     rdArtRender();
   }catch(e){
     if(msg)msg.textContent='AI 出文章失敗（'+e.message+'）——接口未通或返回格式不符，已保留當前文章；再試一次或點「換一篇（本機）」。';
@@ -52153,6 +52189,12 @@ function printRdArt(){
 let _rdArtPrintBound=false;
 (function(){
   const st=rdArtLoad();
+  if(st.pick===false)rdArtPickMode=false;
+  const pk=document.getElementById('rdArtPickOn');
+  if(pk){
+    pk.checked=rdArtPickMode;
+    pk.onchange=function(){rdArtPickMode=!!pk.checked;var q=rdArtLoad();q.pick=rdArtPickMode;rdArtSave(q);rdArtRender();};
+  }
   if(st.lv&&RD_ART_LEVELS.some(function(x){return x.id===st.lv;}))curRdArtLv=st.lv;
   if(st.last&&st.last.lv===curRdArtLv&&st.last.ai&&st.last.paras)curRdArt=st.last;else rdArtPick();
   rdArtRender();
@@ -52165,21 +52207,35 @@ let _rdArtPrintBound=false;
   // v2.51 生詞一鍵入單詞本：事件委託綁在容器上，換文章後仍有效
   const abox=document.getElementById('rdArtBox');
   if(abox)abox.addEventListener('click',function(e){
-    const b=e.target&&e.target.closest?e.target.closest('.rdaw-add'):null;
-    if(!b)return;
-    const w=b.getAttribute('data-rdaw'),zh=b.getAttribute('data-rdawzh');
-    if(!w||!window.__myWordsTest)return;
-    const r=window.__myWordsTest.addFrom('rdart',{w:w,zh:zh,note:curRdArt?curRdArt.title:''});
     const m=document.getElementById('rdArtMsg');
-    if(r.ok){b.disabled=true;b.textContent='✓ 已收';b.classList.add('rdaw-ok');if(m)m.textContent='已把「'+w+'」收進我的單詞本。';}
+    const hit=e.target&&e.target.closest?e.target:null;
+    const b=hit&&hit.closest?hit.closest('.rdaw-add'):null;
+    if(b){
+      const w=b.getAttribute('data-rdaw'),zh=b.getAttribute('data-rdawzh');
+      if(!w||!window.__myWordsTest)return;
+      const r=window.__myWordsTest.addFrom('rdart',{w:w,zh:zh,note:curRdArt?curRdArt.title:''});
+      if(r.ok){b.disabled=true;b.textContent='✓ 已收';b.classList.add('rdaw-ok');if(m)m.textContent='已把「'+w+'」收進我的單詞本。';}
+      else{if(m)m.textContent=r.msg||'';}
+      return;
+    }
+    // v2.53 正文任意單詞點一下收進單詞本
+    const ws=hit&&hit.closest?hit.closest('.rdaw-w'):null;
+    if(!ws)return;
+    if(!rdArtPickMode){if(m)m.textContent='點詞收詞已關閉：勾選上方開關再點單詞。';return;}
+    const w=ws.getAttribute('data-w');
+    if(!w||!window.__myWordsTest)return;
+    const r=window.__myWordsTest.addFrom('rdart',{w:w,zh:ws.getAttribute('data-zh')||'',ph:ws.getAttribute('data-ph')||'',note:curRdArt?curRdArt.title:''});
+    if(r.ok){ws.classList.add('rdaw-done');ws.title='已在單詞本';if(m)m.textContent='已把正文的「'+w+'」收進我的單詞本。';}
     else{if(m)m.textContent=r.msg||'';}
   });
 })();
 window.__rdArtTest={levels:RD_ART_LEVELS,list:RD_ART,render:rdArtRender,pick:rdArtPick,
   addWord:function(w,zh,note){return window.__myWordsTest?window.__myWordsTest.addFrom('rdart',{w:w,zh:zh,note:note||''}):null;},
+  wordInfo:rdArtWordInfo,paraHtml:rdArtParaHtml,
+  pickMode:function(v){if(typeof v==='boolean'){rdArtPickMode=v;var q=rdArtLoad();q.pick=v;rdArtSave(q);rdArtRender();}return rdArtPickMode;},
   cur:function(){return curRdArt;},lv:function(){return curRdArtLv;},
   exportData:rdArtLoad,importData:function(d){rdArtSave(d&&typeof d==='object'?d:{});if(d&&d.lv){curRdArtLv=d.lv;if(d.last&&d.last.ai)curRdArt=d.last;else rdArtPick();}else rdArtPick();},
-  clear:function(){rdArtSave({});curRdArtLv='L1';curRdArtPrev=-1;rdArtPick();}};
+  clear:function(){rdArtSave({});rdArtPickMode=true;curRdArtLv='L1';curRdArtPrev=-1;rdArtPick();}};
 
 async function aiGenQuestion(g,t){
   const cfg=getAiCfg();
@@ -56355,7 +56411,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.52',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.53',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
