@@ -384,6 +384,10 @@ table.lhub-tbl input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac
 .rdart-p{margin:8px 0;line-height:1.85;color:#2a3d4d}
 .rdart-sec{margin:12px 0 4px;font-size:13px;font-weight:700;color:#33475b}
 .rdart-w{display:inline-block;margin:2px 8px 2px 0;font-size:13px;color:#2a3d4d;background:#f5f8fa;border:1px solid #e2eaf0;border-radius:8px;padding:2px 8px}
+.rdaw-add{margin-left:6px;min-height:26px;padding:2px 7px;border:1px solid #cfe9e4;border-radius:6px;background:#eef8f6;color:#0b7a68;font-size:11.5px;font-weight:700;cursor:pointer;line-height:1.4}
+.rdaw-add:hover{background:#d7f2eb;border-color:#0d9488}
+.rdaw-add:disabled{opacity:.6;cursor:default}
+.rdaw-ok{color:#0d9488}
 .rdart-q{margin:4px 0;color:#2a3d4d;line-height:1.7}
 .rdart-btn{min-height:44px;padding:9px 13px;border:1px solid var(--line);background:#f8fafc;border-radius:9px;font-size:12.5px;font-weight:700;color:#0b7a68;cursor:pointer;line-height:1.5}
 .rdart-btn:hover{border-color:var(--math);background:#e6fbf5}
@@ -1300,13 +1304,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.50
+    © 叶工 SteveHKSZ · 公開版 v2.51
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.50</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.51</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -2481,7 +2485,7 @@ Thank you for your time.</div>
               <button type="button" class="rdart-btn" id="rdArtPrintBtn">打印這篇</button>
             </div>
             <input id="rdArtTopic" type="text" maxlength="40" placeholder="（選填）想讀的主題，如：籃球／恐龍／海洋——留空讓 AI 自選" style="margin-top:8px">
-            <p class="rdnote" id="rdArtMsg" style="margin-top:6px">八篇本站原創短文按級別分四檔，只在本設備與打印紙上出現，不設下載不進 AI 知識庫。</p>
+            <p class="rdnote" id="rdArtMsg" style="margin-top:6px">十六篇本站原創短文按級別分四檔，只在本設備與打印紙上出現，不設下載不進 AI 知識庫。生詞旁的「＋詞本」可把不懂的詞收進「我的單詞本」，稍後用有道式背詞過一遍。</p>
           </div>
           <span class="folk">文章為本站原創編寫（AI 生成稿已標注，請家長把關）；分級對照牛津閱讀樹四階段屬坊間整理，以孩子實際讀感為準</span>
         </div>
@@ -51920,7 +51924,72 @@ const RD_ART=[
   'One rainy Monday, Chloe was late. The rain drummed on the awnings, and the street was empty. General waited on the temple steps for a whole hour, tail curled around his paws.',
   'When Chloe finally came, soaked and out of breath, General stood up, stretched, and — for the first time anyone could remember — rubbed his head against her school bag. The shopkeepers smiled. Even royalty needs a friend on rainy days.'],
   words:[['antique','古董'],['territory','地盤'],['inspect','巡視'],['nap','打盹'],['soaked','濕透的']],
-  qs:['你家附近有認識的貓狗嗎？給它們起過名字嗎？','如果你養寵物，你會怎麼照顧它？']}
+  qs:['你家附近有認識的貓狗嗎？給它們起過名字嗎？','如果你養寵物，你會怎麼照顧它？']},
+ {lv:'L1',title:'The Rainbow after Rain',paras:[
+  'It rained all morning. Then the sun came out. Kai ran to the window.',
+  'In the sky, there was a rainbow. "Mum, come and see!" he called. The rainbow had red, orange, yellow, green and blue.',
+  'Mum came and stood next to him. "It comes after rain," she said. "The light and the water make it together."',
+  'Kai looked and looked. Then the rainbow faded, slowly, like a picture being cleaned away. "Will it come back?" he asked.',
+  '"After the next rain," Mum said. Kai smiled. Now he knew rain was not only good for plants.'],
+  words:[['rainbow','彩虹'],['come out','出來（太陽）'],['faded','漸漸消失'],['slowly','慢慢地'],['plant','植物']],
+  qs:['你看過彩虹嗎？那一天有沒有下雨？','雨除了讓東西濕，還有什麼好處？講一個。']},
+ {lv:'L1',title:'The Little Shop Downstairs',paras:[
+  'Downstairs there is a small shop. It sells bread, milk and strange round fruit.',
+  'Every morning, Mrs Chan opens the door at seven. She knows everyone. "Morning, Ah Po!" she calls to the old man next door.',
+  'One day, a boy came in with a five-dollar coin. "I want something for my mum," he said. Mrs Chan looked at him and smiled.',
+  'She put two oranges in a bag. "These are sweet," she said. The boy counted his coin again and ran home.',
+  'The next week, the boy came back with a drawing. It was a picture of the shop, with a big orange sun above it. Mrs Chan put it on the wall.'],
+  words:[['downstairs','樓下'],['sells','賣'],['coin','硬幣'],['sweet','甜的'],['drawing','圖畫']],
+  qs:['你家樓下有什麼小店？老闆認識你嗎？','你試過用很少的錢買禮物嗎？買了什麼？']},
+ {lv:'L2',title:'The Kite That Would Not Fly',paras:[
+  'Last Sunday, Ben took his new kite to the park. The sky was blue and there was a strong wind.',
+  'He ran and ran, but the kite only jumped on the grass. Ben sat down. "It is broken," he said to his sister.',
+  'His sister looked at it. "You are holding it wrong," she said. She turned the kite around and gave it back to him.',
+  'Ben ran again. This time the kite went up slowly, then higher and higher. It pulled his arm. "I have it!" he shouted.',
+  'An old man near the tree said, "Kites are like that. They need the wind to push against them." Ben did not understand at first. Then he looked up at his kite, dancing over the park, and he did.'],
+  words:[['kite','風箏'],['strong wind','強風'],['broken','壞了'],['pulled','拉'],['against','逆著；頂著']],
+  qs:['你放過風箏嗎？一開始成功了嗎？','有沒有東西你以為壞了，其實只是用錯方法？講一件。']},
+ {lv:'L2',title:'Grandpa and the Radio',paras:[
+  'Every evening after dinner, Grandpa sat in his chair and turned on the old radio. It had a cracked side and a knob that did not work well.',
+  'I asked him once, "Why not watch television? The pictures are better." Grandpa laughed. "With radio, you must use your eyes inside your head," he said.',
+  'One night, there was a storm. The power went off, and the whole flat was dark. Grandpa found a candle and turned the radio batteries on.',
+  'A voice came out of the small box, talking about the weather and the sea. My brother and I sat very quiet. Outside, the rain hit the windows.',
+  'When the lights came back, I did not turn on the television. I asked Grandpa to tell me one more story about the sea.'],
+  words:[['radio','收音機'],['cracked','裂開的'],['knob','旋鈕'],['batteries','電池'],['storm','暴風雨']],
+  qs:['你家裡有比較舊的東西嗎？是誰的？','如果不看畫面、只聽聲音，你能猜出什麼？講一個。']},
+ {lv:'L3',title:'The Umbrella by the Door',paras:[
+  'There was an old black umbrella by the front door. It had belonged to my grandmother, and nobody used it, because one of its bones was bent.',
+  'I asked my mother why we kept it. "Your grandmother carried it every day for thirty years," she said. "It took her to work, to the market, and to the hospital when you were born."',
+  'That afternoon, a heavy rain started. I had forgotten my own umbrella at school. My mother handed me the black one. "Be careful with the bent bone," she said.',
+  'I walked home under it. The wind pushed hard, and the bent bone dug into my shoulder. But I did not mind. I thought of my grandmother walking the same streets, in the same rain, thirty years before.',
+  'When I got home, I hung it by the door again, carefully. An object, I discovered, can be old and still be useful — especially when it carries someone with it.'],
+  words:[['belonged to','屬於'],['bent','彎曲的'],['forgotten','忘記了（forget 的完成式）'],['shoulder','肩膀'],['discovered','發現']],
+  qs:['家裡有沒有舊東西，爸爸媽媽不捨得丟？它是誰的？','東西用了很久，為什麼還有人捨不得丟？講你的想法。']},
+ {lv:'L3',title:'A Seat on the Bus',paras:[
+  'The bus was crowded, as always at six in the evening. I found a seat near the window and watched the shops go by.',
+  'At the next stop, an old lady got on. She had a plastic bag with two apples in it. Nobody moved. Some people looked at their phones; others looked out of the window.',
+  'I stood up. "Here, grandma," I said. She looked surprised, then thanked me three times. I said it was nothing, and went to stand by the door.',
+  'At the next stop, a man with a baby got on. A schoolgirl gave him her seat. Then a woman offered mine to an old man. It was strange — one seat, and suddenly everyone was looking at each other.',
+  'When I got off, I thought about the apples. Perhaps the lady had wanted to give them to someone. Perhaps she would eat them slowly at home, one each day. I do not know. But I still think giving up a seat is a small thing that makes a bus feel different.'],
+  words:[['crowded','擁擠的'],['offered','讓出；提供'],['surprised','驚訝的'],['suddenly','突然'],['perhaps','也許']],
+  qs:['你曾經讓座嗎？當時對方說了什麼？','為什麼一件小事會讓人或車廂變得不一樣？講一件你經驗過的。']},
+ {lv:'L4',title:'The Night the Lift Stopped',paras:[
+  'We lived on the eleventh floor, so the lift was part of every day. It smelled of metal and old air, and its mirror had a crack in the corner that I had known since I was small.',
+  'It stopped on a Tuesday, in the middle of a hot evening. My mother came home with two bags of shopping and looked at the closed door. "Not again," she said. The notice on the wall said the repair man would come the next morning.',
+  'We climbed. My brother, who was seven, counted the floors out loud. By the sixth, he wanted to be carried. By the ninth, he was quiet. My mother stopped on the landing and pointed out of the small window. "Look," she said. Across the city, thousands of lights were on, each one a room with someone in it.',
+  'On the eleventh floor, my legs ached and my mother made lemonade — the kind with too much sugar, the kind she only made when something had gone wrong. We sat on the floor because it was cooler there.',
+  'The next morning the lift worked again, and nobody said much about it. But sometimes, when the doors close and the mirror shows my tired face beside the crack, I remember that night — the counting, the lights, and the lemonade that was far too sweet. I do not wish the lift would break again. I am only glad we had to climb.'],
+  words:[['metal','金屬'],['repair','修理'],['landing','樓梯平台'],['ached','酸痛'],['lemonade','檸檬水']],
+  qs:['你住的地方有電梯嗎？試過壞掉嗎？那天怎麼樣？','有沒有不方便的一天，事後想起來反而覺得不錯？講一件。']},
+ {lv:'L4',title:'The Boy Who Watered the Plants',paras:[
+  'On the roof of our building, there were six pots of plants that nobody owned. Someone had put them there years ago, and everyone had stopped looking at them.',
+  'Then a boy from the fourth floor began to water them. He was about ten, thin, with a school bag always too big for him. Every evening at six, he came up with a small bottle and spent ten minutes with the pots.',
+  'I asked him once why he did it. "Nobody asked you to," I said. He looked at a plant with three green leaves and thought for a moment. "They cannot ask," he said. "That is why someone must."',
+  'By the summer, one of the pots had flowers — small yellow ones, the size of a coin. A woman on the fifth floor started bringing water too. Then an old man added a seventh pot. Nobody held a meeting; it simply happened, the way the plants did.',
+  'I moved away at the end of that year. Before I left, I went up to the roof one last time. The boy was there, of course, with his bottle. He did not see me at first. I stood quietly and watched him touch the earth with his finger, checking if it was dry, the way his mother might check a sleeping child\'s forehead.',
+  'I do not know if the plants are still there. But I have never forgotten the yellow flowers, or the sentence he gave me: they cannot ask, so someone must. It is, I think, a good way to live.'],
+  words:[['roof','天台'],['pots','花盆'],['forehead','額頭'],['earth','泥土'],['simply','就這樣；純粹']],
+  qs:['你家附近有沒有沒人管的植物或東西？有人照顧它嗎？','「沒有人要求，但有人去做」——你身邊有這樣的人嗎？講一件。']}
 ];
 const RD_ART_KEY='hkk_rdart_v0';
 let curRdArtLv='L1',curRdArt=null,curRdArtPrev=-1;
@@ -51936,7 +52005,11 @@ function rdArtHtml(a,forPrint){
   if(a.ai&&a.topic)h+='<div class="rdnote">主題：'+rdArtEsc(a.topic)+'</div>';
   h+=a.paras.map(function(p){return '<p class="rdart-p">'+rdArtEsc(p)+'</p>';}).join('');
   h+='<div class="rdart-sec">生詞（先猜，再對照）</div>';
-  h+='<div>'+a.words.map(function(w){return '<span class="rdart-w"><b>'+rdArtEsc(w[0])+'</b> '+rdArtEsc(w[1])+'</span>';}).join('')+'</div>';
+  h+='<div>'+a.words.map(function(w){
+    var wd=rdArtEsc(w[0]),zn=rdArtEsc(w[1]);
+    var btn=forPrint?'':' <button type="button" class="rdaw-add" data-rdaw="'+wd+'" data-rdawzh="'+zn+'" title="收進我的單詞本">＋詞本</button>';
+    return '<span class="rdart-w"><b>'+wd+'</b> '+zn+btn+'</span>';
+  }).join('')+'</div>';
   h+='<div class="rdart-sec">讀後分享（講 30 秒，不用寫）</div>';
   h+=a.qs.map(function(q,i){return '<p class="rdart-q">'+(i+1)+'. '+rdArtEsc(q)+'</p>';}).join('');
   if(forPrint)h+='<p class="rdnote">泛讀文章 · '+(a.ai?'AI 生成，請家長把關':'本站原創')+' · 不查詞典不考核，讀完喜歡就算數</p>';
@@ -52021,8 +52094,21 @@ let _rdArtPrintBound=false;
   if(ab)ab.onclick=rdArtAI;
   const pb=document.getElementById('rdArtPrintBtn');
   if(pb)pb.onclick=printRdArt;
+  // v2.51 生詞一鍵入單詞本：事件委託綁在容器上，換文章後仍有效
+  const abox=document.getElementById('rdArtBox');
+  if(abox)abox.addEventListener('click',function(e){
+    const b=e.target&&e.target.closest?e.target.closest('.rdaw-add'):null;
+    if(!b)return;
+    const w=b.getAttribute('data-rdaw'),zh=b.getAttribute('data-rdawzh');
+    if(!w||!window.__myWordsTest)return;
+    const r=window.__myWordsTest.addFrom('rdart',{w:w,zh:zh,note:curRdArt?curRdArt.title:''});
+    const m=document.getElementById('rdArtMsg');
+    if(r.ok){b.disabled=true;b.textContent='✓ 已收';b.classList.add('rdaw-ok');if(m)m.textContent='已把「'+w+'」收進我的單詞本。';}
+    else{if(m)m.textContent=r.msg||'';}
+  });
 })();
 window.__rdArtTest={levels:RD_ART_LEVELS,list:RD_ART,render:rdArtRender,pick:rdArtPick,
+  addWord:function(w,zh,note){return window.__myWordsTest?window.__myWordsTest.addFrom('rdart',{w:w,zh:zh,note:note||''}):null;},
   cur:function(){return curRdArt;},lv:function(){return curRdArtLv;},
   exportData:rdArtLoad,importData:function(d){rdArtSave(d&&typeof d==='object'?d:{});if(d&&d.lv){curRdArtLv=d.lv;if(d.last&&d.last.ai)curRdArt=d.last;else rdArtPick();}else rdArtPick();},
   clear:function(){rdArtSave({});curRdArtLv='L1';curRdArtPrev=-1;rdArtPick();}};
@@ -55337,6 +55423,8 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
       ? {w:o.w,zh:o.zh,ph:o.ipa||'',src:'站內·中小學單詞',note:[o.grade,o.theme].filter(Boolean).join(' · ')}
       : kind==='paper'
       ? {w:o.w,zh:o.zh||'',ph:o.ph||'',src:'站內·練習卷錯詞',note:o.note||''}
+      : kind==='rdart'
+      ? {w:o.w,zh:o.zh||'',ph:o.ph||'',src:'站內·泛讀文章',note:o.note?('篇目：'+o.note):''}
       : {w:o.w,zh:o.zh,ph:o.ph||'',src:'站內·詞表',note:o.topic?('主題：'+o.topic):''};
     return add(d);
   }
@@ -56167,7 +56255,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.50',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.51',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
