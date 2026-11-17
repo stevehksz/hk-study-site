@@ -10,7 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://stevehksz.github.io/hk-study-site/">
 <style>
-  :root{--bg:#eef1f7;--card:#fff;--ink:#1b2435;--mut:#6b7280;--acc:#0369a1;--jy:#c2410c;--line:#e7eaf2;--math:#0d9488;--acc2:#c79a3a;--grad:linear-gradient(135deg,#0284c7 0%,#0369a1 55%,#075985 100%);--gold:linear-gradient(135deg,#e7c074,#c79a3a);--shadow-sm:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);--shadow-md:0 6px 16px -4px rgba(16,24,40,.12),0 12px 28px -10px rgba(16,24,40,.14);--radius:16px}
+  :root{--bg:#eef1f7;--card:#fff;--ink:#1b2435;--mut:#6b7280;--acc:#0369a1;--jy:#c2410c;--line:#e7eaf2;--math:#0d9488;--acc2:#c79a3a;--grad:linear-gradient(135deg,#0284c7 0%,#0369a1 55%,#075985 100%);--gold:linear-gradient(135deg,#e7c074,#c79a3a);--shadow-sm:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);--shadow-md:0 6px 16px -4px rgba(16,24,40,.12),0 12px 28px -10px rgba(16,24,40,.14);--radius:16px;--inkblue:#0b2f4a;--indigo:#1e4f8f;--goldline:linear-gradient(90deg,transparent,#d9b25a 18%,#f0d68a 50%,#d9b25a 82%,transparent)}
   *{box-sizing:border-box}
   body{margin:0;font-family:"PingFang HK","Microsoft JhengHei","Noto Sans CJK SC",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
   header{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;padding:18px 20px}
@@ -217,21 +217,46 @@
     .stat{flex-direction:column}
   }
 /* ========== v1.6 高級化介面升級（覆蓋層：不改結構與 JS） ========== */
-body{background:radial-gradient(1100px 560px at 85% -8%,rgba(3,105,161,.10),transparent 60%),radial-gradient(900px 480px at -8% 8%,rgba(13,148,136,.08),transparent 55%),#eef1f7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;color:var(--ink)}
-header{position:relative;overflow:hidden;text-align:center;background:linear-gradient(135deg,#0b3a5c 0%,#0284c7 50%,#0369a1 100%);color:#fff;padding:40px 24px 34px}
-header::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:.5;background-image:radial-gradient(circle at 18% 28%,rgba(255,255,255,.14) 0 2px,transparent 3px),radial-gradient(circle at 78% 62%,rgba(255,255,255,.09) 0 2px,transparent 3px);background-size:48px 48px,62px 62px}
-header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--gold)}
+body{background:radial-gradient(1100px 560px at 85% -8%,rgba(30,79,143,.055),transparent 60%),radial-gradient(900px 480px at -8% 8%,rgba(13,148,136,.045),transparent 55%),#f2f4f8;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;color:var(--ink)}
+header{position:relative;overflow:hidden;text-align:center;background:linear-gradient(120deg,#0b2f4a 0%,#123f68 38%,#1e4f8f 78%,#2a5f9e 100%);color:#fff;padding:44px 24px 38px}
+header::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:.22;background-image:radial-gradient(circle at 18% 28%,rgba(255,255,255,.20) 0 1.5px,transparent 2.5px),radial-gradient(circle at 78% 62%,rgba(255,255,255,.14) 0 1.5px,transparent 2.5px);background-size:52px 52px,68px 68px}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--goldline)}
 header h1{margin:0;font-size:30px;font-weight:800;letter-spacing:.5px;position:relative;text-shadow:0 2px 14px rgba(0,0,0,.28)}
 header p{margin:12px auto 0;font-size:13.5px;max-width:660px;opacity:.92;position:relative;line-height:1.7}
 nav{display:flex;gap:6px;justify-content:center;padding:9px;margin:0 14px;background:rgba(255,255,255,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.55);border-radius:18px;box-shadow:var(--shadow-md);position:sticky;top:0;z-index:6}
 nav button{flex:1;padding:11px 8px;border:1px solid transparent;background:transparent;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;color:#475069;transition:.2s}
 nav button:hover{background:rgba(3,105,161,.08);color:var(--acc)}
-nav button.on{background:var(--grad);color:#fff;box-shadow:0 8px 18px -6px rgba(3,105,161,.55)}
+nav button.on{background:linear-gradient(135deg,#0b2f4a,#1e4f8f);color:#fff;box-shadow:0 8px 18px -6px rgba(11,47,74,.5);position:relative}nav button.on::after{content:"";position:absolute;left:22%;right:22%;bottom:5px;height:2px;background:var(--goldline);opacity:.9}
 .subnav{display:flex;gap:6px;padding:8px 14px;justify-content:center;flex-wrap:wrap;background:rgba(255,255,255,.66);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:60px;z-index:5}
 .subnav button{padding:7px 16px;border:1px solid var(--line);background:#fff;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;color:#475069;transition:.18s}
 .subnav button:hover{border-color:var(--math);color:var(--math)}
 .subnav button.on{background:var(--math);color:#fff;border-color:var(--math);box-shadow:0 6px 14px -4px rgba(13,148,136,.5)}
 .wrap{max-width:960px;margin:0 auto;padding:26px 18px 44px;animation:fadeUp .45s ease both}
+  /* v2.52 高级质感：卡片淡金竖条锚点 + 更细腻阴影（屏显专用，打印态在 @media print 内强制白底无色） */
+  .gcard>.gsec-h,.gcard>h3,.gcard>h2{position:relative;padding-left:12px}
+  .gcard>.gsec-h::before,.gcard>h3::before,.gcard>h2::before{content:"";position:absolute;left:0;top:.28em;bottom:.28em;width:3px;border-radius:2px;background:var(--goldline)}
+  /* v2.52 學習工作台：入口聚合層（重複入口一站式直達，舊頁籤全保留） */
+  .shub{background:linear-gradient(135deg,#fff 0%,#f7fafd 100%);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:var(--radius);padding:16px 18px;margin:0 0 18px;box-shadow:var(--shadow-md)}
+  .shub-h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:0 0 4px}
+  .shub-h b{font-size:17px;color:var(--inkblue)}
+  .shub-h span{font-size:12px;color:var(--mut)}
+  .shub-lead{font-size:13px;color:var(--mut);margin:0 0 12px;line-height:1.7}
+  .shub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .shub-group{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 11px}
+  .shub-gt{font-size:13px;font-weight:800;color:var(--acc);margin:0 0 7px;display:flex;align-items:center;gap:6px}
+  .shub-gt::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+  .shub-btns{display:flex;flex-wrap:wrap;gap:6px}
+  .shub-b{min-height:34px;padding:6px 11px;border:1px solid var(--line);background:#f8fafc;border-radius:9px;font-size:12.5px;font-weight:600;color:#334155;cursor:pointer;transition:.18s}
+  .shub-b:hover{border-color:var(--acc);color:var(--acc);background:#eef6fd}
+  .shub-b:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+  .shub-b.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+  /* v2.52 今日勢 energy 條 */
+  .shub-today{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 12px}
+  .shub-stat{flex:1;min-width:135px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 12px;display:flex;flex-direction:column;gap:2px}
+  .shub-stat .n{font-size:20px;font-weight:800;color:var(--inkblue);line-height:1.1}
+  .shub-stat .n small{font-size:12px;color:var(--mut);font-weight:600}
+  .shub-stat .l{font-size:12px;color:var(--mut)}
+  @media(max-width:720px){.shub-grid{grid-template-columns:1fr}.shub{padding:14px}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;align-items:center}
 .chip{padding:8px 14px;border:1px solid var(--line);border-radius:22px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:#475069;transition:.18s;box-shadow:var(--shadow-sm)}
@@ -725,8 +750,9 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
 .en-print .eps-ak-title{font-size:18px;font-weight:800;text-align:center;margin:10px 0 16px;letter-spacing:.5px}
 .en-print .eps-ak-row{font-size:14px;line-height:1.9;margin:6px 0;padding-bottom:4px;border-bottom:1px dotted #ccc}
 @media screen and (max-width:640px){
-  header{padding:30px 16px 26px}
-  header h1{font-size:23px}
+  header{padding:52px 16px 26px}
+  header h1{font-size:20px}
+  #userChip{top:10px;right:10px;font-size:12px}
   nav{margin:0;padding:8px;gap:4px}
   nav button{flex:1 1 30%;padding:9px 4px;font-size:13px}
   .subnav{top:54px;padding:8px 8px}
@@ -741,6 +767,8 @@ footer{text-align:center;color:var(--mut);font-size:11px;padding:24px;line-heigh
   header{background:#fff!important;color:#1b2435!important;padding:14px}
   header h1,header p{color:#1b2435!important;text-shadow:none!important}
   header::before,header::after{display:none!important}
+  /* v2.52：屏顯金色裝飾在列印態一律不渲染，確保純白背景不受影響 */
+  nav button.on::after,.gcard>.gsec-h::before,.gcard>h3::before,.gcard>h2::before{display:none!important}
   nav,.subnav{display:none!important}
   body.printing-paper nav,body.printing-paper .subnav,body.printing-paper header,body.printing-paper #guideView,body.printing-paper #practiceView,body.printing-paper #progressView,body.printing-paper #funView,body.printing-paper #mask,body.printing-paper #licMask,body.printing-paper footer,body.printing-paper .folk{display:none!important}
   /* v2.23：列印隔離改白名單——只顯示本輪目標 sheet，杜絕「先印英文卷、再印數學卷」時英文卷殘留一起印出 */
@@ -1258,6 +1286,7 @@ nav button{flex:0 0 auto;min-height:44px;padding:10px 16px}
 .subnav button{flex:0 0 auto;min-height:44px;padding:10px 16px}
 #userChip button{min-height:44px;min-width:44px;padding:6px 14px;font-size:13px}
 header{padding:20px 14px 16px}
+header h1{font-size:19px;margin-top:52px}
 header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 }
 </style>
@@ -1304,13 +1333,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.51
+    © 叶工 SteveHKSZ · 公開版 v2.52
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.51</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.52</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1481,6 +1510,45 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
         </div>
       </details>
   <div class="wrap" id="schedView">
+    <!-- v2.52 學習工作台：把散落的重複入口集中一處直達；舊頁籤/路由/資料結構全保留 -->
+    <section class="shub" id="studyHub" aria-label="學習工作台">
+      <div class="shub-h"><b>學習工作台</b><span>常用功能都在這裡，不用記它在哪一頁</span></div>
+      <div class="shub-today" id="shubToday">
+        <div class="shub-stat"><div class="n" id="shubWordN">—<small> 詞</small></div><div class="l">我的單詞本 · 待複習</div></div>
+        <div class="shub-stat"><div class="n" id="shubSchedN">—<small> 項</small></div><div class="l">今日課表 · 已完成</div></div>
+        <div class="shub-stat"><div class="n" id="shubTrackN">—<small> 筆</small></div><div class="l">申請追蹤 · 記錄</div></div>
+      </div>
+      <p class="shub-lead">點一下直接跳到對應功能。舊頁籤照樣保留，從那邊進也一樣。</p>
+      <div class="shub-grid">
+        <div class="shub-group">
+          <div class="shub-gt">背單詞</div>
+          <div class="shub-btns">
+            <button type="button" class="shub-b" data-go="p:en:mywords">我的單詞本</button>
+            <button type="button" class="shub-b" data-go="p:en:hk">中小學詞</button>
+            <button type="button" class="shub-b" data-go="p:en:wb">某文詞</button>
+            <button type="button" class="shub-b" data-go="p:en:goal">詞彙路線</button>
+          </div>
+        </div>
+        <div class="shub-group">
+          <div class="shub-gt">做練習</div>
+          <div class="shub-btns">
+            <button type="button" class="shub-b" data-go="p:cn:cnpaper">中文卷</button>
+            <button type="button" class="shub-b" data-go="p:cn:cnschool">中文校卷</button>
+            <button type="button" class="shub-b" data-go="p:en:paper">英文卷</button>
+            <button type="button" class="shub-b" data-go="p:math:mpaper">數學卷</button>
+          </div>
+        </div>
+        <div class="shub-group">
+          <div class="shub-gt">口說 · 申請</div>
+          <div class="shub-btns">
+            <button type="button" class="shub-b" data-go="p:inview">面試題庫</button>
+            <button type="button" class="shub-b" data-go="p:en:iv">升中面試</button>
+            <button type="button" class="shub-b" data-go="p:cn:cntrad">繁體認讀</button>
+            <button type="button" class="shub-b" data-go="plan:timeline">申請時間線</button>
+          </div>
+        </div>
+      </div>
+    </section>
     <div class="gsec">
       <h2>今日課表</h2>
       <div class="wkback" data-wkback="p:sched"><button type="button" data-wkback-go>↩ 返回每週課表</button><span>做完這項，按這裡回去對照表格</span></div>
@@ -53233,6 +53301,38 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
 window.__schedTest={items:SCH_ITEMS,week:SCH_WEEK,get:schGet,key:schKey,render:schRender,toggle:schToggle,dayIdx:schDayIdx};
 schRender(); // v1.90 開頁即渲染（sched 為練習默認子頁）
 
+// ---- v2.52 學習工作台：入口聚合＋今日統計（只讀既有資料，零新 localStorage）----
+(function(){
+  var hub=document.getElementById('studyHub');
+  if(!hub)return;
+  // 入口按鈕 → 復用全域路由（不另抄顯隱邏輯）
+  hub.querySelectorAll('.shub-b[data-go]').forEach(function(b){
+    b.onclick=function(){ if(typeof window.__hkkGo==='function')window.__hkkGo(b.dataset.go); };
+  });
+  function num(el,v){ if(el)el.innerHTML=v; }
+  function render(){
+    // 單詞本待複習（未掌握）
+    var pending=0;
+    try{ if(window.__myWordsTest&&window.__myWordsTest.get) pending=window.__myWordsTest.get().filter(function(x){return !x.done;}).length; }catch(e){}
+    num(document.getElementById('shubWordN'),pending+'<small> 詞</small>');
+    // 今日課表已完成數
+    var done=0;
+    try{
+      if(typeof schGet==='function'&&typeof schKey==='function'){var o=schGet()[schKey()];done=(o&&o.length)||0;}
+    }catch(e){}
+    var total=(typeof SCH_ITEMS!=='undefined'&&SCH_ITEMS.length)||0;
+    num(document.getElementById('shubSchedN'),done+'<small> /'+total+'</small>');
+    // 申請追蹤目前孩子記錄數
+    var rec=0;
+    try{
+      if(window.__trackTest&&window.__trackTest.get){var t=window.__trackTest.get();var k=window.__trackTest.kid?window.__trackTest.kid():'d1';rec=(t.kids&&t.kids[k]&&t.kids[k].length)||0;}
+    }catch(e){}
+    num(document.getElementById('shubTrackN'),rec+'<small> 筆</small>');
+  }
+  window.__studyHubTest={render:render,routes:[].map.call(hub.querySelectorAll('.shub-b[data-go]'),function(b){return b.dataset.go;})};
+  render();
+})();
+
 // ---- v2.50 面試題庫引擎（資料只存本機 hkk_intr_v0，公開頁零預置）----
 (function(){
   var KEY='hkk_intr_v0', fav={}, cat='all', onlyFav=false, kw='', mockQ=null, timer=null, secs=0;
@@ -56255,7 +56355,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.51',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.52',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
