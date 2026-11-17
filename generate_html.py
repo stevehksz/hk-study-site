@@ -6,6 +6,7 @@ v1.1 结构：2 级导航，練習區按科目歸口
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
+v2.50：葉工貼「升中面試常見題目」PDF（學而思/家長幫，帶水印）截圖「把面試題目融入網站，最好有提示或者固定形式回答」。AskUserQuestion 三問拍板＝練習頁新子頁籤／精選約 60 題／中文題＋英文提示。⚠️ **版權紅線**：第三方 PDF 題目原文零入庫（v1.78），只借 11 類題型骨架，63 題全部自有語言改寫＋自建回答框架，公開頁標「題型整理·非官方」。①`#inView` 三塊＝分類題庫（11 類 chip＋搜尋＋收藏＋只看收藏）／回答框架速查（自我介紹三段式、情境題做法先行、觀點題先表態、創意題具體化 4 套）／模擬練習（抽題＋計時＋框架提示）。每題欄位 q/f/t/en/lv/trap（框架／思路／英文 opening／難度／陷阱題）。②資料只存本機 `hkk_intr_v0`（hkk_ 前綴自動賬號隔離，v1.33），公開頁零預置收藏。③`practiceSub` 加第 8 顆 `data-sub="inview"`，`__intrTest` 暴露 bank/cats/filtered/toggleFav/goMock/draw/timerSecs/clear。④Make verify 專項鎖（題庫數/分類/框架可見/收藏本機/計時/版權零命中）。
 v2.49：葉工圈著「批量導入（貼文字）」按鈕說「要可以直接導入本站的單詞本」——不用貼、不用跳頁，在批量導入彈窗裏直接把本站詞庫一鍵收進單詞本。①彈窗新增「從本站詞庫直接導入」區：中小學單詞各年級按鈕（P1（N 詞）…，排序照 HK_GRADE_RANK）＋「全部（N 詞）」，來源標籤 `站內·中小學單詞·P1` 等；某文詞庫包已匯入本機時逐冊出按鈕（`本機詞庫·書名`），未匯入顯提示。②復用 v2.48 `addMany()` 一次性去重入庫，回報「新增 X／跳過 Y（重複／上限）」。③`__lwtePackTest` 補 `books()`／`itemsOf(bk)`（PACK 在 wb IIFE 內部，引擎側只讀視圖）。④`__lwtePackTest` 補只讀視圖，站方 HTML 零任何某文詞條。⑤**驗收**：斷言 1596→1607（+11）；CDP 真機點年級收 73 詞／冊收 2 詞／全部 487 詞，src 標籤正確，桌面＋390px 截圖無溢出。⚠️ 某文 1,024 詞仍只存本機（v1.78 版權紅線不動）——直導區只是把**本機已匯入**的詞庫包收進單詞本，站方不分發任何詞條。
 v2.48：葉工「把朗文的單詞本也改成可以像有道背單詞那樣，或者在單詞本裏面可以加入不同年級、不同課本的單詞，或者可以自己批量倒入」。三件一次做完，一份引擎三處共用。⚠️ **版權紅線不動**：某文 1,024 詞條仍只存在使用者本機（v1.78/v1.85 定的「公開倉庫＝公開發行」），所以「按課本選詞」的前提是那台裝置先匯入詞庫包；站內自有的「中小學單詞」335 詞是公開資料，可直接按年級整批收。①**背單詞引擎**（`window.__mwStudy`，全局一份）：隊列式「會一個過一個」——卡片正面英文＋音標，點卡或按空白鍵翻面看中文義；「不認識」把詞放回**隊尾**（本輪結束前必須再過一遍，拍板選項），「識 · 過」出列；頂部進度條＋「第 N / M 詞 · 已過 X · 待複習 Y」；卡片出現自動讀一次（`speak(w,"en-US")`），可關；結束出統計（認得次數／卡住次數／一次過關率）＋「再來一輪／收工」；鍵盤 空白=翻面、→=識、←=不認識、Esc=退出。進度寫回交給呼叫方 `onKnow` 回調，引擎本身不碰任何存儲鍵。②**三處入口**（拍板「三處都加」）：我的單詞本「開始背單詞」（預設只背未掌握，全掌握則整本再過一遍）；某文單詞本「背本冊」＋每課「背本課」；中小學單詞每年級小節「背本年級」。寫回：單詞本標 `done`、某文標該詞三態的「已學」（`hkk_lwte_wordprog_v0`）、中小學標掌握（`hProg`）。③**批量收詞**：某文單詞本「本冊全部加入單詞本」＋每課「加入本課」；中小學單詞每年級「加入本年級」。已在單詞本的詞自動跳過，回報「新增 X / 已存在 Y」；走新增的 `addMany()` 一次性去重入庫（不再逐詞重繪，1,024 詞也不卡）。來源標籤 `本機詞庫·5A`（零「朗文」字樣）與 `站內·中小學單詞`。④**批量導入（貼文字）**：單詞本新增「批量導入」彈窗，一行一詞，`單詞`／`單詞, 中文`／`單詞 中文`／`單詞 | 中文 | 音標` 都認（逗號、Tab、分號、豎線、兩個以上空格為分隔；單空格靠「英文段＋非 ASCII 段」切）；行首編號（`1.` `1)` `1、`）自動剝掉；`#` 開頭當註釋跳過；空行跳過；可填來源標籤（如 `5A Unit 3`）。輸入即時預覽前 30 條＋回報「解析出 N 條 · 跳過 M 行」，再點「導入」合併去重。原有 JSON 導出／匯入保留不動。⑤**UI 對齊有道式樣（葉工看板後拍板）**：每輪 10/20/30 選卡、未掌握優先 chip（僅我的單詞本，切換即重開）、連對計數、卡面喇叭讀詞（en-US）、底部「今日已過 N 詞（hkk_mws_day_v0）／本輪唔識 N／詞源」資訊條、按鈕措辭「唔識／識 · 過」。⑥**驗收**：斷言 1579→1596（+17），CDP 真機全路徑（單詞本開背→翻面→不認識回隊尾→識·過→統計→自動標 done、某文背本冊→寫回已學、批量導入混合格式→解析 6 條跳 2 行→入庫）、桌面與 390px 窄屏截圖。版權紅線斷言（公開 HTML 零詞條／零「朗文」）照舊全綠。
 v2.47：葉工看追蹤表孩子 chip（姐姐/妹妹寫死）要求「自己可以自定義添加姐姐妹妹哥哥弟弟」。改動態渲染＋names 映射（老數據 trkLoad 自動遷移默認 d1=姐姐/d2=妹妹）：①chip 行 JS 渲染（trkRender 順手畫），孩子數量不限，emoji 按稱呼啟發（含哥/弟/仔→👦 否則👧）；②點「＋」prompt 新增（最多8字、重名拒絕），再點當前孩子 chip prompt 改名，「🗑」confirm 後刪除當前孩子連同其全部記錄（刪當前自動退回第一個孩子；全刪後空狀態引導先新增）；③事件改 #trkKids 委託（closest [data-tk]/[data-tkadd]/[data-tkdel]），不再逐 chip 綁定；④導出 JSON 補 names 欄、匯入兼容舊檔（無 names 按鍵名補默認）、count() 改遍歷全部孩子；⑤安全網：trkList() 統一取當前孩子列表（_trkKid 空回空數組）、trkAdd 無孩子時擋、trkLoad 對 cur 指向已刪孩子自動回落；⑥__trackTest 補 kids/addKid/renameKid/delKid。
@@ -158,6 +159,28 @@ TEMPLATE = r'''<!DOCTYPE html>
   .tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center}
   .chip{padding:6px 12px;border:1px solid var(--line);border-radius:20px;background:#fff;cursor:pointer;font-size:13px}
   .chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+  /* v2.50 面試題庫 */
+  .iv-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+  .iv-cats .chip{padding:4px 10px;font-size:12px}
+  .iv-q{border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px 14px;margin-bottom:10px}
+  .iv-qh{display:flex;gap:10px;align-items:flex-start}
+  .iv-qn{font-size:12px;color:var(--muted);min-width:22px;padding-top:2px}
+  .iv-qt{flex:1;font-size:14px;line-height:1.6}
+  .iv-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .iv-tag{font-size:11px;padding:2px 7px;border-radius:4px;background:#eef2f7;color:#475569}
+  .iv-tag.trap{background:#fef3c7;color:#92400e}
+  .iv-tag.fw{background:#dcfce7;color:#166534}
+  .iv-tag.en{background:#e0e7ff;color:#3730a3}
+  .iv-act{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .iv-act button{font-size:12px;padding:3px 10px}
+  .iv-hint{display:none;margin-top:10px;padding:10px 12px;background:#f8fafc;border-left:3px solid var(--acc);border-radius:6px;font-size:13px;line-height:1.7}
+  .iv-hint b{display:block;margin-bottom:4px;font-size:12px}
+  .iv-frame{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+  .iv-frame h4{margin:0 0 6px;font-size:14px}
+  .iv-frame p{margin:3px 0;font-size:13px;line-height:1.65;color:var(--ink)}
+  .iv-mock{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:14px}
+  .iv-fav{color:#d97706}
+
   input[type=search],select{padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px}
   .btn{padding:7px 14px;border:1px solid var(--line);background:#fff;border-radius:8px;font-size:13px;cursor:pointer}
   .btn.on{background:var(--math);color:#fff;border-color:var(--math)}
@@ -1410,13 +1433,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.49
+    © 叶工 SteveHKSZ · 公開版 v2.50
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.49</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.50</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1440,6 +1463,8 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <button data-sub="tutor">補習材料</button>
   <!-- v1.96：試卷夾——本機 PDF 管理，零上傳 -->
   <button data-sub="papers">📁 試卷夾</button>
+  <!-- v2.50：面試題庫——自我介紹／情境／時事，框架提示＋模擬練習 -->
+  <button data-sub="inview">🎤 面試</button>
 </div>
 
 <!-- ============ 速覽指南 ============ -->
@@ -2836,6 +2861,55 @@ Thank you for your time.</div>
       </div>
     </div>
   </div>
+<script>
+/* v2.50 面試題庫：題型骨架借鑒坊間 PDF，題目全部自有語言改寫、原文零入庫（版權紅線 v1.78）。
+   每題 f=回答框架 / t=思路提示 / en=英文 opening / lv=難度 / trap=陷阱題標記。
+   資料只存本機 hkk_intr_v0，公開頁零預置。 */
+const INTR_CATS=[{"id": "self", "name": "自我認識"}, {"id": "family", "name": "家庭日常"}, {"id": "hobby", "name": "興趣閱讀"}, {"id": "exp", "name": "經歷服務"}, {"id": "school", "name": "校園學習"}, {"id": "motive", "name": "選校動機"}, {"id": "moral", "name": "品德情境"}, {"id": "tech", "name": "科技網絡"}, {"id": "society", "name": "社會時事"}, {"id": "edu", "name": "教育制度"}, {"id": "idea", "name": "創意假設"}];
+const INTR_QBANK=[
+{c:"self",q:"用一分钟介绍自己，让大家记住你。",f:"三段式：一句身份（姓名＋年级）→ 一个特点＋一件小事证明 → 一项兴趣＋坚持了多久。",t:"别背履历。挑一件具体小事（例如坚持晨跑半年）比列十个优点更有记忆点。控制在 60 秒内。",en:"Let me introduce myself in three parts.",lv:1,trap:0},{c:"self",q:"你觉得自己最大的优点和缺点各是什么？",f:"优点给例子，缺点给改进动作：优点＋一件印证的事 → 缺点＋正在做的小改变。",t:"缺点别写\"太追求完美\"这类假缺点，说一个真的小毛病＋具体改法反而诚实。",en:"My greatest strength is..., and I am working on...",lv:1,trap:1},{c:"self",q:"用一个词形容自己，并解释为什么。",f:"选词 → 讲一件对得上这个词的事 → 这个词怎么帮到你。",t:"选\"靠谱\"\"好奇\"这类能举证的，别选\"天才\"\"完美\"这种空词。",en:"I would describe myself as... because...",lv:1,trap:0},{c:"self",q:"谁对你的影响最大？为什么？",f:"说人 → 讲他做过的一件具体事 → 这件事怎么改变了你的一个习惯。",t:"家人、老师、朋友都行，重点是\"具体事＋你的改变\"，别只说\"他很厉害\"。",en:"The person who influenced me most is...",lv:1,trap:0},{c:"self",q:"你长大后想做什么工作？原因是什么？",f:"一个职业 → 一个触发点（书／人／经历）→ 现在为此做的一件小事。",t:"答不上来没关系，可以说\"还在探索，目前感兴趣的是…\"，诚实比编造好。",en:"In the future, I hope to...",lv:2,trap:0},{c:"self",q:"你崇拜的偶像是谁？他带给你什么启发？",f:"人物 → 一个具体成就或品格 → 你照着做过的一件事。",t:"避免只谈流量明星，能讲到品格和行动的答案更稳。",en:"My role model is... because...",lv:1,trap:0},{c:"family",q:"你最喜欢家里哪个人？说说原因。",f:"人 → 一件他为你做过的小事 → 你因此学到的东西。",t:"一件具体小事胜过十句\"他很疼我\"。",en:"My favourite family member is...",lv:1,trap:0},{c:"family",q:"你和父母意见不合时会怎么处理？",f:"先讲做法（冷静、听对方）→ 再讲沟通步骤 → 最后讲结果。",t:"考的是情绪管理，别答\"吵到底\"或\"完全听他们的\"。",en:"When we disagree, I usually...",lv:2,trap:0},{c:"family",q:"平日在家会做哪些家务？为什么做？",f:"举一两样固定家务 → 怎么做 → 为什么愿意做（责任感／体谅家人）。",t:"说具体（洗碗、晾衣），不要只说\"帮忙做家务\"。",en:"At home, I regularly help with...",lv:1,trap:0},{c:"family",q:"你怎样安排一天的作息？",f:"按时间线讲：放学后 → 晚饭前后 → 睡前，各一段。",t:"突出\"固定习惯＋能自己管理\"，让老师看到自律。",en:"A typical day for me looks like this...",lv:1,trap:0},{c:"family",q:"父母对你有什么期望？你怎么看？",f:"讲期望 → 讲自己的理解 → 讲你正在努力的方向。",t:"不必迎合，可以说\"期望很高，我会尽力，也会和自己比\"。",en:"My parents expect me to...",lv:2,trap:1},{c:"hobby",q:"你有什么兴趣？为什么喜欢？",f:"兴趣 → 什么时候开始 → 一件投入的经历 → 它带给你的收获。",t:"选一个能讲细节的，别把清单念一遍。",en:"My main hobby is... and I started...",lv:1,trap:0},{c:"hobby",q:"介绍一本你喜欢的书，以及书里你喜欢的人物。",f:"书名＋一句内容 → 人物 → 用一个成语形容他并解释。",t:"提前备好一本真读过的书，能答细节才不会被追问卡住。",en:"A book I really enjoyed is...",lv:2,trap:0},{c:"hobby",q:"你平时喜欢读哪类书？为什么？",f:"一类书 → 一个具体例子 → 读后你做过或想过什么。",t:"说得出书名和情节，比\"我喜欢故事书\"扎实得多。",en:"I usually read... because...",lv:1,trap:0},{c:"hobby",q:"你喜欢哪个中国传统节日？为什么？",f:"节日 → 一个家庭或社区的具体做法 → 这个节日对你的意义。",t:"能联系自家经历（包饺子、行花街）最自然。",en:"My favourite festival is...",lv:1,trap:0},{c:"hobby",q:"怎样让年轻人愿意欣赏粤剧／传统文化？",f:"先认同一个难点 → 提两个具体做法（如短视频、校园体验）→ 讲为什么可行。",t:"开放题，重点是\"具体可操作\"，别说空话\"加强推广\"。",en:"One way to attract young people is...",lv:3,trap:0},{c:"exp",q:"参加过什么比赛？分享一次经历。",f:"背景 → 你的角色 → 遇到的困难 → 怎么解决 → 结果。",t:" STAR 结构：情境、任务、行动、结果。结果不理想也能讲，重点在学到什么。",en:"I once took part in...",lv:2,trap:0},{c:"exp",q:"分享一次帮助别人的经历和感受。",f:"对方遇到什么 → 你做了什么 → 结果 → 你的感受。",t:"真实的小事最好，别编\"见义勇为\"。",en:"I remember helping someone when...",lv:1,trap:0},{c:"exp",q:"分享一次你做错事或事后反省的经历。",f:"做错什么（简述）→ 怎么发现问题 → 你做的补救 → 之后改了什么。",t:"这题看诚实。过错要小、反思要真、行动要具体。",en:"I once made a mistake when...",lv:2,trap:1},{c:"exp",q:"以\"一件令我难忘的事\"为题，作一分钟短讲。",f:"一件事 → 当时的画面 → 为什么难忘 → 对你的影响。",t:"短讲最忌流水账，锁定一个场景讲细节。",en:"An unforgettable moment for me was...",lv:2,trap:0},{c:"exp",q:"除学校活动外，你参与过哪些公益或服务？",f:"活动 → 你承担的部分 → 服务了谁 → 你的体会。",t:"没有正式义工也可讲班级服务、社区帮忙，重点是行动。",en:"I have taken part in community service...",lv:2,trap:0},{c:"school",q:"你最喜欢哪个科目？分享一次课堂经历。",f:"科目 → 喜欢的原因 → 一次具体课堂（做了什么）→ 收获。",t:"别只说\"因为简单\"，讲一次让你投入的课更有说服力。",en:"My favourite subject is...",lv:1,trap:0},{c:"school",q:"在老师眼中你是怎样的学生？",f:"一个评价 → 一件对应的事 → 你想保持或改进的地方。",t:"借老师的视角夸自己，但要举得出事。",en:"My teachers would say I am...",lv:2,trap:0},{c:"school",q:"你平时怎样和同学相处？",f:"一个原则（如尊重、守时）→ 一件体现的事 → 遇到困难怎么处理。",t:"考的是社交能力，给出\"具体原则＋例子\"。",en:"I get along with classmates by...",lv:1,trap:0},{c:"school",q:"遇到不明白的功课，你会怎么处理？",f:"先自己尝试 → 再问谁（同学／老师）→ 怎么确认真的懂了。",t:"展示主动解决问题的步骤，别答\"等老师讲\"。",en:"When I do not understand, I first...",lv:1,trap:0},{c:"school",q:"你有没有为自己定过学习目标？怎么达成？",f:"目标 → 为什么定 → 分几步做 → 结果和调整。",t:"目标要具体（如每天读 20 分钟），别只说\"考好试\"。",en:"I set a goal to... and worked towards it by...",lv:2,trap:0},{c:"school",q:"如果学校推行环保计划，你会提什么建议？",f:"一个具体建议 → 怎么做 → 为什么有效。",t:"建议要落地（分类回收、旧书交换），别喊口号。",en:"I would suggest... because...",lv:2,trap:0},{c:"motive",q:"你按什么原则选择中学？",f:"两三个标准（如教学语言、课程、通勤）→ 各一句原因。",t:"说自己的真实考量，不必每台都夸\"贵校最好\"。",en:"I chose schools based on...",lv:2,trap:0},{c:"motive",q:"为什么想入读本校？如果列第一志愿，原因是什么？",f:"一个具体特色（课程／活动／设施）→ 和你兴趣的连接 → 你想贡献什么。",t:"提前查学校官网，说出别的学校没有的细节才真诚。",en:"I want to join this school because...",lv:2,trap:1},{c:"motive",q:"你有哪些强项，值得学校取录你？",f:"一项强项 → 一件证明的事 → 进校后能怎么参与。",t:"强项要\"对学校有用\"，如主持、运动、编程，不要自吹。",en:"I can contribute to this school through...",lv:2,trap:1},{c:"motive",q:"如果所有学校都取录你，你会怎样选择？",f:"承认是好事 → 讲你的排序标准 → 表达对当下的重视。",t:"经典陷阱题。别贬低其他学校，讲\"我会按…标准认真决定\"。",en:"It would be a difficult but happy choice...",lv:3,trap:1},{c:"motive",q:"从中文小学升读英文中学，会遇到什么困难？怎么适应？",f:"说一两个真实困难（英文授课、术语）→ 具体适应办法 → 求助渠道。",t:"诚实面对差距＋给出行动计划，比说\"没问题\"更可信。",en:"I expect challenges such as... and will adapt by...",lv:3,trap:0},{c:"motive",q:"如果成功入读，未来一年有什么计划？",f:"学业一个目标 → 课外一个目标 → 怎么执行。",t:"具体可行就好，别列宏大计划。",en:"In my first year, I plan to...",lv:2,trap:0},{c:"moral",q:"小组报告有同学不出力，你会怎么处理？",f:"先了解原因 → 私下沟通分工 → 必要时告诉老师。",t:"考合作与沟通，别一上来就告状或自己全扛。",en:"I would first talk to the member to understand...",lv:3,trap:0},{c:"moral",q:"考试时看见好朋友作弊，你会怎么做？",f:"不当场声张 → 考后私下劝 → 屡犯则告诉老师。",t:"既守法又顾友情。别答\"假装没看见\"。",en:"I would not expose them on the spot, but...",lv:3,trap:1},{c:"moral",q:"在地上拾到一百元，你会怎么处理？",f:"原地等／交失物招领 → 想办法找失主 → 说明为何不私拿。",t:"这题几乎只看诚实，答得简单清楚即可。",en:"I would hand it in to...",lv:1,trap:0},{c:"moral",q:"有同学受排挤，你会怎么做？",f:"先关心当事人 → 主动邀请加入 → 必要时求助老师。",t:"展示同理心＋具体行动，别只说\"我会报告老师\"。",en:"If someone is left out, I would...",lv:2,trap:0},{c:"moral",q:"你不同意老师的看法时，会怎么处理？",f:"先听完 → 有礼貌提出自己的理由 → 接受最终决定。",t:"考的是尊重与表达平衡，别答\"坚持到底不改\"。",en:"I would listen first, then politely share...",lv:2,trap:0},{c:"moral",q:"有同学认为成绩比品德重要，你同意吗？",f:"先表态 → 给理由（两者关系）→ 举例说明。",t:"观点题用\"先表态—讲理由—举例子—收尾\"。",en:"I believe both matter because...",lv:2,trap:0},{c:"moral",q:"你有没有被欺负的经验？怎么处理？",f:"简述情况 → 当时的应对（求助大人）→ 结果和反思。",t:"若没有可直说没有，并讲\"若遇到会求助\"。别编造。",en:"If I were bullied, I would seek help from...",lv:2,trap:1},{c:"tech",q:"你平时用手机做什么？怎样控制使用时间？",f:"用途 → 一条自我管理规则 → 效果。",t:"展示自律是关键，别只讲\"用来打游戏\"。",en:"I use my phone mainly for... and limit it by...",lv:1,trap:0},{c:"tech",q:"你认为网络对人际沟通有什么影响？",f:"一个好处＋一个坏处 → 你自己的做法。",t:"两面都讲再落到\"我怎么做\"，比单向批评成熟。",en:"The internet has both benefits and drawbacks...",lv:2,trap:0},{c:"tech",q:"网上认识的新朋友，可靠吗？",f:"先讲风险 → 讲保护自己的规则 → 讲什么情况下可以。",t:"安全题，答出\"不透露个人信息、不单独见面\"。",en:"I would be careful because...",lv:2,trap:0},{c:"tech",q:"电子课本取代纸质书，你支持吗？",f:"表态 → 各讲一利一弊 → 你的结论。",t:"开放题，讲得出\"护眼／携带／笔记\"等具体点更好。",en:"I partly agree because...",lv:3,trap:0},{c:"tech",q:"人工智能有什么好处和坏处？会取代人的工作吗？",f:"一利一弊 → 讲\"能辅助但难取代\"的理由 → 你打算怎么用它。",t:"热点题，别背新闻，用你自己的观察举例。",en:"AI can help us by..., but it cannot...",lv:3,trap:0},{c:"tech",q:"如果要在电脑、手机、电视中舍弃一样，你舍哪样？",f:"选一样 → 讲原因 → 讲留下的两样怎么补足。",t:"没有标准答案，逻辑自洽最重要。",en:"I would give up... because...",lv:2,trap:0},{c:"society",q:"分享一则最近令你印象深刻的新闻，以及它对你的影响。",f:"新闻一句话 → 为什么记住 → 对你的影响。",t:"准备一两则正面、你真看懂的本地新闻，别临场编。",en:"A recent news story that impressed me was...",lv:3,trap:0},{c:"society",q:"香港人口老化会带来什么问题？",f:"两个问题（如照顾、劳动力）→ 一个你做得到的应对。",t:"讲具体，落到\"年轻人能做什么\"。",en:"An ageing population may lead to...",lv:3,trap:0},{c:"society",q:"你认为香港可以怎样发展旅游？",f:"一个特色 → 一个具体做法 → 预期效果。",t:"开放题，结合你知道的地方特色讲。",en:"Hong Kong could promote tourism by...",lv:3,trap:0},{c:"society",q:"你会向外地朋友介绍香港哪些景点？为什么？",f:"一两个地方 → 各自的特色 → 你的亲身经历。",t:"选你真去过的，讲细节。",en:"I would show my friend...",lv:1,trap:0},{c:"society",q:"怎样改善贫富差距／不同家庭学生的学习差距？",f:"说一个原因 → 说一个具体做法（如社区资源、课后支援）→ 讲可行性。",t:"敏感题，讲\"教育机会\"这种具体可控的角度最稳。",en:"One practical way is to...",lv:3,trap:1},{c:"society",q:"你认为香港最大的环境问题是什么？有什么改善建议？",f:"一个问题 → 成因 → 一个个人＋一个社会层面的做法。",t:"落到自己能做的小事，别只谈政策。",en:"A major environmental issue is...",lv:2,trap:0},{c:"edu",q:"你认为学生上学应否穿校服？",f:"表态 → 两点理由 → 回应反方。",t:"观点题模板：表态—理由—反方—结论。",en:"I think students should wear uniforms because...",lv:2,trap:0},{c:"edu",q:"有人觉得香港小学生太辛苦，你认同吗？",f:"表态 → 讲你自己的作息例子 → 你的结论。",t:"用自己的经历作证，比空谈\"学业压力\"真实。",en:"From my own experience...",lv:2,trap:0},{c:"edu",q:"应否取消暑假？",f:"表态 → 一个支持理由＋一个反对理由 → 结论。",t:"两面都讲，最后给折中方案更成熟。",en:"I believe summer holidays are important because...",lv:2,trap:0},{c:"edu",q:"小学生上补习班，你赞成吗？",f:"表态 → 讲\"适度\"和\"过度\"的区别 → 你自己的做法。",t:"别一味否定或肯定，讲轻重缓急。",en:"Private tutoring can help if...",lv:2,trap:1},{c:"edu",q:"如果中一不设考试，只凭平日功课评分，你赞成吗？",f:"表态 → 一个好处一个隐忧 → 折中建议。",t:"考思考的成熟度，给\"持续评估＋少量测验\"这类中肯方案。",en:"Continuous assessment is good, but...",lv:3,trap:0},{c:"idea",q:"如果用一种动物形容自己，你会选什么？",f:"动物 → 一个对应的特点 → 一件印证的事。",t:"选有弹性的动物（如\"水獭：爱玩但专注\"），能讲得有趣。",en:"I would choose... because...",lv:2,trap:0},{c:"idea",q:"如果用一种动物代表香港，你会选什么？",f:"动物 → 一个城市特点 → 一句解释。",t:"没有标准答案，讲得出\"勤奋、多元\"等理由即可。",en:"I would choose... to represent Hong Kong...",lv:2,trap:0},{c:"idea",q:"以\"假如我是……\"为题，作一分钟短讲。",f:"选角色 → 一句话设定 → 两件会做的事 → 收尾。",t:"短讲要有一个具体的画面，别天马行空收不回来。",en:"If I were..., I would...",lv:2,trap:0},{c:"idea",q:"假如你有神力，面对贫穷、饥饿、战争、天灾，你先帮哪一类人？",f:"选一类 → 讲为什么最急 → 讲你会怎么做。",t:"没有对错，考的是同理心和理由是否说得通。",en:"I would help... first because...",lv:3,trap:1},{c:"idea",q:"代表香港参加世界美食比赛，你会选哪种食物？",f:"食物 → 它的香港特色 → 你想传达什么。",t:"选有故事的（点心、蛋挞），讲得出\" 이유\"。",en:"I would choose... because it represents...",lv:1,trap:0},{c:"idea",q:"要在电脑、手机、电视中留一样，你留哪样？为什么？",f:"选一样 → 理由 → 它怎么帮你学习或生活。",t:"逻辑自洽＋具体用途，比\"因为喜欢\"好。",en:"I would keep... because...",lv:1,trap:0}
+];
+</script>
+<!-- ============ v2.50 面試題庫 ============ -->
+<div class="wrap" id="inView" style="display:none">
+  <div class="gsec">
+    <div class="gtitle">升中面試 · 常見題與回答框架</div>
+    <span class="folk">題型骨架整理 · 非官方 · 題目均為自有語言改寫，以學校當年公告為準</span>
+    <div class="gcard">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
+        <button type="button" class="btn iv-tab on" data-ivtab="bank">分類題庫</button>
+        <button type="button" class="btn iv-tab" data-ivtab="frame">回答框架</button>
+        <button type="button" class="btn iv-tab" data-ivtab="mock">模擬練習</button>
+        <span id="ivnCount" style="margin-left:auto;font-size:12px;color:var(--muted)"></span>
+      </div>
+      <div id="ivnPaneBank">
+        <div id="ivnCats" class="iv-cats"></div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0">
+          <label style="font-size:12px;color:var(--muted)"><input type="checkbox" id="ivnOnlyFav"> 只看收藏</label>
+          <input type="search" id="ivnSearch" placeholder="搜題目關鍵詞…" style="flex:1;min-width:140px">
+          <button type="button" class="btn" id="ivnShuffle" style="font-size:12px">隨機一題</button>
+        </div>
+        <div id="ivnList"></div>
+      </div>
+      <div id="ivnPaneFrame" style="display:none"></div>
+      <div id="ivnPaneMock" style="display:none">
+        <div class="iv-mock">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <div style="font-size:12px;color:var(--muted)">計時練習 · 抽一題，開口講</div>
+            <div id="ivnTimer" style="font-family:monospace;font-size:20px;font-weight:700">00:00</div>
+          </div>
+          <div id="ivnMockQ" style="margin:14px 0;font-size:16px;line-height:1.6">按「抽題」開始</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn" id="ivnMockDraw">抽題</button>
+            <button type="button" class="btn" id="ivnMockStart">開始計時</button>
+            <button type="button" class="btn" id="ivnMockHintBtn">看框架提示</button>
+          </div>
+          <div id="ivnMockHint" style="display:none;margin-top:12px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- ============ 升學規劃（插班思路） ============ -->
 <div id="planView">
   <div class="subnav" id="planSub">
@@ -8698,13 +8772,132 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   document.getElementById('mathPracView').style.display = curPractice==='math'?'block':'none';
   document.getElementById('tutorView').style.display = curPractice==='tutor'?'block':'none';
   document.getElementById('papersView').style.display = curPractice==='papers'?'block':'none';
+  var _iv=document.getElementById('inView'); if(_iv)_iv.style.display = curPractice==='inview'?'block':'none';
   if(curPractice==='en'){renderHk();renderVocab();}
+  if(curPractice==='inview'&&window.__intrTest)window.__intrTest.render();
   if(curPractice==='sched')schRender();
   if(curPractice==='wrong'&&typeof wrongRender==='function')wrongRender();
   if(curPractice==='papers')pfRender();
 });
 window.__schedTest={items:SCH_ITEMS,week:SCH_WEEK,get:schGet,key:schKey,render:schRender,toggle:schToggle,dayIdx:schDayIdx};
 schRender(); // v1.90 開頁即渲染（sched 為練習默認子頁）
+
+// ---- v2.50 面試題庫引擎（資料只存本機 hkk_intr_v0，公開頁零預置）----
+(function(){
+  var KEY='hkk_intr_v0', fav={}, cat='all', onlyFav=false, kw='', mockQ=null, timer=null, secs=0;
+  var d=document;
+  function esc(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function load(){try{fav=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){fav={};}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(fav));}catch(e){}}
+  function catName(id){for(var i=0;i<INTR_CATS.length;i++)if(INTR_CATS[i].id===id)return INTR_CATS[i].name;return id;}
+  function filtered(){
+    return INTR_QBANK.filter(function(q,i){
+      if(cat!=='all'&&q.c!==cat)return false;
+      if(onlyFav&&!fav[i])return false;
+      if(kw&&(q.q+catName(q.c)).toLowerCase().indexOf(kw.toLowerCase())<0)return false;
+      return true;
+    });
+  }
+  function renderCats(){
+    var box=d.getElementById('ivnCats'); if(!box)return;
+    var h='<button type="button" class="chip'+(cat==='all'?' on':'')+'" data-ic="all">全部 '+INTR_QBANK.length+'</button>';
+    INTR_CATS.forEach(function(c){
+      var n=INTR_QBANK.filter(function(q){return q.c===c.id;}).length;
+      h+='<button type="button" class="chip'+(cat===c.id?' on':'')+'" data-ic="'+esc(c.id)+'">'+esc(c.name)+' '+n+'</button>';
+    });
+    box.innerHTML=h;
+    box.querySelectorAll('button[data-ic]').forEach(function(b){b.onclick=function(){cat=b.dataset.ic;render();};});
+  }
+  function renderList(){
+    var box=d.getElementById('ivnList'); if(!box)return;
+    var rows=filtered(), out='';
+    if(!rows.length){box.innerHTML='<div style="color:var(--muted);font-size:13px;padding:10px">沒有符合的題目</div>';return;}
+    rows.forEach(function(q){
+      var idx=INTR_QBANK.indexOf(q), star=fav[idx]?'★':'☆';
+      var lvTxt=q.lv===1?'基礎':q.lv===2?'中等':'較難';
+      out+='<div class="iv-q" data-ii="'+idx+'">'
+        +'<div class="iv-qh"><span class="iv-qn">'+(idx+1)+'.</span><div class="iv-qt">'+esc(q.q)+'</div></div>'
+        +'<div class="iv-meta"><span class="iv-tag">'+esc(catName(q.c))+'</span><span class="iv-tag">'+lvTxt+'</span>'
+        +(q.trap?'<span class="iv-tag trap">陷阱題</span>':'')
+        +'<span class="iv-tag fw">有框架</span><span class="iv-tag en">EN 提示</span></div>'
+        +'<div class="iv-act"><button type="button" class="btn iv-hintbtn">看回答框架</button>'
+        +'<button type="button" class="btn iv-favbtn'+(fav[idx]?' iv-fav':'')+'">'+star+' 收藏</button>'
+        +'<button type="button" class="btn iv-mockbtn">模擬這題</button></div>'
+        +'<div class="iv-hint"><b>回答框架</b>'+esc(q.f)+'<br><b>思路提示</b>'+esc(q.t)+'<br><b>英文開場</b><span class="iv-en">'+esc(q.en)+'</span></div>'
+        +'</div>';
+    });
+    box.innerHTML=out;
+    box.querySelectorAll('.iv-q').forEach(function(card){
+      var i=parseInt(card.dataset.ii,10), q=INTR_QBANK[i];
+      card.querySelector('.iv-hintbtn').onclick=function(){
+        var hint=card.querySelector('.iv-hint');
+        hint.style.display=hint.style.display==='block'?'none':'block';
+      };
+      card.querySelector('.iv-favbtn').onclick=function(){fav[i]?delete fav[i]:fav[i]=1;save();render();};
+      card.querySelector('.iv-mockbtn').onclick=function(){goMock(q);};
+    });
+  }
+  var FRAMES=[
+    ['自我介紹 · 三段式','① 一句身份：姓名＋年級','② 一個特點＋一件小事證明','③ 一項興趣＋堅持了多久','收尾：一句期待（可選）'],
+    ['情境題 · 做法先行','① 先講你當場怎麼做（冷靜／先了解）','② 講為什麼這樣做（原因／原則）','③ 講結果或你學到什麼','切記：別一上來就告狀或情緒化'],
+    ['觀點題 · 先表態','① 先講你同不同意','② 一個支持理由＋一個具體例子','③ 簡單回應反方，「不過…」','④ 收尾重申立場'],
+    ['創意題 · 具體化','① 選一個對象並一句話設定','② 講一個對應特點','③ 用一件小事印證','切記：邏輯自洽比天馬行空重要']
+  ];
+  function renderFrames(){
+    var box=d.getElementById('ivnPaneFrame'); if(!box)return;
+    var h='<div style="font-size:13px;color:var(--muted);margin-bottom:10px">四套通用框架，考前掃一遍。面試最忌背逐字稿——照框架用自己的話講。</div>';
+    FRAMES.forEach(function(f){
+      h+='<div class="iv-frame"><h4>'+esc(f[0])+'</h4>';
+      for(var i=1;i<f.length;i++)h+='<p>'+esc(f[i])+'</p>';
+      h+='</div>';
+    });
+    box.innerHTML=h;
+  }
+  function fmt(s){var m=Math.floor(s/60),ss=s%60;return (m<10?'0':'')+m+':'+(ss<10?'0':'')+ss;}
+  function tick(){secs++;var t=d.getElementById('ivnTimer');if(t)t.textContent=fmt(secs);}
+  function stopTimer(){if(timer){clearInterval(timer);timer=null;}}
+  function goMock(q){
+    mockQ=q;stopTimer();secs=0;
+    var el=d.getElementById('ivnMockQ');if(el)el.textContent=q?q.q:'按「抽題」開始';
+    var t=d.getElementById('ivnTimer');if(t)t.textContent='00:00';
+    var hint=d.getElementById('ivnMockHint');if(hint){hint.style.display='none';hint.innerHTML=q?('<b>回答框架</b>'+esc(q.f)+'<br><b>英文開場</b>'+esc(q.en)):'';}
+    switchTab('mock');
+  }
+  function draw(){var i=Math.floor(Math.random()*INTR_QBANK.length);goMock(INTR_QBANK[i]);}
+  function switchTab(tab){
+    d.querySelectorAll('.iv-tab').forEach(function(b){b.classList.toggle('on',b.dataset.ivtab===tab);});
+    ['bank','frame','mock'].forEach(function(x){
+      var el=d.getElementById('ivnPane'+x.charAt(0).toUpperCase()+x.slice(1));
+      if(el)el.style.display=x===tab?'block':'none';
+    });
+  }
+  function render(){
+    load();
+    var c=d.getElementById('ivnCount');if(c)c.textContent='共 '+INTR_QBANK.length+' 題 · 收藏 '+Object.keys(fav).length;
+    renderCats();renderList();renderFrames();
+  }
+  // 綁定（視圖在 DOM 裡，一次性綁）
+  var tabBar=d.querySelector('.iv-tab');
+  if(tabBar)d.querySelectorAll('.iv-tab').forEach(function(b){b.onclick=function(){switchTab(b.dataset.ivtab);};});
+  var oc=d.getElementById('ivnOnlyFav');if(oc)oc.onclick=function(){onlyFav=oc.checked;renderList();};
+  var se=d.getElementById('ivnSearch');if(se)se.oninput=function(){kw=se.value.trim();renderList();};
+  var sh=d.getElementById('ivnShuffle');if(sh)sh.onclick=function(){var a=filtered();if(!a.length)return;goMock(a[Math.floor(Math.random()*a.length)]);};
+  var md=d.getElementById('ivnMockDraw');if(md)md.onclick=draw;
+  var ms=d.getElementById('ivnMockStart');if(ms)ms.onclick=function(){stopTimer();secs=0;var t=d.getElementById('ivnTimer');if(t)t.textContent='00:00';timer=setInterval(tick,1000);};
+  var mh=d.getElementById('ivnMockHintBtn');if(mh)mh.onclick=function(){var h=d.getElementById('ivnMockHint');if(h)h.style.display=h.style.display==='block'?'none':'block';};
+  render();
+  window.__intrTest={
+    render:render,switchTab:switchTab,draw:draw,goMock:goMock,
+    bank:INTR_QBANK,cats:INTR_CATS,filtered:filtered,
+    favCount:function(){return Object.keys(fav).length;},
+    toggleFav:function(i){fav[i]?delete fav[i]:fav[i]=1;save();render();return !!fav[i];},
+    setCat:function(c){cat=c;render();},setKw:function(k){kw=k;renderList();},
+    setOnlyFav:function(v){onlyFav=!!v;renderList();},
+    timerSecs:function(){return secs;},stopTimer:stopTimer,
+    clear:function(){fav={};try{localStorage.removeItem(KEY);}catch(e){}render();}
+  };
+})();
+
 // ---- v2.08 錯題本：四種卷批改自動歸檔（hkk_wrong_v0，hkk_ 前綴跟賬號隔離）----
 // 設計：只存「可用文字複習的欄位」（題幹／我的答案／正確答案／講解），不存原始題目物件，
 // 換版本後舊錯題仍能顯示；同一題（科目＋年級＋題幹雜湊）再錯只累計次數、不重複收錄。
@@ -11609,7 +11802,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.49',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.50',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
