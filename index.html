@@ -22,6 +22,9 @@
   .subnav{display:flex;gap:6px;padding:8px 16px;background:#f0f4fb;border-bottom:1px solid var(--line);position:sticky;top:53px;z-index:5;flex-wrap:wrap}
   .subnav button{padding:6px 14px;border:1px solid var(--line);background:#fff;border-radius:18px;font-size:13px;cursor:pointer;color:var(--ink)}
   .subnav button.on{background:var(--math);color:#fff;border-color:var(--math)}
+  /* v2.54 子目錄第二行：父頁籤展開用，flex-basis:100% 原地換行，不動全域 class */
+  #enSubRow2{flex:1 1 100%;display:none;gap:6px;flex-wrap:wrap}
+  #enSubWords,#enSubPapers{display:none;gap:6px;flex-wrap:wrap}
   .wrap{max-width:900px;margin:0 auto;padding:16px}
   .tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center}
   .chip{padding:6px 12px;border:1px solid var(--line);border-radius:20px;background:#fff;cursor:pointer;font-size:13px}
@@ -1289,6 +1292,8 @@ nav button{flex:0 0 auto;min-height:44px;padding:10px 16px}
 .subnav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start;scrollbar-width:none}
 .subnav::-webkit-scrollbar{display:none}
 .subnav button{flex:0 0 auto;min-height:44px;padding:10px 16px}
+#enPracSub{flex-wrap:wrap;overflow-x:visible}
+#enSubRow2{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start}
 #userChip button{min-height:44px;min-width:44px;padding:6px 14px;font-size:13px}
 header{padding:20px 14px 16px}
 header h1{font-size:19px;margin-top:52px}
@@ -1338,13 +1343,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.53
+    © 叶工 SteveHKSZ · 公開版 v2.54
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.53</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.54</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1627,7 +1632,7 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
     <!-- v2.21：說明隨子頁籤切換，切到對照表時不再看到寫死給「背古詩」的說明 -->
     <div id="cnPracTips">
       <p class="tip" data-cstip="star" style="margin:0 0 10px">「背古詩」＝<b>背詩星圖</b>（185 首按年級分 7 段點亮，看整體進度）＋<b>古詩詞列表</b>（繁體＋拼音＋粵拼全文）＋<b>一首詩四步</b>（聽讀 → 看譯文 → 遮字背誦 → 抽查）。想練做卷請切到「中文試卷」。</p>
-      <p class="tip" data-cstip="cnpaper" style="margin:0 0 10px;display:none">「中文試卷」＝<b>本站原創仿題型</b>（小二／小五／小六），可出新卷、AI 出新卷、交卷批改；題目、篇章、選項與答案全部本站原創，非任何機構真卷。</p>
+      <p class="tip" data-cstip="cnpaper" style="margin:0 0 10px;display:none">「中文試卷」＝<b>本站原創仿題型</b>（小一至小六，按年級難度遞進），可出新卷、AI 出新卷、交卷批改；題目、篇章、選項與答案全部本站原創，非任何機構真卷。</p>
       <p class="tip" data-cstip="cnschool" style="margin:0 0 10px;display:none">「校卷題型」＝<b>小六十部分全卷模擬</b>（填充→成語→標點→排句→改寫→標點選→修辭→縮句→段義→閱讀甲乙），可出新卷、交卷批改、列印含答案版；題目與篇章全部本站原創，非任何學校真卷。</p><p class="tip" data-cstip="cnps" style="margin:0 0 10px;display:none">「呈分模擬」＝<b>小六中文呈分試模擬 · 5 套固定卷</b>（甲部兩篇章閱讀＋乙部語文基礎十小節），每套附<b>參考答案</b>，可交卷批改（機改 56 分）、列印含答案版（自評 44 分由家長對照評分）；題目與篇章全部本站原創，非任何學校真卷。</p>
       <p class="tip" data-cstip="zibook" style="margin:0 0 10px;display:none">「我的生字本」＝把不會認的繁體字收進來，切「翻卡複習」遮著認、認得打勾；<b>只存本瀏覽器、跟賬號走，不會上傳</b>。</p>
       <p class="tip" data-cstip="ft" style="margin:0 0 10px;display:none">「繁體對照」＝<b>簡→繁高頻對照表</b>（分 P1–P6），用來查字、不用來背；一簡對多繁（发→發/髮、里→裡/裏）按詞義選。想練「認得快」用隔壁「繁體認讀」的翻卡。</p>
@@ -1662,10 +1667,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
     </div>
     <!-- v1.82 中文卷：題型結構仿評考局公開框架，題目全部本站原創 -->
     <div id="cnPaperView" style="display:none">
-      <div class="gtitle">中文試卷 · 小二／小五／小六（本站原創仿題型）</div>
+      <div class="gtitle">中文試卷 · 小一至小六（本站原創仿題型）</div>
       <span class="folk">題型結構參考香港考評局公開的評估框架（閱讀＝記敘／說明文＋實用文；寫作＝實用文＋短文）；<b>全部題目、篇章、選項與答案均為本站原創</b>，非任何機構、學校或出版社真卷。</span>
       <div class="pg-chips" id="cngChips">
+        <span class="chip" data-pg="P1">小一 P1</span>
         <span class="chip on" data-pg="P2">小二 P2</span>
+        <span class="chip" data-pg="P3">小三 P3</span>
+        <span class="chip" data-pg="P4">小四 P4</span>
         <span class="chip" data-pg="P5">小五 P5</span>
         <span class="chip" data-pg="P6">小六 P6</span>
       </div>
@@ -1827,19 +1835,28 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
       <!-- v1.69：子頁按「學習動線」重排——總覽（該背多少/怎麼背）→ 詞彙輸入（分級詞卡＋通用詞表）→ 筆試輸出（練習卷→模擬卷）→ 口語輸出（面試）。
            DOM 內各子頁 div 的物理順序未動（切換靠 display 控制），按鈕順序即用戶可見順序。 -->
       <button data-es="goal" class="on">詞彙路線圖</button>
-      <button data-es="hk">中小學單詞</button>
-      <button data-es="vocab">詞表</button>
-      <button data-es="mywords">我的單詞本</button>
-      <button data-es="wb">某文單詞本</button>
+      <!-- v2.54 子目錄：單詞類收進「我的單詞本」父頁籤（點父＝本尊），試卷類收進「試卷」父頁籤；
+           子 chip 仍在本容器內，__hkkGo 與 enGoSub 的既有查詢零改動 -->
+      <button data-es="grpwords" class="esgrp">我的單詞本</button>
       <!-- v1.92：課文配套——按單元主題另寫的原創短文＋判分題（零課本原文） -->
       <button data-es="text">課文配套</button>
-      <button data-es="paper">英文卷</button>
-      <button data-es="exam">呈分試卷</button>
-      <!-- v1.89：時態與題型——補「過去式反覆練＋香港常見題型首次見面」，插在筆試輸出（卷）之後、口語輸出（面試）之前 -->
-      <!-- v2.35：校卷題型——按校內測驗卷骨架出全卷（原創題），插在呈分試卷之後 -->
-      <button data-es="school">校卷題型</button>
+      <button data-es="grppapers" class="esgrp">試卷</button>
+      <!-- v1.89：時態與題型——補「過去式反覆練＋香港常見題型首次見面」，插在試卷組之後、口語輸出（面試）之前 -->
       <button data-es="drill">時態與題型</button>
       <button data-es="iv">升中面試</button>
+      <div id="enSubRow2">
+        <div id="enSubWords">
+          <button data-es="mywords">單詞本</button>
+          <button data-es="hk">中小學單詞</button>
+          <button data-es="vocab">詞表</button>
+          <button data-es="wb">某文單詞本</button>
+        </div>
+        <div id="enSubPapers">
+          <button data-es="paper">英文卷</button>
+          <button data-es="exam">呈分試卷</button>
+          <button data-es="school">校卷題型</button>
+        </div>
+      </div>
     </div>
     <div id="hkView" style="display:none">
       <div class="tools">
@@ -47470,6 +47487,311 @@ const EN_EDB = {
    題型框架依據（官方公開資料）：閱讀＝記敘／說明文＋實用文（選擇、填充、填表、短答）；
    寫作＝實用文（書信／日記格式）＋短文。 */
 const CN_QBANK = {
+ "P1": {
+  "mc": [
+   {
+    "t": "mc",
+    "sec": "字詞",
+    "q": "「太陽」的「陽」，正確的字是哪一个？",
+    "opts": [
+     "陽",
+     "洋",
+     "羊",
+     "揚"
+    ],
+    "a": 0,
+    "ex": "「太陽」的「陽」是左耳旁加「日」。"
+   },
+   {
+    "t": "mc",
+    "sec": "字詞",
+    "q": "「一（　）小貓」括號裏應填哪個量詞？",
+    "opts": [
+     "本",
+     "隻",
+     "條",
+     "個"
+    ],
+    "a": 1,
+    "ex": "小動物用「隻」：一隻小貓。"
+   },
+   {
+    "t": "mc",
+    "sec": "字詞",
+    "q": "「三（　）蘋果」括號裏應填哪個量詞？",
+    "opts": [
+     "個",
+     "隻",
+     "條",
+     "棵"
+    ],
+    "a": 0,
+    "ex": "水果通常用「個」：三個蘋果。"
+   },
+   {
+    "t": "mc",
+    "sec": "字詞",
+    "q": "「一（　）魚」括號裏應填哪個量詞？",
+    "opts": [
+     "隻",
+     "條",
+     "本",
+     "張"
+    ],
+    "a": 1,
+    "ex": "魚用「條」：一條魚。"
+   },
+   {
+    "t": "mc",
+    "sec": "字詞",
+    "q": "下面哪一個字是「上」的相反詞？",
+    "opts": [
+     "大",
+     "下",
+     "小",
+     "中"
+    ],
+    "a": 1,
+    "ex": "「上」和「下」是一對相反詞。"
+   },
+   {
+    "t": "mc",
+    "sec": "字詞",
+    "q": "下面哪一個字是「大」的相反詞？",
+    "opts": [
+     "多",
+     "小",
+     "高",
+     "長"
+    ],
+    "a": 1,
+    "ex": "「大」和「小」是一對相反詞。"
+   },
+   {
+    "t": "mc",
+    "sec": "標點",
+    "q": "「你叫甚麼名字」這句問話，句末應該用哪個標點？",
+    "opts": [
+     "。",
+     "？",
+     "！",
+     "，"
+    ],
+    "a": 1,
+    "ex": "問句子的末尾用問號。"
+   },
+   {
+    "t": "mc",
+    "sec": "標點",
+    "q": "「多漂亮的花啊」這句感歎，句末應該用哪個標點？",
+    "opts": [
+     "。",
+     "？",
+     "！",
+     "、"
+    ],
+    "a": 2,
+    "ex": "表示讚歎、感情的句子末尾用歎號。"
+   },
+   {
+    "t": "mc",
+    "sec": "句子",
+    "q": "「小鳥在天上（　）。」括號裏哪個詞最合適？",
+    "opts": [
+     "遊",
+     "飛",
+     "跑",
+     "跳"
+    ],
+    "a": 1,
+    "ex": "小鳥在天上「飛」最合適。"
+   },
+   {
+    "t": "mc",
+    "sec": "句子",
+    "q": "「我（　）學校上學。」括號裏哪個詞最合適？",
+    "opts": [
+     "到",
+     "在",
+     "從",
+     "向"
+    ],
+    "a": 0,
+    "ex": "「到學校上學」表示去學校。"
+   },
+   {
+    "t": "mc",
+    "sec": "句子",
+    "q": "「媽媽買了（　）蘋果。」哪個數詞最合適？",
+    "opts": [
+     "隻",
+     "三",
+     "條",
+     "棵"
+    ],
+    "a": 1,
+    "ex": "「三」是數詞，其餘是量詞或其他詞。"
+   },
+   {
+    "t": "mc",
+    "sec": "閱讀",
+    "q": "「弟弟把玩具送給了朋友。」這句話裏，弟弟是怎樣的孩子？",
+    "opts": [
+     "小氣",
+     "大方、願意分享",
+     "調皮",
+     "怕羞"
+    ],
+    "a": 1,
+    "ex": "願意把玩具送人，説明弟弟懂得分享。"
+   }
+  ],
+  "fill": [
+   {
+    "t": "fill",
+    "sec": "字詞",
+    "q": "「一（　）小狗」填一個量詞：__________",
+    "a": "隻",
+    "ex": "小狗用「隻」。"
+   },
+   {
+    "t": "fill",
+    "sec": "字詞",
+    "q": "「（　）亮的天氣，適合去公園。」填一個表示天氣的字：__________",
+    "a": "晴|明",
+    "ex": "「晴朗／明亮」都形容好天氣。"
+   },
+   {
+    "t": "fill",
+    "sec": "句子",
+    "q": "「小貓（　）在椅子上睡覺。」填一個表示動作的字：__________",
+    "a": "趴|躺|坐",
+    "ex": "答案不唯一，寫出小貓睡覺的動作即可。"
+   },
+   {
+    "t": "fill",
+    "sec": "句子",
+    "q": "請寫出「大」的相反詞：__________",
+    "a": "小",
+    "ex": "「大」的相反詞是「小」。"
+   }
+  ],
+  "read": [
+   {
+    "id": "p1r1",
+    "kind": "記敘文",
+    "title": "小雞黃黃",
+    "text": [
+     "母雞媽媽有一隻小雞，名叫黃黃。黃黃的毛是黃色的，像一團小棉球。",
+     "有一天，黃黃跟着媽媽到院子裏找食物。黃黃看見一條小蟲，高興地跑過去。",
+     "小蟲鑽進了泥土裏。黃黃用小小的腳刨呀刨，終於把小蟲找出來了。",
+     "媽媽説：「黃黃真能幹！」黃黃聽了，咯咯地叫了幾聲，十分開心。"
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "sec": "閱讀",
+      "q": "黃黃的毛是甚麼顏色？",
+      "opts": [
+       "紅色",
+       "黃色",
+       "黑色",
+       "白色"
+      ],
+      "a": 1,
+      "ex": "第一句寫「黃黃的毛是黃色的」。"
+     },
+     {
+      "t": "mc",
+      "sec": "閱讀",
+      "q": "黃黃在院子裏找到了甚麼？",
+      "opts": [
+       "一粒米",
+       "一條小蟲",
+       "一個蘋果",
+       "一朵花"
+      ],
+      "a": 1,
+      "ex": "文中寫黃黃看見一條小蟲，並把它找出來。"
+     },
+     {
+      "t": "short",
+      "sec": "閱讀",
+      "q": "媽媽為甚麼誇黃黃能幹？寫一句。",
+      "a": "找到小蟲|刨出小蟲|自己找食物|努力",
+      "ex": "答到「自己努力找出小蟲／找到食物」即可。"
+     }
+    ]
+   },
+   {
+    "id": "p1u1",
+    "kind": "實用文",
+    "title": "留給媽媽的字條",
+    "text": [
+     "媽媽：",
+     "我放學回家了。我在做功課。",
+     "晚飯我會自己先吃。",
+     "小文"
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "sec": "實用文",
+      "q": "這張字條是寫給誰的？",
+      "opts": [
+       "老師",
+       "媽媽",
+       "同學",
+       "弟弟"
+      ],
+      "a": 1,
+      "ex": "字條開頭寫「媽媽：」，是寫給媽媽的。"
+     },
+     {
+      "t": "mc",
+      "sec": "實用文",
+      "q": "小文回家後要做甚麼？",
+      "opts": [
+       "看電視",
+       "做功課",
+       "睡覺",
+       "去公園"
+      ],
+      "a": 1,
+      "ex": "字條寫「我在做功課」。"
+     },
+     {
+      "t": "filltbl",
+      "sec": "實用文",
+      "q": "按字條內容填寫下列資料。",
+      "table": [
+       "寫字條的人",
+       "收字條的人",
+       "回家後做的事"
+      ],
+      "a": "小文|媽媽|做功課",
+      "ex": "資料直接取自字條。"
+     }
+    ]
+   }
+  ],
+  "write": [
+   {
+    "t": "write",
+    "sec": "寫作",
+    "kind": "實用文",
+    "prompt": "今天是你朋友的生日。請寫一張生日卡給他／她。（部分格式已提供）",
+    "hint": "稱謂：親愛的____：　　正文：寫生日快樂和一句祝福　　署名：你的名字"
+   },
+   {
+    "t": "write",
+    "sec": "寫作",
+    "kind": "短文",
+    "prompt": "請寫幾句話，介紹你最喜歡的一種動物。（字數不限）",
+    "hint": "可以寫：牠叫甚麼、長甚麼樣子、喜歡做甚麼、你為甚麼喜歡牠。"
+   }
+  ]
+ },
  "P2": {
   "mc": [
    {
@@ -47833,6 +48155,608 @@ const CN_QBANK = {
     "kind": "短文",
     "prompt": "請寫一篇文章，記述一次你幫手做家務的經過和感受。（字數不限）",
     "hint": "可以寫：甚麼家務、開始時有甚麼困難、家人怎樣表達、做完之後自己的感受。"
+   }
+  ]
+ },
+ "P3": {
+  "mc": [
+   {
+    "t": "mc",
+    "sec": "詞語",
+    "q": "「高興」的近義詞是下面哪一個？",
+    "opts": [
+     "傷心",
+     "快樂",
+     "害怕",
+     "生氣"
+    ],
+    "a": 1,
+    "ex": "「高興」和「快樂」意思相近。"
+   },
+   {
+    "t": "mc",
+    "sec": "詞語",
+    "q": "「寒冷」的反義詞是下面哪一個？",
+    "opts": [
+     "涼快",
+     "炎熱",
+     "溫暖",
+     "冰冷"
+    ],
+    "a": 1,
+    "ex": "「寒冷」和「炎熱」意思相反。"
+   },
+   {
+    "t": "mc",
+    "sec": "詞語",
+    "q": "「他跑得很快」中的「得」用來表示甚麼？",
+    "opts": [
+     "動作的方式",
+     "動作的程度",
+     "所有的人",
+     "過去的時間"
+    ],
+    "a": 1,
+    "ex": "「跑得很快」的「得」表示動作達到的程度。"
+   },
+   {
+    "t": "mc",
+    "sec": "修辭",
+    "q": "「樹上的小鳥在唱歌。」這句用了甚麼修辭？",
+    "opts": [
+     "比喻",
+     "擬人",
+     "排比",
+     "誇張"
+    ],
+    "a": 1,
+    "ex": "把小鳥當人寫（唱歌），是擬人。"
+   },
+   {
+    "t": "mc",
+    "sec": "修辭",
+    "q": "「她的笑臉像一朵花。」這句用了甚麼修辭？",
+    "opts": [
+     "比喻",
+     "擬人",
+     "反問",
+     "設問"
+    ],
+    "a": 0,
+    "ex": "用「像」把笑臉比作花，是比喻。"
+   },
+   {
+    "t": "mc",
+    "sec": "標點",
+    "q": "「我買了鉛筆　橡皮和尺。」括號處應填哪個標點？",
+    "opts": [
+     "，",
+     "、",
+     "。",
+     "？"
+    ],
+    "a": 1,
+    "ex": "並列的詞語之間用頓號。"
+   },
+   {
+    "t": "mc",
+    "sec": "標點",
+    "q": "「你吃飯了嗎（　）」句末應填哪個標點？",
+    "opts": [
+     "。",
+     "！",
+     "？",
+     "，"
+    ],
+    "a": 2,
+    "ex": "問句末尾用問號。"
+   },
+   {
+    "t": "mc",
+    "sec": "句子",
+    "q": "下面哪一句最通順？",
+    "opts": [
+     "我昨天去公園玩得很開心。",
+     "我昨天公園去玩得開心很。",
+     "去公園我昨天玩很開心。",
+     "開心很玩得昨天我去公園。"
+    ],
+    "a": 0,
+    "ex": "詞語順序要合乎「誰—何時—到哪裏—做甚麼」的習慣。"
+   },
+   {
+    "t": "mc",
+    "sec": "句子",
+    "q": "「到處都是垃圾，」接哪一句最合適？",
+    "opts": [
+     "所以大家要愛護環境。",
+     "所以大家要多做運動。",
+     "所以今天天氣很好。",
+     "所以我要去睡覺。"
+    ],
+    "a": 0,
+    "ex": "上半句講垃圾，下半句應接愛護環境。"
+   },
+   {
+    "t": "mc",
+    "sec": "閱讀",
+    "q": "「妹妹把摔倒的同學扶起來。」這句表現妹妹甚麼品質？",
+    "opts": [
+     "勤力",
+     "樂於助人",
+     "聰明",
+     "節儉"
+    ],
+    "a": 1,
+    "ex": "主動扶起同學，表現樂於助人。"
+   },
+   {
+    "t": "mc",
+    "sec": "實用文",
+    "q": "日記的開頭通常要寫上甚麼？",
+    "opts": [
+     "日期和天氣",
+     "學校地址",
+     "老師姓名",
+     "價錢"
+    ],
+    "a": 0,
+    "ex": "日記一般在第一行寫日期、星期和天氣。"
+   }
+  ],
+  "fill": [
+   {
+    "t": "fill",
+    "sec": "詞語",
+    "q": "「美麗」的近義詞是__________。",
+    "a": "漂亮|好看|美觀",
+    "ex": "寫出意思相近的詞即可。"
+   },
+   {
+    "t": "fill",
+    "sec": "詞語",
+    "q": "請寫出一個形容「天氣很冷」的詞語：__________",
+    "a": "寒冷|嚴寒|冰天雪地|寒風刺骨",
+    "ex": "答案不唯一，形容寒冷即可。"
+   },
+   {
+    "t": "fill",
+    "sec": "句子",
+    "q": "「小鳥在枝頭（　）地唱歌。」填一個表示動作方式的字：__________",
+    "a": "快|快樂|高興|歡",
+    "ex": "答案不唯一，「……地」前可填形容動作的詞。"
+   },
+   {
+    "t": "fill",
+    "sec": "句子",
+    "q": "「我今天很開心，（　）我考試得了高分。」填一個表示原因的詞：__________",
+    "a": "因為|因",
+    "ex": "「因為」用來説明原因。"
+   }
+  ],
+  "read": [
+   {
+    "id": "p3r1",
+    "kind": "記敘文",
+    "title": "一把借來的雨傘",
+    "text": [
+     "放學時，天空突然下起大雨。小志沒有帶傘，站在校門口發愁。",
+     "同學美儀走過來，把傘遞給他。「你家比較遠，先拿去用吧。」她説。",
+     "小志愣了一下：「那你呢？」美儀笑着指指自己的帽子：「我戴着這個就夠了。」",
+     "第二天早上，小志把傘還給美儀，還偷偷在傘柄上掛了一顆糖。他沒有説甚麼，美儀也没有問。"
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "sec": "閱讀",
+      "q": "小志為甚麼站在校門口發愁？",
+      "opts": [
+       "忘記做功課",
+       "沒有帶雨傘",
+       "找不到同學",
+       "肚餓"
+      ],
+      "a": 1,
+      "ex": "第一句寫他沒有帶傘。"
+     },
+     {
+      "t": "mc",
+      "sec": "閱讀",
+      "q": "美儀把傘借給小志，説明她是怎樣的人？",
+      "opts": [
+       "自私",
+       "樂於助人",
+       "粗心",
+       "愛炫耀"
+      ],
+      "a": 1,
+      "ex": "她主動把傘讓給別人，表現樂於助人。"
+     },
+     {
+      "t": "short",
+      "sec": "閱讀",
+      "q": "小志在傘柄上掛糖，想表達甚麼？寫一、兩句。",
+      "a": "感謝|謝謝|答謝|美儀|好意|報答",
+      "ex": "答到「感謝美儀幫忙」的意思即可。"
+     },
+     {
+      "t": "short",
+      "sec": "閱讀",
+      "q": "「偷偷」這個詞寫出小志怎樣的心情？",
+      "a": "不好意思|害羞|靦腆|不想張揚|感激",
+      "ex": "「偷偷」寫出他想感謝又不好意思直接説的心情。"
+     }
+    ]
+   },
+   {
+    "id": "p3u1",
+    "kind": "實用文",
+    "title": "圖書角借書規則",
+    "text": [
+     "【班級圖書角借書規則】",
+     "一、每次只可借閱一本書。",
+     "二、借期為一星期，到期可續借一次。",
+     "三、愛護圖書，不要在上面寫字或塗色。",
+     "四、放學前把書放回原位。"
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "sec": "實用文",
+      "q": "每次最多可以借幾本書？",
+      "opts": [
+       "一本",
+       "兩本",
+       "三本",
+       "不限"
+      ],
+      "a": 0,
+      "ex": "第一條寫明每次只可借一本。"
+     },
+     {
+      "t": "mc",
+      "sec": "實用文",
+      "q": "借期屆滿後可以怎樣？",
+      "opts": [
+       "自己留着",
+       "續借一次",
+       "送給同學",
+       "不用歸還"
+      ],
+      "a": 1,
+      "ex": "第二條寫「到期可續借一次」。"
+     },
+     {
+      "t": "filltbl",
+      "sec": "實用文",
+      "q": "按規則填寫下列資料。",
+      "table": [
+       "每次借書上限",
+       "借期",
+       "續借次數"
+      ],
+      "a": "一本|一星期|一次",
+      "ex": "資料直接取自規則。"
+     }
+    ]
+   }
+  ],
+  "write": [
+   {
+    "t": "write",
+    "sec": "寫作",
+    "kind": "實用文",
+    "prompt": "你不小心弄丟了同學的鉛筆盒。請寫一張字條給他，説明事情並道歉。（部分格式已提供）",
+    "hint": "稱謂：親愛的____：　　正文：寫清楚了甚麼事、在哪裏弄丟、表示歉意　　署名：你的名字"
+   },
+   {
+    "t": "write",
+    "sec": "寫作",
+    "kind": "短文",
+    "prompt": "請寫一篇文章，記述一次你得到別人幫助的經過和感受。（字數不限）",
+    "hint": "可以寫：遇到了甚麼困難、誰幫了你、怎樣幫、你怎樣道謝、事後感受。"
+   }
+  ]
+ },
+ "P4": {
+  "mc": [
+   {
+    "t": "mc",
+    "sec": "詞語",
+    "q": "「他做事一絲不苟」中的「一絲不苟」意思是：",
+    "opts": [
+     "馬馬虎虎",
+     "認真細心，一點不馬虎",
+     "非常緩慢",
+     "常常出錯"
+    ],
+    "a": 1,
+    "ex": "「一絲不苟」形容做事認真細緻。"
+   },
+   {
+    "t": "mc",
+    "sec": "詞語",
+    "q": "「這條小巷人跡罕至」中的「人跡罕至」意思是：",
+    "opts": [
+     "很多人經過",
+     "很少有人到來",
+     "正在修建",
+     "十分熱鬧"
+    ],
+    "a": 1,
+    "ex": "「人跡罕至」指很少有人到訪。"
+   },
+   {
+    "t": "mc",
+    "sec": "詞語",
+    "q": "「堅強」的反義詞是下面哪一個？",
+    "opts": [
+     "勇敢",
+     "軟弱",
+     "努力和",
+     "高大"
+    ],
+    "a": 1,
+    "ex": "「堅強」與「軟弱」意思相反。"
+   },
+   {
+    "t": "mc",
+    "sec": "修辭",
+    "q": "「他的聲音大得像打雷。」這句用了甚麼修辭？",
+    "opts": [
+     "比喻和誇張",
+     "擬人",
+     "排比",
+     "設問"
+    ],
+    "a": 0,
+    "ex": "用「像」作比喻，同時把聲音説得如雷般大，含誇張。"
+   },
+   {
+    "t": "mc",
+    "sec": "修辭",
+    "q": "「春天來了，花兒笑了，草兒綠了，鳥兒唱了。」這句用了甚麼修辭？",
+    "opts": [
+     "比喻",
+     "擬人",
+     "排比",
+     "反問"
+    ],
+    "a": 2,
+    "ex": "多個結構相似的句子連用，是排比（其中也含擬人）。"
+   },
+   {
+    "t": "mc",
+    "sec": "句子",
+    "q": "「雖然下着大雨，（　）他還是按時到了。」括號裏應填：",
+    "opts": [
+     "但是",
+     "因為",
+     "所以",
+     "而且"
+    ],
+    "a": 0,
+    "ex": "「雖然……但是……」是表示轉折的關聯詞。"
+   },
+   {
+    "t": "mc",
+    "sec": "句子",
+    "q": "「我們（　）要努力讀書，（　）要鍛鍊身體。」應填哪組關聯詞？",
+    "opts": [
+     "不但……還……",
+     "因為……所以……",
+     "雖然……但是……",
+     "如果……就……"
+    ],
+    "a": 0,
+    "ex": "兩件事都要做，用表示遞進的「不但……還……」。"
+   },
+   {
+    "t": "mc",
+    "sec": "閱讀",
+    "q": "一段話的第一句往往用來做甚麼？",
+    "opts": [
+     "總結全文",
+     "點出這段的主要意思",
+     "提出問題",
+     "寫出作者的名字"
+    ],
+    "a": 1,
+    "ex": "段首句常常是該段中心句，概括主要意思。"
+   },
+   {
+    "t": "mc",
+    "sec": "閱讀",
+    "q": "「說明文」主要用來：",
+    "opts": [
+     "講述一個故事",
+     "介紹事物的特點或道理",
+     "抒發個人感情",
+     "描寫人物外貌"
+    ],
+    "a": 1,
+    "ex": "説明文以介紹事物、説明道理為主。"
+   },
+   {
+    "t": "mc",
+    "sec": "實用文",
+    "q": "寫一則通知，最重要的內容是：",
+    "opts": [
+     "事情的經過和感受",
+     "時間、地點和要做的事",
+     "作者的愛好",
+     "天氣情況"
+    ],
+    "a": 1,
+    "ex": "通知要把時間、地點、事項寫清楚。"
+   },
+   {
+    "t": "mc",
+    "sec": "實用文",
+    "q": "書信末尾的「此致　敬禮」屬於：",
+    "opts": [
+     "稱謂",
+     "正文",
+     "祝頌語",
+     "標題"
+    ],
+    "a": 2,
+    "ex": "「此致敬禮」是書信的祝頌語。"
+   }
+  ],
+  "fill": [
+   {
+    "t": "fill",
+    "sec": "詞語",
+    "q": "「他做事情很有（　），從不馬虎。」填一個表示認真的詞：__________",
+    "a": "責任心|耐性|恆心|認真",
+    "ex": "答案不唯一，配合「不馬虎」即可。"
+   },
+   {
+    "t": "fill",
+    "sec": "詞語",
+    "q": "請寫出一個表示「非常高興」的成語：__________",
+    "a": "興高采烈|眉開眼笑|喜出望外|手舞足蹈",
+    "ex": "答案不唯一，形容高興的成語皆可。"
+   },
+   {
+    "t": "fill",
+    "sec": "句子",
+    "q": "「（　）明天下雨，運動會（　）延期。」填一組表示假設的關聯詞：__________",
+    "a": "如果……就……|假如……就……|要是……就……",
+    "ex": "表示假設用「如果……就……」。"
+   },
+   {
+    "t": "fill",
+    "sec": "閱讀",
+    "q": "概括一段文字的主要意思，通常稱為：__________",
+    "a": "段意|大意|段落大意",
+    "ex": "一段的主要意思叫「段意」。"
+   }
+  ],
+  "read": [
+   {
+    "id": "p4r1",
+    "kind": "說明文",
+    "title": "為甚麼要洗手",
+    "text": [
+     "我們的手每天碰到很多東西：門把、桌面、玩具和食物。手上因此會沾看不見的細菌。",
+     "如果吃東西前不洗手，細菌就可能隨着食物進入身體，令我們生病。",
+     "正確的洗手方法並不難：先用水沖濕雙手，塗上肥皂，搓洗最少二十秒，手指縫和拇指都要洗到，最後用清水沖乾淨。",
+     "在水資源匱乏的地方，也可以用含酒精的洗手液代替。不過，雙手明顯骯髒時，還是用肥皂和清水最有效。",
+     "養成洗手的好習慣，不只能保護自己，也能保護身邊的人。"
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "sec": "閱讀",
+      "q": "這篇文章主要是説明甚麼？",
+      "opts": [
+       "怎樣煮飯",
+       "為甚麼要洗手和怎樣洗手",
+       "細菌的種類",
+       "學校的規則"
+      ],
+      "a": 1,
+      "ex": "全文圍繞洗手的原因和方法。"
+     },
+     {
+      "t": "mc",
+      "sec": "閱讀",
+      "q": "根據文章，搓洗雙手最少要多久？",
+      "opts": [
+       "五秒",
+       "十秒",
+       "二十秒",
+       "一分鐘"
+      ],
+      "a": 2,
+      "ex": "第三段寫「搓洗最少二十秒」。"
+     },
+     {
+      "t": "short",
+      "sec": "閱讀",
+      "q": "為甚麼雙手明顯骯髒時，用肥皂和清水最有效？寫一、兩句。",
+      "a": "洗掉污垢|沖走細菌|肥皂去污|清水沖淨|最直接",
+      "ex": "答到「能沖走污垢和細菌、比洗手液更徹底」即可。"
+     },
+     {
+      "t": "short",
+      "sec": "閱讀",
+      "q": "文章的最後一段想告訴我們甚麼？",
+      "a": "保護自己|保護別人|好習慣|洗手的好處|一起",
+      "ex": "答到「洗手既保護自己也保護他人」即可。"
+     }
+    ]
+   },
+   {
+    "id": "p4u1",
+    "kind": "實用文",
+    "title": "學校旅行通知",
+    "text": [
+     "【六年級學校旅行通知】",
+     "日期：十月二十日（星期五）",
+     "地點：香港海洋公園",
+     "集合時間：上午八時三十分於學校操場",
+     "須帶物品：午餐、水、雨具、學生證",
+     "注意：請穿著舒適運動鞋，不遲到。"
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "sec": "實用文",
+      "q": "這次旅行的地點是哪裏？",
+      "opts": [
+       "動物園",
+       "香港海洋公園",
+       "圖書館",
+       "運動場"
+      ],
+      "a": 1,
+      "ex": "通知寫明地點是香港海洋公園。"
+     },
+     {
+      "t": "mc",
+      "sec": "實用文",
+      "q": "學生需要帶甚麼？",
+      "opts": [
+       "雨傘和書",
+       "午餐、水、雨具和學生證",
+       "電腦",
+       "校服"
+      ],
+      "a": 1,
+      "ex": "「須帶物品」一欄列明這四樣。"
+     },
+     {
+      "t": "filltbl",
+      "sec": "實用文",
+      "q": "按通知填寫下列資料。",
+      "table": [
+       "旅行日期",
+       "集合時間",
+       "集合地點"
+      ],
+      "a": "十月二十日|上午八時三十分|學校操場",
+      "ex": "資料直接抄自通知。"
+     }
+    ]
+   }
+  ],
+  "write": [
+   {
+    "t": "write",
+    "sec": "寫作",
+    "kind": "實用文",
+    "prompt": "學校將舉行「愛護環境」活動。請寫一張海報，呼籲同學參加。（部分格式已提供）",
+    "hint": "標題：愛護環境由我做起　　正文：寫出活動日期、地點、做甚麼　　呼籲：一起來參加"
+   },
+   {
+    "t": "write",
+    "sec": "寫作",
+    "kind": "短文",
+    "prompt": "請寫一篇文章，説明養成良好生活習慣（早睡早起、勤洗手、收拾書包等）的好處。（字數不限）",
+    "hint": "可以寫：對健康的幫助、對學習的幫助、並舉一個自己的例子；注意分段。"
    }
   ]
  },
@@ -48353,8 +49277,10 @@ const CN_QBANK = {
     "title": "城市裡的「冷知識」：為甚麼老樹會長出新葉",
     "text": [
      "在城市裏，我們常會見到一些老樹：樹幹粗壯，樹皮裂得很深，樹枝卻長得不太高。奇怪的是，即使到了深秋，樹上的葉子仍然綠油油的。",
-     "原來，樹葉變黃是因為白天陽光不足，光合作用減少，葉綠素分解，葉綠素裏的色素顯現出來，於是葉子變黃。老樹的樹冠大，葉子多，本來就消耗較多養分；城市裏的 buildings 又擋住部分陽光，老樹更容易提早「缺糧」。",
+     "原來，樹葉變黃是因為白天陽光不足，光合作用減少，葉綠素分解，葉黃素和胡蘿蔔素的顏色便顯現出來，於是葉子變黃。老樹的樹冠大，葉子多，本來就消耗較多養分；城市裏的高樓大廈又擋住部分陽光，老樹更容易提早「缺糧」。",
      "要解決問題，就要讓老樹「吃得好」。園丁會在樹根附近鬆土、鋪上樹皮覆蓋物，保持土壤水分；也會在適當時機修剪過密的枝葉，讓陽光可以透到樹冠內部。這些做法看似微小，卻能令老樹多留幾年的綠意。",
+     "除了養分和陽光，老樹還需要「活動空間」。工程人員鋪設路面時，會在樹根周圍留出透水的方格，讓雨水仍然滲得下去；修剪枝葉時，也要避開電線和行人通道。這些細節都要事先量度，不能只憑經驗。",
+     "市民也可以幫上一點忙。遇到有人在樹幹上釘牌、晾衫，或把熱水潑到樹根，不妨提醒他們；在下大雨後，也可以看看住處附近的老樹有沒有被風吹歪。一棵樹長成今天這般大，往往要幾十年，毀壞卻只在一瞬間。",
      "樹木是城市的「活歷史」。一棵老樹見證街道的變遷，枝幹裏藏着幾代人的記憶。照顧老樹，不只是留住一片綠，也是替城市留下它的見證。"
     ],
     "qs": [
@@ -48418,10 +49344,12 @@ const CN_QBANK = {
     "kind": "記敘文",
     "title": "最後一班車",
     "text": [
-     "那天放學，天忽然陰沉下來，烏雲壓得很低，風把廣告牌吹得咣咣作響。",
+     "那天放學，天忽然陰沉下來，烏雲壓得很低，風把廣告牌吹得咣咣作響。校工伯伯正忙著把操場上的椅子和盆栽搬進室內。",
      "我忘記了帶傘，站在校門口發愁。末班車還有十五分鐘開。",
-     "轉角處走來一位老婆婆，手裏拿着一个舊布袋。她看看天，又看看我，忽然把布袋裏的傘抽出來，塞到我手裏：「拿着罷，我老伴兒走得慢，不用趕。」",
-     "我想說不用，她已經走遠了。雨下起來，我撑着伞跑向車站。上了車，我回頭看，那老婆婆還在慢慢走，傘沒有帶。",
+     "轉角處走來一位老婆婆，手裏拿着一個舊布袋。她看看天，又看看我，忽然把布袋裏的傘抽出來，塞到我手裏：「拿着罷，我老伴兒走得慢，不用趕。」",
+     "我想說不用，她已經走遠了。雨點落下來，先是幾滴，轉眼就密成一陣。我撐着傘跑向車站，鞋襪都濺濕了。上了車，我回頭看，那老婆婆還在慢慢走，用布袋蓋着頭，傘沒有帶。",
+     "車子在雨中慢慢開動。我把傘放在膝上，傘柄還留着老婆婆手心的溫度。車廂裏很靜，只有雨聲敲着車窗，和輪胎輾過積水的聲音。我望着窗外，看見路上的行人一個個低頭趕路，忽然覺得這把傘變得很重。",
+     "第二天放晴，我把傘帶回學校，交給班主任，請她幫我找找那位婆婆。班主任笑一笑，說：「你不用急，那位婆婆啊，每個下雨天都在幫人。」我愣了愣，才明白她昨天那句「不用趕」，原來是説給自己聽的。",
      "車子開動的時候，我忽然明白：這把傘，說不定會出現在另一個同學手裏——也許明天，也許下週。"
     ],
     "qs": [
@@ -48479,10 +49407,10 @@ const CN_QBANK = {
     "title": "致家長的一封信",
     "text": [
      "各位家長：",
-     "本校將於下月 3 日至 5 日舉行三年級至六年級的戶外學習日。地點是西貢墟旁的海傍营地。",
-     "集合時間為上午 8 時 30 分，請於 8 時 20 分前到達校門集合。活動包括定向越野、自然觀察和Team-building 團隊活動。",
-     "請為子女準備：飲用水、帽子、防曬用品、一份小食，以及一套可以弄髒的舊衣服。營地設有洗手間，但沒有焗油理髮室，故請先梳理頭髮。",
-     "如子女有食物敏感或需要特別照顧，請於本月 20 日前填回通知書。",
+     "本校將於下月 3 日至 5 日舉行三年級至六年級的戶外學習日。地點是西貢墟旁的海傍營地。",
+     "集合時間為上午 8 時 30 分，請於 8 時 20 分前到達校門集合。活動包括定向越野、自然觀察和團隊協作遊戲，全部由本校老師帶領，家長義工亦會在場協助。",
+     "請為子女準備：飲用水、帽子、防曬用品、一份小食，以及一套可以弄髒的舊衣服。營地設有洗手間和更衣帳篷，但沒有理髮設施，故請先梳理頭髮。",
+     "如子女有食物敏感或需要特別照顧，請於本月 20 日前填回通知書，並在備註欄寫明過敏的食物和處理方法，以便老師預先準備。若天氣惡劣，活動將順延一週，屆時會以短訊通知各位家長。",
      "小學部校長　李志明"
     ],
     "qs": [
@@ -50632,6 +51560,8 @@ var CNS_READA=[
   '這時，我看見鄰座的俊文手上正握着一支一模一樣的自動鉛筆。我心裏「騰」地一下火起來：一定是他拿了我的筆！我一把搶過來，大聲說：「你為甚麼拿我的筆？」俊文愣住了，漲紅了臉說：「這是我自己買的！」我不理他，還說要報告老師。',
   '小息的時候，我在體育館的座位底下發現了自己的鉛筆——原來昨天放學時，它從褲袋裏滑了出來。我拿着兩支一模一樣的筆，臉一下子紅到耳根，恨不得找個地洞鑽進去。',
   '我鼓起勇氣向俊文道歉。他愣了一下，隨即笑着說：「找到了就好。」還替我把弄髒了的筆擦乾淨。我心裏又慚愧又感動。',
+  '小息餘下的時間，我坐在座位上想了很久。從前我總以為自己反應快，遇到事情一眼就能判斷；今天才知道，快不一定對。若不是那支筆在座位底下等着，我大概會一直怪下去，連一句對不起都不說。',
+  '放學時，我特意等俊文一起走。他沒有提起上午的事，只和我聊起下週的球類比賽。我偷偷看他，心想：能這樣一笑置之的人，胸襟真比我寬闊。',
   '回家後我把這件事告訴媽媽。她說，遇事先弄清真相，才不會冤枉好人；錯怪了別人，就要勇敢認錯。今天的教訓，我會一直記住。'],
   qs:[{t:'fill',s:'本文屬於哪一類實用文體？',a:'日記'},
       {t:'mc',s:'作者「恨不得找個地洞鑽進去」的主要原因是',opts:['找不到自動鉛筆。','發現自己錯怪了俊文，非常慚愧。','被老師當眾批評。','鉛筆被弄髒了。'],a:1},
@@ -50642,6 +51572,7 @@ var CNS_READA=[
   '起初山路還有路燈，走到半山，燈就沒有了，只剩下頭燈照出的一小圈光。爸爸在前開路，我扶着欄杆一步一步往上爬。走到一半，我的腿又痠又軟，真想坐下來休息。隊裏的姐姐把水遞給我，說：「太陽不會等你，再堅持一會兒吧！」',
   '天色由黑轉深藍，再由深藍轉成淺灰。我們終於在五時四十分登上山頂。山頂上已經站着幾十個人，人人都朝着東方張望。',
   '六時零二分，天邊忽然裂開一道金縫，太陽一點一點地升起來：先是一條金線，接着是半個、一個，最後整個太陽跳出雲海，把海面染成一片金紅。山頂上響起一片歡呼聲，幾十部相機咔嚓咔嚓地響個不停。',
+  '我站在人羣後面，忽然想起半山那段路：那時我連抬頭的力氣都沒有，只想掉頭回去。若真的回去了，眼前這道金光，便永遠只會是別人相機裏的一張照片。風從山頂吹過，晨光把每個人的臉都照得暖暖的。',
   '下山的路上，我一點也不覺得累了。原來辛苦爬上山頂換來的景色，比任何電影都要好看。媽媽說，這就是「一分耕耘，一分收穫」。我望着遠處的太陽，用力地點了點頭。'],
   qs:[{t:'fill',s:'本文是一篇記敘文還是說明文？',a:'記敘文'},
       {t:'mc',s:'登山途中作者一度想休息，主要原因是',opts:['天色太黑。','腿又痠又軟。','突然下雨。','迷了路。'],a:1},
@@ -50653,6 +51584,7 @@ var CNS_READB=[
  {title:'珍惜光陰',text:['常聽人說：「時間就是金錢。」其實時間比金錢更寶貴——錢花掉了可以再賺，光陰流走了卻永遠追不回來。',
   '古人早就明白這個道理。晉朝的車胤家裏窮得點不起油燈，便捉來螢火蟲，裝進紗袋裏照明讀書；孫敬把頭髮綁在屋樑上，一打瞌睡便被扯醒，繼續苦讀。他們都能善用別人浪費的時間，最後成為有學問的人。',
   '反觀今天的我們，上下課路上、飯後睡前，零零碎碎的時間其實不少。有人用來背十個單詞，一年便多背三千多個；有人只顧看短片，一年便悄悄溜走四百多個鐘頭。同樣是一年，收穫卻差天共地。',
+  '其實這些道理，古人也說過。漢代的董遇利用「三餘」讀書——冬天是一年的餘暇，夜晚是一天的餘暇，陰雨天是即時的餘暇。他沒有抱怨沒有時間，只是把別人空着的一刻都用上。可見珍惜光陰不在於口號說得多響，而在於今天晚上，你願不願意放下手機。',
   '管理時間也有方法：第一，每天睡前列好明天的清單，重要的功課排在最前面；第二，把大任務切成小段，每做完一段便休息五分鐘，比一口氣苦熬有效得多；第三，學會說「不」——同學約你打遊戲機時，功課未做完就要懂得拒絕。',
   '有人抱怨自己沒有天分，其實大多數人的差距，是在一個又一個被浪費的十分鐘裏拉開的。與其抱怨，不如從今晚的溫習清單開始。'],
   qs:[{t:'mc',s:'第二至三段主要是說明',opts:['古人讀書很苦。','零碎時間善用與否，收穫差別很大。','時間就是金錢。','背單詞的技巧。'],a:1},
@@ -50663,6 +51595,7 @@ var CNS_READB=[
  {title:'小小清潔工——蚯蚓',text:['說起蚯蚓，很多人覺得牠又細又滑，沒甚麼特別。其實，這位泥土裏的「小小清潔工」，是大自然不可缺少的功臣。',
   '蚯蚓以落葉和枯草為食。牠們把這些廢物吞進肚裏，排出來的糞便含有豐富的養分，是上好的天然肥料。一條蚯蚓一天吃掉的落葉，可以達到自己體重的一半；一小片土地裏的蚯蚓，一年能把幾厘米厚的落葉層全部處理乾淨。',
   '蚯蚓還是鬆土專家。牠們在泥土裏鑽來鑽去，挖出一條條細小的通道，讓空氣和雨水更容易進入土中。農夫都喜歡說：「一條蚯蚓，勝過一把鋤頭。」泥土疏鬆了，農作物的根才長得深、長得壯。',
+  '研究土壤的科學家還發現，蚯蚓排出的糞便不但有養分，顆粒結構也特別穩定，雨水沖過時不易被沖走。在斜坡上，這一點尤其重要——少了蚯蚓，一場大雨便可能沖走表土，留下又硬又薄的底泥，要很多年才養得回來。',
   '不過，蚯蚓的生活正面對威脅。農藥把牠們毒死，塑膠袋蓋住泥土令牠們窒息。科學家發現，有些果園因為蚯蚓大量減少，土壤變得又硬又瘦，收成一年不如一年。',
   '下次在雨後的操場看見蚯蚓，不妨用樹枝輕輕把牠送回花槽的泥土裏。保護這位小小清潔工，其實就是保護我們腳下的土地。'],
   qs:[{t:'mc',s:'第三段主要是說明',opts:['蚯蚓以落葉為食。','蚯蚓能鬆土，對農作物有益。','蚯蚓會毒死農作物。','蚯蚓喜歡下雨。'],a:1},
@@ -51988,16 +52921,22 @@ const RD_ART=[
   'That evening, he and his uncle boarded the 7:30 ferry. The wind smelled of salt and engine oil. Behind them, the skyscrapers of Central switched on their lights one by one, like a city slowly waking up for its second shift.',
   '"Your great-grandfather was a ferryman," Uncle said, leaning on the rail. "Thirty years on the water. He could name every star above the harbour, but he never learned to swim." Ho Yin laughed, then stopped. "Really? Why not?" "He said the sea was his office. You don\'t jump into your office." Ho Yin laughed again, louder this time.',
   'A green Star Ferry passed them going the other way. Passengers waved, and Ho Yin waved back, though he did not know a single face. For one strange moment, he felt connected to all of them — and to the great-grandfather he had never met.',
-  'On the Kowloon side, the lights of the clock tower glowed softly. Ho Yin took a photo, but he knew he would not need it. Some nights you remember without a picture.'],
-  words:[['ferry','渡輪'],['harbour','海港'],['skyscraper','摩天大樓'],['rail','欄杆'],['glow','發光']],
+  'The ferry slowed as it neared the Kowloon pier. A old woman beside them began to fold a yellow paper bag into a small boat. She saw Ho Yin watching and smiled. "My grandson used to make these," she said. "He is at university now, in another city." She set the paper boat gently on the seat, the way one might set down a sleeping bird.',
+  'Uncle pointed across the water. "See that dark building by the waterfront? Your great-grandfather worked there as a young man, loading crates before the sun came up. He used to say the harbour had a heartbeat — you could feel it through the soles of your feet." Ho Yin put his hand flat on the deck, as if listening.',
+  'The engine changed its note and the ferry turned towards the pier. People gathered their bags and stood up. For a moment nobody moved, as though they were all waiting for the same last word that never came.',
+  'On the Kowloon side, the lights of the clock tower glowed softly. Ho Yin took a photo, but he knew he would not need it. Some nights you remember without a picture. He slipped the paper boat into his pocket, and on the way home he told his uncle he wanted to learn to swim.'],
+  words:[['ferry','渡輪'],['harbour','海港'],['skyscraper','摩天大樓'],['rail','欄杆'],['glow','發光'],['pier','碼頭'],['crate','木箱'],['deck','甲板']],
   qs:['你坐過天星小輪嗎？晚上和白天有什麼不同？','你的家人裏有什麼老故事？今晚回去問一位長輩。']},
  {lv:'L4',title:'The Stair Street Cat',paras:[
   'On Tai Ping Shan Street, between the antique shops and the coffee roasters, lives a grey cat named General. Nobody knows who first called him that, but everyone agrees he behaves like one.',
   'Every afternoon, General walks his territory. He inspects the plant pots, sits in front of the ice cream shop until someone gives him a lick of vanilla, and naps on the warm stone steps of the temple. The shopkeepers greet him by name. Tourists photograph him. He ignores them all with perfect royal calm.',
   'Ten-year-old Chloe lives upstairs. Every day after school, she brings General a small piece of steamed fish. She never picks him up or bothers him while he eats. She just sits on the step and tells him about her day — the spelling test, the new boy who cannot use chopsticks, the PE teacher\'s terrible jokes.',
   'One rainy Monday, Chloe was late. The rain drummed on the awnings, and the street was empty. General waited on the temple steps for a whole hour, tail curled around his paws.',
-  'When Chloe finally came, soaked and out of breath, General stood up, stretched, and — for the first time anyone could remember — rubbed his head against her school bag. The shopkeepers smiled. Even royalty needs a friend on rainy days.'],
-  words:[['antique','古董'],['territory','地盤'],['inspect','巡視'],['nap','打盹'],['soaked','濕透的']],
+  'General had his own way of knowing the hour. At half past three he left the ice cream shop and walked two doors down to the bakery, where the smell of warm bread drifted onto the street. The baker, a man with flour on his sleeves, always saved him a small corner of plain roll. He never called out to the cat; he simply left it on the step and went back to his oven.',
+  'One Saturday, a group of tourists stopped to photograph the temple steps. They did not see General at first, because he was sitting on a windowsill, washing one paw with the patience of an old professor. A little girl spotted him and whispered something to her mother. The mother laughed and put a finger to her lips.',
+  'Chloe kept a small notebook in her school bag. In it she wrote down the things she told General — not because he could read them, but because writing made the day smaller. Tests became one line. Arguments became one line. The notebook was almost full now, and she had not shown it to anyone.',
+  'When Chloe finally came, soaked and out of breath, General stood up, stretched, and — for the first time anyone could remember — rubbed his head against her school bag. The shopkeepers smiled. Even royalty needs a friend on rainy days. That evening, she wrote one more line in her notebook: today the cat came to meet me.'],
+  words:[['antique','古董'],['territory','地盤'],['inspect','巡視'],['nap','打盹'],['soaked','濕透的'],['bakery','麵包店'],['drift','飄散'],['professor','教授']],
   qs:['你家附近有認識的貓狗嗎？給它們起過名字嗎？','如果你養寵物，你會怎麼照顧它？']},
  {lv:'L1',title:'The Rainbow after Rain',paras:[
   'It rained all morning. Then the sun came out. Kai ran to the window.',
@@ -52052,8 +52991,10 @@ const RD_ART=[
   'It stopped on a Tuesday, in the middle of a hot evening. My mother came home with two bags of shopping and looked at the closed door. "Not again," she said. The notice on the wall said the repair man would come the next morning.',
   'We climbed. My brother, who was seven, counted the floors out loud. By the sixth, he wanted to be carried. By the ninth, he was quiet. My mother stopped on the landing and pointed out of the small window. "Look," she said. Across the city, thousands of lights were on, each one a room with someone in it.',
   'On the eleventh floor, my legs ached and my mother made lemonade — the kind with too much sugar, the kind she only made when something had gone wrong. We sat on the floor because it was cooler there.',
-  'The next morning the lift worked again, and nobody said much about it. But sometimes, when the doors close and the mirror shows my tired face beside the crack, I remember that night — the counting, the lights, and the lemonade that was far too sweet. I do not wish the lift would break again. I am only glad we had to climb.'],
-  words:[['metal','金屬'],['repair','修理'],['landing','樓梯平台'],['ached','酸痛'],['lemonade','檸檬水']],
+  'Halfway up, we passed a door I had never really noticed. An old man opened it a crack and asked if we were all right. My mother said yes, thank you, we were just taking the stairs. He nodded and said he had lived there forty years and knew every step by heart. Then he closed the door, and we heard him moving quietly inside.',
+  'My brother found a snail on the landing and wanted to bring it home. My mother said it had a home already. He looked at the snail for a long time, then set it back on the wall. On the eighth floor he asked me to tell him a story, so I made one up about a lift that was afraid of the dark. He laughed at that, and forgot to ask to be carried.',
+  'The next morning the lift worked again, and nobody said much about it. But sometimes, when the doors close and the mirror shows my tired face beside the crack, I remember that night — the counting, the lights, the old man behind his door, the snail, and the lemonade that was far too sweet. I do not wish the lift would break again. I am only glad we had to climb.'],
+  words:[['metal','金屬'],['repair','修理'],['landing','樓梯平台'],['ached','酸痛'],['lemonade','檸檬水'],['crack','裂縫'],['snail','蝸牛'],['afraid','害怕的']],
   qs:['你住的地方有電梯嗎？試過壞掉嗎？那天怎麼樣？','有沒有不方便的一天，事後想起來反而覺得不錯？講一件。']},
  {lv:'L4',title:'The Boy Who Watered the Plants',paras:[
   'On the roof of our building, there were six pots of plants that nobody owned. Someone had put them there years ago, and everyone had stopped looking at them.',
@@ -52061,8 +53002,10 @@ const RD_ART=[
   'I asked him once why he did it. "Nobody asked you to," I said. He looked at a plant with three green leaves and thought for a moment. "They cannot ask," he said. "That is why someone must."',
   'By the summer, one of the pots had flowers — small yellow ones, the size of a coin. A woman on the fifth floor started bringing water too. Then an old man added a seventh pot. Nobody held a meeting; it simply happened, the way the plants did.',
   'I moved away at the end of that year. Before I left, I went up to the roof one last time. The boy was there, of course, with his bottle. He did not see me at first. I stood quietly and watched him touch the earth with his finger, checking if it was dry, the way his mother might check a sleeping child\'s forehead.',
-  'I do not know if the plants are still there. But I have never forgotten the yellow flowers, or the sentence he gave me: they cannot ask, so someone must. It is, I think, a good way to live.'],
-  words:[['roof','天台'],['pots','花盆'],['forehead','額頭'],['earth','泥土'],['simply','就這樣；純粹']],
+  'One evening in July, a heavy storm swept over the building. The next morning the roof was littered with broken leaves, and one of the pots had tipped over. I thought the boy would give up. Instead, he came up with a younger child beside him — a sister, perhaps — and showed her how to press the soil back with her palm. She copied him very seriously, her tongue out with concentration.',
+  'By autumn, the roof had changed in a quiet way. Someone had painted the pots the same blue, though nobody could say who. The old man brought a small stool and sat there in the evenings, not gardening, just watching the plants grow. People passing on the stairs began to nod at one another a little more than before.',
+  'I do not know if the plants are still there. But I have never forgotten the yellow flowers, the tipped-over pot after the storm, or the sentence he gave me: they cannot ask, so someone must. It is, I think, a good way to live.'],
+  words:[['roof','天台'],['pots','花盆'],['forehead','額頭'],['earth','泥土'],['simply','就這樣；純粹'],['storm','暴風雨'],['soil','土壤'],['concentration','專心']],
   qs:['你家附近有沒有沒人管的植物或東西？有人照顧它嗎？','「沒有人要求，但有人去做」——你身邊有這樣的人嗎？講一件。']}
 ];
 // v2.53 正文點詞：中文義只取站內既有詞庫精確匹配（含簡單詞形還原），查不到留空不臆造
@@ -55034,18 +55977,37 @@ async function exAiPaper(){
   }finally{ if(btn){btn.disabled=false;btn.textContent=t0;} }
 }
 
+// v2.54 子目錄：grpwords/grppapers 是父頁籤（點父＝開本尊 mywords/paper），其餘是子頁籤；
+// 子 chip 的 data-es 與 v1.80 前完全一致，__hkkGo('p:en:xxx')、enGoSub、__mwGotoPaperWords 零改動
+const ES_GRP={hk:'grpwords',vocab:'grpwords',wb:'grpwords',mywords:'grpwords',paper:'grppapers',exam:'grppapers',school:'grppapers'};
+function enSetGroup(g){
+  const row=document.getElementById('enSubRow2');
+  if(row){row.style.display=g?'flex':'none';
+    document.getElementById('enSubWords').style.display=(g==='grpwords')?'flex':'none';
+    document.getElementById('enSubPapers').style.display=(g==='grppapers')?'flex':'none';}
+  document.querySelectorAll('#enPracSub > button.esgrp').forEach(x=>x.classList.toggle('on',x.dataset.es===g));
+}
+function enMarkSub(v){ // 標子 chip on
+  const cb=ES_GRP[v]?document.querySelector('#enSub'+(ES_GRP[v]==='grpwords'?'Words':'Papers')+' button[data-es="'+v+'"]'):null;
+  document.querySelectorAll('#enSubRow2 button').forEach(x=>x.classList.toggle('on',x===cb));
+}
 document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
   const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
-  try{
-    document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
-    sw('hkView',es==='hk'); sw('vocabView',es==='vocab'); sw('ivView',es==='iv');
-    sw('paperView',es==='paper'); sw('goalView',es==='goal'); sw('examView',es==='exam');
-    sw('myWordsView',es==='mywords'); sw('wbView',es==='wb'); sw('drillView',es==='drill');
-    sw('schoolView',es==='school');
-    sw('textView',es==='text');
-    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(es==='drill')drTapTo(drTap); else if(es==='text'&&window.__txTest)window.__txTest.render(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper(); else if(es==='school' && !curSchoolPaper) genSchoolPaper();
-  }catch(e){ console.error('切換視圖失敗：',e); }
+  const show=(v)=>{
+    enSetGroup(ES_GRP[v]||null); enMarkSub(v);
+    document.querySelectorAll('#enPracSub > button:not(.esgrp)').forEach(x=>x.classList.toggle('on',x.dataset.es===v));
+    try{
+      sw('hkView',v==='hk'); sw('vocabView',v==='vocab'); sw('ivView',v==='iv');
+      sw('paperView',v==='paper'); sw('goalView',v==='goal'); sw('examView',v==='exam');
+      sw('myWordsView',v==='mywords'); sw('wbView',v==='wb'); sw('drillView',v==='drill');
+      sw('schoolView',v==='school');
+      sw('textView',v==='text');
+      if(v==='hk')renderHk(); else if(v==='vocab')renderVocab(); else if(v==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(v==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(v==='drill')drTapTo(drTap); else if(v==='text'&&window.__txTest)window.__txTest.render(); else if(v==='paper' && !curEnPaper.length) genEnPaper(); else if(v==='exam' && !curExamPaper) genExamPaper(); else if(v==='school' && !curSchoolPaper) genSchoolPaper();
+    }catch(e){ console.error('切換視圖失敗：',e); }
+  };
+  if(es==='grpwords'||es==='grppapers'){ show(es==='grpwords'?'mywords':'paper'); return; }
+  show(es);
 });
 // v1.69：路線圖頁的動線按鈕——複用同一套切換邏輯，避免另寫一份顯隱代碼
 function enGoSub(es){
@@ -56411,7 +57373,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.53',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.54',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };

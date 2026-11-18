@@ -155,6 +155,9 @@ TEMPLATE = r'''<!DOCTYPE html>
   .subnav{display:flex;gap:6px;padding:8px 16px;background:#f0f4fb;border-bottom:1px solid var(--line);position:sticky;top:53px;z-index:5;flex-wrap:wrap}
   .subnav button{padding:6px 14px;border:1px solid var(--line);background:#fff;border-radius:18px;font-size:13px;cursor:pointer;color:var(--ink)}
   .subnav button.on{background:var(--math);color:#fff;border-color:var(--math)}
+  /* v2.54 子目錄第二行：父頁籤展開用，flex-basis:100% 原地換行，不動全域 class */
+  #enSubRow2{flex:1 1 100%;display:none;gap:6px;flex-wrap:wrap}
+  #enSubWords,#enSubPapers{display:none;gap:6px;flex-wrap:wrap}
   .wrap{max-width:900px;margin:0 auto;padding:16px}
   .tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center}
   .chip{padding:6px 12px;border:1px solid var(--line);border-radius:20px;background:#fff;cursor:pointer;font-size:13px}
@@ -1422,6 +1425,8 @@ nav button{flex:0 0 auto;min-height:44px;padding:10px 16px}
 .subnav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start;scrollbar-width:none}
 .subnav::-webkit-scrollbar{display:none}
 .subnav button{flex:0 0 auto;min-height:44px;padding:10px 16px}
+#enPracSub{flex-wrap:wrap;overflow-x:visible}
+#enSubRow2{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start}
 #userChip button{min-height:44px;min-width:44px;padding:6px 14px;font-size:13px}
 header{padding:20px 14px 16px}
 header h1{font-size:19px;margin-top:52px}
@@ -1471,13 +1476,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.53
+    © 叶工 SteveHKSZ · 公開版 v2.54
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.53</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.54</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1760,7 +1765,7 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
     <!-- v2.21：說明隨子頁籤切換，切到對照表時不再看到寫死給「背古詩」的說明 -->
     <div id="cnPracTips">
       <p class="tip" data-cstip="star" style="margin:0 0 10px">「背古詩」＝<b>背詩星圖</b>（185 首按年級分 7 段點亮，看整體進度）＋<b>古詩詞列表</b>（繁體＋拼音＋粵拼全文）＋<b>一首詩四步</b>（聽讀 → 看譯文 → 遮字背誦 → 抽查）。想練做卷請切到「中文試卷」。</p>
-      <p class="tip" data-cstip="cnpaper" style="margin:0 0 10px;display:none">「中文試卷」＝<b>本站原創仿題型</b>（小二／小五／小六），可出新卷、AI 出新卷、交卷批改；題目、篇章、選項與答案全部本站原創，非任何機構真卷。</p>
+      <p class="tip" data-cstip="cnpaper" style="margin:0 0 10px;display:none">「中文試卷」＝<b>本站原創仿題型</b>（小一至小六，按年級難度遞進），可出新卷、AI 出新卷、交卷批改；題目、篇章、選項與答案全部本站原創，非任何機構真卷。</p>
       <p class="tip" data-cstip="cnschool" style="margin:0 0 10px;display:none">「校卷題型」＝<b>小六十部分全卷模擬</b>（填充→成語→標點→排句→改寫→標點選→修辭→縮句→段義→閱讀甲乙），可出新卷、交卷批改、列印含答案版；題目與篇章全部本站原創，非任何學校真卷。</p><p class="tip" data-cstip="cnps" style="margin:0 0 10px;display:none">「呈分模擬」＝<b>小六中文呈分試模擬 · 5 套固定卷</b>（甲部兩篇章閱讀＋乙部語文基礎十小節），每套附<b>參考答案</b>，可交卷批改（機改 56 分）、列印含答案版（自評 44 分由家長對照評分）；題目與篇章全部本站原創，非任何學校真卷。</p>
       <p class="tip" data-cstip="zibook" style="margin:0 0 10px;display:none">「我的生字本」＝把不會認的繁體字收進來，切「翻卡複習」遮著認、認得打勾；<b>只存本瀏覽器、跟賬號走，不會上傳</b>。</p>
       <p class="tip" data-cstip="ft" style="margin:0 0 10px;display:none">「繁體對照」＝<b>簡→繁高頻對照表</b>（分 P1–P6），用來查字、不用來背；一簡對多繁（发→發/髮、里→裡/裏）按詞義選。想練「認得快」用隔壁「繁體認讀」的翻卡。</p>
@@ -1795,10 +1800,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
     </div>
     <!-- v1.82 中文卷：題型結構仿評考局公開框架，題目全部本站原創 -->
     <div id="cnPaperView" style="display:none">
-      <div class="gtitle">中文試卷 · 小二／小五／小六（本站原創仿題型）</div>
+      <div class="gtitle">中文試卷 · 小一至小六（本站原創仿題型）</div>
       <span class="folk">題型結構參考香港考評局公開的評估框架（閱讀＝記敘／說明文＋實用文；寫作＝實用文＋短文）；<b>全部題目、篇章、選項與答案均為本站原創</b>，非任何機構、學校或出版社真卷。</span>
       <div class="pg-chips" id="cngChips">
+        <span class="chip" data-pg="P1">小一 P1</span>
         <span class="chip on" data-pg="P2">小二 P2</span>
+        <span class="chip" data-pg="P3">小三 P3</span>
+        <span class="chip" data-pg="P4">小四 P4</span>
         <span class="chip" data-pg="P5">小五 P5</span>
         <span class="chip" data-pg="P6">小六 P6</span>
       </div>
@@ -1960,19 +1968,28 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
       <!-- v1.69：子頁按「學習動線」重排——總覽（該背多少/怎麼背）→ 詞彙輸入（分級詞卡＋通用詞表）→ 筆試輸出（練習卷→模擬卷）→ 口語輸出（面試）。
            DOM 內各子頁 div 的物理順序未動（切換靠 display 控制），按鈕順序即用戶可見順序。 -->
       <button data-es="goal" class="on">詞彙路線圖</button>
-      <button data-es="hk">中小學單詞</button>
-      <button data-es="vocab">詞表</button>
-      <button data-es="mywords">我的單詞本</button>
-      <button data-es="wb">某文單詞本</button>
+      <!-- v2.54 子目錄：單詞類收進「我的單詞本」父頁籤（點父＝本尊），試卷類收進「試卷」父頁籤；
+           子 chip 仍在本容器內，__hkkGo 與 enGoSub 的既有查詢零改動 -->
+      <button data-es="grpwords" class="esgrp">我的單詞本</button>
       <!-- v1.92：課文配套——按單元主題另寫的原創短文＋判分題（零課本原文） -->
       <button data-es="text">課文配套</button>
-      <button data-es="paper">英文卷</button>
-      <button data-es="exam">呈分試卷</button>
-      <!-- v1.89：時態與題型——補「過去式反覆練＋香港常見題型首次見面」，插在筆試輸出（卷）之後、口語輸出（面試）之前 -->
-      <!-- v2.35：校卷題型——按校內測驗卷骨架出全卷（原創題），插在呈分試卷之後 -->
-      <button data-es="school">校卷題型</button>
+      <button data-es="grppapers" class="esgrp">試卷</button>
+      <!-- v1.89：時態與題型——補「過去式反覆練＋香港常見題型首次見面」，插在試卷組之後、口語輸出（面試）之前 -->
       <button data-es="drill">時態與題型</button>
       <button data-es="iv">升中面試</button>
+      <div id="enSubRow2">
+        <div id="enSubWords">
+          <button data-es="mywords">單詞本</button>
+          <button data-es="hk">中小學單詞</button>
+          <button data-es="vocab">詞表</button>
+          <button data-es="wb">某文單詞本</button>
+        </div>
+        <div id="enSubPapers">
+          <button data-es="paper">英文卷</button>
+          <button data-es="exam">呈分試卷</button>
+          <button data-es="school">校卷題型</button>
+        </div>
+      </div>
     </div>
     <div id="hkView" style="display:none">
       <div class="tools">
@@ -6267,6 +6284,8 @@ var CNS_READA=[
   '這時，我看見鄰座的俊文手上正握着一支一模一樣的自動鉛筆。我心裏「騰」地一下火起來：一定是他拿了我的筆！我一把搶過來，大聲說：「你為甚麼拿我的筆？」俊文愣住了，漲紅了臉說：「這是我自己買的！」我不理他，還說要報告老師。',
   '小息的時候，我在體育館的座位底下發現了自己的鉛筆——原來昨天放學時，它從褲袋裏滑了出來。我拿着兩支一模一樣的筆，臉一下子紅到耳根，恨不得找個地洞鑽進去。',
   '我鼓起勇氣向俊文道歉。他愣了一下，隨即笑着說：「找到了就好。」還替我把弄髒了的筆擦乾淨。我心裏又慚愧又感動。',
+  '小息餘下的時間，我坐在座位上想了很久。從前我總以為自己反應快，遇到事情一眼就能判斷；今天才知道，快不一定對。若不是那支筆在座位底下等着，我大概會一直怪下去，連一句對不起都不說。',
+  '放學時，我特意等俊文一起走。他沒有提起上午的事，只和我聊起下週的球類比賽。我偷偷看他，心想：能這樣一笑置之的人，胸襟真比我寬闊。',
   '回家後我把這件事告訴媽媽。她說，遇事先弄清真相，才不會冤枉好人；錯怪了別人，就要勇敢認錯。今天的教訓，我會一直記住。'],
   qs:[{t:'fill',s:'本文屬於哪一類實用文體？',a:'日記'},
       {t:'mc',s:'作者「恨不得找個地洞鑽進去」的主要原因是',opts:['找不到自動鉛筆。','發現自己錯怪了俊文，非常慚愧。','被老師當眾批評。','鉛筆被弄髒了。'],a:1},
@@ -6277,6 +6296,7 @@ var CNS_READA=[
   '起初山路還有路燈，走到半山，燈就沒有了，只剩下頭燈照出的一小圈光。爸爸在前開路，我扶着欄杆一步一步往上爬。走到一半，我的腿又痠又軟，真想坐下來休息。隊裏的姐姐把水遞給我，說：「太陽不會等你，再堅持一會兒吧！」',
   '天色由黑轉深藍，再由深藍轉成淺灰。我們終於在五時四十分登上山頂。山頂上已經站着幾十個人，人人都朝着東方張望。',
   '六時零二分，天邊忽然裂開一道金縫，太陽一點一點地升起來：先是一條金線，接着是半個、一個，最後整個太陽跳出雲海，把海面染成一片金紅。山頂上響起一片歡呼聲，幾十部相機咔嚓咔嚓地響個不停。',
+  '我站在人羣後面，忽然想起半山那段路：那時我連抬頭的力氣都沒有，只想掉頭回去。若真的回去了，眼前這道金光，便永遠只會是別人相機裏的一張照片。風從山頂吹過，晨光把每個人的臉都照得暖暖的。',
   '下山的路上，我一點也不覺得累了。原來辛苦爬上山頂換來的景色，比任何電影都要好看。媽媽說，這就是「一分耕耘，一分收穫」。我望着遠處的太陽，用力地點了點頭。'],
   qs:[{t:'fill',s:'本文是一篇記敘文還是說明文？',a:'記敘文'},
       {t:'mc',s:'登山途中作者一度想休息，主要原因是',opts:['天色太黑。','腿又痠又軟。','突然下雨。','迷了路。'],a:1},
@@ -6288,6 +6308,7 @@ var CNS_READB=[
  {title:'珍惜光陰',text:['常聽人說：「時間就是金錢。」其實時間比金錢更寶貴——錢花掉了可以再賺，光陰流走了卻永遠追不回來。',
   '古人早就明白這個道理。晉朝的車胤家裏窮得點不起油燈，便捉來螢火蟲，裝進紗袋裏照明讀書；孫敬把頭髮綁在屋樑上，一打瞌睡便被扯醒，繼續苦讀。他們都能善用別人浪費的時間，最後成為有學問的人。',
   '反觀今天的我們，上下課路上、飯後睡前，零零碎碎的時間其實不少。有人用來背十個單詞，一年便多背三千多個；有人只顧看短片，一年便悄悄溜走四百多個鐘頭。同樣是一年，收穫卻差天共地。',
+  '其實這些道理，古人也說過。漢代的董遇利用「三餘」讀書——冬天是一年的餘暇，夜晚是一天的餘暇，陰雨天是即時的餘暇。他沒有抱怨沒有時間，只是把別人空着的一刻都用上。可見珍惜光陰不在於口號說得多響，而在於今天晚上，你願不願意放下手機。',
   '管理時間也有方法：第一，每天睡前列好明天的清單，重要的功課排在最前面；第二，把大任務切成小段，每做完一段便休息五分鐘，比一口氣苦熬有效得多；第三，學會說「不」——同學約你打遊戲機時，功課未做完就要懂得拒絕。',
   '有人抱怨自己沒有天分，其實大多數人的差距，是在一個又一個被浪費的十分鐘裏拉開的。與其抱怨，不如從今晚的溫習清單開始。'],
   qs:[{t:'mc',s:'第二至三段主要是說明',opts:['古人讀書很苦。','零碎時間善用與否，收穫差別很大。','時間就是金錢。','背單詞的技巧。'],a:1},
@@ -6298,6 +6319,7 @@ var CNS_READB=[
  {title:'小小清潔工——蚯蚓',text:['說起蚯蚓，很多人覺得牠又細又滑，沒甚麼特別。其實，這位泥土裏的「小小清潔工」，是大自然不可缺少的功臣。',
   '蚯蚓以落葉和枯草為食。牠們把這些廢物吞進肚裏，排出來的糞便含有豐富的養分，是上好的天然肥料。一條蚯蚓一天吃掉的落葉，可以達到自己體重的一半；一小片土地裏的蚯蚓，一年能把幾厘米厚的落葉層全部處理乾淨。',
   '蚯蚓還是鬆土專家。牠們在泥土裏鑽來鑽去，挖出一條條細小的通道，讓空氣和雨水更容易進入土中。農夫都喜歡說：「一條蚯蚓，勝過一把鋤頭。」泥土疏鬆了，農作物的根才長得深、長得壯。',
+  '研究土壤的科學家還發現，蚯蚓排出的糞便不但有養分，顆粒結構也特別穩定，雨水沖過時不易被沖走。在斜坡上，這一點尤其重要——少了蚯蚓，一場大雨便可能沖走表土，留下又硬又薄的底泥，要很多年才養得回來。',
   '不過，蚯蚓的生活正面對威脅。農藥把牠們毒死，塑膠袋蓋住泥土令牠們窒息。科學家發現，有些果園因為蚯蚓大量減少，土壤變得又硬又瘦，收成一年不如一年。',
   '下次在雨後的操場看見蚯蚓，不妨用樹枝輕輕把牠送回花槽的泥土裏。保護這位小小清潔工，其實就是保護我們腳下的土地。'],
   qs:[{t:'mc',s:'第三段主要是說明',opts:['蚯蚓以落葉為食。','蚯蚓能鬆土，對農作物有益。','蚯蚓會毒死農作物。','蚯蚓喜歡下雨。'],a:1},
@@ -7623,16 +7645,22 @@ const RD_ART=[
   'That evening, he and his uncle boarded the 7:30 ferry. The wind smelled of salt and engine oil. Behind them, the skyscrapers of Central switched on their lights one by one, like a city slowly waking up for its second shift.',
   '"Your great-grandfather was a ferryman," Uncle said, leaning on the rail. "Thirty years on the water. He could name every star above the harbour, but he never learned to swim." Ho Yin laughed, then stopped. "Really? Why not?" "He said the sea was his office. You don\'t jump into your office." Ho Yin laughed again, louder this time.',
   'A green Star Ferry passed them going the other way. Passengers waved, and Ho Yin waved back, though he did not know a single face. For one strange moment, he felt connected to all of them — and to the great-grandfather he had never met.',
-  'On the Kowloon side, the lights of the clock tower glowed softly. Ho Yin took a photo, but he knew he would not need it. Some nights you remember without a picture.'],
-  words:[['ferry','渡輪'],['harbour','海港'],['skyscraper','摩天大樓'],['rail','欄杆'],['glow','發光']],
+  'The ferry slowed as it neared the Kowloon pier. A old woman beside them began to fold a yellow paper bag into a small boat. She saw Ho Yin watching and smiled. "My grandson used to make these," she said. "He is at university now, in another city." She set the paper boat gently on the seat, the way one might set down a sleeping bird.',
+  'Uncle pointed across the water. "See that dark building by the waterfront? Your great-grandfather worked there as a young man, loading crates before the sun came up. He used to say the harbour had a heartbeat — you could feel it through the soles of your feet." Ho Yin put his hand flat on the deck, as if listening.',
+  'The engine changed its note and the ferry turned towards the pier. People gathered their bags and stood up. For a moment nobody moved, as though they were all waiting for the same last word that never came.',
+  'On the Kowloon side, the lights of the clock tower glowed softly. Ho Yin took a photo, but he knew he would not need it. Some nights you remember without a picture. He slipped the paper boat into his pocket, and on the way home he told his uncle he wanted to learn to swim.'],
+  words:[['ferry','渡輪'],['harbour','海港'],['skyscraper','摩天大樓'],['rail','欄杆'],['glow','發光'],['pier','碼頭'],['crate','木箱'],['deck','甲板']],
   qs:['你坐過天星小輪嗎？晚上和白天有什麼不同？','你的家人裏有什麼老故事？今晚回去問一位長輩。']},
  {lv:'L4',title:'The Stair Street Cat',paras:[
   'On Tai Ping Shan Street, between the antique shops and the coffee roasters, lives a grey cat named General. Nobody knows who first called him that, but everyone agrees he behaves like one.',
   'Every afternoon, General walks his territory. He inspects the plant pots, sits in front of the ice cream shop until someone gives him a lick of vanilla, and naps on the warm stone steps of the temple. The shopkeepers greet him by name. Tourists photograph him. He ignores them all with perfect royal calm.',
   'Ten-year-old Chloe lives upstairs. Every day after school, she brings General a small piece of steamed fish. She never picks him up or bothers him while he eats. She just sits on the step and tells him about her day — the spelling test, the new boy who cannot use chopsticks, the PE teacher\'s terrible jokes.',
   'One rainy Monday, Chloe was late. The rain drummed on the awnings, and the street was empty. General waited on the temple steps for a whole hour, tail curled around his paws.',
-  'When Chloe finally came, soaked and out of breath, General stood up, stretched, and — for the first time anyone could remember — rubbed his head against her school bag. The shopkeepers smiled. Even royalty needs a friend on rainy days.'],
-  words:[['antique','古董'],['territory','地盤'],['inspect','巡視'],['nap','打盹'],['soaked','濕透的']],
+  'General had his own way of knowing the hour. At half past three he left the ice cream shop and walked two doors down to the bakery, where the smell of warm bread drifted onto the street. The baker, a man with flour on his sleeves, always saved him a small corner of plain roll. He never called out to the cat; he simply left it on the step and went back to his oven.',
+  'One Saturday, a group of tourists stopped to photograph the temple steps. They did not see General at first, because he was sitting on a windowsill, washing one paw with the patience of an old professor. A little girl spotted him and whispered something to her mother. The mother laughed and put a finger to her lips.',
+  'Chloe kept a small notebook in her school bag. In it she wrote down the things she told General — not because he could read them, but because writing made the day smaller. Tests became one line. Arguments became one line. The notebook was almost full now, and she had not shown it to anyone.',
+  'When Chloe finally came, soaked and out of breath, General stood up, stretched, and — for the first time anyone could remember — rubbed his head against her school bag. The shopkeepers smiled. Even royalty needs a friend on rainy days. That evening, she wrote one more line in her notebook: today the cat came to meet me.'],
+  words:[['antique','古董'],['territory','地盤'],['inspect','巡視'],['nap','打盹'],['soaked','濕透的'],['bakery','麵包店'],['drift','飄散'],['professor','教授']],
   qs:['你家附近有認識的貓狗嗎？給它們起過名字嗎？','如果你養寵物，你會怎麼照顧它？']},
  {lv:'L1',title:'The Rainbow after Rain',paras:[
   'It rained all morning. Then the sun came out. Kai ran to the window.',
@@ -7687,8 +7715,10 @@ const RD_ART=[
   'It stopped on a Tuesday, in the middle of a hot evening. My mother came home with two bags of shopping and looked at the closed door. "Not again," she said. The notice on the wall said the repair man would come the next morning.',
   'We climbed. My brother, who was seven, counted the floors out loud. By the sixth, he wanted to be carried. By the ninth, he was quiet. My mother stopped on the landing and pointed out of the small window. "Look," she said. Across the city, thousands of lights were on, each one a room with someone in it.',
   'On the eleventh floor, my legs ached and my mother made lemonade — the kind with too much sugar, the kind she only made when something had gone wrong. We sat on the floor because it was cooler there.',
-  'The next morning the lift worked again, and nobody said much about it. But sometimes, when the doors close and the mirror shows my tired face beside the crack, I remember that night — the counting, the lights, and the lemonade that was far too sweet. I do not wish the lift would break again. I am only glad we had to climb.'],
-  words:[['metal','金屬'],['repair','修理'],['landing','樓梯平台'],['ached','酸痛'],['lemonade','檸檬水']],
+  'Halfway up, we passed a door I had never really noticed. An old man opened it a crack and asked if we were all right. My mother said yes, thank you, we were just taking the stairs. He nodded and said he had lived there forty years and knew every step by heart. Then he closed the door, and we heard him moving quietly inside.',
+  'My brother found a snail on the landing and wanted to bring it home. My mother said it had a home already. He looked at the snail for a long time, then set it back on the wall. On the eighth floor he asked me to tell him a story, so I made one up about a lift that was afraid of the dark. He laughed at that, and forgot to ask to be carried.',
+  'The next morning the lift worked again, and nobody said much about it. But sometimes, when the doors close and the mirror shows my tired face beside the crack, I remember that night — the counting, the lights, the old man behind his door, the snail, and the lemonade that was far too sweet. I do not wish the lift would break again. I am only glad we had to climb.'],
+  words:[['metal','金屬'],['repair','修理'],['landing','樓梯平台'],['ached','酸痛'],['lemonade','檸檬水'],['crack','裂縫'],['snail','蝸牛'],['afraid','害怕的']],
   qs:['你住的地方有電梯嗎？試過壞掉嗎？那天怎麼樣？','有沒有不方便的一天，事後想起來反而覺得不錯？講一件。']},
  {lv:'L4',title:'The Boy Who Watered the Plants',paras:[
   'On the roof of our building, there were six pots of plants that nobody owned. Someone had put them there years ago, and everyone had stopped looking at them.',
@@ -7696,8 +7726,10 @@ const RD_ART=[
   'I asked him once why he did it. "Nobody asked you to," I said. He looked at a plant with three green leaves and thought for a moment. "They cannot ask," he said. "That is why someone must."',
   'By the summer, one of the pots had flowers — small yellow ones, the size of a coin. A woman on the fifth floor started bringing water too. Then an old man added a seventh pot. Nobody held a meeting; it simply happened, the way the plants did.',
   'I moved away at the end of that year. Before I left, I went up to the roof one last time. The boy was there, of course, with his bottle. He did not see me at first. I stood quietly and watched him touch the earth with his finger, checking if it was dry, the way his mother might check a sleeping child\'s forehead.',
-  'I do not know if the plants are still there. But I have never forgotten the yellow flowers, or the sentence he gave me: they cannot ask, so someone must. It is, I think, a good way to live.'],
-  words:[['roof','天台'],['pots','花盆'],['forehead','額頭'],['earth','泥土'],['simply','就這樣；純粹']],
+  'One evening in July, a heavy storm swept over the building. The next morning the roof was littered with broken leaves, and one of the pots had tipped over. I thought the boy would give up. Instead, he came up with a younger child beside him — a sister, perhaps — and showed her how to press the soil back with her palm. She copied him very seriously, her tongue out with concentration.',
+  'By autumn, the roof had changed in a quiet way. Someone had painted the pots the same blue, though nobody could say who. The old man brought a small stool and sat there in the evenings, not gardening, just watching the plants grow. People passing on the stairs began to nod at one another a little more than before.',
+  'I do not know if the plants are still there. But I have never forgotten the yellow flowers, the tipped-over pot after the storm, or the sentence he gave me: they cannot ask, so someone must. It is, I think, a good way to live.'],
+  words:[['roof','天台'],['pots','花盆'],['forehead','額頭'],['earth','泥土'],['simply','就這樣；純粹'],['storm','暴風雨'],['soil','土壤'],['concentration','專心']],
   qs:['你家附近有沒有沒人管的植物或東西？有人照顧它嗎？','「沒有人要求，但有人去做」——你身邊有這樣的人嗎？講一件。']}
 ];
 // v2.53 正文點詞：中文義只取站內既有詞庫精確匹配（含簡單詞形還原），查不到留空不臆造
@@ -10669,18 +10701,37 @@ async function exAiPaper(){
   }finally{ if(btn){btn.disabled=false;btn.textContent=t0;} }
 }
 
+// v2.54 子目錄：grpwords/grppapers 是父頁籤（點父＝開本尊 mywords/paper），其餘是子頁籤；
+// 子 chip 的 data-es 與 v1.80 前完全一致，__hkkGo('p:en:xxx')、enGoSub、__mwGotoPaperWords 零改動
+const ES_GRP={hk:'grpwords',vocab:'grpwords',wb:'grpwords',mywords:'grpwords',paper:'grppapers',exam:'grppapers',school:'grppapers'};
+function enSetGroup(g){
+  const row=document.getElementById('enSubRow2');
+  if(row){row.style.display=g?'flex':'none';
+    document.getElementById('enSubWords').style.display=(g==='grpwords')?'flex':'none';
+    document.getElementById('enSubPapers').style.display=(g==='grppapers')?'flex':'none';}
+  document.querySelectorAll('#enPracSub > button.esgrp').forEach(x=>x.classList.toggle('on',x.dataset.es===g));
+}
+function enMarkSub(v){ // 標子 chip on
+  const cb=ES_GRP[v]?document.querySelector('#enSub'+(ES_GRP[v]==='grpwords'?'Words':'Papers')+' button[data-es="'+v+'"]'):null;
+  document.querySelectorAll('#enSubRow2 button').forEach(x=>x.classList.toggle('on',x===cb));
+}
 document.querySelectorAll('#enPracSub button').forEach(b=>b.onclick=()=>{
   const es=b.dataset.es;
   const sw=(id,on)=>{const el=document.getElementById(id); if(el) el.style.display=on?'block':'none';};
-  try{
-    document.querySelectorAll('#enPracSub button').forEach(x=>x.classList.toggle('on',x===b));
-    sw('hkView',es==='hk'); sw('vocabView',es==='vocab'); sw('ivView',es==='iv');
-    sw('paperView',es==='paper'); sw('goalView',es==='goal'); sw('examView',es==='exam');
-    sw('myWordsView',es==='mywords'); sw('wbView',es==='wb'); sw('drillView',es==='drill');
-    sw('schoolView',es==='school');
-    sw('textView',es==='text');
-    if(es==='hk')renderHk(); else if(es==='vocab')renderVocab(); else if(es==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(es==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(es==='drill')drTapTo(drTap); else if(es==='text'&&window.__txTest)window.__txTest.render(); else if(es==='paper' && !curEnPaper.length) genEnPaper(); else if(es==='exam' && !curExamPaper) genExamPaper(); else if(es==='school' && !curSchoolPaper) genSchoolPaper();
-  }catch(e){ console.error('切換視圖失敗：',e); }
+  const show=(v)=>{
+    enSetGroup(ES_GRP[v]||null); enMarkSub(v);
+    document.querySelectorAll('#enPracSub > button:not(.esgrp)').forEach(x=>x.classList.toggle('on',x.dataset.es===v));
+    try{
+      sw('hkView',v==='hk'); sw('vocabView',v==='vocab'); sw('ivView',v==='iv');
+      sw('paperView',v==='paper'); sw('goalView',v==='goal'); sw('examView',v==='exam');
+      sw('myWordsView',v==='mywords'); sw('wbView',v==='wb'); sw('drillView',v==='drill');
+      sw('schoolView',v==='school');
+      sw('textView',v==='text');
+      if(v==='hk')renderHk(); else if(v==='vocab')renderVocab(); else if(v==='mywords'&&window.__myWordsTest)window.__myWordsTest.render(); else if(v==='wb'&&window.__lwteTest)window.__lwteTest.render(); else if(v==='drill')drTapTo(drTap); else if(v==='text'&&window.__txTest)window.__txTest.render(); else if(v==='paper' && !curEnPaper.length) genEnPaper(); else if(v==='exam' && !curExamPaper) genExamPaper(); else if(v==='school' && !curSchoolPaper) genSchoolPaper();
+    }catch(e){ console.error('切換視圖失敗：',e); }
+  };
+  if(es==='grpwords'||es==='grppapers'){ show(es==='grpwords'?'mywords':'paper'); return; }
+  show(es);
 });
 // v1.69：路線圖頁的動線按鈕——複用同一套切換邏輯，避免另寫一份顯隱代碼
 function enGoSub(es){
@@ -12046,7 +12097,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.53',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.54',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -13385,8 +13436,8 @@ assert '__TEXT_UNITS__' not in html, '課文配套注入失敗'
 # ---- v1.82 構建期注入：中文卷原創題庫（零第三方原文） ----
 _cn_qbank = open(os.path.join(WS, '_cn_qbank.json'), encoding='utf-8').read().strip()
 _cn_obj = json.loads(_cn_qbank)
-assert set(_cn_obj.keys()) == {'P2', 'P5', 'P6'}, '中文卷應覆蓋 P2/P5/P6 三級'
-for _g in ('P2', 'P5', 'P6'):
+assert set(_cn_obj.keys()) == {'P1', 'P2', 'P3', 'P4', 'P5', 'P6'}, '中文卷應覆蓋 P1-P6 六級'
+for _g in ('P1', 'P2', 'P3', 'P4', 'P5', 'P6'):
     _b = _cn_obj[_g]
     assert _b['mc'] and _b['fill'] and _b['read'] and _b['write'], '中文卷 %s 級題目不全' % _g
     for _q in _b['mc']:
