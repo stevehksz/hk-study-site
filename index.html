@@ -1360,13 +1360,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.55
+    © 叶工 SteveHKSZ · 公開版 v2.56
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.55</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.56</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -53077,12 +53077,13 @@ function rdArtParaHtml(p,forPrint){
   var s=String(p||'');
   if(forPrint)return '<p class="rdart-p">'+rdArtEsc(s)+'</p>';
   var done={};
-  try{(window.__myWordsTest&&window.__myWordsTest.get()||[]).forEach(function(x){done[String(x.w||'').toLowerCase()]=1;});}catch(e){}
+  try{(window.__myWordsTest&&window.__myWordsTest.get()||[]).forEach(function(x){done[String(x.w||'').toLowerCase()]=x.src||'';});}catch(e){}
   var parts=s.split(/([A-Za-z]+(?:[-'][A-Za-z]+)*)/);
   var h=parts.map(function(seg,i){
     if(i%2===0)return rdArtEsc(seg);
-    var info=rdArtWordInfo(seg),inb=!!done[seg.toLowerCase()];
-    return '<span class="rdaw-w'+(inb?' rdaw-done':'')+'" data-w="'+rdArtEsc(seg)+'" data-zh="'+rdArtEsc(info.zh)+'" data-ph="'+rdArtEsc(info.ph)+'" title="'+(inb?'已在單詞本':'點一下收進單詞本')+'">'+rdArtEsc(seg)+'</span>';
+    var info=rdArtWordInfo(seg),src=done[seg.toLowerCase()]||'',inb=!!src;
+    var tip=inb?(src==='站內·泛讀文章'?'已在單詞本，再點一下移除':'已在單詞本（從'+src+'加入，請到單詞本頁移除）'):'點一下收進單詞本';
+    return '<span class="rdaw-w'+(inb?' rdaw-done':'')+'" data-w="'+rdArtEsc(seg)+'" data-zh="'+rdArtEsc(info.zh)+'" data-ph="'+rdArtEsc(info.ph)+'" title="'+tip+'">'+rdArtEsc(seg)+'</span>';
   }).join('');
   return '<p class="rdart-p">'+h+'</p>';
 }
@@ -53205,7 +53206,8 @@ let _rdArtPrintBound=false;
       const w=b.getAttribute('data-rdaw'),zh=b.getAttribute('data-rdawzh');
       if(!w||!window.__myWordsTest)return;
       const r=window.__myWordsTest.addFrom('rdart',{w:w,zh:zh,note:curRdArt?curRdArt.title:''});
-      if(r.ok){b.disabled=true;b.textContent='✓ 已收';b.classList.add('rdaw-ok');if(m)m.textContent='已把「'+w+'」收進我的單詞本。';}
+      if(r.ok){b.textContent='✓ 已收';b.classList.add('rdaw-ok');if(m)m.textContent='已把「'+w+'」收進我的單詞本（再點一下可移除）。';}
+      else if(r.dup&&r.src==='站內·泛讀文章'){const rr=window.__myWordsTest.removeWord(w);if(rr.ok){b.disabled=false;b.textContent='＋詞本';b.classList.remove('rdaw-ok');if(m)m.textContent='已從單詞本移除「'+w+'」（再點可重新加入）。';}else{if(m)m.textContent=rr.msg||'';}}
       else{if(m)m.textContent=r.msg||'';}
       return;
     }
@@ -53216,7 +53218,8 @@ let _rdArtPrintBound=false;
     const w=ws.getAttribute('data-w');
     if(!w||!window.__myWordsTest)return;
     const r=window.__myWordsTest.addFrom('rdart',{w:w,zh:ws.getAttribute('data-zh')||'',ph:ws.getAttribute('data-ph')||'',note:curRdArt?curRdArt.title:''});
-    if(r.ok){ws.classList.add('rdaw-done');ws.title='已在單詞本';if(m)m.textContent='已把正文的「'+w+'」收進我的單詞本。';}
+    if(r.ok){ws.classList.add('rdaw-done');ws.title='已在單詞本，再點一下移除';if(m)m.textContent='已把正文的「'+w+'」收進我的單詞本（再點一下可移除）。';}
+    else if(r.dup&&r.src==='站內·泛讀文章'){const rr=window.__myWordsTest.removeWord(w);if(rr.ok){ws.classList.remove('rdaw-done');ws.title='點一下收進單詞本';if(m)m.textContent='已從單詞本移除「'+w+'」（再點可重新加入）。';}else{if(m)m.textContent=rr.msg||'';}}
     else{if(m)m.textContent=r.msg||'';}
   });
 })();
@@ -56707,7 +56710,7 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
     var c=clean(o,list.length);
     if(!c)return {ok:false,msg:'請先填單詞'};
     if(list.length>=MAX)return {ok:false,msg:'單詞本已達 '+MAX+' 詞上限，請先導出並清理'};
-    if(has(c.w))return {ok:false,msg:'「'+c.w+'」已在單詞本'};
+    if(has(c.w)){var ex=null;list.forEach(function(x){if(x.w.toLowerCase()===c.w.toLowerCase())ex=x;});return {ok:false,msg:'「'+c.w+'」已在單詞本',dup:true,src:(ex&&ex.src)||''};}
     c.ts=todayFor();
     list.unshift(c);
     if(!save()){list.shift();return {ok:false,msg:'儲存失敗（瀏覽器儲存空間不足或已停用）'};}
@@ -56724,6 +56727,15 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
       ? {w:o.w,zh:o.zh||'',ph:o.ph||'',src:'站內·泛讀文章',note:o.note?('篇目：'+o.note):''}
       : {w:o.w,zh:o.zh,ph:o.ph||'',src:'站內·詞表',note:o.topic?('主題：'+o.topic):''};
     return add(d);
+  }
+  function removeWord(w){
+    var k=String(w||'').trim().toLowerCase();
+    var x=null;list.forEach(function(o){if(o.w.toLowerCase()===k)x=o;});
+    if(!x)return {ok:false,msg:'「'+w+'」不在單詞本'};
+    list=list.filter(function(o){return o.id!==x.id;});
+    if(!save()){list.unshift(x);save();return {ok:false,msg:'儲存失敗'};}
+    render();
+    return {ok:true,msg:'已移除「'+x.w+'」',src:x.src};
   }
   function render(){
     var box=document.getElementById('mwList');if(!box)return;
@@ -57019,7 +57031,7 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
     key:KEY,max:MAX,get:function(){return list.map(function(x){return Object.assign({},x);});},
     set:function(a){list=normalize(a);save();render();},
     clear:function(){list=[];save();render();},
-    add:add,addFrom:addFrom,has:has,render:render,normalize:normalize,
+    add:add,addFrom:addFrom,has:has,removeWord:removeWord,render:render,normalize:normalize,
     exportData:exportData,importData:importData,count:function(){return list.length;},
     bulkAdd:addMany,parseBulk:parseBulk,startStudy:startStudy
   };
@@ -57552,7 +57564,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.55',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.56',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
