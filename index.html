@@ -29,6 +29,23 @@
   .tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center}
   .chip{padding:6px 12px;border:1px solid var(--line);border-radius:20px;background:#fff;cursor:pointer;font-size:13px}
   .chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+    /* v2.55 單詞猜猜樂 */
+  .wdl-wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+  #wdlBoard{margin-bottom:8px}
+  .wdl-row{display:flex;gap:6px;margin-bottom:6px}
+  .wdl-cell{width:44px;height:44px;border:2px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;text-transform:uppercase;background:#fff;box-sizing:border-box}
+  .wdl-cell.fill{border-color:#999}
+  .wdl-cell.hit{background:#2e9e6b;border-color:#2e9e6b;color:#fff}
+  .wdl-cell.near{background:#d9b23a;border-color:#d9b23a;color:#fff}
+  .wdl-cell.miss{background:#c9c9c9;border-color:#c9c9c9;color:#666}
+  .wdlKeys{max-width:520px}
+  .wdlKeys>div{display:flex;gap:5px;justify-content:center;margin-bottom:5px;flex-wrap:nowrap}
+  .wdlKeys button{min-width:30px;min-height:44px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;font-size:13px;text-transform:uppercase}
+  .wdlKeys button.wk-wide{text-transform:none;min-width:56px}
+  .wdlKeys button.wk-hit{background:#2e9e6b;color:#fff;border-color:#2e9e6b}
+  .wdlKeys button.wk-near{background:#d9b23a;color:#fff;border-color:#d9b23a}
+  .wdlKeys button.wk-miss{background:#c9c9c9;color:#666;border-color:#c9c9c9}
+  @media (max-width:640px){.wdl-cell{width:40px;height:40px;font-size:18px}}
   /* v2.50 面試題庫 */
   .iv-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
   .iv-cats .chip{padding:4px 10px;font-size:12px}
@@ -1343,13 +1360,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.54
+    © 叶工 SteveHKSZ · 公開版 v2.55
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.54</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.55</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3494,6 +3511,7 @@ const INTR_QBANK=[
   <div class="subnav" id="funGameChips">
     <button data-fg="snake" class="on">🐍 單詞貪吃蛇</button>
     <button data-fg="sudoku">🔢 數獨</button>
+    <button data-fg="wdl">🔤 單詞猜猜樂</button>
   </div>
   <div id="snakeGame">
   <div class="gtitle">單詞貪吃蛇（悠閒 · 邊玩邊記）</div>
@@ -3543,6 +3561,36 @@ const INTR_QBANK=[
     <div id="sdkGrid" class="sdkGrid"></div>
     <div id="sdkNums" class="subnav" style="justify-content:center"></div>
     <p class="snake-tip" style="text-align:center">先點格子選中，再點下面的數字填入；電腦可直接按數字鍵，⌫／0 清除。灰色固定格不可改。</p>
+  </div>
+</div>
+
+  <!-- v2.55 單詞猜猜樂：猜詞玩法（網上最熱猜詞遊戲同款機制）為本站自行實現，零第三方代碼原文入庫 -->
+  <div class="gsec" id="wdlCard" style="display:none">
+    <h2>🔤 單詞猜猜樂（悠閒 · 拼寫推理）</h2>
+    <span class="folk">猜一個 4–6 字母的英文詞，6 次機會：<b>綠</b>＝字母對、位置也對；<b>黃</b>＝字母對、位置不對；<b>灰</b>＝沒有這個字母。猜中可一鍵收進單詞本。純本地，不計分排名。</span>
+    <div class="subnav" id="wdlGradeChips">
+      <button data-wg="all" class="on">全部年級</button>
+      <button data-wg="一年級">一年級</button>
+      <button data-wg="二年級">二年級</button>
+      <button data-wg="三年級">三年級</button>
+      <button data-wg="四年級">四年級</button>
+      <button data-wg="五年級">五年級</button>
+      <button data-wg="六年級">六年級</button>
+    </div>
+    <div class="wdl-wrap">
+      <div>
+        <div id="wdlBoard"></div>
+        <div id="wdlKeys" class="wdlKeys"></div>
+      </div>
+      <div class="snake-side">
+        <div class="snake-stat">已玩 <b id="wdlPlayed">0</b> ｜ 勝 <b id="wdlWins">0</b> ｜ 連勝 <b id="wdlStreak">0</b></div>
+        <div class="snake-word" id="wdlWord">按「開始猜詞」出題</div>
+        <button class="btn" id="wdlNew">開始猜詞</button>
+        <button class="btn" id="wdlAdd" disabled>＋ 單詞本</button>
+        <p class="snake-tip">點鍵盤或用電腦鍵盤輸入，Enter 提交，⌫ 刪除。6 次沒猜中會公布答案。</p>
+      </div>
+    </div>
+    <div id="wdlMsg" style="min-height:20px;font-size:13px;color:#b8541b"></div>
   </div>
 </div>
 
@@ -54178,7 +54226,7 @@ function showMain(m){
 // ---- v2.02 悠閒遊戲選擇器：選哪個顯示哪個，其餘收起 ----
 (function(){
   const chips=document.querySelectorAll('#funGameChips button');
-  const views={snake:document.getElementById('snakeGame'),sudoku:document.getElementById('sdkCard')};
+  const views={snake:document.getElementById('snakeGame'),sudoku:document.getElementById('sdkCard'),wdl:document.getElementById('wdlCard')};
   function showFunGame(k){
     if(!views[k])return;
     chips.forEach(b=>b.classList.toggle('on',b.dataset.fg===k));
@@ -54187,6 +54235,137 @@ function showMain(m){
   }
   chips.forEach(b=>b.onclick=()=>showFunGame(b.dataset.fg));
   window.__funGameTest={show:showFunGame};
+})();
+// ---- v2.55 單詞猜猜樂（猜詞玩法本站自行實現；詞庫＝站內 HK，零第三方詞條） ----
+(function(){
+  const board=document.getElementById('wdlBoard'), keys=document.getElementById('wdlKeys');
+  if(!board)return;
+  let answer='', rows=[], cur='', done=false, L=5, grade='all';
+  try{ grade=localStorage.getItem('hkk_wdl_grade')||'all'; }catch(e){}
+  let st={played:0,wins:0,streak:0};
+  try{ st=JSON.parse(localStorage.getItem('hkk_wdl_stats_v0'))||st; }catch(e){}
+  function pool(){
+    let p=HK.filter(w=>w.grade&&w.grade.indexOf('中')!==0&&/^[a-z]{4,6}$/.test(w.w)&&w.zh);
+    if(grade!=='all'){ const g=p.filter(w=>w.grade===grade); if(g.length>=8)p=g; }
+    return p;
+  }
+  function dictSet(){ return HK.filter(w=>w.grade&&w.grade.indexOf('中')!==0&&/^[a-z]{4,6}$/.test(w.w)); }
+  const DICT=(function(){ const m={}; dictSet().forEach(w=>m[w.w]=1); return m; })();
+  function stat(){
+    document.getElementById('wdlPlayed').textContent=st.played;
+    document.getElementById('wdlWins').textContent=st.wins;
+    document.getElementById('wdlStreak').textContent=st.streak;
+  }
+  function save(){ try{ localStorage.setItem('hkk_wdl_stats_v0',JSON.stringify(st)); }catch(e){} stat(); }
+  function msg(t){ document.getElementById('wdlMsg').textContent=t||''; }
+  function buildGrid(){
+    board.innerHTML='';
+    for(let r=0;r<6;r++){
+      const row=document.createElement('div'); row.className='wdl-row';
+      for(let c=0;c<L;c++){ const cell=document.createElement('div'); cell.className='wdl-cell'; row.appendChild(cell); }
+      board.appendChild(row);
+    }
+  }
+  function buildKeys(){
+    const ks=['qwertyuiop','asdfghjkl','zxcvbnm'];
+    keys.innerHTML='';
+    ks.forEach(function(k,i){
+      const d=document.createElement('div');
+      if(i===2){ const en=document.createElement('button'); en.textContent='Enter'; en.className='wk-wide'; en.onclick=function(){ type('Enter'); }; d.appendChild(en); }
+      k.split('').forEach(function(ch){ const b=document.createElement('button'); b.dataset.k=ch; b.textContent=ch; b.onclick=function(){ type(ch); }; d.appendChild(b); });
+      if(i===2){ const bk=document.createElement('button'); bk.textContent='⌫'; bk.className='wk-wide'; bk.onclick=function(){ type('⌫'); }; d.appendChild(bk); }
+      keys.appendChild(d);
+    });
+  }
+  // 兩遍法上色：先標 hit 並計剩餘字母，再標 near（重複字母不會多標綠/黃）
+  function evaluate(guess,ans){
+    const res=new Array(ans.length).fill('miss'); const cnt={};
+    for(let i=0;i<ans.length;i++){ if(guess[i]===ans[i])res[i]='hit'; else cnt[ans[i]]=(cnt[ans[i]]||0)+1; }
+    for(let i=0;i<ans.length;i++){ if(res[i]!=='hit'&&cnt[guess[i]]>0){ res[i]='near'; cnt[guess[i]]--; } }
+    return res;
+  }
+  function paint(){
+    const grid=board.children;
+    for(let r=0;r<6;r++){
+      const cells=grid[r].children; let t='',res=null;
+      if(r<rows.length){ t=rows[r].t; res=rows[r].res; }
+      else if(r===rows.length&&!done){ t=cur; }
+      for(let c=0;c<L;c++){
+        cells[c].textContent=(t[c]||'').toUpperCase();
+        cells[c].className='wdl-cell'+(res?(' '+res[c]):(t[c]?' fill':''));
+      }
+    }
+    const rank={miss:1,near:2,hit:3}, best={};
+    rows.forEach(function(row){ for(let c=0;c<L;c++){ const ch=row.t[c],p=row.res[c]; if(!best[ch]||rank[p]>rank[best[ch]])best[ch]=p; } });
+    keys.querySelectorAll('button[data-k]').forEach(function(b){
+      const p=best[b.dataset.k];
+      b.classList.remove('wk-hit','wk-near','wk-miss');
+      if(p)b.classList.add('wk-'+p);
+    });
+  }
+  function type(k){
+    if(done)return;
+    if(k==='Enter'){ return submit(); }
+    if(k==='⌫'){ cur=cur.slice(0,-1); }
+    else if(/^[a-z]$/.test(k)&&cur.length<L){ cur+=k; }
+    paint();
+  }
+  function submit(){
+    if(done)return;
+    if(cur.length<L)return msg('要填滿 '+L+' 個字母再提交');
+    if(!DICT[cur])return msg('詞庫裏沒有「'+cur.toUpperCase()+'」這個詞，換個詞試試');
+    const res=evaluate(cur,answer);
+    rows.push({t:cur,res}); cur=''; paint();
+    if(res.every(x=>x==='hit')){ done=true; st.played++; st.wins++; st.streak++; save(); showAnswer(true); }
+    else if(rows.length>=6){ done=true; st.played++; st.streak=0; save(); showAnswer(false); }
+    else msg('還剩 '+(6-rows.length)+' 次機會');
+  }
+  function showAnswer(won){
+    const w=HK.find(x=>x.w===answer)||{};
+    document.getElementById('wdlWord').innerHTML=(won?'猜中了！':'答案是')+' <b>'+answer+'</b> = '+(w.zh||'')+(w.ipa?(' ／'+w.ipa+'／'):'');
+    document.getElementById('wdlAdd').disabled=false;
+    msg(won?'按「開始猜詞」繼續下一個詞':'按「開始猜詞」再來一局');
+  }
+  function newGame(){
+    const p=pool(); if(!p.length)return msg('詞池是空的，換個年級試試');
+    const w=p[Math.floor(Math.random()*p.length)];
+    answer=w.w; L=answer.length; rows=[]; cur=''; done=false;
+    document.getElementById('wdlAdd').disabled=true;
+    document.getElementById('wdlWord').textContent='猜一個 '+L+' 字母的詞，6 次機會';
+    buildGrid(); buildKeys(); paint(); msg('');
+  }
+  document.getElementById('wdlNew').onclick=newGame;
+  document.getElementById('wdlAdd').onclick=function(){
+    const w=HK.find(x=>x.w===answer)||{};
+    const r=window.__myWordsTest.addFrom('vocab',{w:answer,zh:w.zh||'',ph:w.ipa||'',topic:'單詞猜猜樂'});
+    if(r&&r.ok){ this.textContent='✓ 已加入'; this.disabled=true; msg('已收進單詞本'); }
+    else msg((r&&r.msg)||'加入失敗');
+  };
+  document.querySelectorAll('#wdlGradeChips button').forEach(function(b){
+    if(b.dataset.wg===grade)b.classList.add('on'); else b.classList.remove('on');
+    b.onclick=function(){
+      grade=b.dataset.wg;
+      try{ localStorage.setItem('hkk_wdl_grade',grade); }catch(e){}
+      document.querySelectorAll('#wdlGradeChips button').forEach(x=>x.classList.toggle('on',x===b));
+      newGame();
+    };
+  });
+  // 電腦鍵盤：只在悠閒頁＋本遊戲可見時接管；焦點在按鈕上時 Enter 交回給按鈕，避免雙觸發
+  document.addEventListener('keydown',function(e){
+    const fv=document.getElementById('funView'), card=document.getElementById('wdlCard');
+    if(!fv||fv.style.display==='none'||!card||card.style.display==='none')return;
+    if(document.activeElement&&document.activeElement.tagName==='BUTTON'&&e.key==='Enter')return;
+    if(e.key==='Enter')type('Enter');
+    else if(e.key==='Backspace')type('⌫');
+    else if(/^[a-zA-Z]$/.test(e.key))type(e.key.toLowerCase());
+  });
+  buildKeys(); stat();
+  window.__wdlTest={
+    evaluate:evaluate, pool:pool, newGame:newGame, type:type, submit:submit,
+    get answer(){return answer;}, setAnswer:function(x){answer=x;L=x.length;rows=[];cur='';done=false;buildGrid();paint();},
+    get state(){return {rows:rows.length,cur:cur,done:done,L:L};},
+    get grade(){return grade;}, stats:function(){return st;}
+  };
 })();
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showMain(b.dataset.tab));
 document.querySelectorAll('#guideSub button').forEach(b=>b.onclick=()=>{
@@ -57373,7 +57552,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.54',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.55',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
