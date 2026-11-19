@@ -540,6 +540,7 @@ body.mws-lock{overflow:hidden}
 .mwb-src input{flex:1 1 90px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;font-size:13px;min-width:0}
 .mwb-srcblk{border-top:1px dashed #dbe3ee;margin-top:12px;padding-top:10px}
 .mwb-srctitle{font-size:13px;font-weight:700;color:#1e3a5f;margin-bottom:8px}
+.mwb-srclabel{font-size:12px;font-weight:700;color:var(--mut);margin:4px 0 2px}
 .mwb-srcrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .mwb-srcrow .btn{padding:6px 13px;font-size:13px}
 .mwb-srcmsg{font-size:12px;color:#33475b}
@@ -1360,13 +1361,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.57
+    © 叶工 SteveHKSZ · 公開版 v2.58
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.57</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.58</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1915,7 +1916,7 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
     <!-- v1.80 我的單詞本：純本地增刪改查。公開 HTML 只有空結構，零預置第三方詞條 -->
     <div id="myWordsView" style="display:none">
       <div class="gtitle">我的單詞本（自己收 · 只存這台設備）</div>
-      <p class="tip">在「中小學單詞」或「詞表」看到想重點記的詞，點該詞卡上的「＋ 單詞本」即可收進來；也可以在下面自己輸入。中文義與備註可稍後補，改完自動保存。<b>資料只存本瀏覽器、跟賬號走，不會上傳</b>；清快取或換設備前請先「導出單詞本」。</p>
+      <p class="tip">在「中小學單詞」或「詞表」看到想重點記的詞，點該詞卡上的「＋ 單詞本」即可收進來；也可以在下面自己輸入。想整批收進來背？點「批量導入（貼文字）」，彈窗下方「從本站詞庫直接導入」可把中小學單詞（按年級）、詞表（按主題）、某文詞庫包（按冊）一鍵收進本單詞本，收完點「開始背單詞」開背。中文義與備註可稍後補，改完自動保存。<b>資料只存本瀏覽器、跟賬號走，不會上傳</b>；清快取或換設備前請先「導出單詞本」。</p>
       <div class="mwform">
         <label>單詞（必填）<input id="mwW" maxlength="80" placeholder="例：library"></label>
         <label>中文義（選填）<input id="mwZh" maxlength="200" placeholder="例：圖書館"></label>
@@ -3730,8 +3731,12 @@ const INTR_QBANK=[
       <span class="mwb-msg" id="mwBulkMsg" role="status" aria-live="polite"></span>
     </div>
     <div class="mwb-srcblk">
-      <div class="mwb-srctitle">從本站詞庫直接導入（不用貼文字）</div>
+      <div class="mwb-srctitle">從本站詞庫直接導入（不用貼文字）——三個詞庫來源一鍵收進單詞本</div>
+      <div class="mwb-srclabel">中小學單詞（按年級）</div>
       <div class="mwb-srcrow" id="mwBulkHk"></div>
+      <div class="mwb-srclabel">詞表（按主題）</div>
+      <div class="mwb-srcrow" id="mwBulkVocab"></div>
+      <div class="mwb-srclabel">某文詞庫包（按冊，需本機已匯入）</div>
       <div class="mwb-srcrow" id="mwBulkPackRow"></div>
       <div class="mwb-msg" id="mwBulkSrcMsg" role="status" aria-live="polite"></div>
     </div>
@@ -56971,6 +56976,24 @@ document.querySelectorAll('#ftChips .chip').forEach(c=>c.onclick=()=>{
       ba.onclick=function(){srcAdd(HK.map(function(w){return {w:w.w,zh:w.zh,ph:w.ipa||'',note:w.grade+' · '+w.theme,ref:w.id};}),'站內·中小學單詞');};
       hk.appendChild(ba);
     }
+    var vb=document.getElementById('mwBulkVocab');
+    if(vb){
+      vb.innerHTML='';
+      var ts=[],seenT={};
+      VOCAB.forEach(function(v){var t=v.topic||'';if(t&&!seenT[t]){seenT[t]=1;ts.push(t);}});
+      ts.sort();
+      ts.forEach(function(t){
+        var ws=VOCAB.filter(function(v){return (v.topic||'')===t;});
+        var b=document.createElement('button');b.type='button';b.className='btn';
+        b.textContent=t+'（'+ws.length+' 詞）';
+        b.onclick=function(){srcAdd(ws.map(function(v){return {w:v.w,zh:v.zh,ph:v.ph||'',note:v.topic||''};}),'站內·詞表·'+t);};
+        vb.appendChild(b);
+      });
+      var va=document.createElement('button');va.type='button';va.className='btn mwaddbtn';
+      va.textContent='全部（'+VOCAB.length+' 詞）';
+      va.onclick=function(){srcAdd(VOCAB.map(function(v){return {w:v.w,zh:v.zh,ph:v.ph||'',note:v.topic||''};}),'站內·詞表');};
+      vb.appendChild(va);
+    }
     var pr=document.getElementById('mwBulkPackRow');
     if(pr){
       pr.innerHTML='';
@@ -57565,7 +57588,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.57',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.58',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
