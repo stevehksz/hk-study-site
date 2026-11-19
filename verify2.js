@@ -429,10 +429,10 @@ try{
   const tv=doc.getElementById('tutorView');
   doc.querySelector('#termChips button[data-wk="0"]').click(); // 復位：v1.60 測試點過「第 3 週」過濾，切回全部
   const dets=[...tv.querySelectorAll('details.gsec.fold')];
-  ok('v1.68 補習材料 8 塊折疊（v1.81 ⑪ 搬英文、v2.44 ⑤⑥ 搬中文）('+dets.length+')', dets.length===8);
+  ok('v1.68 補習材料 7 塊折疊（v1.81 ⑪ 搬英文、v2.44 ⑤⑥ 搬中文、v2.57 面試搬面試頁）('+dets.length+')', dets.length===7);
   ok('v1.68 默認僅展開 ①排期表', dets.filter(d=>d.open).length===1 && dets[0].open && dets[0].querySelector('summary').textContent.includes('35 週排期表'));
   const sums=[...tv.querySelectorAll('details.gsec.fold > summary.gsec-h')].map(s=>s.textContent);
-  ok('v1.68 八塊標題條齊（排期/教材/面試/術語/泛讀/中學英文/備考地圖/原創試卷）('+sums.length+')', sums.length===8 && ['35 週排期表','教材與資源清單','面試話題庫','數學英文術語翻卡','泛讀打卡','中學英文','備考地圖','本站原創試卷'].every(t=>sums.some(s=>s.includes(t))) && !sums.some(s=>s.includes('繁體認讀翻卡')||s.includes('教育局官方字表')));
+  ok('v1.68 七塊標題條齊（排期/教材/術語/泛讀/中學英文/備考地圖/原創試卷；v2.57 面試搬出）('+sums.length+')', sums.length===7 && ['35 週排期表','教材與資源清單','數學英文術語翻卡','泛讀打卡','中學英文','備考地圖','本站原創試卷'].every(t=>sums.some(s=>s.includes(t))) && !sums.some(s=>s.includes('繁體認讀翻卡')||s.includes('教育局官方字表')));
   const nTerm=tv.querySelectorAll('#termGrid .fcard').length, nFt=doc.querySelectorAll('#ftGrid .fcard').length, nRead=tv.querySelectorAll('#readGrid .rcell').length; // v2.44：ftGrid 已搬到中文区
   ok('v1.68 折疊後內容仍在 DOM（術語 '+nTerm+'／繁體 '+nFt+'／打卡 '+nRead+'）', nTerm===60 && nFt===100 && nRead===21);
   ok('v1.68 頁標題已去「女兒學習角」', tv.querySelector('h2').textContent==='補習材料（插中一 · 35 週減壓版）');
@@ -544,10 +544,10 @@ try{
   const rnHtml=rn?rn.outerHTML:'';
   const tvEl=doc.getElementById('tutorView');
   const tvDets=[...tvEl.querySelectorAll('details.gsec.fold')];
-  ok('v1.72 ⑥ 為第 6 個折疊塊且默認收起（v2.44 後共 8 塊）', !!rn && tvDets.length===8 && tvDets[5]===rn && tvDets[6].id==='examMap' && tvDets[7].id==='paperHub' && !rn.open && !tvDets.some(d=>d.id==='lwteHub'));
+  ok('v1.72 ⑤ 為第 5 個折疊塊且默認收起（v2.57 後共 7 塊）', !!rn && tvDets.length===7 && tvDets[4]===rn && tvDets[5].id==='examMap' && tvDets[6].id==='paperHub' && !rn.open && !tvDets.some(d=>d.id==='lwteHub'));
   ok('v1.72 ⑧ 標題含「中學英文／不轉載內容」', !!rn && rn.querySelector('summary').textContent.includes('中學英文') && rn.querySelector('summary').textContent.includes('不轉載內容'));
-  ok('v1.72 頭部提示 8 模塊且標明 ⑥ 書籤、⑦ 先看、⑧ 找卷、繁體認讀已移中文區，並指向英文區某文單詞本', tvEl.textContent.includes('8 個模塊已折疊') && tvEl.textContent.includes('⑥ 是入學後的資源書籤') && tvEl.textContent.includes('⑦ 不知道從哪開始先看它') && tvEl.textContent.includes('⑧ 按年級找本站原創卷') && tvEl.textContent.includes('繁體認讀已移到') && tvEl.textContent.includes('某文單詞本'));
-  ok('v1.72 ② 教材清單有指向 ⑧ 的指引', tvDets[1].textContent.includes('⑧ 中學英文 · 外部資源導航'));
+  ok('v1.72 頭部提示 7 模塊且標明 ⑤ 書籤、⑥ 先看、⑦ 找卷、繁體認讀已移中文區，並指向英文區某文單詞本', tvEl.textContent.includes('7 個模塊已折疊') && tvEl.textContent.includes('⑤ 是入學後的資源書籤') && tvEl.textContent.includes('⑥ 不知道從哪開始先看它') && tvEl.textContent.includes('⑦ 按年級找本站原創卷') && tvEl.textContent.includes('繁體認讀已移到') && tvEl.textContent.includes('某文單詞本'));
+  ok('v1.72 ② 教材清單有指向 ⑤ 的指引', tvDets[1].textContent.includes('⑤ 中學英文 · 外部資源導航'));
   const off=['edb.gov.hk/Academic_English','student.edcity.hk/sec/en/guidance/1031','hkeaa.edu.hk','hkedcity.net'];
   const links=[...rn.querySelectorAll('a[href^="http"]')];
   ok('v1.72 A 區 4 條已核實官方連結齊且安全開新頁', off.every(u=>rnHtml.includes(u)) && links.length===4 && links.every(a=>a.getAttribute('target')==='_blank' && a.getAttribute('rel')==='noopener'));
@@ -1264,14 +1264,14 @@ try{
   const d9=[...tv9.querySelectorAll('details.gsec.fold')];
   const emTxt=em?em.textContent:'';
   const emHtml=em?em.outerHTML:'';
-  ok('v1.75 ⑦ 為第 7 個折疊塊、默認收起、在 ⑥ 之後（v2.44 後共 8 塊）', !!em && d9.length===8 && d9[6]===em && d9[7].id==='paperHub' && !em.open && d9[5].id==='secResNav');
+  ok('v1.75 ⑥ 為第 6 個折疊塊、默認收起、在 ⑤ 之後（v2.57 後共 7 塊）', !!em && d9.length===7 && d9[5]===em && d9[6].id==='paperHub' && !em.open && d9[4].id==='secResNav');
   ok('v1.75 ⑨ 標題含「備考地圖／不知道從哪開始」', !!em && em.querySelector('summary.gsec-h').textContent.includes('備考地圖') && em.querySelector('summary.gsec-h').textContent.includes('不知道從哪開始先看這張'));
   ok('v1.75 頭部「🗺 打開備考地圖」直達鈕在', !!doc.getElementById('mapOpenBtn') && doc.getElementById('mapOpenBtn').textContent.includes('打開備考地圖'));
   ok('v1.75 A 區矩陣 4 科 × 3 段表頭齊', !!em && em.querySelectorAll('table.mtable tbody tr').length===4 && ['中文','英文','數學','面試'].every(k=>em.querySelector('table.mtable').textContent.includes(k)) && ['輸入','輸出','複盤'].every(k=>em.querySelector('table.mtable thead').textContent.includes(k)));
   const gos=[...em.querySelectorAll('.mapgo')].map(b=>b.dataset.go);
   const goOK=gos.every(g=>{
     const a=String(g).split(':');
-    if(a[0]==='p')return ['cn','en','math'].indexOf(a[1])>=0 && (!a[2]||(a[1]==='en'&&['goal','hk','vocab','paper','exam','iv'].indexOf(a[2])>=0)||(a[1]==='math'&&['mterms','mpaper'].indexOf(a[2])>=0)||(a[1]==='cn'&&['star','cnpaper','cnschool','cnps','zibook','ft','cntrad'].indexOf(a[2])>=0));
+    if(a[0]==='p')return a[1]==='inview'&&!a[2]||['cn','en','math'].indexOf(a[1])>=0 && (!a[2]||(a[1]==='en'&&['goal','hk','vocab','paper','exam','iv'].indexOf(a[2])>=0)||(a[1]==='math'&&['mterms','mpaper'].indexOf(a[2])>=0)||(a[1]==='cn'&&['star','cnpaper','cnschool','cnps','zibook','ft','cntrad'].indexOf(a[2])>=0));
     if(a[0]==='t')return /^\d+$/.test(a[1])&&+a[1]>=0&&+a[1]<=8;
     if(a[0]==='plan')return ['timeline','schools','docs','study','policy','faq'].indexOf(a[1])>=0;
     return false;
@@ -1346,7 +1346,7 @@ try{
   const pBtns=ph?[...ph.querySelectorAll('button.pgo')]:[];
   const specs=pBtns.map(b=>b.getAttribute('data-paper')||'');
   const d10=[...doc.getElementById('tutorView').querySelectorAll('details.gsec.fold')];
-  ok('v1.77 ⑧ 為第 8 個折疊塊、默認收起、排在 ⑦ 之後（v2.44 後共 8 塊）', !!ph && d10.length===8 && d10[7]===ph && d10[6].id==='examMap' && !ph.open);
+  ok('v1.77 ⑦ 為第 7 個折疊塊、默認收起、排在 ⑥ 之後（v2.57 後共 7 塊）', !!ph && d10.length===7 && d10[6]===ph && d10[5].id==='examMap' && !ph.open);
   ok('v1.77 標題含「本站原創試卷／按年級找」', !!ph && ph.querySelector('summary').textContent.includes('本站原創試卷') && ph.querySelector('summary').textContent.includes('按年級找'));
   const t1=ph&&ph.querySelector('table.phub-tbl'); // v2.00 起區內有第二張表（骨架卡），限定第一張
   ok('v1.77 表格 6 個年級 × 3 卷種表頭齊', !!t1 && t1.querySelectorAll('tbody tr').length===6 && ['英文卷','數學卷','呈分試卷'].every(k=>t1.querySelector('thead').textContent.includes(k)));
@@ -1363,7 +1363,7 @@ try{
   ok('v1.77 不新增 localStorage 鍵／不新增雲端請求', typeof window.__paperHubTest==='object' && phJs.length>200 && !/localStorage|fetch\(|XMLHttpRequest/.test(phJs));
   ok('v1.77 新模塊未污染 AI 白名單知識庫', (window.__aiTest.kb||[]).length===139 && (window.__aiTest.kb||[]).every(x=>!/本站原創試卷|不爬取|公開發行|題型結構/.test(x.t+x.s)));
   ok('v1.77 窄屏可橫滑且有文字提示', /\.phub-wrap\{overflow-x:auto/.test(html) && /min-width:600px/.test(html) && phTxt.includes('手機窄屏可左右滑動表格'));
-  ok('v1.77 頭部提示 8 模塊且點名 ⑧', doc.getElementById('tutorView').textContent.includes('8 個模塊已折疊') && doc.getElementById('tutorView').textContent.includes('⑧ 按年級找本站原創卷'));
+  ok('v1.77 頭部提示 7 模塊且點名 ⑦', doc.getElementById('tutorView').textContent.includes('7 個模塊已折疊') && doc.getElementById('tutorView').textContent.includes('⑦ 按年級找本站原創卷'));
   function tap(spec){
     const b=pBtns.find(x=>x.getAttribute('data-paper')===spec);
     if(!b)return false;
@@ -1387,7 +1387,7 @@ try{
   const lhHtml=lh?lh.outerHTML:'';
   const d11=[...doc.getElementById('tutorView').querySelectorAll('details.gsec.fold')];
   // v1.81：整塊搬到「練習 → 英文 → 某文單詞本」子頁，不再是 tutorView 的第 ⑪ 個折疊塊
-  ok('v1.81 ⑪ 已搬出補習材料（v2.44 後 tutorView 8 塊、無 lwteHub）', !!lh && d11.length===8 && !d11.some(d=>d.id==='lwteHub'));
+  ok('v1.81 ⑪ 已搬出補習材料（v2.57 後 tutorView 7 塊、無 lwteHub）', !!lh && d11.length===7 && !d11.some(d=>d.id==='lwteHub'));
   ok('v1.81 某文單詞本在英文練習區內、默認收起', !!lh && !!doc.getElementById('enPracView').contains(lh) && lh.style.display==='none');
   ok('v1.81 標題含「某文單詞本／進度本」且已無「朗文」', lhTxt.includes('某文單詞本') && lhTxt.includes('進度本') && lhTxt.indexOf('朗文')<0);
 
@@ -1450,7 +1450,7 @@ try{
   const rdTxt=rh?rh.textContent:'';
   const rf=window.__readFocusTest;
   const rdDets=[...doc.querySelectorAll('#tutorView details.gsec.fold')];
-  ok('v1.79 ⑤ 現為第 5 個折疊塊、全站 8 塊不多不少', !!rh && rdDets.length===8 && rdDets[4]===rh && !rh.open);
+  ok('v1.79 ④ 現為第 4 個折疊塊、全站 7 塊不多不少（v2.57 面試搬出）', !!rh && rdDets.length===7 && rdDets[3]===rh && !rh.open);
   ok('v1.79 21 格打卡與統計／清空鈕原樣保留', rh.querySelectorAll('#readGrid .rcell').length===21 && !!rh.querySelector('#readStat') && !!rh.querySelector('#readReset'));
   ok('v1.79 六顆子目錄頁簽且預設「今日重點」on（v2.14 加 art）', [...doc.querySelectorAll('#readSubNav button[data-rd]')].map(b=>b.getAttribute('data-rd')).join(',')==='today,plan,pick,res,art,check' && doc.querySelector('#readSubNav button.on').getAttribute('data-rd')==='today');
   ok('v1.79 六個面板、預設只顯示 today（v2.14 加 art）', doc.querySelectorAll('#readFocusBox .rdpane').length===6 && [...doc.querySelectorAll('#readFocusBox .rdpane')].every(p=>p.style.display===(p.getAttribute('data-rd-pane')==='today'?'block':'none')));
@@ -1474,11 +1474,11 @@ try{
   ok('v1.79 打卡後「今日重點」自動往後推', doc.getElementById('rdDayN').textContent!==rdBefore);
   doc.querySelector('#readGrid .rcell[data-day="'+rdDay+'"]').click(); // 復位，不污染後續斷言
   const gos=[...doc.querySelectorAll('#readFocusBox .rdgo')].map(b=>b.getAttribute('data-go'));
-  ok('v1.79 泛讀跳轉鈕 target 全在站內白名單（v2.14 art 面板按鈕走 onclick 不入 data-go）', gos.join(',')==='p:cn:cntrad,p:en:goal,p:en:paper,t:2,t:1,t:5,t:4,t:1');
+  ok('v1.79 泛讀跳轉鈕 target 全在站內白名單（v2.57：90 秒計時改 p:inview、中學導航 t:4、打卡格 t:3）', gos.join(',')==='p:cn:cntrad,p:en:goal,p:en:paper,p:inview,t:1,t:4,t:3,t:1');
   const rdJs=html.slice(html.indexOf('v1.79 泛讀重點子目錄：只切換'), html.indexOf('window.__readFocusTest='));
   ok('v1.79 跳轉只複用 __hkkGo，不抄 fold 顯隱邏輯', html.includes('if(window.__hkkGo)window.__hkkGo(g);') && typeof window.__hkkGo==='function' && rdJs.indexOf('fold(')<0);
-  doc.querySelector('#readFocusBox .rdgo[data-go="t:5"]').click();
-  ok('v1.79 實跑「今日認讀 20 字」：⑥ 折疊塊被打開', rdDets[5].open===true);
+  doc.querySelector('#readFocusBox .rdgo[data-go="t:4"]').click();
+  ok('v1.79 實跑「中學英文導航」：⑤ 折疊塊被打開', rdDets[4].open===true);
   ok('v1.79 五條家長自查 checkbox', doc.querySelectorAll('#rdChkList input[data-rdchk]').length===5);
   const c1=doc.querySelector('#rdChkList input[data-rdchk="a"]');
   c1.checked=true;c1.dispatchEvent(new window.Event('change',{bubbles:true}));
@@ -1589,11 +1589,11 @@ try{
   mw.clear();
   ok('v1.80 清空後空態提示', mw.count()===0 && doc.querySelectorAll('#mwList .mwempty').length===1);
   ok('v1.80 全站導出含 myWords 字段', /myWords:window\.__myWordsTest\?window\.__myWordsTest\.exportData\(\)\.words:\[\]/.test(html));
-  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v2.56'/.test(html));
+  ok('v1.80 全站匯入／清空／版本接線', /window\.__myWordsTest\.importData\(d\.myWords\)/.test(html) && /window\.__myWordsTest\.clear\(\)/.test(html) && /ver:'hkk_v2.57'/.test(html));
   ok('v1.80 清空確認文案補「我的單詞本」（v2.14 加泛讀文章檔）', /泛讀自查／泛讀文章檔／(自訂數學題庫／)?我的單詞本/.test(html));
   ok('v1.80 不進 AI 白名單（kb 仍 139）', (window.__aiTest.kb||[]).length===139 && (window.__aiTest.kb||[]).every(x=>!/我的單詞本|hkk_mywords/.test(x.t+x.s)));
   ok('v1.80 版權文案在子頁', doc.getElementById('myWordsView').textContent.includes('不預置任何出版社詞表'));
-  ok('v1.80 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'") && !html.includes('公開版 v1.79'));
+  ok('v1.80 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'") && !html.includes('公開版 v1.79'));
 }catch(e){ ok('v1.80 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.81 反饋牆 ＋ 貪吃蛇單詞背景 ＋ 某文單詞本搬位 ============
@@ -1665,7 +1665,7 @@ try{
   ok('v1.81 錯誤碼映射覆蓋網絡／權限／表不存在／重複', ['network_error','42501','42P01','23505'].every(c=>fbT.errText(c)&&fbT.errText(c).length>4));
   ok('v1.81 時間顯示相對時間', fbT.when(new Date(Date.now()-3600000).toISOString()).indexOf('小時前')>=0);
 
-  ok('v1.81 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'") && !html.includes('公開版 v1.80'));
+  ok('v1.81 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'") && !html.includes('公開版 v1.80'));
 }catch(e){ ok('v1.81 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.82 中文卷（本站原創仿題型） ============
@@ -1779,7 +1779,7 @@ try{
   ok('v1.82 含答案版勾選存在', !!doc.getElementById('cnPrintAns'));
   ok('v1.82 本級最佳存 hkk_cnpaper_v0', html.includes("'hkk_cnpaper_v0'"));
   ok('v1.82 CSS：篇章卡與寫作區樣式齊', /\.cnread\{/.test(html)&&/\.cnwrite-hint\{/.test(html)&&/\.cnsec\{/.test(html));
-  ok('v1.82 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2&&html.includes("ver:'hkk_v2.56'")&&!html.includes('公開版 v1.81'));
+  ok('v1.82 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2&&html.includes("ver:'hkk_v2.57'")&&!html.includes('公開版 v1.81'));
 }catch(e){ ok('v1.82 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.83 中文區兩個子目錄：背古詩 ／ 中文試卷 ============
@@ -1814,7 +1814,7 @@ try{
   ok('v1.83 切回背古詩：星圖可見、卷隱藏', sv.style.display!=='none'&&cv.style.display==='none');
   ok('v1.83 切回後高亮回到第一顆', bStar.classList.contains('on')&&!bPaper.classList.contains('on'));
 
-  ok('v1.83 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2&&html.includes("ver:'hkk_v2.56'")&&!html.includes('公開版 v1.82'));
+  ok('v1.83 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2&&html.includes("ver:'hkk_v2.57'")&&!html.includes('公開版 v1.82'));
 }catch(e){ ok('v1.83 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.84 中文卷 AI 出卷（官方題型骨架＋結構校驗） ============
@@ -1895,7 +1895,7 @@ try{
   ok('v1.84 AI 出卷沿用使用者自填接口（密鑰存本機不上傳）', html.includes("getAiCfg()")&&html.includes("localStorage.getItem('hkk_ai_cfg')"));
   ok('v1.84 AI 卷不計入本級最佳（避免 AI 卷刷高分污染記錄）', html.includes('if(!curCnIsAi && (!best[curCnGrade]'));
   ok('v1.84 AI 失敗時回退本地題庫', /AI 出卷失敗[\s\S]{0,200}可改用|已保留原本地題庫卷/.test(html));
-  ok('v1.84 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2&&html.includes("ver:'hkk_v2.56'")&&!html.includes('公開版 v1.83'));
+  ok('v1.84 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2&&html.includes("ver:'hkk_v2.57'")&&!html.includes('公開版 v1.83'));
   // ── v1.85：本機詞庫包匯入 → 完整詞表（公開站仍零詞條）──
   const pk = window.__lwtePackTest || null;
   ok('v1.85 詞庫包測試鉤子存在且鍵名正確', !!pk && pk.key==='hkk_lwte_pack_v0' && pk.wordKey==='hkk_lwte_wordprog_v0');
@@ -2029,7 +2029,7 @@ try{
   ok('v1.85 匯入區文案講清「網站本身沒有這些詞」',
      doc.getElementById('lwtePackBox').textContent.includes('網站本身沒有、也不會有這些詞')
      && doc.getElementById('lwtePackBox').textContent.includes('不會上傳'));
-  ok('v1.85 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2&&html.includes("ver:'hkk_v2.56'")&&!html.includes('公開版 v1.84'));
+  ok('v1.85 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2&&html.includes("ver:'hkk_v2.57'")&&!html.includes('公開版 v1.84'));
   // ── v1.86：打印答題線改整寬 + A4 版心 ──
   // 三引擎的打印 HTML 生成段（英文卷／數學卷／中文卷）
   const prEn=(html.match(/function printEnPaper[\s\S]{0,9000}/)||[''])[0];
@@ -2060,7 +2060,7 @@ try{
      !prCn.includes('max-width:860px;margin:0 auto') && !prCn.includes('padding:24px;line-height:1.9'));
   ok('v1.86 三引擎都接上 ansline（不只中文卷）',
      prEn.includes('ansline lbl') && prMa.includes('ansline lbl') && prCn.includes('ansline lbl'));
-  ok('v1.86 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2&&html.includes("ver:'hkk_v2.56'")&&!html.includes('公開版 v1.85'));
+  ok('v1.86 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2&&html.includes("ver:'hkk_v2.57'")&&!html.includes('公開版 v1.85'));
   // ── v1.87：某文單詞本改同中小學單詞本格式 ＋ 詞庫包資料補齊（繁體中文義／全量音標）──
   const pkb=(()=>{try{return JSON.parse(fs.readFileSync('_lwte_pack.json','utf8'));}catch(e){return null;}})();
   // IPA 合法字元：按 Unicode 區間自動生成（與 build_lwte_pack.py 的 IPA_CHARS 同一套思路）
@@ -2143,7 +2143,7 @@ try{
     const kbLen=(window.__aiTest&&window.__aiTest.kbLen)||0;
     return kbLen===139;
   })());
-  ok('v1.87 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2&&html.includes("ver:'hkk_v2.56'")&&!html.includes('公開版 v1.86'));
+  ok('v1.87 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2&&html.includes("ver:'hkk_v2.57'")&&!html.includes('公開版 v1.86'));
 }catch(e){ ok('v1.87 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ============ v1.88 下一步引導 ＋ FAQ 按顧慮重排（零新增素材，只重組既有內容＋掛出口） ============
@@ -2190,7 +2190,7 @@ try{
   ok('v1.88 既有 .cta-strip 仍 3 條（沒手滑多加加微信）', doc.querySelectorAll('.cta-strip').length===3);
   ok('v1.88 零新增 localStorage 鍵（v1.89 的 drill 鍵是本版刻意新增，另有意見）', !/hkk_nextstep|hkk_nx|hkk_faq/.test(html));
   ok('v1.88 下一步組件窄屏滿寬可點', /\.nextstep \.ns-btns\{flex-direction:column\}/.test(html) && /#faqView \.faq-grp\{/.test(html));
-  ok('v1.88 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'") && !html.includes('公開版 v1.87'));
+  ok('v1.88 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'") && !html.includes('公開版 v1.87'));
 }catch(e){ ok('v1.88 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -2282,7 +2282,7 @@ try{
   ok('v1.90 七項任務且時長為正整數', Object.keys(IT).length===7 && Object.values(IT).every(x=>x.n&&Number.isInteger(x.m)&&x.m>0));
   ok('v1.90 每天都含每日三項（泛讀/繁體/粵語）', W.every(d=>d.includes('read')&&d.includes('trad')&&d.includes('yue')));
   ok('v1.90 週排程頻次（寫作×2/口語×1/數學×1/時態×2）', W.filter(d=>d.includes('write')).length===2 && W.filter(d=>d.includes('oral')).length===1 && W.filter(d=>d.includes('mterm')).length===1 && W.filter(d=>d.includes('drill')).length===2);
-  ok('v1.90 直達按鈕全部走 __hkkGo 且錨點合法（粵語無按鈕；v1.91 放寬 t:N:pane）', Object.values(IT).every(x=>x.go?/^t:\d+(:[a-z]+)?$|^p:en:drill$|^p:cn:cntrad$/.test(x.go):!x.btn&&!!x.tip));
+  ok('v1.90 直達按鈕全部走 __hkkGo 且錨點合法（粵語無按鈕；v1.91 放寬 t:N:pane）', Object.values(IT).every(x=>x.go?/^t:\d+(:[a-z]+)?$|^p:en:drill$|^p:cn:cntrad$|^p:inview$/.test(x.go):!x.btn&&!!x.tip));
   ok('v1.90 第 1 子標籤「今日課表」源碼默認 on', /<button data-sub="sched" class="on">/.test(html));
 
   doc.querySelector('#practiceSub button[data-sub="sched"]').click();
@@ -2315,8 +2315,8 @@ try{
   }
 
   // 直達實跑：t:6 → 補習材料⑦泛讀打卡；p:en:drill → 時態與題型
-  window.__hkkGo('t:6');
-  ok('v1.90 直達 t:6 打開泛讀打卡折叠塊', doc.getElementById('tutorView').style.display!=='none' && [...doc.querySelectorAll('#tutorView details.gsec.fold')][6].open);
+  window.__hkkGo('t:3');
+  ok('v1.90 直達 t:3 打開泛讀打卡折叠塊（v2.57 新序）', doc.getElementById('tutorView').style.display!=='none' && [...doc.querySelectorAll('#tutorView details.gsec.fold')][3].open);
   doc.querySelector('#practiceSub button[data-sub="sched"]').click();
   window.__hkkGo('p:en:drill');
   ok('v1.90 直達 p:en:drill 打開時態與題型', doc.getElementById('drillView').style.display!=='none');
@@ -2348,11 +2348,11 @@ try{
   ok('v1.91 res 有五指法則與三不口徑', rseg.includes('五指法則') && rseg.includes('不查詞典'));
   // 實跑 t:6:res：先切走子頁，再確認路由直達泛讀塊的 res 頁簽
   doc.querySelector('#practiceSub button[data-sub="en"]').click();
-  window.__hkkGo('t:6:res');
-  ok('v1.91 實跑 t:6:res 打開泛讀塊並切到 res', [...doc.querySelectorAll('#tutorView details.gsec.fold')][6].open && doc.querySelector('#readFocusBox .rdpane[data-rd-pane="res"]').style.display==='block' && doc.querySelector('#readSubNav button[data-rd="res"]').classList.contains('on'));
+  window.__hkkGo('t:3:res');
+  ok('v1.91 實跑 t:3:res 打開泛讀塊並切到 res（v2.57 新序）', [...doc.querySelectorAll('#tutorView details.gsec.fold')][3].open && doc.querySelector('#readFocusBox .rdpane[data-rd-pane="res"]').style.display==='block' && doc.querySelector('#readSubNav button[data-rd="res"]').classList.contains('on'));
   doc.querySelector('#readSubNav button[data-rd="today"]').click();
   ok('v1.91 res 切回 today 正常', doc.querySelector('#readFocusBox .rdpane[data-rd-pane="today"]').style.display==='block');
-  ok('v1.91 課表泛讀項錨點 t:6:res 且按鈕文案更新', window.__schedTest.items.read.go==='t:4:res' && window.__schedTest.items.read.btn==='免費電子書清單');
+  ok('v1.91 課表泛讀項錨點 t:3:res 且按鈕文案更新（v2.57 新序）', window.__schedTest.items.read.go==='t:3:res' && window.__schedTest.items.read.btn==='免費電子書清單');
   ok('v1.91 不進 AI 知識庫（仍 139 條）', !!window.__aiTest && window.__aiTest.kbLen===139);
   ok('v1.91/v2.14 localStorage 鍵白名單（v2.14 起僅 hkk_rdart_v0 例外）', !/hkk_(?:res|rd)[a-z_]*_v0/.test(html.split('hkk_rdart_v0').join('')) && /hkk_rdart_v0/.test(html));
 }catch(e){ ok('v1.91 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
@@ -2394,7 +2394,7 @@ try{
   ok('v1.92 卡片尾聲明「未取用課本原文」', txTxt.includes('未取用課本原文') && txTxt.includes('非課本逐章對應'));
   ok('v1.92 不進 AI 知識庫（仍 139 條）', ((window.__aiTest&&window.__aiTest.kbLen)||0)===139);
   ok('v1.92 只新增一個 localStorage 鍵 hkk_ctx_best_v0', html.includes("'hkk_ctx_best_v0'") && !/hkk_txb|hkk_text|hkk_ctxprog/.test(html));
-  ok('v1.92 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v1.92 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v1.92 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ===== v1.94 數學題庫擴池＋防重保險 =====
@@ -2684,7 +2684,7 @@ try{
 
   ok('v2.25 粵語道場改站內直用（文案＋上游 commit）', (()=>{const c=doc.getElementById('jyutCard');if(!c)return false;const t=c.textContent;return t.includes('站內直用')&&t.includes('站內開始練')&&t.includes('整份收錄');})());
   ok('v2.25 主掣指向站內 ./yue/（另開新頁）', (()=>{const c=doc.getElementById('jyutCard');if(!c)return false;const b=[...c.querySelectorAll('button')].find(x=>/站內開始練/.test(x.textContent));return !!b && /window\.open\('\.\/yue\/'\+location\.search/.test(b.getAttribute('onclick')||'') && /noopener/.test(b.getAttribute('onclick')||'');})());
-  ok('v2.25 卡片仍零裸外鏈（唔再有 href="http"）', (()=>{const c=doc.getElementById('jyutCard');return !!c && !/href="http/.test(c.outerHTML) && !/<a\s/i.test(c.innerHTML);})());  ok('v2.25 版本串 v2.25（頁腳/標題/匯出）', /公開版 v2\.56/.test(html) && /ver:'hkk_v2\.56'/.test(html));
+  ok('v2.25 卡片仍零裸外鏈（唔再有 href="http"）', (()=>{const c=doc.getElementById('jyutCard');return !!c && !/href="http/.test(c.outerHTML) && !/<a\s/i.test(c.innerHTML);})());  ok('v2.25 版本串 v2.25（頁腳/標題/匯出）', /公開版 v2\.57/.test(html) && /ver:'hkk_v2\.57'/.test(html));
 }catch(e){ ok('v2.07 測試執行', false); console.log('   err='+e.message); }
 
 // ================= v2.08 錯題本（四種卷批改自動歸檔） =================
@@ -2870,7 +2870,7 @@ try{
   ok('v2.12 srcNote 明寫本站原創＋未取用真卷原文', srcNote.indexOf('本站原創編寫')>=0 && srcNote.indexOf('未取用任何學校')>=0 && srcNote.indexOf('以各校原卷為準')>=0);
   ok('v2.12 公開頁零「港學家／小紅書」字樣', html.indexOf('港學家')<0 && html.indexOf('小紅書')<0 && html.indexOf('小红书')<0);
   ok('v2.12 錯題本接線未動（數學卷仍寫 wrongAdd sub=math）', /wrongAdd\(\{sub:'math',src:'數學練習卷'/.test(html));
-  ok('v2.12 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.12 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.12 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -2925,7 +2925,7 @@ try{
   // 導出/導入/清空接線
   ok('v2.14 全站導出含 rdArt、導入/清空接 __rdArtTest', /rdArt:window\.__rdArtTest\?window\.__rdArtTest\.exportData\(\):\{\}/.test(html) && /if\(d\.rdArt&&window\.__rdArtTest\)/.test(html) && /if\(window\.__rdArtTest\)\{window\.__rdArtTest\.clear\(\);\}/.test(html));
   // localStorage 鍵與版本
-  ok('v2.14 狀態鍵 hkk_rdart_v0、版本號三處一致', html.includes('hkk_rdart_v0') && (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.14 狀態鍵 hkk_rdart_v0、版本號三處一致', html.includes('hkk_rdart_v0') && (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
   // AI 知識庫不污染
   ok('v2.14 文章不進 AI 知識庫（KB 恆不變）', html.includes('kbLen')||true);
 }catch(e){ ok('v2.14 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
@@ -3083,7 +3083,7 @@ try{
   const qr=[...doc.querySelectorAll('#lexQRes .fcard')];
   ok('v2.17 查字結果同帶對照；不在表卡禁翻', qr.length===2 && qr[0].dataset.s==='内' && qr[1].dataset.noflip==='1' && (qr[1].click(), qr[1].dataset.open===undefined));
   ok('v2.17 方向只存記憶體，零新增 localStorage 鍵', !/hkk_lex_(dir|simp)/.test(html));
-  ok('v2.17 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.17 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.17 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3098,7 +3098,7 @@ try{
   const v218cards=[...doc.querySelectorAll('#ftGrid .fcard, #lexToday .fcard, #lexAll .fcard, #lexQRes .fcard')];
   ok('v2.18 每卡仍恰有一顆收字鈕('+v218cards.length+')', v218cards.length===nFt+nTo+nAl+nQr && v218cards.length>0 && v218cards.every(c=>c.querySelectorAll('.ziadd').length===1));
   ok('v2.18 「＋本」與「✓ 已收」文案保持不變（既有斷言不破）', html.includes('>＋本</button>') && html.includes("b.textContent='✓ 已收'"));
-  ok('v2.18 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.18 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.18 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3109,7 +3109,7 @@ try{
   const wkBtns=[...wkTbl.querySelectorAll('button[data-wkgo]')];
   const wkBars=[...doc.querySelectorAll('.wkback')];
   ok('v2.19 每週課表 6 列、對應欄 7 顆直達鈕', wkRows.length===6 && wkBtns.length===7 && wkRows.every(r=>!!r.getAttribute('data-wkrow')));
-  ok('v2.19 七條路由都是既有站內頁，無新造頁面', ['t:4','t:1','t:2','t:3','p:cn:cntrad','p:sched'].every(g=>wkBtns.some(b=>b.getAttribute('data-wkgo')===g)));
+  ok('v2.19 七條路由都是既有站內頁，無新造頁面', ['t:3','t:1','p:inview','t:2','p:cn:cntrad','p:sched'].every(g=>wkBtns.some(b=>b.getAttribute('data-wkgo')===g)));
   ok('v2.19 原事實口徑未丟（2027.2 起／只聽不跟讀／只買兩本）', wkTbl.textContent.includes('2027.2 起') && wkTbl.textContent.includes('只聽不跟讀') && wkTbl.textContent.includes('只買兩本'));
   ok('v2.19 五處返回條齊全且預設隱藏（v2.44 ⑤⑥ 搬走後由 7 減至 5）', wkBars.length===5 && /\.wkback\{[^}]*display:none/.test(html) && /\.wkback\.on\{[^}]*display:flex/.test(html));
   ok('v2.19 返回條走內容流，零 fixed/absolute 浮層', !/\.wkback\{[^}]*position:(fixed|absolute)/.test(html) && wkBars.every(b=>b.querySelector('button[data-wkback-go]')));
@@ -3118,10 +3118,10 @@ try{
   // 點「⑦ 泛讀打卡」→ 目標塊展開、七條返回條顯示、來源列記 read
   wkt.go('read');
   const folds=doc.querySelectorAll('#tutorView details.gsec.fold');
-  ok('v2.19 點按後直達 ⑦ 泛讀打卡且記住來源列', folds[4].open===true && wkt.get()==='read' && wkt.on().length===5);
+  ok('v2.19 點按後直達 ④ 泛讀打卡且記住來源列（v2.57 新序）', folds[3].open===true && wkt.get()==='read' && wkt.on().length===5);
   ok('v2.19 點按後已切到練習→補習材料', doc.getElementById('tutorView').style.display!=='none' && doc.getElementById('practiceView').style.display!=='none');
   // 做完按返回 → 回 ①、高亮 read 列、返回條全收、來源清空
-  doc.querySelector('.wkback[data-wkback="t:4"] button[data-wkback-go]').click();
+  doc.querySelector('.wkback[data-wkback="t:3"] button[data-wkback-go]').click();
   ok('v2.19 返回後回到補習材料①並高亮來源列', folds[0].open===true && wkTbl.querySelector('tr[data-wkrow="read"]').classList.contains('wkhl'));
   ok('v2.19 返回後返回條全收、來源清空', wkt.on().length===0 && wkt.get()==='');
   // 第二條路線：粵語 → 今日課表 → 返回
@@ -3130,7 +3130,7 @@ try{
   doc.querySelector('.wkback[data-wkback="p:sched"] button[data-wkback-go]').click();
   ok('v2.19 第二條路線也能返回並高亮 yue 列', wkTbl.querySelector('tr[data-wkrow="yue"]').classList.contains('wkhl') && wkt.on().length===0);
   ok('v2.19 只新增 sessionStorage 鍵、不新增 localStorage 鍵', html.includes('hkk_wkback_v0') && !/localStorage\.(setItem|getItem)\('hkk_wkback_v0'/.test(html));
-  ok('v2.19 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.19 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.19 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3138,7 +3138,7 @@ try{
 try{
   const ivs=[...doc.querySelectorAll('#ivList details')];
   const folds=[...doc.querySelectorAll('#tutorView details.gsec.fold')];
-  ok('v2.20 八塊分區頭與十條面試題數量不變（v2.44 由 10 減至 8）', folds.length===8 && ivs.length===10);
+  ok('v2.20 七塊分區頭與十條面試題（v2.57 面試搬出面試頁）', folds.length===7 && ivs.length===10);
   ok('v2.20 面試題改用專屬 ivq／ivq-h，不再複用 gsec-h', ivs.every(d=>d.classList.contains('ivq')&&!!d.querySelector('summary.ivq-h')&&!d.querySelector('summary.gsec-h')));
   ok('v2.20 每題有 Q 序號徽章與非空答案區', ivs.every((d,i)=>{const nn=d.querySelector('.ivq-n'),bb=d.querySelector('.ivq-body');return !!nn&&nn.textContent.trim()==='Q'+(i+1)&&!!bb&&bb.textContent.trim().length>10;}));
   ok('v2.20 原題面與要點文字未丟', doc.getElementById('ivList').textContent.includes('請用英文自我介紹') && doc.getElementById('ivList').textContent.includes('要點：名字＋年級＋興趣'));
@@ -3150,7 +3150,7 @@ try{
   ok('v2.20 窄屏兩級字號各自收斂', html.includes('@media screen and (max-width:640px){#tutorView details.gsec.fold>summary.gsec-h,#cnTradView details.gsec.fold>summary.gsec-h{font-size:14.5px'));
   ivs[0].open=true;
   ok('v2.20 題條仍可展開，答案區與 [open] 樣式齊備', ivs[0].open===true && html.includes('#ivList details.ivq[open]>summary.ivq-h{background:#eef7fd'));
-  ok('v2.20 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.20 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.20 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3179,7 +3179,7 @@ try{
   ok('v2.21 切回背古詩後 ftView 收起、star tip 顯示', fv.style.display==='none' && doc.getElementById('cnStarView').style.display!=='none' && tips.find(p=>p.dataset.cstip==='star').style.display!=='none');
   ok('v2.21 全站文案已改向「練習 → 中文 → 繁體對照」', !html.includes('「速覽 → 繁體對照」') && html.includes('「練習 → 中文 → 繁體對照」'));
   ok('v2.21 二級頁籤被 sticky 一級蓋住時點頁籤會自動校正（不動全域 .subnav）', html.includes('v2.21：一級 #practiceSub 是 sticky') && html.includes('if(_r.top<_b)window.scrollBy(0,_r.top-_b-8);') && html.includes('position:sticky;top:60px;z-index:5'));
-  ok('v2.21 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.21 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.21 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3218,7 +3218,7 @@ try{
   db2.click();
   ok('v2.22 再點回到全表 53 頁、首頁 60 格', v.__lexTest().diffOnly===false && v.__lexTest().pages===53 && doc.querySelectorAll('#lexAll .fcard').length===60 && db2.textContent.includes('只看繁簡差異'));
   ok('v2.22 零新增 localStorage 鍵、字表進度鍵未動', !/hkk_lex_(dir|simp|diff)/.test(html) && html.includes("hkk_lex_pos"));
-  ok('v2.22 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.22 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.22 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ===== v2.23 列印隔離白名單：只印本輪那一張卷 =====
@@ -3251,10 +3251,10 @@ try{
   ok('v2.23 三條中大連結原樣照錄（路徑大小寫一致）', !!yc && yl.length===3 && YUE_URLS.every(u=>yc.innerHTML.includes('href="'+u+'"')));
   ok('v2.23 三條連結另開新頁且 rel 安全', yl.every(a=>a.getAttribute('target')==='_blank' && /noopener/.test(a.getAttribute('rel')||'')));
   ok('v2.23 卡內零轉載：無圖片／檔案／音檔／商號外鏈', !!yc && !/<img\b|\.pdf|\.mp3|<audio|href="http[^"]*(risemark|band1|pearson)/i.test(yc.innerHTML) && yc.textContent.includes('未核實頁面內容') && yc.textContent.includes('不存放、不轉載'));
-  ok('v2.23 新卡緊接 ⑧ 之後、⑨ 之前且不進折疊計數', !!yc && !!yc.previousElementSibling && yc.previousElementSibling.id==='secResNav' && !!yc.nextElementSibling && yc.nextElementSibling.id==='examMap' && !yc.matches('details') && doc.querySelectorAll('#tutorView details.gsec.fold').length===8);
+  ok('v2.23 新卡緊接 ⑧ 之後、⑨ 之前且不進折疊計數', !!yc && !!yc.previousElementSibling && yc.previousElementSibling.id==='secResNav' && !!yc.nextElementSibling && yc.nextElementSibling.id==='examMap' && !yc.matches('details') && doc.querySelectorAll('#tutorView details.gsec.fold').length===7);
   ok('v2.23 ⑧ 外鏈仍恰 4 條、cuhk 命中既有白名單', doc.getElementById('secResNav').querySelectorAll('a').length===4 && /ilc\.cuhk\.edu\.hk/.test(html) && /\.edu\.hk/.test(YUE_URLS[0]));
   W.print=_op; doc.body.classList.remove('printing-paper');
-  ok('v2.23 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.23 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.23 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ── v2.26 口岸 → 學校 通勤估算 ──
@@ -3298,7 +3298,7 @@ try{
   ok('v2.26 明示「不含過關排隊」與「估算僅供篩選」',
      !!card && card.textContent.indexOf('不含過關')>=0 && card.textContent.indexOf('估算僅供篩選')>=0);
   ok('v2.26 測試鉤子暴露四個口岸', typeof window.__portTest==='object' && window.__portTest.ports().length===4);
-  ok('v2.26 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.26 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.26 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3317,7 +3317,7 @@ try{
      /@media screen and \(max-width:640px\)\{[\s\S]*?header\{padding:20px 14px 16px\}[\s\S]*?header p\{font-size:12px;display:-webkit-box;-webkit-line-clamp:2/.test(html));
   ok('v2.27 51.la 外鏈 defer', /<script charset="UTF-8" id="LA_COLLECT" src="https:\/\/sdk\.51\.la\/js-sdk-pro\.min\.js" defer><\/script>/.test(html));
   ok('v2.27 LA.init 移入 load 事件（defer 後初始化）', /window\.addEventListener\('load',function\(\)\{try\{LA\.init\(/.test(html));
-  ok('v2.27 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.27 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.27 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3345,7 +3345,7 @@ try{
   ok('v2.28 四口岸合計下界均非降序（所見即所排）', Object.keys(seq).length>=3 && mono);
   ok('v2.28 蓮塘首行仍為粉嶺站周邊（聖芳濟各 22 分起）', seq['蓮塘'] && seq['蓮塘'][0]===22);
   ok('v2.28 羅湖首行仍為上水官立（10 分起）', seq['羅湖'] && seq['羅湖'][0]===10);
-  ok('v2.28 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.28 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.28 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 
@@ -3368,7 +3368,7 @@ try{
   ok('v2.29 全表 20 行 Band 逐一等於 ssTable 同名（單一來源）', trs29.every(t=>{const tds=t.querySelectorAll('td'); return tds[1].textContent.trim()===ssBand[tds[0].textContent.trim()];}));
   const lt29=(()=>{const c=chips29.find(x=>x.dataset.port==='蓮塘'); if(c)c.onclick(); const r=[...pb29.querySelectorAll('tr')][0]; const back=chips29.find(x=>x.dataset.port==='羅湖'); if(back)back.onclick(); return r;})();
   ok('v2.29 排序不受 Band 列影響（蓮塘首行仍聖芳濟各 22 分起）', !!lt29 && lt29.textContent.indexOf('聖芳濟各')===0 && /^約 22/.test(lt29.querySelectorAll('td')[6].textContent.trim()));
-  ok('v2.29 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.29 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.29 測試執行', false); console.log('   err', e.message); }
 
 // ── v2.30 數學卷中文譯文字號（.qzh 12→14px，列印 13.5px） ──
@@ -3379,7 +3379,7 @@ try{
   ok('v2.30 舊 12px/12.5px 已清除', html.indexOf('.qzh{font-size:12px')<0 && html.indexOf('.qzh{font-size:12.5px')<0);
   const qz30=doc.querySelector('#mathPaperBox .qzh');
   ok('v2.30 實渲染譯文字號 14px', !!qz30 && doc.defaultView.getComputedStyle(qz30).fontSize==='14px');
-  ok('v2.30 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.30 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.30 測試執行', false); console.log('   err', e.message); }
 
 // ── v2.31 yue 模塊說明符單一來源（修 removeChild 雙實例崩潰） ──
@@ -3398,7 +3398,7 @@ try{
   ok('v2.31 yue chunk sharecode 標記齊（'+g.files+' 檔 '+g.sc+' 處）', g.files>50 && g.sc>300);
   const yh=fs.readFileSync('site/yue/index.html','utf8');
   ok('v2.31 yue 入口 shim 與靜態 query 仍在', yh.indexOf('new Proxy(RealAudio')>=0 && (yh.match(/sharecode=45B2W7AOKI/g)||[]).length>=4);
-  ok('v2.31 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.31 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.31 測試執行', false); console.log('   err', e.message); }
 
 // ── v2.32 數學卷每題草稿板（canvas 手寫，scoped、不落盤、不進列印） ──
@@ -3441,7 +3441,7 @@ try{
      pmSrc32.indexOf('qscratch')<0 && /@media print\{#mathPaperBox \.qscratch\{display:none!important\}\}/.test(html));
   ok('v2.32 樣式 scoped：#mathPaperBox .qcard 改 grid、全域 .qcard 未被污染',
      /#mathPaperBox \.qcard\{display:grid/.test(html) && /^\.qcard\{background:#fff;border:1px solid var\(--line\);border-radius:var\(--radius\)/m.test(html));
-  ok('v2.32 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.32 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.32 測試執行', false); console.log('   err', e.message); }
 
 // ── v2.33 數學卷每套 15 題 ＋ P1–P4 補題 ──
@@ -3481,7 +3481,7 @@ try{
   for(let i=0;i<3;i++){ d33.genMathPaper();
     [...d33.document.querySelectorAll('#mathPaperBox .qtext')].forEach(e=>stems33.add(e.textContent.slice(0,48))); }
   ok('v2.33 P1 出卷覆蓋補題（3 卷聚合 '+stems33.size+' 題幹）', stems33.size>=15);
-  ok('v2.33 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.33 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.33 測試執行', false); console.log('   err', e.message); }
 
 // ── v2.34 數學卷圖形題（fig 描述符 + figSvg 內聯 SVG）──
@@ -3509,7 +3509,7 @@ try{
   ok('v2.34 列印卷含 eps-fig×3+svg', (ps34.innerHTML.match(/eps-fig/g)||[]).length===3 && ps34.innerHTML.indexOf('<svg')>=0);
   W34.print=op34; W34.document.body.classList.remove('printing-paper');
   ok('v2.34 列印樣式 .eps-fig svg 尺寸×2 共用＋靜態 en-print×1', (html.match(/\.eps-fig svg\{width:115px/g)||[]).length===3 && html.includes('.en-print .eps-fig svg{width:115px'));
-  ok('v2.34 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.34 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.34 測試執行', false); console.log('   err', e.message); }
 
 // ── v2.35 校卷題型 · 英文全卷模擬 ──
@@ -3582,7 +3582,7 @@ try{
   W35.print=op35; D35.body.classList.remove('printing-paper');
   // 零外鏈零圖片（公開站紅線）
   ok('v2.35 校卷頁零外鏈零圖片', !/<img|src="http|href="http/.test(box35.innerHTML) && !/<img/.test(D35.getElementById('schoolView').innerHTML));
-  ok('v2.35 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.35 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.35 測試執行', false); console.log('   err', e.message); }
 
 // ── v2.36 校卷一次出 10 套 ＋ AI 出卷 ──
@@ -3670,7 +3670,7 @@ try{
      ['schTenBtn','schAiBtn','schAiStat','schAiMsg','schBatchBox'].every(id=>!!D36.getElementById(id)));
   ok('v2.36 批次面板零外鏈零圖片',
      !/<img|src="http|href="http/.test(D36.getElementById('schBatchBox').innerHTML));
-  ok('v2.36 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.36 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.36 測試執行', false); console.log('   err', e.message); }
 
 // ── v2.39 試用額度（每模塊 1 套）＋ 授權碼解鎖 ──
@@ -3754,7 +3754,7 @@ try{
   /* v2.39 踩過：彈窗曾被插進 #ctaMask（display:none 的父級）內，量到全 0。鎖住結構 */
   ok('v2.39 解鎖彈窗在 body 頂層（不在 #ctaMask 內）',
      html.indexOf('id="licMask"')>0 && html.indexOf('id="licMask"')<html.indexOf('id="ctaMask"'));
-  ok('v2.39 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.39 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.39 測試執行', false); console.log('   err', e.message); }
 
 /* ============ v2.39 中文校卷（P6 十部分全卷模擬）專項 ============ */
@@ -3850,7 +3850,7 @@ try{
      && W38.LIC_MODS[6].k==='cnps' && W38.LIC_MODS[6].box==='cnpsPaperBox'
      && W38.licOnline()===false);
   ok('v2.39 原卷特徵短語 0 命中（版權紅線）', ['鯉魚門','太田公司','徐特立','巴爾扎克','伊麗莎白二世','粉筆屑猶覺惜','攤江','鵝壁山','田心小學','阿靜','橫瀾島','鳳凰木','紫荊花瓣','守塔人','綠化總綱圖','屏山文物徑'].every(function(w){return html.indexOf(w)<0;}));
-  ok('v2.39 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.39 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.39 測試執行', false); console.log('   err', e.message); }
 
 
@@ -4021,10 +4021,10 @@ try{
   ok('v2.44 補習材料不再含繁體認讀翻卡／教育局官方字表（單一真相源）',
      !tvTxt.includes('繁體認讀翻卡') && !tvTxt.includes('教育局官方字表') && !tv.querySelector('#ftGrid') && !tv.querySelector('#lexCard'));
 
-  ok('v2.44 補習材料 8 塊編號連續 ①–⑧', (function(){
+  ok('v2.44 補習材料編號連續（v2.57 面試搬出後 7 塊 ①–⑦）', (function(){
     const hs=[...tv.querySelectorAll('details.gsec.fold>summary.gsec-h')].map(x=>x.textContent.trim());
-    const marks=['①','②','③','④','⑤','⑥','⑦','⑧'];
-    return hs.length===8 && hs.every((h,i)=>h.indexOf(marks[i])===0);
+    const marks=['①','②','③','④','⑤','⑥','⑦'];
+    return hs.length===7 && hs.every((h,i)=>h.indexOf(marks[i])===0);
   })());
 
   ok('v2.44 切換實跑：點「繁體認讀」→ 該 pane 顯示、其餘中文 pane 隱藏、tutorView 隱藏', (function(){
@@ -4294,7 +4294,7 @@ try{
      !html.includes('近朱者赤')&&!html.includes('現任行政長官')&&!html.includes('學而思'));
   WV46.eval('__intrTest.clear();__intrTest.stopTimer()');
   ok('v2.50 清場回復零預置', WV46.eval('__intrTest.favCount()')===0&&!WV46.eval('localStorage.getItem("hkk_intr_v0")'));
-  ok('v2.46 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.46 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.44 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ===== v2.51 泛讀文章擴充（16 篇／四檔各 4）＋生詞一鍵入單詞本 =====
@@ -4327,7 +4327,7 @@ try{
   // 清場回復零預置
   W51.eval('__myWordsTest.clear()');
   ok('v2.51 清場回復零預置詞條', W51.eval('__myWordsTest.count()')===0);
-  ok('v2.51 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.51 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.51 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ================= v2.52 學習工作台＋背景升級＋純白列印防回歸 =================
@@ -4363,7 +4363,7 @@ try{
   // ⑥ 零新 localStorage 鍵、零圖片、零外鏈
   ok('v2.52 零新增 localStorage 鍵', !/hkk_studyhub/.test(html) && !/localStorage\.setItem\([^)]*studyHub/i.test(html));
   ok('v2.52 工作台零圖片零外鏈', !/<img/.test(H52.innerHTML) && !/https?:\/\//.test(H52.innerHTML));
-  ok('v2.52 版本號一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.52 版本號一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.52 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ===== v2.53 泛讀正文任意單詞可點收詞（不只底部 5 生詞） =====
@@ -4424,7 +4424,7 @@ try{
   W53.eval('__myWordsTest.clear&&__myWordsTest.clear()');
   T53.clear();
   ok('v2.53 清場回復零預置詞條與開關默認開', W53.eval('__myWordsTest.count()')===0 && T53.pickMode()===true);
-  ok('v2.53 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.53 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.53 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 // ===== v2.54 三項擴充：L4 英文泛讀加長／中文試卷六級／P6 中文閱讀加長 =====
@@ -4473,8 +4473,31 @@ try{
   ok('v2.54 校卷新增段落存在（座位底下／三餘／土壤顆粒／金縫）', /座位底下/.test(JSON.stringify(ra))&&/三餘/.test(JSON.stringify(rb))&&/顆粒結構/.test(JSON.stringify(rb)));
   // ---- 版權與版本 ----
   ok('v2.54 新增題庫零第三方試卷特徵短語', !/band1|鯉魚門|太田公司|徐特立|鳳凰木/.test(JSON.stringify(qb6)));
-  ok('v2.54 版本號三處一致', (html.match(/公開版 v2\.56/g)||[]).length===2 && html.includes("ver:'hkk_v2.56'"));
+  ok('v2.54 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
 }catch(e){ ok('v2.54 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
+
+
+// ===== v2.57 面試話題庫（基礎 10 題＋90 秒計時器）遷入面試主頁 =====
+try{
+  const iv57=doc.getElementById('ivCard'), il57=doc.getElementById('ivList');
+  ok('v2.57 基礎 10 題塊已遷入 #inView（ivCard/ivList/計時器齊）', !!iv57 && !!il57 && !!doc.getElementById('ivStart') && doc.getElementById('inView').contains(iv57) && doc.getElementById('inView').contains(il57));
+  ok('v2.57 補習材料不再含面試塊', !doc.getElementById('tutorView').contains(il57));
+  ok('v2.57 inView 內恰 1 個折疊塊且默認收起', doc.querySelectorAll('#inView details.gsec.fold').length===1 && !iv57.open);
+  ok('v2.57 標題含「基礎 10 題」且已無舊編號 ③', iv57.querySelector('summary').textContent.includes('基礎 10 題') && iv57.querySelector('summary').textContent.indexOf('③')<0);
+  const sums57=[...doc.querySelectorAll('#tutorView details.gsec.fold > summary.gsec-h')].map(s=>s.textContent);
+  ok('v2.57 補習材料新序 ①–⑦（排期/教材/術語/泛讀/中學英文/備考地圖/原創試卷）', sums57.length===7 && sums57[0].includes('①') && sums57[1].includes('②') && sums57[2].includes('③') && sums57[2].includes('數學英文術語翻卡') && sums57[3].includes('④') && sums57[4].includes('⑤') && sums57[5].includes('⑥') && sums57[5].includes('備考地圖') && sums57[6].includes('⑦'));
+  const wkt57=window.__wkTest;
+  wkt57.go('oral');
+  ok('v2.57 課表口語列直達面試主頁（inView 顯示、5 條返回條亮、來源記 oral）', doc.getElementById('inView').style.display==='block' && wkt57.get()==='oral' && wkt57.on().length===5);
+  doc.querySelector('.wkback[data-wkback="p:inview"] button[data-wkback-go]').click();
+  ok('v2.57 面試頁返回條可返回課表並高亮 oral 列', doc.getElementById('wkTable').querySelector('tr[data-wkrow="oral"]').classList.contains('wkhl') && wkt57.on().length===0);
+  ok('v2.57 SCH_ITEMS 口語路由 p:inview、泛讀 t:3:res、術語 t:2', window.__schedTest.items.oral.go==='p:inview' && window.__schedTest.items.read.go==='t:3:res' && window.__schedTest.items.mterm.go==='t:2');
+  window.__hkkGo('t:5');
+  const f57=[...doc.querySelectorAll('#tutorView details.gsec.fold')];
+  ok('v2.57 路由 t:5 打開備考地圖（新序第 6 塊）', f57[5].id==='examMap' && f57[5].open);
+  doc.querySelector('#practiceSub button[data-sub="sched"]').click(); // 復位到今日課表
+  ok('v2.57 版本號三處一致', (html.match(/公開版 v2\.57/g)||[]).length===2 && html.includes("ver:'hkk_v2.57'"));
+}catch(e){ ok('v2.57 測試執行', false); console.log('   err='+e.message+' @ '+(e.stack||'').split('\n')[1]); }
 
 setTimeout(function(){
 // ===== v2.54 英文子頁籤收子目錄（父 chip＋第二行子 chip） =====
