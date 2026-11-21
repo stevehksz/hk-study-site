@@ -1,0 +1,43 @@
+Third-party OCR engine bundled with this site (self-hosted, same origin)
+
+This directory contains an unmodified, self-hosted copy of the browser OCR engine
+used by the "材料變自測 / 上傳圖片辨識" feature. All files are served from this
+site's own origin; no third-party CDN is contacted at runtime, and images never
+leave the user's device for local recognition.
+
+Components and licenses
+-----------------------
+1. tesseract.js v5.1.1
+   - files: tesseract.min.js, worker.min.js
+   - source: https://github.com/naptha/tesseract.js
+   - license: Apache License 2.0
+   - upstream: https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/
+
+2. tesseract.js-core v5.1.1 (WebAssembly build of Tesseract OCR)
+   - files: tesseract-core-simd-lstm.wasm.js, tesseract-core-lstm.wasm.js
+   - source: https://github.com/naptha/tesseract.js-core
+   - license: Apache License 2.0
+   - note: only the two LSTM cores are bundled because this site calls
+     createWorker(..., 1) which is LSTM-only. The SIMD variant is used on
+     supporting devices, the non-SIMD variant is the fallback.
+
+3. Tesseract traineddata (language models)
+   - files: lang/chi_tra.traineddata.gz, lang/eng.traineddata.gz
+   - source: https://github.com/tesseract-ocr/tessdata (4.0.0_best_int),
+     distributed via the npm packages @tesseract.js-data/chi_tra and
+     @tesseract.js-data/eng
+   - license: Apache License 2.0
+
+The Apache License 2.0 text is available at:
+https://www.apache.org/licenses/LICENSE-2.0
+
+Acknowledgement
+---------------
+These are third-party components. This site does not claim ownership of them,
+does not modify them, and does not redistribute them as part of any product for
+sale. Recognition runs entirely inside the visitor's browser. Images and the
+recognised text stay on the visitor's device for the local-OCR path; the
+optional AI-vision path sends the image only to the endpoint the visitor
+configured themselves in "AI 設置".
+
+Verified: 2026-11-21

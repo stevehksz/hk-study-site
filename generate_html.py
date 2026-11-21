@@ -5,6 +5,8 @@ v1.1 结构：2 级导航，練習區按科目歸口
   練習＝中文(古詩詞) / 英文(港小生字＋詞表) / 數學(中↔英術語表·點擊打卡)
 數學術語表從速覽→數學挪至練習→數學，速覽只留差異卡。
 新增：詩詞默寫填空+打印、數術語打卡、進度匯出/匯入、Web Speech 朗讀、移動端響應式。
+v2.61b：CDP 實測第三方 CDN 被 ERR_CONNECTION_RESET 攔截，本機 OCR 改全套自託管 site/ocr/（tesseract.js 5.1.1＋tesseract.js-core 兩個 LSTM core＋chi_tra/eng 語言包，共 12.09MB，Apache-2.0，LICENSE.txt 隨附），同源零第三方請求；_gh_sync.with_ocr() 與歸檔白名單同步擴充。
+v2.61：葉工要「材料變自測」可以上傳圖片並識別。落地＝#sfPaste 內加圖片區＋第一列顯眼入口掣，兩條通道：本機 OCR（Tesseract.js@5.1.1 按需載入、chi_tra+eng、圖片零上傳、免設定）／AI 看圖（複用 getAiCfg＋/chat/completions image_url，手寫較準、可選，明確標示圖片只發自配接口）。辨識結果一律先落 #sfInput 供校對、不自動進提綱，之後照舊走「用這段材料」；預覽圖動態生成以保 v2.59「本頁零圖片」斷言。
 v2.60：葉工回報「粵語學習本來有個從 GitHub 抄過嚟嘅模塊唔見咗」——實測線上 /yue/ 200、956 檔／12.74 MB／884 mp3 完整，入口自 v2.30 起一直喺 schedView、從未刪過，故唔係丟失而係入口太深。落地＝補習材料 #yueResCard 卡內首塊加道場直達鈕（不新增兄弟卡、不搬卡、v2.23 位置斷言不破）＋ MIT 授權與原作者署名；同時收尾懸空嘅 v2.59（材料變自測，1761 斷言全綠但未發布／未歸檔），一併發 v2.60。
 v2.59：葉工貼微信文章《用AI搞學習丨GitHub上很火的6個學習神器》問「有沒有可取的地方，放到插班平台裏面，特別是第一個」，拍板「按你的建議添加」。評估＝第一個 DeepTutor（HKUDS，Python+Docker+RAG 重型後端）**代碼搬不進單檔站，抄的是交互範式**：材料→章節→自測→錯題帶出處回鏈。站內已有兩端（v2.16 自訂題庫＝讀卷出題、v2.08 錯題本＝自動歸檔），缺中間「章節提綱」與最後「出處回鏈」。落地＝①練習區第 9 顆子頁「材料變自測」`#selfView`（刻意插在 #wrongView **之前**，避開 v2.08「錯題本零外鏈」切片斷言）；②材料三入口＝站內 5 段公開頁示例／貼自己的文字／跳既有 v1.96 試卷夾；材料只存本機 `hkk_self_v0`，不進靜態頁、不上傳、不進 AI 知識庫；③章節依原文分段本地抽取，標題取首句、每條帶「出處原文」，`<details>` 可收起複述（借 Markmap，零 AI 成本）；④插班專屬「章節錯位對照」＝家長自己勾「已學／還沒學／不確定」，**不讓 AI 代猜、不做智能推薦**（沿用 v1.88 邊界）；⑤自測題一律本地從材料挖空生成（正確答案與干擾項皆取自材料本身，零新增事實、零編造），每題帶 `anchor` 考點；⑥批改後錯題自動進既有 `hkk_wrong_v0`（**鍵名不改**），帶 `anchor/anchorQ/box/due` 四個可選欄位——舊記錄無此四欄照樣可渲染；錯題卡加「↩ 回看出處」＋「下次複習 M/D」，`wrongToggle` 在保留 `done` 語義的同時排入 1/3/7/14 天檔（借 Anki 排期，不做第二套卡）；⑦「🤖 AI 挑重點詞」為可選增強，走既有 `getAiCfg()` 通道，回傳 `{picks:[{seg,word}]}` 必過 `aiValidate()`——**每個詞都必須是對應段落的原文子串**，校驗不過整批丟棄；未配置接口不影響本地整理與出題；⑧划詞對照讀站內既有 `MATH_TERMS`（借 AI4Paper「就地解釋」形態，零 AI、零版權風險）；Qwerty Learner 與 Research Starter Kit 明確不搬（站內單詞貪吃蛇／FAQ 5 組已覆蓋）。⚠️ 紅線：自備材料只留本機、AI 只直連家長自填接口、密鑰不進網頁、題目原創不照抄原卷文字與數字、不引入後端／向量庫／第三方依賴、單檔＋localStorage 架構不變。驗證：verify2.js 版本鎖全量換 v2.59、practiceSub 8→9、新增 v2.59 專項 18 條。
 v1.26：主導航重排——「升學規劃」移至第一位（速覽指南之前），方便家長一進站先看插班時間線與擇校分檔；默認選中頁保持速覽指南不變。v2.25：葉工要求「把整份拷貝到插班網站裡面」——粵語道場由導購卡升級為站內自託管。落地＝①從上游 main（commit 5e6d719，v1.0.0）取源碼，npm ci 後 vite build，產物放 site/yue/（956 檔／12.74 MB，含 884 個 mp3）；②為適配子目錄只改四處構建配置：base="./"、瀏覽器路由改 hash 路由（刷新與深鏈唔需服務端 rewrite）、音檔路徑去前導斜線、唔註冊 Service Worker（避免快取同主站發版打架）；③產物內 226 處 "/audio/…" 絕對路徑統一改相對、manifest 圖標改 "./"，全站零絕對資源引用；④#jyutCard 文案由「站外免費工具」改「站內直用」，主掣改 window.open('./yue/')，仍用 button 唔用 href，v1.90／v2.07 零外鏈斷言照過；原站只留文字說明（含 Android APK）；⑤版本串升 v2.25、changelog 置頂、verify2.js 換鎖並補 3 條 v2.25 專項；⑥葉工 2026-11-13 貼截圖「刪除這裡」——#schTabYl 內「住天瑞邨（天水圍）就近中學」整卡刪除（v2.09 需求已被元朗 39 校表＋chips 篩選＋AI 選校覆蓋，卡內分檔屬官方坐標直線估算的整理內容、留著維護面大於價值）；v1.65 默認展開數 6→5，v2.09／v2.11 天瑞邨卡專項斷言改為「已刪除」反向斷言；⑦實測發現 workbuddy 域靜態資源閘要求每個請求帶正確 sharecode，yue 子資源（含 884 個 mp3 運行時載入）全部 403——後處理三件套解決：index.html 靜態標籤字面加 query、注入 Audio/fetch shim（hostname 判定，僅 workbuddy 域生效）、CSS url()／manifest 圖標同步加 query；主掣改 window.open('./yue/'+location.search) 把 sharecode 透傳給 /yue/ 入口。上游更新唔會自動跟，要同步得重新編譯。v2.24：葉工要求把開源粵語學習 App「粵語道場」（GitHub cheeryaudio/jyut-dojo，MIT）掛到「練習→今日課表」打卡格旁。落地＝①新增 #jyutCard 導購卡，位置在 #schCard 之後、#schWeekCard 之前（打完卡往下就見到）：練什麼（聲調道場測聲調／90 節生活情景課／雙人對話角色對練／FSRS 間隔重複）＋點用（手機瀏覽器開 jyut.benbox.dev→加到主屏幕→每日 10 分鐘）＋先講醜話（微信內受限／麥克風授權／記錄存本機可導出 JSON／生活粵語非考試粵語）＋來源聲明（MIT、作者 cheeryaudio、本站只介紹不託管不代收費）；②外鏈用 button + window.open(...,'noopener')，**唔用 href="http"**——v1.90／v2.07「schedView 零外鏈零圖片」兩條斷言繼續成立，打卡區唔餵裸連結俾小朋友；③版本串升 v2.24、changelog 置頂、verify2.js 補 3 條 v2.24 專項斷言。零新增 local 存儲鍵、零搬運第三方內容。
@@ -1498,6 +1500,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
 .sf-back{margin-left:8px;padding:3px 9px;font-size:11.5px}
 .sf-backcard{background:#fff8ec;border:1px solid #f0d6a8;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:13px}
 .sf-popup{position:absolute;z-index:99;background:#fff;border:1px solid #0369a1;border-radius:8px;box-shadow:0 6px 18px rgba(10,50,70,.18);padding:9px 12px;font-size:12.5px;max-width:280px}
+/* v2.61 圖片辨識 · scoped 到 .sf-ocr */
+.sf-ocr{background:#f7fbfd;border:1px dashed #9dc6de;border-radius:9px;padding:10px 12px;margin-bottom:10px}
+.sf-ocr input[type=file]{font-size:12.5px;max-width:100%;vertical-align:middle}
+.sf-ocr .sf-row{margin-top:8px}
+.sf-ocr-prev{display:block;max-width:100%;max-height:180px;border:1px solid #d9e3ea;border-radius:8px;margin-top:8px}
+.sf-ocr-btn{white-space:nowrap}
+
 .wanchor{margin-top:6px;font-size:12px}
 .wdue{margin-top:5px;font-size:11.5px;color:#5b6b75}
 @media print{#selfView{display:none!important}}
@@ -1545,13 +1554,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.60
+    © 叶工 SteveHKSZ · 公開版 v2.61
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.60</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.61</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1793,17 +1802,30 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="wrap" id="selfView" style="display:none">
     <div class="gsec">
       <h2>材料變自測 · 自習室</h2>
-      <p class="tip">貼一段孩子筆記／課本目錄／站內單元，先<b>整理成知識點</b>，再由材料本身出自測題；答錯的題帶「出處回鏈」，點一下跳回原文，並自動收進<a href="javascript:void(0)" onclick="__hkkGo('p:wrong')">錯題本</a>＋排下次複習。<b>材料只留本機</b>，不進靜態頁、不上傳、不進 AI 知識庫。</p>
+      <p class="tip">貼一段孩子筆記／課本目錄／站內單元，先<b>整理成知識點</b>，再由材料本身出自測題；答錯的題帶「出處回鏈」，點一下跳回原文，並自動收進<a href="javascript:void(0)" onclick="__hkkGo('p:wrong')">錯題本</a>＋排下次複習。<b>文字材料只留本機</b>，不進靜態頁、不上傳、不進 AI 知識庫；<b>圖片辨識有兩條路</b>——本機辨識完全唔上傳，AI 看圖只發往你自己填嘅接口（見下方說明）。</p>
       <div class="sf-card">
         <div class="sf-row">
           <button class="btn" type="button" id="sfBtnPreset">站內單元（示例）</button>
           <button class="btn ghost" type="button" id="sfBtnPaste">貼自己的文字</button>
+          <button class="btn ghost" type="button" id="sfBtnImg">📷 上傳圖片辨識</button>
           <button class="btn ghost" type="button" id="sfGoPapers">去試卷夾（本機 PDF）</button>
           <button class="btn ghost" type="button" id="sfBtnAi">🤖 AI 挑重點詞（可選）</button>
         </div>
         <div id="sfMat" class="sf-mat"></div>
         <div id="sfPaste" style="display:none;margin-top:10px">
-          <textarea id="sfInput" class="sf-ta" placeholder="貼上孩子筆記／課本目錄／學校卷題型說明（只留本機，不上傳）"></textarea>
+            <!-- v2.61 圖片辨識：兩條通道，結果一律先落文字框供校對，不自動進提綱；預覽圖動態生成，初始 DOM 無圖片元素以保 v2.59 零圖片斷言 -->
+        <div class="sf-ocr" id="sfOcrBox">
+          <div class="sf-row" style="margin-top:0">
+            <input type="file" id="sfOcrFile" accept="image/*" aria-label="選擇要辨識的圖片（拍照／截圖）">
+            <button class="btn ghost mini sf-ocr-btn" type="button" id="sfOcrLocal">📷 本機辨識（免設定）</button>
+            <button class="btn ghost mini sf-ocr-btn" type="button" id="sfOcrAi">🤖 AI 看圖辨識（可選）</button>
+            <button class="btn ghost mini sf-ocr-btn" type="button" id="sfOcrClear">移除圖片</button>
+          </div>
+          <div id="sfOcrPrev" style="display:none"></div>
+          <div id="sfOcrMsg" class="sf-msg" style="margin-top:6px"></div>
+          <p class="sf-hint">本機辨識：圖片全程留喺本機、<b>唔上傳</b>；識別引擎已整套放喺本站（約 12MB，首次載入後瀏覽器會快取），<b>零第三方 CDN、零外部請求</b>。<b>印刷體／課本目錄／試卷題型說明效果較好，手寫字建議用 AI 看圖</b>。AI 看圖：圖片只發往你喺「練習」頁頂部「⚙ AI 設置」填嘅接口（模型需支援看圖），本站不經手不存儲。兩條路辨識出嘅文字都會填入下面文字框，可連續辨識多張、文字會接續追加，<b>請先校對</b>再按「用這段材料」。</p>
+        </div>
+      <textarea id="sfInput" class="sf-ta" placeholder="貼上孩子筆記／課本目錄／學校卷題型說明（只留本機，不上傳）"></textarea>
           <div class="sf-row"><button class="btn" type="button" id="sfUsePaste">用這段材料</button></div>
         </div>
         <div class="sf-row">
@@ -12443,7 +12465,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.60',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.61',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -13891,8 +13913,134 @@ authBoot();
     }catch(e){msg('AI 連不上或回傳格式不對；本地整理與出題照常可用。','#c0392b');}
     finally{aiBusy=false;if(btn){btn.disabled=false;btn.textContent='🤖 AI 挑重點詞（可選）';}}
   }
+  /* ===== v2.61 圖片辨識：本機 OCR（零上傳）＋ AI 看圖（可選） ===== */
+  var _sfImg=null,_sfOcrBusy=false;
+  /* v2.61b：識別引擎全套自託管喺 ./ocr/（同源、零第三方 CDN）。
+     CDP 實測第三方 CDN 被 ERR_CONNECTION_RESET 攔截，故改本地；檔案清單與授權見 ./ocr/LICENSE.txt */
+  var SF_OCR_SRC='./ocr/tesseract.min.js';
+  var SF_OCR_OPT={workerPath:'./ocr/worker.min.js',corePath:'./ocr',langPath:'./ocr/lang'};
+  var SF_OCR_PROMPT='以下是一張學習材料圖片（孩子筆記／課本目錄／學校卷題型說明）。請逐字輸出圖中可見文字，保留原有分段與標點；嚴禁新增、翻譯、改寫、補充、總結或解釋任何內容；看不清的字用「□」代替。只輸出文字本身，不要標題、說明或 Markdown 標記。';
+  function sfOcrMsg(t,c){var m=$('sfOcrMsg');if(m){m.textContent=t;m.style.color=c||'';}}
+  function sfOcrClean(t){
+    var s=String(t==null?'':t).replace(/\r/g,'').replace(/^\s*```[a-z]*\s*/i,'').replace(/```\s*$/,'').trim().slice(0,20000);
+    /* Tesseract 對中文常逐字加空格（「字 詞 與 句子」），會令本地抽詞抽唔到連續詞 → 合併同行內漢字／全角／半角標點之間嘅空格；英文行與「第 1 段」呢類中英數字間空格原樣保留，零新增事實 */
+    return s.replace(/([\u4e00-\u9fff\u3000-\u303f\uff00-\uffef,.:;!?()\[\]{}])[ \t]+(?=[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef,.:;!?()\[\]{}])/g,'$1');
+  }
+  function sfOcrFill(txt){
+    txt=sfOcrClean(txt);
+    if(!txt){sfOcrMsg('辨識唔到文字：換張清晰啲嘅圖，或直接喺下面貼文字。','#c0392b');return false;}
+    var ta=$('sfInput');if(!ta)return false;
+    var old=String(ta.value||'').replace(/\s*$/,'');
+    ta.value=old?(old+'\n'+txt):txt;
+    $('sfPaste').style.display='block';
+    sfOcrMsg('辨識到 '+txt.length+' 字，已填入文字框（可接續加多張）。請先校對，再按「用這段材料」。','#0b7a68');
+    return true;
+  }
+  function sfOcrEnsure(){
+    if(window.Tesseract&&window.Tesseract.createWorker)return Promise.resolve(window.Tesseract);
+    return new Promise(function(res,rej){
+      var done=false;
+      var timer=setTimeout(function(){if(!done){done=true;rej(new Error('識別引擎載入逾時'));}},30000);
+      var s=document.createElement('script');s.src=SF_OCR_SRC;s.async=true;
+      s.onload=function(){if(done)return;done=true;clearTimeout(timer);
+        if(window.Tesseract&&window.Tesseract.createWorker)res(window.Tesseract);
+        else rej(new Error('識別引擎初始化失敗'));};
+      s.onerror=function(){if(done)return;done=true;clearTimeout(timer);rej(new Error('本站識別引擎讀取失敗'));};
+      document.head.appendChild(s);
+    });
+  }
+  function sfOcrRead(file){
+    if(!file||!/^image\//.test(file.type||'')){sfOcrMsg('請揀圖片檔（jpg／png／webp）。','#c0392b');return;}
+    if(file.size>12*1024*1024){sfOcrMsg('圖片太大（>12MB），請先壓縮或裁細啲。','#c0392b');return;}
+    var fr=new FileReader();
+    fr.onload=function(){
+      _sfImg=fr.result;
+      var box=$('sfOcrPrev');if(!box)return;
+      box.innerHTML='';
+      var im=document.createElement('img');im.className='sf-ocr-prev';im.alt='已揀圖片預覽';im.src=_sfImg;
+      box.appendChild(im);box.style.display='block';
+      sfOcrMsg('圖片已載入（只留本機）。揀「本機辨識」或「AI 看圖辨識」。','#0369a1');
+    };
+    fr.onerror=function(){sfOcrMsg('圖片讀取失敗，再試一次。','#c0392b');};
+    fr.readAsDataURL(file);
+  }
+  async function sfOcrLocal(){
+    if(_sfOcrBusy)return false;
+    if(!_sfImg){sfOcrMsg('先揀張圖片（或直接 Ctrl+V 貼圖）。','#c0392b');return false;}
+    _sfOcrBusy=true;var btn=$('sfOcrLocal'),old=btn?btn.textContent:'';
+    if(btn){btn.disabled=true;btn.textContent='辨識中…';}
+    sfOcrMsg('載入本站識別引擎中（首次約 12MB，之後會快取）…','#0369a1');
+    try{
+      var T=await sfOcrEnsure();
+      sfOcrMsg('引擎就緒，開始辨識（印刷體較準，手寫建議用 AI 看圖）…','#0369a1');
+      var opt=Object.assign({},SF_OCR_OPT,{logger:function(m){
+        if(m&&m.status==='recognizing text')sfOcrMsg('辨識中… '+Math.round((m.progress||0)*100)+'%','#0369a1');
+      }});
+      var w=await T.createWorker('chi_tra+eng',1,opt);
+      var r=await w.recognize(_sfImg);
+      try{await w.terminate();}catch(e){}
+      return sfOcrFill(r&&r.data&&r.data.text);
+    }catch(e){
+      sfOcrMsg('本機辨識失敗（'+(e&&e.message?e.message:'引擎或圖片問題')+'）。可改用「🤖 AI 看圖辨識」，或直接喺下面貼文字。','#c0392b');
+      return false;
+    }finally{_sfOcrBusy=false;if(btn){btn.disabled=false;btn.textContent=old;}}
+  }
+  async function sfOcrAi(){
+    if(_sfOcrBusy)return false;
+    if(!_sfImg){sfOcrMsg('先揀張圖片（或直接 Ctrl+V 貼圖）。','#c0392b');return false;}
+    var cfg=(typeof getAiCfg==='function')?getAiCfg():{};
+    if(!cfg.base||!cfg.key||!cfg.model){
+      sfOcrMsg('未配置 AI 接口：到「練習」頁頂部「⚙ AI 設置」填 Base URL／密鑰／模型（模型需支援看圖）。未配置可改用「📷 本機辨識」，或直接貼文字。','#c0392b');return false;
+    }
+    _sfOcrBusy=true;var btn=$('sfOcrAi'),old=btn?btn.textContent:'';
+    if(btn){btn.disabled=true;btn.textContent='AI 看圖中…';}
+    sfOcrMsg('圖片只發往你自配嘅接口，本站不經手不存儲…','#0369a1');
+    var ctl=(typeof AbortController==='function')?new AbortController():null;
+    var timer=ctl?setTimeout(function(){try{ctl.abort();}catch(e){}},90000):null;
+    try{
+      var r=await fetch(cfg.base.replace(/\/+$/,'')+'/chat/completions',{
+        method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},
+        signal:ctl?ctl.signal:undefined,
+        body:JSON.stringify({model:cfg.model,temperature:0,max_tokens:2000,messages:[{role:'user',content:[
+          {type:'text',text:SF_OCR_PROMPT},{type:'image_url',image_url:{url:_sfImg}}
+        ]}]})
+      });
+      if(!r.ok){sfOcrMsg('AI 接口返回 HTTP '+r.status+'；可改用「📷 本機辨識」或直接貼文字。','#c0392b');return false;}
+      var d=await r.json();
+      var c=d&&d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content;
+      return sfOcrFill(c);
+    }catch(e){
+      sfOcrMsg((e&&e.name==='AbortError')?'AI 看圖 90 秒無響應；可改用「📷 本機辨識」。':'AI 連不上（多為 CORS 或網絡）；可改用「📷 本機辨識」或直接貼文字。','#c0392b');
+      return false;
+    }finally{
+      if(timer)clearTimeout(timer);
+      _sfOcrBusy=false;if(btn){btn.disabled=false;btn.textContent=old;}
+    }
+  }
+  function sfOcrBind(){
+    var bi=$('sfBtnImg');if(bi)bi.onclick=function(){$('sfPaste').style.display='block';};
+    var f=$('sfOcrFile');if(f)f.onchange=function(){if(this.files&&this.files[0])sfOcrRead(this.files[0]);};
+    var l=$('sfOcrLocal');if(l)l.onclick=sfOcrLocal;
+    var a=$('sfOcrAi');if(a)a.onclick=sfOcrAi;
+    var c=$('sfOcrClear');if(c)c.onclick=function(){
+      _sfImg=null;if(f)f.value='';
+      var p=$('sfOcrPrev');if(p){p.innerHTML='';p.style.display='none';}
+      sfOcrMsg('已移除圖片（文字框內容保留，可自行修改）。','');
+    };
+    document.addEventListener('paste',function(e){
+      var v=$('selfView');if(!v||v.style.display==='none')return;
+      var p=$('sfPaste');if(!p||p.style.display==='none')return;
+      var items=e.clipboardData&&e.clipboardData.items;if(!items)return;
+      for(var i=0;i<items.length;i++){
+        if(items[i].type&&items[i].type.indexOf('image')===0){
+          var file=items[i].getAsFile();if(file){sfOcrRead(file);e.preventDefault();break;}
+        }
+      }
+    });
+  }
   function init(){
     SEGS=presetSegs();renderMat();
+    sfOcrBind();
     $('sfBtnPreset').onclick=function(){SEGS=presetSegs();renderMat();$('sfPaste').style.display='none';outline();};
     $('sfBtnPaste').onclick=function(){$('sfPaste').style.display='block';};
     $('sfUsePaste').onclick=function(){
@@ -13941,6 +14089,9 @@ authBoot();
     aiValidate:aiValidate,marks:function(){return load().marks||{};},
     render:function(){renderMat();renderOutline();renderGap();},
     reset:function(){SEGS=presetSegs();KS=[];QS=[];graded=false;renderMat();if($('sfOutline'))$('sfOutline').innerHTML='';if($('sfQuizBox'))$('sfQuizBox').innerHTML='';renderGap();}
+    ,ocrFill:sfOcrFill,ocrClean:sfOcrClean,ocrLocal:sfOcrLocal,ocrAi:sfOcrAi,
+    ocrSetImg:function(d){_sfImg=d;},ocrState:function(){return {img:!!_sfImg,busy:_sfOcrBusy};},
+    ocrPrompt:SF_OCR_PROMPT
   };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
