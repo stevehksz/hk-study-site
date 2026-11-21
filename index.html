@@ -1317,6 +1317,55 @@ header{padding:20px 14px 16px}
 header h1{font-size:19px;margin-top:52px}
 header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 }
+
+/* ============ v2.59 材料變自測 · 全部 .sf- 前綴，零全域污染 ============ */
+.sf-card{background:#fff;border:1px solid #d9e3ea;border-radius:10px;padding:14px 16px;margin:12px 0}
+.sf-card h3{margin:0 0 8px;font-size:15px;color:#0369a1}
+.sf-card .btn.ghost{background:#fff;color:#0369a1}
+.sf-card .btn.mini{padding:4px 10px;font-size:12px}
+.sf-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.sf-row .btn{margin:0}
+.sf-mat{background:#eaf3f8;border:1px solid #cfe2ee;border-radius:9px;padding:10px 14px;margin-top:10px;max-height:240px;overflow:auto;font-size:13.5px}
+.sf-mat p{margin:0 0 8px}
+.sf-mat p:last-child{margin-bottom:0}
+.sf-segn{display:inline-block;background:#0369a1;color:#fff;border-radius:4px;font-size:11px;padding:1px 6px;margin-right:6px}
+.sf-ta{width:100%;min-height:120px;border:1px solid #d9e3ea;border-radius:8px;padding:10px;font:inherit}
+.sf-msg{font-size:12.5px;font-weight:700}
+.sf-src{font-size:11.5px;color:#6b7b85;border-top:1px dashed #d9e3ea;padding-top:8px;margin-top:10px}
+.sf-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){.sf-two{grid-template-columns:1fr}}
+.sf-outline{margin-top:10px}
+.sf-k{border:1px solid #d9e3ea;border-radius:8px;margin-bottom:8px;background:#fff;overflow:hidden}
+.sf-k.flash{outline:3px solid #f0b429;outline-offset:2px}
+.sf-k summary{padding:9px 12px;cursor:pointer;font-weight:700;font-size:13.5px;background:#f7fbfd;list-style:none;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sf-k summary::-webkit-details-marker{display:none}
+.sf-kid{background:#0369a1;color:#fff;border-radius:4px;font-size:11px;padding:1px 6px;flex:none}
+.sf-aiword{font-size:11px;background:#eaf3f8;color:#0369a1;border-radius:4px;padding:1px 6px}
+.sf-kbody{padding:9px 13px;font-size:12.5px;color:#33454f;border-top:1px solid #d9e3ea}
+.sf-quote{background:#eaf3f8;border-left:3px solid #9dc6de;padding:6px 9px;margin:6px 0;font-size:12px;color:#40525c}
+.sf-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.sf-tag{border:1px solid #c9d8e2;background:#fff;color:#5b6b75;border-radius:20px;font-size:11.5px;padding:2px 9px;cursor:pointer}
+.sf-tag.on{background:#0b7a68;border-color:#0b7a68;color:#fff}
+.sf-tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+.sf-tbl th,.sf-tbl td{border:1px solid #d9e3ea;padding:6px 8px;text-align:left}
+.sf-tbl th{background:#f2f7fa;color:#0369a1}
+.sf-hint{font-size:12px;color:#5b6b75;margin:6px 0}
+.sf-muted{font-size:12.5px;color:#6b7b85}
+.sf-q{border:1px solid #d9e3ea;border-radius:8px;padding:11px 13px;margin-bottom:9px;background:#fff}
+.sf-q.right{border-color:#8fc9b8;background:#f5fbf8}
+.sf-q.wrong{border-color:#e6b0a6;background:#fff7f5}
+.sf-qh{display:flex;justify-content:space-between;gap:8px;margin-bottom:7px;font-size:13.5px}
+.sf-anchor{font-size:11.5px;background:#eaf3f8;color:#0369a1;border-radius:4px;padding:2px 7px;white-space:nowrap;font-weight:700}
+.sf-opt{display:block;padding:5px 8px;border:1px solid #d9e3ea;border-radius:6px;margin:4px 0;cursor:pointer;font-size:13px}
+.sf-opt input{margin-right:7px}
+.sf-ok{color:#0b7a68;font-weight:700;font-size:13px;margin-top:7px}
+.sf-no{color:#c0392b;font-weight:700;font-size:13px;margin-top:7px}
+.sf-back{margin-left:8px;padding:3px 9px;font-size:11.5px}
+.sf-backcard{background:#fff8ec;border:1px solid #f0d6a8;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:13px}
+.sf-popup{position:absolute;z-index:99;background:#fff;border:1px solid #0369a1;border-radius:8px;box-shadow:0 6px 18px rgba(10,50,70,.18);padding:9px 12px;font-size:12.5px;max-width:280px}
+.wanchor{margin-top:6px;font-size:12px}
+.wdue{margin-top:5px;font-size:11.5px;color:#5b6b75}
+@media print{#selfView{display:none!important}}
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
 <script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js" defer></script>
@@ -1361,13 +1410,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.58
+    © 叶工 SteveHKSZ · 公開版 v2.60
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.58</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.60</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -1385,6 +1434,8 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <button data-sub="sched" class="on">今日課表</button>
   <!-- v2.08：錯題本——四種卷批改自動歸檔、跨卷複習 -->
   <button data-sub="wrong">錯題本</button>
+  <!-- v2.59：材料變自測（DeepTutor 式閉環） -->
+  <button data-sub="self">材料變自測</button>
   <button data-sub="cn">中文</button>
   <button data-sub="en">英文</button>
   <button data-sub="math">數學</button>
@@ -1601,6 +1652,57 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
       </div>
       <p class="tip">課表來源：hk-placement 知識庫《學術英語能力路線》減壓檔（2026-10-29，坊間整理）；「時態與題型」為 v1.89 新增項（每週 2 次 × 15 分鐘）。頻率與補習材料①總表一致，只按天排開。</p>
     </div>
+  </div>
+
+  <!-- ============ v2.59 材料變自測（刻意放在 #wrongView 之前，避開 v2.08 錯題本零外鏈切片斷言） ============ -->
+  <div class="wrap" id="selfView" style="display:none">
+    <div class="gsec">
+      <h2>材料變自測 · 自習室</h2>
+      <p class="tip">貼一段孩子筆記／課本目錄／站內單元，先<b>整理成知識點</b>，再由材料本身出自測題；答錯的題帶「出處回鏈」，點一下跳回原文，並自動收進<a href="javascript:void(0)" onclick="__hkkGo('p:wrong')">錯題本</a>＋排下次複習。<b>材料只留本機</b>，不進靜態頁、不上傳、不進 AI 知識庫。</p>
+      <div class="sf-card">
+        <div class="sf-row">
+          <button class="btn" type="button" id="sfBtnPreset">站內單元（示例）</button>
+          <button class="btn ghost" type="button" id="sfBtnPaste">貼自己的文字</button>
+          <button class="btn ghost" type="button" id="sfGoPapers">去試卷夾（本機 PDF）</button>
+          <button class="btn ghost" type="button" id="sfBtnAi">🤖 AI 挑重點詞（可選）</button>
+        </div>
+        <div id="sfMat" class="sf-mat"></div>
+        <div id="sfPaste" style="display:none;margin-top:10px">
+          <textarea id="sfInput" class="sf-ta" placeholder="貼上孩子筆記／課本目錄／學校卷題型說明（只留本機，不上傳）"></textarea>
+          <div class="sf-row"><button class="btn" type="button" id="sfUsePaste">用這段材料</button></div>
+        </div>
+        <div class="sf-row">
+          <button class="btn" type="button" id="sfBtnOutline">① 整理成知識點</button>
+          <button class="btn" type="button" id="sfBtnQuiz" disabled>② 出自測題</button>
+          <button class="btn" type="button" id="sfBtnGrade" disabled>③ 交卷批改</button>
+          <span id="sfMsg" class="sf-msg"></span>
+        </div>
+        <div class="sf-src">示例材料逐段引自本站「出卷骨架總表／速覽指南·數學差異／版權原則」公開頁，<b>非任何學校真卷</b>。章節只用原文分段，題目只從材料挖空，零新增事實；AI 按鈕只挑「必須在原文中出現」的重點詞，回傳不過校驗即丟棄。選中材料裏的術語可就地查站內「數學中↔英術語表」。</div>
+      </div>
+      <div class="sf-two">
+        <div class="sf-card">
+          <h3>① 知識點提綱</h3>
+          <div class="sf-row">
+            <button class="btn ghost mini" type="button" id="sfFold" disabled>收起全部（自己講一遍）</button>
+            <button class="btn ghost mini" type="button" id="sfUnfold" disabled>展開核對</button>
+          </div>
+          <div id="sfOutline" class="sf-outline"></div>
+          <div id="sfBack" class="sf-backcard" style="display:none"></div>
+        </div>
+        <div class="sf-card">
+          <h3>插班專屬 · 章節錯位對照</h3>
+          <p class="tip">站內原話：「插班時兩邊『已學／未學』章節常錯位，需按學校進度補」。<b>哪章已學由家長自己勾</b>，不讓 AI 代猜，也不做智能推薦。</p>
+          <div id="sfGap"></div>
+        </div>
+      </div>
+      <div class="sf-card">
+        <h3>② 自測題 → ③ 批改</h3>
+        <div id="sfQuizBox"></div>
+        <div class="sf-row"><button class="btn ghost" type="button" id="sfGoWrong" style="display:none">去錯題本看回鏈與複習排期</button></div>
+        <div class="sf-src">去哪補沿用站內既有口徑：詞不懂收進「我的單詞本」；題幹讀不懂去「數學術語表」；中文字認不過來去「繁體認讀」翻卡。</div>
+      </div>
+    </div>
+    <div id="sfPopup" class="sf-popup" style="display:none"></div>
   </div>
   <!-- 錯題本（v2.08：中文/英文/數學/呈分 四種卷批改自動歸檔，跨卷複習） -->
   <div class="wrap" id="wrongView" style="display:none">
@@ -2657,7 +2759,14 @@ Thank you for your time.</div>
 
     <!-- v2.23 粵語自學官方入口：三條 CUHK ILC 網址由葉工提供，只列入口、不轉載內容 -->
     <div class="gcard" id="yueResCard">
-      <h3>粵語自學 · 官方資源（香港中文大學 ILC）</h3>
+      <h3>粵語自學 · 站內道場 ＋ 官方資源（香港中文大學 ILC）</h3>
+      <!-- v2.60 粵語道場直達入口：整份自託管（MIT／cheeryaudio）。放卡內首塊，不新增兄弟卡，v2.23「新卡緊接 ⑧ 之後、⑨ 之前」位置斷言不破 -->
+      <div class="yue-entry" id="yueEntryBox" style="margin:6px 0 14px;padding:14px 16px;border:2px solid #2f6d8f;border-radius:10px;background:#f2f8fc">
+        <div style="font-size:17px;font-weight:800;color:#0b3a5c;margin-bottom:6px">粵語道場 · 站內直用（練「開口說」）</div>
+        <p style="margin:6px 0 10px;line-height:1.7;color:#183b52">想練講廣東話用呢個：<b>粵語道場</b>已經整份收錄喺本站，按掣就喺站內開，<b>唔使跳去第三方、唔使裝 App、唔使註冊</b>。聲調跟讀、90 節生活情景課、雙人對話、間隔重複溫習都有。<b>下面三條先係中大 ILC 嘅外鏈</b>，兩者唔同。</p>
+        <button class="btn yue-entry-btn" id="yueEntryBtn" type="button" onclick="window.open('./yue/'+location.search,'_blank','noopener')">▶ 站內開始練（另開新頁）</button>
+        <div style="display:block;margin-top:10px;font-size:12px;line-height:1.6;color:#5b6b78">依 MIT 授權收錄（Copyright (c) 2026 cheeryaudio），本站只作子目錄適配、未改寫課程內容；許可全文見站內 <code>./yue/LICENSE</code>。聲調訓練要授權麥克風，錄音只喺本機處理；進度存瀏覽器本機，換機可喺進度頁導出 JSON。微信內置瀏覽器如打唔開，複製連結去 Safari／Chrome。</div>
+      </div>
       <p class="tip">下面三個入口由葉工提供，點名稱會<b>另開新頁</b>跳去香港中文大學原站。本站只放入口，<b>不存放、不轉載</b>任何拼音表、課堂內容、詞表、音檔或截圖；想配合每天 10 分鐘「粵語磨耳朵」，見本頁「每週課表」。</p>
       <ul id="yueResList" style="margin:8px 0 10px;padding-left:20px;line-height:2">
         <li><a href="https://www.ilc.cuhk.edu.hk/workshop/Chinese/Cantonese/Romanization/" target="_blank" rel="noopener noreferrer">粵語拼音速遞 ↗</a> — 名稱對應粵語拼音主題；實際內容與章節以原站為準。</li>
@@ -54473,6 +54582,7 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#practiceSub button').forEach(x=>x.classList.toggle('on',x===b));
   document.getElementById('schedView').style.display = curPractice==='sched'?'block':'none';
   var _wv=document.getElementById('wrongView'); if(_wv)_wv.style.display = curPractice==='wrong'?'block':'none';
+  var _sv=document.getElementById('selfView'); if(_sv)_sv.style.display = curPractice==='self'?'block':'none';
   document.getElementById('cnPracView').style.display = curPractice==='cn'?'block':'none';
   document.getElementById('enPracView').style.display = curPractice==='en'?'block':'none';
   document.getElementById('mathPracView').style.display = curPractice==='math'?'block':'none';
@@ -54483,6 +54593,7 @@ document.querySelectorAll('#practiceSub button').forEach(b=>b.onclick=()=>{
   if(curPractice==='inview'&&window.__intrTest)window.__intrTest.render();
   if(curPractice==='sched')schRender();
   if(curPractice==='wrong'&&typeof wrongRender==='function')wrongRender();
+  if(curPractice==='self'&&window.__selfTest&&typeof window.__selfTest.render==='function')window.__selfTest.render();
   if(curPractice==='papers')pfRender();
 });
 window.__schedTest={items:SCH_ITEMS,week:SCH_WEEK,get:schGet,key:schKey,render:schRender,toggle:schToggle,dayIdx:schDayIdx};
@@ -54640,7 +54751,7 @@ schRender(); // v1.90 開頁即渲染（sched 為練習默認子頁）
 // 設計：只存「可用文字複習的欄位」（題幹／我的答案／正確答案／講解），不存原始題目物件，
 // 換版本後舊錯題仍能顯示；同一題（科目＋年級＋題幹雜湊）再錯只累計次數、不重複收錄。
 var WRONG_KEY='hkk_wrong_v0', WRONG_MAX=400;
-var WRONG_SUB={cn:'中文',en:'英文',math:'數學',exam:'呈分卷'};
+var WRONG_SUB={cn:'中文',en:'英文',math:'數學',exam:'呈分卷',self:'材料自測'};
 function wrongAll(){ try{ var o=JSON.parse(localStorage.getItem(WRONG_KEY)||'{}'); return Array.isArray(o.items)?o.items:[]; }catch(e){ return []; } }
 function wrongSave(items){ try{ localStorage.setItem(WRONG_KEY,JSON.stringify({ver:'hkk_wrong_v1',items:(items||[]).slice(0,WRONG_MAX)})); }catch(e){} }
 function wrongHash(s){ var h=0; s=String(s||''); for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return Math.abs(h); }
@@ -54652,10 +54763,16 @@ function wrongAdd(o){
   var k=o.sub+'|'+(o.g||'')+'|'+wrongHash(o.q);
   var idx=-1;
   for(var i=0;i<items.length;i++){ if(items[i].k===k){ idx=i; break; } }
+  var old=idx>=0?items[idx]:null;
   var rec={
     k:k, sub:o.sub, src:String(o.src||WRONG_SUB[o.sub]||'').slice(0,40), g:String(o.g||'').slice(0,10),
     q:String(o.q).slice(0,300), mine:String(o.mine||'').slice(0,160), key:String(o.key||'').slice(0,200),
-    ex:String(o.ex||'').slice(0,400), ts:Date.now(), done:0, n:1
+    ex:String(o.ex||'').slice(0,400), ts:Date.now(), done:0, n:1,
+    /* v2.59 四個可選欄位：舊記錄沒有這四欄照樣能渲染；box/due 只排複習，不改 done 語義 */
+    anchor:String(o.anchor||(old&&old.anchor)||'').slice(0,20),
+    anchorQ:String(o.anchorQ||(old&&old.anchorQ)||'').slice(0,300),
+    box:old?Math.min((old.box||0)+1,3):0,
+    due:(function(){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate()+[1,3,7,14][old?Math.min((old.box||0)+1,3):0]).getTime();})()
   };
   if(idx>=0){ rec.n=(items[idx].n||1)+1; items.splice(idx,1); items.unshift(rec); }
   else items.unshift(rec);
@@ -54664,7 +54781,15 @@ function wrongAdd(o){
 }
 function wrongToggle(k,done){
   var items=wrongAll();
-  items.forEach(function(i){ if(i.k===k)i.done=done?1:0; });
+  items.forEach(function(i){
+    if(i.k!==k)return;
+    i.done=done?1:0;
+    /* v2.59 Anki 式排期：標「已掌握」不再只是永久隱藏，而是排入 1/3/7/14 天檔；
+       放回待複習則到期日回到今天。done 語義完全不變（v2.08 既有斷言照過）。 */
+    var d=new Date();
+    if(done){ i.box=Math.min((i.box||0)+1,3); i.due=new Date(d.getFullYear(),d.getMonth(),d.getDate()+[1,3,7,14][i.box]).getTime(); }
+    else{ i.due=new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime(); }
+  });
   wrongSave(items); wrongRender();
 }
 function wrongDel(k){
@@ -54682,6 +54807,8 @@ function wrongCard(i,isDone){
     +'<div class="wa"><span class="wmine">你的答案：'+(i.mine?wrongEsc(i.mine):'（未作答／未記錄）')+'</span>'
       +'<span class="wkey">正確答案：'+wrongEsc(i.key||'—')+'</span></div>'
     +(i.ex?'<div class="wex">講解：'+wrongEsc(i.ex)+'</div>':'')
+    +(i.anchor?'<div class="wanchor">考點 '+wrongEsc(String(i.anchor).replace('sfk','K'))+'：<button class="btn" type="button" data-wback="'+wrongEsc(i.anchor)+'" data-wq="'+wrongEsc(i.anchorQ||'')+'">↩ 回看出處</button></div>':'')
+    +(i.due?'<div class="wdue">下次複習：'+(function(){var d=new Date(i.due);return (d.getMonth()+1)+'/'+d.getDate();})()+(i.due<=Date.now()&&!i.done?' · 今日到期':'')+'</div>':'')
     +'<div class="wbtns">'
       +(isDone
         ? '<button class="btn" type="button" data-wres="'+i.k+'">↺ 放回待複習</button>'
@@ -54695,7 +54822,7 @@ function wrongRender(){
   var todo=items.filter(function(i){ return !i.done; });
   var done=items.filter(function(i){ return i.done; });
   var st='待複習 <b>'+todo.length+'</b> 題';
-  ['cn','en','math','exam'].forEach(function(s){
+  ['cn','en','math','exam','self'].forEach(function(s){
     var n=todo.filter(function(i){ return i.sub===s; }).length;
     if(n)st+='<span class="wsep">·</span>'+WRONG_SUB[s]+' '+n;
   });
@@ -54726,6 +54853,8 @@ function wrongRender(){
     var t=e.target;
     if(!t||!t.getAttribute)return;
     var k;
+    var wb=t.getAttribute('data-wback');
+    if(wb){ if(window.__selfTest&&typeof window.__selfTest.backFromWrong==='function')window.__selfTest.backFromWrong(wb,t.getAttribute('data-wq')||''); return; }
     if((k=t.getAttribute('data-wok'))){ wrongToggle(k,1); }
     else if((k=t.getAttribute('data-wres'))){ wrongToggle(k,0); }
     else if((k=t.getAttribute('data-wdel'))){
@@ -57588,7 +57717,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.58',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.60',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -61877,6 +62006,260 @@ authBoot();
   window.__txTest={units:U,key:KEY,best:function(){return B;},render:render,go:function(id){if(!find(id))return false;curId=id;curBk=find(id).bk;syncBk();chips();unit();return true;},cur:function(){return curId;},wc:wc};
   render();
 })();
+
+/* ============ v2.59 材料變自測：材料 → 章節 → 自測 → 錯題帶出處回鏈 ============
+   ①材料只留本機 hkk_self_v0，不進靜態頁、不上傳、不進 AI 知識庫。
+   ②章節依原文分段本地抽取；AI 只可「挑重點詞」，回傳詞必須是對應段落的原文子串。
+   ③題目一律本地從材料挖空生成（正確答案與干擾項皆取自材料），零編造；錯題進既有 hkk_wrong_v0（鍵名不改）。
+   ④錯題帶 anchor/anchorQ 回鏈，配 1/3/7/14 天複習排期。 */
+(function(){
+  var KEY='hkk_self_v0';
+  var PRESET=[
+    '香港小學較早接觸統計／數據處理／概率；內地代數與幾何的深度與提早程度更高。插班時兩邊「已學／未學」章節常錯位，需按學校進度補。',
+    '中文：一 字詞與句子／二 閱讀理解／三 寫作。字形字音、量詞、標點、詞語配搭、句子改寫、修辭辨識；記敘文與說明文＋實用文（書信·日記·周記·海報·說明書·通告）；實用文寫作（稱謂·祝頌語·署名·日期）＋短文。',
+    '英文：Vocabulary／Grammar／Cloze／Reading／Practical writing／Guided writing。同義反義與詞形、時態與 as…as、介詞代詞冠詞、動詞填空（括號提示）、閱讀理解（選擇＋短答）、通告海報書信、40–80 字引導寫作。',
+    '數學：甲 選擇題／乙 短答計算／丙 應用題。分數四則、小數、百分數、比與比例、速率、圓周與面積、體積、平均數與統計圖、簡易方程、方向與位置；應用題須列式＋步驟＋單位。',
+    '常識：本站不設常識出卷，只做中英數三科，不假裝覆蓋常識。第三方試卷不存放、不爬取、不代理；手上已有一份卷，只提煉題型結構，再用站內引擎重出一道原創題。'
+  ];
+  var KTITLE=[
+    '兩地課程章節錯位：按學校進度補',
+    '中文卷三部份：字詞句子／閱讀／寫作',
+    '英文卷六個板塊：Vocabulary → Guided writing',
+    '數學卷三部份與範圍：分數四則到方向與位置',
+    '本站邊界：只做中英數、不搬第三方試卷'
+  ];
+  var STOP=['本站','這個','可以','以及','其中','為了','一個','不是','就是','還有','這些','那些','什麼','怎樣','材料','章節'];
+  var SEGS=[],KS=[],QS=[],graded=false,aiBusy=false;
+  function $(id){return document.getElementById(id);}
+  function esc(x){return (typeof wrongEsc==='function')?wrongEsc(x):String(x==null?'':x);}
+  function msg(t,c){var m=$('sfMsg');if(m){m.textContent=t;m.style.color=c||'';}}
+  function load(){try{var o=JSON.parse(localStorage.getItem(KEY)||'{}');return (o&&typeof o==='object')?o:{};}catch(e){return {};}}
+  function save(o){try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}}
+  function presetSegs(){return PRESET.map(function(t,i){return {n:i+1,text:t};});}
+  function words(t){
+    var out=[],re=/[\u4e00-\u9fff]{2,4}|[A-Za-z]{3,}/g,m;
+    while((m=re.exec(String(t||'')))){if(STOP.indexOf(m[0])<0)out.push(m[0]);}
+    return out;
+  }
+  function renderMat(){
+    var box=$('sfMat');if(!box)return;
+    box.innerHTML=SEGS.map(function(s,i){
+      return '<p data-sfseg="'+(i+1)+'"><span class="sf-segn">'+(i+1)+'</span>'+esc(s.text)+'</p>';
+    }).join('');
+  }
+  function readMat(){
+    var a=[];document.querySelectorAll('#sfMat p[data-sfseg]').forEach(function(p){
+      a.push({n:+p.dataset.sfseg,text:p.textContent.replace(/^\s*\d+\s*/,'').trim()});
+    });return a;
+  }
+  function renderOutline(){
+    var box=$('sfOutline');if(!box)return;
+    box.innerHTML=KS.map(function(k){
+      return '<details class="sf-k" id="'+k.id+'" open>'
+        +'<summary><span class="sf-kid">K'+k.n+'</span><span>'+esc(k.title)+'</span>'
+        +(k.aiWord?'<span class="sf-aiword">AI 重點詞：'+esc(k.aiWord)+'</span>':'')+'</summary>'
+        +'<div class="sf-kbody"><div>要點：'+esc(k.head)+'</div>'
+        +'<div class="sf-quote"><b>出處 · 材料第 '+k.n+' 段</b><br>'+esc(k.quote)+'</div>'
+        +'<div class="sf-tags">'
+        +'<span class="sf-tag'+(k.mark==='yes'?' on':'')+'" data-sfk="'+k.id+'" data-sfm="yes">孩子已學</span>'
+        +'<span class="sf-tag'+(k.mark==='no'?' on':'')+'" data-sfk="'+k.id+'" data-sfm="no">還沒學</span>'
+        +'<span class="sf-tag'+(k.mark==='?'?' on':'')+'" data-sfk="'+k.id+'" data-sfm="?">不確定</span>'
+        +'</div></div></details>';
+    }).join('');
+    box.querySelectorAll('.sf-tag').forEach(function(t){
+      t.onclick=function(){
+        KS.forEach(function(k){if(k.id===t.dataset.sfk)k.mark=(k.mark===t.dataset.sfm)?'':t.dataset.sfm;});
+        var o=load(),m={};KS.forEach(function(k){if(k.mark)m[k.id]=k.mark;});o.marks=m;save(o);
+        renderOutline();renderGap();
+      };
+    });
+  }
+  function renderGap(){
+    var box=$('sfGap');if(!box)return;
+    var marked=KS.filter(function(k){return k.mark;});
+    if(!marked.length){box.innerHTML='<p class="sf-muted">提綱生成後，逐條標「已學／還沒學／不確定」，這裡自動出對照表。</p>';return;}
+    var h='<table class="sf-tbl"><thead><tr><th>知識點</th><th>家長標記</th><th>站內既有出口</th></tr></thead><tbody>';
+    marked.forEach(function(k){
+      var go=k.mark==='yes'?'可直接做站內卷驗一驗':(k.mark==='no'?'先回「速覽指南」看差異，再排課':'先做定級三連測，別猜');
+      h+='<tr><td>K'+k.n+' '+esc(k.title)+'</td><td>'+({yes:'已學',no:'還沒學','?':'不確定'})[k.mark]+'</td><td>'+go+'</td></tr>';
+    });
+    h+='</tbody></table><p class="sf-hint">共 '+marked.length+' 條已標，其中 <b>'+KS.filter(function(k){return k.mark==='no';}).length+' 條還沒學</b>。這張表由家長自己勾出來，<b>不是 AI 推薦</b>。</p>';
+    box.innerHTML=h;
+  }
+  function outline(){
+    SEGS=readMat();
+    if(!SEGS.length){msg('先貼一段材料。','#c0392b');return;}
+    var marks=load().marks||{};
+    KS=SEGS.map(function(s,i){
+      return {id:'sfk'+(i+1),n:i+1,title:KTITLE[i]||('第 '+(i+1)+' 段'),
+        head:(s.text.split(/[。；]/)[0]||s.text).slice(0,40),
+        quote:s.text.slice(0,300),mark:marks['sfk'+(i+1)]||''};
+    });
+    renderOutline();renderGap();
+    $('sfBtnQuiz').disabled=false;$('sfBtnGrade').disabled=true;
+    $('sfFold').disabled=false;$('sfUnfold').disabled=false;
+    $('sfQuizBox').innerHTML='<p class="sf-muted">提綱好了，按「② 出自測題」。</p>';
+    msg('已整理 '+KS.length+' 個知識點（每條帶出處原文）。','#0b7a68');
+  }
+  function buildQuiz(){
+    QS=[];graded=false;
+    var pool=[];KS.forEach(function(k){words(k.quote).forEach(function(w){if(pool.indexOf(w)<0)pool.push(w);});});
+    KS.forEach(function(k,i){
+      var cand=words(k.quote).filter(function(w){return w.length>=2;});
+      if(!cand.length)return;
+      var word=cand[(i*3+1)%cand.length];
+      var sent=(k.quote.split(/[。；]/).filter(function(x){return x.indexOf(word)>=0;})[0]||k.quote).slice(0,120);
+      var stem=sent.split(word).join('＿＿＿＿');
+      var opts=[word];
+      for(var j=0;j<pool.length&&opts.length<4;j++){
+        var w=pool[(i*7+j*3+2)%pool.length];
+        if(w!==word&&opts.indexOf(w)<0)opts.push(w);
+      }
+      var rot=(i+1)%opts.length,sh=opts.slice(rot).concat(opts.slice(0,rot));
+      QS.push({k:k.id,label:'K'+k.n,stem:stem,word:word,opts:sh,a:sh.indexOf(word),quote:sent,pick:-1});
+    });
+    $('sfQuizBox').innerHTML=QS.length?QS.map(function(q,i){
+      return '<div class="sf-q" id="sfq'+i+'">'
+        +'<div class="sf-qh"><span><b>Q'+(i+1)+'.</b> '+esc(q.stem)+'</span><span class="sf-anchor">考 '+q.label+'</span></div>'
+        +q.opts.map(function(o,j){return '<label class="sf-opt"><input type="radio" name="sfq'+i+'" value="'+j+'">'+String.fromCharCode(65+j)+'. '+esc(o)+'</label>';}).join('')
+        +'<div class="sf-res"></div></div>';
+    }).join(''):'<p class="sf-muted">材料太短，抽不出可挖空的詞，換一段再試。</p>';
+    $('sfQuizBox').querySelectorAll('input[type=radio]').forEach(function(r){
+      r.onchange=function(){var i=+r.name.slice(3);if(QS[i])QS[i].pick=+r.value;};
+    });
+    $('sfBtnGrade').disabled=!QS.length;
+  }
+  function back(kid,q){
+    var b=document.querySelector('#practiceSub button[data-sub="self"]');if(b)b.click();
+    var el=$(kid),box=$('sfBack');
+    if(box){
+      box.innerHTML='<b>↩ 錯題出處回看 · '+esc(kid.replace('sfk','K'))+'</b>'
+        +(q?'<div class="sf-quote">'+esc(q)+'</div>':'')
+        +'<div class="sf-hint">這段原文隨錯題一併存進本機，換了材料也看得到。</div>';
+      box.style.display='block';
+    }
+    if(el){el.open=true;el.classList.add('flash');setTimeout(function(){el.classList.remove('flash');},1600);}
+  }
+  function grade(){
+    if(graded||!QS.length)return;
+    var n=0;
+    QS.forEach(function(q,i){
+      var ok=q.pick===q.a,card=$('sfq'+i);if(!card)return;
+      card.className='sf-q '+(ok?'right':'wrong');
+      if(ok){card.querySelector('.sf-res').innerHTML='<div class="sf-ok">✓ 答對</div>';return;}
+      n++;
+      card.querySelector('.sf-res').innerHTML='<div class="sf-no">✗ 答錯　正確答案：'+esc(q.word)
+        +'<button class="btn sf-back" type="button" data-sfback="'+q.k+'">↩ 回看 '+q.label+' 出處</button></div>'
+        +'<div class="sf-hint">原句：'+esc(q.quote)+'</div>';
+      if(typeof wrongAdd==='function')wrongAdd({
+        sub:'self',src:'材料變自測',g:'',q:q.stem,
+        mine:q.pick<0?'（未作答）':q.opts[q.pick],key:q.word,
+        ex:'原句：'+q.quote+'　（出處 '+q.label+'）',
+        anchor:q.k,anchorQ:q.quote
+      });
+    });
+    graded=true;
+    $('sfQuizBox').querySelectorAll('[data-sfback]').forEach(function(b){
+      b.onclick=function(){back(b.dataset.sfback,'');};
+    });
+    $('sfBtnGrade').disabled=true;
+    if(typeof wrongRender==='function')wrongRender();
+    if(n&&$('sfGoWrong'))$('sfGoWrong').style.display='inline-block';
+    msg('批改完成：'+QS.length+' 題，錯 '+n+' 題已收進錯題本。','#0b7a68');
+  }
+  function aiValidate(o){
+    if(!o||typeof o!=='object'||!Array.isArray(o.picks))return '格式不對';
+    if(o.picks.length>KS.length)return '挑詞過多';
+    for(var i=0;i<o.picks.length;i++){
+      var p=o.picks[i];
+      if(!p||typeof p.seg!=='number'||p.seg%1!==0||p.seg<1||p.seg>KS.length)return '第'+(i+1)+'筆段號不合法';
+      var w=String(p.word||'');
+      if(w.length<2)return '第'+(i+1)+'筆詞太短';
+      if(KS[p.seg-1].quote.indexOf(w)<0)return '第'+(i+1)+'筆詞不在原文中';
+    }
+    return '';
+  }
+  async function aiPick(){
+    if(aiBusy)return;
+    if(!KS.length){msg('先按「① 整理成知識點」。','#c0392b');return;}
+    var cfg=(typeof getAiCfg==='function')?getAiCfg():{};
+    if(!cfg.base||!cfg.key||!cfg.model){
+      msg('尚未配置 AI 接口：到「練習」頁頂部「⚙ AI 設置」填 Base URL／密鑰／模型（僅存本瀏覽器）。未配置不影響本地整理與出題。','#c0392b');return;
+    }
+    aiBusy=true;var btn=$('sfBtnAi');if(btn){btn.disabled=true;btn.textContent='整理中…';}
+    var mat=KS.map(function(k,i){return (i+1)+'. '+k.quote;}).join('\n');
+    var sys='You pick key terms from study notes. Return ONLY a JSON object {"picks":[{"seg":1,"word":"..."}]}. Every word MUST be an exact substring of that numbered paragraph. Do NOT invent, translate, paraphrase or add any fact. At most one word per paragraph.';
+    var usr='Paragraphs:\n'+mat+'\nPick one key term from each paragraph.';
+    var body={model:cfg.model,messages:[{role:'system',content:sys},{role:'user',content:usr}],temperature:0.2};
+    try{body.response_format={type:'json_object'};}catch(e){}
+    try{
+      var r=await fetch(cfg.base.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},body:JSON.stringify(body)});
+      if(!r.ok){msg('AI 接口返回 HTTP '+r.status+'；本地整理與出題照常可用。','#c0392b');return;}
+      var d=await r.json();
+      var c=d&&d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content;
+      c=String(c||'').trim().replace(/^```(?:json)?/i,'').replace(/```$/i,'').trim();
+      var o=JSON.parse(c),err=aiValidate(o);
+      if(err){msg('AI 回傳未過校驗（'+err+'），已丟棄；本地整理不受影響。','#c0392b');return;}
+      o.picks.forEach(function(p){KS[p.seg-1].aiWord=String(p.word);});
+      renderOutline();
+      msg('AI 挑出 '+o.picks.length+' 個重點詞（已逐詞核對必須在原文中）。','#0b7a68');
+    }catch(e){msg('AI 連不上或回傳格式不對；本地整理與出題照常可用。','#c0392b');}
+    finally{aiBusy=false;if(btn){btn.disabled=false;btn.textContent='🤖 AI 挑重點詞（可選）';}}
+  }
+  function init(){
+    SEGS=presetSegs();renderMat();
+    $('sfBtnPreset').onclick=function(){SEGS=presetSegs();renderMat();$('sfPaste').style.display='none';outline();};
+    $('sfBtnPaste').onclick=function(){$('sfPaste').style.display='block';};
+    $('sfUsePaste').onclick=function(){
+      var t=$('sfInput').value.trim();
+      if(!t){msg('先貼一段文字。','#c0392b');return;}
+      SEGS=t.split(/\n+/).filter(function(x){return x.trim();}).map(function(x,i){return {n:i+1,text:x.trim()};});
+      renderMat();$('sfPaste').style.display='none';outline();
+      msg('已換成你貼的材料（只留本機）。','#0b7a68');
+    };
+    $('sfBtnOutline').onclick=outline;
+    $('sfBtnQuiz').onclick=function(){buildQuiz();msg('出了 '+QS.length+' 道自測題（題目與答案全部來自材料本身）。','#0369a1');};
+    $('sfBtnGrade').onclick=grade;
+    $('sfFold').onclick=function(){document.querySelectorAll('#sfOutline details').forEach(function(d){d.open=false;});};
+    $('sfUnfold').onclick=function(){document.querySelectorAll('#sfOutline details').forEach(function(d){d.open=true;});};
+    $('sfBtnAi').onclick=aiPick;
+    $('sfGoWrong').onclick=function(){if(window.__hkkGo)window.__hkkGo('p:wrong');};
+    $('sfGoPapers').onclick=function(){if(window.__hkkGo)window.__hkkGo('p:papers');};
+    /* 划詞對照：只讀站內既有 MATH_TERMS，不經 AI、零版權風險 */
+    document.addEventListener('mouseup',function(e){
+      var pop=$('sfPopup');if(!pop)return;
+      try{
+        var sv=$('selfView');if(!sv||sv.style.display==='none'){pop.style.display='none';return;}
+        var sel=window.getSelection(),txt=sel?String(sel.toString()).trim():'';
+        if(!txt||txt.length>20){pop.style.display='none';return;}
+        var mv=$('sfMat');if(!mv||!sel.anchorNode||!mv.contains(sel.anchorNode)){pop.style.display='none';return;}
+        var terms=(typeof MATH_TERMS!=='undefined')?MATH_TERMS:[];
+        var hits=terms.filter(function(t){return txt.indexOf(t.zh)>=0||txt.toLowerCase().indexOf(t.en.toLowerCase())>=0;});
+        if(!hits.length){pop.style.display='none';return;}
+        pop.innerHTML=hits.slice(0,3).map(function(t){
+          return '<div><b>'+esc(t.zh)+'</b> → '+esc(t.en)+(t.note?'<br><span class="sf-muted">'+esc(t.note)+'</span>':'')+'</div>';
+        }).join('')+'<div class="sf-hint">站內「數學中↔英術語表」既有資料 · 不經 AI</div>';
+        pop.style.left=Math.min((e.pageX||0)+12,Math.max(0,(window.innerWidth||800)-300))+'px';
+        pop.style.top=((e.pageY||0)+14)+'px';pop.style.display='block';
+      }catch(err){pop.style.display='none';}
+    });
+    document.addEventListener('mousedown',function(e){
+      var pop=$('sfPopup');if(pop&&!pop.contains(e.target))pop.style.display='none';
+    });
+  }
+  window.__selfTest={
+    key:KEY,preset:PRESET,
+    outline:function(){return KS;},quiz:function(){return QS;},
+    outlineNow:outline,quizNow:function(){buildQuiz();},gradeNow:grade,
+    answer:function(i,v){var r=document.querySelector('input[name="sfq'+i+'"][value="'+v+'"]');if(r){r.checked=true;if(r.onchange)r.onchange();}},
+    back:back,backFromWrong:function(k,q){back(k,q);},
+    aiValidate:aiValidate,marks:function(){return load().marks||{};},
+    render:function(){renderMat();renderOutline();renderGap();},
+    reset:function(){SEGS=presetSegs();KS=[];QS=[];graded=false;renderMat();if($('sfOutline'))$('sfOutline').innerHTML='';if($('sfQuizBox'))$('sfQuizBox').innerHTML='';renderGap();}
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+
 </script>
 <div id="lwtePrintArea"></div>
 </body>
