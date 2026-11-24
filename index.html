@@ -1378,6 +1378,57 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
 .wanchor{margin-top:6px;font-size:12px}
 .wdue{margin-top:5px;font-size:11.5px;color:#5b6b75}
 @media print{#selfView{display:none!important}}
+/* ===== v2.63 手機擇校對比（≤640px）：學校名完整 + Band 同屏，免橫滑 ===== */
+@media screen and (max-width:640px){
+  /* 取消 780px 強制最小寬：學校名不再被擠出視窗 */
+  #schoolsView .scroll-x{overflow-x:visible;margin:8px 0}
+  #schoolsView .scroll-x .mtable{min-width:0;width:100%;font-size:12px;table-layout:fixed}
+  #schoolsView .mtable th,#schoolsView .mtable td{
+    padding:5px 3px;line-height:1.35;vertical-align:middle;
+    white-space:normal;overflow-wrap:anywhere;word-break:break-word
+  }
+  /* 梯隊／檔位：窄列 */
+  #tierTable th:first-child,#tierTable td:first-child,
+  #psTable th:first-child,#psTable td:first-child{
+    width:36px;text-align:center;padding-left:2px;padding-right:2px;font-size:11.5px
+  }
+  /* 學校名：優先寬度、完整換行、不裁頭不裁尾 */
+  #tierTable th:nth-child(2),#tierTable td:nth-child(2),
+  #ssTable th:first-child,#ssTable td:first-child,
+  #portTable th:first-child,#portTable td:first-child,
+  #tpTable th:first-child,#tpTable td:first-child,
+  #ylTable th:first-child,#ylTable td:first-child,
+  #psTable th:nth-child(2),#psTable td:nth-child(2){
+    width:42%;font-weight:600;color:#0b6e5c;white-space:normal;overflow-wrap:anywhere;word-break:break-word
+  }
+  /* Band：加粗高亮，方便逐行對比 */
+  #tierTable th:nth-child(5),#tierTable td:nth-child(5),
+  #ssTable th:nth-child(7),#ssTable td:nth-child(7),
+  #portTable th:nth-child(2),#portTable td:nth-child(2),
+  #tpTable th:nth-child(4),#tpTable td:nth-child(4),
+  #ylTable th:nth-child(4),#ylTable td:nth-child(4){
+    width:19%;text-align:center;font-weight:700;color:#b45309;white-space:nowrap
+  }
+  /* 手機上收起次要欄；完整資料仍在 HTML 與桌面版 */
+  #tierTable th:nth-child(n+6),#tierTable td:nth-child(n+6),
+  #ssTable th:nth-child(2),#ssTable td:nth-child(2),
+  #ssTable th:nth-child(4),#ssTable td:nth-child(4),
+  #ssTable th:nth-child(5),#ssTable td:nth-child(5),
+  #ssTable th:nth-child(n+8),#ssTable td:nth-child(n+8),
+  #portTable th:nth-child(n+3),#portTable td:nth-child(n+3),
+  #tpTable th:nth-child(n+5),#tpTable td:nth-child(n+5),
+  #ylTable th:nth-child(n+5),#ylTable td:nth-child(n+5),
+  /* v2.64 東鐵跨境核實表：學校名＋路徑＋Band 同屏 */
+  #vtTable th:first-child,#vtTable td:first-child{
+    width:42%;font-weight:600;color:#0b6e5c;white-space:normal;overflow-wrap:anywhere;word-break:break-word
+  }
+  #vtTable th:nth-child(4),#vtTable td:nth-child(4){
+    width:16%;text-align:center;font-weight:700;color:#b45309;white-space:nowrap
+  }
+  #vtTable th:nth-child(n+5),#vtTable td:nth-child(n+5),
+  #vtTable th:nth-child(2),#vtTable td:nth-child(2){display:none}
+  #psTable th:nth-child(n+5),#psTable td:nth-child(n+5){display:none}
+}
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
 <script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js" defer></script>
@@ -3341,6 +3392,29 @@ INTR_QBANK.forEach(function(q,i){q.a=INTR_SAMPLES[i]||'';});
         </table>
         </div>
         <p class="src">來源：坊間中學資料庫與升學資訊站多源交叉（2026-11-02 核對，坊間整理不逐一署名）；英中判定以教育局微調教學語言安排及各校官網為準（王肇枝＝EMI 官網確認）；Band／近站／車程＝坊間非官方估算，以學校官網與港鐵路線圖為準。</p>
+      </details>
+
+      <details class="gcard fold" open>
+        <summary>v2.64 東鐵跨境·官網核實 10 所（大埔 5＋沙田 5 · 2026-11-24 逐校核實）</summary>
+        <p>本表只收<b>官網／CHSC 中學概覽一手核實</b>的 10 所（承接 [[34 東鐵線跨境中學清單]]）：點校名直達官方入學頁。中一路徑以校方／教育局為準；Band 仍為<b>坊間非官方</b>，教育局不公布 Banding；學費標明適用學年，非本地生學費與本地生差距極大，身份到手時點直接決定檔位。深圳居住、羅湖／落馬洲通關家庭請先核通勤：大埔墟／太和／大圍較近，林大輝實際近<b>屯馬線第一城站</b>而非東鐵。</p>
+        <div class="scroll-x">
+        <table class="mtable" id="vtTable">
+          <thead><tr><th>學校（點進官網）</th><th>近站</th><th>中一路徑（官方）</th><th>Band<br><span style="font-weight:400;color:#a33">坊間非官方</span></th><th>一手核實要點／學費（適用學年）</th></tr></thead>
+          <tbody>
+            <tr><td><a href="http://www.wscss.edu.hk/ch/s1admission.htm" target="_blank" rel="noopener">王肇枝中學</a></td><td>大埔墟站旁</td><td>參加派位</td><td>1B</td><td>英文授課（官網）；收生講座 2026-12-12；遞交 2027-01-04～01-18。官網一處日期疑筆誤，已向校方核實中</td></tr>
+            <tr><td><a href="https://www.cpu.edu.hk/zh_tw/site/view?name=F1Application%2027-28" target="_blank" rel="noopener">迦密柏雨中學</a></td><td>太和（大元邨）</td><td>參加派位</td><td>1A</td><td>自行分配 40／統一派位 84；面試 2027-03-06（英＋粵）；收生準則 學業50%／課外20%／面試20%／操行10%</td></tr>
+            <tr><td><a href="https://www.mst.edu.hk/en/content.php?wid=75" target="_blank" rel="noopener">聖公會莫壽增會督中學</a></td><td>大埔墟（運頭角里）</td><td>參加派位</td><td>1B</td><td>官網須知明列「內地或海外新來港兒童」申領自行分配表途徑；插班兩輪截止 6/30、11/30（S2–S4／S1–S3）</td></tr>
+            <tr><td><a href="https://www.valtorta.edu.hk/CustomPage/83/%E4%B8%AD%E4%B8%80%E8%87%AA%E8%A1%8C%E5%88%86%E9%85%8D%E5%AD%B8%E4%BD%8D%E7%94%B3%E8%AB%8B%E9%A0%88%E7%9F%A5_(2026-2027).pdf" target="_blank" rel="noopener">恩主教書院</a></td><td>大埔墟（培賢里）</td><td>參加派位</td><td>1B–1C</td><td>官方英文名 Valtorta College；英文授權(中史等除外)；插班 F2–F5 申請 5/1～6/12（2026/27 已過）</td></tr>
+            <tr><td><a href="https://www.ltpss.edu.hk/tc/activity/s1-admissions-info-days-%E4%B8%AD%E4%B8%80%E5%85%A5%E5%AD%B8%E7%94%B3%E8%AB%8B%E5%8F%8A%E8%B3%87%E8%A8%8A%E6%97%A5" target="_blank" rel="noopener">羅定邦中學</a></td><td>大埔墟（馬聰路）</td><td><b>不參加派位</b></td><td>2A</td><td>收生不受地域限制；學費（本科學年）本地 HK$24,425／<b>非本地 HK$100,651</b>；2027/28 申請第二段 2026-12-07～2027-01-16</td></tr>
+            <tr><td><a href="https://www.blmcss.edu.hk/main/zh_tw/site/view?name=S1+Admission+2026%2F27" target="_blank" rel="noopener">浸信會呂明才中學</a></td><td>沙田站</td><td>參加派位</td><td>1B</td><td>英中；CHSC 載中四至中六堂費 $340、特別用途費 $1,240（2026/27 或調整）；資訊日 2026-11-14 已過</td></tr>
+            <tr><td><a href="https://www.stmc.edu.hk/content.php?wid=108" target="_blank" rel="noopener">沙田循道衛理中學</a></td><td>車公廟站步行約10–15分</td><td>參加派位</td><td>1B–2A</td><td>全英授課；<b>中一叩門位放榜日 08:30–16:30 親交校務處</b>；選校講座 2026-12-05 需先取票（11-18 起）</td></tr>
+            <tr><td><a href="https://www.skhtst.edu.hk/2026/11/application-for-secondary-one-discretionary-places-dp-september-2027-admission-%e7%94%b3%e8%ab%8b%e4%b8%ad%e4%b8%80%e8%87%aa%e8%a1%8c%e5%88%86%e9%85%8d%e5%ad%b8%e4%bd%8d-2027%e5%b9%b49%e6%9c%88/" target="_blank" rel="noopener">聖公會曾肇添中學</a></td><td>沙田站一帶</td><td>參加派位</td><td>1A–1B</td><td>英中；自行分配 50；面試 2027-03-06（粵＋英）；遞交 2027-01-04～01-18；官網導航 JS 渲染，入學頁請用直連</td></tr>
+            <tr><td><a href="https://www.puikiu.edu.hk/tc/news_detail.php?id=330" target="_blank" rel="noopener">培僑書院</a></td><td>大圍站</td><td><b>不參加派位</b></td><td>1B</td><td>官網遷 puikiu.edu.hk；學費（2026/27）本地中一至三 HK$34,280／<b>非本地 HK$110,506</b>；<b>简介會 2026-12-12，登記 12-11 13:00 截止</b></td></tr>
+            <tr><td><a href="https://www.ltfc.edu.hk/Website/index.php/admission/s1-admission-2027-2028.html" target="_blank" rel="noopener">林大輝中學</a></td><td>屯馬線第一城站</td><td><b>不參加派位</b></td><td>2C</td><td>英中、體育見長；學費（2026/27）本地 S1 HK$54,150／<b>非本地 S1 HK$130,376</b>；2027/28 S1 申請自 2026-11-16 起</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="src">來源：各校官網入學頁、《中學概覽 2025/2026》（家庭與學校合作事宜委員會，學校提供並核實）、教育局「不參加 2025/2027 中學學位分配直資中學名單」，逐校核實於 2026-11-24。Band 為坊間非官方整理，不作收生承諾；學費／日期以校方最新公布為準。逐校完整筆記與「待核實」項見本地 Obsidian 庫 31 學校資料／。</p>
       </details>
       </div>
       <div id="schTabYl" hidden>
