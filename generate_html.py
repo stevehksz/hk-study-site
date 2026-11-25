@@ -1553,9 +1553,18 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   #ssTable th:nth-child(4),#ssTable td:nth-child(4),
   #ssTable th:nth-child(5),#ssTable td:nth-child(5),
   #ssTable th:nth-child(n+8),#ssTable td:nth-child(n+8),
-  #portTable th:nth-child(n+3),#portTable td:nth-child(n+3),
-  #tpTable th:nth-child(n+5),#tpTable td:nth-child(n+5),
-  #ylTable th:nth-child(n+5),#ylTable td:nth-child(n+5),
+  #portTable th:nth-child(n+3),#portTable td:nth-child(n+3){display:none}
+  #tpTable th:nth-child(n+5),#tpTable td:nth-child(n+5){display:none}
+  /* v2.65：手機只留「梯隊／檔位＋學校名＋Band」核心列，類型/教學語言在窄屏收起，避免字擠成一團 */
+  #tierTable th:nth-child(3),#tierTable td:nth-child(3),
+  #tierTable th:nth-child(4),#tierTable td:nth-child(4),
+  #tpTable th:nth-child(2),#tpTable td:nth-child(2),
+  #tpTable th:nth-child(3),#tpTable td:nth-child(3),
+  #ylTable th:nth-child(2),#ylTable td:nth-child(2),
+  #ylTable th:nth-child(3),#ylTable td:nth-child(3),
+  #ssTable th:nth-child(3),#ssTable td:nth-child(3),
+  #ssTable th:nth-child(6),#ssTable td:nth-child(6){display:none}
+  #ylTable th:nth-child(n+5),#ylTable td:nth-child(n+5){display:none}
   /* v2.64 東鐵跨境核實表：學校名＋路徑＋Band 同屏 */
   #vtTable th:first-child,#vtTable td:first-child{
     width:42%;font-weight:600;color:#0b6e5c;white-space:normal;overflow-wrap:anywhere;word-break:break-word
@@ -1611,13 +1620,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.62
+    © 叶工 SteveHKSZ · 公開版 v2.65
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.62</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.65</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
