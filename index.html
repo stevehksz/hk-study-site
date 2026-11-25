@@ -1404,6 +1404,14 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   .sortBar button:active{background:#d3f3e8}
   .sortBar button.on{background:#0b6e5c;color:#fff}
 }
+
+  /* v2.69 招生動態表「＋追」按鈕：小尺寸 chip，緊跟校名 */
+  #admissionWeekly table[data-wk-track="1"] td:first-child b{display:inline-block;margin-right:6px}
+  .wk-track-btn{padding:2px 8px!important;font-size:11.5px!important;min-height:26px!important;
+    border:1px solid #0d9488!important;border-radius:12px!important;background:#fff!important;
+    color:#0d9488!important;cursor:pointer;font-weight:700;white-space:nowrap}
+  .wk-track-btn:hover{background:#0d9488!important;color:#fff!important}
+  .wk-track-btn.done{background:#0d9488!important;color:#fff!important}
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
 <script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js" defer></script>
@@ -1448,13 +1456,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.67
+    © 叶工 SteveHKSZ · 公開版 v2.69
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.67</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.69</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3070,6 +3078,130 @@ INTR_QBANK.forEach(function(q,i){q.a=INTR_SAMPLES[i]||'';});
 
   <!-- 時間線 -->
   <div class="wrap" id="timelineView">
+  <!-- ===== v2.69 本週招生動態（2026-11-18–25；逐條聯網核實，具時效性） ===== -->
+  <div class="gsec" id="admissionWeekly">
+    <h2>本週招生動態（2026.11.18–11.25 整理）</h2>
+    <p class="tip" style="margin:6px 0 4px">春季插班（中一至中四，2027 年 1、2 月入學）與 2027/28 中一入學兩條線並行。<b>本區塊有時效性</b>：以下按 2026-11-25 聯網核實整理，<b>✓ 已核實</b>＝取得教育局／校方原頁或官方 PDF，<b>⚠ 待核實</b>＝只見升學資訊彙整、未取得校方原頁，遞交前<b>必須</b>致電或到校網再確認。所有日期以學校／教育局最終公布為準。</p>
+    <div style="padding:9px 13px;background:#fff7ed;border:1px solid #fdba74;border-radius:10px;margin:8px 0 16px;font-size:13px;line-height:1.7">
+      <b>🔴 七日內截止／新開放</b>：華仁書院（香港）<b>11-27（五）16:00 截止 ✓</b>；培僑書院創新課程 11-29 ⚠；莫壽增 11-30 ⚠（先致電）；聖道迦南 <b>11-30 至 12-06 開放 ✓</b>；保良局羅氏基金 <b>12-04 16:00 截止 ✓</b>；香島中學 12-07 ✓；<b>將軍澳香島 11-24 新一輪中一申請開放 ✓</b>（至 2027-01-07）。<br>
+      孩子若<b>已在港讀中一</b>，走「學期中插班」（2027 年 1、2 月入學）；若<b>仍在內地或未參加派位</b>，重點是 <b>12-03 起</b>到教育局學位分配組領表 ✓，另有 <b>11 月中旬起</b>可登記「中一派位電子平台」✓。
+    </div>
+
+    <h3>一、本週最新開放插班學校清單</h3>
+    <p class="tip" style="margin:2px 0 8px"><b>（A）2026/27 學年下學期插班（2027 年 1 或 2 月入學）</b></p>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+    <table class="mtable" data-wk-track="1" style="min-width:760px">
+      <thead><tr><th style="width:210px">學校（類別／分區）</th><th style="width:110px">可申請年級</th><th>截止與考核安排</th><th style="width:130px">官方連結／核實</th></tr></thead>
+      <tbody>
+        <tr><td><b>華仁書院（香港）</b><br>資助／灣仔區（男校）</td><td>中一至中四</td><td>網上申請 2026-11-16 09:00 起，<b>11-27（五）16:00 截止</b>；11-30（一）09:00 至 12-01（二）16:00 到校交證明文件（最近兩年成績表、護照相 2 張、身份證／簽證副本）；入學試 <b>12-16（三）14:00–17:40</b>（英文、中文、數學），中四另考科學 <b>12-17（四）</b>；1 月中旬面試、1 月下旬註冊，<b>2027-02-15（一）開課</b>。考試費 HK$75（現金，不退）</td><td><a href="https://web.wahyan.edu.hk/admissions/" target="_blank" rel="noopener">校網 Admissions</a>／<a href="https://web.wahyan.edu.hk/wp-content/uploads/2026/11/2026_TransStud_F1234_T2.pdf" target="_blank" rel="noopener">官方須知 PDF</a><br><span style="color:#0d9488">✓ 已核實（校方原頁＋PDF，2026-11-09 發出）</span></td></tr>
+        <tr><td><b>基督教中國佈道會聖道迦南書院</b><br>直資／觀塘區</td><td>中一至中四</td><td><b>11-30 至 12-06</b> 網上申請，HK$75（不退不轉）；筆試 <b>2026-12-29（二）上午</b>，只邀獲篩選者，通過者再面試。優先：中英數達 B、操行 B+ 或以上；須交中、英文作文各一篇（<b>老師批改版</b>）、最近兩級全年成績表、證件相。查詢 2372 0033</td><td><a href="https://stcc.edu.hk/tc/interim-admission" target="_blank" rel="noopener">校網 Interim Admission</a><br><span style="color:#0d9488">✓ 已核實（校方原頁）</span></td></tr>
+        <tr><td><b>中華基金中學</b><br>直資／東區</td><td>中一至中四</td><td>第一類（下學期）<b>11-02 至 12-02</b> 網上申請，HK$75；<b>12-11（五）入學試</b>（中一／中三 09:30–12:30；中二／中四 14:00–17:00），<b>12-22（二）13:00–16:30 面試</b>；筆試／面試結果分別 12-04、12-16 以電郵通知；12-30 至 2027-01-06 通知結果；1/2–1/6 註冊、1/19 迎新，<b>2027-01-20（三）首天上課</b>。操行及中英數平均 B+ 或以上優先，活動／獎項最多 15 項</td><td><a href="https://cfss.edu.hk/attachment/upload/files/Website/Adminission/Notes%20on%20Application%20for%20In%20Year%20%20Year%20End%20Admissions.pdf" target="_blank" rel="noopener">校方插班須知 PDF</a><br><span style="color:#0d9488">✓ 已核實（校方原頁 PDF；本週更正筆試時段）</span></td></tr>
+        <tr><td>順德聯誼總會李兆基中學<br>資助／葵青區</td><td>中一至中五</td><td>資訊彙整稱 12-22 或之前提交，筆試 2027-01-09（六）上午。以校網「插班申請」頁為準，<b>先致電核實</b></td><td>校網搜「順德聯誼總會李兆基中學 插班」<br><span style="color:#c2410c">⚠ 待核實（未取得校方原頁）</span></td></tr>
+        <tr><td>元朗公立中學<br>官立／元朗區</td><td>中一至中四</td><td>資訊彙整稱 12-22 截止，以校網公布為準</td><td>校網搜「元朗公立中學 插班」<br><span style="color:#c2410c">⚠ 待核實（未取得校方原頁）</span></td></tr>
+        <tr><td>聖公會聖三一堂中學<br>資助／九龍城區</td><td>中一至中五</td><td>資訊彙整稱 2027-01-15 截止，以校網公布為準</td><td>校網搜「聖公會聖三一堂中學 插班」<br><span style="color:#c2410c">⚠ 待核實（未取得校方原頁）</span></td></tr>
+        <tr><td>聖公會莫壽增會督中學<br>資助／大埔區</td><td>中一至中三（春季）</td><td>校網常設須知列 <b>11-30</b>，惟未標年份；12 月筆試面試、12 月底錄取，接受遞交或郵寄，不設電郵申請。<b>先致電核實本輪是否 11-30 及有無中一空缺</b></td><td>校網搜「聖公會莫壽增會督中學 插班」<br><span style="color:#c2410c">⚠ 待核實（年份未標，須致電）</span></td></tr>
+        <tr><td>聖公會基孝中學<br>資助／觀塘區</td><td>中一至中五</td><td>資訊彙整稱現可申請、無明確截止，以校網公布為準</td><td>校網搜「聖公會基孝中學 插班」<br><span style="color:#c2410c">⚠ 待核實（未取得校方原頁）</span></td></tr>
+        <tr><td>聖傑靈女子中學<br>資助／觀塘區（女校）</td><td>中一至中五</td><td>資訊彙整稱至 2027-07-07，以校網公布為準</td><td>校網搜「聖傑靈女子中學 插班」<br><span style="color:#c2410c">⚠ 待核實（未取得校方原頁）</span></td></tr>
+        <tr><td><b>張祝珊英文中學</b>（新補）<br>資助／東區</td><td>下學期插班</td><td>資訊彙整稱網申 <b>11-27 至 12-04</b>，窗口只得一周多；<b>先致電核實</b>目標年級有無空缺</td><td>校網搜「張祝珊英文中學 插班」<br><span style="color:#c2410c">⚠ 待核實（本週資訊彙整）</span></td></tr>
+        <tr><td><b>香港兆基創意書院</b>（新補）<br>直資／九龍城區</td><td>中二至中三／中四</td><td>資訊彙整稱中二、中三第一輪 <b>11-30 截止</b>；中四輪次不同（2027-02-15），<b>勿選錯年級輪次，先致電</b></td><td>校網搜「香港兆基創意書院 插班」<br><span style="color:#c2410c">⚠ 待核實（本週資訊彙整）</span></td></tr>
+        <tr><td>播道書院（新補）<br>直資／將軍澳</td><td>中二至中六</td><td>資訊彙整稱全年滾動、2027-04-30 截止，有位即考；春季有無中一空缺須先問校方</td><td>校網搜「播道書院 插班」<br><span style="color:#c2410c">⚠ 待核實（本週資訊彙整）</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p class="tip" style="margin:14px 0 8px"><b>（B）2027/28 學年中一入學（2027 年 9 月）</b></p>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+    <table class="mtable" data-wk-track="1" style="min-width:700px">
+      <thead><tr><th style="width:210px">學校／途徑</th><th style="width:110px">類別</th><th>關鍵日期</th><th style="width:120px">核實狀態</th></tr></thead>
+      <tbody>
+        <tr><td><b>教育局：官立、資助、按位津貼及參加派位的直資中學</b></td><td>津貼體系</td><td>應屆小六生 2026 年 12 月上旬經小學獲發申請表；<b>自行分配學位 2027-01-04（一）至 01-18（一）遞交</b>，每生最多選 2 校，超額作廢；<b>2027-03-31 正取通知</b>；統一派位選校 4 月上旬至 5 月上旬；<b>2027-07-06 放榜</b>、7/8–7/9 註冊</td><td><a href="https://www.edb.gov.hk/tc/edu-system/primary-secondary/spa-systems/secondary-spa/general-info/index.html" target="_blank" rel="noopener">教育局學位分配</a><br><span style="color:#0d9488">✓ 已核實（教育局官方）</span></td></tr>
+        <tr><td><b>非參加派位學生（含新來港兒童）</b></td><td>教育局途徑</td><td><b>2026-12-03（四）至 2027-01-18</b> 辦公時間（8:30–13:00、14:00–18:00）帶身份證明、出生證明、小學最高年級在學／畢業證明正本及副本，到九龍塘沙福道 19 號西座平台學位分配組領表（電話 2832 7740／2832 7700）；再於 1/4–1/18 向中學遞交</td><td><a href="https://www.edb.gov.hk/tc/edu-system/primary-secondary/spa-systems/secondary-spa/general-info/index.html" target="_blank" rel="noopener">教育局學位分配</a><br><span style="color:#0d9488">✓ 已核實（教育局官方）</span></td></tr>
+        <tr><td><b>中一派位電子平台</b>（新補）</td><td>教育局數碼途徑</td><td><b>2026 年 11 月中旬起</b>可登記及登入；已用「智方便+」綁定帳戶的家長可線上遞交自行分配學位、統一派位及跨網派位申請；啟動碼向就讀小學或學位分配組索取</td><td><a href="https://esspa.edb.gov.hk" target="_blank" rel="noopener">esspa.edb.gov.hk</a><br><span style="color:#0d9488">✓ 已核實（教育局官方）</span></td></tr>
+        <tr><td><b>教育局資助中一學位（5–8 月申請）</b>（新補）</td><td>教育局途徑</td><td><b>2027 年 5 月至 8 月</b>辦公時間到學位分配組遞交；三批結果分別 <b>7/6、7 月底、8 月中旬</b>。資格：香港居民、從未經派位獲派中一、從未就讀官立／資助／按位津貼／直資中學</td><td><a href="https://www.edb.gov.hk/tc/edu-system/primary-secondary/spa-systems/secondary-spa/general-info/index.html" target="_blank" rel="noopener">教育局學位分配</a><br><span style="color:#0d9488">✓ 已核實（教育局官方）</span></td></tr>
+        <tr><td><b>將軍澳香島中學</b>（本週新頁）</td><td>直資／西貢區</td><td>校方新頁：<b>2026-11-24 至 2027-01-07</b> 網上申請，<b>面試 2027-01-09（六）</b>，父或母須陪同，不接受改期；HK$75。須有香港居留權、操行 B 或以上，交最近三年成績表及居港證明。<b>舊資訊彙整所稱「11-25 至 1/13 春季插班」與校網不符，以校方新頁為準</b></td><td><a href="https://www.tko.heungto.net/tc/content.php?wid=201" target="_blank" rel="noopener">校網 27/28 中一申請</a><br><span style="color:#0d9488">✓ 已核實（校方原頁，11-24 更新）</span></td></tr>
+        <tr><td><b>香島中學（九龍）</b>（新補）</td><td>直資／九龍城區</td><td>中一學額 128；網上填表 <b>2026-11-02 至 12-07</b>，HK$75；<b>12-10（四）或以前</b>親身／委託親友交列印表及證明文件（不收郵寄）；一試 <b>2027-01-16</b>、二試 2/20–3/20；本地生中一學費 2026 年度 HK$6,130（27/28 待批）</td><td><a href="https://heungto.edu.hk/index.php/zh/admission/2728s1" target="_blank" rel="noopener">校網 27/28 中一</a><br><span style="color:#0d9488">✓ 已核實（校方原頁）</span></td></tr>
+        <tr><td><b>保良局羅氏基金中學</b>（新補）</td><td>直資／西貢區</td><td><b>2026-09-22 至 12-04（五）16:00</b>，網申後須親身到校辦手續，HK$75 現金；小五、小六上下學期成績表；一試 <b>2027-01-09 或 01-10</b>、二試 2/27、家長面試 3/7；結果 2027 年 3 月中至 4 月上旬。電話 2701 8778</td><td><a href="https://www.plklfc.edu.hk/tc/node/1071" target="_blank" rel="noopener">校網中一入學</a><br><span style="color:#0d9488">✓ 已核實（校方原頁）</span></td></tr>
+        <tr><td><b>保良局顏寶鈴書院</b>（本週升級）</td><td>直資／九龍城區</td><td>網申 <b>2026-11-16 09:00 至 12-24 23:59</b>；11-21 開放日暨中一講座（兩場，須留位）；收生比重：小學學術 60%／面試 10%／課外活動 15%／操行 15%；如改錄影，1/16 前繳交</td><td><a href="https://www.npl.edu.hk/en/site/view?name=F.1%20Admission" target="_blank" rel="noopener">校方 F.1 Admission</a><br><span style="color:#0d9488">✓ 已核實（校方原頁；上週為 ⚠）</span></td></tr>
+        <tr><td>中華基金中學（27/28 中一）</td><td>直資／東區</td><td>校方公告：<b>2026-10-06 10:00 至 12-14</b> 接受 2027/28 中一申請（與上表春季插班是兩條不同通道，別選錯）</td><td><a href="https://cfss.edu.hk/en/news.php?wid=56&cid=5" target="_blank" rel="noopener">校方公告</a><br><span style="color:#0d9488">✓ 已核實（校方原頁）</span></td></tr>
+        <tr><td>聖保羅書院</td><td>直資／中西區</td><td>資訊彙整稱網申 <b>11-07 至 11-30</b>；校方家長須知（2026-10-08 修訂）另證實：<b>2027/28 中一學費 HK$44,000</b>（待最終公布）、面試 <b>2027-02-27</b>（英語及廣東話，可選普通話）、結果 <b>2027-03-31 或之前</b>電郵。申請窗口仍須向校方核實</td><td><a href="https://spc.edu.hk/content.php?id=156&mid=70-103" target="_blank" rel="noopener">校網 Form 1 Admissions</a><br><span style="color:#c2410c">⚠ 待核實（申請期）；✓ 已核實（學費／面試／放榜，校方 PDF）</span></td></tr>
+        <tr><td>聖士提反書院</td><td>直資／南區</td><td>校曆證實 <b>2026-10-10、10-24</b> 辦 27/28 中一中學講座；資訊彙整稱網申 10/10 至 <b>11-30</b>、HK$75、2027-01-31 前交小六資料表、1 月中旬面試——<b>未取得校方原頁，先致電 2813 0360 核實申請期</b></td><td>校網搜「聖士提反書院 中一入學」<br><span style="color:#c2410c">⚠ 待核實（上週 ✓ 降級：只見校曆與彙整）</span></td></tr>
+        <tr><td>香港神託會培基書院（新補）</td><td>直資／沙田區</td><td>資訊彙整稱 2026-10-20 至 <b>12-10</b> 網申，簡介會 11/21–22，面試 2027 年 1 月</td><td>校網搜「香港神託會培基書院 中一入學」<br><span style="color:#c2410c">⚠ 待核實（資訊彙整）</span></td></tr>
+        <tr><td>香港浸會大學附屬學校王錦輝中小學（新補）</td><td>直資／沙田區</td><td>資訊彙整稱 2026-11-14 至 <b>12-09</b> 網申，11-14 開放日，面試日待公布</td><td>校網搜「王錦輝中小學 中一入學」<br><span style="color:#c2410c">⚠ 待核實（資訊彙整）</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p class="tip" style="margin:14px 0 8px"><b>（C）本週已截止，已從上方清單移除（留待下一輪 2027 年 5–7 月或秋季）</b></p>
+    <p style="font-size:13.5px;line-height:1.8;margin:0"><b>本週新截止</b>：香港華人基督教聯會真道書院（中一至中四插班 10/15–11/14，筆試 11-21、面談 11-28；<a href="https://www.logos.edu.hk/index.php/tc?page=6" target="_blank" rel="noopener">校方快訊</a>，<span style="color:#0d9488">✓ 已核實</span>）；香港青年協會李兆基書院（11/06–11/09，12-19 考試，<span style="color:#c2410c">⚠ 待核實</span>）。<br><b>較早截止</b>：拔萃女書院（11-18）、德望學校（11-13）、福建中學（單一來源稱 11-21，另一來源稱 11-22，<b>日期矛盾、先致電</b>）、宏信書院（11-13）、東華三院李嘉誠中學（11-13）、嘉諾撒聖瑪利書院（11-16）、九龍塘學校（11-06）、拔萃男書院（約 11-15）、優才（楊殷有娣）書院（11-17）。<span style="color:#c2410c">⚠ 除真道外均為資訊彙整，未逐校核實</span>；下一輪春季／秋季插班通常 2027 年 5–7 月再開，可先備材料。</p>
+    <div class="src">來源：教育局中學學位分配辦法官方頁（含 12-03 領表、1/4–1/18 自行分配、3-31 正取、7-6 放榜、11 月中旬電子平台登記）＋校方原頁／PDF（華仁、聖道迦南、中華基金、將軍澳香島、香島中學、羅氏基金、顏寶鈴、聖保羅、真道）＋升學資訊彙整（標 ⚠ 者）｜整理 2026-11-25｜以校方／教育局最終公布為準</div>
+
+    <h3>二、核心申請條件與所需文件</h3>
+    <div class="gcard">
+      <h4 style="margin:2px 0 6px">身份要求</h4>
+      <ul style="margin:4px 0 10px;padding-left:22px;font-size:13.5px;line-height:1.8">
+        <li>官立及資助中學只取錄具香港居留權的學生；直資、私立同樣要求合法居留身分（將軍澳香島明文要求居港權）。</li>
+        <li>非永久居民須持入境處簽發、註明「可在港就讀」的簽證／進入許可（多數為受養人簽證），遞交時上載簽證頁。</li>
+        <li>受養人簽證仍在審批者，按教育局規定可帶同入境處發出的確認信正本辦理（適用於非參加派位學生向學位分配組領表）。</li>
+        <li>身份證若有「C」標記，須另帶有效旅行證件或入境標籤。</li>
+      </ul>
+      <h4 style="margin:8px 0 6px">學術與操行</h4>
+      <ul style="margin:4px 0 10px;padding-left:22px;font-size:13.5px;line-height:1.8">
+        <li>最近兩至三年<b>全年</b>成績表（中華基金要求最近三年所有學期、羅氏基金要求小五及小六上下學期）；中一插班一般以小六上下學期及中一上學期成績為基準。</li>
+        <li>常見門檻：中、英、數達 B 或以上、操行 B+ 或以上（聖道迦南、中華基金同類要求）；將軍澳香島明文操行 B 或以上。</li>
+        <li>部分學校另收中、英文作文各一篇（<b>須老師批改版本</b>，聖道迦南明文），用以核對書寫與語文水平。</li>
+        <li>小六在學證明或學生紀錄表（聖士提反 2027-01-31 前交，⚠）；已升中者交中一在學證明。</li>
+        <li>報名費多為 HK$75（中華基金、聖道迦南、兩間香島、羅氏基金皆是），一般不設退還；華仁入學試費亦為 HK$75 且只收現金。直資學費另計：聖保羅 2027/28 中一 HK$44,000、香島中學本地中一 2026 年度 HK$6,130（27/28 待批）。</li>
+      </ul>
+    </div>
+    <details class="gcard fold">
+      <summary style="cursor:pointer;font-weight:700">📁 Portfolio 建議（點開／收起 · 8–12 頁為宜）</summary>
+      <ol style="margin:8px 0 4px;padding-left:22px;font-size:13.5px;line-height:1.8">
+        <li><b>封面</b>：姓名、現校、申請年級、聯絡電話；目錄一頁。</li>
+        <li><b>個人簡介</b>：中、英各半頁，寫學習特長、課外活動重心、轉校原因與適應準備。</li>
+        <li><b>成績走勢</b>：三年成績表影印本，另加一頁簡表標示中英數等級變化。</li>
+        <li><b>獎項與活動</b>：上限 15 項（中華基金明文規定），按學術／體藝／服務分三類，只放最高級別；香島中學只收不多於 5 張 A4 紙。</li>
+        <li><b>佐證</b>：推薦信（班主任或校長）、課程證書、作品照片各一至兩份。</li>
+        <li><b>格式</b>：A4、單面、清晰掃描、檔名統一「姓名_文件類型」，避免不同學校版本混用。</li>
+      </ol>
+    </details>
+
+    <h3>三、重要時間節點與行動清單</h3>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+    <table class="mtable" style="min-width:560px">
+      <thead><tr><th style="width:130px">日期</th><th>必須完成事項</th></tr></thead>
+      <tbody>
+        <tr><td>11-25（今日）</td><td>華仁 11-30 至 12-01 到校交件資料先備齊；<b>將軍澳香島 11-24 起新一輪中一申請開放 ✓</b>，注意這是 2027/28 中一，不是春季插班；真道插班輪已截止，改看 12 月仍開放的學校。<span style="color:#c2410c">（本週已把舊「將軍澳香島 11-25 插班首日」更正）</span></td></tr>
+        <tr><td>11-26（四）</td><td>遞交華仁書院申請（網上），預留一日緩衝；確認 12-16 入學試時間 14:00–17:40。</td></tr>
+        <tr><td><b>11-27（五）16:00</b></td><td><b>華仁書院（香港）截止 ✓</b>，逾期不受理；張祝珊英文中學短窗起（⚠ 先致電）。</td></tr>
+        <tr><td>11-29（日）</td><td>培僑書院創新課程通道相傳今日截止（⚠），如欲申請先致電確認；同時完成聖士提反網申資料（⚠ 申請期未核實）。</td></tr>
+        <tr><td><b>11-30（一）</b></td><td>莫壽增 11-30 截止（⚠ 先致電有無中一空缺）；聖道迦南窗口開放至 12-06 ✓；兆基創意中二／中三第一輪截止（⚠）；聖士提反相傳截止（⚠ 致電 2813 0360）。</td></tr>
+        <tr><td>12-01（二）</td><td>華仁到校交件最後一日（16:00）✓；備妥教育局領表三份文件正本及副本：學生身份證明、出生證明、小六最高年級在學或畢業證明。</td></tr>
+        <tr><td><b>12-02（三）</b></td><td><b>中華基金中學春季插班截止 ✓</b>；<b>12-03 起到教育局學位分配組領表 ✓</b>。</td></tr>
+        <tr><td>12-04（五）</td><td>羅氏基金中一申請 16:00 截止 ✓（須親身補交）；張祝珊相傳截止 ⚠。</td></tr>
+        <tr><td>12-06（日）</td><td>聖道迦南春季插班截止 ✓；12-11 筆試、12-29 再一場筆試，別混在一起。</td></tr>
+        <tr><td>12-07（一）</td><td>香島中學（九龍）27/28 中一網填截止 ✓，12-10 前須親身交表。</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="gcard">
+      <h4 style="margin:2px 0 6px">備考建議</h4>
+      <ul style="margin:4px 0 4px;padding-left:22px;font-size:13.5px;line-height:1.8">
+        <li>筆試以中、英、數三科為主，範圍貼近小六程度：中文重閱讀理解與短文寫作，英文重語法、閱讀與短答，數學重計算與應用題。已核實的三場：中華基金 12-11、華仁 12-16（中四另考科學 12-17）、聖道迦南 12-29，可作同一輪訓練目標。</li>
+        <li>面試多為個人面談加家長陪同（將軍澳香島 27/28 中一輪明文要求父或母陪同，面試 2027-01-09；羅氏基金有一試、二試及家長面試三輪），準備中英文自我介紹、轉校原因、課外活動具體事例各一分鐘版本。</li>
+        <li>若孩子仍在原校就讀，維持正常上課與成績紀錄，插班結果未定前不要辦理退學。</li>
+      </ul>
+      <p style="font-size:13px;margin:8px 0 0"><b>下一階段（12 月中至 2027 年 2 月）</b>：12-14 中華基金 27/28 中一截止 ✓、12-24 顏寶鈴截止 ✓、12-29 聖道迦南筆試 ✓、2027-01-04 至 01-18 官津自行分配學位遞交 ✓、01-09 將軍澳香島面試 ✓、01-16 華仁筆試 ✓、02-27 聖保羅面試（校方 PDF ✓）。</p>
+    </div>
+    <div class="nextstep" id="admissionWeeklyNext">
+      <h4>看完本週清單：下一步去哪</h4>
+      <div class="ns-btns">
+        <button class="btn" type="button" onclick="__hkkGo('plan:docs')">材料還沒齊 → 材料清單</button>
+        <button class="btn" type="button" onclick="__hkkGo('plan:policy')">身份／居港要求 → 身份政策</button>
+        <button class="btn" type="button" onclick="__hkkGo('plan:study')">筆試面試備考 → 學習路線</button>
+      </div>
+    </div>
+  </div>
+
     <div class="gsec">
       <h2>申請時間線（以 2027.9 入中一為例）</h2>
       <p class="tip">適用以 9 月入學為主批、1 月春季為備選。具體日期以教育局及各校官網當年公告為準。<b>兩張表看完後，最下面有「三步定位」</b>——按孩子學段與身份到手時間，找到你這個月該做的那一行。</p>
@@ -57804,7 +57936,7 @@ window.__pfTest={add:pfAddFiles,render:pfRender,all:pfAll,open:pfOpen,get:pfGetR
 
 // ---- 進度匯出 / 匯入 ----
 document.getElementById('exportBtn').onclick=()=>{
-  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.62',exported:new Date().toISOString().slice(0,10)};
+  const data={pProg,vProg,hProg,mProg,poemDone,mapChk:window.__mapTest?window.__mapTest.get():{},lwteProg:window.__lwteTest?window.__lwteTest.get():{},readFocus:window.__readFocusTest?window.__readFocusTest.get():{},rdArt:window.__rdArtTest?window.__rdArtTest.exportData():{},mCustom:window.__mCustomTest?window.__mCustomTest.exportData():{sets:[]},myWords:window.__myWordsTest?window.__myWordsTest.exportData().words:[],ziWords:window.__ziTest?window.__ziTest.exportData().words:[],lwteWordProg:window.__lwtePackTest?window.__lwtePackTest.prog:{},drillProg:drProg(),drillBest:drBest(),sched:schGet(),wrong:wrongAll(),track:window.__trackTest?window.__trackTest.exportData():null,ver:'hkk_v2.69',exported:new Date().toISOString().slice(0,10)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hkk_progress.json';a.click();URL.revokeObjectURL(a.href);
 };
@@ -62550,6 +62682,60 @@ authBoot();
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(initSort,0);});
   else setTimeout(initSort,0);
   window.__sortBarTest={init:initSort,bandKey:bandKey,distKm:distKm,cfg:CFG};
+})();
+</script>
+
+
+<script>
+/* v2.69：招生動態表(A/B)「＋追」——點校名旁按鈕帶入申請追蹤表（先切到擇校分檔頁）
+   周更替換表格內容後，按鈕靠此函式在運行時重新掃描生成，不需改靜態 HTML。 */
+(function(){
+  function wkNameFromCell(td){
+    var b=td.querySelector('b');
+    var n='';
+    if(b) n=(b.textContent||'').trim();
+    else if(td.firstChild) n=(td.firstChild.nodeType===3?td.firstChild.nodeValue:'').trim();
+    // 跳過標題列/日期列：校名至少 2 字、不是純日期、不含「日期/學校」表頭詞
+    if(n.length<2 || /^\d{1,2}[-–]\d{1,2}/.test(n) || /^(日期|學校|學校（)/.test(n)) return '';
+    return n;
+  }
+  function wkAdd(name,btn){
+    // 切到 升學規劃 → 擇校分檔，否則追蹤表在隱藏頁看不到
+    try{
+      var nv=document.querySelector('nav button[data-tab="plan"]'); if(nv)nv.click();
+      var sb=document.querySelector('#planSub button[data-sub="schools"]'); if(sb)sb.click();
+    }catch(e){}
+    if(btn)btn.textContent='＋追 ✓';
+    // 復用既有預填：展開追蹤卡、填校名、捲動、聚焦
+    try{
+      if(typeof trkAddFromTable==='function') trkAddFromTable(name,null);
+      else {
+        var inp=document.getElementById('trkName'); if(inp){inp.value=name;inp.focus();}
+      }
+      var f=document.getElementById('trkForm');
+      if(f&&typeof f.scrollIntoView==='function') f.scrollIntoView({block:'center'});
+    }catch(e){}
+  }
+  function wkInject(){
+    var root=document.getElementById('admissionWeekly'); if(!root)return;
+    root.querySelectorAll('table[data-wk-track="1"]').forEach(function(tbl){
+      tbl.querySelectorAll('tbody tr').forEach(function(tr){
+        var cells=tr.querySelectorAll('td'); if(!cells.length)return;
+        var td=cells[0];
+        if(td.querySelector('.wk-track-btn'))return; // 冪等：重複呼叫不重複加
+        var name=wkNameFromCell(td); if(!name)return;
+        var btn=document.createElement('button');
+        btn.type='button'; btn.className='chip wk-track-btn';
+        btn.title='加入申請追蹤表'; btn.textContent=(typeof trkHas==='function'&&trkHas(name))?'＋追 ✓':'＋追';
+        btn.onclick=function(){wkAdd(name,btn);};
+        td.appendChild(btn);
+      });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',wkInject);
+  else wkInject();
+  // 暴露給校驗用
+  window.__wkTrack={inject:wkInject,nameFromCell:wkNameFromCell,add:wkAdd};
 })();
 </script>
 
