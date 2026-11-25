@@ -1518,69 +1518,29 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
 @media print{#selfView{display:none!important}}
 /* ===== v2.63 手機擇校對比（≤640px）：學校名完整 + Band 同屏，免橫滑 ===== */
 @media screen and (max-width:640px){
-  /* v2.66：手機「一校一卡」——所有欄位全保留（電話／網址／心水／對比／備註一個不刪），逐條堆疊不再擠成一團 */
-  #schoolsView .scroll-x{overflow-x:visible;margin:8px 0}
-  #schoolsView .mtable,#schoolsView .mtable tbody{display:block;width:100%;min-width:0}
-  #schoolsView .mtable thead{display:none}
-  #schoolsView .mtable tr{display:flex;flex-direction:column;gap:1px;border:1px solid #d8ded9;border-radius:10px;margin:10px 0;padding:10px 12px;background:#fff}
-  #schoolsView .mtable td{display:block;width:100%!important;box-sizing:border-box;border:none;padding:3px 0;line-height:1.55;font-size:13px;white-space:normal;overflow-wrap:anywhere;word-break:break-word;order:9}
-  #schoolsView .mtable td:empty{display:none}
-  /* 每條前面加欄名標籤：寫死 content，不依賴 JS 或 data-label */
-  #tierTable tbody td:nth-child(1)::before{content:'梯隊'}
-  #tierTable tbody td:nth-child(2)::before{content:'學校'}
-  #tierTable tbody td:nth-child(3)::before{content:'類型'}
-  #tierTable tbody td:nth-child(4)::before{content:'語言'}
-  #tierTable tbody td:nth-child(5)::before{content:'Band'}
-  #tierTable tbody td:nth-child(6)::before{content:'學費'}
-  #tierTable tbody td:nth-child(7)::before{content:'路徑'}
-  #ssTable tbody td:nth-child(1)::before{content:'學校'}
-  #ssTable tbody td:nth-child(2)::before{content:'英文名'}
-  #ssTable tbody td:nth-child(3)::before{content:'種類'}
-  #ssTable tbody td:nth-child(4)::before{content:'宗教'}
-  #ssTable tbody td:nth-child(5)::before{content:'性別'}
-  #ssTable tbody td:nth-child(6)::before{content:'語言'}
-  #ssTable tbody td:nth-child(7)::before{content:'Band'}
-  #ssTable tbody td:nth-child(8)::before{content:'地址'}
-  #ssTable tbody td:nth-child(9)::before{content:'電話'}
-  #ssTable tbody td:nth-child(10)::before{content:'官網'}
-  #portTable tbody td:nth-child(1)::before{content:'學校'}
-  #portTable tbody td:nth-child(2)::before{content:'Band'}
-  #portTable tbody td:nth-child(3)::before{content:'落車'}
-  #portTable tbody td:nth-child(4)::before{content:'接駁'}
-  #portTable tbody td:nth-child(5)::before{content:'車程'}
-  #portTable tbody td:nth-child(6)::before{content:'步行'}
-  #portTable tbody td:nth-child(7)::before{content:'合計'}
-  #tpTable tbody td:nth-child(1)::before{content:'學校'}
-  #tpTable tbody td:nth-child(2)::before{content:'類型'}
-  #tpTable tbody td:nth-child(3)::before{content:'語言'}
-  #tpTable tbody td:nth-child(4)::before{content:'Band'}
-  #tpTable tbody td:nth-child(5)::before{content:'近站'}
-  #tpTable tbody td:nth-child(6)::before{content:'備註'}
-  #tpTable tbody td:nth-child(7)::before{content:'電話'}
-  #vtTable tbody td:nth-child(1)::before{content:'學校'}
-  #vtTable tbody td:nth-child(2)::before{content:'近站'}
-  #vtTable tbody td:nth-child(3)::before{content:'中一路徑'}
-  #vtTable tbody td:nth-child(4)::before{content:'Band'}
-  #vtTable tbody td:nth-child(5)::before{content:'核實要點'}
-  #ylTable tbody td:nth-child(1)::before{content:'學校'}
-  #ylTable tbody td:nth-child(2)::before{content:'類型'}
-  #ylTable tbody td:nth-child(3)::before{content:'語言'}
-  #ylTable tbody td:nth-child(4)::before{content:'Band'}
-  #ylTable tbody td:nth-child(5)::before{content:'地址'}
-  #ylTable tbody td:nth-child(6)::before{content:'電話'}
-  #ylTable tbody td:nth-child(7)::before{content:'官網'}
-  #psTable tbody td:nth-child(1)::before{content:'檔位'}
-  #psTable tbody td:nth-child(2)::before{content:'學校'}
-  #psTable tbody td:nth-child(3)::before{content:'類型'}
-  #psTable tbody td:nth-child(4)::before{content:'語言'}
-  #psTable tbody td:nth-child(5)::before{content:'校網'}
-  #psTable tbody td:nth-child(6)::before{content:'備註'}
-  #psTable tbody td:nth-child(7)::before{content:'電話'}
-  #schoolsView .mtable td::before{display:inline-block;min-width:64px;margin-right:8px;color:#8a948f;font-size:11px;font-weight:400;vertical-align:top}
-  #tierTable tbody td:nth-child(2),#ssTable tbody td:nth-child(1),#portTable tbody td:nth-child(1),#tpTable tbody td:nth-child(1),#vtTable tbody td:nth-child(1),#ylTable tbody td:nth-child(1),#psTable tbody td:nth-child(2){order:1;font-size:15px;font-weight:700;color:#0b6e5c;padding:0 0 5px;margin-bottom:4px;border-bottom:1px dashed #d8ded9}
-  #tierTable tbody td:nth-child(2)::before,#ssTable tbody td:nth-child(1)::before,#portTable tbody td:nth-child(1)::before,#tpTable tbody td:nth-child(1)::before,#vtTable tbody td:nth-child(1)::before,#ylTable tbody td:nth-child(1)::before,#psTable tbody td:nth-child(2)::before{display:none}
-  #tierTable tbody td:nth-child(5),#ssTable tbody td:nth-child(7),#portTable tbody td:nth-child(2),#tpTable tbody td:nth-child(4),#vtTable tbody td:nth-child(4),#ylTable tbody td:nth-child(4){order:2;font-size:14px;font-weight:700;color:#b45309}
-  #tierTable tbody td:nth-child(5)::before,#ssTable tbody td:nth-child(7)::before,#portTable tbody td:nth-child(2)::before,#tpTable tbody td:nth-child(4)::before,#vtTable tbody td:nth-child(4)::before,#ylTable tbody td:nth-child(4)::before{display:none}
+  /* v2.67：回橫排表格＋左右滑；Band 用 order 視覺緊跟學校（DOM 列序不動，保護 tds[N] 依賴） */
+  #schoolsView .scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0;border:1px solid #d8ded9;border-radius:8px}
+  #schoolsView .mtable,#schoolsView .mtable thead,#schoolsView .mtable tbody{display:block;width:max-content;min-width:100%;margin:0}
+  #schoolsView .mtable tr{display:flex;width:max-content;min-width:100%}
+  #schoolsView .mtable th,#schoolsView .mtable td{
+    display:block;box-sizing:border-box;flex:0 0 132px;width:132px;min-width:132px;max-width:132px;
+    border:1px solid #e2e8e5;padding:6px 7px;line-height:1.4;font-size:12.5px;
+    white-space:normal;overflow-wrap:anywhere;word-break:break-word;vertical-align:top
+  }
+  #schoolsView .mtable th{background:#eafaf4;font-weight:700;color:#0f7a63}
+  /* 學校名列：寬一點、綠字加粗、視覺置頂 */
+  #tierTable th:nth-child(2),#tierTable td:nth-child(2),#ssTable th:nth-child(1),#ssTable td:nth-child(1),#portTable th:nth-child(1),#portTable td:nth-child(1),#tpTable th:nth-child(1),#tpTable td:nth-child(1),#vtTable th:nth-child(1),#vtTable td:nth-child(1),#ylTable th:nth-child(1),#ylTable td:nth-child(1),#psTable th:nth-child(2),#psTable td:nth-child(2){order:-2;flex-basis:172px;width:172px;min-width:172px;max-width:172px;color:#0b6e5c;font-weight:600}
+  /* Band 列：窄、橙字加粗、緊跟學校名 */
+  #tierTable th:nth-child(5),#tierTable td:nth-child(5),#ssTable th:nth-child(7),#ssTable td:nth-child(7),#portTable th:nth-child(2),#portTable td:nth-child(2),#tpTable th:nth-child(4),#tpTable td:nth-child(4),#vtTable th:nth-child(4),#vtTable td:nth-child(4),#ylTable th:nth-child(4),#ylTable td:nth-child(4){order:-1;flex-basis:92px;width:92px;min-width:92px;max-width:92px;text-align:center;font-weight:700;color:#b45309;white-space:nowrap}
+  /* 排序工具條 */
+  .sortBar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 2px}
+  .sortBar .sbl{font-size:12px;color:#667;padding-right:2px}
+  .sortBar button{
+    appearance:none;border:1px solid #0f7a63;background:#eafaf4;color:#0b6e5c;
+    border-radius:14px;padding:5px 10px;font-size:12px;font-weight:600;line-height:1.2;cursor:pointer
+  }
+  .sortBar button:active{background:#d3f3e8}
+  .sortBar button.on{background:#0b6e5c;color:#fff}
 }
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
@@ -1626,13 +1586,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.66
+    © 叶工 SteveHKSZ · 公開版 v2.67
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.66</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.67</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -14206,6 +14166,81 @@ authBoot();
 
 </script>
 <div id="lwtePrintArea"></div>
+
+<script>
+/* v2.67：表格排序（Band 檔位 / 上水站直線距離），只重排行，不動单元格顺序 */
+(function(){
+  var CFG={
+    tierTable:{band:5,school:2}, ssTable:{band:7,school:1}, portTable:{band:2,school:1},
+    tpTable:{band:4,school:1}, vtTable:{band:4,school:1}, ylTable:{band:4,school:1},
+    psTable:{band:0,school:2}
+  };
+  var GEO=(typeof SCHOOL_GEO!=='undefined'&&SCHOOL_GEO)?SCHOOL_GEO:{};
+  var BASE=[22.5014,114.1277]; // 上水站（羅湖/福田口岸最近東鐵站）
+  function distKm(name){
+    var g=GEO[name]; if(!g||!g.lat||!g.lng)return 1e9;
+    var R=6371,rad=Math.PI/180;
+    var dLat=(g.lat-BASE[0])*rad,dLng=(g.lng-BASE[1])*rad;
+    var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(BASE[0]*rad)*Math.cos(g.lat*rad)*Math.sin(dLng/2)*Math.sin(dLng/2);
+    return 2*R*Math.asin(Math.sqrt(a));
+  }
+  function bandKey(t){
+    var m=String(t||'').match(/([1-3])\s*([A-C]?)/);
+    return m?parseInt(m[1],10)*10+(m[2]?m[2].charCodeAt(0)-65:0):999;
+  }
+  function realRows(tb){return Array.prototype.slice.call(tb.rows).filter(function(r){return r.cells.length>1;});}
+  function initSort(){
+    var created=0;
+    Object.keys(CFG).forEach(function(id){
+      var tbl=document.getElementById(id); if(!tbl)return;
+      var tb=tbl.tBodies[0]; if(!tb)return;
+      if(tbl.parentNode.querySelector(':scope > .sortBar[data-for="'+id+'"]'))return;
+      var cfg=CFG[id];
+      var orig=new WeakMap(); realRows(tb).forEach(function(r,i){orig.set(r,i);});
+      var wrap=document.createElement('div');wrap.className='sortBar';wrap.setAttribute('data-for',id);
+      wrap.innerHTML='<span class="sbl">排序</span>'+
+        (cfg.band?'<button type="button" data-mode="band" data-dir="1">Band 高→低</button>':'')+
+        '<button type="button" data-mode="dist" data-dir="1">距離 近→遠</button>'+
+        '<button type="button" data-mode="reset">還原</button>';
+      tbl.parentNode.insertBefore(wrap,tbl);
+      created++;
+      wrap.addEventListener('click',function(ev){
+        var b=ev.target.closest('button'); if(!b)return;
+        var mode=b.getAttribute('data-mode');
+        var rows=realRows(tb);
+        if(!rows.length)return;
+        if(mode==='reset'){
+          rows.sort(function(x,y){
+            var ix=orig.get(x),iy=orig.get(y);
+            return (ix==null?1e9:ix)-(iy==null?1e9:iy);
+          });
+        }else{
+          var dir=b.getAttribute('data-dir')==='1'?1:-1;
+          function key(r){
+            if(mode==='band')return bandKey(r.cells[cfg.band-1]?r.cells[cfg.band-1].textContent:'');
+            return distKm(r.cells[cfg.school-1]?r.cells[cfg.school-1].textContent.trim():'');
+          }
+          rows.sort(function(x,y){return (key(x)-key(y))*dir;});
+          b.setAttribute('data-dir',dir===1?'-1':'1');
+          b.textContent=mode==='band'
+            ?(dir===1?'Band 高→低':'Band 低→高')
+            :(dir===1?'距離 近→遠':'距離 遠→近');
+        }
+        rows.forEach(function(r){tb.appendChild(r);});
+        Array.prototype.forEach.call(wrap.querySelectorAll('button'),function(x){
+          if(x!==b&&x.getAttribute('data-mode')!=='reset'){x.classList.remove('on');}
+        });
+        if(mode!=='reset')b.classList.add('on');
+      });
+    });
+    return created;
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(initSort,0);});
+  else setTimeout(initSort,0);
+  window.__sortBarTest={init:initSort,bandKey:bandKey,distKm:distKm,cfg:CFG};
+})();
+</script>
+
 </body>
 </html>'''
 html = TEMPLATE.replace('__DATA__', DATA)
