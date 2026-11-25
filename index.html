@@ -1380,63 +1380,69 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
 @media print{#selfView{display:none!important}}
 /* ===== v2.63 手機擇校對比（≤640px）：學校名完整 + Band 同屏，免橫滑 ===== */
 @media screen and (max-width:640px){
-  /* 取消 780px 強制最小寬：學校名不再被擠出視窗 */
+  /* v2.66：手機「一校一卡」——所有欄位全保留（電話／網址／心水／對比／備註一個不刪），逐條堆疊不再擠成一團 */
   #schoolsView .scroll-x{overflow-x:visible;margin:8px 0}
-  #schoolsView .scroll-x .mtable{min-width:0;width:100%;font-size:12px;table-layout:fixed}
-  #schoolsView .mtable th,#schoolsView .mtable td{
-    padding:5px 3px;line-height:1.35;vertical-align:middle;
-    white-space:normal;overflow-wrap:anywhere;word-break:break-word
-  }
-  /* 梯隊／檔位：窄列 */
-  #tierTable th:first-child,#tierTable td:first-child,
-  #psTable th:first-child,#psTable td:first-child{
-    width:36px;text-align:center;padding-left:2px;padding-right:2px;font-size:11.5px
-  }
-  /* 學校名：優先寬度、完整換行、不裁頭不裁尾 */
-  #tierTable th:nth-child(2),#tierTable td:nth-child(2),
-  #ssTable th:first-child,#ssTable td:first-child,
-  #portTable th:first-child,#portTable td:first-child,
-  #tpTable th:first-child,#tpTable td:first-child,
-  #ylTable th:first-child,#ylTable td:first-child,
-  #psTable th:nth-child(2),#psTable td:nth-child(2){
-    width:42%;font-weight:600;color:#0b6e5c;white-space:normal;overflow-wrap:anywhere;word-break:break-word
-  }
-  /* Band：加粗高亮，方便逐行對比 */
-  #tierTable th:nth-child(5),#tierTable td:nth-child(5),
-  #ssTable th:nth-child(7),#ssTable td:nth-child(7),
-  #portTable th:nth-child(2),#portTable td:nth-child(2),
-  #tpTable th:nth-child(4),#tpTable td:nth-child(4),
-  #ylTable th:nth-child(4),#ylTable td:nth-child(4){
-    width:19%;text-align:center;font-weight:700;color:#b45309;white-space:nowrap
-  }
-  /* 手機上收起次要欄；完整資料仍在 HTML 與桌面版 */
-  #tierTable th:nth-child(n+6),#tierTable td:nth-child(n+6),
-  #ssTable th:nth-child(2),#ssTable td:nth-child(2),
-  #ssTable th:nth-child(4),#ssTable td:nth-child(4),
-  #ssTable th:nth-child(5),#ssTable td:nth-child(5),
-  #ssTable th:nth-child(n+8),#ssTable td:nth-child(n+8),
-  #portTable th:nth-child(n+3),#portTable td:nth-child(n+3){display:none}
-  #tpTable th:nth-child(n+5),#tpTable td:nth-child(n+5){display:none}
-  /* v2.65：手機只留「梯隊／檔位＋學校名＋Band」核心列，類型/教學語言在窄屏收起，避免字擠成一團 */
-  #tierTable th:nth-child(3),#tierTable td:nth-child(3),
-  #tierTable th:nth-child(4),#tierTable td:nth-child(4),
-  #tpTable th:nth-child(2),#tpTable td:nth-child(2),
-  #tpTable th:nth-child(3),#tpTable td:nth-child(3),
-  #ylTable th:nth-child(2),#ylTable td:nth-child(2),
-  #ylTable th:nth-child(3),#ylTable td:nth-child(3),
-  #ssTable th:nth-child(3),#ssTable td:nth-child(3),
-  #ssTable th:nth-child(6),#ssTable td:nth-child(6){display:none}
-  #ylTable th:nth-child(n+5),#ylTable td:nth-child(n+5){display:none}
-  /* v2.64 東鐵跨境核實表：學校名＋路徑＋Band 同屏 */
-  #vtTable th:first-child,#vtTable td:first-child{
-    width:42%;font-weight:600;color:#0b6e5c;white-space:normal;overflow-wrap:anywhere;word-break:break-word
-  }
-  #vtTable th:nth-child(4),#vtTable td:nth-child(4){
-    width:16%;text-align:center;font-weight:700;color:#b45309;white-space:nowrap
-  }
-  #vtTable th:nth-child(n+5),#vtTable td:nth-child(n+5),
-  #vtTable th:nth-child(2),#vtTable td:nth-child(2){display:none}
-  #psTable th:nth-child(n+5),#psTable td:nth-child(n+5){display:none}
+  #schoolsView .mtable,#schoolsView .mtable tbody{display:block;width:100%;min-width:0}
+  #schoolsView .mtable thead{display:none}
+  #schoolsView .mtable tr{display:flex;flex-direction:column;gap:1px;border:1px solid #d8ded9;border-radius:10px;margin:10px 0;padding:10px 12px;background:#fff}
+  #schoolsView .mtable td{display:block;width:100%!important;box-sizing:border-box;border:none;padding:3px 0;line-height:1.55;font-size:13px;white-space:normal;overflow-wrap:anywhere;word-break:break-word;order:9}
+  #schoolsView .mtable td:empty{display:none}
+  /* 每條前面加欄名標籤：寫死 content，不依賴 JS 或 data-label */
+  #tierTable tbody td:nth-child(1)::before{content:'梯隊'}
+  #tierTable tbody td:nth-child(2)::before{content:'學校'}
+  #tierTable tbody td:nth-child(3)::before{content:'類型'}
+  #tierTable tbody td:nth-child(4)::before{content:'語言'}
+  #tierTable tbody td:nth-child(5)::before{content:'Band'}
+  #tierTable tbody td:nth-child(6)::before{content:'學費'}
+  #tierTable tbody td:nth-child(7)::before{content:'路徑'}
+  #ssTable tbody td:nth-child(1)::before{content:'學校'}
+  #ssTable tbody td:nth-child(2)::before{content:'英文名'}
+  #ssTable tbody td:nth-child(3)::before{content:'種類'}
+  #ssTable tbody td:nth-child(4)::before{content:'宗教'}
+  #ssTable tbody td:nth-child(5)::before{content:'性別'}
+  #ssTable tbody td:nth-child(6)::before{content:'語言'}
+  #ssTable tbody td:nth-child(7)::before{content:'Band'}
+  #ssTable tbody td:nth-child(8)::before{content:'地址'}
+  #ssTable tbody td:nth-child(9)::before{content:'電話'}
+  #ssTable tbody td:nth-child(10)::before{content:'官網'}
+  #portTable tbody td:nth-child(1)::before{content:'學校'}
+  #portTable tbody td:nth-child(2)::before{content:'Band'}
+  #portTable tbody td:nth-child(3)::before{content:'落車'}
+  #portTable tbody td:nth-child(4)::before{content:'接駁'}
+  #portTable tbody td:nth-child(5)::before{content:'車程'}
+  #portTable tbody td:nth-child(6)::before{content:'步行'}
+  #portTable tbody td:nth-child(7)::before{content:'合計'}
+  #tpTable tbody td:nth-child(1)::before{content:'學校'}
+  #tpTable tbody td:nth-child(2)::before{content:'類型'}
+  #tpTable tbody td:nth-child(3)::before{content:'語言'}
+  #tpTable tbody td:nth-child(4)::before{content:'Band'}
+  #tpTable tbody td:nth-child(5)::before{content:'近站'}
+  #tpTable tbody td:nth-child(6)::before{content:'備註'}
+  #tpTable tbody td:nth-child(7)::before{content:'電話'}
+  #vtTable tbody td:nth-child(1)::before{content:'學校'}
+  #vtTable tbody td:nth-child(2)::before{content:'近站'}
+  #vtTable tbody td:nth-child(3)::before{content:'中一路徑'}
+  #vtTable tbody td:nth-child(4)::before{content:'Band'}
+  #vtTable tbody td:nth-child(5)::before{content:'核實要點'}
+  #ylTable tbody td:nth-child(1)::before{content:'學校'}
+  #ylTable tbody td:nth-child(2)::before{content:'類型'}
+  #ylTable tbody td:nth-child(3)::before{content:'語言'}
+  #ylTable tbody td:nth-child(4)::before{content:'Band'}
+  #ylTable tbody td:nth-child(5)::before{content:'地址'}
+  #ylTable tbody td:nth-child(6)::before{content:'電話'}
+  #ylTable tbody td:nth-child(7)::before{content:'官網'}
+  #psTable tbody td:nth-child(1)::before{content:'檔位'}
+  #psTable tbody td:nth-child(2)::before{content:'學校'}
+  #psTable tbody td:nth-child(3)::before{content:'類型'}
+  #psTable tbody td:nth-child(4)::before{content:'語言'}
+  #psTable tbody td:nth-child(5)::before{content:'校網'}
+  #psTable tbody td:nth-child(6)::before{content:'備註'}
+  #psTable tbody td:nth-child(7)::before{content:'電話'}
+  #schoolsView .mtable td::before{display:inline-block;min-width:64px;margin-right:8px;color:#8a948f;font-size:11px;font-weight:400;vertical-align:top}
+  #tierTable tbody td:nth-child(2),#ssTable tbody td:nth-child(1),#portTable tbody td:nth-child(1),#tpTable tbody td:nth-child(1),#vtTable tbody td:nth-child(1),#ylTable tbody td:nth-child(1),#psTable tbody td:nth-child(2){order:1;font-size:15px;font-weight:700;color:#0b6e5c;padding:0 0 5px;margin-bottom:4px;border-bottom:1px dashed #d8ded9}
+  #tierTable tbody td:nth-child(2)::before,#ssTable tbody td:nth-child(1)::before,#portTable tbody td:nth-child(1)::before,#tpTable tbody td:nth-child(1)::before,#vtTable tbody td:nth-child(1)::before,#ylTable tbody td:nth-child(1)::before,#psTable tbody td:nth-child(2)::before{display:none}
+  #tierTable tbody td:nth-child(5),#ssTable tbody td:nth-child(7),#portTable tbody td:nth-child(2),#tpTable tbody td:nth-child(4),#vtTable tbody td:nth-child(4),#ylTable tbody td:nth-child(4){order:2;font-size:14px;font-weight:700;color:#b45309}
+  #tierTable tbody td:nth-child(5)::before,#ssTable tbody td:nth-child(7)::before,#portTable tbody td:nth-child(2)::before,#tpTable tbody td:nth-child(4)::before,#vtTable tbody td:nth-child(4)::before,#ylTable tbody td:nth-child(4)::before{display:none}
 }
 </style>
 <!-- 51la 访问统计（v1.43，叶工 2026-11-02 注册开通；sdk 地址显式 https，file:// 本地打开不请求） -->
@@ -1482,13 +1488,13 @@ header p{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-ori
   <div class="authFoot">
     <span class="terms" onclick="alert('賬號僅保存在本瀏覽器（不上傳服務器），用於區分不同孩子的學習進度；請勿使用重要密碼。')">使用條款</span><br>
     數據保存在本設備瀏覽器，不上傳 · 換設備需重新註冊<br>
-    © 叶工 SteveHKSZ · 公開版 v2.65
+    © 叶工 SteveHKSZ · 公開版 v2.66
   </div>
 </div>
 <header>
   <div id="userChip"><span id="userChipName"></span><button onclick="authLogout()">退出</button></div>
   <h1>香港教學速覽 · 中英數</h1>
-  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.65</p>
+  <p>內地家庭快速了解並跟上香港教學（中文·英文·數學）＋ 練習打卡 · 賬號登入·數據保存在本設備 · 公開版 v2.66</p>
 </header>
 <nav>
   <button data-tab="plan" class="on">升學規劃</button>
@@ -3240,7 +3246,7 @@ INTR_QBANK.forEach(function(q,i){q.a=INTR_SAMPLES[i]||'';});
           <span class="chip" data-mf="pri">小學 30</span>
         </div>
         <div id="mapContainer" style="width:100%;height:60vh;min-height:420px;border-radius:8px;border:1.5px solid var(--line);position:relative;overflow:hidden">
-          <div id="mapPlaceholder" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#8a8aa0;font-size:14px;background:var(--card,#fff)">按「載入地圖」開始（坐標已內置教育局官方數據，點開即顯示）</div>
+          <div id="mapPlaceholder" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#8a8aa0;font-size:14px;background:#fff">按「載入地圖」開始（坐標已內置教育局官方數據，點開即顯示）</div>
         </div>
         <p style="margin:8px 0 0"><button class="btn" id="mapLoadBtn">🗺️ 載入地圖</button> <span id="mapStatus" style="font-size:12px;color:#8a8aa0"></span></p>
         <div id="mapFallback" style="display:none"></div>
@@ -4055,7 +4061,7 @@ INTR_QBANK.forEach(function(q,i){q.a=INTR_SAMPLES[i]||'';});
 
 <!-- v1.64 學校詳情彈窗：body 頂層（原埋在 schoolsView 深處，祖先 .wrap 的 fadeUp both 動畫佔用合成軌道 + 舊 WebView 不支援 inset 簡寫，致彈窗按文檔流渲染在表格下方、不在視口居中）。定位用 left/top/width/height 老語法，內層 margin:auto 水平居中、overflow-y:auto 內滾 -->
 <div id="schModal" style="display:none;position:fixed;left:0;top:0;width:100%;height:100%;z-index:9999;background:rgba(20,20,40,.55)" onclick="if(event.target===this)this.style.display='none'">
-  <div style="max-width:680px;margin:3vh auto 6vh;background:var(--card,#fff);border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="schModalBody"></div>
+  <div style="max-width:680px;margin:3vh auto 6vh;background:#fff;border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="schModalBody"></div>
 </div>
 
 <!-- v1.66 學校對比（借鑑 TOPSchool 一鍵比較）：底部浮動對比條 + 對比彈窗，均 body 頂層老語法定位（v1.64 教訓：不用 inset 簡寫、不埋 view 深處） -->
@@ -4069,7 +4075,7 @@ INTR_QBANK.forEach(function(q,i){q.a=INTR_SAMPLES[i]||'';});
   </div>
 </div>
 <div id="cmpModal" style="display:none;position:fixed;left:0;top:0;width:100%;height:100%;z-index:9999;background:rgba(20,20,40,.55)" onclick="if(event.target===this)this.style.display='none'">
-  <div style="max-width:860px;margin:3vh auto 6vh;background:var(--card,#fff);border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="cmpModalBody"></div>
+  <div style="max-width:860px;margin:3vh auto 6vh;background:#fff;border-radius:14px;max-height:94vh;overflow:auto;padding:18px 18px 14px" id="cmpModalBody"></div>
 </div>
 
 <footer>
